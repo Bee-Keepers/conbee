@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
-<body class="d-flex flex-column" style="height: 966px;">
+<body class="d-flex flex-column" style="height: 100vh;">
 
   <!-- 헤더 -->
   <header class="p-3 text-bg-dark">
@@ -26,11 +26,11 @@
           <button type="button" class="btn btn-warning">로그아웃</button>
         </div>
       </div>
-    </div>
+    </div>  
   </header>
 
   <!-- 네비게이션 바 -->
-  <nav class="navbar navbar-expand-lg bg-body-tertiary rounded" aria-label="Twelfth navbar example">
+  <!-- <nav class="navbar navbar-expand-lg bg-body-tertiary rounded" aria-label="Twelfth navbar example">
     <div class="container-fluid">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample10" aria-controls="navbarsExample10" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -59,10 +59,50 @@
         </ul>
       </div>
     </div>
-  </nav>
+  </nav> -->
 
-  <main class="flex-grow-1">
+  <main class="container-fluid d-flex flex-column flex-grow-1 align-items-center overflow-y-auto">
 
+    <div class="container-fluid text-center mt-3">
+      <p class="fs-1">KH 편의점</p>
+      <p>청계 그레이츠 점</p>
+    </div>
+    <form class="w-75 d-flex flex-column overflow-y-auto align-items-center">
+      <table class="w-100 table table-striped">
+        <thead>
+          <tr>
+            <th>품목코드</th>
+            <th>대분류</th>
+            <th>소분류</th>
+            <th>제품명</th>
+            <th>단가</th>
+            <th>수량</th>
+            <th>금액</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>A0001</td>
+            <td>과자류</td>
+            <td>캔디</td>
+            <td>츄파춥스</td>
+            <td>200</td>
+            <td>2</td>
+            <td>400</td>
+          </tr>
+          <tr>
+            <td>A0001</td>
+            <td>과자류</td>
+            <td>캔디</td>
+            <td><input class="form-control" type="text"></td>
+            <td>200</td>
+            <td><input class="form-control" type="number" style="width: 100px;" oninput="calcPay(this)"></td>
+            <td>400</td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="btn btn-lg btn-warning align-self-end me-4">결제하기</button>
+    </form>
 
   </main>
 
@@ -85,5 +125,6 @@
   </footer>
 
   <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/index.js"></script>
 </body>
 </html>
