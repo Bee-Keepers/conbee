@@ -64,119 +64,45 @@
   <main class="container-fluid d-flex flex-column flex-grow-1 align-items-center overflow-y-auto">
 
     <div class="container-fluid text-center mt-3">
-      <p class="fs-1 bg-black">KH 편의점</p>
+      <p class="fs-1">KH 편의점</p>
       <p>청계 그레이츠 점</p>
     </div>
-    <div class="w-75 d-flex flex-column overflow-y-auto align-items-center">
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-      <div>
-        안녕하세요
-      </div>
-    </div>
+    <form class="w-75 d-flex flex-column overflow-y-auto align-items-center">
+      <table class="w-100 table table-striped">
+        <thead>
+          <tr>
+            <th>품목코드</th>
+            <th>대분류</th>
+            <th>소분류</th>
+            <th>제품명</th>
+            <th>단가</th>
+            <th>수량</th>
+            <th>금액</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>A0001</td>
+            <td>과자류</td>
+            <td>캔디</td>
+            <td>츄파춥스</td>
+            <td>200</td>
+            <td>2</td>
+            <td>400</td>
+          </tr>
+          <tr>
+            <td>A0001</td>
+            <td>과자류</td>
+            <td>캔디</td>
+            <td><input class="form-control" type="text"></td>
+            <td>200</td>
+            <td><input class="form-control" type="number" style="width: 100px;" oninput="calcPay(this)"></td>
+            <td>400</td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="btn btn-lg btn-warning align-self-end me-4">결제하기</button>
+    </form>
 
   </main>
 
@@ -199,5 +125,6 @@
   </footer>
 
   <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/index.js"></script>
 </body>
 </html>
