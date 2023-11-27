@@ -63,9 +63,10 @@
 
   <main class="container-fluid d-flex flex-column flex-grow-1 align-items-center overflow-y-auto">
 
-    <div class="container-fluid text-center mt-3">
+    <div class="container-fluid text-center mt-3 position-relative">
       <p class="fs-1">KH 편의점</p>
       <p>청계 그레이츠 점</p>
+      <button id="plusBtn" type="button" class="btn position-absolute end-0 top-0">추가</button>
     </div>
     <form class="w-75 d-flex flex-column overflow-y-auto align-items-center">
       <table class="w-100 table table-striped">
@@ -80,7 +81,7 @@
             <th>금액</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="parentTable">
           <tr>
             <td>A0001</td>
             <td>과자류</td>
@@ -88,7 +89,7 @@
             <td>츄파춥스</td>
             <td>200</td>
             <td>2</td>
-            <td>400</td>
+            <td class="sumPrice">400</td>
           </tr>
           <tr>
             <td>A0001</td>
@@ -97,11 +98,11 @@
             <td><input class="form-control" type="text"></td>
             <td>200</td>
             <td><input class="form-control" type="number" style="width: 100px;" oninput="calcPay(this)"></td>
-            <td>400</td>
+            <td>0</td>
           </tr>
         </tbody>
       </table>
-      <button class="btn btn-lg btn-warning align-self-end me-4">결제하기</button>
+      <button class="btn btn-sm btn-warning align-self-end me-4">결제하기</button>
     </form>
 
   </main>
