@@ -64,9 +64,9 @@ public class DBConfig {
       
       // 별칭을 지정해야하는 DTO가 모여있는 패키지 지정
       // -> 해당 패키지에 있는 모든 클래스가 클래스명으로 별칭이 지정됨
-//      sessionFactoryBean.setTypeAliasesPackage("com.m1k.goldenSpoon.cs.model.dto, "
-//      										 + "com.m1k.goldenSpoon.member.model.dto, com.m1k.goldenSpoon.recipe.model.dto"
-//      										 + ",com.m1k.goldenSpoon.board.model.dto");
+      sessionFactoryBean.setTypeAliasesPackage("com.keepers.conbee");
+      // 상위주소를 작성하면 따로 DTO 추가할 필요없이 하위 전 문서가 포함됩니다! 강사님이 알려주신 야매팁이에요;ㅋ
+
       
       // 마이바티스 설정 파일 경로 지정
       sessionFactoryBean.setConfigLocation(applicationContext.getResource("classpath:mybatis-config.xml"));
