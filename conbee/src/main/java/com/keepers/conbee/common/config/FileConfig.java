@@ -9,12 +9,13 @@ import org.springframework.util.unit.DataSize;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import jakarta.servlet.MultipartConfigElement;
 
 @Configuration
 @PropertySource("classpath:/config.properties")
-public class FileConfig {
+public class FileConfig implements WebMvcConfigurer{
 
 	
 	// org.springframework.beans.factory.annotation.Value
