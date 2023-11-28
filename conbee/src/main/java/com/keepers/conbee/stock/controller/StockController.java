@@ -19,6 +19,11 @@ public class StockController {
 		return null;
 	}
 	
+	@GetMapping("update")
+	public String stockUpdatePage() {
+		return "";
+	}
+	
 	@PostMapping("update")
 	public String stockUpdate() {
 		return null;
