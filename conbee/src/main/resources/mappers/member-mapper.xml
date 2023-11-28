@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 연결할 인터페이스의 패키지명.인터페이스명을 작성 -->
+<mapper namespace="com.keepers.conbee.member.model.mapper.MemberMapper">
+
+	<!-- 로그인 서비스 -->
+<!-- 	<select id="login" resultType="Member">
+		 SELECT MEMBER_NO, MEMBER_ID, MEMBER_PW, MEMBER_EMAIL, MEMBER_NAME, MEMBER_ADDRESS,
+		 MEMBER_TEL, MEMBER_PROFILE, MEMBER_AUTHORTIY, 
+		 MEMBER_MEMBER_ENROLL_DATE  MEMBER_ENROLL_DATE
+		 
+		 
+		 
+	</select>
+ -->
+   
+
+</mapper>
