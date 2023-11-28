@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko"  xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>conBee</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body class="d-flex flex-column" style="height: 100vh;">
+
+  <th:block th:replace="~{common/header}"></th:block>
+
+  
+  <main class="d-flex flex-grow-1 overflow-y-auto">
+
+    <th:block th:replace="~{stock/sidebar}"></th:block>
+
+    <div class="d-flex flex-column flex-grow-1 align-items-center overflow-y-auto">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th colspan="10" class="fs-1">재고 현황</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th></th>
+            <th>번호</th>
+            <th>품목명</th>
+            <th>대분류</th>
+            <th>소분류</th>
+            <th>입고단가</th>
+            <th>출고단가</th>
+            <th>재고</th>
+            <th>할인율</th>
+            <th>가격</th>
+          </tr>
+          <tr>
+            <td><input type="checkbox" class="checkbox"></td>
+            <td>1</td>
+            <td>울트라 스킨</td>
+            <td>신변잡화</td>
+            <td>화장품</td>
+            <td>20000</td>
+            <td>30000</td>
+            <td>5</td>
+            <td>10</td>
+            <td>27000</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" class="checkbox" for></td>
+            <td>2</td>
+            <td>울트라 로션</td>
+            <td>신변잡화</td>
+            <td>화장품</td>
+            <td>21000</td>
+            <td>32000</td>
+            <td>3</td>
+            <td>-</td>
+            <td>32000</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" class="checkbox"></td>
+            <td>3</td>
+            <td>사이다 355ml</td>
+            <td>음료</td>
+            <td>음료</td>
+            <td>800</td>
+            <td>1800</td>
+            <td>4</td>
+            <td>-</td>
+            <td>1800</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <th:block th:replace="~{common/footer}"></th:block>
+
+  <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
