@@ -6,6 +6,7 @@
   <title>POS</title>
   <link rel="stylesheet" href="/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/css/index.css">
   <style>
     @font-face {
  font-family: 'NanumBarunGothic';
@@ -54,11 +55,28 @@
     font-style: normal;
 }
     *{
-      font-family: 'GowunBatang-Regular';
+      font-family: 'NanumBarunGothic';
     }
   </style>
 </head>
 <body class="d-flex flex-column" style="height: 100vh;">
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">품목 검색</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          <button type="button" class="btn btn-primary">확인</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- 헤더 -->
   <header class="p-3 text-bg-dark">
@@ -87,10 +105,15 @@
       <p>청계 그레이츠 점</p>
       <button id="plusBtn" type="button" class="btn position-absolute end-0 top-0">추가</button>
     </div>
+    <div class="w-75 text-end">
+      <button type="button" class="btn btn-light mb-2 " data-bs-toggle="modal" data-bs-target="#exampleModal">
+        품목 검색
+      </button>
+    </div>
     <form class="w-75 d-flex flex-column overflow-y-auto align-items-center">
-      <table class="w-100 table table-striped text-center">
+      <table class="w-100 table table-bordered text-center">
         <thead>
-          <tr>
+          <tr class="table-warning">
             <th>품목코드</th>
             <th>대분류</th>
             <th>소분류</th>
@@ -114,14 +137,21 @@
             <td>A0001</td>
             <td>과자류</td>
             <td>캔디</td>
-            <td><input class="form-control" type="text"></td>
+            <td></td>
             <td>200</td>
-            <td><input class="form-control w-50" type="number" oninput="calcPay(this)"></td>
+            <td><input class="form-control form-control-sm text-center" min="0"  type="number" oninput="calcPay(this)"></td>
             <td>0</td>
           </tr>
         </tbody>
+        <tfoot>
+          <tr class="table-warning">
+            <th colspan="6">합계</th>
+            <th id="totalPrice">0</th>
+          </tr>
+        </tfoot>
       </table>
-      <button class="btn btn-sm btn-warning align-self-end me-4">결제하기</button>
+      <button class="btn btn-sm btn-warning align-self-end">결제하기</button>
+      
     </form>
 
   </main>
