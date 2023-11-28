@@ -6,6 +6,8 @@
   <title>기안문작성</title>
   <link rel="stylesheet" href="/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+
 </head>
 <body class="d-flex flex-column" style="height: 100vh;">
 
@@ -15,8 +17,90 @@
 
     <th:block th:replace="~{approval/sidebar}"></th:block>
 
-    <div class="d-flex flex-column flex-grow-1">
-      기안문작성
+    <div class="d-flex flex-column p-3" style="width: 100%;">
+
+      <div class="fs-4 pb-3 px-3 border-bottom">
+        기안문작성
+      </div>
+
+      <div class="m-3 pe-5 d-flex justify-content-end">
+        <a href="#" class="btn btn-warning" style="width: 80px;">작성</a>
+      </div>
+
+      <div class="d-flex justify-content-center">
+
+        <table class="table table-striped table-hover" style="width: 95%;">
+          <colgroup>
+            <col width=5%>
+            <col width=10%>
+            <col width=15%>
+            <col width=15%>
+            <col width=55%>
+          </colgroup>
+          <thead>
+            <tr style="text-align: center;">
+              <th><input type="checkbox"></th>
+              <th>서식번호</th>
+              <th>구분</th>
+              <th>항목</th>
+              <th>제목</th>
+              
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+
+            <tr style="text-align: center;">
+              <td><input type="checkbox"></td>
+              <td>6</td>
+              <td>업무</td>
+              <td>발주</td>
+              <td style="text-align: start;">발주기안서</td>
+            </tr>
+
+            <tr style="text-align: center;">
+              <td><input type="checkbox"></td>
+              <td>5</td>
+              <td>업무</td>
+              <td>지출</td>
+              <td style="text-align: start;">지출결의서</td>
+            </tr>
+
+            <tr style="text-align: center;">
+              <td><input type="checkbox"></td>
+              <td>4</td>
+              <td>업무</td>
+              <td>출점</td>
+              <td style="text-align: start;">폐점 등록 요청서</td>
+            </tr>
+
+            <tr style="text-align: center;">
+              <td><input type="checkbox"></td>
+              <td>3</td>
+              <td>업무</td>
+              <td>출점</td>
+              <td style="text-align: start;">출점 등록 요청서</td>
+            </tr>
+
+            <tr style="text-align: center;">
+              <td><input type="checkbox"></td>
+              <td>2</td>
+              <td>인사</td>
+              <td>퇴직</td>
+              <td style="text-align: start;">사직서</td>
+            </tr>
+
+            <tr style="text-align: center;">
+              <td><input type="checkbox"></td>
+              <td>1</td>
+              <td>복무</td>
+              <td>휴가</td>
+              <td style="text-align: start;">휴가 신청서</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+      
     </div>
 
   </main>
@@ -24,5 +108,6 @@
   <th:block th:replace="~{common/footer}"></th:block>
 
   <script src="/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
