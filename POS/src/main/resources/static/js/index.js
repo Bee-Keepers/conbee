@@ -29,7 +29,7 @@ plusBtn.addEventListener("click", ()=>{
     tr.children[3].append(input1);
 
     const input2 = document.createElement("input");
-    input2.classList.add("form-control");
+    input2.classList.add("form-control", "w-50");
     input2.addEventListener("input", e => {
         calcPay(e.target);
     });
