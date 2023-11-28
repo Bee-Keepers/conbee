@@ -4,9 +4,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.keepers.conbee.approval.model.service.ApprovalService;
+
+import lombok.RequiredArgsConstructor;
+
 @Controller
 @RequestMapping("approval")
+@RequiredArgsConstructor
 public class ApprovalController { // 전자결재 컨트롤러
+	
+	private final ApprovalService service; 
+	
+	
 	
 	// =============== 페이지 포워드 =============== 
 	
