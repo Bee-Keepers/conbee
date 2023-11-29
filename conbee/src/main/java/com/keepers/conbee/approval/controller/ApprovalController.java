@@ -107,7 +107,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 	
 	
 	
-	/** 기안문 작성
+	/** 기안문 작성 템플릿 이동
 	 * @return
 	 * @author 유진
 	 */
