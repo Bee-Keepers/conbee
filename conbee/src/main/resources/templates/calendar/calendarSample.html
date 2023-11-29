@@ -5,10 +5,6 @@
 <meta charset='utf-8' />
 
 
-  <title>
-    Drag-n-drop external events - Demos | FullCalendar
-  </title>
-
 
 <link href='/docs/dist/demo-to-codepen.css' rel='stylesheet' />
 
@@ -21,7 +17,11 @@
 <script src='/docs/dist/demo-to-codepen.js'></script>
 
 
+
+
   <script>
+
+    var calendar = null;
 
   document.addEventListener('DOMContentLoaded', function() {
     var Calendar = FullCalendar.Calendar;
@@ -66,6 +66,30 @@
     calendar.render();
   });
 
+  // 1. 전체 이벤트 데이터를 추출해야 한다. 2. ajax로 서버에 전송하여 DB에 저장해야 한다.
+  function allSave(){
+
+
+    //calendar.getEvents()
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
 <style>
 
@@ -108,52 +132,59 @@
   }
 
 </style>
-</head><body>
-
-  <div class='demo-topbar'>
-  <button data-codepen class='codepen-button'>Edit in CodePen</button>
-
+</head>
+<body>
   
 
-  
-    Drag external events into the calendar with the Draggable API
-  
-</div>
 
-
-  <div id='external-events'>
+  <div id='external-events' style="float:left; width:15%; padding-right:30px; padding-left:20px;
+          margin-top:100px;">
     <p>
-      <strong>Draggable Events</strong>
+      <strong>일정</strong>
     </p>
 
     <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-      <div class='fc-event-main'>My Event 1</div>
+             <div class='fc-event-main'>My Event 1</div>
     </div>
+
     <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-      <div class='fc-event-main'>My Event 2</div>
+             <div class='fc-event-main'>My Event 2</div>
     </div>
+
     <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-      <div class='fc-event-main'>My Event 3</div>
+              <div class='fc-event-main'>My Event 3</div>
     </div>
+
     <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-      <div class='fc-event-main'>My Event 4</div>
+              <div class='fc-event-main'>My Event 4</div>
     </div>
+
     <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-      <div class='fc-event-main'>My Event 5</div>
+              <div class='fc-event-main'>My Event 5</div>
     </div>
 
     <p>
       <input type='checkbox' id='drop-remove' />
-      <label for='drop-remove'>remove after drop</label>
+      <label for='drop-remove'>드래그앤드롭후 제거</label>
     </p>
   </div>
 
   <div id='calendar-container'>
 
 
-    <div>
+   
+      <div style="height: 30px; font-size:35px; font-weight:bold">
+        <div style ="width:60%; float:left; text-align:right"></div>
+        <div style ="width:80%; float:left; text-align:right">
+
+          <button style="width:100px; height:40px; background-color:blue; color:white; 
+         font: size 17px; cursor:pointer" onclick="javascript:allSave();">
+          전체저장</button>
+        </div>
+       </div>
+
+
     <div id='calendar'></div>
-  </div>
   </div>
 
 <!-- Cloudflare Pages Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dc4641f860664c6e824b093274f50291"}'></script><!-- Cloudflare Pages Analytics --></body>
