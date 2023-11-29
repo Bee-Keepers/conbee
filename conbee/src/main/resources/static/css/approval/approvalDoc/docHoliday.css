@@ -1,0 +1,65 @@
+.elem{
+  font-weight: bold;
+ }
+ .title-input{
+   border: solid 1px black; 
+   background-color: #ffefad; 
+   height: 30px; 
+   width: 720px;
+ }
+ .title-input:focus{
+   outline: none;
+ }
+
+ .title-input2{
+   width: 100%;
+   border: none;
+ }
+ .title-input2:focus{
+   outline: none;
+ }
+ 
+
+ .temps{
+   border: 1px solid black;
+   height: 500px;
+   overflow: auto;
+
+ }
+
+ .tempInfo, .tempApprov{
+   padding-top: 50px;
+ }
+ .tempInfo th{
+   width: 35%;
+   text-align: center;
+   background-color: #f2f2f2;
+   padding: 4px;
+ }
+ .tempInfo td{
+   padding: 4px 6px;
+ }
+
+ .tempContents th{
+   width: 18%;
+   text-align: center;
+   background-color: #f2f2f2;
+   padding: 4px;
+ }
+ .tempContents td{
+   padding: 4px 6px;
+ }
+
+ .tempApprov table *{
+   padding: 4px;
+ }
+
+ /* textarea */
+ .docText{
+   width: 100%;
+   border: none;
+   resize: none;
+ }
+ .docText:focus{
+   outline: none;
+ }

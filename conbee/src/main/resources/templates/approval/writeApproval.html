@@ -12,6 +12,9 @@
     label{
       cursor: pointer;
     }
+    #tblRow{
+      cursor: pointer;
+    }
   </style>
 
 </head>
@@ -23,6 +26,25 @@
 
     <th:block th:replace="~{approval/sidebar}"></th:block>
 
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">기안문 작성</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <th:block th:replace="~{approval/approvalDoc/docHoliday}"></th:block>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="d-flex flex-column p-3" style="width: 100%;">
 
       <div class="fs-4 pb-3 px-3 border-bottom">
@@ -30,6 +52,9 @@
       </div>
 
       <div class="m-3 pe-5 d-flex justify-content-end">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          작성 모달 테스트
+        </button>
         <button class="btn btn-warning" style="width: 80px;" id="writeBtn">작성</button>
       </div>
 
@@ -53,54 +78,54 @@
               
             </tr>
           </thead>
-          <tbody class="table-group-divider">
+          <tbody class="table-group-divider" id="tblBody">
 
-            <tr style="text-align: center;">
-              <td><input type="checkbox" name="chk" id="doc6" value="docOrder" onclick="clickchk(this)"></td>
+            <tr style="text-align: center;" id="tblRow">
+              <td><input type="checkbox" id="chk" value="docOrder" onclick="clickchk(this)"></td>
               <td>6</td>
               <td>업무</td>
               <td>발주</td>
-              <td style="text-align: start;"><label for="doc6">발주기안서</label></td>
+              <td style="text-align: start;">발주기안서</td>
             </tr>
 
-            <tr style="text-align: center;">
-              <td><input type="checkbox" name="chk" id="doc5" value="docExpense" onclick="clickchk(this)"></td>
+            <tr style="text-align: center;" id="tblRow">
+              <td><input type="checkbox" id="chk" value="docExpense" onclick="clickchk(this)"></td>
               <td>5</td>
               <td>업무</td>
               <td>지출</td>
-              <td style="text-align: start;"><label for="doc5">지출결의서</label></td>
+              <td style="text-align: start;">지출결의서</td>
             </tr>
 
-            <tr style="text-align: center;">
-              <td><input type="checkbox" name="chk" id="doc4" value="docStore" onclick="clickchk(this)"></td>
+            <tr style="text-align: center;" id="tblRow">
+              <td><input type="checkbox" id="chk" value="docStore" onclick="clickchk(this)"></td>
               <td>4</td>
               <td>업무</td>
               <td>폐점</td>
-              <td style="text-align: start;"><label for="doc4">폐점 등록 요청서</label></td>
+              <td style="text-align: start;">폐점 등록 요청서</td>
             </tr>
 
-            <tr style="text-align: center;">
-              <td><input type="checkbox" name="chk" id="doc3" value="docStore"  onclick="clickchk(this)"></td>
+            <tr style="text-align: center;" id="tblRow">
+              <td><input type="checkbox" id="chk" value="docStore"  onclick="clickchk(this)"></td>
               <td>3</td>
               <td>업무</td>
               <td>출점</td>
-              <td style="text-align: start;"><label for="doc3">출점 등록 요청서</label></td>
+              <td style="text-align: start;">출점 등록 요청서</td>
             </tr>
 
-            <tr style="text-align: center;">
-              <td><input type="checkbox" name="chk" id="doc2" value="docRetirement" onclick="clickchk(this)"></td>
+            <tr style="text-align: center;" id="tblRow">
+              <td><input type="checkbox" id="chk" value="docRetirement" onclick="clickchk(this)"></td>
               <td>2</td>
               <td>인사</td>
               <td>퇴직</td>
-              <td style="text-align: start;"><label for="doc2">사직서</label></td>
+              <td style="text-align: start;">사직서</td>
             </tr> 
 
-            <tr style="text-align: center;">
-              <td><input type="checkbox" name="chk" id="doc1" value="docHoliday" onclick="clickchk(this)"></td>
+            <tr style="text-align: center;" id="tblRow">
+              <td><input type="checkbox" id="chk" value="docHoliday" onclick="clickchk(this)"></td>
               <td>1</td>
               <td>복무</td>
               <td>휴가</td>
-              <td style="text-align: start;"><label for="doc1">휴가 신청서</label></td>
+              <td style="text-align: start;">휴가 신청서</td>
             </tr>
 
           </tbody>
@@ -114,57 +139,8 @@
   <th:block th:replace="~{common/footer}"></th:block>
 
 
-  <script>
-
-    // 행 클릭시 체크박스 수행으로 수정 코드 작성 예정
-
-    
-    /* 체크박스 하나만 클릭 가능 */
-    // 다시 클릭 시 선택 해제?
-    function clickchk(e){
-      document.getElementsByName("chk")
-      .forEach(one => one.checked = false);
-
-      e.checked = true;
-    }
-
-
-    /* 작성 버튼 클릭 시 페이지 요청 */
-    const writeBtn = document.getElementById("writeBtn");
-    const checkboxAll = document.querySelectorAll('input[type="checkbox"]');
-    var checkedDoc;
-
-    writeBtn.addEventListener("click", ()=> {
-
-      // 선택한 문서값 찾기
-      checkboxAll.forEach(k => {
-        if(k.checked == true){
-          checkedDoc = k;
-          console.log(checkedDoc.value);
-        }
-      })
-
-      // 선택한 문서가 없는 경우 알림
-      // 디자인 추가?
-      if(checkedDoc==null){
-        alert("문서를 선택해주세요");
-      }
-
-      // 팝업
-      // 모달 팝업으로 수정중
-      const url = `/approval/approvalDoc/${checkedDoc.value}`;
-      const name = "팝업"
-      const option = "width = 830, height = 940, top = 70, left = 0, location = no, resizable=no";
-
-      window.open(url, name, option);
-    })
-
-    
-
-  </script>
-
-
   <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/approval/writeApproval.js"></script>
 
 </body>
 </html>
