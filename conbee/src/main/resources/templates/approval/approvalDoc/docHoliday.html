@@ -8,75 +8,8 @@
 
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/css/approval/approvalDoc/docHoliday.css">
 
-  <style>
-    .elem{
-     font-weight: bold;
-    }
-    .title-input{
-      border: solid 1px black; 
-      background-color: #ffefad; 
-      height: 30px; 
-      width: 720px;
-    }
-    .title-input:focus{
-      outline: none;
-    }
-
-    .title-input2{
-      width: 100%;
-      border: none;
-    }
-    .title-input2:focus{
-      outline: none;
-    }
-    
-
-    .temps{
-      border: 1px solid black;
-      height: 500px;
-      overflow: auto;
-
-    }
-
-    .tempInfo, .tempApprov{
-      padding-top: 50px;
-    }
-    .tempInfo th{
-      width: 35%;
-      text-align: center;
-      background-color: #f2f2f2;
-      padding: 4px;
-    }
-    .tempInfo td{
-      padding: 4px 6px;
-    }
-
-    .tempContents th{
-      width: 18%;
-      text-align: center;
-      background-color: #f2f2f2;
-      padding: 4px;
-    }
-    .tempContents td{
-      padding: 4px 6px;
-    }
-
-    .tempApprov table *{
-      padding: 4px;
-    }
-
-    /* textarea */
-    .docText{
-      width: 100%;
-      border: none;
-      resize: none;
-    }
-    .docText:focus{
-      outline: none;
-    }
-
-  </style>
 </head>
 <body style="width: 830px; height: 940px; border: solid 1px black;">
 
@@ -85,7 +18,7 @@
     <!-- 결재, 임시저장 버튼 -->
     <div class="m-3 pe-2 d-flex justify-content-end">
       <button class="btn btn-warning mx-3" style="width: 100px;" id="approvalBtn">결재</button>
-      <button class="btn btn-secondary" style="width: 100px;" id="tempSaveBtn">임시저장</button>
+      <button class="btn" style="width: 100px; background-color: #f2f2f2;" id="tempSaveBtn">임시저장</button>
     </div>
 
     <!-- 결재 정보 -->
@@ -93,31 +26,31 @@
 
       <!-- 제목 -->
       <div class="d-flex mb-2">
-        <p class="elem me-3" style="height: 30px;">제목 : </p>
-        <input class="title-input" type="text">
+        <span class="elem me-3" style="height: 30px;">제목 : </span>
+        <input class="title-input" type="text" id="inputTitle">
       </div>
 
       <!-- 구분 -->
       <div class="d-flex mb-2">
-        <p class="elem me-3">구분(항목) : </p>
-        <p style="height: 30px;">복무(휴가)</p>
+        <span class="elem me-3">구분(항목) : </span>
+        <span style="height: 30px;">복무(휴가)</span>
       </div>
 
       <!-- 담당자(부서) -->
       <div class="d-flex mb-1">
-        <p class="elem me-3" style="height: 30px;">담당자(부서) : </p>
-        <p style="height: 30px;">정유진(전산팀)</p><!-- ${memberName, teamName} -->
+        <span class="elem me-3" style="height: 30px;">담당자(부서) : </span>
+        <span style="height: 30px;">정유진(전산팀)</span><!-- ${memberName, teamName} -->
       </div>
 
       <!-- 협조부서 -->
       <div class="d-flex mb-2">
-        <p class="elem me-3">협조부서 : </p>
-        <p style="height: 30px;">인사관리부</p>
+        <span class="elem me-3">협조부서 : </span>
+        <span style="height: 30px;">인사관리부</span>
       </div>
 
       <!-- 결재 -->
       <div class="d-flex mb-2">
-        <p class="elem me-3">결재 : </p>
+        <span class="elem me-3">결재 : </span>
         <table class="table table-striped table-hover" style="width: 720px; text-align: center;">
 
           <thead>
@@ -198,7 +131,7 @@
         <table class="table table-bordered" style="width: 100%; border: black;">
           <tr>
             <th>제 목</th>
-            <td><input class="title-input2" type="text"></td>
+            <td><input class="title-input2" type="text" id="inputTitle2"></td>
           </tr>
           <tr>
             <th>휴가 시작일</th>
@@ -227,7 +160,13 @@
   <script>
 
     /* 제목 입력 시 -> 템플릿 안 제목 같이 입력되기 */
+    const inputTitle = document.getElementById("inputTitle");
+    const inputTitle2 = document.getElementById("inputTitle2");
 
+    inputTitle.addEventListener("input",e=>{
+      const val = inputTitle.value;
+      inputTitle2.value = val;
+    })
 
   </script>
   
