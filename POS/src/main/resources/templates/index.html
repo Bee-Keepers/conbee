@@ -7,57 +7,6 @@
   <link rel="stylesheet" href="/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" href="/css/index.css">
-  <style>
-    @font-face {
- font-family: 'NanumBarunGothic';
- font-style: normal;
- font-weight: 400;
- src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.eot');
- src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.eot?#iefix') format('embedded-opentype'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.woff') format('woff'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.ttf') format('truetype');
-}
-
-@font-face {
- font-family: 'NanumBarunGothic';
- font-style: normal;
- font-weight: 700;
- src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.eot');
- src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.eot?#iefix') format('embedded-opentype'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.woff') format('woff'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.ttf') format('truetype')
-}
-
-@font-face {
- font-family: 'NanumBarunGothic';
- font-style: normal;
- font-weight: 300;
- src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot');
- src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot?#iefix') format('embedded-opentype'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.woff') format('woff'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.ttf') format('truetype');
-}
-
-.nanumbarungothic * {
- font-family: 'NanumBarunGothic', sans-serif;
-}
-@font-face {
-    font-family: 'GowunBatang-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'NEXON Lv1 Gothic OTF';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'GyeonggiBatang';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/GyeonggiBatang.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-    *{
-      font-family: 'NanumBarunGothic';
-    }
-  </style>
 </head>
 <body class="d-flex flex-column" style="height: 100vh;">
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -68,11 +17,31 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          ...
+          <div>
+            <input id="inputPosSearch" type="text" class="form-control" placeholder="상품 이름을 입력해주세요">
+          </div>
+          <div id="modalBody">
+            <label class="form-control my-1">
+              <input type="checkbox" class="form-check-input goods">
+              <span>A0002</span>
+              <span>과자류</span>
+              <span>스낵</span>
+              <span>포카칩</span>
+              <span>1500</span>
+            </label>
+            <label class="form-control my-1">
+              <input type="checkbox" class="form-check-input goods">
+              <span>A0003</span>
+              <span>과자류</span>
+              <span>스낵</span>
+              <span>썬칩</span>
+              <span>1700</span>
+            </label>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-          <button type="button" class="btn btn-primary">확인</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="plusRowBtn">확인</button>
         </div>
       </div>
     </div>
@@ -106,7 +75,7 @@
       <button id="plusBtn" type="button" class="btn position-absolute end-0 top-0">추가</button>
     </div>
     <div class="w-75 text-end">
-      <button type="button" class="btn btn-light mb-2 " data-bs-toggle="modal" data-bs-target="#exampleModal">
+      <button id="modalBtn" type="button" class="btn btn-light mb-2 " data-bs-toggle="modal" data-bs-target="#exampleModal">
         품목 검색
       </button>
     </div>
@@ -133,7 +102,7 @@
             <td>2</td>
             <td class="sumPrice">400</td>
           </tr>
-          <tr>
+          <!-- <tr>
             <td>A0001</td>
             <td>과자류</td>
             <td>캔디</td>
@@ -141,7 +110,7 @@
             <td>200</td>
             <td><input class="form-control form-control-sm text-center" min="0"  type="number" oninput="calcPay(this)"></td>
             <td>0</td>
-          </tr>
+          </tr> -->
         </tbody>
         <tfoot>
           <tr class="table-warning">
