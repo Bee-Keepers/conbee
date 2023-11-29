@@ -10,20 +10,21 @@
 </head>
 <body class="d-flex flex-column overflow-y-auto" style="height: 100vh;">
 
-  <th:block th:replace="~{common/header}"></th:block>
+  <th:block th:replace="~{common/loginHeader}"></th:block>
 
   
   <main class="d-flex w-100 flex-grow-1 m-auto form-signin">
 
-    <form class="m-auto w-100">
+    <form class="m-auto w-100" action="/member/login" method="post">
+      <img class="mb-3" th:src="#{logo.login.image}" style="width: 10rem" >
       <h1 class="h3 mb-3 fw-normal">로그인</h1>
   
       <div class="form-floating">
-        <input type="email" class="form-control" id="floatingInput" placeholder="">
+        <input type="text" class="form-control" id="floatingInput" placeholder="" name="memberId">
         <label for="floatingInput">아이디</label>
       </div>
       <div class="form-floating">
-        <input type="password" class="form-control" id="floatingPassword" placeholder="">
+        <input type="password" class="form-control" id="floatingPassword" placeholder="" name="memberPw">
         <label for="floatingPassword">비밀번호</label>
       </div>
   
@@ -34,7 +35,8 @@
         </label>
       </div>
       <button class="btn btn-primary w-100 py-2" type="submit">로그인</button>
-      <p class="mt-5 mb-3 text-body-secondary">&copy; beekeepers</p>
+      <button class="mt-3 wt-3 btn btn-primary w-100 py-2" type="button" id="quickLogin">빠른로그인 (삭제 예정)</button>
+      <p class="mb-3 text-body-secondary">&copy; beekeepers</p>
     </form>
 
 

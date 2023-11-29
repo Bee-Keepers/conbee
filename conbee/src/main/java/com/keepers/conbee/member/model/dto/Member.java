@@ -16,8 +16,8 @@ public class Member {
 	private String memberAddress;
 	private int memberTel;
 	private String memberProfile;
-	private String memberDate;
 	private String memberAuthority;
+	private String memberEnrollDate;
 	private String memberDelFl;
 	
 	

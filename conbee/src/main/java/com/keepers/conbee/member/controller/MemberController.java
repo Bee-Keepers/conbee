@@ -3,6 +3,7 @@ package com.keepers.conbee.member.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("member")
 @RequiredArgsConstructor
-@SessionAttributes({"referer"})
+@SessionAttributes({"loginMember"})
 public class MemberController {
 
 	private final MemberService service;
@@ -31,14 +32,15 @@ public class MemberController {
 	/* 로그인 */
 	
 	/** 로그인 화면 전환
-	 * @param referer
 	 * @return
 	 */
 	@GetMapping("login")
-	public String login(Model model){
+	public String login(){
 		return "member/login";
 	}
 	
+	
+
 	
 	/** 로그인 기능
 	 * @return
@@ -73,19 +75,43 @@ public class MemberController {
 			model.addAttribute("loginMember", loginMember);
 			
 			
-			// 로그인 정보 불일치 시 
-			if(loginMember == null) {
-				ra.addFlashAttribute("message", "회원정보가 일치하지 않습니다.");
-				return "redirect:login";
-			}
 		}
-		return "redirect:login";
+		// 로그인 정보 불일치 시 
+		if(loginMember == null) {
+			ra.addFlashAttribute("message", "회원정보가 일치하지 않습니다.");
+			return "redirect:login";
+		}
+		return "redirect:/";
+	}
+	
+	
+	/** 빠른 로그인
+	 * @param memberId
+	 * @param model
+	 * @param ra
+	 * @return
+	 */
+	@GetMapping("login/{memberId}")
+	public String quickLogin(@PathVariable("memberId") String memberId, Model model,
+		RedirectAttributes ra) {
+		
+		Member loginMember = service.quickLogin(memberId);
+		
+		model.addAttribute("loginMember", loginMember);
+		
+		return "redirect:/";
 	}
 	
 	
 	
 	
-	
+	/** 회원가입 화면 전환
+	 * @return
+	 */
+	@GetMapping("signup")
+	public String signUp(){
+		return "member/signup";
+	}
 	
 	
 	
