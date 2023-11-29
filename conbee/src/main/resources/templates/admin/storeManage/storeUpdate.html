@@ -41,7 +41,7 @@
             <col width=34%>
           </colgroup>
 
-          <tbody class="table-group-divider">
+          <tbody>
             <tr>
               <th>점포번호</th>
               <td colspan="4"><b class="ps-10" style="margin-left: 5px;">3642</b></td>
@@ -51,7 +51,7 @@
               <td colspan="4">
                 <form class="form-floating">
                   <!-- input class명에 유효성검사가 실패하면 is-invalid 를 추가 -->
-                  <input type="text" class="form-control" id="floatingInputInvalid" placeholder="name@example.com" name="storeName" style="width: 350px;">
+                  <input type="text" class="form-control" id="" placeholder="" name="storeName" style="width: 350px;">
                   <label for="floatingInputInvalid">관악구청점</label>
                 </form>
               </td>
@@ -61,7 +61,7 @@
               <td>
                 <form class="form-floating">
                   <!-- input class명에 유효성검사가 실패하면 is-invalid 를 추가 -->
-                  <input type="text" class="form-control" id="floatingInputInvalid" placeholder="name@example.com" name="storeManagerName" style="width: 350px;">
+                  <input type="text" class="form-control" id="" placeholder="" name="storeManagerName" style="width: 350px;">
                   <label for="floatingInputInvalid">김점주</label>
                 </form>
               </td>
@@ -74,7 +74,7 @@
               <td colspan="4">
                 <form class="form-floating">
                   <!-- input class명에 유효성검사가 실패하면 is-invalid 를 추가 -->
-                  <input type="text" class="form-control" id="floatingInputInvalid" placeholder="" name="storeTel" style="width: 350px;">
+                  <input type="text" class="form-control" id="" placeholder="" name="storeTel" style="width: 350px;">
                   <label for="floatingInputInvalid">028855913</label>
                 </form>
               </td>
@@ -84,36 +84,27 @@
               <td colspan="4">
                 <form class="form-floating d-flex align-items-center" >
                   <!-- input class명에 유효성검사가 실패하면 is-invalid 를 추가 -->
-                  <input type="text" class="form-control" id="floatingInputInvalid" placeholder="" name="storeAddress" style="width: 500px;">
+                  <input type="text" class="form-control" id="storeAddress" placeholder="" name="storeAddress" style="width: 500px;">
                   <label for="floatingInputInvalid">서울특별시 송파구 가락로 74, (석촌동) 1층</label>
 
-
-
-                  
                   <div class="signUp-input-area">
-                    <input type="text" name="memberAddress" placeholder="우편번호" maxlength="6" id="sample6_postcode">
-                    
-                    <button type="button" class="ms-4 btn-secondary" onclick="sample6_execDaumPostcode()">주소 검색</button>
+                    <button type="button" class="btn ms-4 btn-outline-warning" onclick="sample6_execDaumPostcode()">주소 검색</button>
                   </div>
 
                   <div class="signUp-input-area">
-                      <input type="text" name="memberAddress" placeholder="도로명/지번 주소" id="sample6_address">
                   </div>
-
-                  <div class="signUp-input-area">
-                      <input type="text" name="memberAddress" placeholder="상세 주소" id="sample6_detailAddress">
-                  </div>
-
-
-                  
                 </form>
               </td>
             </tr>
           </tbody>
         </table>
-      </div>
 
-      <!-- 페이지네이션 // 게시글 있을때만 보이게 함 -->
+        <section class="d-flex justify-content-end" style="width: 100%;">
+          <a href="#" class="btn btn-secondary" style="width: 80px;">취소</a>
+          <a href="#" class="btn btn-warning ms-3" style="width: 80px; margin-right: 35px;">확인</a>
+        </section>
+
+      </div>
 
     </div>
 
@@ -123,6 +114,9 @@
   <th:block th:replace="~{common/footer}"></th:block>
 
   <script src="/js/bootstrap.bundle.min.js"></script>
+
+  <!-- 다음 주소 API -->
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <script src="/js/admin/storeUpdate.js"></script>
   
 </body>
