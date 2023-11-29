@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.keepers.POS.main.model.dto.Goods;
-import com.keepers.POS.main.model.dto.Member;
 import com.keepers.POS.main.model.service.MainService;
+import com.keepers.POS.member.model.dto.Member;
 
 import lombok.RequiredArgsConstructor;
 
+/** @author 김민석
+ * 
+ */
 @Controller
 @RequiredArgsConstructor
 @SessionAttributes({"logimMember"})
