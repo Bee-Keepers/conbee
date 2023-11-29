@@ -6,23 +6,124 @@
   <title>점포정보수정</title>
   <link rel="stylesheet" href="/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <style>
+    tr { height: 80px; }
+    td { text-align: start;}
+  </style>
 </head>
 <body class="d-flex flex-column" style="height: 100vh;">
 
   <th:block th:replace="~{admin/header}"></th:block>
+
   <main class="d-flex flex-grow-1">
 
+    <!-- 사이드바 -->
     <th:block th:replace="~{admin/storeManage/sidebar}"></th:block>
 
-    <div class="d-flex flex-column flex-grow-1">
-      점포정보수정
+    <!-- 점포정보수정 -->
+    <div class="d-flex flex-column p-3" style="width: 100%;">
+
+      <!-- 타이틀 -->
+      <div class="d-flex justify-content-between align-items-center border-bottom">
+        <div class="fs-4 pb-3 px-3">
+          점포정보수정
+        </div>
+      </div>
+
+      <div class="d-flex flex-column justify-content-center align-items-center">
+
+        <table class="table mt-2 border-top-none" style="width: 95%; text-align: center; vertical-align: middle;">
+          <colgroup>
+            <col width=15%>
+            <col width=34%>
+            <col width=2%>
+            <col width=15%>
+            <col width=34%>
+          </colgroup>
+
+          <tbody class="table-group-divider">
+            <tr>
+              <th>점포번호</th>
+              <td colspan="4"><b class="ps-10" style="margin-left: 5px;">3642</b></td>
+            </tr>
+            <tr>
+              <th>점포명</th>
+              <td colspan="4">
+                <form class="form-floating">
+                  <!-- input class명에 유효성검사가 실패하면 is-invalid 를 추가 -->
+                  <input type="text" class="form-control" id="floatingInputInvalid" placeholder="name@example.com" name="storeName" style="width: 350px;">
+                  <label for="floatingInputInvalid">관악구청점</label>
+                </form>
+              </td>
+            </tr>
+            <tr>
+              <th>점주명</th>
+              <td>
+                <form class="form-floating">
+                  <!-- input class명에 유효성검사가 실패하면 is-invalid 를 추가 -->
+                  <input type="text" class="form-control" id="floatingInputInvalid" placeholder="name@example.com" name="storeManagerName" style="width: 350px;">
+                  <label for="floatingInputInvalid">김점주</label>
+                </form>
+              </td>
+              <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
+              <th>점주회원번호</th>
+              <td><b class="ps-10" style="margin-left: 5px;">0000</b></td>
+            </tr>
+            <tr>
+              <th>전화번호</th>
+              <td colspan="4">
+                <form class="form-floating">
+                  <!-- input class명에 유효성검사가 실패하면 is-invalid 를 추가 -->
+                  <input type="text" class="form-control" id="floatingInputInvalid" placeholder="" name="storeTel" style="width: 350px;">
+                  <label for="floatingInputInvalid">028855913</label>
+                </form>
+              </td>
+            </tr>
+            <tr>
+              <th>위치</th>
+              <td colspan="4">
+                <form class="form-floating d-flex align-items-center" >
+                  <!-- input class명에 유효성검사가 실패하면 is-invalid 를 추가 -->
+                  <input type="text" class="form-control" id="floatingInputInvalid" placeholder="" name="storeAddress" style="width: 500px;">
+                  <label for="floatingInputInvalid">서울특별시 송파구 가락로 74, (석촌동) 1층</label>
+
+
+
+                  
+                  <div class="signUp-input-area">
+                    <input type="text" name="memberAddress" placeholder="우편번호" maxlength="6" id="sample6_postcode">
+                    
+                    <button type="button" class="ms-4 btn-secondary" onclick="sample6_execDaumPostcode()">주소 검색</button>
+                  </div>
+
+                  <div class="signUp-input-area">
+                      <input type="text" name="memberAddress" placeholder="도로명/지번 주소" id="sample6_address">
+                  </div>
+
+                  <div class="signUp-input-area">
+                      <input type="text" name="memberAddress" placeholder="상세 주소" id="sample6_detailAddress">
+                  </div>
+
+
+                  
+                </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 페이지네이션 // 게시글 있을때만 보이게 함 -->
+
     </div>
 
+    </div>
   </main>
 
   <th:block th:replace="~{common/footer}"></th:block>
 
   <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/admin/storeUpdate.js"></script>
   
 </body>
 </html>

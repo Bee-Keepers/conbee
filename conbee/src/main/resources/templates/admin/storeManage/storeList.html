@@ -6,80 +6,95 @@
   <title>점포정보조회</title>
   <link rel="stylesheet" href="/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <style>
+
+    tr > td {
+      height: 60px;
+      text-align: center;
+
+      vertical-align: middle;
+    }
+
+  </style>
 </head>
 <body class="d-flex flex-column" style="height: 100vh;">
 
   <th:block th:replace="~{admin/header}"></th:block>
+
   <main class="d-flex flex-grow-1">
 
+    <!-- 사이드바 -->
     <th:block th:replace="~{admin/storeManage/sidebar}"></th:block>
 
-    <!-- 정보조회 -->
-    <div class="d-flex flex-column align-items-center overflow-y-auto ps-10" style="border: 1px solid black;">
+    <!-- 점포정보조회 -->
+    <div class="d-flex flex-column p-3" style="width: 100%;">
 
       <!-- 타이틀 -->
-      <div class="d-flex justify-content-between align-items-center w-100 pt-10">
-
-        <p class="fs-2"><b>점포정보조회</b></p>
-
-        <div>
-          <input id="" class="form-control" type="text" placeholder="검색어를 입력해주세요">
+      <div class="d-flex justify-content-between align-items-center border-bottom">
+        <div class="fs-4 pb-3 px-3">
+          점포정보조회
         </div>
-
       </div>
 
-      <table class="table table-bordered">
-        <tr>
-          <th>선택</th>
-          <th>번호</th>
-          <th>품목명</th>
-          <th>대분류</th>
-          <th>소분류</th>
-          <th>입고단가</th>
-          <th>출고단가</th>
-          <th>재고</th>
-          <th>할인율</th>
-          <th>가격</th>
-        </tr>
-        <tr>
-          <td><input type="checkbox" class="checkbox"></td>
-          <td>1</td>
-          <td>울트라 스킨</td>
-          <td>신변잡화</td>
-          <td>화장품</td>
-          <td>20000</td>
-          <td>30000</td>
-          <td>5</td>
-          <td>10</td>
-          <td>27000</td>
-        </tr>
-        <tr>
-          <td><input type="checkbox" class="checkbox" for></td>
-          <td>2</td>
-          <td>울트라 로션</td>
-          <td>신변잡화</td>
-          <td>화장품</td>
-          <td>21000</td>
-          <td>32000</td>
-          <td>3</td>
-          <td>-</td>
-          <td>32000</td>
-        </tr>
-        <tr>
-          <td><input type="checkbox" class="checkbox"></td>
-          <td>3</td>
-          <td>사이다 355ml</td>
-          <td>음료</td>
-          <td>음료</td>
-          <td>800</td>
-          <td>1800</td>
-          <td>4</td>
-          <td>-</td>
-          <td>1800</td>
-        </tr>
-      </table>
+      <div class="d-flex flex-column justify-content-center align-items-center">
+
+        <!-- 검색버튼 -->
+        <div class="d-flex justify-content-end"  style="width: 95%;">
+          <input id="" class="form-control mt-3" type="text" placeholder="점포명, 위치 검색" size="40" style="width: 15%;">
+        </div>
+        <table class="table table-striped table-hover mt-2" style="width: 95%;">
+          
+          <colgroup>
+            <col width=5%>
+            <col width=15%>
+            <col width=10%>
+            <col width=15%>
+            <col width=45%>
+            <col width=10%>
+          </colgroup>
+
+          <thead>
+            <tr style="text-align: center;">
+              <th>점포번호</th>
+              <th>점포명</th>
+              <th>점주명</th>
+              <th>전화번호</th>
+              <th>위치</th>
+              <th>운영여부</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+
+            <!-- 점포가 존재하지 않을 때 -->
+            <!-- <tr>
+              <td colspan="6">운영되는 점포가 존재하지 않습니다.</td>
+            </tr> -->
+
+            <!-- 점포가 존재할 때 -->
+            <!-- <th:block th:unless="${}"> -->
+              <tr>
+                <td>3642</td>
+                <td><b><a href="" style="text-decoration: none; color: black;">
+                  SK신봉천주유소점
+                </a></b></td>
+                <td>김점주</td>
+                <td>028855913</td>
+                <td>서울특별시 서대문구 모래내로 412 서울시립서대문도서관 (연희동) 서울시립서대문도서관</td>
+                <td>
+                  <a href="#" class="btn btn-secondary mx-3" style="width: 80px;">폐쇄</a>
+                  <!-- <a href="#" class="btn btn-warning mx-3" style="width: 80px;">승인</a> -->
+                </td>
+              </tr>
+            <!-- </th:block> -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 페이지네이션 // 게시글 있을때만 보이게 함 -->
+
     </div>
 
+    </div>
   </main>
 
   <th:block th:replace="~{common/footer}"></th:block>
