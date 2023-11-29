@@ -1,9 +1,10 @@
 *{
-   border: 1px solid black;
+   /* border: 1px solid black; */
 }
 
-.trbox>th:nth-of-type(1){
-   width: 0.5%;
+/* 표 제목 */
+.trbox>th:nth-of-type(1){ 
+   width: 0.5%; 
 }
 .trbox>th:nth-of-type(2){
    width: 1%;
@@ -36,7 +37,15 @@
    width: 1%;
 }
 
+/* 체크박스 */
 tr>td:first-child{
    padding-left: 0;
    padding-right: 0;
 }
+
+.container-1{
+   border-collapse: separate;
+	border-spacing: 0;
+}
+
+
