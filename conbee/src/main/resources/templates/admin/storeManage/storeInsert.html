@@ -4,8 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>신규점포등록</title>
-  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <style>
+    tr { height: 80px; }
+    
+    td { text-align: start;}
+
+    .form-control {
+      width: 350px; height: 55px;
+    }
+
+  </style>
 </head>
 <body class="d-flex flex-column" style="height: 100vh;">
 
@@ -13,17 +23,115 @@
 
   <main class="d-flex flex-grow-1">
 
+    <!-- 사이드바 -->
     <th:block th:replace="~{admin/storeManage/sidebar}"></th:block>
 
-    <div class="d-flex flex-column flex-grow-1">
-      신규점포등록
+    <!-- 신규점포등록 -->
+    <div class="d-flex flex-column p-3" style="width: 100%;">
+
+      <!-- 타이틀 -->
+      <div class="d-flex justify-content-between align-items-center border-bottom">
+        <div class="fs-4 pb-3 px-3">
+          신규점포등록
+        </div>
+      </div>
+
+      <form src="" method="POST">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+  
+          <table class="table mt-2 border-top-none" style="width: 95%; text-align: center; vertical-align: middle;">
+            
+            <colgroup>
+              <col width=15%>
+              <col width=34%>
+              <col width=2%>
+              <col width=15%>
+              <col width=34%>
+            </colgroup>
+  
+            <tbody>
+              <tr>
+                <th>점포번호</th>
+                <td colspan="4">
+                  <div class="d-flex align-items-center" >
+                    <input type="text" class="form-control" id="storeNo" placeholder="점포번호를 입력해주세요." >
+                  </div>
+                </td>
+              </tr>
+  
+              <tr>
+                <th>점포명</th>
+                <td colspan="4">
+                  <div class="d-flex align-items-center" >
+                    <input type="text" class="form-control" id="storeName" placeholder="점포명을 입력해주세요.">
+                  </div>
+                </td>
+              </tr>
+  
+              <tr>
+                <th>점주명</th>
+                <td>
+                  <div class="d-flex align-items-center" >
+                    <input type="text" class="form-control" id="storeManagerName" placeholder="점주명을 입력해주세요.">
+                  </div>
+                </td>
+  
+                <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
+  
+                <th>점주회원번호</th>
+                <td>
+                  <div class="d-flex align-items-center" >
+                    <input type="text" class="form-control" id="storeManagerNo" placeholder="점주 회원번호를 입력해주세요.">
+                  </div>
+                </td>
+              </tr>
+  
+              <tr>
+                <th>전화번호</th>
+                <td colspan="4">
+                  <div class="d-flex align-items-center" >
+                    <input type="text" class="form-control" id="storeTel" placeholder="점포 전화번호를 입력해주세요.">
+                  </div>
+                </td>
+              </tr>
+  
+              <tr>
+                <th>위치</th>
+                <td colspan="4">
+                  <section class="d-flex align-items-center">
+                    <div class="d-flex align-items-center" >
+                      <input type="text" class="form-control" id="storeAddress" placeholder="점포 위치를 입력해주세요." style="width: 500px;">
+                    </div>
+  
+                    <div class="signUp-input-area">
+                      <button type="button" class="btn ms-4 btn-outline-warning" onclick="sample6_execDaumPostcode()">주소 검색</button>
+                    </div>
+                  </section>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+  
+          <section class="d-flex justify-content-end" style="width: 100%;">
+            <button type="button" class="btn btn-secondary" style="width: 80px;">취소</button>
+            <button class="btn btn-warning ms-3" style="width: 80px; margin-right: 35px;">확인</button>
+          </section>
+  
+        </div>
+      </form>
+
     </div>
 
+    </div>
   </main>
 
   <th:block th:replace="~{common/footer}"></th:block>
 
   <script src="/js/bootstrap.bundle.min.js"></script>
+
+  <!-- 다음 주소 API -->
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script src="/js/admin/storeUpdate.js"></script>
   
 </body>
 </html>
