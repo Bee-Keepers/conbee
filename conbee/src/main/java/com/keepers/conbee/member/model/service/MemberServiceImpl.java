@@ -45,4 +45,11 @@ public class MemberServiceImpl implements MemberService{
 	
 	
 	
+	@Override
+	public Member quickLogin(String memberId) {
+		return mapper.quickLogin(memberId);
+	}
+	
+	
+	
 }
