@@ -3,7 +3,13 @@
 <!-- 연결할 인터페이스의 패키지명.인터페이스명을 작성 -->
 <mapper namespace="com.keepers.POS.main.model.mapper.MainMapper">
 	
-	
+	<select id="search" resultType="Goods">
+		SELECT GOODS_NO, GOODS_NAME, LCATEGORY_NAME, SCATEGORY_NAME
+		FROM GOODS
+		JOIN LCATEGORY USING(LCATEGORY_NO)
+		JOIN SCATEGORY USING(SCATEGORY_NO)
+		WHERE GOODS_NAME LIKE '%${inputPosSearch}%'
+	</select>
 	
 	
 </mapper>
