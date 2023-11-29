@@ -124,11 +124,17 @@ modalBtn.addEventListener("click", ()=>{
 
 inputPosSearch.addEventListener("input", ()=>{
 
+    if(inputPosSearch.value.trim().length == 0){
+        modalBody.innerHTML = "";
+        return;
+    }
+
     fetch(
         "/search?inputPosSearch=" + inputPosSearch.value
     )
     .then(resp=>resp.json())
     .then(goodsList=>{
+        modalBody.innerHTML = "";
         
         if(goodsList.length == 0){
             modalBody.innerText = "검색된 상품이 없습니다.";
@@ -137,6 +143,7 @@ inputPosSearch.addEventListener("input", ()=>{
 
         for(let goods of goodsList){
             const label = document.createElement("label");
+            label.classList.add("form-control", "my-1");
 
             const input = document.createElement("input");
             input.classList.add("form-check-input", "goods");
