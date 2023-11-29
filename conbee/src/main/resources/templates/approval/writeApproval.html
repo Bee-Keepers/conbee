@@ -115,6 +115,9 @@
 
 
   <script>
+
+    // 행 클릭시 체크박스 수행으로 수정 코드 작성 예정
+
     
     /* 체크박스 하나만 클릭 가능 */
     // 다시 클릭 시 선택 해제?
@@ -148,11 +151,12 @@
       }
 
       // 팝업
-      // 모달 팝업으로 수정중!!!
+      // 모달 팝업으로 수정중
       const url = `/approval/approvalDoc/${checkedDoc.value}`;
+      const name = "팝업"
       const option = "width = 830, height = 940, top = 70, left = 0, location = no, resizable=no";
 
-      window.open(url, option);
+      window.open(url, name, option);
     })
 
     
