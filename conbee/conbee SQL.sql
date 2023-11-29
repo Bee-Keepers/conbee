@@ -15,6 +15,8 @@ INSERT INTO "MEMBER"
 VALUES(SEQ_MEMBER_NO.NEXTVAL, 'admin', 'admin01', 'admin@admin.com', '관리자1', '04540^^^서울시 중구 남대문로 120^^^2층',
 '01012341234', NULL, 0, DEFAULT, DEFAULT, 8, 3, 5);
 
+
+/* 점주 계정 */
 INSERT INTO "MEMBER"
 VALUES(SEQ_MEMBER_NO.NEXTVAL, 'manager1', '123123', 'manager1@admin.com', '점주1', '04540^^^서울시 중구 남대문로 120^^^3층',
 '01012341234', NULL, 1, DEFAULT, DEFAULT, 11, 5, 6);
