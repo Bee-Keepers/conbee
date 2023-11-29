@@ -4,10 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>conBee</title>
-  <link rel="stylesheet" href="/css/stock/stockList.css">
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <link rel="stylesheet" href="/css/stock/stockList.css">
 </head>
 <body class="d-flex flex-column" style="height: 100vh;">
 
@@ -19,7 +18,8 @@
 
     <div class="d-flex flex-column flex-grow-1 align-items-center overflow-y-auto">
       <div class="d-flex justify-content-between align-items-center w-100 px-2">
-        <p class="fs-1">재고 현황</p>
+        <p class="fs-4 pb-3 px-3 border-bottom">재고 현황</p>
+      </div>
         <!-- 검색창 -->
         <div class="d-flex">
           <input type="text" class="form-control" placeholder="검색어를 입력해주세요" 
@@ -27,28 +27,27 @@
           <button class="btn btn-outline-secondary w-25" type="button" id="button-addon2">검색</button>
         </div>
 
-      </div>
-      <div class="w-100 overflow-y-auto">
+      <div class="tablebox">
         <!-- 테이블 제목 -->
-        <table class="table table-bordered m-0 container-1">
-          <thead class="sticky-top ">
-            <tr class="trbox table-warning">
-              <th class="text-center">#</th>
-              <th class="text-center">번호</th>
-              <th class="text-center">품목명</th>
-              <th class="text-center">품목구분</th>
-              <th class="text-center">그룹명</th>
-              <th class="text-center">규격</th>
-              <th class="text-center">입고단가</th>
-              <th class="text-center">출고단가</th>
-              <th class="text-center">재고</th>
-              <th class="text-center">할인율</th>
-              <th class="text-center">가격</th>
+        <table class="table table-striped table-hover m-0">
+          <thead class="sticky-top text-center">
+            <tr>
+              <th>#</th>
+              <th>번호</th>
+              <th>품목명</th>
+              <th>품목구분</th>
+              <th>그룹명</th>
+              <th>규격</th>
+              <th>입고단가</th>
+              <th>출고단가</th>
+              <th>재고</th>
+              <th>할인율</th>
+              <th>가격</th>
             </tr>
           </thead>
           <!-- 테이블 내용 -->
           <tbody>
-            <tr>
+            <tr class="text-center">
               <td class="text-center">
                 <label class="w-100">
                   <input type="checkbox" class="checkbox">
@@ -68,7 +67,7 @@
             <tr>
               <td class="text-center">
                 <label class="w-100">
-                  <input type="checkbox" class="checkbox">
+                  <input type="checkbox" class="form-check-input">
                 </label>
               </td>
               <td>2</td>
@@ -99,341 +98,16 @@
               <td>-</td>
               <td>1800</td>
             </tr>
-            <tr>
-              <td class="text-center">
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>3</td>
-              <td>사이다</td>
-              <td>음료</td>
-              <td>음료</td>
-              <td>355ml</td>
-              <td>800</td>
-              <td>1800</td>
-              <td>4</td>
-              <td>-</td>
-              <td>1800</td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>3</td>
-              <td>사이다</td>
-              <td>음료</td>
-              <td>음료</td>
-              <td>355ml</td>
-              <td>800</td>
-              <td>1800</td>
-              <td>4</td>
-              <td>-</td>
-              <td>1800</td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>3</td>
-              <td>사이다</td>
-              <td>음료</td>
-              <td>음료</td>
-              <td>355ml</td>
-              <td>800</td>
-              <td>1800</td>
-              <td>4</td>
-              <td>-</td>
-              <td>1800</td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>3</td>
-              <td>사이다</td>
-              <td>음료</td>
-              <td>음료</td>
-              <td>355ml</td>
-              <td>800</td>
-              <td>1800</td>
-              <td>4</td>
-              <td>-</td>
-              <td>1800</td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>3</td>
-              <td>사이다</td>
-              <td>음료</td>
-              <td>음료</td>
-              <td>355ml</td>
-              <td>800</td>
-              <td>1800</td>
-              <td>4</td>
-              <td>-</td>
-              <td>1800</td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>3</td>
-              <td>사이다</td>
-              <td>음료</td>
-              <td>음료</td>
-              <td>355ml</td>
-              <td>800</td>
-              <td>1800</td>
-              <td>4</td>
-              <td>-</td>
-              <td>1800</td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>3</td>
-              <td>사이다</td>
-              <td>음료</td>
-              <td>음료</td>
-              <td>355ml</td>
-              <td>800</td>
-              <td>1800</td>
-              <td>4</td>
-              <td>-</td>
-              <td>1800</td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>3</td>
-              <td>사이다</td>
-              <td>음료</td>
-              <td>음료</td>
-              <td>355ml</td>
-              <td>800</td>
-              <td>1800</td>
-              <td>4</td>
-              <td>-</td>
-              <td>1800</td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>3</td>
-              <td>사이다</td>
-              <td>음료</td>
-              <td>음료</td>
-              <td>355ml</td>
-              <td>800</td>
-              <td>1800</td>
-              <td>4</td>
-              <td>-</td>
-              <td>1800</td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>3</td>
-              <td>사이다</td>
-              <td>음료</td>
-              <td>음료</td>
-              <td>355ml</td>
-              <td>800</td>
-              <td>1800</td>
-              <td>4</td>
-              <td>-</td>
-              <td>1800</td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>3</td>
-              <td>사이다</td>
-              <td>음료</td>
-              <td>음료</td>
-              <td>355ml</td>
-              <td>800</td>
-              <td>1800</td>
-              <td>4</td>
-              <td>-</td>
-              <td>1800</td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>3</td>
-              <td>사이다</td>
-              <td>음료</td>
-              <td>음료</td>
-              <td>355ml</td>
-              <td>800</td>
-              <td>1800</td>
-              <td>4</td>
-              <td>-</td>
-              <td>1800</td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>3</td>
-              <td>사이다</td>
-              <td>음료</td>
-              <td>음료</td>
-              <td>355ml</td>
-              <td>800</td>
-              <td>1800</td>
-              <td>4</td>
-              <td>-</td>
-              <td>1800</td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>3</td>
-              <td>사이다</td>
-              <td>음료</td>
-              <td>음료</td>
-              <td>355ml</td>
-              <td>800</td>
-              <td>1800</td>
-              <td>4</td>
-              <td>-</td>
-              <td>1800</td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>3</td>
-              <td>사이다</td>
-              <td>음료</td>
-              <td>음료</td>
-              <td>355ml</td>
-              <td>800</td>
-              <td>1800</td>
-              <td>4</td>
-              <td>-</td>
-              <td>1800</td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>3</td>
-              <td>사이다</td>
-              <td>음료</td>
-              <td>음료</td>
-              <td>355ml</td>
-              <td>800</td>
-              <td>1800</td>
-              <td>4</td>
-              <td>-</td>
-              <td>1800</td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>3</td>
-              <td>사이다</td>
-              <td>음료</td>
-              <td>음료</td>
-              <td>355ml</td>
-              <td>800</td>
-              <td>1800</td>
-              <td>4</td>
-              <td>-</td>
-              <td>1800</td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>3</td>
-              <td>사이다</td>
-              <td>음료</td>
-              <td>음료</td>
-              <td>355ml</td>
-              <td>800</td>
-              <td>1800</td>
-              <td>4</td>
-              <td>-</td>
-              <td>1800</td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>3</td>
-              <td>사이다</td>
-              <td>음료</td>
-              <td>음료</td>
-              <td>355ml</td>
-              <td>800</td>
-              <td>1800</td>
-              <td>4</td>
-              <td>-</td>
-              <td>1800</td>
-            </tr>
           </tbody>
           <tfoot class="sticky-bottom">
             <tr> 
               <th colspan="11">
-                <div>
-                  <div class="btn-group" role="group" aria-label="Basic outlined example">
-                    <button type="button" class="btn btn-outline-primary">Left</button>
-                    <button type="button" class="btn btn-outline-primary">Middle</button>
-                    <button type="button" class="btn btn-outline-primary">Right</button>
-                    <button type="button" class="btn btn-outline-primary">Right</button>
-                    <button type="button" class="btn btn-outline-primary">Right</button>
-                  </div>
+                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                  <button type="button" class="btn btn-outline-primary">Left</button>
+                  <button type="button" class="btn btn-outline-primary">Middle</button>
+                  <button type="button" class="btn btn-outline-primary">Right</button>
+                  <button type="button" class="btn btn-outline-primary">Right</button>
+                  <button type="button" class="btn btn-outline-primary">Right</button>
                 </div>
               </th>
             </tr>
@@ -442,8 +116,9 @@
         
         
         
-    </div>
-    
+      </div>
+
+    </div>    
 
   </main>
       
