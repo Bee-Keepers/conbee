@@ -30,6 +30,9 @@ table{
     border-collapse: separate;
     border-spacing: 0;
 }
+tbody>tr>td{
+    vertical-align: middle;
+}
 tfoot>tr>th{
     border-top: calc(var(--bs-border-width) * 2) solid currentcolor !important;
 }

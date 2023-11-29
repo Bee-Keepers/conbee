@@ -112,7 +112,7 @@ plusRowBtn.addEventListener("click", ()=>{
                 }
                 calcPay(e.target);
                 // 총 합계 계산
-                const prices = document.querySelectorAll("#parentTable>tr>td:nth-of-type(7)");
+                const prices = document.querySelectorAll("#parentTable>tr>td:nth-of-type(8)");
                 let temp = 0;
                 for(let price of prices){
                     if(price.innerText != ""){
@@ -163,7 +163,7 @@ inputPosSearch.addEventListener("input", ()=>{
 
         for(let goods of goodsList){
             const label = document.createElement("label");
-            label.classList.add("form-control", "my-2");
+            label.classList.add("form-control", "my-2", "user-select-none");
 
             const input = document.createElement("input");
             input.classList.add("form-check-input", "goods");
@@ -208,5 +208,20 @@ deleteBtn.addEventListener("click", ()=>{
                 box.parentElement.parentElement.remove();
             }
         }
+        const prices = document.querySelectorAll("#parentTable>tr>td:nth-of-type(8)");
+        let temp = 0;
+        for(let price of prices){
+            if(price.innerText != ""){
+                temp += parseInt(price.innerText);
+            }
+        }
+        totalPrice.innerText = temp;
     }
+});
+
+// 로그아웃
+const logoutBtn = document.getElementById("logoutBtn");
+
+logoutBtn.addEventListener("click", ()=>{
+    location.href = "/logout";
 });

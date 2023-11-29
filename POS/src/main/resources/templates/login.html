@@ -15,7 +15,7 @@
   
   <main class="d-flex w-100 flex-grow-1 m-auto form-signin">
 
-    <form class="m-auto w-100" action="/member/login" method="post">
+    <form class="m-auto w-100" action="/login" method="post">
       <img class="mb-3" th:src="#{logo.login.image}" style="width: 10rem" >
       <h1 class="h3 mb-3 fw-normal">로그인</h1>
   
@@ -29,7 +29,7 @@
       </div>
   
       <div class="form-check text-start my-3">
-        <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
+        <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault" name="saveId">
         <label class="form-check-label" for="flexCheckDefault">
           아이디 저장
         </label>
@@ -44,6 +44,8 @@
 
   <th:block th:replace="~{footer}"></th:block>
 
+  <script src="/js/login.js">
+  </script>
   <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

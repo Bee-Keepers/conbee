@@ -21,7 +21,7 @@
             <input id="inputPosSearch" type="text" class="form-control" placeholder="상품 이름을 입력해주세요">
           </div>
           <div id="modalBody">
-            <label class="form-control my-1">
+            <!-- <label class="form-control my-1">
               <input type="checkbox" class="form-check-input goods">
               <span>A0002</span>
               <span>과자류</span>
@@ -36,7 +36,7 @@
               <span>스낵</span>
               <span>썬칩</span>
               <span>1700</span>
-            </label>
+            </label> -->
           </div>
         </div>
         <div class="modal-footer">
@@ -52,9 +52,13 @@
 
   <main class="container-fluid d-flex flex-column flex-grow-1 align-items-center overflow-y-auto">
 
-    <div class="container-fluid text-center mt-3 position-relative">
-      <p class="fs-1">KH 편의점</p>
-      <p>청계 그레이츠 점</p>
+    <div class="container-fluid d-flex justify-content-center mt-3 position-relative">
+      <div class="fs-1 me-3">KH 편의점</div>
+      <div class="d-flex align-items-center">
+        <select class="form-select form-select-sm" aria-label="Default select example" name="" id="">
+          <option value="" th:each="storeName : ${session.loginMember.storeName}" th:text="${storeName}"></option>
+        </select>
+      </div>
     </div>
     <div class="w-75 text-end">
       <button class="btn btn-light mb-2" id="deleteBtn">삭제</button>
