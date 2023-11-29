@@ -1,4 +1,4 @@
-package com.keepers.conbee.member.model.dto;
+package com.keepers.POS.main.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ public class Member {
 	private String memberAddress;
 	private int memberTel;
 	private String memberProfile;
-	private int memberAuthority;
+	private String memberAuthority;
 	private String memberEnrollDate;
 	private String memberDelFl;
 	

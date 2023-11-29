@@ -3115,6 +3115,7 @@ textarea.form-control-lg {
 
 .btn-warning {
   --bs-btn-color: #000;
+
   --bs-btn-bg: #FFE15D;
   --bs-btn-border-color: #FFE15D;
   --bs-btn-hover-color: #000;
@@ -3660,12 +3661,11 @@ textarea.form-control-lg {
 }
 .dropdown-item:hover, .dropdown-item:focus {
   color: var(--bs-dropdown-link-hover-color);
-  background-color: var(--bs-dropdown-link-hover-bg);
+  background-color: #FFE15D;
 }
 .dropdown-item.active, .dropdown-item:active {
-  color: var(--bs-dropdown-link-active-color);
   text-decoration: none;
-  background-color: var(--bs-dropdown-link-active-bg);
+  background-color: #F6C90E;
 }
 .dropdown-item.disabled, .dropdown-item:disabled {
   color: var(--bs-dropdown-link-disabled-color);
@@ -3839,6 +3839,7 @@ textarea.form-control-lg {
 }
 .nav-link:hover, .nav-link:focus {
   color: var(--bs-nav-link-hover-color);
+  font-weight: bold;
 }
 .nav-link:focus-visible {
   outline: 0;
@@ -12059,35 +12060,5 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
-@font-face {
-  font-family: 'NanumBarunGothic';
-  font-style: normal;
-  font-weight: 400;
-  src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.eot');
-  src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.eot?#iefix') format('embedded-opentype'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.woff') format('woff'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.ttf') format('truetype');
-  }
 
-  @font-face {
-  font-family: 'NanumBarunGothic';
-  font-style: normal;
-  font-weight: 700;
-  src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.eot');
-  src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.eot?#iefix') format('embedded-opentype'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.woff') format('woff'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.ttf') format('truetype')
-  }
-
-  @font-face {
-  font-family: 'NanumBarunGothic';
-  font-style: normal;
-  font-weight: 300;
-  src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot');
-  src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot?#iefix') format('embedded-opentype'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.woff') format('woff'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.ttf') format('truetype');
-  }
-
-.nanumbarungothic * {
-font-family: 'NanumBarunGothic', sans-serif;
-}
-
-*{
-  font-family: 'NanumBarunGothic';
-}
 /*# sourceMappingURL=bootstrap.css.map */
