@@ -1,6 +1,7 @@
 package com.keepers.conbee.stock.model.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,6 +20,19 @@ public interface StockMapper {
 	 * @param stock
 	 * @return
 	 */
-	int stockGoodsInsert(Stock stock);
+	int goodsInsert(Stock stock);
+
+
+	/** 상품 등록 전체조회
+	 * @param paramMap
+	 * @return
+	 */
+	List<Stock> goodsList(Map<String, Object> paramMap);
+
+	/** 등록된 상품 삭제
+	 * @param goodsNo
+	 * @return
+	 */
+	int goodsDelete(int goodsNo);
 
 }
