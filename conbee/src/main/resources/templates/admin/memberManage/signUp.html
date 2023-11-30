@@ -97,7 +97,7 @@
                   <div class="d-flex align-items-center" >
                     <input type="text" class="form-control" name="memberEmail" id="memberEmail" placeholder="이메일을 입력해주세요.">
                   </div>
-                  <span class="signUp-message" id="authKeyMessage"></span>
+                  <span class="signUp-message" id="memberEmailMessage"></span>
                 </td>
   
                 <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
@@ -105,11 +105,10 @@
                 <th>이메일 인증번호</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" name="emailAuthKey" id="emailAuthKey" placeholder="이메일 인증번호를 입력해주세요.">
-                    <button class="btn btn-warning  ms-3" style="width: 90px; margin-right: 35px;" type="button">인증하기</button>
+                    <input type="text" class="form-control" name="emailAuthKey" id="emailAuthKey" placeholder="이메일 인증번호를 입력해주세요."  maxlength="6" autocomplete="off">
+                    <button class="btn btn-warning  ms-3" style="width: 90px; margin-right: 35px;" id="checkEmailAuthKeyBtn"  type="button">인증하기</button>
                   </div>
-                  
-                  <span class="signUp-message" id="authKeyMessage"></span>
+                  <span class="signUp-message" id="EmailAuthKeyMessage"></span>
                 </td>
               </tr>
 
