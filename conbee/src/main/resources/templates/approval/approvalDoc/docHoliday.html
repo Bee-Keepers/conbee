@@ -6,13 +6,13 @@
       <div><h1 class="modal-title fs-5" id="exampleModalLabel">기안문 작성 - 휴가신청서</h1></div>
       <div>
         <button type="button" class="btn me-1" data-bs-target="#" style="width: 100px; background-color: #f2f2f2;">임시저장</button>
-        <button type="button" class="btn btn-warning me-1" data-bs-target="#">결재</button>
+        <button type="submit" form="docHoliday" class="btn btn-warning me-1" data-bs-target="#">결재</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
       </div>
     </div>
     <!-- 모달 바디 -->
     <div class="modal-body" style="width: 800px; height: 800px; ">
-      <form class="d-flex flex-column">
+      <form class="d-flex flex-column" action="docHoliday" id="docHoliday">
       
         <!-- 결재 정보 -->
         <div class="my-2 mx-3">
@@ -20,7 +20,7 @@
           <!-- 제목 -->
           <div class="d-flex mb-2">
             <span class="elem me-3" style="height: 27px;">제목 : </span>
-            <input class="title-input" type="text" id="inputTitle">
+            <input class="title-input" type="text" id="inputHoliday" name="holidayTitle">
           </div>
       
           <!-- 구분 -->
@@ -124,7 +124,7 @@
             <table class="table table-bordered" style="width: 100%; border: black;">
               <tr>
                 <th>제 목</th>
-                <td><input class="title-input2" type="text" id="inputTitle2"></td>
+                <td><input class="title-input2" type="text" id="inputHoliday2"></td>
               </tr>
               <tr>
                 <th>휴가 시작일</th>

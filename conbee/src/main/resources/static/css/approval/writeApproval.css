@@ -1,5 +1,8 @@
 /* writeApproval.css =============================================== */
 
+#docOne{
+  cursor: pointer;
+}
 
 #tblBody button{
   width: 90px;
