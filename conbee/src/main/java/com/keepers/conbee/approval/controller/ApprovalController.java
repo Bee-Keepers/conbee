@@ -4,11 +4,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.keepers.conbee.approval.model.service.ApprovalService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("approval")
 @RequiredArgsConstructor
@@ -106,20 +109,14 @@ public class ApprovalController { // 전자결재 컨트롤러
 	// ====================================================
 	
 	
-	
-	/** 기안문 작성 템플릿 이동
-	 * @return
-	 * @author 유진
-	 */
-	@GetMapping("approvalDoc/{docSort}")
-	public String insertApproval(@PathVariable("docSort") String docSort) {
+	// 테스트 - 기안문 제목 받아오기 ok
+	@GetMapping("docHoliday")
+	public String insertDocHoliday(String holidayTitle) {
 		
-		return "approval/approvalDoc/" + docSort;
+		log.debug(holidayTitle);
 		
-
+		return "approval/writeApproval";
 	}
-	
-	
 	
 	
 	
