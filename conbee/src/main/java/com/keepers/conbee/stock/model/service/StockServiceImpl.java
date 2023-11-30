@@ -1,6 +1,8 @@
 package com.keepers.conbee.stock.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,9 +27,25 @@ public class StockServiceImpl implements StockService{
 	
 	// 상품 등록
 	@Override
-	public int stockGoodsInsert(Stock stock) {
-		return mapper.stockGoodsInsert(stock);
+	public int goodsInsert(Stock stock) {
+		return mapper.goodsInsert(stock);
 	}
+	
+	// 상품등록 전체 조회
+	@Override
+	public Map<String, Object> goodsList(Map<String, Object> paramMap) {
+		List<Stock> stockList = mapper.goodsList(paramMap);
+		Map<String, Object> map = new HashMap<>();
+		map.put("stockList", stockList);
+		return map;
+	}
+	
+	// 등록된 상품 삭제
+	@Override
+	public int goodsDelete(int goodsNo) {
+		return mapper.goodsDelete(goodsNo);
+	}
+	
 	
 	
 }

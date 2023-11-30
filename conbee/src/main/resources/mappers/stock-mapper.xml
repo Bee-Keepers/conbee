@@ -11,13 +11,31 @@
 	</select>
 	
 	<!-- 상품 등록 -->
-	<insert id="stockGoodsInsert">
+	<insert id="goodsInsert">
 		INSERT INTO "GOODS"
 		VALUES (SEQ_GOODS_NO.NEXTVAL, 
-			#{goodsName}, 
-			#{goodsStandard}, 
-			#{lcategoryNo}, 
-			#{scategoryNo})
+			#{goodsName},
+			<if test='goodsStandard != ""'>
+				#{goodsStandard}, 
+			</if>
+			<if test='goodsStandard == ""'>
+				DEFAULT,
+			</if>
+			(SELECT LCATEGORY_NO FROM LCATEGORY WHERE LCATEGORY_NAME = #{lcategoryName}),
+			(SELECT SCATEGORY_NO FROM SCATEGORY WHERE SCATEGORY_NAME = #{scategoryName}))
 	</insert>
+	
+	<select id="goodsList" resultType="Stock">
+		SELECT GOODS_NO, GOODS_NAME, GOODS_STANDARD, LCATEGORY_NAME, SCATEGORY_NAME 
+		FROM GOODS
+		JOIN LCATEGORY USING(LCATEGORY_NO)
+		JOIN SCATEGORY USING(SCATEGORY_NO)
+		ORDER BY GOODS_NO DESC
+	</select>
+	
+	<delete id="goodsDelete">
+		DELETE FROM GOODS
+		WHERE GOODS_NO = #{goodsNo};
+	</delete>
 
 </mapper>

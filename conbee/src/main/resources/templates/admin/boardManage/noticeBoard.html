@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko"  xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>공지사항</title>
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <style>
+
+    tr > td {
+      height: 60px;
+      text-align: center;
+
+      vertical-align: middle;
+    }
+
+  </style>
+</head>
+<body class="d-flex flex-column" style="height: 100vh;">
+
+  <th:block th:replace="~{admin/header}"></th:block>
+
+  <main class="d-flex flex-grow-1">
+
+    <!-- 사이드바 -->
+    <th:block th:replace="~{admin/boardManage/sidebar}"></th:block>
+
+    <!-- 회원정보조회 -->
+    <div class="d-flex flex-column p-3" style="width: 100%;">
+
+      <!-- 타이틀 -->
+      <div class="d-flex justify-content-between align-items-center border-bottom">
+        <div class="fs-4 pb-3 px-3">
+          공지사항 조회
+        </div>
+      </div>
+
+      <div class="d-flex flex-column justify-content-center align-items-center">
+
+        <!-- 검색버튼 -->
+        <div class="d-flex justify-content-end"  style="width: 95%;">
+          <input id="" class="form-control mt-3" type="text" placeholder="검색내용 입력 후 ENTER" size="40" style="width: 15%;">
+        </div>
+        <table class="table table-striped table-hover mt-2" style="width: 95%;">
+          
+          <colgroup>
+            <col width=6%>
+            <col width=7%>
+            <col width=7%>
+            <col width=4%>
+            <col width=9%>
+            <col width=45%>
+            <col width=7%>
+            <col width=7%>
+            <col width=9%>
+          </colgroup>
+
+          <thead>
+            <tr style="text-align: center;">
+              <th>회원번호</th>
+              <th>부서</th>
+              <th>소속</th>
+              <th>직급</th>
+              <th>연락처</th>
+              <th>주소</th>
+              <th>가입일</th>
+              <th>탈퇴 승인</th>
+              <th>탈퇴 및 복구</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+
+            <!-- 점포가 존재하지 않을 때 -->
+            <!-- <tr>
+              <td colspan="6">운영되는 점포가 존재하지 않습니다.</td>
+            </tr> -->
+
+            <!-- 점포가 존재할 때 -->
+            <!-- <th:block th:unless="${}"> -->
+              <tr>
+                <td>A-123021</td>
+                <td><b><a href="" style="text-decoration: none; color: black;">
+                  운영관리부
+                </a></b></td>
+                <td>점포관리팀</td>
+                <td>부장</td>
+                <td>01012341234</td>
+                <td>서울특별시 서대문구 모래내로 412 서울시립서대문도서관 (연희동) 서울시립서대문도서관</td>
+                <td>2015.12.12</td>
+                <td>승인</td>
+                <td>
+                  <a href="#" class="btn btn-secondary mx-3" style="width: 80px;">폐쇄</a>
+                  <!-- <a href="#" class="btn btn-warning mx-3" style="width: 80px;">운영</a> -->
+                </td>
+              </tr>
+
+              <tr>
+                <td>B-223021</td>
+                <td><b><a href="" style="text-decoration: none; color: black;">
+                  인사관리부
+                </a></b></td>
+                <td>사원관리팀</td>
+                <td>부장</td>
+                <td>01034241235</td>
+                <td>경기 가평군 가평읍 북한강변로 10 (유동오리) 유동오리</td>
+                <td>2012.09.17</td>
+                <td>미승인</td>
+                <td>
+                  <!-- <a href="#" class="btn btn-secondary mx-3" style="width: 80px;">폐쇄</a> -->
+                  <a href="#" class="btn btn-warning mx-3" style="width: 80px;">운영</a>
+                </td>
+              </tr>
+             
+              <tr>
+                <td>C-123021</td>
+                <td><b><a href="" style="text-decoration: none; color: black;">
+                  점주
+                </a></b></td>
+                <td>점포</td>
+                <td>점주</td>
+                <td>01095665655</td>
+                <td>제주특별자치도 서귀포시 대정읍 마라로 113 (초콜렛박물관) 초콜렛박물관</td>
+                <td>2017.02.10</td>
+                <td>미승인</td>
+                <td>
+                  <!-- <a href="#" class="btn btn-secondary mx-3" style="width: 80px;">폐쇄</a> -->
+                  <a href="#" class="btn btn-warning mx-3" style="width: 80px;">운영</a>
+                </td>
+              </tr>
+
+            <!-- </th:block> -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 페이지네이션 // 게시글 있을때만 보이게 함 -->
+
+    </div>
+
+    </div>
+  </main>
+
+  <th:block th:replace="~{common/footer}"></th:block>
+
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  
+</body>
+</html>

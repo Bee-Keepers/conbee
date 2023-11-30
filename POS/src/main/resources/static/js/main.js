@@ -70,7 +70,6 @@ const inputPosSearch = document.getElementById("inputPosSearch");
 const storeSelect = document.getElementById("storeSelect");
 // 품목 선택 후 확인버튼 (행 추가)
 plusRowBtn.addEventListener("click", ()=>{
-
     const goods = document.querySelectorAll("input.goods");
     const goodsNameList = document.querySelectorAll("tbody>tr>td:nth-of-type(5)");
 
