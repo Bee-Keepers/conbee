@@ -7,6 +7,11 @@
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
+<style>
+  td {
+    vertical-align: middle;
+  }
+</style>
 <body class="d-flex flex-column" style="height: 100vh;">
 
   <th:block th:replace="~{common/header}"></th:block>
@@ -15,8 +20,81 @@
 
     <th:block th:replace="~{approval/sidebar}"></th:block>
 
-    <div class="d-flex flex-column flex-grow-1">
-      반려문서함
+    <div class="d-flex flex-column p-3" style="width: 100%;">
+
+      <div class="fs-4 pb-3 px-3 border-bottom">
+        반려문서함
+      </div>
+
+      <div class="m-3 pe-5 d-flex justify-content-end">
+        <a href="#" class="btn btn-secondary" style="width: 80px;">삭제</a>
+      </div>
+
+      <div class="d-flex justify-content-center">
+
+        <table class="table table-striped table-hover" style="width: 95%;">
+          <colgroup>
+            <col width=5%>
+            <col width=7%>
+            <col width=7%>
+            <col width=7%>
+            <col width=25%>
+            <col width=8%>
+            <col width=8%>
+            <col width=15%>
+            <col width=8%>
+            <col width=10%>
+          </colgroup>
+          <thead>
+            <tr style="text-align: center;">
+              <th><input type="checkbox"></th>
+              <th>문서번호</th>
+              <th>구분</th>
+              <th>항목</th>
+              <th>제목</th>
+              <th>작성자</th>
+              <th>부서</th>
+              <th>작성일자</th>
+              <th>결재자</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+
+            <tr style="text-align: center;">
+              <td><input type="checkbox"></td>
+              <td>62</td>
+              <td>복무</td>
+              <td>휴가</td>
+              <td style="text-align: start; font-weight: bold;"><a href="" style="text-decoration: none; color: black;">11/30 연차 신청합니다.</a></td>
+              <td>이예리나</td>
+              <td>전산팀</td>
+              <td>2023-11-29 10:04</td>
+              <td>이예리나</td>
+              <td>
+                <a href="#" class="btn btn-warning" style="width: 90px;">반려취소</a>
+              </td>
+            </tr>
+
+            <tr style="text-align: center;">
+              <td><input type="checkbox"></td>
+              <td>62</td>
+              <td>복무</td>
+              <td>휴가</td>
+              <td style="text-align: start; font-weight: bold;"><a href="" style="text-decoration: none; color: black;">11/30 연차 신청합니다.</a></td>
+              <td>이예리나</td>
+              <td>전산팀</td>
+              <td>2023-11-29 10:04</td>
+              <td>이예리나</td>
+              <td>
+                <a href="#" class="btn btn-outline-warning" style="width: 90px;">재작성</a>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+      
     </div>
 
   </main>
