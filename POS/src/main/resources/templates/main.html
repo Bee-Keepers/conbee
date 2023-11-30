@@ -50,33 +50,37 @@
   <!-- 헤더 -->
   <th:block th:replace="~{header}"></th:block>
 
-  <main class="container-fluid d-flex flex-column flex-grow-1 align-items-center overflow-y-auto">
+  <main class="container-fluid d-flex flex-column flex-grow-1 align-items-center overflow-y-auto px-5">
 
     <div class="container-fluid d-flex justify-content-center mt-3 position-relative">
       <div class="fs-1 me-3">KH 편의점</div>
-      <div class="d-flex align-items-center">
-        <select class="form-select form-select-sm" aria-label="Default select example" name="" id="">
-          <option value="" th:each="storeName : ${session.loginMember.storeName}" th:text="${storeName}"></option>
-        </select>
-      </div>
     </div>
-    <div class="w-75 text-end">
-      <button class="btn btn-light mb-2" id="deleteBtn">삭제</button>
+    
+    <form class="w-100 d-flex flex-column flex-grow-1 align-items-center overflow-y-auto">
       
-      <button id="modalBtn" type="button" class="btn btn-light mb-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        품목검색
-      </button>
-    </div>
-    <form class="border border-3 border-light rounded w-75 d-flex flex-column align-items-center overflow-y-auto">
+      <div class="d-flex align-items-center justify-content-end w-100 mb-2">
+        <div>
+          <select class="form-select form-select-sm" aria-label="Default select example" name="" id="storeSelect">
+            <option value="0">선택</option>
+            <option th:each="storeName : ${session.loginMember.storeName}" th:text="${storeName}"></option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-light mx-3" id="deleteBtn">삭제</button>
+        <button id="modalBtn" type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          품목검색
+        </button>
+      </div>
       <table class="w-100 table table-striped table-hover text-center m-0">
         <thead class="sticky-top">
           <tr>
             <th>#</th>
-            <th>품목코드</th>
+            <th>No.</th>
             <th>대분류</th>
             <th>소분류</th>
             <th>제품명</th>
+            <th>할인(%)</th>
             <th>단가</th>
+            <th>판매가</th>
             <th>수량</th>
             <th>금액</th>
           </tr>
@@ -101,23 +105,22 @@
             <td>0</td>
           </tr> -->
         </tbody>
-        <tfoot class="sticky-bottom table-group-divider">
-          <tr>
-            <th colspan="5">합계</th>
-            <th colspan="2" id="totalPrice">0</th>
-            <th><button class="btn btn-light">결제하기</button></th>
-          </tr>
-        </tfoot>
       </table>
       
       
     </form>
+      
+    <div class="px-3 d-flex align-items-center sticky-bottom table-group-divider w-100 fw-bold">
+        <div class="w-50 text-end me-auto">합계</div>
+        <div class="w-25" id="totalPrice">0</div>
+        <button class="btn btn-light">결제하기</button>
+    </div>
 
   </main>
 
   <th:block th:replace="~{footer}"></th:block>
 
   <script src="/js/bootstrap.bundle.min.js"></script>
-  <script src="/js/index.js"></script>
+  <script src="/js/main.js"></script>
 </body>
 </html>

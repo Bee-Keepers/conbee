@@ -54,7 +54,6 @@ public class MainController {
 	
 	
 	
-	
 	@PostMapping("insert")
 	public String insert() {
 		

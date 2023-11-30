@@ -1,9 +1,9 @@
 /* 테이블 간격 조정 */
 thead>tr>th:nth-of-type(1){
-    width: 5%;
+    width: 2%;
 }
 thead>tr>th:nth-of-type(2){
-    width: 10%;
+    width: 5%;
 }
 thead>tr>th:nth-of-type(3){
     width: 10%;
@@ -15,24 +15,34 @@ thead>tr>th:nth-of-type(4){
     
 } */
 thead>tr>th:nth-of-type(6){
-    width: 15%;
+    width: 6%;
 }
 thead>tr>th:nth-of-type(7){
-    width: 7%;
+    width: 8%;
 }
 thead>tr>th:nth-of-type(8){
-    width: 15%;
+    width: 8%;
 }
+thead>tr>th:nth-of-type(9){
+    width: 6%;
+}
+thead>tr>th:nth-of-type(10){
+    width: 10%;
+}
+
+/* 테이블 구분선 */
 thead>tr>th{
     border-bottom: calc(var(--bs-border-width) * 2) solid currentcolor !important;
+}
+tfoot>tr>th{
+    border-top: calc(var(--bs-border-width) * 2) solid currentcolor !important;
 }
 table{
     border-collapse: separate;
     border-spacing: 0;
 }
+
+/* 행 안에 글자 가운데 정렬 */
 tbody>tr>td{
     vertical-align: middle;
-}
-tfoot>tr>th{
-    border-top: calc(var(--bs-border-width) * 2) solid currentcolor !important;
 }

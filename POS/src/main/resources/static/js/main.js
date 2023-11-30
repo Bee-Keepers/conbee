@@ -61,7 +61,7 @@ const parentTable = document.getElementById("parentTable");
 // 품목 검색하는 모달창
 const plusRowBtn = document.getElementById("plusRowBtn");
 const inputPosSearch = document.getElementById("inputPosSearch");
-
+const storeSelect = document.getElementById("storeSelect");
 // 품목 선택 후 확인버튼 (행 추가)
 plusRowBtn.addEventListener("click", ()=>{
 
@@ -82,7 +82,7 @@ plusRowBtn.addEventListener("click", ()=>{
 
 
             tr.append(td0);
-            for(let i = 1; i <=5; i++){
+            for(let i = 1; i <=7; i++){
                 const td = document.createElement("td");
                 td.innerText = parent.children[i].innerText;
                 tr.append(td);
@@ -112,7 +112,7 @@ plusRowBtn.addEventListener("click", ()=>{
                 }
                 calcPay(e.target);
                 // 총 합계 계산
-                const prices = document.querySelectorAll("#parentTable>tr>td:nth-of-type(8)");
+                const prices = document.querySelectorAll("#parentTable>tr>td:nth-of-type(10)");
                 let temp = 0;
                 for(let price of prices){
                     if(price.innerText != ""){
@@ -134,7 +134,6 @@ const modalBody = document.getElementById("modalBody");
 modalBtn.addEventListener("click", ()=>{
     modalBody.innerHTML = "";
     inputPosSearch.value = "";
-    inputPosSearch.focus();
 });
 
 // 품목 검색 기능
@@ -183,12 +182,20 @@ inputPosSearch.addEventListener("input", ()=>{
             const span4 = document.createElement("span");
             span4.innerText = goods.goodsName;
             span4.classList.add("mx-2");
-            
+
             const span5 = document.createElement("span");
-            span5.innerText = goods.stockOutPrice;
+            span5.innerText = goods.stockDiscount;
             span5.style.display = "none";
+
+            const span6 = document.createElement("span");
+            span6.innerText = goods.stockOutPrice;
+            span6.style.display = "none";
+
+            const span7 = document.createElement("span");
+            span7.innerText = goods.stockOutPrice - (goods.stockDiscount * 0.01 * goods.stockOutPrice);
+            span7.style.display = "none";
             
-            label.append(input, span1, span2, span3, span4, span5);
+            label.append(input, span1, span2, span3, span4, span5, span6, span7);
             modalBody.append(label);
         }
     })
