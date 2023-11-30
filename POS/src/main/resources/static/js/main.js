@@ -1,16 +1,22 @@
 // 김민석 ============================================================================
 // ===================================================================================
 
+
+
 // 수량을 입력하면 단가와 수량을 곱한 금액을 금액란에 계산해서 출력하는 함수
 function calcPay(e){
-
+    e.parentElement.nextElementSibling.innerHTML = "";
     const amount = e.value;
     const price = e.parentElement.previousElementSibling.innerText;
     
     e.parentElement.nextElementSibling.innerText = amount * price;
-    
+    const input = document.createElement("input");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("value", amount * price);
+    input.setAttribute("name", "historyActualPrice");
+    e.parentElement.nextElementSibling.append(input);
 }
-
+const posForm = document.getElementById("posForm");
 const totalPrice = document.getElementById("totalPrice");
 // 포스기에 행 추가하는 기능
 const plusBtn = document.getElementById("plusBtn");
@@ -64,11 +70,25 @@ const inputPosSearch = document.getElementById("inputPosSearch");
 const storeSelect = document.getElementById("storeSelect");
 // 품목 선택 후 확인버튼 (행 추가)
 plusRowBtn.addEventListener("click", ()=>{
-    
     const goods = document.querySelectorAll("input.goods");
+    const goodsNameList = document.querySelectorAll("tbody>tr>td:nth-of-type(5)");
+
+
     for(let good of goods){
         if(good.checked){
             const parent = good.parentElement;
+            let flag = true;
+            for(let goodsName of goodsNameList){
+                if(parent.children[4].innerText == goodsName.innerText){
+                    flag = false;
+                    // alert("존재하는 품목이 있습니다");
+                    break;
+                }
+            }
+            if(flag == false){
+                continue;
+            }
+
             const tr = document.createElement("tr");
             const td0 = document.createElement("td");
             const checkbox = document.createElement("input");
@@ -76,14 +96,23 @@ plusRowBtn.addEventListener("click", ()=>{
             checkbox.setAttribute("type", "checkbox");
             td0.append(checkbox);
             tr.append(td0);
-            
 
-
-
-            tr.append(td0);
             for(let i = 1; i <=7; i++){
                 const td = document.createElement("td");
+                const input = document.createElement("input");
+                input.setAttribute("type", "hidden");
+                input.value = parent.children[i].innerText;
+                switch(i){
+                    case 1 : input.setAttribute("name", "goodsNo"); break;
+                    case 2 : input.setAttribute("name", "lcategoryName"); break;
+                    case 3 : input.setAttribute("name", "scategoryName"); break;
+                    case 4 : input.setAttribute("name", "historyGoodsName"); break;
+                    case 5 : input.setAttribute("name", "historyDiscount"); break;
+                    case 6 : input.setAttribute("name", "historyUnitPrice"); break;
+                    default : break;
+                }
                 td.innerText = parent.children[i].innerText;
+                td.append(input);
                 tr.append(td);
             }
             const td6 = document.createElement("td");
@@ -95,6 +124,7 @@ plusRowBtn.addEventListener("click", ()=>{
             input.setAttribute("min", "0");
             input.setAttribute("max", "99");
             input.setAttribute("value", "0");
+            input.setAttribute("name", "historyAmount");
             td6.append(input);
 
             tr.append(td6, td7);
@@ -181,10 +211,12 @@ inputPosSearch.addEventListener("input", ()=>{
             const span4 = document.createElement("span");
             span4.innerText = goods.goodsName;
             span4.classList.add("mx-2");
+            
 
             const span5 = document.createElement("span");
             span5.innerText = goods.stockDiscount;
             span5.style.display = "none";
+            
 
             const span6 = document.createElement("span");
             span6.innerText = goods.stockOutPrice;
@@ -230,4 +262,11 @@ const logoutBtn = document.getElementById("logoutBtn");
 
 logoutBtn.addEventListener("click", ()=>{
     location.href = "/logout";
+});
+
+// form 제출 버튼
+const formSubmitBtn = document.getElementById("formSubmitBtn");
+
+formSubmitBtn.addEventListener("click", ()=>{
+    posForm.submit();
 });

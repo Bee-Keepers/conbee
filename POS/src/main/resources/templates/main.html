@@ -56,11 +56,11 @@
       <div class="fs-1 me-3">KH 편의점</div>
     </div>
     
-    <form class="w-100 d-flex flex-column flex-grow-1 align-items-center overflow-y-auto">
+    <form action="/insert" method="post" id="posForm" class="w-100 d-flex flex-column flex-grow-1 align-items-center overflow-y-auto">
       
       <div class="d-flex align-items-center justify-content-end w-100 mb-2">
         <div>
-          <select class="form-select form-select-sm" aria-label="Default select example" name="" id="storeSelect">
+          <select class="form-select form-select-sm" aria-label="Default select example" name="historyStoreName" id="storeSelect">
             <option value="0">선택</option>
             <option th:each="storeName : ${session.loginMember.storeName}" th:text="${storeName}"></option>
           </select>
@@ -106,14 +106,12 @@
           </tr> -->
         </tbody>
       </table>
-      
-      
     </form>
-      
     <div class="px-3 d-flex align-items-center sticky-bottom table-group-divider w-100 fw-bold">
         <div class="w-50 text-end me-auto">합계</div>
         <div class="w-25" id="totalPrice">0</div>
-        <button class="btn btn-light">결제하기</button>
+        <input type="hidden" name="historyActualPrice" value="">
+        <button id="formSubmitBtn" class="btn btn-light">결제하기</button>
     </div>
 
   </main>
