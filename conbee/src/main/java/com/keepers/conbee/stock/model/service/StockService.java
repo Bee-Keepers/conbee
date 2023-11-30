@@ -1,6 +1,7 @@
 package com.keepers.conbee.stock.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.keepers.conbee.stock.model.dto.Stock;
 
@@ -16,6 +17,20 @@ public interface StockService {
 	 * @param stock
 	 * @return
 	 */
-	int stockGoodsInsert(Stock stock);
+	int goodsInsert(Stock stock);
+
+	/** 상품 등록 전체 조회
+	 * @param paramMap 
+	 * @return
+	 */
+	Map<String, Object> goodsList(Map<String, Object> paramMap);
+
+	/** 등록된 상품 삭제
+	 * @param goodsNo
+	 * @return
+	 */
+	int goodsDelete(int goodsNo);
+
+
 
 }

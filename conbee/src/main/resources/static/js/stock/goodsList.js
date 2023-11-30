@@ -2,6 +2,7 @@ const lcategorySelect = document.getElementById("lcategorySelect");
 const scategorySelect = document.getElementById("scategorySelect");
 const lcategorySelectOptions = document.querySelectorAll("#lcategorySelect>option");
 
+// 등록 창 모달에서 대분류 선택 시 대분류 안에있는 소분류 불러오기
 lcategorySelect.addEventListener("change", ()=>{
    scategorySelect.innerHTML = "";
    const option = document.createElement("option");
@@ -23,5 +24,18 @@ lcategorySelect.addEventListener("change", ()=>{
          }
       })
       .catch(e=>console.log(e));
+   }
+});
+
+const deleteBtn = document.getElementById("deleteBtn");
+const checkbox = document.querySelectorAll(".checkbox");
+
+deleteBtn.addEventListener('click', e => {
+
+   for(let i = 0; i < checkbox.length; i++){
+      if(checkbox[i].checked){
+         console.log(checkbox);
+         checkbox[i].parentElement.parentElement.parentElement.remove();
+      }
    }
 });
