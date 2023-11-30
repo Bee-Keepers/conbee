@@ -39,5 +39,32 @@ public class AdminController { // admin 메인화면 연결 컨트롤러
 	public String deleteMember(){
 		return "admin/memberManage/memberList";
 	}
+	
+	
+	/** 공지사항 관리 > 화면 전환
+	 * @return
+	 */
+	@GetMapping("boardManage/noticeBoard")
+	public String noticeBoard(){
+		return "admin/boardManage/noticeBoard";
+	}
+	
+	
+	/** 자유게시판 관리 > 화면 전환
+	 * @return
+	 */
+	@GetMapping("boardManage/freeBoard")
+	public String freeBoard(){
+		return "admin/boardManage/freeBoard";
+	}
+	
+	
+	/** 익명게시판 관리 > 화면 전환
+	 * @return
+	 */
+	@GetMapping("boardManage/anonymousBoard")
+	public String anonymousBoard(){
+		return "admin/boardManage/anonymousBoard";
+	}
 
 }
