@@ -66,61 +66,33 @@
           <tbody class="table-group-divider">
 
             <!-- 점포가 존재하지 않을 때 -->
-            <!-- <tr>
+            <tr th:if="${storeList == null}">
               <td colspan="6">운영되는 점포가 존재하지 않습니다.</td>
-            </tr> -->
+            </tr>
 
             <!-- 점포가 존재할 때 -->
-            <!-- <th:block th:unless="${}"> -->
-              <tr>
-                <td>3642</td>
-                <td><b><a href="" style="text-decoration: none; color: black;">
-                  SK신봉천주유소점
-                </a></b></td>
-                <td>김점주</td>
-                <td>028855913</td>
-                <td>서울특별시 서대문구 모래내로 412 서울시립서대문도서관 (연희동) 서울시립서대문도서관</td>
+            <th:block th:unless="${storeList == null}">
+
+              <tr th:each="store : ${storeList}" th:object="${store}">
+                <td th:text="*{storeNo}">3642</td>
                 <td>
+                  <b><a href="" style="text-decoration: none; color: black;" th:text="*{storeName}">
+                  SK신봉천주유소점</a></b>
+                </td>
+                <td th:text="*{memberName}">김점주</td>
+                <td th:text="*{storeTel}">028855913</td>
+                <td th:text="*{storeAddress}">서울특별시 서대문구 모래내로 412 서울시립서대문도서관 (연희동)</td>
+
+                <td th:if="*{storeRunFl == 'Y'}"> <!--매장 운영 O-->
+                  <a href="#" class="btn btn-warning mx-3" style="width: 80px;">운영</a>
+                </td>
+
+                <td th:unless="*{storeRunFl == 'Y'}"> <!--매장 운영 X-->
                   <a href="#" class="btn btn-secondary mx-3" style="width: 80px;">폐쇄</a>
-                  <!-- <a href="#" class="btn btn-warning mx-3" style="width: 80px;">운영</a> -->
                 </td>
               </tr>
 
-              <tr>
-                <td>3642</td>
-                <td><b><a href="" style="text-decoration: none; color: black;">
-                  SK신봉천주유소점
-                </a></b></td>
-                <td>김점주</td>
-                <td>028855913</td>
-                <td>서울특별시 서대문구 모래내로 412 서울시립서대문도서관 (연희동) 서울시립서대문도서관</td>
-                <td>
-                  <!-- <a href="#" class="btn btn-secondary mx-3" style="width: 80px;">폐쇄</a> -->
-                  <a href="#" class="btn btn-warning mx-3" style="width: 80px;">운영</a>
-                </td>
-              </tr>
-
-              <tr>
-                <td>3642</td>
-                <td><b><a href="" style="text-decoration: none; color: black;">
-                  SK신봉천주유소점
-                </a></b></td>
-                <td>김점주</td>
-                <td>028855913</td>
-                <td>서울특별시 서대문구 모래내로 412 서울시립서대문도서관 (연희동) 서울시립서대문도서관</td>
-                <td>
-                  <!-- <a href="#" class="btn btn-secondary mx-3" style="width: 80px;">폐쇄</a> -->
-                  <a href="#" class="btn btn-warning mx-3" style="width: 80px;">운영</a>
-                </td>
-              </tr>
-
-
-
-
-
-
-
-            <!-- </th:block> -->
+            </th:block>
           </tbody>
         </table>
       </div>

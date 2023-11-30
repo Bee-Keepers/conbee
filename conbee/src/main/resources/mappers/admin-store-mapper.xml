@@ -3,5 +3,14 @@
 <!-- 연결할 인터페이스의 패키지명.인터페이스명을 작성 -->
 <mapper namespace="com.keepers.conbee.admin.store.model.mapper.AdminStoreMapper">
 	
+	<!-- 점포 전체 정보조회-->
+	<select id="readAllStoreList" resultType="Store">
+		SELECT STORE_NO , STORE_NAME , STORE_TEL , STORE_ADDRESS , STORE_RUN_FL , MEMBER_NO , MEMBER_NAME
+		FROM STORE
+		JOIN "MEMBER" USING (MEMBER_NO)
+	</select>
+	
+	
+	
 	
 </mapper>
