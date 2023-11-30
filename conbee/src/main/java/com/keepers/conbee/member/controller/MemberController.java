@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.member.model.dto.Member;
@@ -33,17 +34,19 @@ public class MemberController {
 	
 	/** 로그인 화면 전환
 	 * @return
+	 * @author 김민규
 	 */
-	@GetMapping("login")
-	public String login(){
-		return "member/login";
-	}
-	
+//	@GetMapping("login")
+//	public String login(){
+//		return "member/login";
+//	}
+//	
 	
 
 	
 	/** 로그인 기능
 	 * @return
+	 * @author 김민규
 	 */
 	@SuppressWarnings("unused") // 로그인 기능에서 경고 문구 미적용
 	@PostMapping("login")
@@ -85,11 +88,13 @@ public class MemberController {
 	}
 	
 	
+	
 	/** 빠른 로그인
 	 * @param memberId
 	 * @param model
 	 * @param ra
 	 * @return
+	 * @author 김민규
 	 */
 	@GetMapping("login/{memberId}")
 	public String quickLogin(@PathVariable("memberId") String memberId, Model model,
@@ -102,16 +107,21 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-	
-	
-	
-	/** 회원가입 화면 전환
+	/** 로그아웃 시 로그인 화면으로 전환
+	 * @param status
 	 * @return
+	 * @author 김민규
 	 */
-	@GetMapping("signup")
-	public String signUp(){
-		return "member/signup";
+	@GetMapping("logout")
+	public String logout(SessionStatus status) {
+		status.setComplete(); // @SessionAttributes 세션 만료
+		return "redirect:/";
 	}
+
+	
+	
+	
+	
 	
 	
 	
