@@ -2,7 +2,6 @@ package com.keepers.POS.main.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +31,10 @@ public class MainController {
 	
 	private final MainService service;
 	
+	/** 메인 화면 전환
+	 * @param loginMember : 로그인 객체
+	 * @return
+	 */
 	@RequestMapping("/")
 	public String mainPage(@SessionAttribute(value = "loginMember", required = false) Member loginMember) {
 		
@@ -44,16 +47,19 @@ public class MainController {
 	
 	
 	
-	@RequestMapping("main")
-	public String loginPage() {
-		return "main";
-	}
+//	/** 
+//	 * @return
+//	 */
+//	@RequestMapping("main")
+//	public String loginPage() {
+//		return "main";
+//	}
 	
 	@GetMapping(value = "search", produces = "application/json")
 	@ResponseBody
-	public List<Goods> search(String inputPosSearch) {
+	public List<Goods> search(String inputPosSearch, String storeName) {
 		
-		List<Goods> goodsList = service.search(inputPosSearch);
+		List<Goods> goodsList = service.search(inputPosSearch, storeName);
 		
 		return goodsList;
 	}
@@ -77,6 +83,8 @@ public class MainController {
 			history.setHistoryStoreName(historyStoreName);
 			historyList.add(history);
 		}
+		
+		int result = service.insert(historyList);
 		return "redirect:/";
 	}
 

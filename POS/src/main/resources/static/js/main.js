@@ -1,7 +1,7 @@
 // 김민석 ============================================================================
 // ===================================================================================
-
-
+// 지점 선택 select 요소
+const storeSelect = document.getElementById("storeSelect");
 
 // 수량을 입력하면 단가와 수량을 곱한 금액을 금액란에 계산해서 출력하는 함수
 function calcPay(e){
@@ -64,10 +64,11 @@ const parentTable = document.getElementById("parentTable");
 //     });
 // });
 
+
 // 품목 검색하는 모달창
 const plusRowBtn = document.getElementById("plusRowBtn");
 const inputPosSearch = document.getElementById("inputPosSearch");
-const storeSelect = document.getElementById("storeSelect");
+
 // 품목 선택 후 확인버튼 (행 추가)
 plusRowBtn.addEventListener("click", ()=>{
     const goods = document.querySelectorAll("input.goods");
@@ -174,7 +175,7 @@ inputPosSearch.addEventListener("input", ()=>{
     }
 
     fetch(
-        "/search?inputPosSearch=" + inputPosSearch.value
+        "/search?inputPosSearch=" + inputPosSearch.value + "&storeName=" +storeSelect.value
     )
     .then(resp=>resp.json())
     .then(goodsList=>{
@@ -268,5 +269,33 @@ logoutBtn.addEventListener("click", ()=>{
 const formSubmitBtn = document.getElementById("formSubmitBtn");
 
 formSubmitBtn.addEventListener("click", ()=>{
+    if(storeSelect.value == 0){
+        alert("지점을 선택해주세요");
+        return;
+    }
     posForm.submit();
 });
+
+// 지점 선택
+storeSelect.addEventListener("change", ()=>{
+    if(storeSelect.value == 0){
+        location.href = "/";
+    } else{
+        location.href = "?store=" + storeSelect.value;
+    }
+});
+
+
+const url = new URL(location.href);
+const urlParams = url.searchParams;
+if(urlParams.get("store") == null){
+    modalBtn.disabled = true;
+}
+// 선택 옵션 그대로 지정
+const options = document.querySelectorAll("#storeSelect>option");
+for(let option of options){
+    if(option.value == urlParams.get("store")){
+        option.selected = true;
+        break;
+    }
+}

@@ -61,7 +61,7 @@
       <div class="d-flex align-items-center justify-content-end w-100 mb-2">
         <div>
           <select class="form-select form-select-sm" aria-label="Default select example" name="historyStoreName" id="storeSelect">
-            <option value="0">선택</option>
+            <option value="0">지점 선택 후 검색가능</option>
             <option th:each="storeName : ${session.loginMember.storeName}" th:text="${storeName}"></option>
           </select>
         </div>
