@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>conBee</title>
+  <title>conBee 점포별 상품</title>
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" href="/css/stock/stockList.css">
@@ -63,64 +63,79 @@
               <td>10</td>
               <td>27000</td>
             </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>2</td>
-              <td>울트라 로션</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>21000</td>
-              <td>32000</td>
-              <td>3</td>
-              <td>-</td>
-              <td>32000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>3</td>
-              <td>사이다</td>
-              <td>음료</td>
-              <td>음료</td>
-              <td>355ml</td>
-              <td>800</td>
-              <td>1800</td>
-              <td>4</td>
-              <td>-</td>
-              <td>1800</td>
-            </tr>
           </tbody>
           <tfoot class="sticky-bottom">
             <tr> 
               <th colspan="11">
                 <div class="btn-group" role="group" aria-label="Basic outlined example">
-                  <button type="button" class="btn btn-outline-primary-1">등록</button>
-                  <button type="button" class="btn btn-outline-primary">수정</button>
-                  <button type="button" class="btn btn-outline-primary">재고수정</button>
-                  <button type="button" class="btn btn-outline-primary">사용중단/재사용</button>
-                  <button type="button" class="btn btn-outline-primary">삭제</button>
+                  <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">등록</button>
+                  <button type="button" class="btn">수정</button>
+                  <button type="button" class="btn">재고수정</button>
+                  <button type="button" class="btn">사용중단/재사용</button>
+                  <button type="button" class="btn">삭제</button>
                 </div>
               </th>
             </tr>
           </tfoot>
         </table>
-        
-        
-        
       </div>
-
     </div>    
-
   </main>
-      
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">물품 등록</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="" placeholder="품목명">
+          <label for="floatingInput">품목명</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="" placeholder="품목구분">
+          <label for="floatingPassword">품목구분</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="" placeholder="그룹명">
+          <label for="floatingPassword">그룹명</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="" placeholder="규격">
+          <label for="floatingPassword">규격</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="" placeholder="입고단가">
+          <label for="floatingPassword">입고단가</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="" placeholder="출고단가">
+          <label for="floatingPassword">출고단가</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="" placeholder="재고">
+          <label for="floatingPassword">재고</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="" placeholder="할인율">
+          <label for="floatingPassword">할인율</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="" placeholder="가격">
+          <label for="floatingPassword">가격</label>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          <button type="button" class="btn btn-primary">등록</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
   <th:block th:replace="~{common/footer}"></th:block>
