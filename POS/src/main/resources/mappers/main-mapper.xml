@@ -5,12 +5,27 @@
 	
 	<select id="search" resultType="Goods">
 		SELECT GOODS_NO, GOODS_NAME, LCATEGORY_NAME, SCATEGORY_NAME, STOCK_OUT_PRICE, STOCK_DISCOUNT
+			,STORE_NO, STORE_NAME
 		FROM GOODS
 		JOIN LCATEGORY USING(LCATEGORY_NO)
 		JOIN SCATEGORY USING(SCATEGORY_NO)
 		JOIN STOCK USING(GOODS_NO)
+		JOIN STORE USING(STORE_NO)
 		WHERE GOODS_NAME LIKE '%${inputPosSearch}%'
+		AND STORE_NAME = #{storeName}
 	</select>
 	
+	<update id="updateStock">
+		UPDATE "STOCK" SET
+		STOCK_AMOUNT = STOCK_AMOUNT - ${historyAmount}
+		WHERE STORE_NO = #{storeNo}
+		AND GOODS_NO = #{goodsNo}
+	</update>
+	
+	<insert id="insertHistory">
+		INSERT INTO "HISTORY"
+		VALUES(SEQ_HISTORY_NO.NEXTVAL, '출고', #{historyAmount}, #{historyActualPrice}, #{historyUnitPrice},
+			#{historyDiscount}, DEFAULT, #{historyStoreName}, #{historyGoodsName}, #{storeNo}, #{goodsNo})
+	</insert>
 	
 </mapper>
