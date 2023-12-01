@@ -272,6 +272,11 @@ formSubmitBtn.addEventListener("click", ()=>{
     if(storeSelect.value == 0){
         alert("지점을 선택해주세요");
         return;
+    } else {
+        if(parentTable.children[0] == undefined){
+            alert("선택된 품목이 없습니다");
+            return;
+        }
     }
     posForm.submit();
 });
