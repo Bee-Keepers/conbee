@@ -18,6 +18,9 @@ import com.keepers.conbee.stock.model.service.StockService;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * 
+ */
 @Controller
 @RequestMapping("stock")
 @RequiredArgsConstructor

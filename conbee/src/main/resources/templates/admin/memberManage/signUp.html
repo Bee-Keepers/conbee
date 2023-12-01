@@ -116,7 +116,7 @@
                 <th>휴대폰번호</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" name="memberTel" id="memberTel" placeholder="휴대폰번호를 입력해주세요.">
+                    <input type="text" class="form-control" name="memberTel" id="memberTel" placeholder="휴대폰번호를 입력해주세요. (-제외)">
                   </div>
                   <span class="signUp-message" id="authKeyMessage"></span>
                 </td>
@@ -126,7 +126,7 @@
                 <th>점포 전화번호</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" name="storeTel" id="storeTel" placeholder="점포 전화번호를 입력해주세요.">
+                    <input type="text" class="form-control" name="storeTel" id="storeTel" placeholder="점포 전화번호를 입력해주세요. (-제외)">
                   </div>
                   <span class="signUp-message" id="authKeyMessage"></span>
                 </td>
@@ -139,7 +139,7 @@
                 <td colspan="4">
                   <section class="d-flex align-items-center">
                     <div class="d-flex align-items-center" >
-                      <input type="text" class="form-control" id="memberAddress" placeholder="집 주소를 입력해주세요." style="width: 500px;">
+                      <input type="text" class="form-control" id="memberAddress" name="memberAddress" placeholder="집 주소를 입력해주세요." style="width: 500px;">
                     </div>
   
                     <div class="signUp-input-area">
@@ -171,6 +171,7 @@
 
   <th:block th:replace="~{common/footer}"></th:block>
 
+  
   <script src="js/member/signUp.js"></script>
   <script src="/js/bootstrap.bundle.min.js"></script>
 
