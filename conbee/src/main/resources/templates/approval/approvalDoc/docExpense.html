@@ -7,7 +7,7 @@
       <div>
         <button type="button" class="btn me-1" data-bs-target="#" style="width: 100px; background-color: #f2f2f2;">임시저장</button>
         <button type="button" class="btn btn-warning me-1" data-bs-target="#">결재</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
       </div>
     </div>
     <!-- 모달 바디 -->
@@ -19,7 +19,7 @@
           <!-- 제목 -->
           <div class="d-flex mb-2">
             <span class="elem me-3" style="height: 27px;">제목 : </span>
-            <input class="title-input" type="text" id="inputExpense">
+            <input type="text" class="form-control title-input" id="inputExpense" name="expenseTitle">
           </div>
       
           <!-- 구분 -->

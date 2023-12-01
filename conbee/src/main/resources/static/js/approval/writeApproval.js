@@ -1,25 +1,16 @@
-const modal = document.getElementById("doc1");
-const docOne = document.getElementById("docOne");
 
-docOne.addEventListener("click",()=>{
-  modal.style.display="block";
-})
-
-
-
-/* docHoliday =============================================== */
 /* 제목 입력 시 -> 템플릿 안 제목 같이 입력되기 */
+
+/* docHoliday */
 const inputHoliday = document.getElementById("inputHoliday");
 const inputHoliday2 = document.getElementById("inputHoliday2");
 
 inputHoliday.addEventListener("input",e=>{
-  // console.log("확인");
   const val = inputHoliday.value;
   inputHoliday2.value = val;
 })
 
-/* inputRetire =============================================== */
-/* 제목 입력 시 -> 템플릿 안 제목 같이 입력되기 */
+/* inputRetire */
 const inputRetire = document.getElementById("inputRetire");
 const inputRetire2 = document.getElementById("inputRetire2");
 
@@ -28,8 +19,7 @@ inputRetire.addEventListener("input",e=>{
   inputRetire2.value = val;
 })
 
-/* inputStore =============================================== */
-/* 제목 입력 시 -> 템플릿 안 제목 같이 입력되기 */
+/* inputStore */
 const inputStore = document.getElementById("inputStore");
 const inputStore2 = document.getElementById("inputStore2");
 
@@ -38,8 +28,7 @@ inputStore.addEventListener("input",e=>{
   inputStore2.value = val;
 })
 
-/* inputStore =============================================== */
-/* 제목 입력 시 -> 템플릿 안 제목 같이 입력되기 */
+/* inputStore */
 const inputExpense = document.getElementById("inputExpense");
 const inputExpense2 = document.getElementById("inputExpense2");
 
@@ -47,3 +36,38 @@ inputExpense.addEventListener("input",e=>{
   const val = inputExpense.value;
   inputExpense2.value = val;
 })
+
+
+/* =========================================================== */
+/* 모달 창 띄울 때 주소 넣기 */
+// const openDocOne = 
+// const closeDoc = document.querySelectorAll('button[name="closeDoc"]');
+// console.log(closeDoc);
+
+// document.getElementById("docOne").addEventListener("click",()=>{
+//   history.pushState(null, null, 'writeApproval/docHoliday');
+// })
+
+
+// /* 닫기 -> 주소 복원 */
+// closeDoc.forEach(function(e){
+//   closeDoc.addEventListener("click",()=>{
+//     history.pushState(null, null, '/approval/writeApproval');
+//   })
+// })
+
+
+
+// closeDoc.addEventListener("click",()=>{
+//   history.pushState(null, null, '/approval/writeApproval');
+// })
+
+
+
+/* =========================================================== */
+/* 결재, 임시저장 버튼 클릭 -> 요청 */
+
+
+
+
+

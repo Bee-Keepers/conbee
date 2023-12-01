@@ -7,7 +7,7 @@
       <div>
         <button type="button" class="btn me-1" data-bs-target="#" style="width: 100px; background-color: #f2f2f2;">임시저장</button>
         <button type="submit" form="docHoliday" class="btn btn-warning me-1" data-bs-target="#">결재</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
       </div>
     </div>
     <!-- 모달 바디 -->
@@ -20,7 +20,7 @@
           <!-- 제목 -->
           <div class="d-flex mb-2">
             <span class="elem me-3" style="height: 27px;">제목 : </span>
-            <input class="title-input" type="text" id="inputHoliday" name="holidayTitle">
+            <input type="text" class="form-control title-input" id="inputHoliday" name="holidayTitle">
           </div>
       
           <!-- 구분 -->
@@ -79,7 +79,7 @@
               <table class="table table-bordered" style="width: 250px; border: black;">
                 <tr>
                   <th>문서번호</th>
-                  <td>-</td>
+                  <td>결재 -> 생성</td>
                 </tr>
                 <tr>
                   <th>부 서</th>
@@ -99,7 +99,7 @@
                 </tr>
                 <tr>
                   <th>기안일</th>
-                  <td>2023-11-25</td><!-- sysdate -->
+                  <td>결재 -> 생성</td>
                 </tr>
               </table>
             </div>
