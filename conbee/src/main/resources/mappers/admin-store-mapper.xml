@@ -8,9 +8,14 @@
 		SELECT STORE_NO , STORE_NAME , STORE_TEL , STORE_ADDRESS , STORE_RUN_FL , MEMBER_NO , MEMBER_NAME
 		FROM STORE
 		JOIN "MEMBER" USING (MEMBER_NO)
+		ORDER BY STORE_NO
 	</select>
 	
-	
+	<!-- 전체 점포 수 확인-->
+	<select id="getListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM STORE
+	</select>
 	
 	
 </mapper>

@@ -36,8 +36,8 @@
         </div>
       </div>
 
-      <form src="" method="POST">
-        <div class="d-flex flex-column justify-content-center align-items-center">
+      <form src="" method="POST" style="height: 100%;">
+        <div class="d-flex flex-column align-items-center" style="height: 91.5%;" >
   
           <table class="table mt-2 border-top-none" style="width: 95%; text-align: center; vertical-align: middle;">
             
@@ -54,7 +54,7 @@
                 <th>점포번호</th>
                 <td colspan="4">
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" id="storeNo" placeholder="점포번호를 입력해주세요." >
+                    <input type="text" class="form-control" id="storeNo" placeholder="점포번호를 입력해주세요." required>
                   </div>
                 </td>
               </tr>
@@ -63,7 +63,7 @@
                 <th>점포명</th>
                 <td colspan="4">
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" id="storeName" placeholder="점포명을 입력해주세요.">
+                    <input type="text" class="form-control" id="storeName" placeholder="점포명을 입력해주세요." required>
                   </div>
                 </td>
               </tr>
@@ -72,7 +72,7 @@
                 <th>점주명</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" id="storeManagerName" placeholder="점주명을 입력해주세요.">
+                    <input type="text" class="form-control" id="storeManagerName" placeholder="점주명을 입력해주세요." required>
                   </div>
                 </td>
   
@@ -81,7 +81,7 @@
                 <th>점주회원번호</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" id="storeManagerNo" placeholder="점주 회원번호를 입력해주세요.">
+                    <input type="text" class="form-control" id="storeManagerNo" placeholder="점주 회원번호를 입력해주세요." required>
                   </div>
                 </td>
               </tr>
@@ -90,7 +90,7 @@
                 <th>전화번호</th>
                 <td colspan="4">
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" id="storeTel" placeholder="점포 전화번호를 입력해주세요.">
+                    <input type="text" class="form-control" id="storeTel" placeholder="점포 전화번호를 입력해주세요." required>
                   </div>
                 </td>
               </tr>
@@ -100,7 +100,7 @@
                 <td colspan="4">
                   <section class="d-flex align-items-center">
                     <div class="d-flex align-items-center" >
-                      <input type="text" class="form-control" id="storeAddress" placeholder="점포 위치를 입력해주세요." style="width: 500px;">
+                      <input type="text" class="form-control" id="storeAddress" placeholder="점포 위치를 입력해주세요." style="width: 500px;" required>
                     </div>
   
                     <div class="signUp-input-area">
@@ -112,14 +112,16 @@
             </tbody>
           </table>
   
+        </div>
+
+        <!-- 선택버튼 하단 고정 -->
+        <div class="w-100 align-items-start sticky-bottom bg-white">
           <section class="d-flex justify-content-end" style="width: 100%;">
-            <button type="button" class="btn btn-secondary" style="width: 80px;">취소</button>
-            <button class="btn btn-warning ms-3" style="width: 80px; margin-right: 35px;">확인</button>
+            <a href="#" class="btn btn-secondary" style="width: 80px;">취소</a>
+            <a href="#" class="btn btn-warning ms-3" style="width: 80px; margin-right: 35px;">확인</a>
           </section>
-  
         </div>
       </form>
-
     </div>
 
     </div>
