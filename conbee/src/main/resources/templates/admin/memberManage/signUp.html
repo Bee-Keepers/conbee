@@ -36,7 +36,7 @@
         </div>
       </div>
 
-      <form  action="/admin/memberManage/signup" method="post">
+      <form  action="/admin/memberManage/signup" class="validation-form"  method="post" novalidate>
         <div class="d-flex flex-column justify-content-center align-items-center">
   
           <table class="table mt-2 border-top-none" style="width: 95%; text-align: center; vertical-align: middle;">
@@ -50,24 +50,27 @@
             </colgroup>
   
             <tbody>
-  
+
               <tr>
                 <th>아이디</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" name="memberId" id="memberId" placeholder="아이디를 입력해주세요.">
+                    <input type="text" class="form-control" name="memberId" id="memberId" placeholder="아이디를 입력해주세요." required>
+                  </div>
+                  <div class="invalid-feedback">
+                    아이디를 입력해주세요.
                   </div>
                 </td>
-                <!-- 유효성 검사 멘트 -->
-                <span class="signUp-message" id="emailMessage"></span>
                 <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
-  
-                <th>점포 식별번호</th>
+
+                <th>이 름</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" name="storeNo" id="storeNo" placeholder="점포 식별번호를 입력해주세요.">
+                    <input type="text" class="form-control" name="memberName" id="memberName" placeholder="이름을 입력해주세요." required>
                   </div>
-                  <span class="signUp-message" id="authKeyMessage"></span>
+                  <div class="invalid-feedback">
+                    이름을 입력해주세요.
+                  </div>
                 </td>
               </tr>
 
@@ -75,29 +78,28 @@
                 <th>비밀번호</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" name="memberPw" id="memberPw" placeholder="비밀번호를 입력해주세요.">
+                    <input type="password" class="form-control" name="memberPw" id="memberPw" placeholder="비밀번호를 입력해주세요.">
                   </div>
-                  <span class="signUp-message" id="authKeyMessage"></span>
-                </td>
   
                 <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
   
                 <th>비밀번호 확인</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" name="memberPwConfirm" id="memberPwConfirm" placeholder="비밀번호 확인을 입력해주세요.">
+                    <input type="password" class="form-control" name="memberPwConfirm" id="memberPwConfirm" placeholder="비밀번호 확인을 입력해주세요.">
                   </div>
-                  <span class="signUp-message" id="authKeyMessage"></span>
                 </td>
               </tr>
 
               <tr>
-                <th>이메일</th>
+                <th><label for="email">이메일</label></th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" name="memberEmail" id="memberEmail" placeholder="이메일을 입력해주세요.">
+                    <input type="email" class="form-control" name="memberEmail" id=" memberEmail" placeholder="이메일을 입력해주세요." required>
                   </div>
-                  <span class="signUp-message" id="memberEmailMessage"></span>
+                  <div class="invalid-feedback">
+                    이메일을 입력해주세요.
+                  </div>
                 </td>
   
                 <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
@@ -108,7 +110,6 @@
                     <input type="text" class="form-control" name="emailAuthKey" id="emailAuthKey" placeholder="이메일 인증번호를 입력해주세요."  maxlength="6" autocomplete="off">
                     <button class="btn btn-warning  ms-3" style="width: 90px; margin-right: 35px;" id="checkEmailAuthKeyBtn"  type="button">인증하기</button>
                   </div>
-                  <span class="signUp-message" id="EmailAuthKeyMessage"></span>
                 </td>
               </tr>
 
@@ -116,20 +117,23 @@
                 <th>휴대폰번호</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" name="memberTel" id="memberTel" placeholder="휴대폰번호를 입력해주세요. (-제외)">
+                    <input type="text" class="form-control" name="memberTel" id="memberTel" placeholder="휴대폰번호를 입력해주세요.">
                   </div>
-                  <span class="signUp-message" id="authKeyMessage"></span>
                 </td>
-  
+
                 <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
   
-                <th>점포 전화번호</th>
+                <th>점포 식별번호</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" name="storeTel" id="storeTel" placeholder="점포 전화번호를 입력해주세요. (-제외)">
+                    <input type="text" class="form-control" name="storeNo" id="storeNo" placeholder="점포 식별번호를 입력해주세요." required>
                   </div>
-                  <span class="signUp-message" id="authKeyMessage"></span>
+                  <div class="invalid-feedback">
+                    점포 식별번호를 입력해주세요.
+                  </div>
                 </td>
+
+
               </tr>
 
 
@@ -139,7 +143,7 @@
                 <td colspan="4">
                   <section class="d-flex align-items-center">
                     <div class="d-flex align-items-center" >
-                      <input type="text" class="form-control" id="memberAddress" name="memberAddress" placeholder="집 주소를 입력해주세요." style="width: 500px;">
+                      <input type="text" class="form-control" id="memberAddress" placeholder="집 주소를 입력해주세요." style="width: 500px;">
                     </div>
   
                     <div class="signUp-input-area">
@@ -152,7 +156,7 @@
             </tbody>
           </table>
   
-          <section class="d-flex justify-content-end mb-2" style="width: 96%;">
+          <section class="d-flex justify-content-end mb-2 me-3" style="width: 96%;">
             <button type="button" class="btn btn-secondary" style="width: 177px;">임시 비밀번호</button>
           </section>
 
@@ -164,6 +168,7 @@
         </div>
       </form>
 
+
     </div>
 
     </div>
@@ -171,7 +176,6 @@
 
   <th:block th:replace="~{common/footer}"></th:block>
 
-  
   <script src="js/member/signUp.js"></script>
   <script src="/js/bootstrap.bundle.min.js"></script>
 
@@ -189,5 +193,28 @@
     if(message != null) alert(message);
   </script>
   
+
+
+  <script>
+    window.addEventListener('load', () => {
+      const forms = document.getElementsByClassName('validation-form');
+
+      Array.prototype.filter.call(forms, (form) => {
+        form.addEventListener('submit', function (event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  </script>
+
+
+
+
+
 </body>
 </html>
