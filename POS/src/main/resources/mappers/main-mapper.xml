@@ -3,9 +3,10 @@
 <!-- 연결할 인터페이스의 패키지명.인터페이스명을 작성 -->
 <mapper namespace="com.keepers.POS.main.model.mapper.MainMapper">
 	
+	<!-- 포스기 품목 검색 기능 -->
 	<select id="search" resultType="Goods">
 		SELECT GOODS_NO, GOODS_NAME, LCATEGORY_NAME, SCATEGORY_NAME, STOCK_OUT_PRICE, STOCK_DISCOUNT
-			,STORE_NO, STORE_NAME
+			,STORE_NO, STORE_NAME, STOCK_AMOUNT
 		FROM GOODS
 		JOIN LCATEGORY USING(LCATEGORY_NO)
 		JOIN SCATEGORY USING(SCATEGORY_NO)
@@ -15,20 +16,13 @@
 		AND STORE_NAME = #{storeName}
 	</select>
 	
-	<update id="updateStock">
-		<foreach collection="list" item="item" separator="UNION">
-			UPDATE "STOCK" SET
-			STOCK_AMOUNT = STOCK_AMOUNT - ${item.historyAmount}
-			WHERE STORE_NO = #{item.storeNo}
-			AND GOODS_NO = #{item.goodsNo}
-		</foreach>
-	</update>
-	
-	<insert id="insertHistory">
+	<!-- 입출고 내역 삽입 (트리거 걸려있어서 재고 수량 자동 업데이트) -->
+	<insert id="insertHistory" parameterType="list">
 		INSERT INTO "HISTORY"
-		<foreach collection="list" item="item" separator="UNION">
-			VALUES(SEQ_HISTORY_NO.NEXTVAL, '출고', #{historyAmount}, #{historyActualPrice}, #{historyUnitPrice},
-				#{historyDiscount}, DEFAULT, #{historyStoreName}, #{historyGoodsName}, #{storeNo}, #{goodsNo})
+		<foreach collection="list" item="item" separator=" UNION ">
+			SELECT NEXT_HISTORY_NO(), '출고', #{item.historyAmount}, #{item.historyActualPrice}, #{item.historyUnitPrice},
+				#{item.historyDiscount}, SYSDATE, #{item.historyStoreName}, #{item.historyGoodsName}, #{item.storeNo}, #{item.goodsNo}
+			FROM DUAL
 		</foreach>
 	</insert>
 	

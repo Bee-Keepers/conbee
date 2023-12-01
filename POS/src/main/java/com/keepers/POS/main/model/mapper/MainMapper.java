@@ -17,14 +17,6 @@ public interface MainMapper {
 	 */
 	List<Goods> search(Map<String, Object> map);
 
-
-	/** 재고 정보 업데이트
-	 * @param historyList
-	 * @return
-	 */
-	int updateStock(List<History> historyList);
-
-
 	/** 입출고 내역 삽입
 	 * @param historyList
 	 * @return
