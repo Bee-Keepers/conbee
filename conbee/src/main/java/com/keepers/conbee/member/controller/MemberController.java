@@ -48,7 +48,6 @@ public class MemberController {
 	 * @return
 	 * @author 김민규
 	 */
-	@SuppressWarnings("unused") // 로그인 기능에서 경고 문구 미적용
 	@PostMapping("login")
 	public String login(Member inputMember, Model model, RedirectAttributes ra, String saveId, 
 		HttpServletResponse resp) {

@@ -22,6 +22,14 @@ public class MemberController {
 
 	private final MemberService service;
 	
+	/**
+	 * @param inputMember
+	 * @param model
+	 * @param ra
+	 * @param saveId
+	 * @param resp
+	 * @return
+	 */
 	@PostMapping("login")
 	public String login(Member inputMember, Model model, RedirectAttributes ra,
 			String saveId, HttpServletResponse resp) {

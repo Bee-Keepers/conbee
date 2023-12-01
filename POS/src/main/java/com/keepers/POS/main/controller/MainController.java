@@ -55,6 +55,11 @@ public class MainController {
 //		return "main";
 //	}
 	
+	/**
+	 * @param inputPosSearch
+	 * @param storeName
+	 * @return
+	 */
 	@GetMapping(value = "search", produces = "application/json")
 	@ResponseBody
 	public List<Goods> search(String inputPosSearch, String storeName) {
