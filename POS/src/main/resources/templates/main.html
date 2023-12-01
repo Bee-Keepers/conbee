@@ -60,10 +60,14 @@
       
       <div class="d-flex align-items-center justify-content-end w-100 mb-2">
         <div>
-          <select class="form-select form-select-sm" aria-label="Default select example" name="historyStoreName" id="storeSelect">
+          <select class="form-select form-select-sm" aria-label="Default select example" name="historyStoreInfo" id="storeSelect">
             <option value="0">지점 선택 후 검색가능</option>
-            <option th:each="storeName : ${session.loginMember.storeName}" th:text="${storeName}"></option>
+            <th:block th:each="store : ${session.loginMember.storeList}" th:object="${store}">
+              <option th:text="|*{storeNo} *{storeName}|">
+              </option>
+            </th:block>
           </select>
+          <input type="hidden" name="storeNo" th:value="*{storeNo}">
         </div>
         <button type="button" class="btn btn-light mx-3" id="deleteBtn">삭제</button>
         <button id="modalBtn" type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal">

@@ -220,20 +220,37 @@ inputPosSearch.addEventListener("input", ()=>{
             
 
             const span6 = document.createElement("span");
-            span6.innerText = goods.stockOutPrice;
             span6.style.display = "none";
+            span6.innerText = goods.stockOutPrice;
 
             const span7 = document.createElement("span");
             span7.innerText = goods.stockOutPrice - (goods.stockDiscount * 0.01 * goods.stockOutPrice);
             span7.style.display = "none";
+
+            const span8 = document.createElement("span");
+            span8.innerText = goods.stockAmount;
+            span8.style.display = "none";
             
-            label.append(input, span1, span2, span3, span4, span5, span6, span7);
+            label.append(input, span1, span2, span3, span4, span5, span6, span7, span8);
             modalBody.append(label);
+
+
         }
     })
     .catch(e=>console.log(e));
-
+    
 });
+
+
+// createElement("input",{type:"text", name:"inputId"},["test", "aaa"])
+function createElement(tag, obj, classList){
+    const element = document.createElement(tag);
+
+    for(let key in obj){
+        element.setAttribute(key, obj[key]);
+    }
+    return element;
+}
 
 // 행 삭제
 const deleteBtn = document.getElementById("deleteBtn");
@@ -304,3 +321,4 @@ for(let option of options){
         break;
     }
 }
+

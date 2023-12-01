@@ -5,11 +5,11 @@
 	
 	<resultMap id="login_rm" type="Member">
 		<id property="memberNo" column="MEMBER_NO" />
-		<collection property="storeName" select="selectStoreName" column="MEMBER_NO" javaType="java.util.ArrayList" ofType="String" />
+		<collection property="storeList" select="selectStoreInfo" column="MEMBER_NO" javaType="java.util.ArrayList" ofType="Store" />
 	</resultMap>
 	
-	<select id="selectStoreName" resultType="string">
-		SELECT STORE_NAME FROM STORE
+	<select id="selectStoreInfo" resultType="Store">
+		SELECT STORE_NO, STORE_NAME, STORE_TEL, STORE_ADDRESS, TO_CHAR(STORE_OPEN_DATE, 'YYYY"년"MM"월"DD"일"') STORE_OPEN_DATE FROM STORE
 		WHERE MEMBER_NO = #{memberNo}
 		AND STORE_RUN_FL = 'Y'
 	</select>
@@ -17,8 +17,9 @@
 	<select id="login" resultMap="login_rm">
 		SELECT MEMBER_NO, MEMBER_ID, MEMBER_PW, MEMBER_EMAIL, MEMBER_NAME, MEMBER_ADDRESS,
 		 MEMBER_TEL, MEMBER_PROFILE, MEMBER_AUTHORITY, 
-		 	TO_CHAR(MEMBER_ENROLL_DATE, 'YYYY"년" MM"월" DD"일" HH24"시" MI"분" SS"초"') MEMBER_ENROLL_DATE
+		 	TO_CHAR(MEMBER_ENROLL_DATE, 'YYYY"년" MM"월" DD"일" HH24"시" MI"분" SS"초"') MEMBER_ENROLL_DATE, GRADE_NO
 		 FROM "MEMBER"
+		 JOIN GRADE USING(GRADE_NO)
 		 WHERE MEMBER_DEL_FL = 'N'
 		 AND MEMBER_ID = #{memberId}
 	</select>

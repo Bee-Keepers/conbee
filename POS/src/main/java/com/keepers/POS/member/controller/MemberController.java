@@ -39,7 +39,7 @@ public class MemberController {
 		
 		// 로그인 정보 일치 시
 		if(loginMember != null) {
-			
+			if(loginMember.getGradeNo() == 6) {
 			// 로그인 정보 저장 쿠키
 			Cookie cookie = new Cookie("saveId", loginMember.getMemberId());
 			
@@ -56,13 +56,15 @@ public class MemberController {
 
 			// 회원정보 세견에 저장(위에 sessionattributes 어노테이션이 있기 때문)
 			model.addAttribute("loginMember", loginMember);
+			} else {
+				ra.addFlashAttribute("message", "포스기는 점주만 로그인할 수 있습니다");
+			}
 		}
-
+		
 		// 로그인 정보 불일치 시 
 		if(loginMember == null) {
 			ra.addFlashAttribute("message", "아이디 또는 비밀번호를 확인해주세요.");
 		}
-		
 		return "redirect:/";
 
 	}

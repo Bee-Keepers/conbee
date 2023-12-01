@@ -29,7 +29,5 @@ public class Member {
 	private int departmentNo;
 	private int gradeNo;
 	
-	private int storeNo;
-	
-	private List<String> storeName;
+	private List<Store> storeList;
 }

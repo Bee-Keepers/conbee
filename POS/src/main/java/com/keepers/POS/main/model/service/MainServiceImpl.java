@@ -29,10 +29,9 @@ public class MainServiceImpl implements MainService {
 		return mapper.search(map);
 	}
 	
+	// 포스기 결제 시 입출고 내역 입력
 	@Override
 	public int insert(List<History> historyList) {
-		int resultStock = mapper.updateStock(historyList);
-		int resultHistory = mapper.insertHistory(historyList);
-		return 0;
+		return mapper.insertHistory(historyList);
 	}
 }

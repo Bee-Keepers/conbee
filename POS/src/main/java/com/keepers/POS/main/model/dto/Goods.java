@@ -17,5 +17,6 @@ public class Goods {
 	private String scategoryName;
 	private String stockOutPrice;
 	private String stockDiscount;
+	private String stockAmount;
 	
 }
