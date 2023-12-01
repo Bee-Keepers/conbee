@@ -16,16 +16,20 @@
 	</select>
 	
 	<update id="updateStock">
-		UPDATE "STOCK" SET
-		STOCK_AMOUNT = STOCK_AMOUNT - ${historyAmount}
-		WHERE STORE_NO = #{storeNo}
-		AND GOODS_NO = #{goodsNo}
+		<foreach collection="list" item="item" separator="UNION">
+			UPDATE "STOCK" SET
+			STOCK_AMOUNT = STOCK_AMOUNT - ${item.historyAmount}
+			WHERE STORE_NO = #{item.storeNo}
+			AND GOODS_NO = #{item.goodsNo}
+		</foreach>
 	</update>
 	
 	<insert id="insertHistory">
 		INSERT INTO "HISTORY"
-		VALUES(SEQ_HISTORY_NO.NEXTVAL, '출고', #{historyAmount}, #{historyActualPrice}, #{historyUnitPrice},
-			#{historyDiscount}, DEFAULT, #{historyStoreName}, #{historyGoodsName}, #{storeNo}, #{goodsNo})
+		<foreach collection="list" item="item" separator="UNION">
+			VALUES(SEQ_HISTORY_NO.NEXTVAL, '출고', #{historyAmount}, #{historyActualPrice}, #{historyUnitPrice},
+				#{historyDiscount}, DEFAULT, #{historyStoreName}, #{historyGoodsName}, #{storeNo}, #{goodsNo})
+		</foreach>
 	</insert>
 	
 </mapper>
