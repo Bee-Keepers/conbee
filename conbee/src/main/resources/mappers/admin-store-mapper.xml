@@ -59,8 +59,14 @@
 	<select id="checkStoreName" resultType="_int">
 		SELECT COUNT(*) 
 		FROM STORE
-		WHERE STORE_RUN_FL = 'Y' AND
-		STORE_NAME = #{storeName}
+		WHERE STORE_NAME = #{storeName}
+	</select>
+	
+	<!--점포전화번호 중복 검사-->
+	<select id="checkStoreTel" resultType="_int">
+		SELECT COUNT(*) 
+		FROM STORE
+		WHERE STORE_TEL = #{storeTel}
 	</select>
 	
 	

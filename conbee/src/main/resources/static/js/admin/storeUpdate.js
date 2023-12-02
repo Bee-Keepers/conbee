@@ -24,6 +24,7 @@ function sample6_execDaumPostcode() {
 
 
 //============================================================================
+
 /* 정보 수정 유효성 검사 */
 
 // 점포명 유효성 검사
@@ -89,6 +90,181 @@ storeName.addEventListener("input", ()=>{
         // 인풋 요소 변화
         storeName.classList.add("is-invalid");
         storeName.classList.remove("is-valid");
+    }
+
+})
+
+
+//-------------------------------------------------------------------------
+
+
+// 점주명 유효성 검사
+const memberName = document.getElementById("memberName");
+const messageMemberName = document.getElementById("messageMemberName");
+
+// 점주명 입력시 유효성 검사
+memberName.addEventListener("input", ()=>{
+
+    // 점포명이 입력되지 않은 경우
+    if(memberName.value.trim().length == 0){
+        memberName.value = "";
+
+        messageMemberName.innerText = "점포명은 한글 2~8글자 이내로 작성해주세요.";
+        messageMemberName.classList.remove("valid-feedback");
+        messageMemberName.classList.remove("invalid-feedback");
+
+        memberName.classList.remove("valid-feedback");
+        memberName.classList.remove("invalid-feedback");
+
+        return;
+    }
+
+    // 점주명 정규표현식
+    // 한글 2~8글자
+    const regEx = /^[가-힣]{2,8}$/;
+
+    // 입력한 점주명이 유효할 경우
+    if(regEx.test(memberName.value)){
+
+        messageMemberName.innerText= "사용 가능한 점주명입니다.";
+        messageMemberName.classList.add("valid-feedback");
+        messageMemberName.classList.remove("invalid-feedback");
+
+        // 인풋 요소 변화
+        memberName.classList.add("is-valid");
+        memberName.classList.remove("is-invalid");
+
+    // 입력한 점주명이 유효하지 않을 경우    
+    } else {
+        messageMemberName.innerText= "점주명이 형식에 맞지 않습니다.";
+        messageMemberName.classList.add("invalid-feedback");
+        messageMemberName.classList.remove("valid-feedback");
+
+        // 인풋 요소 변화
+        memberName.classList.add("is-invalid");
+        memberName.classList.remove("is-valid");
+    }
+
+})
+
+
+//-------------------------------------------------------------------------
+
+
+// 점주회원번호 유효성 검사
+const memberNo = document.getElementById("memberNo");
+const messageMemberNo = document.getElementById("messageMemberNo");
+
+// 점주회원번호 입력시 유효성 검사
+memberNo.addEventListener("input", ()=>{
+
+    // 점주회원번호가 입력되지 않은 경우
+    if(memberNo.value.trim().length == 0){
+        memberNo.value = "";
+
+        messageMemberNo.innerText = "점포회원번호는 숫자 1~5글자 이내로 작성해주세요.";
+        messageMemberNo.classList.remove("valid-feedback");
+        messageMemberNo.classList.remove("invalid-feedback");
+
+        memberNo.classList.remove("valid-feedback");
+        memberNo.classList.remove("invalid-feedback");
+
+        return;
+    }
+
+    // 점주회원번호 정규표현식
+    // 숫자 1~5글자
+    const regEx = /^[0-9]{1,5}$/;
+
+    // 입력한 점주번호가 유효할 경우
+    if(regEx.test(memberNo.value)){
+
+        messageMemberNo.innerText= "사용 가능한 점주회원번호입니다.";
+        messageMemberNo.classList.add("valid-feedback");
+        messageMemberNo.classList.remove("invalid-feedback");
+
+        // 인풋 요소 변화
+        memberNo.classList.add("is-valid");
+        memberNo.classList.remove("is-invalid");
+
+    // 입력한 점주번호가 유효하지 않을 경우    
+    } else {
+        messageMemberNo.innerText= "점주회원번호가 형식에 맞지 않습니다.";
+        messageMemberNo.classList.add("invalid-feedback");
+        messageMemberNo.classList.remove("valid-feedback");
+
+        // 인풋 요소 변화
+        memberNo.classList.add("is-invalid");
+        memberNo.classList.remove("is-valid");
+    }
+
+})
+
+//-------------------------------------------------------------------------
+
+// 점포전화번호 유효성 검사
+const storeTel = document.getElementById("storeTel");
+const messageStoreTel = document.getElementById("messageStoreTel");
+
+// 점포명 입력시 유효성 검사
+storeTel.addEventListener("input", ()=>{
+
+    // 점포명이 입력되지 않은 경우
+    if(storeTel.value.trim().length == 0){
+        storeTel.value = "";
+
+        messageStoreTel.innerText = "점포 전화번호는 숫자 9~11글자 이내로 작성해주세요.";
+        messageStoreTel.classList.remove("valid-feedback");
+        messageStoreTel.classList.remove("invalid-feedback");
+
+        storeTel.classList.remove("valid-feedback");
+        storeTel.classList.remove("invalid-feedback");
+
+        return;
+    }
+
+    // 점포전화번호 정규표현식
+    // 숫자 9~11글자, 첫글자는 0
+    const regEx = /^[0][0-9]{8,10}$/;
+
+    // 입력한 점포전화번호가 유효할 경우
+    if(regEx.test(storeTel.value)){
+
+        /* ===================== 점포전화번호 중복 검사 ======================= */
+        fetch("/admin/storeManage/checkStoreTel?storeTel=" + storeTel.value)
+        .then(response => response.text())
+        .then(result =>{
+
+            if(result == 0){ // 중복 X
+                messageStoreTel.innerText= "사용 가능한 점포 전화번호입니다.";
+                messageStoreTel.classList.add("valid-feedback");
+                messageStoreTel.classList.remove("invalid-feedback");
+
+                // 인풋 요소 변화
+                storeTel.classList.add("is-valid");
+                storeTel.classList.remove("is-invalid");
+
+            } else { // 중복 O
+                messageStoreTel.innerText= "이미 사용중인 점포 전화번호입니다.";
+                messageStoreTel.classList.add("invalid-feedback");
+                messageStoreTel.classList.remove("valid-feedback");
+
+                // 인풋 요소 변화
+                storeTel.classList.add("is-invalid");
+                storeTel.classList.remove("is-valid");
+            }
+        })
+        .catch(e=> console.log(e))
+
+    // 입력한 점포명이 유효하지 않을 경우    
+    } else {
+        messageStoreTel.innerText= "점포 전화번호가 형식에 맞지 않습니다.";
+        messageStoreTel.classList.add("invalid-feedback");
+        messageStoreTel.classList.remove("valid-feedback");
+
+        // 인풋 요소 변화
+        storeTel.classList.add("is-invalid");
+        storeTel.classList.remove("is-valid");
     }
 
 })

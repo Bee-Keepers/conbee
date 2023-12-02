@@ -38,5 +38,11 @@ public interface AdminStoreService {
 	 */
 	int checkStoreName(String storeName);
 
+	/** 점포 전화번호 중복검사
+	 * @param storeTel
+	 * @return
+	 */
+	int checkStoreTel(String storeTel);
+
 
 }
