@@ -32,7 +32,7 @@
 
       <div class="d-flex flex-column align-items-center" style="height: 85%;">
 
-        <table class="table mt-2 border-top-none" style="width: 95%; text-align: center; vertical-align: middle;">
+        <table class="table mt-2 border-top-none" style="width: 95%; text-align: center; vertical-align: middle;" th:object="${readStore}">
           <colgroup>
             <col width=15%>
             <col width=34%>
@@ -44,7 +44,7 @@
           <tbody>
             <tr>
               <th>점포번호</th>
-              <td colspan="4"><b class="ps-10" style="margin-left: 5px;">3642</b></td>
+              <td colspan="4"><b class="ps-10" style="margin-left: 5px;" th:text="*{storeNo}">3642</b></td>
             </tr>
             <tr>
               <th>점포명</th>
@@ -52,7 +52,7 @@
                 <form class="form-floating">
                   <!-- input class명에 유효성검사가 실패하면 is-invalid 를 추가 -->
                   <input type="text" class="form-control" id="" placeholder="" name="storeName" style="width: 350px;">
-                  <label for="floatingInputInvalid">관악구청점</label>
+                  <label for="floatingInputInvalid" th:text="*{storeName}">관악구청점</label>
                 </form>
               </td>
             </tr>
@@ -62,12 +62,12 @@
                 <form class="form-floating">
                   <!-- input class명에 유효성검사가 실패하면 is-invalid 를 추가 -->
                   <input type="text" class="form-control" id="" placeholder="" name="storeManagerName" style="width: 350px;">
-                  <label for="floatingInputInvalid">김점주</label>
+                  <label for="floatingInputInvalid" th:text="*{memberName}">김점주</label>
                 </form>
               </td>
               <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
               <th>점주회원번호</th>
-              <td><b class="ps-10" style="margin-left: 5px;">0000</b></td>
+              <td><b class="ps-10" style="margin-left: 5px;" th:text="*{memberNo}">0000</b></td>
             </tr>
             <tr>
               <th>전화번호</th>
@@ -75,7 +75,7 @@
                 <form class="form-floating">
                   <!-- input class명에 유효성검사가 실패하면 is-invalid 를 추가 -->
                   <input type="text" class="form-control" id="" placeholder="" name="storeTel" style="width: 350px;">
-                  <label for="floatingInputInvalid">028855913</label>
+                  <label for="floatingInputInvalid" th:text="*{storeTel}">028855913</label>
                 </form>
               </td>
             </tr>
@@ -85,7 +85,7 @@
                 <form class="form-floating d-flex align-items-center" >
                   <!-- input class명에 유효성검사가 실패하면 is-invalid 를 추가 -->
                   <input type="text" class="form-control" id="storeAddress" placeholder="" name="storeAddress" style="width: 500px;">
-                  <label for="floatingInputInvalid">서울특별시 송파구 가락로 74, (석촌동) 1층</label>
+                  <label for="floatingInputInvalid" th:text="*{storeAddress}">서울특별시 송파구 가락로 74, (석촌동) 1층</label>
 
                   <div class="signUp-input-area">
                     <button type="button" class="btn ms-4 btn-outline-warning" onclick="sample6_execDaumPostcode()">주소 검색</button>
