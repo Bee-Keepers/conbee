@@ -30,12 +30,21 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	 * @return storeList 전 점포 정보 리스트
 	 */
 	@GetMapping("storeList")
-	public String storeList(Model model,
+	public String storeList(Model model, @RequestParam Map<String, Object> paramMap, 
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		
-		Map<String, Object> map = service.readAllStoreList(cp);
-		
-		model.addAttribute("map", map);
+		// 검색이 아닌 일반 목록 조회인 경우
+		if(paramMap.get("query") == null) {
+			
+			Map<String, Object> map = service.readAllStoreList(cp);
+			model.addAttribute("map", map);
+		} 
+		// 검색어가 있는 경우
+		else {
+			
+			Map<String, Object> map = service.searchStoreList(paramMap, cp);
+			model.addAttribute("map", map);
+		}
 		
 		return "admin/storeManage/storeList";
 	}
@@ -52,13 +61,19 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	}
 	
 	
+	/** 점포정보수정 포워드 _ 점포명 정보 전달
+	 * @param storeNo
+	 * @param model
+	 * @param ra
+	 * @return
+	 */
 	@GetMapping("storeUpdate/{storeNo:[0-9]+}")
 	public String storeUpdate(@PathVariable("storeNo") int storeNo,
 			Model model, RedirectAttributes ra) {
 		
 		
 		
-		return null;
+		return "admin/storeManage/storeUpdate/" + storeNo;
 		
 	}
 	

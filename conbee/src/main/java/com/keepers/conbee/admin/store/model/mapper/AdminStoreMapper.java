@@ -21,6 +21,19 @@ public interface AdminStoreMapper {
 	 * @return
 	 */
 	int getListCount();
+
+	/** 검색한 정보와 일치하는 점포갯수
+	 * @param paramMap
+	 * @return
+	 */
+	int searchStoreListCount(Map<String, Object> paramMap);
+
+	/** 검색한 정보와 일치하는 점포목록
+	 * @param paramMap
+	 * @param rowBounds
+	 * @return
+	 */
+	List<Map<String, Object>> searchStoreList(Map<String, Object> paramMap, RowBounds rowBounds);
 	
 	
 

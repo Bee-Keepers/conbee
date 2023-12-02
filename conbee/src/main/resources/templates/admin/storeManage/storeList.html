@@ -37,9 +37,11 @@
         </div>
 
         <!-- 검색버튼 -->
-        <div class="d-flex justify-content-end"  style="width: 75%;">
-          <input id="" class="form-control me-5" type="text" placeholder="점포명, 위치 검색" size="40" style="width: 15%;">
-        </div>
+        <form action="storeList" method="GET" style="width: 75%;">
+          <div class="d-flex justify-content-end">
+            <input type="text" name="query" id="searchQuery" class="form-control me-5" placeholder="점포정보 검색" size="40" style="width: 15%;">
+          </div>
+        </form>
 
       </div>
 
@@ -53,7 +55,8 @@
             <col width=15%>
             <col width=10%>
             <col width=15%>
-            <col width=45%>
+            <col width=35%>
+            <col width=10%>
             <col width=10%>
           </colgroup>
 
@@ -64,6 +67,7 @@
               <th>점주명</th>
               <th>전화번호</th>
               <th>위치</th>
+              <th>폐점 승인</th>
               <th>운영여부</th>
             </tr>
           </thead>
@@ -71,7 +75,12 @@
 
             <!-- 점포가 존재하지 않을 때 -->
             <tr th:if="${storeList == null}">
-              <td colspan="6">운영되는 점포가 존재하지 않습니다.</td>
+              <td colspan="7">운영되는 점포가 존재하지 않습니다.</td>
+            </tr>
+
+            <!-- 점포가 존재하지 않을 때 -->
+            <tr th:if="${storeList.size == 0}">
+              <td colspan="7">검색어가 일치하는 점포가 존재하지 않습니다.</td>
             </tr>
 
             <!-- 점포가 존재할 때 -->
@@ -87,6 +96,7 @@
                 <td th:text="*{memberName}">김점주</td>
                 <td th:text="*{storeTel}">028855913</td>
                 <td th:text="*{storeAddress}">서울특별시 서대문구 모래내로 412 서울시립서대문도서관 (연희동)</td>
+                <td>미승인</td> <!-- 폐점승인여부. 어케 가져올건지? -->
 
                 <td th:if="*{storeRunFl == 'Y'}"> <!--매장 운영 O-->
                   <a href="#" class="btn btn-warning mx-3" style="width: 80px;">운영</a>
@@ -161,6 +171,27 @@
   <th:block th:replace="~{common/footer}"></th:block>
 
   <script src="/js/bootstrap.bundle.min.js"></script>
+  <script>
+
+    /* 검색창에 이전 검색어 남겨두기 */
+    const searchQuery = document.getElementById("searchQuery");
+
+    // 즉시 실행 함수
+    (()=>{
+
+      // 주소에 있는 파라미터(쿼리스트링) 얻어오기
+      const params = new URL(location.href).searchParams;
+
+      const query = params.get("query"); // 검색어 얻어오기
+
+      //검색한 경우
+      if(query != null){
+        searchQuery.value = query; // 검색어를 input에 추가
+      }
+
+    })();
+
+  </script>
   
 </body>
 </html>

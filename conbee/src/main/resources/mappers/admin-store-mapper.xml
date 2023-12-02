@@ -18,4 +18,27 @@
 	</select>
 	
 	
+	<!--검색한 정보와 일치하는 점포갯수-->
+	<select id="searchStoreListCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM STORE
+		JOIN "MEMBER" USING (MEMBER_NO)
+		WHERE STORE_NAME LIKE '%${query}%' OR
+		STORE_TEL LIKE '%${query}%' OR
+		STORE_ADDRESS LIKE '%${query}%' OR
+		MEMBER_NAME LIKE  '%${query}%'
+	</select>
+	
+	<!--검색한 정보와 일치하는 점포정보 조회-->
+	<select id="searchStoreList" resultType="Store">
+		SELECT STORE_NO , STORE_NAME , STORE_TEL , STORE_ADDRESS , STORE_RUN_FL , MEMBER_NO , MEMBER_NAME
+		FROM STORE
+		JOIN "MEMBER" USING (MEMBER_NO)
+		WHERE STORE_NAME LIKE '%${query}%' OR
+		STORE_TEL LIKE '%${query}%' OR
+		STORE_ADDRESS LIKE '%${query}%' OR
+		MEMBER_NAME LIKE  '%${query}%'
+	</select>
+	
+	
 </mapper>
