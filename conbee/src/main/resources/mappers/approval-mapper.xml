@@ -4,5 +4,13 @@
 <mapper namespace="com.keepers.conbee.approval.model.mapper.ApprovalMapper">
 
 
+	<!-- 템플릿 info 조회 -->
+	<select id="selectWriteInfo" resultType="Member">
+		SELECT MEMBER_NAME, TEAM_NAME
+		FROM "MEMBER"
+		JOIN "TEAM" USING(TEAM_NO)
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+
 
 </mapper>

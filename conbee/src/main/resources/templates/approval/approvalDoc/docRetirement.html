@@ -31,7 +31,7 @@
           <!-- 담당자(부서) -->
           <div class="d-flex mb-1">
             <span class="elem me-3" style="height: 27px;">담당자(부서) : </span>
-            <span style="height: 27px;">정유진(전산팀)</span><!-- ${memberName, teamName} -->
+            <span class="docWriteInfo" style="height: 27px;" th:text="${memberName}">정유진(전산팀)</span><!-- ${memberName, teamName} -->
           </div>
       
           <!-- 협조부서 -->
@@ -83,15 +83,15 @@
               <table class="table table-bordered" style="width: 250px; border: black;">
                 <tr>
                   <th>문서번호</th>
-                  <td>-</td>
+                  <td></td>
                 </tr>
                 <tr>
                   <th>부 서</th>
-                  <td>전산팀</td><!-- ${teamName} -->
+                  <td class="infoTeam"></td>
                 </tr>
                 <tr>
                   <th>기안자</th>
-                  <td>정유진</td><!-- ${memberName} -->
+                  <td class="infoName"></td>
                 </tr>
                 <tr>
                   <th>구분(항목)</th>
@@ -103,7 +103,7 @@
                 </tr>
                 <tr>
                   <th>기안일</th>
-                  <td>2023-11-25</td><!-- sysdate -->
+                  <td></td>
                 </tr>
               </table>
             </div>
@@ -117,17 +117,17 @@
                 </tr>
                 <tr>
                   <td>
-                    <div style="height: 46px;"><img src="/images/approval/stamp.png" alt="stamp"></div>
-                    <div>김결재</div>
+                    <div style="height: 46px;"></div><!-- 도장 -->
+                    <div style="height: 32px;"></div><!-- 이름 -->
                   </td>
                   <td>
-                    <div style="height: 46px;"><img src="/images/approval/stamp.png" alt="stamp"></div>
-                    <div>김결재</div>
+                    <div style="height: 46px;"></div><!-- 도장 -->
+                    <div style="height: 32px;"></div><!-- 이름 -->
                   </td>
                 </tr>
-                <tr style="font-size:12px;">
-                  <td>2023-11-25</td>
-                  <td>2023-11-25</td>
+                <tr style="height: 27px; font-size:12px;">
+                  <td></td><!-- 날짜 -->
+                  <td></td><!-- 날짜 -->
                 </tr>
               </table>
             </div>
