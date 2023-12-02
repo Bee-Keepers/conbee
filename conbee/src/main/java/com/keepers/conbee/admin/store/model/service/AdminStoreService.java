@@ -32,5 +32,11 @@ public interface AdminStoreService {
 	 */
 	Store readStoreInfo(int storeNo);
 
+	/** 점포명 중복검사
+	 * @param storeName
+	 * @return
+	 */
+	int checkStoreName(String storeName);
+
 
 }

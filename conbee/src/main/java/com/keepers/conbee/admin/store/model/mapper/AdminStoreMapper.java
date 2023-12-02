@@ -46,6 +46,12 @@ public interface AdminStoreMapper {
 	 * @return
 	 */
 	Store readStoreInfo(int storeNo);
+
+	/** 점포명 중복 검사
+	 * @param storeName
+	 * @return
+	 */
+	int checkStoreName(String storeName);
 	
 	
 

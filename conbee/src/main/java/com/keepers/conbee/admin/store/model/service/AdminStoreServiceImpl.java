@@ -113,4 +113,12 @@ public class AdminStoreServiceImpl implements AdminStoreService{
 		return mapper.readStoreInfo(storeNo);
 	}
 	
+	
+	/** 점포명 중복 검사
+	 *
+	 */
+	@Override
+	public int checkStoreName(String storeName) {
+		return mapper.checkStoreName(storeName);
+	}
 }
