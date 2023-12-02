@@ -121,4 +121,12 @@ public class AdminStoreServiceImpl implements AdminStoreService{
 	public int checkStoreName(String storeName) {
 		return mapper.checkStoreName(storeName);
 	}
+	
+	/** 점포 전화번호 중복검사
+	 *
+	 */
+	@Override
+	public int checkStoreTel(String storeTel) {
+		return mapper.checkStoreTel(storeTel);
+	}
 }

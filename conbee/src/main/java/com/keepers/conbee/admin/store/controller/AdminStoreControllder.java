@@ -148,11 +148,20 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	@ResponseBody
 	public int checkStoreName(String storeName) {
 		int result = service.checkStoreName(storeName);
-		
-		log.debug(storeName);
 		return result;
 	}
 	
+	/** 매장 전화번호 중복 검사
+	 * @author 이예리나
+	 * @param storeTel
+	 * @return
+	 */
+	@GetMapping("checkStoreTel")
+	@ResponseBody
+	public int checkStoreTel(String storeTel) {
+		int result = service.checkStoreTel(storeTel); 
+		return result;
+	}
 	
 	
 	
