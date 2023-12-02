@@ -55,6 +55,14 @@
 		WHERE STORE_NO = #{storeNo}
 	</select>
 	
+	<!--점포명 중복 검사-->
+	<select id="checkStoreName" resultType="_int">
+		SELECT COUNT(*) 
+		FROM STORE
+		WHERE STORE_RUN_FL = 'Y' AND
+		STORE_NAME = #{storeName}
+	</select>
+	
 	
 	
 	

@@ -21,3 +21,74 @@ function sample6_execDaumPostcode() {
       }
   }).open();
 }
+
+
+//============================================================================
+/* 정보 수정 유효성 검사 */
+
+// 점포명 유효성 검사
+const storeName = document.getElementById("storeName");
+const messageStoreName = document.getElementById("messageStoreName");
+
+// 점포명 입력시 유효성 검사
+storeName.addEventListener("input", ()=>{
+
+    // 점포명이 입력되지 않은 경우
+    if(storeName.value.trim().length == 0){
+        storeName.value = "";
+
+        messageStoreName.innerText = "점포명은 한글, 숫자, 영어 2~10글자 / OO점 형태로 작성해주세요.";
+        messageStoreName.classList.remove("valid-feedback");
+        messageStoreName.classList.remove("invalid-feedback");
+
+        storeName.classList.remove("valid-feedback");
+        storeName.classList.remove("invalid-feedback");
+
+        return;
+    }
+
+    // 점포명 정규표현식
+    // 한글, 영어, 숫자 포함 2~10글자, 마지막글자는 '점'
+    const regEx = /^[가-힣A-Za-z0-9]{1,9}[점]$/;
+
+    // 입력한 점포명이 유효할 경우
+    if(regEx.test(storeName.value)){
+
+        /* ===================== 점포명 중복 검사 ======================= */
+        fetch("/admin/storeManage/checkStoreName?storeName=" + storeName.value)
+        .then(response => response.text())
+        .then(result =>{
+
+            if(result == 0){ // 중복 X
+                messageStoreName.innerText= "사용 가능한 매장명입니다.";
+                messageStoreName.classList.add("valid-feedback");
+                messageStoreName.classList.remove("invalid-feedback");
+
+                // 인풋 요소 변화
+                storeName.classList.add("is-valid");
+                storeName.classList.remove("is-invalid");
+
+            } else { // 중복 O
+                messageStoreName.innerText= "이미 사용중인 매장명입니다.";
+                messageStoreName.classList.add("invalid-feedback");
+                messageStoreName.classList.remove("valid-feedback");
+
+                // 인풋 요소 변화
+                storeName.classList.add("is-invalid");
+                storeName.classList.remove("is-valid");
+            }
+        })
+        .catch(e=> console.log(e))
+
+    // 입력한 점포명이 유효하지 않을 경우    
+    } else {
+        messageStoreName.innerText= "점포명이 형식에 맞지 않습니다.";
+        messageStoreName.classList.add("invalid-feedback");
+        messageStoreName.classList.remove("valid-feedback");
+
+        // 인풋 요소 변화
+        storeName.classList.add("is-invalid");
+        storeName.classList.remove("is-valid");
+    }
+
+})

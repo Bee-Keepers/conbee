@@ -7,8 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -17,10 +19,12 @@ import com.keepers.conbee.admin.store.model.dto.Store;
 import com.keepers.conbee.admin.store.model.service.AdminStoreService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("admin/storeManage")
 @RequiredArgsConstructor
+@Slf4j
 public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트롤러
 	
 	private final AdminStoreService service;
@@ -88,7 +92,33 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	}
 	
 	
-	/** 점포정보수정 포워드 _ 점포명 정보 전달
+	/** 점포정보수정_점포번호 입력 시 나머지 점포정보 불러오기
+	 * @author 이예리나
+	 * @param storeNo
+	 * @param model
+	 * @return
+	 */
+	@PostMapping("storeUpdate")
+	public String storeUpdate(int storeNo, Model model, RedirectAttributes ra) {
+		
+		// 해당 점포 정보 얻어오기
+		Store readStore = service.readStoreInfo(storeNo);
+		
+		// 점포 정보가 있을 경우
+		if(readStore != null) {
+			model.addAttribute("readStore", readStore);
+			return "admin/storeManage/storeUpdate";
+			
+		// 점포 정보가 없을 경우
+		} else {
+			ra.addFlashAttribute("message", "입력하신 점포번호의 매장이 존재하지 않습니다.");
+		}
+			
+		return "redirect:/admin/storeManage/storeUpdate";
+	}
+	
+	
+	/** 점포정보수정 포워드 _ 점포명 클릭 시 점포정보전달
 	 * @author 이예리나
 	 * @param storeNo
 	 * @param model
@@ -97,7 +127,7 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	 */
 	@GetMapping("storeUpdate/{storeNo:[0-9]+}")
 	public String storeUpdate(@PathVariable("storeNo") int storeNo,
-			Model model, RedirectAttributes ra) {
+			Model model) {
 		
 		// 해당 점포 정보 얻어오기
 		Store readStore = service.readStoreInfo(storeNo);
@@ -106,6 +136,21 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 		
 		return "admin/storeManage/storeUpdate";
 		
+	}
+	
+	
+	/** 매장명 중복 검사
+	 * @author 이예리나
+	 * @param storeName
+	 * @return
+	 */
+	@GetMapping("checkStoreName")
+	@ResponseBody
+	public int checkStoreName(String storeName) {
+		int result = service.checkStoreName(storeName);
+		
+		log.debug(storeName);
+		return result;
 	}
 	
 	
