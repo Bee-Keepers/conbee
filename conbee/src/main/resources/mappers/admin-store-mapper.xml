@@ -40,5 +40,22 @@
 		MEMBER_NAME LIKE  '%${query}%'
 	</select>
 	
+	<!--점포 운영상태 변경-->
+	<update id="changeRunFl">
+		UPDATE STORE SET
+		STORE_RUN_FL = #{storeRunFl}
+		WHERE STORE_NO = #{storeNo}
+	</update>
+	
+	<!-- 선택한 점포 정보 얻어오기 -->
+	<select id="readStoreInfo" resultType="Store">
+		SELECT STORE_NO , STORE_NAME , STORE_TEL , STORE_ADDRESS , STORE_RUN_FL , MEMBER_NO , MEMBER_NAME
+		FROM STORE
+		JOIN "MEMBER" USING (MEMBER_NO)
+		WHERE STORE_NO = #{storeNo}
+	</select>
+	
+	
+	
 	
 </mapper>

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.keepers.conbee.admin.store.model.dto.Store;
 import com.keepers.conbee.admin.store.model.mapper.AdminStoreMapper;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AdminStoreServiceImpl implements AdminStoreService{
 
 	private final AdminStoreMapper mapper;
@@ -81,5 +83,34 @@ public class AdminStoreServiceImpl implements AdminStoreService{
 		return map;
 	}
 	
+	
+	/** 점포 운영상태 변경
+	 *
+	 */
+	@Override
+	public int changeRunFl(int storeNo, String storeRunFl) {
+		
+		// 운영상태 바꾸기
+		if(storeRunFl.equals("Y")) {
+			storeRunFl = "N";
+		} else {
+			storeRunFl = "Y";
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("storeNo", storeNo);
+		map.put("storeRunFl", storeRunFl);
+		
+		return mapper.changeRunFl(map);
+	}
+	
+	
+	/** 선택한 점포 정보 얻어오기
+	 *
+	 */
+	@Override
+	public Store readStoreInfo(int storeNo) {
+		return mapper.readStoreInfo(storeNo);
+	}
 	
 }

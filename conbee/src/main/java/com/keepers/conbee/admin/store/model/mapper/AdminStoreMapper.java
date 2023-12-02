@@ -34,6 +34,18 @@ public interface AdminStoreMapper {
 	 * @return
 	 */
 	List<Map<String, Object>> searchStoreList(Map<String, Object> paramMap, RowBounds rowBounds);
+
+	/** 점포 운영상태 변경
+	 * @param map
+	 * @return
+	 */
+	int changeRunFl(Map<String, Object> map);
+
+	/** 선택한 점포 정보 얻어오기
+	 * @param storeNo
+	 * @return
+	 */
+	Store readStoreInfo(int storeNo);
 	
 	
 
