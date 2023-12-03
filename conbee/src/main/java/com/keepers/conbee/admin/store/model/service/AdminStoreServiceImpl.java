@@ -139,6 +139,26 @@ public class AdminStoreServiceImpl implements AdminStoreService{
 	}
 	
 	
+	/** 점포정보 수정
+	 *
+	 */
+	@Override
+	public int storeUpdate(Store updateStore) {
+		
+		// 점주명 변경 수정
+		mapper.storeUpdateName(updateStore);
+		
+		return mapper.storeUpdate(updateStore);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

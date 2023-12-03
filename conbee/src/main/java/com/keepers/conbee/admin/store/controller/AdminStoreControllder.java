@@ -25,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("admin/storeManage")
 @RequiredArgsConstructor
+@SessionAttributes({"readStore"})
 public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트롤러
 	
 	private final AdminStoreService service;
@@ -95,12 +96,36 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	}
 	
 	
+	/** 점포정보 수정
+	 * @author 예리나
+	 * @param updateStore : 수정할 점포 정보가 담긴 커맨드 객체
+	 * @param ra
+	 * @param 현재 조회되고있는 점포 정보가 담긴 객체(session)
+	 * @return
+	 */
 	@PostMapping("storeUpdate/info")
-	public String storeUpdate(int storeNo, Map<String, Object> paramMap) {
+	public String storeUpdate(Store updateStore, RedirectAttributes ra,
+			@SessionAttribute("readStore") Store readStore) {
 		
-//		service.storeUpdate(storeNo, paramMap);
+		int result = service.storeUpdate(updateStore);
 		
-		return null;
+		String message = null;
+		
+		if(result > 0) {
+			message = "점포 정보가 수정되었습니다.";
+			readStore.setStoreName(updateStore.getStoreName());
+			readStore.setMemberName(updateStore.getMemberName());
+			readStore.setMemberNo(updateStore.getMemberNo());
+			readStore.setStoreTel(updateStore.getStoreTel());
+			readStore.setStoreAddress(updateStore.getStoreAddress());
+			
+		} else {
+			message = "점포 정보 수정이 실패하였습니다.";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:/admin/storeManage/storeUpdate";
 	}
 	
 	

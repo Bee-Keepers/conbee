@@ -64,6 +64,17 @@ public interface AdminStoreMapper {
 	 * @return
 	 */
 	int checkStoreAddress(String storeAddress);
+
+	/** 점포정보수정
+	 * @param updateStore
+	 * @return
+	 */
+	int storeUpdate(Store updateStore);
+
+	/** 점포정보수정-점주명
+	 * @param updateStore
+	 */
+	void storeUpdateName(Store updateStore);
 	
 	
 

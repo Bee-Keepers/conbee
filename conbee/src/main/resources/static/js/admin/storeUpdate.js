@@ -363,7 +363,27 @@ cancelBtn.addEventListener("click", ()=>{
 
 // 확인 버튼 클릭 시 form 전체 제출
 submitBtn.addEventListener("click", ()=>{
-    const forms = document.getElementsByTagName("form");
+
+    // 전체 form 얻어와 제출 (정말 이게 최선일까...?^^....)
+    document.getElementById("updateStoreNoFrm").submit();
+    document.getElementById("updateStoreNameFrm").submit();
+    document.getElementById("updateMemberNameFrm").submit();
+    document.getElementById("updateMemberNoFrm").submit();
+    document.getElementById("updateStoreTelFrm").submit();
+    document.getElementById("updateStoreAddressFrm").submit();
+
+
+    // 전체 form태그 제출
+    /*const forms = document.getElementsByTagName("form");
+
+    console.log(forms);
+
+    for(let form of forms){
+        form.submit();
+    }*/
+
+        
+    /* const forms = document.getElementsByTagName("form");
     let changedForms = [];
 
     // input값 변화된 form태그 찾기
@@ -396,5 +416,6 @@ submitBtn.addEventListener("click", ()=>{
 
         // 점포번호 넘기기
         updateStoreNoFrm.submit();
-    }
+    } */
+
 });

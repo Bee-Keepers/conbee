@@ -76,6 +76,23 @@
 		WHERE STORE_ADDRESS = #{storeAddress}
 	</select>
 	
+	<!-- 점포정보수정 -->
+	<update id="storeUpdate">
+		UPDATE STORE SET
+		STORE_NAME = #{storeName},
+		MEMBER_NO = ${memberNo},
+		STORE_TEL = #{storeTel},
+		STORE_ADDRESS = #{storeAddress}
+		WHERE STORE_NO = #{storeNo}
+	</update>
+	
+	<!-- 점포정보 - 회원이름 수정-->
+	<update id="storeUpdateName">
+		UPDATE "MEMBER" SET
+		MEMBER_NAME = #{memberName}
+		WHERE MEMBER_NO = ${memberNo}
+	</update>
+	
 	
 	
 	
