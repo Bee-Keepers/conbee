@@ -113,6 +113,7 @@ openDocFive.addEventListener("click",()=>{
 
 
 /* 닫기 -> 주소 복원 */
+//----------------------------> 닫기 전에 임시저장 confirm 코드 추가 예정
 // 닫기 버튼 클릭 
 const closeDoc = document.querySelectorAll('button[name="closeDoc"]');
 closeDoc.forEach(function(e){

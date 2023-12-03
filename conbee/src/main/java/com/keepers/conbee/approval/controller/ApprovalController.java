@@ -164,19 +164,20 @@ public class ApprovalController { // 전자결재 컨트롤러
 									@RequestParam int ConditionBtn,
 									@SessionAttribute("loginMember") Member loginMember,
 									Approval approval, RedirectAttributes ra) {
+									// 파일첨부 추가예정
 		
 		int departNo;
 		int cateNo;
-		
-		
+			
 		switch(doc) {
 		case "docHoliday" : departNo=0; cateNo=0; break;
 		case "docRetirement" : departNo=0; cateNo=1; break;
-//		case "docStore" : departNo=0; break; cate 출/폐 코드 따로
+		case "docStore" : departNo=0;  cateNo = approval.getDocStoreState()==0?2:3; break;
 		case "docExpense" : departNo=1; cateNo=4; break;
 		case "docOrder" : departNo=1; cateNo=5; break;
 		default : departNo=0; cateNo=0; 
 		}
+
 		
 		// 값 세팅
 		approval.setApprovalCondition(ConditionBtn); // 문서 상태

@@ -29,7 +29,18 @@ public class ApprovalServiceImpl implements ApprovalService{
 	// 기안문 insert
 	@Override
 	public int insertApproval(Approval approval) {
-		return mapper.insertApproval(approval);
+		
+		// 1) 전자결재 테이블 삽입
+		int result = mapper.insertApproval(approval);
+		if(result == 0) return 0;
+		
+//		// 2) 휴가/퇴직/출폐점/발주 결재문서 테이블 삽입
+//		int approvalNo = approval.getApprovalNo();
+//		int result2 = mapper.insertApprovalDoc(approvalNo, approval);
+		
+		
+		
+		return result;
 	}
 	
 
