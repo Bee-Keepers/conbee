@@ -25,8 +25,4 @@ public class Member {
 	private int teamNo;
 	private int departmentNo;
 	private int gradeNo;
-	
-	
-	//전자결재 작업 중 추가 유진
-	private String teamName;
 }

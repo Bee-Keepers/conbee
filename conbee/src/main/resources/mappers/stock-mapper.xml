@@ -25,6 +25,7 @@
 			(SELECT SCATEGORY_NO FROM SCATEGORY WHERE SCATEGORY_NAME = #{scategoryName}))
 	</insert>
 	
+	<!-- 상품 등록 후 조회 -->
 	<select id="goodsList" resultType="Stock">
 		SELECT GOODS_NO, GOODS_NAME, GOODS_STANDARD, LCATEGORY_NAME, SCATEGORY_NAME 
 		FROM GOODS
@@ -33,9 +34,10 @@
 		ORDER BY GOODS_NO DESC
 	</select>
 	
+	<!-- 상품 삭제 -->
 	<delete id="goodsDelete">
 		DELETE FROM GOODS
-		WHERE GOODS_NO = #{goodsNo};
+		WHERE GOODS_NO = #{goodsNo}
 	</delete>
 
 </mapper>

@@ -5,34 +5,33 @@
     <div class="modal-header">
       <div><h1 class="modal-title fs-5" id="exampleModalLabel">기안문 작성 - 출/폐점 등록 요청서</h1></div>
       <div>
-        <button type="submit" form="docStore" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveStore"
-        name="ConditionBtn" value="1">임시저장</button>
-        <button type="submit" form="docStore" class="btn btn-warning me-1" id="submitStore" name="ConditionBtn" value="0">결재</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
+        <button type="button" class="btn me-1" data-bs-target="#" style="width: 100px; background-color: #f2f2f2;">임시저장</button>
+        <button type="button" class="btn btn-warning me-1" data-bs-target="#">결재</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
       </div>
     </div>
     <!-- 모달 바디 -->
-    <div class="modal-body" style="width: 800px; height: 800px;">
-      <form class="d-flex flex-column" action="docStore" id="docStore" method="POST">
+    <div class="modal-body" style="width: 800px; height: 800px; ">
+      <form class="d-flex flex-column">
         <!-- 결재 정보 -->
         <div class="my-2 mx-3">
       
           <!-- 제목 -->
           <div class="d-flex mb-2">
             <span class="elem me-3" style="height: 27px;">제목 : </span>
-            <input type="text" class="form-control title-input" id="inputStore" name="approvalTitle">
+            <input class="title-input" type="text" id="inputStore">
           </div>
       
           <!-- 구분 -->
           <div class="d-flex mb-2">
             <span class="elem me-3">구분(항목) : </span>
-            <span style="height: 27px;">업무(점포)</span>
+            <span style="height: 27px;">업무(출점)</span>
           </div>
       
           <!-- 담당자(부서) -->
           <div class="d-flex mb-1">
             <span class="elem me-3" style="height: 27px;">담당자(부서) : </span>
-            <span class="docWriteInfo" style="height: 27px;" th:text="${memberName}">정유진(전산팀)</span><!-- ${memberName, teamName} -->
+            <span style="height: 27px;">정유진(전산팀)</span><!-- ${memberName, teamName} -->
           </div>
       
           <!-- 협조부서 -->
@@ -94,19 +93,19 @@
               <table class="table table-bordered" style="width: 250px; border: black;">
                 <tr>
                   <th>문서번호</th>
-                  <td></td>
+                  <td>-</td>
                 </tr>
                 <tr>
                   <th>부 서</th>
-                  <td class="infoTeam"></td>
+                  <td>점포관리팀</td><!-- ${teamName} -->
                 </tr>
                 <tr>
                   <th>기안자</th>
-                  <td class="infoName"></td>
+                  <td>정유진</td><!-- ${memberName} -->
                 </tr>
                 <tr>
                   <th>구분(항목)</th>
-                  <td>업무(점포)</td>
+                  <td>업무(출점)</td><!-- 출점/폐점 -->
                 </tr>
                 <tr>
                   <th>협조 부서</th>
@@ -114,7 +113,7 @@
                 </tr>
                 <tr>
                   <th>기안일</th>
-                  <td></td>
+                  <td>2023-11-25</td><!-- sysdate -->
                 </tr>
               </table>
             </div>
@@ -130,27 +129,27 @@
                 </tr>
                 <tr>
                   <td>
-                    <div style="height: 46px;"></div><!-- 도장 -->
-                    <div style="height: 32px;"></div><!-- 이름 -->
+                    <div style="height: 46px;"><img src="/images/approval/stamp.png" alt="stamp"></div>
+                    <div>김결재</div>
                   </td>
                   <td>
-                    <div style="height: 46px;"></div><!-- 도장 -->
-                    <div style="height: 32px;"></div><!-- 이름 -->
+                    <div style="height: 46px;"><img src="/images/approval/stamp.png" alt="stamp"></div>
+                    <div>김결재</div>
                   </td>
                   <td>
-                    <div style="height: 46px;"></div><!-- 도장 -->
-                    <div style="height: 32px;"></div><!-- 이름 -->
+                    <div style="height: 46px;"><img src="/images/approval/stamp.png" alt="stamp"></div>
+                    <div>김결재</div>
                   </td>
                   <td>
-                    <div style="height: 46px;"></div><!-- 도장 -->
-                    <div style="height: 32px;"></div><!-- 이름 -->
+                    <div style="height: 46px;"><img src="/images/approval/stamp.png" alt="stamp"></div>
+                    <div>김결재</div>
                   </td>
                 </tr>
-                <tr style="height: 27px; font-size:12px;">
-                  <td></td><!-- 날짜 -->
-                  <td></td><!-- 날짜 -->
-                  <td></td><!-- 날짜 -->
-                  <td></td><!-- 날짜 -->
+                <tr style="font-size:12px;">
+                  <td>2023-11-25</td>
+                  <td>2023-11-25</td>
+                  <td>2023-11-25</td>
+                  <td>2023-11-25</td>
                 </tr>
               </table>
             </div>
@@ -161,7 +160,7 @@
             <table class="table table-bordered" style="width: 100%; border: black;">
               <tr>
                 <th>제 목</th>
-                <td><input class="title-input2" type="text" id="inputStore2" name="approvalDocTitle"></td>
+                <td><input class="title-input2" type="text" id="inputStore2"></td>
               </tr>
               <tr>
                 <th>매 장 명</th>
@@ -170,8 +169,8 @@
               <tr>
                 <th>출/폐 여부</th>
                 <td>
-                  <input type="radio" name="docStoreState" id="openStore" value="0"><label for="openStore">출점</label>
-                  <input type="radio" name="docStoreState" id="closeStore" value="1"><label for="closeStore">폐점</label>
+                  <input type="radio" name="ocStore" id="openStore"><label for="openStore">출점</label>
+                  <input type="radio" name="ocStore" id="closeStore"><label for="closeStore">폐점</label>
                 </td>
               </tr>
               <tr>
