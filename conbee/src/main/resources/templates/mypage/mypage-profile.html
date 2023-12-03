@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>마이페이지</title>
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body class="d-flex flex-column" style="height: 100vh;">
+
+  <th:block th:replace="~{common/header}"></th:block>
+
+  <main class="d-flex flex-grow-1">
+
+    <th:block th:replace="~{address/sidebar}"></th:block>
+
+    <div class="d-flex flex-column p-3" style="width: 100%;">
+
+        <h3 class = "profile-tit">내 프로필 조회</h3>
+         <div class ="tit-con">
+            <div class ="box_manage">
+                <div class = "info_account">
+                    <div class ="wrap_profile">
+                        <div class="thumb_profile">
+                        <img src="#" class="img_profile" width="80" height="80" 
+                             alt="프로필 이미지"> <!-- 이미지 사이즈 80*80 -->
+                            <span class="img_frame"></span>   
+                        </div>
+                        <button type="button" class="btn_title">
+                        </button>
+                    </div>
+                    <div class ="info_profile"></div>
+                    <dl class="list_myinfo">
+
+                        <dt>아이디</dt>
+
+                        <dt>주소</dt>
+                        <dd id ="address">
+                            <span class="inner_nickname"></span>
+                            <div class="wrap_btn">
+                                <button id ="phonebutton" type="button" class="btn_type1">수정</button>
+                            </div>
+                            </dd>
+                        
+
+                        <dt>전화번호</dt>
+                        <dd id ="phone">
+                        <span class="inner_nickname"></span>
+                        <div class="wrap_btn">
+                            <button id ="phonebutton" type="button" class="btn_type1">수정</button>
+                        </div>
+                        </dd>
+
+                        <dt>직급</dt>
+
+
+                        <dt>이메일</dt>
+                        <dd id ="email">
+                        <span class="inner_nickname"></span>
+                        <div class="wrap_btn">
+                            <button id ="emailbutton" type="button" class="btn_type1">수정</button>
+                        </div>
+                    </dd>
+
+                    <dd id="editphone">
+                        <form action="#">
+                            <fieldset class="fld_set">
+                                <legend class ="screen">전화번호 입력 폼</legend>
+                                <div class="item_inp">
+                                    <label for="tf1" class="screen"></label>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </dd>
+
+                    <div class="phone_inp">
+                        <label for="phone_1" class="phone_1" id="phone_1">
+                        <span aria-hidden="true">전화번호 입력</span>
+                    </label>
+                    <input data-type="text" class="tf_g tf_g" name="nickname" validator="nickname_len" maxlength="20" type="text" id="id_nickname_1" data-error-empty="전화번호가 등록되지 않았습니다.
+                    입력해 주세요.">
+                    
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+                    </dl>
+                </div>
+            </div>
+         </div>
+      
+      
+
+
+
+
+
+      
+
+  <th:block th:replace="~{common/footer}"></th:block>
+
+  
+  <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
