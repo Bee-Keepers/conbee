@@ -9,6 +9,10 @@
   <style>
     tr { height: 80px; }
     td { text-align: start;}
+<<<<<<< HEAD
+=======
+    article{margin-top: 3.2px; font-size: 14.5px;}
+>>>>>>> origin/main
   </style>
 </head>
 <body class="d-flex flex-column" style="height: 100vh;">
@@ -41,6 +45,7 @@
             <col width=34%>
           </colgroup>
 
+<<<<<<< HEAD
           <tbody>
             <tr>
               <th>점포번호</th>
@@ -86,11 +91,58 @@
                   <!-- input class명에 유효성검사가 실패하면 is-invalid 를 추가 -->
                   <input type="text" class="form-control" id="storeAddress" placeholder="" name="storeAddress" style="width: 500px;">
                   <label for="floatingInputInvalid">서울특별시 송파구 가락로 74, (석촌동) 1층</label>
+=======
+            <tbody>
+              <tr>
+                <th>점포번호</th>
+                <td colspan="4">
+                  <form class="form-floating d-flex align-items-center" action="storeUpdate" method="POST"> <!-- 밑에 input의 value를 얻어와서 주소에쓰기 -->
+                    <input type="text" class="form-control" id="" placeholder="" name="storeNo" style="width: 350px;">
+                    <label for="floatingInputInvalid">수정할 점포번호 입력해주세요.</label>
+                    <button class="btn btn-warning ms-3" style="width: 100px; height: 40px;">지점 찾기</button>
+                  </form>
+                </td>
+              </tr>
+              <tr>
+                <th>점포명</th>
+                <td colspan="4">
+                </td>
+              </tr>
+              <tr>
+                <th>점주명</th>
+                <td>
+                </td>
+                <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
+                <th>점주회원번호</th>
+                <td></td>
+              </tr>
+              <tr>
+                <th>전화번호</th>
+                <td colspan="4">
+                </td>
+              </tr>
+              <tr>
+                <th>위치</th>
+                <td colspan="4">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </th:block>
+      
+      
+      
+      <!-- 점포 정보가 있을 경우 -->
+      <th:block th:if="${readStore != null}">
+        <div class="d-flex flex-column align-items-center" style="height: 85%;">
+>>>>>>> origin/main
 
                   <div class="signUp-input-area">
                     <button type="button" class="btn ms-4 btn-outline-warning" onclick="sample6_execDaumPostcode()">주소 검색</button>
                   </div>
 
+<<<<<<< HEAD
                   <div class="signUp-input-area">
                   </div>
                 </form>
@@ -99,12 +151,86 @@
           </tbody>
         </table>
       </div>
+=======
+            <tbody>
+              <tr>
+                <th>점포번호</th>
+                <td colspan="4"><b class="ps-10" style="margin-left: 5px;" th:text="*{storeNo}">3642</b></td>
+                <form action="info" method="POST" id="updateStoreNoFrm">
+                  <input type="hidden" name="storeNo" th:value="*{storeNo}">
+                </form>
+              </tr>
+              <tr>
+                <th>점포명</th>
+                <td colspan="4">
+                  <form class="form-floating" action="info" method="POST" id="updateStoreNameFrm">
+                    <input type="text" class="form-control" id="storeName" placeholder="" name="storeName" style="width: 350px;" th:value="*{storeName}">
+                    <label for="floatingInputInvalid" th:text="*{storeName}">관악구청점</label>
+                    <article id="messageStoreName"></article>
+                  </form>
+                </td>
+              </tr>
+              <tr>
+                <th>점주명</th>
+                <td>
+                  <form class="form-floating" action="info" method="POST" id="updateMemberNameFrm">
+                    <input type="text" class="form-control" id="memberName" placeholder="" name="memberName" th:value="*{memberName}" style="width: 350px;">
+                    <label for="floatingInputInvalid" th:text="*{memberName}">김점주</label>
+                    <article id="messageMemberName"></article>
+                  </form>
+                </td>
+
+                <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
+
+                <th>점주회원번호</th>
+                <td>
+                  <form class="form-floating" action="info" method="POST" id="updateMemberNoFrm">
+                    <input type="text" class="form-control" id="memberNo" placeholder="" th:value="*{memberNo}" name="memberNo" style="width: 350px;">
+                    <label for="floatingInputInvalid" th:text="*{memberNo}">0000</label>
+                    <article id="messageMemberNo"></article>
+                  </form>
+                </td>
+              </tr>
+
+              <tr>
+                <th>전화번호</th>
+                <td colspan="4">
+                  <form class="form-floating" action="info" method="POST" id="updateStoreTelFrm">
+                    <input type="text" class="form-control" id="storeTel" placeholder=""  th:value="*{storeTel}" name="storeTel" style="width: 350px;">
+                    <label for="floatingInputInvalid" th:text="*{storeTel}">028855913</label>
+                    <article id="messageStoreTel"></article>
+                  </form>
+                </td>
+              </tr>
+              <tr>
+                <th>위치</th>
+                <td colspan="4">
+                  <form class="form-floating d-flex align-items-center" action="info" method="POST" id="updateStoreAddressFrm">
+                    <input type="text" class="form-control" id="storeAddress" placeholder="" name="storeAddress" th:value="*{storeAddress}" style="width: 500px;">
+                    <label for="floatingInputInvalid" th:text="*{storeAddress}">서울특별시 송파구 가락로 74, (석촌동) 1층</label>
+                    
+                    <div class="signUp-input-area">
+                      <button type="button" class="btn ms-4 btn-outline-warning" onclick="sample6_execDaumPostcode()">주소 검색</button>
+                    </div>
+                    
+                    <div class="signUp-input-area">
+                      <article id="messageStoreAddress" style="margin-left: 10px;"></article>
+                    </div>
+                  </form>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </th:block>
+>>>>>>> origin/main
 
       <!-- 선택버튼 하단 고정 -->
       <div class="w-100 align-items-start sticky-bottom bg-white">
         <section class="d-flex justify-content-end" style="width: 100%;">
-          <a href="#" class="btn btn-secondary" style="width: 80px;">취소</a>
-          <a href="#" class="btn btn-warning ms-3" style="width: 80px; margin-right: 35px;">확인</a>
+          <section class="btn btn-secondary" id="cancelBtn" style="width: 80px;">취소</section>
+          <section class="btn btn-warning ms-3" id="submitBtn" style="width: 80px; margin-right: 35px;">확인</section>
         </section>
       </div>
 
@@ -118,6 +244,17 @@
 
   <!-- 다음 주소 API -->
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script th:inline="javaScript">
+
+    // 해당 점포 DB정보 얻어오기(수정전 정보)
+    const readStoreNo = /*[[${readStore.storeNo}]]*/ 점포번호;
+    const readStoreName = /*[[${readStore.storeName}]]*/ 점포명;
+    const readMemberName = /*[[${readStore.memberName}]]*/ 점주명;
+    const readMemberNo = /*[[${readStore.memberNo}]]*/ 점포 회원번호;
+    const readStoreTel = /*[[${readStore.storeTel}]]*/ 점포 전화번호;
+    const readStoreAddress = /*[[${readStore.storeAddress}]]*/ 점포주소;
+
+  </script>
   <script src="/js/admin/storeUpdate.js"></script>
   
 </body>

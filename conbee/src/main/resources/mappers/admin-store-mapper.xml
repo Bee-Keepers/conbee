@@ -18,4 +18,103 @@
 	</select>
 	
 	
+<<<<<<< HEAD
+=======
+	<!--검색한 정보와 일치하는 점포갯수-->
+	<select id="searchStoreListCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM STORE
+		JOIN "MEMBER" USING (MEMBER_NO)
+		WHERE STORE_NAME LIKE '%${query}%' OR
+		STORE_TEL LIKE '%${query}%' OR
+		STORE_ADDRESS LIKE '%${query}%' OR
+		MEMBER_NAME LIKE  '%${query}%'
+	</select>
+	
+	<!--검색한 정보와 일치하는 점포정보 조회-->
+	<select id="searchStoreList" resultType="Store">
+		SELECT STORE_NO , STORE_NAME , STORE_TEL , STORE_ADDRESS , STORE_RUN_FL , MEMBER_NO , MEMBER_NAME
+		FROM STORE
+		JOIN "MEMBER" USING (MEMBER_NO)
+		WHERE STORE_NAME LIKE '%${query}%' OR
+		STORE_TEL LIKE '%${query}%' OR
+		STORE_ADDRESS LIKE '%${query}%' OR
+		MEMBER_NAME LIKE  '%${query}%'
+	</select>
+	
+	<!--점포 운영상태 변경-->
+	<update id="changeRunFl">
+		UPDATE STORE SET
+		STORE_RUN_FL = #{storeRunFl}
+		WHERE STORE_NO = #{storeNo}
+	</update>
+	
+	<!-- 선택한 점포 정보 얻어오기 -->
+	<select id="readStoreInfo" resultType="Store">
+		SELECT STORE_NO , STORE_NAME , STORE_TEL , STORE_ADDRESS , STORE_RUN_FL , MEMBER_NO , MEMBER_NAME
+		FROM STORE
+		JOIN "MEMBER" USING (MEMBER_NO)
+		WHERE STORE_NO = #{storeNo}
+	</select>
+	
+	<!--점포명 중복 검사-->
+	<select id="checkStoreName" resultType="_int">
+		SELECT COUNT(*) 
+		FROM STORE
+		WHERE STORE_NAME = #{storeName}
+	</select>
+	
+	<!--점포전화번호 중복 검사-->
+	<select id="checkStoreTel" resultType="_int">
+		SELECT COUNT(*) 
+		FROM STORE
+		WHERE STORE_TEL = #{storeTel}
+	</select>
+	
+	<!--점포 주소 중복 검사-->
+	<select id="checkStoreAddress" resultType="_int">
+		SELECT COUNT(*) 
+		FROM STORE
+		WHERE STORE_ADDRESS = #{storeAddress}
+	</select>
+	
+	<!--점포 번호 중복 검사-->
+	<select id="checkStoreNo" resultType="_int">
+		SELECT COUNT(*) 
+		FROM STORE
+		WHERE STORE_NO = #{storeNo}
+	</select>
+	
+	<!-- 점포정보수정 -->
+	<update id="storeUpdate">
+		UPDATE STORE SET
+		STORE_NAME = #{storeName},
+		MEMBER_NO = ${memberNo},
+		STORE_TEL = #{storeTel},
+		STORE_ADDRESS = #{storeAddress}
+		WHERE STORE_NO = #{storeNo}
+	</update>
+	
+	<!-- 점포정보 - 회원이름 수정-->
+	<update id="storeUpdateName">
+		UPDATE "MEMBER" SET
+		MEMBER_NAME = #{memberName}
+		WHERE MEMBER_NO = ${memberNo}
+	</update>
+	
+	<!--신규 점포 등록-->
+	<insert id="storeInsert">
+		INSERT INTO STORE
+		VALUES(SEQ_STORE_NO.NEXTVAL, #{storeName}, #{storeAddress},
+			#{storeTel}, DEFAULT, DEFAULT, NULL, NULL)
+	</insert>
+	
+	<!--신규 점포 등록 - 점주이름 등록-->
+	<insert id="storeInsertName">
+		
+	</insert>
+	
+	
+	
+>>>>>>> origin/main
 </mapper>

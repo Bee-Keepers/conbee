@@ -12,7 +12,7 @@ function calcPay(e){
     e.parentElement.nextElementSibling.innerText = amount * price;
     const input = document.createElement("input");
     input.setAttribute("type", "hidden");
-    input.setAttribute("value", amount * price);
+    input.setAttribute("value", price);
     input.setAttribute("name", "historyActualPrice");
     e.parentElement.nextElementSibling.append(input);
 }
