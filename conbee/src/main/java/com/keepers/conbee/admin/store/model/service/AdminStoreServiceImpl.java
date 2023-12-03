@@ -129,4 +129,18 @@ public class AdminStoreServiceImpl implements AdminStoreService{
 	public int checkStoreTel(String storeTel) {
 		return mapper.checkStoreTel(storeTel);
 	}
+	
+	/**점포 주소 중복검사
+	 *
+	 */
+	@Override
+	public int checkStoreAddress(String storeAddress) {
+		return mapper.checkStoreAddress(storeAddress);
+	}
+	
+	
+	
+	
+	
+	
 }

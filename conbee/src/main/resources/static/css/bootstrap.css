@@ -12068,3 +12068,15 @@ textarea.form-control-lg {
   background-color: #FFE15D;
   border-radius: 0.5rem;
 }
+
+/* 유효성검사-OK */
+.OK-feedback {
+  font-size: 0.875em;
+  color: var(--bs-form-valid-color);
+}
+
+/* 유효성검사-OK */
+.NotOK-feedback {
+  font-size: 0.875em;
+  color: var(--bs-form-invalid-color);
+}

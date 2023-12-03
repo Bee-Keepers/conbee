@@ -44,5 +44,11 @@ public interface AdminStoreService {
 	 */
 	int checkStoreTel(String storeTel);
 
+	/** 점포 주소 중복검사
+	 * @param storeAddress
+	 * @return
+	 */
+	int checkStoreAddress(String storeAddress);
+
 
 }

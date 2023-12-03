@@ -102,11 +102,14 @@
               <tr>
                 <th>점포번호</th>
                 <td colspan="4"><b class="ps-10" style="margin-left: 5px;" th:text="*{storeNo}">3642</b></td>
+                <form action="storeUpdate/info" method="POST" id="updateStoreNoFrm">
+                  <input type="hidden" name="storeNo" th:value="*{storeNo}">
+                </form>
               </tr>
               <tr>
                 <th>점포명</th>
                 <td colspan="4">
-                  <form class="form-floating">
+                  <form class="form-floating" action="storeUpdate/info" method="POST" id="">
                     <input type="text" class="form-control" id="storeName" placeholder="" name="storeName" style="width: 350px;">
                     <label for="floatingInputInvalid" th:text="*{storeName}">관악구청점</label>
                     <article id="messageStoreName"></article>
@@ -116,7 +119,7 @@
               <tr>
                 <th>점주명</th>
                 <td>
-                  <form class="form-floating">
+                  <form class="form-floating" action="storeUpdate/info" method="POST">
                     <input type="text" class="form-control" id="memberName" placeholder="" name="memberName" style="width: 350px;">
                     <label for="floatingInputInvalid" th:text="*{memberName}">김점주</label>
                     <article id="messageMemberName"></article>
@@ -127,7 +130,7 @@
 
                 <th>점주회원번호</th>
                 <td>
-                  <form class="form-floating">
+                  <form class="form-floating" action="storeUpdate/info" method="POST">
                     <input type="text" class="form-control" id="memberNo" placeholder="" name="memberNo" style="width: 350px;">
                     <label for="floatingInputInvalid" th:text="*{memberNo}">0000</label>
                     <article id="messageMemberNo"></article>
@@ -138,7 +141,7 @@
               <tr>
                 <th>전화번호</th>
                 <td colspan="4">
-                  <form class="form-floating">
+                  <form class="form-floating" action="storeUpdate/info" method="POST">
                     <input type="text" class="form-control" id="storeTel" placeholder="" name="storeTel" style="width: 350px;">
                     <label for="floatingInputInvalid" th:text="*{storeTel}">028855913</label>
                     <article id="messageStoreTel"></article>
@@ -148,19 +151,21 @@
               <tr>
                 <th>위치</th>
                 <td colspan="4">
-                  <form class="form-floating d-flex align-items-center" >
+                  <form class="form-floating d-flex align-items-center" action="storeUpdate/info" method="POST">
                     <input type="text" class="form-control" id="storeAddress" placeholder="" name="storeAddress" style="width: 500px;">
                     <label for="floatingInputInvalid" th:text="*{storeAddress}">서울특별시 송파구 가락로 74, (석촌동) 1층</label>
-
+                    
                     <div class="signUp-input-area">
                       <button type="button" class="btn ms-4 btn-outline-warning" onclick="sample6_execDaumPostcode()">주소 검색</button>
                     </div>
-
+                    
                     <div class="signUp-input-area">
+                      <article id="messageStoreAddress" style="margin-left: 10px;"></article>
                     </div>
                   </form>
                 </td>
               </tr>
+
             </tbody>
           </table>
         </div>
@@ -169,8 +174,8 @@
       <!-- 선택버튼 하단 고정 -->
       <div class="w-100 align-items-start sticky-bottom bg-white">
         <section class="d-flex justify-content-end" style="width: 100%;">
-          <a href="#" class="btn btn-secondary" style="width: 80px;">취소</a>
-          <a href="#" class="btn btn-warning ms-3" style="width: 80px; margin-right: 35px;">확인</a>
+          <section class="btn btn-secondary" id="cancelBtn" style="width: 80px;">취소</section>
+          <section class="btn btn-warning ms-3" id="submitBtn" style="width: 80px; margin-right: 35px;">확인</section>
         </section>
       </div>
 
@@ -184,6 +189,17 @@
 
   <!-- 다음 주소 API -->
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script th:inline="javaScript">
+
+    // 해당 점포 DB정보 얻어오기(수정전 정보)
+    const readStoreNo = /*[[${readStore.storeNo}]]*/ 점포번호;
+    const readStoreName = /*[[${readStore.storeName}]]*/ 점포명;
+    const readMemberName = /*[[${readStore.memberName}]]*/ 점주명;
+    const readMemberNo = /*[[${readStore.memberNo}]]*/ 점포 회원번호;
+    const readStoreTel = /*[[${readStore.storeTel}]]*/ 점포 전화번호;
+    const readStoreAddress = /*[[${readStore.storeAddress}]]*/ 점포주소;
+
+  </script>
   <script src="/js/admin/storeUpdate.js"></script>
   
 </body>

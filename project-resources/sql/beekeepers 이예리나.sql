@@ -90,4 +90,10 @@ STORE_NAME = '서울시구가지점'
 -- 점포전화번호 중복검사
 SELECT COUNT(*) 
 FROM STORE
-WHERE STORE_TEL = '15778007';
+WHERE STORE_TEL = '027131460';
+
+-- 점포 주소 중복검사
+SELECT COUNT(*) 
+FROM STORE
+WHERE STORE_ADDRESS = '서울 중구 퇴계로 105 (충무로1가)'
+;
