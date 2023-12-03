@@ -21,14 +21,16 @@ import com.keepers.conbee.admin.store.model.service.AdminStoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("admin/storeManage")
 @RequiredArgsConstructor
-@Slf4j
 public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트롤러
 	
 	private final AdminStoreService service;
 	
+	
+	/*========================== 점포정보조회 =================================*/
 	
 	/** 점포정보조회 포워드
 	 * @author 예리나
@@ -81,6 +83,7 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	}
 	
 	
+	/*========================== 점포정보수정 =================================*/
 	
 	/** 점포정보수정 포워드 _ 점포명을 클릭해서 수정하는 경우가 아닐때
 	 * @author 예리나
@@ -90,6 +93,17 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	public String storeUpdate() {
 		return "admin/storeManage/storeUpdate";
 	}
+	
+	
+	@PostMapping("storeUpdate/info")
+	public String storeUpdate(int storeNo, Map<String, Object> paramMap) {
+		
+//		service.storeUpdate(storeNo, paramMap);
+		
+		return null;
+	}
+	
+	
 	
 	
 	/** 점포정보수정_점포번호 입력 시 나머지 점포정보 불러오기
@@ -151,6 +165,7 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 		return result;
 	}
 	
+	
 	/** 매장 전화번호 중복 검사
 	 * @author 이예리나
 	 * @param storeTel
@@ -160,10 +175,27 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	@ResponseBody
 	public int checkStoreTel(String storeTel) {
 		int result = service.checkStoreTel(storeTel); 
+		
+		return result;
+	}
+
+	
+	/** 매장 주소 중복 검사
+	 * @param storeAddress
+	 * @return
+	 */
+	@GetMapping("checkStoreAddress")
+	@ResponseBody
+	public int checkStoreAddress(String storeAddress) {
+		int result = service.checkStoreAddress(storeAddress); 
+		
 		return result;
 	}
 	
 	
+	
+	
+	/*========================== 신규점포등록 =================================*/
 	
 	/** 신규점포등록 포워드
 	 * @author 예리나

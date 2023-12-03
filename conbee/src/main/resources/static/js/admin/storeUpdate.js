@@ -17,7 +17,7 @@ function sample6_execDaumPostcode() {
           }
 
           // 우편번호와 주소 정보를 해당 필드에 넣는다.
-          document.getElementById("memberAddress").value = addr;
+          document.getElementById("storeAddress").value = addr;
       }
   }).open();
 }
@@ -268,3 +268,133 @@ storeTel.addEventListener("input", ()=>{
     }
 
 })
+
+
+//-------------------------------------------------------------------------
+
+// 점포주소 유효성 검사
+const storeAddress = document.getElementById("storeAddress");
+const messageStoreAddress = document.getElementById("messageStoreAddress");
+
+// 점포주소 입력시 유효성 검사
+storeAddress.addEventListener("input", ()=>{
+
+    // 점포주소가 입력되지 않은 경우
+    if(storeAddress.value.trim().length == 0){
+        storeAddress.value = "";
+
+        messageStoreAddress.innerText = "점포 주소는 한글, 숫자로 작성해주세요.";
+        messageStoreAddress.classList.remove("OK-feedback");
+        messageStoreAddress.classList.remove("NotOK-feedback");
+
+        storeAddress.classList.remove("valid-feedback");
+        storeAddress.classList.remove("invalid-feedback");
+
+        return;
+    }
+
+    // 점포주소 정규표현식
+    // 한글, 숫자, 띄어쓰기, -, (), ,를 포함한 10~100글자 이내의 정규표현식
+    const regEx = /^[가-힣0-9\s\-\(\),]{10,100}$/;
+
+    // 입력한 점포주소가 유효할 경우
+    if(regEx.test(storeAddress.value)){
+
+        /* ===================== 점포주소 중복 검사 ======================= */
+        fetch("/admin/storeManage/checkStoreAddress?storeAddress=" + storeAddress.value)
+        .then(response => response.text())
+        .then(result =>{
+
+            if(result == 0){ // 중복 X
+                messageStoreAddress.innerText= "사용 가능한 점포 주소입니다.";
+                messageStoreAddress.classList.add("OK-feedback");
+                messageStoreAddress.classList.remove("NotOK-feedback");
+
+                // 인풋 요소 변화
+                storeAddress.classList.add("is-valid");
+                storeAddress.classList.remove("is-invalid");
+
+            } else { // 중복 O
+                messageStoreAddress.innerText= "이미 등록된 점포 주소입니다.";
+                messageStoreAddress.classList.add("NotOK-feedback");
+                messageStoreAddress.classList.remove("OK-feedback");
+
+                // 인풋 요소 변화
+                storeAddress.classList.add("is-invalid");
+                storeAddress.classList.remove("is-valid");
+            }
+        })
+        .catch(e=> console.log(e))
+
+    // 입력한 점포주소가 유효하지 않을 경우    
+    } else {
+        messageStoreAddress.innerText= "점포 주소가 형식에 맞지 않습니다.";
+        messageStoreAddress.classList.add("NotOK-feedback");
+        messageStoreAddress.classList.remove("OK-feedback");
+
+        // 인풋 요소 변화
+        storeAddress.classList.add("is-invalid");
+        storeAddress.classList.remove("is-valid");
+    }
+
+})
+
+
+/* ======================================================================== */
+
+/* 취소, 확인 버튼 작동 */
+
+const cancelBtn = document.querySelector("#cancelBtn");
+const submitBtn = document.querySelector("#submitBtn");
+
+
+// 취소 버튼 클릭 시 input 작성내용 지우기
+cancelBtn.addEventListener("click", ()=>{
+
+    storeName.value = "";
+    memberName.value = "";
+    memberNo.value = "";
+    storeTel.value = "";
+    storeAddress.value = "";
+})
+
+//-------------------------------------------------------------------------
+
+
+// 확인 버튼 클릭 시 form 전체 제출
+submitBtn.addEventListener("click", ()=>{
+    const forms = document.getElementsByTagName("form");
+    let changedForms = [];
+
+    // input값 변화된 form태그 찾기
+    for (let i=0; i<forms.length; i++){
+        let thisForm = forms[i];
+        let input = thisForm.getElementsByTagName("input");
+        let hasChanged = false;
+
+        if(input.value !== input.defaultValue){
+            hasChanged = true;
+            break;
+        }
+
+        // 변화된 input값이 있다면
+        if(hasChanged){
+            changedForms.push(thisForm);
+        }
+    }
+
+    if(changedForms.length == 0){
+
+        alert("수정된 점포 정보가 없습니다.");
+        
+
+    } else {
+        // input값 변화된 Form 제출
+        for (let j=0; j<changedForms.length; j++){
+            changedForms[j].submit();
+        }
+
+        // 점포번호 넘기기
+        updateStoreNoFrm.submit();
+    }
+});

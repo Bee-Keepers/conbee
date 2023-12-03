@@ -69,6 +69,13 @@
 		WHERE STORE_TEL = #{storeTel}
 	</select>
 	
+	<!--점포 주소 중복 검사-->
+	<select id="checkStoreAddress" resultType="_int">
+		SELECT COUNT(*) 
+		FROM STORE
+		WHERE STORE_ADDRESS = #{storeAddress}
+	</select>
+	
 	
 	
 	
