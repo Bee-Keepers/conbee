@@ -76,6 +76,13 @@
 		WHERE STORE_ADDRESS = #{storeAddress}
 	</select>
 	
+	<!--점포 번호 중복 검사-->
+	<select id="checkStoreNo" resultType="_int">
+		SELECT COUNT(*) 
+		FROM STORE
+		WHERE STORE_NO = #{storeNo}
+	</select>
+	
 	<!-- 점포정보수정 -->
 	<update id="storeUpdate">
 		UPDATE STORE SET
@@ -93,6 +100,17 @@
 		WHERE MEMBER_NO = ${memberNo}
 	</update>
 	
+	<!--신규 점포 등록-->
+	<insert id="storeInsert">
+		INSERT INTO STORE
+		VALUES(SEQ_STORE_NO.NEXTVAL, #{storeName}, #{storeAddress},
+			#{storeTel}, DEFAULT, DEFAULT, NULL, NULL)
+	</insert>
+	
+	<!--신규 점포 등록 - 점주이름 등록-->
+	<insert id="storeInsertName">
+		
+	</insert>
 	
 	
 	

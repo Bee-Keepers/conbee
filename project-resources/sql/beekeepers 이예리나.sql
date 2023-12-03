@@ -103,7 +103,7 @@ WHERE STORE_ADDRESS = '서울 중구 퇴계로 105 (충무로1가)'
 --점포 정보 업데이트
 UPDATE STORE SET
 STORE_NAME = '반송그리점',
-MEMBER_NO = 9,
+MEMBER_NO = 26,
 STORE_TEL = '0104628501',
 STORE_ADDRESS ='점포정보수정테스트중 주소입니다'
 WHERE STORE_NO = 10
@@ -123,8 +123,12 @@ WHERE MEMBER_NO = 16;
 -- 점주명 정보 수정
 UPDATE "MEMBER" SET
 MEMBER_NAME = '수정된점주명'
-WHERE MEMBER_NO = 16;
- 
+WHERE MEMBER_NO = 26;
+
+-- 회원정보 INSERT test
+INSERT INTO "MEMBER"
+VALUES(SEQ_MEMBER_NO.NEXTVAL, 'test', '123123', '123@admin.com', '테스트', '주소주소주소주소',
+'01012312234', NULL, 1, DEFAULT, DEFAULT, 11, 5, 6);
 
 
 MERGE INTO STORE S

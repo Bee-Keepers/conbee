@@ -206,6 +206,7 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 
 	
 	/** 매장 주소 중복 검사
+	 * @author 이예리나
 	 * @param storeAddress
 	 * @return
 	 */
@@ -217,6 +218,18 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 		return result;
 	}
 	
+	/** 점포번호 중복검사
+	 * @author 이예리나
+	 * @param storeNo
+	 * @return
+	 */
+	@GetMapping("checkStoreNo")
+	@ResponseBody
+	public int checkStoreNo(String storeNo) {
+		int result = service.checkStoreNo(storeNo); 
+		
+		return result;
+	}
 	
 	
 	
@@ -231,7 +244,27 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 		return "admin/storeManage/storeInsert";
 	}
 	
-	
+	/** 신규 점포 등록
+	 * @author 이예리나
+	 * @param inputStore
+	 * @param ra
+	 * @return
+	 */
+	@PostMapping("storeInsert/insert")
+	public String storeInsert(Store inputStore, RedirectAttributes ra) {
+		
+		int result = service.storeInsert(inputStore);
+		
+		// 점포 등록 성공 시 점포정보조회 페이지로 리다이렉트
+		if(result > 0) {
+			ra.addFlashAttribute("message", "점포 등록이 성공하였습니다.");
+			return "redirect:/admin/storeManage/storeList";
+		}
+		
+		// 점포등록 실패시 등록페이지로 리다이렉트
+		ra.addAttribute("message", "점포 등록이 실패하였습니다.");
+		return "redirect:/admin/storeManage/storeInsert";		
+	}
 	
 	
 	

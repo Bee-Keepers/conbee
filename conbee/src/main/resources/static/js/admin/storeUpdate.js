@@ -42,8 +42,8 @@ storeName.addEventListener("input", ()=>{
         messageStoreName.classList.remove("valid-feedback");
         messageStoreName.classList.remove("invalid-feedback");
 
-        storeName.classList.remove("valid-feedback");
-        storeName.classList.remove("invalid-feedback");
+        storeName.classList.remove("is-invalid");
+        storeName.classList.remove("is-valid");
 
         return;
     }
@@ -113,8 +113,8 @@ memberName.addEventListener("input", ()=>{
         messageMemberName.classList.remove("valid-feedback");
         messageMemberName.classList.remove("invalid-feedback");
 
-        memberName.classList.remove("valid-feedback");
-        memberName.classList.remove("invalid-feedback");
+        memberName.classList.remove("is-invalid");
+        memberName.classList.remove("is-valid");
 
         return;
     }
@@ -166,8 +166,8 @@ memberNo.addEventListener("input", ()=>{
         messageMemberNo.classList.remove("valid-feedback");
         messageMemberNo.classList.remove("invalid-feedback");
 
-        memberNo.classList.remove("valid-feedback");
-        memberNo.classList.remove("invalid-feedback");
+        memberNo.classList.remove("is-valid");
+        memberNo.classList.remove("is-invalid");
 
         return;
     }
@@ -217,8 +217,8 @@ storeTel.addEventListener("input", ()=>{
         messageStoreTel.classList.remove("valid-feedback");
         messageStoreTel.classList.remove("invalid-feedback");
 
-        storeTel.classList.remove("valid-feedback");
-        storeTel.classList.remove("invalid-feedback");
+        storeTel.classList.remove("is-invalid");
+        storeTel.classList.remove("is-valid");
 
         return;
     }
@@ -287,8 +287,8 @@ storeAddress.addEventListener("input", ()=>{
         messageStoreAddress.classList.remove("OK-feedback");
         messageStoreAddress.classList.remove("NotOK-feedback");
 
-        storeAddress.classList.remove("valid-feedback");
-        storeAddress.classList.remove("invalid-feedback");
+        storeAddress.classList.remove("is-invalid");
+        storeAddress.classList.remove("is-valid");
 
         return;
     }
