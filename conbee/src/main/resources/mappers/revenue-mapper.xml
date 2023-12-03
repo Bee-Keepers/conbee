@@ -3,5 +3,36 @@
 <!-- 연결할 인터페이스의 패키지명.인터페이스명을 작성 -->
 <mapper namespace="com.keepers.conbee.revenue.model.mapper.RevenueMapper">
 	
+	<select id="revenueSearch" resultType="Revenue">
+		SELECT LCATEGORY_NAME, SCATEGORY_NAME, GOODS_NO ,HISTORY_GOODS_NAME,
+			SUM(HISTORY_AMOUNT) HISTORY_AMOUNT, AVG(HISTORY_ACTUAL_PRICE) HISTORY_ACTUAL_PRICE, SUM(HISTORY_AMOUNT * HISTORY_ACTUAL_PRICE) TOTAL_PRICE
+		FROM HISTORY
+		JOIN GOODS USING(GOODS_NO)
+		JOIN LCATEGORY USING(LCATEGORY_NO)
+		JOIN SCATEGORY USING(SCATEGORY_NO)
+		WHERE STORE_NO = #{storeNo}
+		AND HISTORY_DIVIDE = '출고'
+		AND HISTORY_GOODS_NAME LIKE '%${historyGoodsName}%'
+		<if test='lcategoryName != ""'>
+			AND LCATEGORY_NAME = #{lcategoryName}
+		</if>
+		<if test='scategoryName != ""'>
+			AND SCATEGORY_NAME = #{scategoryName}
+		</if>
+		<if test='startDate != "" and endDate != ""'>
+			AND TO_CHAR(HISTORY_DATE, 'YYYY-MM-DD')  BETWEEN #{startDate} AND #{endDate}
+		</if>
+		<if test='startDate == "" or endDate == ""'>
+			AND TO_CHAR(HISTORY_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		</if>
+		<if test='flag == 1'>
+			<![CDATA[ AND HISTORY_AMOUNT * HISTORY_ACTUAL_PRICE >= #{revenue} ]]>
+		</if>
+		<if test='flag == 2'>
+			<![CDATA[ AND HISTORY_AMOUNT * HISTORY_ACTUAL_PRICE <= #{revenue} ]]>
+		</if>
+		GROUP BY GOODS_NO, LCATEGORY_NAME, SCATEGORY_NAME, HISTORY_GOODS_NAME
+		ORDER BY LCATEGORY_NAME, SCATEGORY_NAME
+	</select>
 
 </mapper>
