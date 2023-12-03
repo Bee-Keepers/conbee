@@ -18,10 +18,18 @@ public class ApprovalServiceImpl implements ApprovalService{
 	
 	private final ApprovalMapper mapper;
 	
+	// 기안문 작성자 정보 조회
 	@Override
 	public Member selectWriteInfo(int memberNo) {
 		
 		return mapper.selectWriteInfo(memberNo);
+	}
+	
+	
+	// 기안문 insert
+	@Override
+	public int insertApproval(Approval approval) {
+		return mapper.insertApproval(approval);
 	}
 	
 

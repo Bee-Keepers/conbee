@@ -5,21 +5,22 @@
     <div class="modal-header">
       <div><h1 class="modal-title fs-5" id="exampleModalLabel">기안문 작성 - 출/폐점 등록 요청서</h1></div>
       <div>
-        <button type="button" class="btn me-1" data-bs-target="#" style="width: 100px; background-color: #f2f2f2;">임시저장</button>
-        <button type="button" class="btn btn-warning me-1" data-bs-target="#">결재</button>
+        <button type="submit" form="docStore" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveStore"
+        name="ConditionBtn" value="1">임시저장</button>
+        <button type="submit" form="docStore" class="btn btn-warning me-1" id="submitStore" name="ConditionBtn" value="0">결재</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
       </div>
     </div>
     <!-- 모달 바디 -->
     <div class="modal-body" style="width: 800px; height: 800px;">
-      <form class="d-flex flex-column">
+      <form class="d-flex flex-column" action="docStore" id="docStore" method="POST">
         <!-- 결재 정보 -->
         <div class="my-2 mx-3">
       
           <!-- 제목 -->
           <div class="d-flex mb-2">
             <span class="elem me-3" style="height: 27px;">제목 : </span>
-            <input type="text" class="form-control title-input" id="inputStore" name="storeTitle">
+            <input type="text" class="form-control title-input" id="inputStore" name="approvalTitle">
           </div>
       
           <!-- 구분 -->
@@ -160,7 +161,7 @@
             <table class="table table-bordered" style="width: 100%; border: black;">
               <tr>
                 <th>제 목</th>
-                <td><input class="title-input2" type="text" id="inputStore2"></td>
+                <td><input class="title-input2" type="text" id="inputStore2" name="approvalDocTitle"></td>
               </tr>
               <tr>
                 <th>매 장 명</th>

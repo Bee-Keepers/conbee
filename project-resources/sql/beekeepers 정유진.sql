@@ -68,8 +68,6 @@ COMMIT;
 
 
 
-
-
 -- 템플릿 info 조회 
 SELECT MEMBER_NAME, TEAM_NAME
 FROM "MEMBER"
