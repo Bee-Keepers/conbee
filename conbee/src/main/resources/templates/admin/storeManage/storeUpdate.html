@@ -102,15 +102,15 @@
               <tr>
                 <th>점포번호</th>
                 <td colspan="4"><b class="ps-10" style="margin-left: 5px;" th:text="*{storeNo}">3642</b></td>
-                <form action="storeUpdate/info" method="POST" id="updateStoreNoFrm">
+                <form action="info" method="POST" id="updateStoreNoFrm">
                   <input type="hidden" name="storeNo" th:value="*{storeNo}">
                 </form>
               </tr>
               <tr>
                 <th>점포명</th>
                 <td colspan="4">
-                  <form class="form-floating" action="storeUpdate/info" method="POST" id="">
-                    <input type="text" class="form-control" id="storeName" placeholder="" name="storeName" style="width: 350px;">
+                  <form class="form-floating" action="info" method="POST" id="updateStoreNameFrm">
+                    <input type="text" class="form-control" id="storeName" placeholder="" name="storeName" style="width: 350px;" th:value="*{storeName}">
                     <label for="floatingInputInvalid" th:text="*{storeName}">관악구청점</label>
                     <article id="messageStoreName"></article>
                   </form>
@@ -119,8 +119,8 @@
               <tr>
                 <th>점주명</th>
                 <td>
-                  <form class="form-floating" action="storeUpdate/info" method="POST">
-                    <input type="text" class="form-control" id="memberName" placeholder="" name="memberName" style="width: 350px;">
+                  <form class="form-floating" action="info" method="POST" id="updateMemberNameFrm">
+                    <input type="text" class="form-control" id="memberName" placeholder="" name="memberName" th:value="*{memberName}" style="width: 350px;">
                     <label for="floatingInputInvalid" th:text="*{memberName}">김점주</label>
                     <article id="messageMemberName"></article>
                   </form>
@@ -130,8 +130,8 @@
 
                 <th>점주회원번호</th>
                 <td>
-                  <form class="form-floating" action="storeUpdate/info" method="POST">
-                    <input type="text" class="form-control" id="memberNo" placeholder="" name="memberNo" style="width: 350px;">
+                  <form class="form-floating" action="info" method="POST" id="updateMemberNoFrm">
+                    <input type="text" class="form-control" id="memberNo" placeholder="" th:value="*{memberNo}" name="memberNo" style="width: 350px;">
                     <label for="floatingInputInvalid" th:text="*{memberNo}">0000</label>
                     <article id="messageMemberNo"></article>
                   </form>
@@ -141,8 +141,8 @@
               <tr>
                 <th>전화번호</th>
                 <td colspan="4">
-                  <form class="form-floating" action="storeUpdate/info" method="POST">
-                    <input type="text" class="form-control" id="storeTel" placeholder="" name="storeTel" style="width: 350px;">
+                  <form class="form-floating" action="info" method="POST" id="updateStoreTelFrm">
+                    <input type="text" class="form-control" id="storeTel" placeholder=""  th:value="*{storeTel}" name="storeTel" style="width: 350px;">
                     <label for="floatingInputInvalid" th:text="*{storeTel}">028855913</label>
                     <article id="messageStoreTel"></article>
                   </form>
@@ -151,8 +151,8 @@
               <tr>
                 <th>위치</th>
                 <td colspan="4">
-                  <form class="form-floating d-flex align-items-center" action="storeUpdate/info" method="POST">
-                    <input type="text" class="form-control" id="storeAddress" placeholder="" name="storeAddress" style="width: 500px;">
+                  <form class="form-floating d-flex align-items-center" action="info" method="POST" id="updateStoreAddressFrm">
+                    <input type="text" class="form-control" id="storeAddress" placeholder="" name="storeAddress" th:value="*{storeAddress}" style="width: 500px;">
                     <label for="floatingInputInvalid" th:text="*{storeAddress}">서울특별시 송파구 가락로 74, (석촌동) 1층</label>
                     
                     <div class="signUp-input-area">

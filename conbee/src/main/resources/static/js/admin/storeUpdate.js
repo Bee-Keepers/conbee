@@ -42,8 +42,8 @@ storeName.addEventListener("input", ()=>{
         messageStoreName.classList.remove("valid-feedback");
         messageStoreName.classList.remove("invalid-feedback");
 
-        storeName.classList.remove("valid-feedback");
-        storeName.classList.remove("invalid-feedback");
+        storeName.classList.remove("is-invalid");
+        storeName.classList.remove("is-valid");
 
         return;
     }
@@ -113,8 +113,8 @@ memberName.addEventListener("input", ()=>{
         messageMemberName.classList.remove("valid-feedback");
         messageMemberName.classList.remove("invalid-feedback");
 
-        memberName.classList.remove("valid-feedback");
-        memberName.classList.remove("invalid-feedback");
+        memberName.classList.remove("is-invalid");
+        memberName.classList.remove("is-valid");
 
         return;
     }
@@ -166,8 +166,8 @@ memberNo.addEventListener("input", ()=>{
         messageMemberNo.classList.remove("valid-feedback");
         messageMemberNo.classList.remove("invalid-feedback");
 
-        memberNo.classList.remove("valid-feedback");
-        memberNo.classList.remove("invalid-feedback");
+        memberNo.classList.remove("is-valid");
+        memberNo.classList.remove("is-invalid");
 
         return;
     }
@@ -217,8 +217,8 @@ storeTel.addEventListener("input", ()=>{
         messageStoreTel.classList.remove("valid-feedback");
         messageStoreTel.classList.remove("invalid-feedback");
 
-        storeTel.classList.remove("valid-feedback");
-        storeTel.classList.remove("invalid-feedback");
+        storeTel.classList.remove("is-invalid");
+        storeTel.classList.remove("is-valid");
 
         return;
     }
@@ -287,8 +287,8 @@ storeAddress.addEventListener("input", ()=>{
         messageStoreAddress.classList.remove("OK-feedback");
         messageStoreAddress.classList.remove("NotOK-feedback");
 
-        storeAddress.classList.remove("valid-feedback");
-        storeAddress.classList.remove("invalid-feedback");
+        storeAddress.classList.remove("is-invalid");
+        storeAddress.classList.remove("is-valid");
 
         return;
     }
@@ -363,7 +363,27 @@ cancelBtn.addEventListener("click", ()=>{
 
 // 확인 버튼 클릭 시 form 전체 제출
 submitBtn.addEventListener("click", ()=>{
-    const forms = document.getElementsByTagName("form");
+
+    // 전체 form 얻어와 제출 (정말 이게 최선일까...?^^....)
+    document.getElementById("updateStoreNoFrm").submit();
+    document.getElementById("updateStoreNameFrm").submit();
+    document.getElementById("updateMemberNameFrm").submit();
+    document.getElementById("updateMemberNoFrm").submit();
+    document.getElementById("updateStoreTelFrm").submit();
+    document.getElementById("updateStoreAddressFrm").submit();
+
+
+    // 전체 form태그 제출
+    /*const forms = document.getElementsByTagName("form");
+
+    console.log(forms);
+
+    for(let form of forms){
+        form.submit();
+    }*/
+
+        
+    /* const forms = document.getElementsByTagName("form");
     let changedForms = [];
 
     // input값 변화된 form태그 찾기
@@ -396,5 +416,6 @@ submitBtn.addEventListener("click", ()=>{
 
         // 점포번호 넘기기
         updateStoreNoFrm.submit();
-    }
+    } */
+
 });

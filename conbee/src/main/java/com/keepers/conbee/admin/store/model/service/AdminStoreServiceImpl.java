@@ -139,6 +139,61 @@ public class AdminStoreServiceImpl implements AdminStoreService{
 	}
 	
 	
+	/** 점포 번호 중복검사
+	 *
+	 */
+	@Override
+	public int checkStoreNo(String storeNo) {
+		return mapper.checkStoreNo(storeNo);
+	}
+	
+	/** 점포정보 수정
+	 *
+	 */
+	@Override
+	public int storeUpdate(Store updateStore) {
+		
+		// 점주명 변경 수정
+		mapper.storeUpdateName(updateStore);
+		
+		return mapper.storeUpdate(updateStore);
+	}
+	
+	
+	/** 신규점포등록
+	 *
+	 */
+	@Override
+	public int storeInsert(Store inputStore) {
+		
+		// 점주번호를 받지 않고 점주명만 받은 경우(점주 신규가입) -> 현재 점주 회원번호는 Null
+		// mapper에서 점주 회원번호 생성, 점주명
+		
+		// 점주명 O, 회원번호 X인 경우(신규가입)
+		if(inputStore.getMemberNo() == 0) {
+			mapper.storeInsertName(inputStore);			
+
+		} else {
+			mapper.storeInsert(inputStore);
+		}
+		
+		// 점주번호가 없는 경우(점주신규가입) -> 점주회원번호 0,
+		// 점주번호가 없는 경우 
+		
+		// 점주번호가 이미 존재하는 경우 -> 점주명 업데이트
+		
+		// 점주번호가 없는 경우
+		// 점주명 등록
+		
+		
+		return 0;
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	

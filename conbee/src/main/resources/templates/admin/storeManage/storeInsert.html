@@ -15,6 +15,8 @@
       width: 350px; height: 55px;
     }
 
+    article{margin-top: 3.2px; font-size: 14.5px;}
+
   </style>
 </head>
 <body class="d-flex flex-column" style="height: 100vh;">
@@ -36,7 +38,7 @@
         </div>
       </div>
 
-      <form src="" method="POST" style="height: 100%;">
+      <form action="insert" method="POST" style="height: 100%;" id="storeInsertFrm">
         <div class="d-flex flex-column align-items-center" style="height: 91.5%;" >
   
           <table class="table mt-2 border-top-none" style="width: 95%; text-align: center; vertical-align: middle;">
@@ -56,6 +58,7 @@
                   <div class="d-flex align-items-center" >
                     <input type="text" class="form-control" id="storeNo" placeholder="점포번호를 입력해주세요." required>
                   </div>
+                  <article id="messageStoreNo"></article>
                 </td>
               </tr>
   
@@ -65,6 +68,7 @@
                   <div class="d-flex align-items-center" >
                     <input type="text" class="form-control" id="storeName" placeholder="점포명을 입력해주세요." required>
                   </div>
+                  <article id="messageStoreName"></article>
                 </td>
               </tr>
   
@@ -72,8 +76,9 @@
                 <th>점주명</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" id="storeManagerName" placeholder="점주명을 입력해주세요." required>
+                    <input type="text" class="form-control" id="memberName" placeholder="점주명을 입력해주세요." required>
                   </div>
+                  <article id="messageMemberName"></article>
                 </td>
   
                 <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
@@ -81,8 +86,9 @@
                 <th>점주회원번호</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" id="storeManagerNo" placeholder="점주 회원번호를 입력해주세요." required>
+                    <input type="text" class="form-control" id="memberNo" placeholder="기존회원인 경우에만 점주 회원번호를 입력해주세요." required value="0">
                   </div>
+                  <article id="messageMemberNo"></article>
                 </td>
               </tr>
   
@@ -92,6 +98,7 @@
                   <div class="d-flex align-items-center" >
                     <input type="text" class="form-control" id="storeTel" placeholder="점포 전화번호를 입력해주세요." required>
                   </div>
+                  <article id="messageStoreTel"></article>
                 </td>
               </tr>
   
@@ -106,6 +113,10 @@
                     <div class="signUp-input-area">
                       <button type="button" class="btn ms-4 btn-outline-warning" onclick="sample6_execDaumPostcode()">주소 검색</button>
                     </div>
+
+                    <div class="signUp-input-area">
+                      <article id="messageStoreAddress" style="margin-left: 10px;"></article>
+                    </div>
                   </section>
                 </td>
               </tr>
@@ -117,8 +128,8 @@
         <!-- 선택버튼 하단 고정 -->
         <div class="w-100 align-items-start sticky-bottom bg-white">
           <section class="d-flex justify-content-end" style="width: 100%;">
-            <a href="#" class="btn btn-secondary" style="width: 80px;">취소</a>
-            <a href="#" class="btn btn-warning ms-3" style="width: 80px; margin-right: 35px;">확인</a>
+            <section class="btn btn-secondary" id="cancelBtn" style="width: 80px;">취소</section>
+            <button type="submit" class="btn btn-warning ms-3" style="width: 80px; margin-right: 35px;">확인</button>
           </section>
         </div>
       </form>
@@ -133,7 +144,9 @@
 
   <!-- 다음 주소 API -->
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-  <script src="/js/admin/storeUpdate.js"></script>
+  <script src="/js/admin/storeInsert.js"></script>
+
+
   
 </body>
 </html>
