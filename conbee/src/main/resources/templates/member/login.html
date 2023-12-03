@@ -46,16 +46,6 @@
   </main>
 
   <th:block th:replace="~{common/footer}"></th:block>
-
-  <script th:inline="javascript">
-  
-    // RedirectAttributes를 통해 전달된 message 출력
-    const message = /*[[${message}]]*/"전달받은 message";
-    // message가 없다면 null
-  
-    if(message != null) alert(message);
-  </script>
-  <script src="/js/bootstrap.bundle.min.js"></script>
   <script src="/js/member/login.js"></script>
 </body>
 </html>
