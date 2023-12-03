@@ -30,4 +30,6 @@ public class Member {
 	
 	private List<Store> storeList;
 	
+	//전자결재 작업 중 추가 유진
+	private String teamName;
 }

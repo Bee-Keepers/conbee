@@ -1,18 +1,26 @@
 /* writeApproval.css =============================================== */
 
-#docOne{
+#tblBody tr{
   cursor: pointer;
-}
-
-#tblBody button{
-  width: 90px;
-  height: 35px;
 }
 
 #tblBody *{
   vertical-align: middle;
 }
+
+
 /* approvalDoc.css =============================================== */
+
+/* 기안문 스크롤바 */
+/* 안먹음 수정! */
+
+.modal-body::-webkit-scrollbar-track{
+  background: #f2f2f2 !important;
+}
+.modal-body::-webkit-scrollbar-thumb{
+  background-color: #FFE15D !important;
+  border-radius: 10px !important;
+}
 
 /* 기안문 작성 정보  */
 .elem{
@@ -21,8 +29,7 @@
 
 /* 제목 */
 .title-input{
-  border: solid 1px black; 
-  background-color: #ffefad; 
+  background-color: #e3f1ff;
   height: 27px; 
   width: 640px;
 }
@@ -49,8 +56,8 @@
 /* 템플릿 박스 */
 .temps{
   border: 1px solid black;
-  height: 500px;
-  overflow: auto;
+  /* height: 500px; */
+  /* overflow: auto; */
 
 }
 
@@ -67,8 +74,12 @@
 .tempInfo td{
   padding: 4px 6px;
 }
+
 .tempApprov table *{
   padding: 4px;
+}
+.tempApprov img{
+  padding: 0;
 }
 
 /* 템플릿 내용 */
@@ -100,3 +111,4 @@
 .storeName:focus{
   outline: none;
 }
+

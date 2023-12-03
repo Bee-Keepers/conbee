@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>점포정보조회</title>
   <link rel="stylesheet" href="/css/bootstrap.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <script src="https://kit.fontawesome.com/39f6050202.js" crossorigin="anonymous"></script>
   <style>
 
     tr > td {
@@ -13,6 +13,10 @@
       text-align: center;
 
       vertical-align: middle;
+    }
+
+    [data-sort]{
+      cursor: pointer;
     }
 
   </style>
@@ -37,9 +41,11 @@
         </div>
 
         <!-- 검색버튼 -->
-        <div class="d-flex justify-content-end"  style="width: 75%;">
-          <input id="" class="form-control me-5" type="text" placeholder="점포명, 위치 검색" size="40" style="width: 15%;">
-        </div>
+        <form action="storeList" method="GET" style="width: 75%;">
+          <div class="d-flex justify-content-end">
+            <input type="text" name="query" id="searchQuery" class="form-control me-5" placeholder="점포정보 검색" size="40" style="width: 15%;">
+          </div>
+        </form>
 
       </div>
 
@@ -49,29 +55,50 @@
         <table class="table table-striped table-hover mt-2" style="width: 95%;">
           
           <colgroup>
-            <col width=5%>
-            <col width=15%>
+            <col width=6%>
+            <col width=14%>
             <col width=10%>
             <col width=15%>
-            <col width=45%>
+            <col width=35%>
+            <col width=10%>
             <col width=10%>
           </colgroup>
 
           <thead>
             <tr style="text-align: center;">
-              <th>점포번호</th>
-              <th>점포명</th>
-              <th>점주명</th>
-              <th>전화번호</th>
-              <th>위치</th>
-              <th>운영여부</th>
+              <th data-sort="num" class="d-flex">점포번호
+                <i class="fa-sharp fa-solid fa-sort-down"></i>
+              </th>
+              <th data-sort="str">점포명
+                <i class="fa-sharp fa-solid fa-sort-down"></i>
+              </th>
+              <th data-sort="str">점주명
+                <i class="fa-sharp fa-solid fa-sort-down"></i>
+              </th>
+              <th data-sort="num">전화번호
+                <i class="fa-sharp fa-solid fa-sort-down"></i>
+              </th>
+              <th data-sort="str">위치
+                <i class="fa-sharp fa-solid fa-sort-down"></i>
+              </th>
+              <th data-sort="str">폐점 승인
+                <i class="fa-sharp fa-solid fa-sort-down"></i>
+              </th>
+              <th data-sort="str">운영여부
+                <i class="fa-sharp fa-solid fa-sort-down"></i>
+              </th>
             </tr>
           </thead>
           <tbody class="table-group-divider">
 
             <!-- 점포가 존재하지 않을 때 -->
             <tr th:if="${storeList == null}">
-              <td colspan="6">운영되는 점포가 존재하지 않습니다.</td>
+              <td colspan="7">운영되는 점포가 존재하지 않습니다.</td>
+            </tr>
+
+            <!-- 점포가 존재하지 않을 때 -->
+            <tr th:if="${storeList.size == 0}">
+              <td colspan="7">검색어가 일치하는 점포가 존재하지 않습니다.</td>
             </tr>
 
             <!-- 점포가 존재할 때 -->
@@ -87,13 +114,22 @@
                 <td th:text="*{memberName}">김점주</td>
                 <td th:text="*{storeTel}">028855913</td>
                 <td th:text="*{storeAddress}">서울특별시 서대문구 모래내로 412 서울시립서대문도서관 (연희동)</td>
+                <td>미승인</td> <!-- 폐점승인여부. 어케 가져올건지? -->
 
                 <td th:if="*{storeRunFl == 'Y'}"> <!--매장 운영 O-->
-                  <a href="#" class="btn btn-warning mx-3" style="width: 80px;">운영</a>
+                  <a href="changeRunFl" class="btn btn-warning mx-3" style="width: 80px;">
+                    <input type="hidden" name="storeNo" value="*{storeNo}">
+                    <input type="hidden" name="storeRunFl" value="*{storeRunFl}">
+                    운영
+                  </a>
                 </td>
 
                 <td th:unless="*{storeRunFl == 'Y'}"> <!--매장 운영 X-->
-                  <a href="#" class="btn btn-secondary mx-3" style="width: 80px;">폐쇄</a>
+                  <a href="changeRunFl" class="btn btn-secondary mx-3" style="width: 80px;">
+                    <input type="hidden" name="storeNo" value="*{storeNo}">
+                    <input type="hidden" name="storeRunFl" value="*{storeRunFl}">
+                    폐쇄
+                  </a>
                 </td>
               </tr>
 
@@ -159,8 +195,9 @@
   </main>
 
   <th:block th:replace="~{common/footer}"></th:block>
-
+  
   <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/admin/storeList.js"></script>
   
 </body>
 </html>
