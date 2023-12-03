@@ -3,21 +3,11 @@
 <!-- 연결할 인터페이스의 패키지명.인터페이스명을 작성 -->
 <mapper namespace="com.keepers.conbee.member.model.mapper.MemberMapper">
 
-	<resultMap id="member_rm" type="Member">
-		<id property="memberNo" column="MEMBER_NO"/>
-		<collection property="storeList" select="loginStore" column="MEMBER_NO" javaType="java.util.ArrayList" ofType="Store" />
-	</resultMap>
-	
-	<select id="loginStore" resultType="Store">
-		SELECT * FROM STORE
-		WHERE MEMBER_NO = #{memberNo}
-	</select>
-	
 	<!-- 로그인 서비스 -->
- 	<select id="login" resultMap="member_rm">
+ 	<select id="login" resultType="Member">
 		 SELECT MEMBER_NO, MEMBER_ID, MEMBER_PW, MEMBER_EMAIL, MEMBER_NAME, MEMBER_ADDRESS,
 		 MEMBER_TEL, MEMBER_PROFILE, MEMBER_AUTHORITY, 
-		 	TO_CHAR(MEMBER_ENROLL_DATE, 'YYYY"년" MM"월" DD"일" HH24"시" MI"분" SS"초"') MEMBER_ENROLL_DATE
+		 	TO_CHAR(MEMBER_ENROLL_DATE, 'YYYY"년" MM"월" DD"일" HH24"시" MI"분" SS"초"') ENROLL_DATE
 		 FROM "MEMBER"
 		 WHERE MEMBER_DEL_FL = 'N'
 		 AND MEMBER_ID = #{memberId}

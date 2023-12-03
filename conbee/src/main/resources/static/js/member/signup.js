@@ -17,7 +17,7 @@ function sample6_execDaumPostcode() {
           }
 
           // 우편번호와 주소 정보를 해당 필드에 넣는다.
-          document.getElementById("memberAddress").value = addr;
+          document.getElementById("storeAddress").value = addr;
       }
   }).open();
 }
