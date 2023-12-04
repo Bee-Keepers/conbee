@@ -87,87 +87,87 @@
       
       <!-- 점포 정보가 있을 경우 -->
       <th:block th:if="${readStore != null}">
-        <div class="d-flex flex-column align-items-center" style="height: 85%;">
+        <div>
 
-          <table class="table mt-2 border-top-none" style="width: 95%; text-align: center; vertical-align: middle;" th:object="${readStore}">
-            <colgroup>
-              <col width=15%>
-              <col width=34%>
-              <col width=2%>
-              <col width=15%>
-              <col width=34%>
-            </colgroup>
-
-            <tbody>
-              <tr>
-                <th>점포번호</th>
-                <td colspan="4"><b class="ps-10" style="margin-left: 5px;" th:text="*{storeNo}">3642</b></td>
-                <form action="info" method="POST" id="updateStoreNoFrm">
-                  <input type="hidden" name="storeNo" th:value="*{storeNo}">
-                </form>
-              </tr>
-              <tr>
-                <th>점포명</th>
-                <td colspan="4">
-                  <form class="form-floating" action="info" method="POST" id="updateStoreNameFrm">
-                    <input type="text" class="form-control" id="storeName" placeholder="" name="storeName" style="width: 350px;" th:value="*{storeName}">
-                    <label for="floatingInputInvalid" th:text="*{storeName}">관악구청점</label>
-                    <article id="messageStoreName"></article>
-                  </form>
-                </td>
-              </tr>
-              <tr>
-                <th>점주명</th>
-                <td>
-                  <form class="form-floating" action="info" method="POST" id="updateMemberNameFrm">
-                    <input type="text" class="form-control" id="memberName" placeholder="" name="memberName" th:value="*{memberName}" style="width: 350px;">
-                    <label for="floatingInputInvalid" th:text="*{memberName}">김점주</label>
-                    <article id="messageMemberName"></article>
-                  </form>
-                </td>
-
-                <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
-
-                <th>점주회원번호</th>
-                <td>
-                  <form class="form-floating" action="info" method="POST" id="updateMemberNoFrm">
-                    <input type="text" class="form-control" id="memberNo" placeholder="" th:value="*{memberNo}" name="memberNo" style="width: 350px;">
-                    <label for="floatingInputInvalid" th:text="*{memberNo}">0000</label>
-                    <article id="messageMemberNo"></article>
-                  </form>
-                </td>
-              </tr>
-
-              <tr>
-                <th>전화번호</th>
-                <td colspan="4">
-                  <form class="form-floating" action="info" method="POST" id="updateStoreTelFrm">
-                    <input type="text" class="form-control" id="storeTel" placeholder=""  th:value="*{storeTel}" name="storeTel" style="width: 350px;">
-                    <label for="floatingInputInvalid" th:text="*{storeTel}">028855913</label>
-                    <article id="messageStoreTel"></article>
-                  </form>
-                </td>
-              </tr>
-              <tr>
-                <th>위치</th>
-                <td colspan="4">
-                  <form class="form-floating d-flex align-items-center" action="info" method="POST" id="updateStoreAddressFrm">
-                    <input type="text" class="form-control" id="storeAddress" placeholder="" name="storeAddress" th:value="*{storeAddress}" style="width: 500px;">
-                    <label for="floatingInputInvalid" th:text="*{storeAddress}">서울특별시 송파구 가락로 74, (석촌동) 1층</label>
-                    
-                    <div class="signUp-input-area">
-                      <button type="button" class="btn ms-4 btn-outline-warning" onclick="sample6_execDaumPostcode()">주소 검색</button>
+          <form class="d-flex flex-column align-items-center form-floating" style="height: 85%;" action="storeUpdate/info"  method="POST" id="storeUpdateFrm">
+            <table class="table mt-2 border-top-none" style="width: 95%; text-align: center; vertical-align: middle;" th:object="${readStore}">
+              <colgroup>
+                <col width=15%>
+                <col width=34%>
+                <col width=2%>
+                <col width=15%>
+                <col width=34%>
+              </colgroup>
+  
+              <tbody>
+                <tr>
+                  <th>점포번호</th>
+                  <td colspan="4"><b class="ps-10" style="margin-left: 5px;" th:text="*{storeNo}">3642</b></td>
+                    <input type="hidden" name="storeNo" th:value="*{storeNo}">
+                </tr>
+                <tr>
+                  <th>점포명</th>
+                  <td colspan="4">
+                    <div class="form-floating" id="updateStoreNameFrm">
+                      <input type="text" class="form-control" id="storeName" placeholder="" name="storeName" style="width: 350px;" th:value="*{storeName}">
+                      <label for="floatingInputInvalid" th:text="*{storeName}">관악구청점</label>
+                      <article id="messageStoreName"></article>
                     </div>
-                    
-                    <div class="signUp-input-area">
-                      <article id="messageStoreAddress" style="margin-left: 10px;"></article>
+                  </td>
+                </tr>
+                <tr>
+                  <th>점주명</th>
+                  <td>
+                    <div class="form-floating" id="updateMemberNameFrm">
+                      <input type="text" class="form-control" id="memberName" placeholder="" name="memberName" th:value="*{memberName}" style="width: 350px;">
+                      <label for="floatingInputInvalid" th:text="*{memberName}">김점주</label>
+                      <article id="messageMemberName"></article>
                     </div>
-                  </form>
-                </td>
-              </tr>
-
-            </tbody>
-          </table>
+                  </td>
+  
+                  <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
+  
+                  <th>점주회원번호</th>
+                  <td>
+                    <div class="form-floating" id="updateMemberNoFrm">
+                      <input type="text" class="form-control" id="memberNo" placeholder="" th:value="*{memberNo}" name="memberNo" style="width: 350px;">
+                      <label for="floatingInputInvalid" th:text="*{memberNo}">0000</label>
+                      <article id="messageMemberNo"></article>
+                    </div>
+                  </td>
+                </tr>
+  
+                <tr>
+                  <th>전화번호</th>
+                  <td colspan="4">
+                    <div class="form-floating"  id="updateStoreTelFrm">
+                      <input type="text" class="form-control" id="storeTel" placeholder=""  th:value="*{storeTel}" name="storeTel" style="width: 350px;">
+                      <label for="floatingInputInvalid" th:text="*{storeTel}">028855913</label>
+                      <article id="messageStoreTel"></article>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th>위치</th>
+                  <td colspan="4">
+                    <div class="form-floating d-flex align-items-center"  id="updateStoreAddressFrm">
+                      <input type="text" class="form-control" id="storeAddress" placeholder="" name="storeAddress" th:value="*{storeAddress}" style="width: 500px;">
+                      <label for="floatingInputInvalid" th:text="*{storeAddress}">서울특별시 송파구 가락로 74, (석촌동) 1층</label>
+                      
+                      <div class="signUp-input-area">
+                        <button type="button" class="btn ms-4 btn-outline-warning" onclick="sample6_execDaumPostcode()">주소 검색</button>
+                      </div>
+                      
+                      <div class="signUp-input-area">
+                        <article id="messageStoreAddress" style="margin-left: 10px;"></article>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+  
+              </tbody>
+            </table>
+          </form>
         </div>
       </th:block>
 

@@ -82,16 +82,17 @@ public interface AdminStoreMapper {
 	 */
 	int checkStoreNo(String storeNo);
 
-	/** 신규 점포 등록 - 점주명
-	 * @param inputStore
-	 */
-	void storeInsertName(Store inputStore);
-
 	/** 신규 점포 등록
 	 * @param inputStore
 	 * @return
 	 */
 	int storeInsert(Store inputStore);
+
+	/** 기존회원 존재하는지 체크
+	 * @param updateStore
+	 * @return
+	 */
+	int matchMemberNo(Store updateStore);
 	
 	
 

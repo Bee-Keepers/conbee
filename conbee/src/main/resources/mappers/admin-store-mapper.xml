@@ -5,9 +5,18 @@
 	
 	<!-- 점포 전체 정보조회-->
 	<select id="readAllStoreList" resultType="Store">
-		SELECT STORE_NO , STORE_NAME , STORE_TEL , STORE_ADDRESS , STORE_RUN_FL , MEMBER_NO , MEMBER_NAME
+		SELECT STORE_NO, STORE_NAME, STORE_TEL, STORE_ADDRESS, STORE_RUN_FL, 
+		       CASE 
+			       WHEN MEMBER_NO IS NULL
+			       THEN NULL
+			       ELSE MEMBER_NO
+			   END MEMBER_NO,
+		       CASE
+			       WHEN MEMBER_NO IS NOT NULL
+			       THEN M.MEMBER_NAME
+			    END MEMBER_NAME
 		FROM STORE
-		JOIN "MEMBER" USING (MEMBER_NO)
+		LEFT JOIN "MEMBER" M USING (MEMBER_NO)
 		ORDER BY STORE_NO
 	</select>
 	
@@ -20,9 +29,9 @@
 	
 	<!--검색한 정보와 일치하는 점포갯수-->
 	<select id="searchStoreListCount" resultType="_int">
-		SELECT COUNT(*) 
+		SELECT COUNT(*)
 		FROM STORE
-		JOIN "MEMBER" USING (MEMBER_NO)
+		LEFT JOIN "MEMBER" USING (MEMBER_NO)
 		WHERE STORE_NAME LIKE '%${query}%' OR
 		STORE_TEL LIKE '%${query}%' OR
 		STORE_ADDRESS LIKE '%${query}%' OR
@@ -33,7 +42,7 @@
 	<select id="searchStoreList" resultType="Store">
 		SELECT STORE_NO , STORE_NAME , STORE_TEL , STORE_ADDRESS , STORE_RUN_FL , MEMBER_NO , MEMBER_NAME
 		FROM STORE
-		JOIN "MEMBER" USING (MEMBER_NO)
+		LEFT JOIN "MEMBER" USING (MEMBER_NO)
 		WHERE STORE_NAME LIKE '%${query}%' OR
 		STORE_TEL LIKE '%${query}%' OR
 		STORE_ADDRESS LIKE '%${query}%' OR
@@ -51,7 +60,7 @@
 	<select id="readStoreInfo" resultType="Store">
 		SELECT STORE_NO , STORE_NAME , STORE_TEL , STORE_ADDRESS , STORE_RUN_FL , MEMBER_NO , MEMBER_NAME
 		FROM STORE
-		JOIN "MEMBER" USING (MEMBER_NO)
+		LEFT JOIN "MEMBER" USING (MEMBER_NO)
 		WHERE STORE_NO = #{storeNo}
 	</select>
 	
@@ -100,6 +109,13 @@
 		WHERE MEMBER_NO = ${memberNo}
 	</update>
 	
+	<!-- 점포정보수정 - 회원 존재하는지 확인 -->
+	<select id="matchMemberNo" resultType="_int">
+		SELECT COUNT(*) 
+		FROM "MEMBER"
+		WHERE MEMBER_NO = ${memberNo}
+	</select>
+	
 	<!--신규 점포 등록-->
 	<insert id="storeInsert">
 		INSERT INTO STORE
@@ -107,10 +123,6 @@
 			#{storeTel}, DEFAULT, DEFAULT, NULL, NULL)
 	</insert>
 	
-	<!--신규 점포 등록 - 점주이름 등록-->
-	<insert id="storeInsertName">
-		
-	</insert>
 	
 	
 	

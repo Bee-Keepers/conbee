@@ -69,8 +69,8 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	 * @param ra
 	 * @return
 	 */
-	@GetMapping("changeRunFl")
-	public String changeRunFl(int storeNo, String storeRunFl, RedirectAttributes ra) {
+	@GetMapping("changeRunFl/{storeNo:[0-9]+}/{storeRunFl:[A-Z]}")
+	public String changeRunFl(@PathVariable("storeRunFl") String storeRunFl, @PathVariable("storeNo") int storeNo, RedirectAttributes ra) {
 		
 		int result = service.changeRunFl(storeNo, storeRunFl);
 		
@@ -80,7 +80,7 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 			ra.addFlashAttribute("message", "권한 변경 실패");
 		}
 		
-		return "redirect:admin/storeManage/storeList";
+		return "redirect:/admin/storeManage/storeList";
 	}
 	
 	
@@ -111,7 +111,12 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 		
 		String message = null;
 		
-		if(result > 0) {
+		
+		if(result == 100) { // 기존 회원번호가 없는 경우
+			message = "입력하신 정보와 일치하는 회원이 없습니다. 회원가입을 우선 진행해주세요.";
+		}
+		
+		else if(result > 0) { // 점포수정 완료된 경우
 			message = "점포 정보가 수정되었습니다.";
 			readStore.setStoreName(updateStore.getStoreName());
 			readStore.setMemberName(updateStore.getMemberName());
@@ -203,6 +208,7 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 		
 		return result;
 	}
+	
 
 	
 	/** 매장 주소 중복 검사
@@ -255,15 +261,28 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 		
 		int result = service.storeInsert(inputStore);
 		
-		// 점포 등록 성공 시 점포정보조회 페이지로 리다이렉트
-		if(result > 0) {
-			ra.addFlashAttribute("message", "점포 등록이 성공하였습니다.");
-			return "redirect:/admin/storeManage/storeList";
+		String path = null;
+		
+		// 기존 회원이 아닌데 회원번호를 입력한 경우 회원가입페이지로 리다이렉트
+		if(result == 100) {
+			ra.addFlashAttribute("message", "기존 회원인 경우에만 점주 정보를 입력해주세요.");
+			path = "redirect:/admin/storeManage/storeInsert";
 		}
 		
+		// 점포 등록 성공 시 점포정보조회 페이지로 리다이렉트
+		else if(result > 0) {
+			ra.addFlashAttribute("message", "점포 등록이 성공하였습니다.");
+			path = "redirect:/admin/storeManage/storeList";
+		} 
+		
 		// 점포등록 실패시 등록페이지로 리다이렉트
-		ra.addAttribute("message", "점포 등록이 실패하였습니다.");
-		return "redirect:/admin/storeManage/storeInsert";		
+		else {
+			ra.addAttribute("message", "점포 등록이 실패하였습니다.");
+			path = "redirect:/admin/storeManage/storeInsert";
+		}
+
+		
+		return path;		
 	}
 	
 	
