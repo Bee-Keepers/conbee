@@ -42,8 +42,17 @@ public class StockServiceImpl implements StockService{
 	
 	// 등록된 상품 삭제
 	@Override
-	public int goodsDelete(int goodsNo) {
-		return mapper.goodsDelete(goodsNo);
+	public int goodsDelete(List<Integer> goodsNo) {
+		
+		int result = 1;
+		
+		for(int i=0; i<goodsNo.size(); i++) {
+			result = mapper.goodsDelete((int)(goodsNo.get(i)));
+			if(result <= 0) {
+				return 0;
+			}
+		}
+		return result;
 	}
 	
 	

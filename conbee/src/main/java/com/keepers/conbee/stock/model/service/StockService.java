@@ -29,7 +29,7 @@ public interface StockService {
 	 * @param goodsNo
 	 * @return
 	 */
-	int goodsDelete(int goodsNo);
+	int goodsDelete(List<Integer> goodsNo);
 
 
 

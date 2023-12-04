@@ -21,6 +21,8 @@ public interface AdminStoreMapper {
 	 * @return
 	 */
 	int getListCount();
+<<<<<<< HEAD
+=======
 
 	/** 검색한 정보와 일치하는 점포갯수
 	 * @param paramMap
@@ -52,6 +54,47 @@ public interface AdminStoreMapper {
 	 * @return
 	 */
 	int checkStoreName(String storeName);
+
+	/** 점포 전화번호 중복 검사
+	 * @param storeTel
+	 * @return
+	 */
+	int checkStoreTel(String storeTel);
+
+	/** 점포 주소 중복검사
+	 * @param storeAddress
+	 * @return
+	 */
+	int checkStoreAddress(String storeAddress);
+
+	/** 점포정보수정
+	 * @param updateStore
+	 * @return
+	 */
+	int storeUpdate(Store updateStore);
+
+	/** 점포정보수정-점주명
+	 * @param updateStore
+	 */
+	void storeUpdateName(Store updateStore);
+
+	/** 점포 번호 중복검사
+	 * @param storeNo
+	 * @return
+	 */
+	int checkStoreNo(String storeNo);
+
+	/** 신규 점포 등록 - 점주명
+	 * @param inputStore
+	 */
+	void storeInsertName(Store inputStore);
+
+	/** 신규 점포 등록
+	 * @param inputStore
+	 * @return
+	 */
+	int storeInsert(Store inputStore);
+>>>>>>> origin/main
 	
 	
 
