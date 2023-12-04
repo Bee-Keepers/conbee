@@ -45,6 +45,7 @@
 		
 	</update>
 	
+	<!-- 발주 자동 완성 검색 기능-->
 	<select id="autoComplete" resultType="Stock">
 		SELECT STORE_NO, GOODS_NO, GOODS_NAME, LCATEGORY_NAME, SCATEGORY_NAME, STOCK_OUT_PRICE, STOCK_IN_PRICE, STOCK_DISCOUNT
 			,STOCK_AMOUNT
