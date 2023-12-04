@@ -82,11 +82,6 @@ public interface AdminStoreMapper {
 	 */
 	int checkStoreNo(String storeNo);
 
-	/** 신규 점포 등록 - 점주명
-	 * @param inputStore
-	 */
-	void storeInsertName(Store inputStore);
-
 	/** 신규 점포 등록
 	 * @param inputStore
 	 * @return

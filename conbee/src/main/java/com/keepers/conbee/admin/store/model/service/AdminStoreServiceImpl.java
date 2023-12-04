@@ -164,6 +164,7 @@ public class AdminStoreServiceImpl implements AdminStoreService{
 		// 점주명 변경 수정
 		mapper.storeUpdateName(updateStore);
 		
+		// 점포 정보 수정
 		return mapper.storeUpdate(updateStore);
 	}
 	
@@ -174,25 +175,21 @@ public class AdminStoreServiceImpl implements AdminStoreService{
 	@Override
 	public int storeInsert(Store inputStore) {
 		
-		// 점주번호를 받지 않고 점주명만 받은 경우(점주 신규가입) -> 현재 점주 회원번호는 Null
-		// mapper에서 점주 회원번호 생성, 점주명
+		// 입력한 점주번호가 기존 회원번호에 없을 경우 return하고 회원가입하고오라고하기!
+		int result = mapper.matchMemberNo(inputStore);
 		
-		// 점주명 O, 회원번호 X인 경우(신규가입)
-		if(inputStore.getMemberNo() == 0) {
-			mapper.storeInsertName(inputStore);			
-
-		} else {
-			mapper.storeInsert(inputStore);
+		// 기존 회원번호가 없을 경우 return
+		if(result <= 0) {
+			return 100;
 		}
 		
-		// 점주번호가 없는 경우(점주신규가입) -> 점주회원번호 0,
-		// 점주번호가 없는 경우 
+		// inputStore에 점주번호가 
 		
-		// 점주번호가 이미 존재하는 경우 -> 점주명 업데이트
 		
-		// 점주번호가 없는 경우
-		// 점주명 등록
 		
+		
+		// 점포정보 인서트
+		mapper.storeInsert(inputStore);
 		
 		return 0;
 	}

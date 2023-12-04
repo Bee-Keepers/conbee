@@ -304,7 +304,7 @@ memberNo.addEventListener("input", ()=>{
     // 입력한 점주번호가 유효할 경우
     if(regEx.test(memberNo.value)){
 
-      messageMemberNo.innerText= "사용 가능한 점주회원번호입니다.";
+      messageMemberNo.innerText= "양식에 맞는 점주회원번호입니다.";
       messageMemberNo.classList.add("OK-feedback");
       messageMemberNo.classList.remove("NotOK-feedback");
 

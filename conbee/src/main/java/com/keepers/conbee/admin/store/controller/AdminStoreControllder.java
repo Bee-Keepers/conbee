@@ -261,15 +261,28 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 		
 		int result = service.storeInsert(inputStore);
 		
-		// 점포 등록 성공 시 점포정보조회 페이지로 리다이렉트
-		if(result > 0) {
-			ra.addFlashAttribute("message", "점포 등록이 성공하였습니다.");
-			return "redirect:/admin/storeManage/storeList";
+		String path = null;
+		
+		// 기존 회원이 아닌데 회원번호를 입력한 경우 회원가입페이지로 리다이렉트
+		if(result == 100) {
+			ra.addFlashAttribute("message", "기존 회원인 경우에만 점주 정보를 입력해주세요.");
+			path = "redirect:/admin/storeManage/storeInsert";
 		}
 		
+		// 점포 등록 성공 시 점포정보조회 페이지로 리다이렉트
+		else if(result > 0) {
+			ra.addFlashAttribute("message", "점포 등록이 성공하였습니다.");
+			path = "redirect:/admin/storeManage/storeList";
+		} 
+		
 		// 점포등록 실패시 등록페이지로 리다이렉트
-		ra.addAttribute("message", "점포 등록이 실패하였습니다.");
-		return "redirect:/admin/storeManage/storeInsert";		
+		else {
+			ra.addAttribute("message", "점포 등록이 실패하였습니다.");
+			path = "redirect:/admin/storeManage/storeInsert";
+		}
+
+		
+		return path;		
 	}
 	
 	

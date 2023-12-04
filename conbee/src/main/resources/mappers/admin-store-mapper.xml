@@ -123,10 +123,6 @@
 			#{storeTel}, DEFAULT, DEFAULT, NULL, NULL)
 	</insert>
 	
-	<!--신규 점포 등록 - 점주이름 등록-->
-	<insert id="storeInsertName">
-		
-	</insert>
 	
 	
 	
