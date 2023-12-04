@@ -186,15 +186,17 @@ public class ApprovalController { // 전자결재 컨트롤러
 		approval.setDepartmentNo(departNo); // 협조부서 코드
 		approval.setDocCategoryNo(cateNo); // 문서 분류 번호
 		
-		int approvalNo = service.insertApproval(approval);
+		int result = service.insertApproval(approval);
 		
+		log.debug(result+"d");
+		log.debug(approval.getApprovalCondition()+"s");
 		
-		if(approvalNo > 0 && approval.getApprovalCondition()==0) {
+		if(result > 0 && approval.getApprovalCondition()==0) {
 		  ra.addFlashAttribute("message", "결재 요청이 완료되었습니다.");
 		  return "redirect:/approval/requestApproval";
 		}
 		
-		if(approvalNo > 0 && approval.getApprovalCondition()==1) {
+		if(result > 0 && approval.getApprovalCondition()==1) {
 		  ra.addFlashAttribute("message", "임시저장이 완료되었습니다.");
 		  return "redirect:/approval/tempSave";
 		}

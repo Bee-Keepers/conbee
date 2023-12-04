@@ -62,30 +62,20 @@
 		</choose>
 	</insert>
 	
-<!--	
-	 결재자 리스트 insert
-	<insert id="insertApproverList" parameterType="List">
-	    INSERT INTO "APPROVER" (APPROVER_NO, APPROVER_ORDER, APPROVER_CONDITION, APPROVER_DATE, APPROVAL_NO, MEMBER_NO)
-	    VALUES
-	    <foreach collection="list" item="approvers" separator=",">
-	        (NEXT_APPROVER_NO(), #{approvers.approverOrder}, #{approvers.approverCondition}, SYSDATE,#{approvers.approvalNo},#{approvers.memberNo})
-	    </foreach>
-	</insert>-->
-	
-	
-<!--	
-	<insert id="insertApproverList" parameterType="List">
-		INSERT INTO "APPROVER" VALUES
-		<foreach collection="list" item="approvers" separator=" UNION ALL ">
-			SELECT NEXT_APPROVER_NO(),
-			 #{approvers.approverOrder},
-			 #{approvers.approverCondition},
-			 SYSDATE,
-			 #{approvers.approvalNo},
-			 #{approvers.memberNo}
+	<!-- 결재자 리스트 insert -->
+	<insert id="insertApproverList" parameterType="list">
+		INSERT INTO "APPROVER"
+		<foreach collection="list" item="item" separator=" UNION ">
+			SELECT NEXT_APPROVER_NO(), 
+				#{item.approverOrder},
+				#{item.approverCondition},
+				SYSDATE,
+				#{item.approvalNo},
+				#{item.memberNo}
 			FROM DUAL
 		</foreach>
-	</insert>-->
+	</insert>
+	
 
 </mapper>
 
