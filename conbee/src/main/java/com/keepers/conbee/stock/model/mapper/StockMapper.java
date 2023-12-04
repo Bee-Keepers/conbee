@@ -41,6 +41,18 @@ public interface StockMapper {
 	 */
 	int goodsUpdate(Stock stock);
 
+	/** 재고 현황 리스트 전체 조회
+	 * @param paramMap
+	 * @return
+	 */
+	List<Stock> stockList(Map<String, Object> paramMap);
+
+	/** 재고 현황 등록
+	 * @param stock
+	 * @return
+	 */
+	int stockInsert(Stock stock);
+  
 	/** 자동 완성
 	 * @param map
 	 * @return

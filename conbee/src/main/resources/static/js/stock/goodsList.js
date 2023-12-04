@@ -69,7 +69,7 @@ deleteBtn.addEventListener('click', () => {
    }
 });
 
-/* 상품 목록 업데이트 데이터 가져오기 */
+/* 상품 목록 수정 데이터 가져오기 */
 const updateBtn = document.getElementById("updateBtn");
 updateBtn.addEventListener("click", () => {
 
@@ -105,18 +105,6 @@ updateBtn.addEventListener("click", () => {
       }
    })
    .catch(e=>console.log(e));
-
-   // 등록 창 모달에서 대분류 선택 시 대분류 안에있는 소분류 불러오기
-   // lcategorySelect.addEventListener("change", ()=>{
-   //    scategorySelect.innerHTML = "";
-   //    const option = document.createElement("option");
-   //    option.innerText = "선택";
-   //    option.setAttribute("value", "0");
-   //    scategorySelect.append(option);
-      // if(lcategorySelect.value != 0){
-      //    lcategoryFn(lcategorySelect, scategorySelect);
-      // }
-   // });
 
 });
 
