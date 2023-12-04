@@ -5,50 +5,52 @@
     <div class="modal-header">
       <div><h1 class="modal-title fs-5" id="exampleModalLabel">기안문 작성 - 발주기안서</h1></div>
       <div>
-        <button type="button" class="btn me-1" data-bs-target="#" style="width: 100px; background-color: #f2f2f2;">임시저장</button>
-        <button type="button" class="btn btn-warning me-1" data-bs-target="#">결재</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <button type="submit" form="docOrder" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveOrder"
+        name="ConditionBtn" value="1">임시저장</button>
+        <button type="submit" form="docOrder" class="btn btn-warning me-1" id="submitOrder" name="ConditionBtn" value="0">결재</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
+
       </div>
-    </div>
+    </div> 
     <!-- 모달 바디 -->
     <div class="modal-body" style="width: 800px; height: 800px; ">
-      <form class="d-flex flex-column" >
+      <form class="d-flex flex-column" action="docOrder" id="docOrder" method="POST">
         <!-- 결재 정보 -->
         <div class="my-2 mx-3">
-      
+
           <!-- 제목 -->
           <div class="d-flex mb-2">
             <span class="elem me-3" style="height: 27px;">제목 : </span>
-            <input class="title-input" type="text" id="inputOrder">
+            <input type="text" class="form-control title-input" id="inputOrder" name="approvalTitle">
           </div>
-      
+
           <!-- 구분 -->
           <div class="d-flex mb-2">
             <span class="elem me-3">구분(항목) : </span>
             <span style="height: 27px;">업무(발주)</span>
           </div>
-      
+
           <!-- 담당자(부서) -->
           <div class="d-flex mb-1">
             <span class="elem me-3" style="height: 27px;">담당자(부서) : </span>
-            <span style="height: 27px;">정유진(전산팀)</span><!-- ${memberName, teamName} -->
+            <span class="docWriteInfo" style="height: 27px;" th:text="${memberName}">정유진(전산팀)</span><!-- ${memberName, teamName} -->
           </div>
-      
+
           <!-- 협조부서 -->
           <div class="d-flex mb-2">
             <span class="elem me-3">협조부서 : </span>
             <span style="height: 27px;">인사관리부</span>
           </div>
-    
-      
+
+
         </div>
-      
+
         <!-- 템플릿 -->
         <div class="temps my-2 mx-3 p-3" style="height: 600px;">
-      
+
           <!-- 템플릿 제목 -->
           <div class="pt-4" style="font-size:30px; font-weight: bold; text-align: center;">발 주 기 안 서</div>
-      
+
           <!-- 템플릿 정보/승인 -->
           <div class="d-flex justify-content-between">
             <!-- 정보 -->
@@ -56,15 +58,15 @@
               <table class="table table-bordered" style="width: 250px; border: black;">
                 <tr>
                   <th>문서번호</th>
-                  <td>-</td>
+                  <td></td>
                 </tr>
                 <tr>
                   <th>부 서</th>
-                  <td>점포관리팀</td><!-- ${teamName} -->
+                  <td class="infoTeam"></td>
                 </tr>
                 <tr>
                   <th>기안자</th>
-                  <td>정유진</td><!-- ${memberName} -->
+                  <td class="infoName"></td>
                 </tr>
                 <tr>
                   <th>구분(항목)</th>
@@ -76,15 +78,15 @@
                 </tr>
                 <tr>
                   <th>기안일</th>
-                  <td>2023-11-25</td><!-- sysdate -->
+                  <td></td>
                 </tr>
                 <tr>
                   <th>납기일</th>
-                  <td>2023-11-25</td><!-- sysdate -->
+                  <td></td>
                 </tr>
               </table>
             </div>
-      
+
             <!-- 승인 -->
             <div class="tempApprov my-2 mx-3 px-2">
               <table class="table table-bordered" style="width: 320px; border: black; text-align: center;">
@@ -96,36 +98,37 @@
                 </tr>
                 <tr>
                   <td>
-                    <div style="height: 46px;"><img src="/images/approval/stamp.png" alt="stamp"></div>
-                    <div>김결재</div>
+                    <div style="height: 46px;"></div><!-- 도장 -->
+                    <div style="height: 32px;"></div><!-- 이름 -->
                   </td>
                   <td>
-                    <div style="height: 46px;"><img src="/images/approval/stamp.png" alt="stamp"></div>
-                    <div>김결재</div>
+                    <div style="height: 46px;"></div><!-- 도장 -->
+                    <div style="height: 32px;"></div><!-- 이름 -->
                   </td>
                   <td>
-                    <div style="height: 46px;"><img src="/images/approval/stamp.png" alt="stamp"></div>
-                    <div>김결재</div>
+                    <div style="height: 46px;"></div><!-- 도장 -->
+                    <div style="height: 32px;"></div><!-- 이름 -->
                   </td>
                   <td>
-                    <div style="height: 46px;"><img src="/images/approval/stamp.png" alt="stamp"></div>
-                    <div>김결재</div>
+                    <div style="height: 46px;"></div><!-- 도장 -->
+                    <div style="height: 32px;"></div><!-- 이름 -->
                   </td>
                 </tr>
-                <tr style="font-size:12px;">
-                  <td>2023-11-25</td>
-                  <td>2023-11-25</td>
-                  <td>2023-11-25</td>
-                  <td>2023-11-25</td>
+                <tr style="height: 27px; font-size:12px;">
+                  <td></td><!-- 날짜 -->
+                  <td></td><!-- 날짜 -->
+                  <td></td><!-- 날짜 -->
+                  <td></td><!-- 날짜 -->
                 </tr>
               </table>
             </div>
           </div>
-      
+
           <!-- 본문 -->
           <div class="tempContents my-2 mx-3 px-2">
             <table class="table table-bordered" style="width: 100%; border: black;">
-    
+
+
               <tr>
                 <th>No.</th>
                 <th>품목명</th>
@@ -133,26 +136,31 @@
                 <th>수량</th>
                 <th>단가</th>
                 <th>금액</th>
+
               </tr>
-    
+
               <tr>
+
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
+
               </tr>
-    
+
               <tr>
+
                 <td colspan="5">합계</td>
                 <td></td>
+
               </tr>
-    
+
             </table>
           </div>
         </div>
-      
+
       </form>
     </div>
   </div>
