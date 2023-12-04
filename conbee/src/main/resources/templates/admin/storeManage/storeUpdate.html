@@ -88,8 +88,7 @@
       <!-- 점포 정보가 있을 경우 -->
       <th:block th:if="${readStore != null}">
         <div>
-
-          <form class="d-flex flex-column align-items-center form-floating" style="height: 85%;" action="storeUpdate/info"  method="POST" id="storeUpdateFrm">
+          <form class="d-flex flex-column align-items-center form-floating" style="height: 85%;" action="/admin/storeManage/storeUpdate/info"  method="POST" id="storeUpdateFrm">
             <table class="table mt-2 border-top-none" style="width: 95%; text-align: center; vertical-align: middle;" th:object="${readStore}">
               <colgroup>
                 <col width=15%>
@@ -119,7 +118,7 @@
                   <th>점주명</th>
                   <td>
                     <div class="form-floating" id="updateMemberNameFrm">
-                      <input type="text" class="form-control" id="memberName" placeholder="" name="memberName" th:value="*{memberName}" style="width: 350px;">
+                      <input type="text" class="form-control" id="memberName" placeholder="" name="memberName" th:value="*{memberName}" style="width: 350px;" >
                       <label for="floatingInputInvalid" th:text="*{memberName}">김점주</label>
                       <article id="messageMemberName"></article>
                     </div>
@@ -130,7 +129,7 @@
                   <th>점주회원번호</th>
                   <td>
                     <div class="form-floating" id="updateMemberNoFrm">
-                      <input type="text" class="form-control" id="memberNo" placeholder="" th:value="*{memberNo}" name="memberNo" style="width: 350px;">
+                      <input type="text" class="form-control" id="memberNo" placeholder="" th:value="*{memberNo}" name="memberNo" style="width: 350px;" >
                       <label for="floatingInputInvalid" th:text="*{memberNo}">0000</label>
                       <article id="messageMemberNo"></article>
                     </div>

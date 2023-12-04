@@ -1,6 +1,5 @@
 package com.keepers.conbee.admin.store.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
@@ -257,13 +256,23 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	 * @return
 	 */
 	@PostMapping("storeInsert/insert")
-	public String storeInsert(Store inputStore, RedirectAttributes ra) {
+	public String storeInsert(@RequestParam(value = "memberNo", required = false, defaultValue = "0") int memberNo,
+			@RequestParam(value = "memberName", required = false) String memberName,
+			String storeName, String storeTel, String storeAddress, RedirectAttributes ra) {
+		
+		Store inputStore = new Store();
+		
+		inputStore.setMemberName(memberName);
+		inputStore.setMemberNo(memberNo);
+		inputStore.setStoreName(storeName);
+		inputStore.setStoreTel(storeTel);
+		inputStore.setStoreAddress(storeAddress);
 		
 		int result = service.storeInsert(inputStore);
 		
 		String path = null;
 		
-		// 기존 회원이 아닌데 회원번호를 입력한 경우 회원가입페이지로 리다이렉트
+		// 기존 회원 X, 회원번호 O의 경우(가입X 회원) 회원가입페이지로 리다이렉트
 		if(result == 100) {
 			ra.addFlashAttribute("message", "기존 회원인 경우에만 점주 정보를 입력해주세요.");
 			path = "redirect:/admin/storeManage/storeInsert";
@@ -284,12 +293,6 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 		
 		return path;		
 	}
-	
-	
-	
-	
-	
-	
 	
 
 }

@@ -116,11 +116,18 @@
 		WHERE MEMBER_NO = ${memberNo}
 	</select>
 	
-	<!--신규 점포 등록-->
+	<!--신규 점포 등록 / 회원정보가 없는 경우-->
 	<insert id="storeInsert">
 		INSERT INTO STORE
 		VALUES(SEQ_STORE_NO.NEXTVAL, #{storeName}, #{storeAddress},
 			#{storeTel}, DEFAULT, DEFAULT, NULL, NULL)
+	</insert>
+	
+	<!--신규 점포 등록 / 기존회원의 경우-->
+	<insert id="storeInsertwMember">
+		INSERT INTO STORE
+		VALUES(SEQ_STORE_NO.NEXTVAL, #{storeName}, #{storeAddress},
+			#{storeTel}, DEFAULT, DEFAULT, NULL, ${memberNo})
 	</insert>
 	
 	
