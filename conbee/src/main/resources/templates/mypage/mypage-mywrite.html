@@ -20,7 +20,7 @@
     <div class="d-flex flex-column p-3" style="width: 100%;">
 
       <div class="fs-4 pb-3 px-3 border-bottom">
-        주소록
+        내가 쓴 글 조회
       </div>
 
 
@@ -42,33 +42,20 @@
             <tr style="text-align: center;">
               <th><input type="checkbox"></th>
               <th>회원번호</th>
-              <th>프로필</th>
-              <th>이름</th>
-              <th>부서</th>
-              <th>팀</th>
-              <th>직급</th>
-              <th>전화번호</th>
+              <th>제목</th>
+              <th>작성일</th>
               <th>조회</th>
             </tr>
           </thead>
           <tbody class="table-group-divider">
 
-            <tr th:each="member : ${memberList}" th:object="${member}" style="text-align: center;">
+            <tr th:each="board  : ${boardList}" th:object="${board}" style="text-align: center;">
               <td><input type="checkbox"></td>
-              <td th:text="*{memberNo}"></td>
-              <td>
-                <img th:if="*{memberProfile == null}" th:src="#{user.default.image}" style="width: 45px; height: 45px;">
-                <img th:unless="*{memberProfile == null}" th:src="*{memberProfile}">
-              </td>
-              <td th:text="*{memberName}"></td>
-              <td th:text="*{departmentName}" style="text-align: start; font-weight: bold;"><a href=""
-                  style="text-decoration: none; color: black;"></a></td>
+              <td th:text="*{boardNo}"></td>
+
+              <td th:text="*{boardTitle}"></td>
               <td th:text="*{teamName}"></td>
-              <td th:text="*{gradeName}"></td>
-              <td th:text="*{memberTel}"></td>
-              <td><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#doc5">
-                  상세정보
-                </button></td>
+              <td th:text="*{teamName}"></td>
             </tr>
 
           </tbody>

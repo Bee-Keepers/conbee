@@ -1,5 +1,5 @@
-package com.keepers.conbee.mypage.model.mapper;
-
-public class MypageMapper {
-
-}
+//package com.keepers.conbee.mypage.model.mapper;
+//
+//public class MypageMapper {
+//
+//}
