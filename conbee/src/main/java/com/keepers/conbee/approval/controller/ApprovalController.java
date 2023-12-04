@@ -160,7 +160,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 	* @author 유진
 	*/
 	@PostMapping("writeApproval/{doc}")
-	public String insertDocHoliday(@PathVariable("doc") String doc,
+	public String insertApproval(@PathVariable("doc") String doc,
 		              @RequestParam int ConditionBtn,
 		              @SessionAttribute("loginMember") Member loginMember,
 		              Approval approval, RedirectAttributes ra) {
