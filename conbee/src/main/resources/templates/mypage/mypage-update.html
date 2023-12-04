@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지</title>
+    <!-- <link rel="stylesheet" href="/css/bootstrap.css"> -->
+    <link rel="stylesheet" href="../../static/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        form {
+            height: 80px;
+        }
+    </style>
+</head>
+
+<body class="d-flex flex-column" style="height: 100vh;">
+
+    <th:block th:replace="~{common/header}"></th:block>
+
+    <main class="d-flex flex-grow-1">
+
+        <th:block th:replace="~{address/sidebar}"></th:block>
+
+        <div class="d-flex flex-column p-3" style="width: 100%;">
+
+            <h3 class="profile-tit">내 프로필 조회</h3>
+            <form class="form-floating" action="info" method="POST" id="mypageFrm" enctype="multipart/form-data">
+                <div class="box_manage">
+                    <div class="wrap_profile">
+                        <div class="thumb_profile">
+                            <img src="#" class="img_profile" width="80" height="80" alt="프로필 이미지">
+                            <!-- 이미지 사이즈 80*80 -->
+                            <span class="img_frame"></span>
+                        </div>
+                        <button type="button" class="btn_title">
+                        </button>
+                    </div>
+
+                    <dl class="list_myinfo">
+
+                        <div class="id"></div>
+                        <label for="id_1" class="id_1" id="id_1">
+                            <span class="id">아이디</span>
+                            <span class="id">김커비</span>
+                        </label>
+
+
+                        <div class="address_inp">
+                            <label for="address_1" class="address_1" id="address_1">
+                                <span class="address">주소</span>
+                            </label>
+
+
+                            <div class="phone_inp">
+                                <label for="phone_1" class="phone_1" id="phone_1">
+                                    <span class="phone">전화번호</span>
+                                </label>
+
+
+                                <div class="grade_inp"></div>
+                                <label for="grade_1">
+                                    <span class="grade">직급</span>
+                                    <span class="grade">사원</span>
+                                </label>
+
+
+                                <div class="email_inp">
+                                    <label for="email_1" class="email_1" id="email_1">
+                                        <span class="email">이메일</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </dl>
+
+                </div>
+                <button id="btn1" type="button" class="btn_type1">수정</button>
+            </form>
+        </div>
+
+    </main>
+
+    <th:block th:replace="~{common/footer}"></th:block>
+
+    <script src="../../static/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

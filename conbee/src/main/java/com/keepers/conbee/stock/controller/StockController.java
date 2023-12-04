@@ -93,7 +93,7 @@ public class StockController {
 		return "redirect:goodsList";
 	}
 		
-
+	
 	/** 발주 페이지
 	 * @return
 	 */
