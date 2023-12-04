@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.stock.model.dto.Stock;
@@ -85,6 +86,18 @@ public class StockController {
 	@ResponseBody
 	public int goodsDelete(@RequestBody List<Integer> goodsNo) {
 		return service.goodsDelete(goodsNo);
+	}
+	
+	@PostMapping("goodsUpdate")
+	public String goodsUpdate (Stock stock, RequestAttributes ra) {
+		
+		int result = service.goodsUpdate(stock);
+		
+		if(result > 0) {
+			return "redirect:goodsList";
+		}
+		
+		return null;
 	}
 	
 

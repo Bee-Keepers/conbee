@@ -55,6 +55,13 @@ public class StockServiceImpl implements StockService{
 		return result;
 	}
 	
+	/** 등록된 물품 수정
+	 *
+	 */
+	@Override
+	public int goodsUpdate(Stock stock) {
+		return mapper.goodsUpdate(stock);
+	}
 	
 	
 }

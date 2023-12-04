@@ -8,6 +8,7 @@
    flex-direction: row;
    justify-content: flex-end;
    width: 95%;
+   margin-bottom: 18px;
 }
 .searchBox>input{
    width: 17rem;
