@@ -60,5 +60,5 @@ public class Approval {
 	private int goodsNo; // 상품번호 - 상품테이블 매핑
 
 	
-
+ 
 }

@@ -23,3 +23,4 @@ public interface ApprovalMapper {
 	int insertApproval(Approval approval);
 
 }
+ 

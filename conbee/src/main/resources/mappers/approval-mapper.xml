@@ -26,7 +26,7 @@
 		VALUES(#{approvalNo}, SYSDATE, #{approvalTitle}, #{approvalContent}, #{approvalCondition}, 
 		DEFAULT, DEFAULT, #{memberNo},#{departmentNo},#{docCategoryNo},#{approvalDocTitle})
 		
-	</insert>
+	</insert> 
 
 
 </mapper>
