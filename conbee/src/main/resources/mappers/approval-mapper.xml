@@ -19,22 +19,11 @@
 		SELECT MEMBER_NO, GRADE_NO, TEAM_NO, MEMBER_NAME
 		FROM "MEMBER"
 		WHERE TEAM_NO=0
-		
-		UNION
-		
-		SELECT MEMBER_NO, GRADE_NO, TEAM_NO, MEMBER_NAME
-		FROM "MEMBER"
-		WHERE DEPARTMENT_NO = (SELECT DEPARTMENT_NO FROM "MEMBER" WHERE MEMBER_NO=#{memberNo})
-		AND GRADE_NO=2
+		OR (DEPARTMENT_NO =(SELECT DEPARTMENT_NO FROM "MEMBER" WHERE MEMBER_NO=#{memberNo}) AND GRADE_NO=2)
+		OR (TEAM_NO = (SELECT TEAM_NO FROM "MEMBER" WHERE MEMBER_NO=#{memberNo}) AND GRADE_NO=3)
+		OR (GRADE_NO =3 AND DEPARTMENT_NO =2 AND TEAM_NO = 6)
 		AND MEMBER_NO!=#{memberNo}
-		
-		UNION
-		
-		SELECT MEMBER_NO, GRADE_NO, TEAM_NO, MEMBER_NAME
-		FROM "MEMBER"
-		WHERE TEAM_NO = (SELECT TEAM_NO FROM "MEMBER" WHERE MEMBER_NO=#{memberNo})
-		AND GRADE_NO=3
-		AND MEMBER_NO!=#{memberNo}
+		ORDER BY GRADE_NO DESC
 	</select>
 
 	<!-- 기안문 insert -->
@@ -72,6 +61,31 @@
 			<!-- 발주 추가예정-->
 		</choose>
 	</insert>
+	
+<!--	
+	 결재자 리스트 insert
+	<insert id="insertApproverList" parameterType="List">
+	    INSERT INTO "APPROVER" (APPROVER_NO, APPROVER_ORDER, APPROVER_CONDITION, APPROVER_DATE, APPROVAL_NO, MEMBER_NO)
+	    VALUES
+	    <foreach collection="list" item="approvers" separator=",">
+	        (NEXT_APPROVER_NO(), #{approvers.approverOrder}, #{approvers.approverCondition}, SYSDATE,#{approvers.approvalNo},#{approvers.memberNo})
+	    </foreach>
+	</insert>-->
+	
+	
+<!--	
+	<insert id="insertApproverList" parameterType="List">
+		INSERT INTO "APPROVER" VALUES
+		<foreach collection="list" item="approvers" separator=" UNION ALL ">
+			SELECT NEXT_APPROVER_NO(),
+			 #{approvers.approverOrder},
+			 #{approvers.approverCondition},
+			 SYSDATE,
+			 #{approvers.approvalNo},
+			 #{approvers.memberNo}
+			FROM DUAL
+		</foreach>
+	</insert>-->
 
 </mapper>
 

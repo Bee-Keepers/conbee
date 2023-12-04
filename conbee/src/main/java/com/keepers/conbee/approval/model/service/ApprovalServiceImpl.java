@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.keepers.conbee.approval.model.dto.Approval;
+import com.keepers.conbee.approval.model.dto.Approver;
 import com.keepers.conbee.approval.model.mapper.ApprovalMapper;
 import com.keepers.conbee.member.model.dto.Member;
 
@@ -34,12 +35,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 	@Override
 	public List<Member> selectApproverList(int memberNo) {
 		
-		
-		List<Member> approverList = mapper.selectApproverList(memberNo);
-		
-
-		
-		return approverList;
+		return mapper.selectApproverList(memberNo);
 	}
 
 
@@ -56,11 +52,48 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// 2) 휴가/퇴직/출폐점/발주 결재문서 테이블 삽입
 		int resultApprovalDoc = mapper.insertApprovalDoc(approval);
 		if(resultApprovalDoc ==0) return 0;
+				
+	
+		// 코드 정리 필요======================================================
 		
-		if(resultApproval==1 && resultApprovalDoc==1) result = 1;
+		// 3) 결재자 리스트 테이블 삽입
+		
+		// 결재라인 개수
+		int approverNum;
+		switch(approval.getDocCategoryNo()) {
+		case 0: approverNum = 1;
+		case 1: approverNum = 2;
+		case 2,3: approverNum = 4;
+		case 4: approverNum = 2;
+		case 5: approverNum = 4;
+		default: approverNum=0;
+		}
+		
+		List<Approver> approverList = new ArrayList<>(); 
+		
+		
+		// 결재자 이름 받아오기
+		List<Member> approverNoList = mapper.selectApproverList(approval.getMemberNo()); 
+
+		
+		for(int i=0; i<approverNum; i++) {
+			
+			Approver approvers = new Approver();
+			
+			approvers.setApproverCondition(0);
+			approvers.setApprovalNo(approval.getApprovalNo());
+			approvers.setApproverOrder(i);
+			approvers.setMemberNo(approverNoList.get(i).getMemberNo());
+			
+			approverList.add(approvers);
+		}
+
+		
+		int resultApprover = mapper.insertApproverList(approverList);
+		
+	
+		if(resultApproval==1 && resultApprovalDoc==1 && resultApprover==1) result = 1;
 		else result =0;
-	
-	
 	
 	    return result;
 	}
