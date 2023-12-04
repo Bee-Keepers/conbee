@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.keepers.conbee.admin.store.model.dto.Store;
 import com.keepers.conbee.admin.store.model.mapper.AdminStoreMapper;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AdminStoreServiceImpl implements AdminStoreService{
 
 	private final AdminStoreMapper mapper;
@@ -51,8 +53,6 @@ public class AdminStoreServiceImpl implements AdminStoreService{
 	}
 	
 	
-<<<<<<< HEAD
-=======
 	/** 검색한 점포 목록 조회
 	 *
 	 */
@@ -198,5 +198,4 @@ public class AdminStoreServiceImpl implements AdminStoreService{
 	
 	
 	
->>>>>>> origin/main
 }
