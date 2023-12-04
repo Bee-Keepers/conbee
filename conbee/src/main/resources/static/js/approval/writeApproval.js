@@ -14,6 +14,16 @@
     // console.log(map);
     const docWriteInfosMap = new Map(Object.entries(map));
 
+    const approverList = docWriteInfosMap.get('approverList');
+
+    console.log(approverList);
+
+
+
+    console.log(approverList[0].memberName);
+
+
+
     const infoTeams = document.querySelectorAll(".infoTeam");
     infoTeams.forEach((infoTeam)=>{
       infoTeam.innerText = docWriteInfosMap.get('infoTeam');
@@ -30,6 +40,8 @@
     docWriteInfos.forEach((docWriteInfo)=>{
       docWriteInfo.innerText = docWriteInfosMap.get('infoName') + "(" + docWriteInfosMap.get('infoTeam') + ")";
     })
+
+
 
   })
 
