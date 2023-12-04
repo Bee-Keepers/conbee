@@ -137,31 +137,14 @@ public class ApprovalController { // 전자결재 컨트롤러
 		
 		// 로그인한 회원의 이름, 팀이름, 결재자 받아오기
 		Member member = service.selectWriteInfo(loginMember.getMemberNo());
-		List<Member> approverList = service.selectApproverList(loginMember.getMemberNo());
+		List<Member> InfoApproverList = service.selectApproverList(loginMember.getMemberNo());
 		
 		Map<String, Object> docWriteInfosMap = new HashMap<>();
 		docWriteInfosMap.put("infoName", member.getMemberName());
-		docWriteInfosMap.put("infoTeam", member.getTeamName());
-		
-		docWriteInfosMap.put("approverList", approverList);
+		docWriteInfosMap.put("infoTeam", member.getTeamName());	
+		docWriteInfosMap.put("InfoApproverList", InfoApproverList);
 
-//		for(int i=0; i<approverList.size(); i++) {
-//						
-//			if(approverList.get(i).getGradeNo()==0) { // 사장
-//				docWriteInfosMap.put("사장", approverList.get(i).getMemberName());
-//			}
-//			else if(approverList.get(i).getGradeNo()==1) {
-//				docWriteInfosMap.put("부사장", approverList.get(i).getMemberName());
-//			}
-//			else if(approverList.get(i).)
-//		}
-		
 
-			
-			
-			
-		
-		
 		return docWriteInfosMap;
 
 	}

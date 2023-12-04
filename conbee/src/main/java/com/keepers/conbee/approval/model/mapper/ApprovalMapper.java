@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.keepers.conbee.approval.model.dto.Approval;
+import com.keepers.conbee.approval.model.dto.Approver;
 import com.keepers.conbee.member.model.dto.Member;
 
 @Mapper
@@ -38,6 +39,13 @@ public interface ApprovalMapper {
 	 * @author 유진
 	 */
 	int insertApprovalDoc(Approval approval);
+
+	/** 결재자 리스트 insert
+	 * @param approverList
+	 * @return result3
+	 * @author 유진
+	 */
+	int insertApproverList(List<Approver> approverList);
 
 
 }

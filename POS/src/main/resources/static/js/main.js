@@ -242,6 +242,7 @@ inputPosSearch.addEventListener("input", ()=>{
 });
 
 
+// 요소 생성 코드
 // createElement("input",{type:"text", name:"inputId"},["test", "aaa"])
 function createElement(tag, obj, classList){
     const element = document.createElement(tag);

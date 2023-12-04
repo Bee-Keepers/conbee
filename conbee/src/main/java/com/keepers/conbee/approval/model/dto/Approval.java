@@ -25,13 +25,6 @@ public class Approval {
   private int docCategoryNo; // 분류번호 - 문서분류 테이블
 
 
-  // 결재자 (approvalNo, memberNo)
-  private int approverNo; // 결재번호
-  private int approverOrder; // 결재순서
-  private int approverCondition; // 결재상태
-  private String approverDate; // 결재일
-
-
   // 결재문서 첨부파일 (approvalNo)
   private int approvalFileNo; // 첨부파일 번호
   private String approvalFileRoute; // 첨부파일 경로

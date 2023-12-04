@@ -34,9 +34,9 @@ public class StockServiceImpl implements StockService{
 	// 상품등록 전체 조회
 	@Override
 	public Map<String, Object> goodsList(Map<String, Object> paramMap) {
-		List<Stock> stockList = mapper.goodsList(paramMap);
+		List<Stock> goodsListSelect = mapper.goodsList(paramMap);
 		Map<String, Object> map = new HashMap<>();
-		map.put("stockList", stockList);
+		map.put("goodsListSelect", goodsListSelect);
 		return map;
 	}
 	
@@ -55,12 +55,38 @@ public class StockServiceImpl implements StockService{
 		return result;
 	}
 	
-	/** 등록된 물품 수정
-	 *
-	 */
+	// 등록된 상품 수정
 	@Override
 	public int goodsUpdate(Stock stock) {
 		return mapper.goodsUpdate(stock);
+	}
+	
+	// 재고 현황 리스트 전체 조회
+	@Override
+	public Map<String, Object> stockList(Map<String, Object> paramMap) {
+		List<Stock> stockListSelect = mapper.stockList(paramMap);
+		Map<String, Object> map = new HashMap<>();
+		map.put("stockListSelect", stockListSelect);
+		return map;
+	}
+	
+	// 재고 현황 등록
+	@Override
+	public int stockInsert(Stock stock) {
+		return mapper.stockInsert(stock);
+	}
+
+  @Override
+	public List<Stock> autoComplete(String inputQuery, int storeNo, String lcategoryName, String scategoryName) {
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("inputQuery", inputQuery);
+		map.put("storeNo", storeNo);
+		map.put("lcategoryName", lcategoryName);
+		map.put("scategoryName", scategoryName);
+		
+		return mapper.autoComplete(map);
 	}
 	
 	

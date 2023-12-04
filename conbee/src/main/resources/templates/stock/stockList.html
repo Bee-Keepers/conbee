@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>conBee 점포별 상품</title>
+  <title>conBee 점포별 재고</title>
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" href="/css/stock/stockList.css">
@@ -18,7 +18,7 @@
 
     <div class="d-flex flex-column flex-grow-1 align-items-center overflow-y-auto">
       <div class="d-flex justify-content-between align-items-center w-100 px-2">
-        <p class="fs-4 pb-3 px-3 border-bottom w-100 pt-3">상품 등록</p>
+        <p class="fs-4 pb-3 px-3 border-bottom w-100 pt-3">재고 현황</p>
         <!-- 검색창 -->
         <div class="searchBox fs-4 pb-3 px-3 border-bottom w-100 pt-3">
           <input type="text" class="form-control" placeholder="검색어를 입력해주세요" 
@@ -37,7 +37,7 @@
               <th>품목명</th>
               <th>품목구분</th>
               <th>그룹명</th>
-              <th>규격</th>
+              <th>재고규격</th>
               <th>입고단가</th>
               <th>출고단가</th>
               <th>재고</th>
@@ -47,480 +47,84 @@
           </thead>
           <!-- 테이블 내용 -->
           <tbody class="text-center">
-            <tr>
+            <tr th:each="stock : ${map.stockListSelect}" th:object="${stock}">
               <td>
                 <label class="w-100">
                   <input type="checkbox" class="checkbox">
                 </label>
               </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
-            </tr>
-            <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-              <td>5</td>
-              <td>10</td>
-              <td>27000</td>
+              <td th:text="*{goodsNo}">1</td>
+              <td th:text="*{goodsName}">신라면</td>
+              <td th:text="*{lcategoryName}">식품</td>
+              <td th:text="*{scategoryName}">가공식사</td>
+              <td th:text="*{goodsStandard}">-</td>
+              <td th:text="*{stockInPrice}">800</td>
+              <td th:text="*{stockOutPrice}">1500</td>
+              <td th:text="*{stockAmount}">0</td>
+              <td th:text="*{stockDiscount}">10</td>
+              <td>6750</td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white">
         <div class="btn-group" role="group" aria-label="Basic outlined example">
-          <button type="button" class="btn btn-cor" data-bs-toggle="modal" data-bs-target="#stockInsertModel">등록</button>
-          <button type="button" class="btn btn-cor">수정</button>
-          <button type="button" class="btn btn-cor">재고수정</button>
-          <button type="button" class="btn btn-cor">사용중단/재사용</button>
-          <button type="button" class="btn btn-cor">삭제</button>
+          <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#stockInsertModel">등록</button>
+          <button type="button" class="btn btn-warning">수정</button>
+          <button type="button" class="btn btn-warning">재고수정</button>
+          <button type="button" class="btn btn-warning">사용중단/재사용</button>
+          <button type="button" class="btn btn-warning">삭제</button>
         </div>
       </div>
     </div>    
   </main>
 
 
-  <!-- Modal -->
+  <!-- 재고 등록 Modal -->
   <div class="modal fade" id="stockInsertModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
+
+
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">물품 등록</h1>
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">재고 품목 등록</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
-        <div class="form-floating mb-3">
-          <input type="text" class="form-control" id="" placeholder="품목명">
-          <label for="floatingInput">품목명</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input type="text" class="form-control" id="" placeholder="품목구분">
-          <label for="floatingPassword">품목구분</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input type="text" class="form-control" id="" placeholder="그룹명">
-          <label for="floatingPassword">그룹명</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input type="text" class="form-control" id="" placeholder="규격">
-          <label for="floatingPassword">규격</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input type="text" class="form-control" id="" placeholder="입고단가">
-          <label for="floatingPassword">입고단가</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input type="text" class="form-control" id="" placeholder="출고단가">
-          <label for="floatingPassword">출고단가</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input type="number" class="form-control" id="" placeholder="재고">
-          <label for="floatingPassword">재고</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input type="text" class="form-control" id="" placeholder="할인율">
-          <label for="floatingPassword">할인율</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input type="number" class="form-control" id="" placeholder="가격">
-          <label for="floatingPassword">가격</label>
+        <div class="modal-body">
+          <form action="/stock/stockInsert" method="post">
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="goodsName" placeholder="품목명">
+              <label for="">품목명</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="lcategoryName" placeholder="대분류" disabled>
+              <label for="">대분류</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="scategoryName" placeholder="소분류" disabled>
+              <label for="">소분류</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="stockInPrice" placeholder="입고단가">
+              <label for="">입고단가</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="stockOutPrice" placeholder="출고단가">
+              <label for="">출고단가</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="stockDiscount" placeholder="할인율">
+              <label for="">할인율</label>
+            </div>
+            
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+              <button type="submit" class="btn btn-primary btn-warning">등록</button>
+            </div>
+          </form>
         </div>
 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-          <button type="button" class="btn btn-primary">등록</button>
-        </div>
       </div>
     </div>
   </div>
@@ -528,6 +132,9 @@
 
   <th:block th:replace="~{common/footer}"></th:block>
 
+  <script src="/js/stock/stockList.js"></script>
   <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
