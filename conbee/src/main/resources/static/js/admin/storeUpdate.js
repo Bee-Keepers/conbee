@@ -18,8 +18,37 @@ function sample6_execDaumPostcode() {
 
           // 우편번호와 주소 정보를 해당 필드에 넣는다.
           document.getElementById("storeAddress").value = addr;
-      }
-  }).open();
+
+          // 중복검사 코드 넣기!
+
+          /* ===================== 점포주소 중복 검사 ======================= */
+            fetch("/admin/storeManage/checkStoreAddress?storeAddress=" + storeAddress.value)
+            .then(response => response.text())
+            .then(result =>{
+
+                if(result == 0){ // 중복 X
+                    messageStoreAddress.innerText= "사용 가능한 점포 주소입니다.";
+                    messageStoreAddress.classList.add("OK-feedback");
+                    messageStoreAddress.classList.remove("NotOK-feedback");
+
+                    // 인풋 요소 변화
+                    storeAddress.classList.add("is-valid");
+                    storeAddress.classList.remove("is-invalid");
+
+                } else { // 중복 O
+                    messageStoreAddress.innerText= "이미 등록된 점포 주소입니다.";
+                    messageStoreAddress.classList.add("NotOK-feedback");
+                    messageStoreAddress.classList.remove("OK-feedback");
+
+                    // 인풋 요소 변화
+                    storeAddress.classList.add("is-invalid");
+                    storeAddress.classList.remove("is-valid");
+                }
+            })
+            .catch(e=> console.log(e))
+
+        }
+    }).open();
 }
 
 
@@ -179,7 +208,7 @@ memberNo.addEventListener("input", ()=>{
     // 입력한 점주번호가 유효할 경우
     if(regEx.test(memberNo.value)){
 
-        messageMemberNo.innerText= "사용 가능한 점주회원번호입니다.";
+        messageMemberNo.innerText= "양식에 맞는 점주회원번호입니다.";
         messageMemberNo.classList.add("valid-feedback");
         messageMemberNo.classList.remove("invalid-feedback");
 
@@ -189,7 +218,7 @@ memberNo.addEventListener("input", ()=>{
 
     // 입력한 점주번호가 유효하지 않을 경우    
     } else {
-        messageMemberNo.innerText= "점주회원번호가 형식에 맞지 않습니다.";
+        messageMemberNo.innerText= "점주회원번호가 양식에 맞지 않습니다.";
         messageMemberNo.classList.add("invalid-feedback");
         messageMemberNo.classList.remove("valid-feedback");
 
@@ -363,14 +392,17 @@ cancelBtn.addEventListener("click", ()=>{
 
 // 확인 버튼 클릭 시 form 전체 제출
 submitBtn.addEventListener("click", ()=>{
+    
+    document.getElementById("storeUpdateFrm").submit();
+
 
     // 전체 form 얻어와 제출 (정말 이게 최선일까...?^^....)
-    document.getElementById("updateStoreNoFrm").submit();
-    document.getElementById("updateStoreNameFrm").submit();
-    document.getElementById("updateMemberNameFrm").submit();
-    document.getElementById("updateMemberNoFrm").submit();
-    document.getElementById("updateStoreTelFrm").submit();
-    document.getElementById("updateStoreAddressFrm").submit();
+    // document.getElementById("updateStoreNoFrm").submit();
+    // document.getElementById("updateStoreNameFrm").submit();
+    // document.getElementById("updateMemberNameFrm").submit();
+    // document.getElementById("updateMemberNoFrm").submit();
+    // document.getElementById("updateStoreTelFrm").submit();
+    // document.getElementById("updateStoreAddressFrm").submit();
 
 
     // 전체 form태그 제출

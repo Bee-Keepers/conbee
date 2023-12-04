@@ -36,7 +36,7 @@
         </div>
       </div>
 
-      <form  action="/admin/memberManage/signup" class="validation-form"  method="post" novalidate>
+      <form  action="/admin/memberManage/signup" class="validation-form"  method="post" >
         <div class="d-flex flex-column justify-content-center align-items-center">
   
           <table class="table mt-2 border-top-none" style="width: 95%; text-align: center; vertical-align: middle;">
@@ -57,9 +57,7 @@
                   <div class="d-flex align-items-center" >
                     <input type="text" class="form-control" name="memberId" id="memberId" placeholder="아이디를 입력해주세요." required>
                   </div>
-                  <div class="invalid-feedback">
-                    아이디를 입력해주세요.
-                  </div>
+                  <article id="messageMemberId"></article>
                 </td>
                 <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
 
@@ -68,9 +66,7 @@
                   <div class="d-flex align-items-center" >
                     <input type="text" class="form-control" name="memberName" id="memberName" placeholder="이름을 입력해주세요." required>
                   </div>
-                  <div class="invalid-feedback">
-                    이름을 입력해주세요.
-                  </div>
+                  <article id="messageMemberName"></article>
                 </td>
               </tr>
 
@@ -97,9 +93,7 @@
                   <div class="d-flex align-items-center" >
                     <input type="email" class="form-control" name="memberEmail" id=" memberEmail" placeholder="이메일을 입력해주세요." required>
                   </div>
-                  <div class="invalid-feedback">
-                    이메일을 입력해주세요.
-                  </div>
+                  <article id="messageMemberEmail"></article>
                 </td>
   
                 <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
@@ -128,9 +122,7 @@
                   <div class="d-flex align-items-center" >
                     <input type="text" class="form-control" name="storeNo" id="storeNo" placeholder="점포 식별번호를 입력해주세요." required>
                   </div>
-                  <div class="invalid-feedback">
-                    점포 식별번호를 입력해주세요.
-                  </div>
+                  <article id="messageStoreNo"></article>
                 </td>
 
 
@@ -156,14 +148,16 @@
             </tbody>
           </table>
   
-          <section class="d-flex justify-content-end mb-2 me-3" style="width: 96%;">
-            <button type="button" class="btn btn-secondary" style="width: 177px;">임시 비밀번호</button>
-          </section>
-
-          <section class="d-flex justify-content-end" style="width: 100%;">
-            <button type="button" class="btn btn-secondary" style="width: 80px;">취소</button>
-            <button class="btn btn-warning ms-3" style="width: 80px; margin-right: 35px;">확인</button>
-          </section>
+          
+          <div class="w-100 align-items-start sticky-bottom bg-white">
+            <section class="d-flex justify-content-end mb-2" style="width: 96%;">
+              <button type="button" class="btn btn-secondary" style="width: 177px;">임시 비밀번호</button>
+            </section>
+            <section class="d-flex justify-content-end" style="width: 100%;">
+              <section class="btn btn-secondary" id="cancelBtn" style="width: 80px;">취소</section>
+              <button type="submit" class="btn btn-warning ms-3" style="width: 80px; margin-right: 35px;">확인</button>
+            </section>
+          </div>
   
         </div>
       </form>
@@ -176,7 +170,7 @@
 
   <th:block th:replace="~{common/footer}"></th:block>
 
-  <script src="js/member/signUp.js"></script>
+  <script src="/js/admin/signUp.js"></script>
   <script src="/js/bootstrap.bundle.min.js"></script>
 
   <!-- 다음 주소 API -->

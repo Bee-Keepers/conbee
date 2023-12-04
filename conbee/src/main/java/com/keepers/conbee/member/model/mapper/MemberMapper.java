@@ -19,6 +19,11 @@ public interface MemberMapper {
 	 */
 	Member quickLogin(String memberId);
 
+	/** 비밀번호 암호화( 임시 삭제예정)
+	 * @param inputMember
+	 */
+	void password(Member inputMember);
+
 
 
 

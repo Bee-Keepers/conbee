@@ -3,13 +3,19 @@ package com.keepers.conbee.admin.member.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.keepers.conbee.admin.member.model.service.AdminMemberService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("admin/memberManage")
 
 public class AdminMemberController {
-
+	
+	private final AdminMemberService service;
 	
 	
 	/** 회원조회 화면 전환
@@ -36,18 +42,48 @@ public class AdminMemberController {
 	
 	
 	
-	/** 이메일 중복 검사
-	 * @param email
-	 * @return
-	 * @author 김민규
-	 */
-//	@GetMapping("checkEmail")
-//	@ResponseBody
-//	public int checkEmail(String email) {
-//		return service.checkEmail(email);
-//	}
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ회원 등록 유효성 검사ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+	
+	// 아이디 유효성 검사
+	@GetMapping("checkMemberId")
+	@ResponseBody
+	public int checkMemberId(String memberId) {
+		int result = service.checkMemberId(memberId);
+		return result;
+	}
 	
 	
+	// 이메일 유효성 검사
+	@GetMapping("checkMemberEmail")
+	@ResponseBody
+	public int checkMemberEmail(String memberEmail) {
+		int result = service.checkMemberEmail(memberEmail);
+		return result;
+	}
 	
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

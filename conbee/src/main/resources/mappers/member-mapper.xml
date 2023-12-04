@@ -34,5 +34,11 @@
 		 AND MEMBER_ID = #{memberId}
 	</select>
 
+	<!-- 비밀번호 123123으로 변경 후 암호화(삭제 예정) -->	
+<!--	<update id="password">
+		UPDATE MEMBER
+		SET MEMBER_PW = #{memberPw}
+	</update>
+-->
 
 </mapper>
