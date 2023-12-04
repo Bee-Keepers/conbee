@@ -1,0 +1,47 @@
+/* 행 안 글자 세로로 가운데 정렬 */
+tbody>tr>td{
+    vertical-align: middle;
+}
+
+/* 테이블 줄 없애기 */
+#revenueTable{
+    border-collapse: separate;
+    border-spacing: 0;
+ }
+ 
+ /* 테이블 헤더 밑줄 */
+ #revenueTable>thead>tr>th{
+    border-bottom: calc(var(--bs-border-width) * 2) solid currentcolor !important;
+ }
+ 
+ /* 사이드바 호버 */
+ #sidebarHover>li>a:hover{
+    background-color: #FFE15D;
+    border-radius: 0.5rem;
+ }
+
+ /* 테이블 간격 조정 */
+thead>tr>th:nth-of-type(1){
+    width: 2%;
+}
+thead>tr>th:nth-of-type(2){
+    width: 6%;
+}
+/* thead>tr>th:nth-of-type(3){
+    width: 5%;
+} */
+thead>tr>th:nth-of-type(4){
+    width: 11%;
+}
+thead>tr>th:nth-of-type(5){
+    width: 11%;
+}
+thead>tr>th:nth-of-type(6){
+    width: 6%;
+}
+thead>tr>th:nth-of-type(7){
+    width: 15%;
+}
+thead>tr>th:nth-of-type(8){
+    width: 8%;
+}
