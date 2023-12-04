@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 연결할 인터페이스의 패키지명.인터페이스명을 작성 -->
+<mapper namespace="com.keepers.conbee.address.model.mapper.AddressMapper">
+
+	<select id="address" resultType="Member">
+		SELECT MEMBER_NO, MEMBER_ID, MEMBER_NAME, MEMBER_TEL, MEMBER_PROFILE,
+		TEAM_NAME, DEPARTMENT_NAME, GRADE_NAME
+		FROM MEMBER
+		JOIN TEAM USING (TEAM_NO)
+		JOIN DEPARTMENT USING (DEPARTMENT_NO)
+		JOIN GRADE USING (GRADE_NO)
+		WHERE MEMBER_DEL_FL = 'N'
+		<if test='grade == 1'>
+			<![CDATA[ AND GRADE_NO < 6 ]]>
+		</if>
+		<if test='grade == 2'>
+			AND GRADE_NO = 6 
+		</if>
+	</select>
+
+</mapper>

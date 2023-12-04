@@ -5,22 +5,21 @@
     <div class="modal-header">
       <div><h1 class="modal-title fs-5" id="exampleModalLabel">기안문 작성 - 발주기안서</h1></div>
       <div>
-        <button type="submit" form="docOrder" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveOrder"
-        name="ConditionBtn" value="1">임시저장</button>
-        <button type="submit" form="docOrder" class="btn btn-warning me-1" id="submitOrder" name="ConditionBtn" value="0">결재</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
+        <button type="button" class="btn me-1" data-bs-target="#" style="width: 100px; background-color: #f2f2f2;">임시저장</button>
+        <button type="button" class="btn btn-warning me-1" data-bs-target="#">결재</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
       </div>
     </div> 
     <!-- 모달 바디 -->
     <div class="modal-body" style="width: 800px; height: 800px; ">
-      <form class="d-flex flex-column" action="docOrder" id="docOrder" method="POST">
+      <form class="d-flex flex-column" >
         <!-- 결재 정보 -->
         <div class="my-2 mx-3">
       
           <!-- 제목 -->
           <div class="d-flex mb-2">
             <span class="elem me-3" style="height: 27px;">제목 : </span>
-            <input type="text" class="form-control title-input" id="inputOrder" name="approvalTitle">
+            <input class="title-input" type="text" id="inputOrder">
           </div>
       
           <!-- 구분 -->
@@ -32,7 +31,7 @@
           <!-- 담당자(부서) -->
           <div class="d-flex mb-1">
             <span class="elem me-3" style="height: 27px;">담당자(부서) : </span>
-            <span class="docWriteInfo" style="height: 27px;" th:text="${memberName}">정유진(전산팀)</span><!-- ${memberName, teamName} -->
+            <span style="height: 27px;">정유진(전산팀)</span><!-- ${memberName, teamName} -->
           </div>
       
           <!-- 협조부서 -->
@@ -57,15 +56,15 @@
               <table class="table table-bordered" style="width: 250px; border: black;">
                 <tr>
                   <th>문서번호</th>
-                  <td></td>
+                  <td>-</td>
                 </tr>
                 <tr>
                   <th>부 서</th>
-                  <td class="infoTeam"></td>
+                  <td>점포관리팀</td><!-- ${teamName} -->
                 </tr>
                 <tr>
                   <th>기안자</th>
-                  <td class="infoName"></td>
+                  <td>정유진</td><!-- ${memberName} -->
                 </tr>
                 <tr>
                   <th>구분(항목)</th>
@@ -77,11 +76,11 @@
                 </tr>
                 <tr>
                   <th>기안일</th>
-                  <td></td>
+                  <td>2023-11-25</td><!-- sysdate -->
                 </tr>
                 <tr>
                   <th>납기일</th>
-                  <td></td>
+                  <td>2023-11-25</td><!-- sysdate -->
                 </tr>
               </table>
             </div>
@@ -97,27 +96,27 @@
                 </tr>
                 <tr>
                   <td>
-                    <div style="height: 46px;"></div><!-- 도장 -->
-                    <div style="height: 32px;"></div><!-- 이름 -->
+                    <div style="height: 46px;"><img src="/images/approval/stamp.png" alt="stamp"></div>
+                    <div>김결재</div>
                   </td>
                   <td>
-                    <div style="height: 46px;"></div><!-- 도장 -->
-                    <div style="height: 32px;"></div><!-- 이름 -->
+                    <div style="height: 46px;"><img src="/images/approval/stamp.png" alt="stamp"></div>
+                    <div>김결재</div>
                   </td>
                   <td>
-                    <div style="height: 46px;"></div><!-- 도장 -->
-                    <div style="height: 32px;"></div><!-- 이름 -->
+                    <div style="height: 46px;"><img src="/images/approval/stamp.png" alt="stamp"></div>
+                    <div>김결재</div>
                   </td>
                   <td>
-                    <div style="height: 46px;"></div><!-- 도장 -->
-                    <div style="height: 32px;"></div><!-- 이름 -->
+                    <div style="height: 46px;"><img src="/images/approval/stamp.png" alt="stamp"></div>
+                    <div>김결재</div>
                   </td>
                 </tr>
-                <tr style="height: 27px; font-size:12px;">
-                  <td></td><!-- 날짜 -->
-                  <td></td><!-- 날짜 -->
-                  <td></td><!-- 날짜 -->
-                  <td></td><!-- 날짜 -->
+                <tr style="font-size:12px;">
+                  <td>2023-11-25</td>
+                  <td>2023-11-25</td>
+                  <td>2023-11-25</td>
+                  <td>2023-11-25</td>
                 </tr>
               </table>
             </div>

@@ -1,9 +1,7 @@
 package com.keepers.conbee.approval.model.service;
 
-import com.keepers.conbee.approval.model.dto.Approval;
-import com.keepers.conbee.member.model.dto.Member;
-
 public interface ApprovalService {
+
 
 	/** 기안문 작성자 정보 조회
 	 * @param memberNo
@@ -20,3 +18,4 @@ public interface ApprovalService {
 	int insertApproval(Approval approval);
 
 } 
+

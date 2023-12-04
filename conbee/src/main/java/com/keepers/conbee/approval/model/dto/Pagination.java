@@ -1,8 +1,5 @@
 package com.keepers.conbee.approval.model.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /** 페이징 처리에 필요한 모든 값을 계산하고 저장하는 객체
  * 현재 페이지, 전체 게시글 수,
  * 한페이지에 보여질 게시글 수,
@@ -13,8 +10,6 @@ import lombok.Setter;
  * 다음 페이지의 시작 페이지 번호
  * 마지막 페이지 번호
  * */
-@Getter
-@Setter
 public class Pagination {
 	
 
