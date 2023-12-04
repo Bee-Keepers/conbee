@@ -18,7 +18,7 @@
     <div class="d-flex flex-column p-3" style="width: 100%;">
 
         <h3 class = "profile-tit">내 프로필 조회</h3>
-         <div class ="tit-con">
+        <form class="form-floating" action="info" method="POST" id="mypageFrm"  enctype="multipart/form-data">
             <div class ="box_manage">
                 <div class = "info_account">
                     <div class ="wrap_profile">
@@ -32,54 +32,47 @@
                     </div>
                     <div class ="info_profile"></div>
                     <dl class="list_myinfo">
+                    
+                    <div class="id"></div>
+                     <label for="id_1">
+                        <span aria-hidden="true">아이디</span>
+                        <span aria-hidden="true">김커비</span>
+                     </label>
 
-                        <dt>아이디</dt>
 
-                        <dt>주소</dt>
-                        <dd id ="address">
-                            <span class="inner_nickname"></span>
-                            <div class="wrap_btn">
-                                <button id ="phonebutton" type="button" class="btn_type1">수정</button>
-                            </div>
-                            </dd>
+                     <div class="address_inp">
+                        <label for="address_1" class="address_1" id="address_1">
+                             <span aria-hidden="true">주소</span>
+                             </label>
+                         <input data-type="text" class="tf_g tf_g" name="nickname" validator="nickname_len" maxlength="20" type="text" id="id_nickname_1" data-error-empty="주소를 
+                             입력해 주세요.">
+                        <button id ="addressbutton" type="button" class="btn_type1">수정</button>
                         
 
-                        <dt>전화번호</dt>
-                        <dd id ="phone">
-                        <span class="inner_nickname"></span>
-                        <div class="wrap_btn">
-                            <button id ="phonebutton" type="button" class="btn_type1">수정</button>
-                        </div>
-                        </dd>
+                     <div class="phone_inp">
+                         <label for="phone_1" class="phone_1" id="phone_1">
+                             <span aria-hidden="true">전화번호</span>
+                         </label>
+                        <input data-type="text" class="tf_g tf_g" name="nickname" validator="nickname_len" maxlength="20" type="text" id="id_nickname_1" data-error-empty="전화번호가 등록되지 않았습니다.
+                            입력해 주세요.">
+                        <button id ="phonebutton" type="button" class="btn_type1">수정</button>
+                        
 
-                        <dt>직급</dt>
-
-
-                        <dt>이메일</dt>
-                        <dd id ="email">
-                        <span class="inner_nickname"></span>
-                        <div class="wrap_btn">
-                            <button id ="emailbutton" type="button" class="btn_type1">수정</button>
-                        </div>
-                    </dd>
-
-                    <dd id="editphone">
-                        <form action="#">
-                            <fieldset class="fld_set">
-                                <legend class ="screen">전화번호 입력 폼</legend>
-                                <div class="item_inp">
-                                    <label for="tf1" class="screen"></label>
-                                </div>
-                            </fieldset>
-                        </form>
-                    </dd>
-
-                    <div class="phone_inp">
-                        <label for="phone_1" class="phone_1" id="phone_1">
-                        <span aria-hidden="true">전화번호 입력</span>
+                         
+                    <div class="grade"></div>
+                        <label for="grade_1">
+                        <span aria-hidden="true">직급</span>
+                        <span aria-hidden="true">사원</span>
                     </label>
-                    <input data-type="text" class="tf_g tf_g" name="nickname" validator="nickname_len" maxlength="20" type="text" id="id_nickname_1" data-error-empty="전화번호가 등록되지 않았습니다.
-                    입력해 주세요.">
+
+
+                        <div class="email_inp">
+                            <label for="email_1" class="email_1" id="email_1">
+                                <span aria-hidden="true">이메일</span>
+                            </label>
+                           <input data-type="text" class="tf_g tf_g" name="nickname" validator="nickname_len" maxlength="20" type="text" id="id_nickname_1" data-error-empty="이메일이 등록되지 않았습니다.
+                               입력해 주세요.">
+                           <button id ="emailbutton" type="button" class="btn_type1">수정</button>
                     
                     </div>
 
@@ -96,7 +89,7 @@
                     </dl>
                 </div>
             </div>
-         </div>
+         </form></div>
       
       
 
