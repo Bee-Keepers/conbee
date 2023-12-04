@@ -1,6 +1,5 @@
 package com.keepers.conbee.admin.store.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
@@ -294,12 +293,6 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 		
 		return path;		
 	}
-	
-	
-	
-	
-	
-	
 	
 
 }
