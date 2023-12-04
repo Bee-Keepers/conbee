@@ -18,10 +18,38 @@ function sample6_execDaumPostcode() {
 
           // 우편번호와 주소 정보를 해당 필드에 넣는다.
           document.getElementById("memberAddress").value = addr;
-      }
-  }).open();
-}
 
+          // 중복검사 코드 넣기!
+
+          /* ===================== 점포주소 중복 검사 ======================= */
+            fetch("/admin/memberManage/checkMemberAddress?memberAddress=" + memberAddress.value)
+            .then(response => response.text())
+            .then(result =>{
+
+                if(result == 0){ // 중복 X
+                  messageMemberAddress.innerText= "사용 가능한 점포 주소입니다.";
+                  messageMemberAddress.classList.add("OK-feedback");
+                  messageMemberAddress.classList.remove("NotOK-feedback");
+
+                  // 인풋 요소 변화
+                  memberAddress.classList.add("is-valid");
+                  memberAddress.classList.remove("is-invalid");
+
+                } else { // 중복 O
+                  messageMemberAddress.innerText= "이미 등록된 점포 주소입니다.";
+                  messageMemberAddress.classList.add("NotOK-feedback");
+                  messageMemberAddress.classList.remove("OK-feedback");
+
+                    // 인풋 요소 변화
+                  memberAddress.classList.add("is-invalid");
+                  memberAddress.classList.remove("is-valid");
+                }
+            })
+            .catch(e=> console.log(e))
+
+        }
+    }).open();
+}
 
 
 
@@ -37,7 +65,6 @@ const checkObj = {
     "memberId" : false,
     "memberName" : false,
     "memberEmail" : false, 
-    "memberEmail" : false,
     "storeNo" : false
 };
 
@@ -127,7 +154,7 @@ memberName.addEventListener("input", () => {
     if(memberName.value.trim().length == 0) {
       memberName.value = "";
 
-      memberName.innerText = "이름은 한글 2~8글자 이내로 입력해주세요."
+      messageMemberName.innerText = "이름은 한글 2~8글자 이내로 입력해주세요."
       messageMemberName.classList.remove("OK-feedback");
       messageMemberName.classList.remove("NotOK-feedback");
 
@@ -137,41 +164,22 @@ memberName.addEventListener("input", () => {
     return;
   }
 
+
   // 이름 정규표현식
   const regEx = /^[가-힣]{2,8}$/;
 
   // 입력한 이름이 유효할 경우
   if(regEx.test(memberName.value)){
 
-    /* ===================== 이름 중복 검사 ======================= */
-    fetch("/admin/memberManage/checkMemberId?memberName=" + memberName.value) // 
-    .then(response => response.text())
-    .then(result =>{
-
-      if(result == 0){ // 중복 X
-        messageMemberName.innerText= "사용 가능한 이름입니다.";
-        messageMemberName.classList.add("OK-feedback");
-        messageMemberName.classList.remove("NotOK-feedback");
-        
-        // 인풋 요소 변화
-        memberName.classList.add("is-valid");
-        memberName.classList.remove("is-invalid");
-        
-        checkObj.memberName = true;
-
-      } else { // 이름이 올바른 형식으로 작성이 되지않았을 때
-        messageMemberName.innerText= "이름이 형식에 맞지 않습니다.";
-        messageMemberName.classList.add("NotOK-feedback");
-        messageMemberName.classList.remove("OK-feedback");
-
-        // 인풋 요소 변화
-        memberName.classList.add("is-invalid");
-        memberName.classList.remove("is-valid");
-
-        checkObj.memberName = false;
-      }
-    })
-    .catch(e=> console.log(e))
+    messageMemberName.innerText= "사용 가능한 이름입니다.";
+    messageMemberName.classList.add("OK-feedback");
+    messageMemberName.classList.remove("NotOK-feedback");
+    
+    // 인풋 요소 변화
+    memberName.classList.add("is-valid");
+    memberName.classList.remove("is-invalid");
+    
+    checkObj.memberName = true;
 
   // 입력한 이름이 유효하지 않을 경우    
   } else {
@@ -209,36 +217,49 @@ memberEmail.addEventListener("input", () => {
         messageMemberEmail.innerText = "메일을 받을 수 있는 이메일을 입력해주세요";
 
         // 클래스를 제거해서 글자색을 검은색으로 만들기
-        messageMemberEmail.classList.remove("confirm", "error");
-
-        // checkObj의 memberEmail 값을 false로 변경
-        // == 이메일이 유효하지 않음을 의미
-        checkObj.memberEmail = false;
+        messageMemberEmail.classList.remove("OK-feedback");
+        messageMemberEmail.classList.remove("NotOK-feedback");
+  
+        memberEmail.classList.remove("is-valid");
+        memberEmail.classList.remove("is-invalid");
+  
         return;
     }
 
     // 4) 이메일 정규식 검사    /*  한글 + 영어 + 숫자 -_ */
-    const regEx = /^[A-Za-z\d\-\_]{4,}@[가-힣\w\-\_]+(\.\w+){1,3}$/;
-        /* 영어 대/소 + 숫자(0~9) - _                   .으로 시작하는 아무 단어 1글자 이상  */
+    const regEx = /^[A-Za-z\d]{4,}@[가-힣\w\-\_]+(\.\w+){1,3}$/;
+        /* 영어 대/소 + 숫자(0~9)                   .으로 시작하는 아무 단어 1글자 이상  */
 
     // 입력 받은 이메일이 정규식과 일치하는 경우
     if( regEx.test(memberEmail.value) ){
         
 
         /* =========== 이메일 중복 검사(비동기) ============ */
-        fetch("/admin/checkEmail?email=" + memberEmail.value)
+        fetch("/admin/memberManage/checkMemberEmail?memberEmail=" + memberEmail.value)
         .then( response => response.text() )   // 첫번째 then은 응답이 왔을 때 수행, 응답 결과를 text로 파싱
         .then( result => {                     // 두번째 then은 첫번째 then의 반환된 결과를 이용해 기능 수행
             if(result == 0) { // 중복 X
               messageMemberEmail.innerText = "사용 가능한 이메일 입니다.";
-              messageMemberEmail.classList.add("confirm"); // 초록색 글씨
-              messageMemberEmail.classList.remove("error"); // 빨간 글씨 제거
+              messageMemberEmail.classList.add("OK-feedback"); // 초록색 글씨
+              messageMemberEmail.classList.remove("NotOK-feedback"); // 빨간 글씨 제거
+
+
+               // 인풋 요소 변화
+              memberEmail.classList.add("is-valid");
+              memberEmail.classList.remove("is-invalid");
+
               checkObj.memberEmail = true; // 유효한 상태임을 기록
+
             } else { // 중복 O
-              messageMemberEmail.innerText = "이미 사용 중인 이 메일 입니다.";
-              messageMemberEmail.classList.add("error"); // 빨간 글씨
-              messageMemberEmail.classList.remove("confirm"); // 초록색 글씨 제거
-                checkObj.memberEmail = false; // 유효한 상태임을 기록
+              messageMemberEmail.innerText = "이미 사용 중인 이메일 입니다.";
+              messageMemberEmail.classList.add("NotOK-feedback"); // 빨간 글씨
+              messageMemberEmail.classList.remove("OK-feedback"); // 초록색 글씨 제거
+              
+              // 인풋 요소 변화
+              memberEmail.classList.add("is-invalid");
+              memberEmail.classList.remove("is-valid");
+
+              checkObj.memberEmail = false; // 유효한 상태임을 기록
 
             }
         } )                 
@@ -253,13 +274,133 @@ memberEmail.addEventListener("input", () => {
     // 입력 받은 이메일이 정규식과 일치하는 않은 경우
     else { 
       messageMemberEmail.innerText = "알맞은 이메일 형식으로 작성해주세요.";
-      messageMemberEmail.classList.add("error"); // 빨간 글씨
-      messageMemberEmail.classList.remove("confirm"); // 초록색 글씨 제거
-      checkObj.memberEmail = false; // 유효하지 않은 상태임을 기록
+      messageMemberEmail.classList.add("NotOK-feedback"); // 빨간 글씨
+      messageMemberEmail.classList.remove("OK-feedback"); // 초록색 글씨 제거
+
+      memberEmail.classList.add("is-invalid");
+      memberEmail.classList.remove("is-valid");
+
+      checkObj.memberEmail = false;
     }
 });
 
 
 
 
+/* 점포번호 유효성 검사 */
+const storeNo = document.getElementById("storeNo");
+const messageStoreNo = document.getElementById("messageStoreNo");
 
+// 점포번호 입력시 유효성 검사
+storeNo.addEventListener("input", ()=>{
+
+  // 점포명이 입력되지 않은 경우
+  if(storeNo.value.trim().length == 0){
+    storeNo.value = "";
+
+    messageStoreNo.innerText = "점포번호는 숫자 1~5자리 이내로 작성해주세요.";
+    messageStoreNo.classList.remove("OK-feedback");
+    messageStoreNo.classList.remove("NotOK-feedback");
+
+    storeNo.classList.remove("is-invalid");
+    storeNo.classList.remove("is-valid");
+
+    return;
+  }
+
+  // 점포번호 정규표현식
+  // 숫자 1~5글자
+  const regEx = /^[0-9]{1,5}$/;
+
+  // 입력한 점포번호가 유효할 경우
+  if(regEx.test(storeNo.value)){
+
+
+        messageStoreNo.innerText= "사용 가능한 점포번호입니다.";
+        messageStoreNo.classList.add("OK-feedback");
+        messageStoreNo.classList.remove("NotOK-feedback");
+        
+        // 인풋 요소 변화
+        storeNo.classList.add("is-valid");
+        storeNo.classList.remove("is-invalid");
+        
+        checkObj.storeNo = true;
+
+      
+    
+
+  // 입력한 점포번호가 유효하지 않을 경우    
+  } else {
+    messageStoreNo.innerText= "점포명이 형식에 맞지 않습니다.";
+    messageStoreNo.classList.add("NotOK-feedback");
+    messageStoreNo.classList.remove("OK-feedback");
+
+    // 인풋 요소 변화
+    storeNo.classList.add("is-invalid");
+    storeNo.classList.remove("is-valid");
+
+    checkObj.storeNo = false;
+  }
+
+});
+
+
+/* ======================================================================== */
+
+/* 취소, 확인 버튼 작동 */
+
+const cancelBtn = document.querySelector("#cancelBtn");
+const submitBtn = document.querySelector("#submitBtn");
+
+
+// 취소 버튼 클릭 시 input 작성내용 지우기
+cancelBtn.addEventListener("click", ()=>{
+
+  memberId.value = "";
+  memberName.value = "";
+  memberEmail.value = "";
+  storeNo.value = "";
+  return;
+})
+
+//-------------------------------------------------------------------------
+
+
+
+/* 회원 가입 버튼이 클릭 되었을 때 */
+document.getElementById("submitBtn").addEventListener("click", e => {
+
+  /*  checkObj의 모든 값을 검사해서
+      하나라도 false이면 가입 시도 X */
+
+
+  // 객체 전용 향상된 for문 ( for ... in )
+
+  for(let key in checkObj){
+
+      // 객체에서 얻어온 값이 false 경우
+      // (유효하지 않은 것이 있을 경우)
+      if( !checkObj[key] ){
+
+          let str;
+          switch(key){
+              case "memberId": str = "아이디가 유효하지 않습니다"; break;
+
+              case "memberName": str = "이름이 유효하지 않습니다"; break;
+              
+              case "memberEmail": str = "이메일이 유효하지 않습니다"; break;
+
+              case "storeNo": str = "점포번호가 유효하지 않습니다"; break;
+          }
+
+          alert(str);
+
+          // key == input id 속성 값
+          // 유효하지 않은 input 태그로 focus 맞춤
+          document.getElementById(key).focus();
+
+          e.preventDefault(); // form 제출 X
+          return;
+      }
+  }
+});

@@ -1,6 +1,12 @@
 package com.keepers.conbee.admin.member.model.mapper;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
+
+import com.keepers.conbee.member.model.dto.Member;
 
 @Mapper
 public interface AdminMemberMapper {
@@ -18,6 +24,53 @@ public interface AdminMemberMapper {
 	 * @return
 	 */
 	int checkMemberEmail(String memberEmail);
+
+	/** 점포 번호 유효성 검사
+	 * @param storeNo
+	 * @return
+	 */
+	int checkStoreNo(int storeNo);
+
+	/** 회원 주소 유효성 검사
+	 * @param memberAddress
+	 * @return
+	 */
+	int checkMemberAddress(String memberAddress);
+
+	/** 신규 회원 등록
+	 * @param inputMember
+	 * @return
+	 */
+	int memberInsert(Member inputMember);
+
+	
+//	--------------------------------------------
+	/** 멤버 전체 조회 카운트
+	 * @return
+	 */
+	int getListCount();
+
+	/** 멤버 전체 조회
+	 * @param rowBounds
+	 * @return
+	 */
+	List<Map<String, Object>> readAllMemberList(RowBounds rowBounds);
+
+//	--------------------------------------------
+	
+	/** 검색과 일치한 멤버 조회
+	 * @param paramMap
+	 * @return
+	 */
+	int searchMemberListCount(Map<String, Object> paramMap);
+
+	/** 검색한 멤버 목록 조회
+	 * @param paramMap
+	 * @param rowBounds
+	 * @return
+	 */
+	List<Map<String, Object>> searchMemberList(Map<String, Object> paramMap, RowBounds rowBounds);
+
 
 
 }
