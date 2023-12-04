@@ -1,9 +1,6 @@
-//package com.keepers.conbee.mypage.model.service;
-//
-//
-//
-//public interface MypageService {
-//
-//	
-//
-//}
+package com.keepers.conbee.MyPage.model.service;
+
+public interface MyPageService {
+	
+
+}

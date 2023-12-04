@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko"  xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>마이페이지</title>
+  <title>conBee</title>
+  <link rel="stylesheet" href="/css/mypage/myPage.css">
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
@@ -11,97 +12,62 @@
 
   <th:block th:replace="~{common/header}"></th:block>
 
-  <main class="d-flex flex-grow-1">
+  
+  <main class="d-flex overflow-y-auto h-100">
 
-    <th:block th:replace="~{address/sidebar}"></th:block>
+    <th:block th:replace="~{mypage/sidebar}"></th:block>
 
-    <div class="d-flex flex-column p-3" style="width: 100%;">
-
-        <h3 class = "profile-tit">내 프로필 조회</h3>
-        <form class="form-floating" action="info" method="POST" id="mypageFrm"  enctype="multipart/form-data">
-            <div class ="box_manage">
-                <div class = "info_account">
-                    <div class ="wrap_profile">
-                        <div class="thumb_profile">
-                        <img src="#" class="img_profile" width="80" height="80" 
-                             alt="프로필 이미지"> <!-- 이미지 사이즈 80*80 -->
-                            <span class="img_frame"></span>   
-                        </div>
-                        <button type="button" class="btn_title">
-                        </button>
-                    </div>
-                    <div class ="info_profile"></div>
-                    <dl class="list_myinfo">
-                    
-                    <div class="id"></div>
-                     <label for="id_1">
-                        <span aria-hidden="true">아이디</span>
-                        <span aria-hidden="true">김커비</span>
-                     </label>
-
-
-                     <div class="address_inp">
-                        <label for="address_1" class="address_1" id="address_1">
-                             <span aria-hidden="true">주소</span>
-                             </label>
-                         <input data-type="text" class="tf_g tf_g" name="nickname" validator="nickname_len" maxlength="20" type="text" id="id_nickname_1" data-error-empty="주소를 
-                             입력해 주세요.">
-                        <button id ="addressbutton" type="button" class="btn_type1">수정</button>
-                        
-
-                     <div class="phone_inp">
-                         <label for="phone_1" class="phone_1" id="phone_1">
-                             <span aria-hidden="true">전화번호</span>
-                         </label>
-                        <input data-type="text" class="tf_g tf_g" name="nickname" validator="nickname_len" maxlength="20" type="text" id="id_nickname_1" data-error-empty="전화번호가 등록되지 않았습니다.
-                            입력해 주세요.">
-                        <button id ="phonebutton" type="button" class="btn_type1">수정</button>
-                        
-
-                         
-                    <div class="grade"></div>
-                        <label for="grade_1">
-                        <span aria-hidden="true">직급</span>
-                        <span aria-hidden="true">사원</span>
-                    </label>
-
-
-                        <div class="email_inp">
-                            <label for="email_1" class="email_1" id="email_1">
-                                <span aria-hidden="true">이메일</span>
-                            </label>
-                           <input data-type="text" class="tf_g tf_g" name="nickname" validator="nickname_len" maxlength="20" type="text" id="id_nickname_1" data-error-empty="이메일이 등록되지 않았습니다.
-                               입력해 주세요.">
-                           <button id ="emailbutton" type="button" class="btn_type1">수정</button>
-                    
-                    </div>
-
-
-
-
-
-
-
-
-
-
-
-                    </dl>
-                </div>
-            </div>
-         </form></div>
+    <div class="d-flex flex-column flex-grow-1 align-items-center overflow-y-auto">
       
-      
+      <div class="d-flex flex-column flex-grow-1 align-items-center overflow-y-auto w-100">
+        <div class="d-flex justify-content-between align-items-center w-100 px-2">
+          <p class="fs-4 pb-3 px-3 border-bottom w-100 pt-3">내 프로필 조회</p>
+        </div>
+      </div>
+        <div class="divbox">
+          <div class="">
+            <img src="..." class="rounded mx-auto d-block" alt="..." style="width: 250px; height: 250px;">
+          </div>
+          <table class="table table-striped table-hover m-0">
+            <tbody>
+              <tr>
+                <td class="text-center">이름</td>
+                <td>김커비</td>
+              </tr>
+              <tr>
+                <td class="text-center">아이디</td>
+                <td>zjql123</td>
+              </tr>
+              <tr>
+                <td class="text-center">주소</td>
+                <td>서울 커비구 커비동 커비아파트</td>
+              </tr>
+              <tr>
+                <td class="text-center">전화번호</td>
+                <td>010 1111 2222</td>
+              </tr>
+              <tr>
+                <td class="text-center">직급</td>
+                <td>사원</td>
+              </tr>
+              <tr>
+                <td class="text-center">이메일</td>
+                <td>conbee@naver.com</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-warning btnBox fs-5">수정</button>
+          </div>
 
+      </div>
 
+    </div>
 
-
-
-      
+  </main>
 
   <th:block th:replace="~{common/footer}"></th:block>
 
-  
   <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
