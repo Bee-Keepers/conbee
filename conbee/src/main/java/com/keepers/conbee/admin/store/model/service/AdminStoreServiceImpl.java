@@ -153,6 +153,14 @@ public class AdminStoreServiceImpl implements AdminStoreService{
 	@Override
 	public int storeUpdate(Store updateStore) {
 		
+		// 입력한 점주번호가 기존 회원번호에 없을 경우 return하고 회원가입하고오라고하기!
+		int result = mapper.matchMemberNo(updateStore);
+		
+		// 기존 회원번호가 없을 경우 return
+		if(result <= 0) {
+			return 100;
+		}
+		
 		// 점주명 변경 수정
 		mapper.storeUpdateName(updateStore);
 		

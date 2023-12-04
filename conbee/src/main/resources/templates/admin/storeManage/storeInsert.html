@@ -38,7 +38,7 @@
         </div>
       </div>
 
-      <form action="insert" method="POST" style="height: 100%;" id="storeInsertFrm">
+      <form action="storeInsert/insert" method="POST" style="height: 100%;" id="storeInsertFrm">
         <div class="d-flex flex-column align-items-center" style="height: 91.5%;" >
   
           <table class="table mt-2 border-top-none" style="width: 95%; text-align: center; vertical-align: middle;">
@@ -76,7 +76,7 @@
                 <th>점주명</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" id="memberName" placeholder="점주명을 입력해주세요." required>
+                    <input type="text" class="form-control" id="memberName" placeholder="기존회원인 경우에만 입력해주세요." required>
                   </div>
                   <article id="messageMemberName"></article>
                 </td>
@@ -86,7 +86,7 @@
                 <th>점주회원번호</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" id="memberNo" placeholder="기존회원인 경우에만 점주 회원번호를 입력해주세요." required value="0">
+                    <input type="text" class="form-control" id="memberNo" placeholder="기존회원인 경우에만 입력해주세요." required>
                   </div>
                   <article id="messageMemberNo"></article>
                 </td>

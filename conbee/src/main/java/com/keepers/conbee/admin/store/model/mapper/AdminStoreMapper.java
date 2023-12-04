@@ -92,6 +92,12 @@ public interface AdminStoreMapper {
 	 * @return
 	 */
 	int storeInsert(Store inputStore);
+
+	/** 기존회원 존재하는지 체크
+	 * @param updateStore
+	 * @return
+	 */
+	int matchMemberNo(Store updateStore);
 	
 	
 

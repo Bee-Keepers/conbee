@@ -117,17 +117,13 @@
                 <td>미승인</td> <!-- 폐점승인여부. 어케 가져올건지? -->
 
                 <td th:if="*{storeRunFl == 'Y'}"> <!--매장 운영 O-->
-                  <a href="changeRunFl" class="btn btn-warning mx-3" style="width: 80px;">
-                    <input type="hidden" name="storeNo" value="*{storeNo}">
-                    <input type="hidden" name="storeRunFl" value="*{storeRunFl}">
+                  <a th:href="@{changeRunFl/{storeNo}/{storeRunFl}(storeNo=*{storeNo}, storeRunFl=*{storeRunFl})}" class="btn btn-warning mx-3" style="width: 80px;">
                     운영
                   </a>
                 </td>
 
                 <td th:unless="*{storeRunFl == 'Y'}"> <!--매장 운영 X-->
-                  <a href="changeRunFl" class="btn btn-secondary mx-3" style="width: 80px;">
-                    <input type="hidden" name="storeNo" value="*{storeNo}">
-                    <input type="hidden" name="storeRunFl" value="*{storeRunFl}">
+                  <a th:href="@{changeRunFl/{storeNo}/{storeRunFl}(storeNo=*{storeNo}, storeRunFl=*{storeRunFl})}" class="btn btn-secondary mx-3" style="width: 80px;">
                     폐쇄
                   </a>
                 </td>
