@@ -1,194 +1,194 @@
-<!-- 3. 출점/폐점  -->
-<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-  <div class="modal-content">
-    <!-- 모달 헤더 -->
-    <div class="modal-header">
-      <div><h1 class="modal-title fs-5" id="exampleModalLabel">기안문 작성 - 출/폐점 등록 요청서</h1></div>
-      <div>
-        <button type="submit" form="docStore" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveStore"
-        name="ConditionBtn" value="1">임시저장</button>
-        <button type="submit" form="docStore" class="btn btn-warning me-1" id="submitStore" name="ConditionBtn" value="0">결재</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
+  <!-- 3. 출점/폐점  -->
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <!-- 모달 헤더 -->
+      <div class="modal-header">
+        <div><h1 class="modal-title fs-5" id="exampleModalLabel">기안문 작성 - 출/폐점 등록 요청서</h1></div>
+        <div>
+          <button type="submit" form="docStore" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveStore"
+          name="ConditionBtn" value="1">임시저장</button>
+          <button type="submit" form="docStore" class="btn btn-warning me-1" id="submitStore" name="ConditionBtn" value="0">결재</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
+        </div>
+      </div> 
+      <!-- 모달 바디 -->
+      <div class="modal-body" style="width: 800px; height: 800px;">
+        <form class="d-flex flex-column" action="docStore" id="docStore" method="POST">
+          <!-- 결재 정보 -->
+          <div class="my-2 mx-3">
+        
+            <!-- 제목 -->
+            <div class="d-flex mb-2">
+              <span class="elem me-3" style="height: 27px;">제목 : </span>
+              <input type="text" class="form-control title-input" id="inputStore" name="approvalTitle">
+            </div>
+        
+            <!-- 구분 -->
+            <div class="d-flex mb-2">
+              <span class="elem me-3">구분(항목) : </span>
+              <span style="height: 27px;">업무(점포)</span>
+            </div>
+        
+            <!-- 담당자(부서) -->
+            <div class="d-flex mb-1">
+              <span class="elem me-3" style="height: 27px;">담당자(부서) : </span>
+              <span class="docWriteInfo" style="height: 27px;" th:text="${memberName}">정유진(전산팀)</span><!-- ${memberName, teamName} -->
+            </div>
+        
+            <!-- 협조부서 -->
+            <div class="d-flex mb-2">
+              <span class="elem me-3">협조부서 : </span>
+              <span style="height: 27px;">인사관리부</span>
+            </div>
+        
+            <!-- 결재 -->
+            <div class="d-flex">
+              <span class="elem me-3">결재 : </span>
+              <table class="infoTable table table-striped table-hover" style="width: 640px; text-align: center;">
+        
+                <thead>
+                  <tr>
+                    <th>결재</th>
+                    <th>직급</th>
+                    <th>결재자</th>
+                  </tr>
+                </thead>
+        
+                <tbody class="table-group-divider">
+                  <tr>
+                    <td>결재</td>
+                    <td>사장</td>
+                    <td>이예리나</td>
+                  </tr>
+                  <tr>
+                    <td>결재</td>
+                    <td>부사장</td>
+                    <td>삼결재</td>
+                  </tr>
+                  <tr>
+                    <td>결재</td>
+                    <td>부장</td>
+                    <td>이결재</td>
+                  </tr>
+                  <tr>
+                    <td>결재</td>
+                    <td>팀장</td>
+                    <td>일결재</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+        
+          </div>
+        
+          <!-- 템플릿 -->
+          <div class="temps my-2 mx-3 p-3">
+        
+            <!-- 템플릿 제목 -->
+            <div class="pt-4" style="font-size:30px; font-weight: bold; text-align: center;">업무 보고</div>
+        
+            <!-- 템플릿 정보/승인 -->
+            <div class="d-flex justify-content-between">
+              <!-- 정보 -->
+              <div class="tempInfo my-2 mx-3 px-2">
+                <table class="table table-bordered" style="width: 250px; border: black;">
+                  <tr>
+                    <th>문서번호</th>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <th>부 서</th>
+                    <td class="infoTeam"></td>
+                  </tr>
+                  <tr>
+                    <th>기안자</th>
+                    <td class="infoName"></td>
+                  </tr>
+                  <tr>
+                    <th>구분(항목)</th>
+                    <td>업무(점포)</td>
+                  </tr>
+                  <tr>
+                    <th>협조 부서</th>
+                    <td>인사관리부</td>
+                  </tr>
+                  <tr>
+                    <th>기안일</th>
+                    <td></td>
+                  </tr>
+                </table>
+              </div>
+        
+              <!-- 승인 -->
+              <div class="tempApprov my-2 mx-3 px-2">
+                <table class="table table-bordered" style="width: 320px; border: black; text-align: center;">
+                  <tr>
+                    <th style="background-color: #f2f2f2;">결재</th>
+                    <th style="background-color: #f2f2f2;">결재</th>
+                    <th style="background-color: #f2f2f2;">결재</th>
+                    <th style="background-color: #f2f2f2;">결재</th>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="height: 46px;"></div><!-- 도장 -->
+                      <div style="height: 32px;"></div><!-- 이름 -->
+                    </td>
+                    <td>
+                      <div style="height: 46px;"></div><!-- 도장 -->
+                      <div style="height: 32px;"></div><!-- 이름 -->
+                    </td>
+                    <td>
+                      <div style="height: 46px;"></div><!-- 도장 -->
+                      <div style="height: 32px;"></div><!-- 이름 -->
+                    </td>
+                    <td>
+                      <div style="height: 46px;"></div><!-- 도장 -->
+                      <div style="height: 32px;"></div><!-- 이름 -->
+                    </td>
+                  </tr>
+                  <tr style="height: 27px; font-size:12px;">
+                    <td></td><!-- 날짜 -->
+                    <td></td><!-- 날짜 -->
+                    <td></td><!-- 날짜 -->
+                    <td></td><!-- 날짜 -->
+                  </tr>
+                </table>
+              </div>
+            </div>
+        
+            <!-- 본문 -->
+            <div class="tempContents my-2 mx-3 px-2">
+              <table class="table table-bordered" style="width: 100%; border: black;">
+                <tr>
+                  <th>제 목</th>
+                  <td><input class="title-input2" type="text" id="inputStore2" name="approvalDocTitle"></td>
+                </tr>
+                <tr>
+                  <th>매 장 명</th>
+                  <td><input class="storeName" type="text"></td>
+                </tr>
+                <tr>
+                  <th>출/폐 여부</th>
+                  <td>
+                    <input type="radio" name="docStoreState" id="openStore" value="0"><label for="openStore">출점</label>
+                    <input type="radio" name="docStoreState" id="closeStore" value="1"><label for="closeStore">폐점</label>
+                  </td>
+                </tr>
+                <tr>
+                  <th style="vertical-align: middle;">상세 내용</th>
+                  <td><textarea class="docText" cols="30" rows="10"></textarea></td>
+                </tr>
+                <tr>
+                  <th>첨부파일</th>
+                  <td><input type="file" name="" id=""></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        
+        </form>
       </div>
-    </div> 
-    <!-- 모달 바디 -->
-    <div class="modal-body" style="width: 800px; height: 800px;">
-      <form class="d-flex flex-column" action="docStore" id="docStore" method="POST">
-        <!-- 결재 정보 -->
-        <div class="my-2 mx-3">
-      
-          <!-- 제목 -->
-          <div class="d-flex mb-2">
-            <span class="elem me-3" style="height: 27px;">제목 : </span>
-            <input type="text" class="form-control title-input" id="inputStore" name="approvalTitle">
-          </div>
-      
-          <!-- 구분 -->
-          <div class="d-flex mb-2">
-            <span class="elem me-3">구분(항목) : </span>
-            <span style="height: 27px;">업무(점포)</span>
-          </div>
-      
-          <!-- 담당자(부서) -->
-          <div class="d-flex mb-1">
-            <span class="elem me-3" style="height: 27px;">담당자(부서) : </span>
-            <span class="docWriteInfo" style="height: 27px;" th:text="${memberName}">정유진(전산팀)</span><!-- ${memberName, teamName} -->
-          </div>
-      
-          <!-- 협조부서 -->
-          <div class="d-flex mb-2">
-            <span class="elem me-3">협조부서 : </span>
-            <span style="height: 27px;">인사관리부</span>
-          </div>
-      
-          <!-- 결재 -->
-          <div class="d-flex">
-            <span class="elem me-3">결재 : </span>
-            <table class="infoTable table table-striped table-hover" style="width: 640px; text-align: center;">
-      
-              <thead>
-                <tr>
-                  <th>결재</th>
-                  <th>직급</th>
-                  <th>결재자</th>
-                </tr>
-              </thead>
-      
-              <tbody class="table-group-divider">
-                <tr>
-                  <td>결재</td>
-                  <td>사장</td>
-                  <td>이예리나</td>
-                </tr>
-                <tr>
-                  <td>결재</td>
-                  <td>부사장</td>
-                  <td>삼결재</td>
-                </tr>
-                <tr>
-                  <td>결재</td>
-                  <td>부장</td>
-                  <td>이결재</td>
-                </tr>
-                <tr>
-                  <td>결재</td>
-                  <td>팀장</td>
-                  <td>일결재</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-      
-        </div>
-      
-        <!-- 템플릿 -->
-        <div class="temps my-2 mx-3 p-3">
-      
-          <!-- 템플릿 제목 -->
-          <div class="pt-4" style="font-size:30px; font-weight: bold; text-align: center;">업무 보고</div>
-      
-          <!-- 템플릿 정보/승인 -->
-          <div class="d-flex justify-content-between">
-            <!-- 정보 -->
-            <div class="tempInfo my-2 mx-3 px-2">
-              <table class="table table-bordered" style="width: 250px; border: black;">
-                <tr>
-                  <th>문서번호</th>
-                  <td></td>
-                </tr>
-                <tr>
-                  <th>부 서</th>
-                  <td class="infoTeam"></td>
-                </tr>
-                <tr>
-                  <th>기안자</th>
-                  <td class="infoName"></td>
-                </tr>
-                <tr>
-                  <th>구분(항목)</th>
-                  <td>업무(점포)</td>
-                </tr>
-                <tr>
-                  <th>협조 부서</th>
-                  <td>인사관리부</td>
-                </tr>
-                <tr>
-                  <th>기안일</th>
-                  <td></td>
-                </tr>
-              </table>
-            </div>
-      
-            <!-- 승인 -->
-            <div class="tempApprov my-2 mx-3 px-2">
-              <table class="table table-bordered" style="width: 320px; border: black; text-align: center;">
-                <tr>
-                  <th style="background-color: #f2f2f2;">결재</th>
-                  <th style="background-color: #f2f2f2;">결재</th>
-                  <th style="background-color: #f2f2f2;">결재</th>
-                  <th style="background-color: #f2f2f2;">결재</th>
-                </tr>
-                <tr>
-                  <td>
-                    <div style="height: 46px;"></div><!-- 도장 -->
-                    <div style="height: 32px;"></div><!-- 이름 -->
-                  </td>
-                  <td>
-                    <div style="height: 46px;"></div><!-- 도장 -->
-                    <div style="height: 32px;"></div><!-- 이름 -->
-                  </td>
-                  <td>
-                    <div style="height: 46px;"></div><!-- 도장 -->
-                    <div style="height: 32px;"></div><!-- 이름 -->
-                  </td>
-                  <td>
-                    <div style="height: 46px;"></div><!-- 도장 -->
-                    <div style="height: 32px;"></div><!-- 이름 -->
-                  </td>
-                </tr>
-                <tr style="height: 27px; font-size:12px;">
-                  <td></td><!-- 날짜 -->
-                  <td></td><!-- 날짜 -->
-                  <td></td><!-- 날짜 -->
-                  <td></td><!-- 날짜 -->
-                </tr>
-              </table>
-            </div>
-          </div>
-      
-          <!-- 본문 -->
-          <div class="tempContents my-2 mx-3 px-2">
-            <table class="table table-bordered" style="width: 100%; border: black;">
-              <tr>
-                <th>제 목</th>
-                <td><input class="title-input2" type="text" id="inputStore2" name="approvalDocTitle"></td>
-              </tr>
-              <tr>
-                <th>매 장 명</th>
-                <td><input class="storeName" type="text"></td>
-              </tr>
-              <tr>
-                <th>출/폐 여부</th>
-                <td>
-                  <input type="radio" name="docStoreState" id="openStore" value="0"><label for="openStore">출점</label>
-                  <input type="radio" name="docStoreState" id="closeStore" value="1"><label for="closeStore">폐점</label>
-                </td>
-              </tr>
-              <tr>
-                <th style="vertical-align: middle;">상세 내용</th>
-                <td><textarea class="docText" cols="30" rows="10"></textarea></td>
-              </tr>
-              <tr>
-                <th>첨부파일</th>
-                <td><input type="file" name="" id=""></td>
-              </tr>
-            </table>
-          </div>
-        </div>
-      
-      </form>
-    </div>
 
+    </div>
   </div>
-</div>
 
