@@ -99,7 +99,7 @@ public class StockController {
 		
 		return null;
 	}
-	/** 발주 조회
+	/** 발주 페이지
 	 * @return
 	 */
 	@GetMapping("order/list")
