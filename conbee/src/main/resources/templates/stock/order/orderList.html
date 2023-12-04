@@ -87,19 +87,6 @@
 
       <div class="d-flex justify-content-between align-items-center w-100 px-2 border-bottom">
         <div class="fs-4 pb-3 px-3 pt-3">발주 조회</div>
-        <!-- 검색창 -->
-        <!-- <div class="d-flex h-50" id="sandbox-container">
-          <div class="input-group input-daterange d-flex align-items-center">
-            <div class="input-group-addon">시작</div>
-            <input type="text" class="form-control rounded">
-            <div class="input-group-addon">종료</div>
-            <input type="text" class="form-control rounded">
-          </div>
-          <div class="d-flex">
-            <input type="text" class="form-control" placeholder="검색어를 입력해주세요">
-            <button class="btn btn-warning" type="button">검색</button>
-          </div>
-        </div> -->
         <div class="d-flex align-items-center">
           <div class="me-3">
             <span id="startDate" th:text="${startDate}"></span>
@@ -145,20 +132,6 @@
               <td th:text="*{historyAmount}">20000</td>
               <td th:text="*{totalPrice}">30000</td>
             </tr>
-            <!-- <tr>
-              <td>
-                <label class="w-100">
-                  <input type="checkbox" class="checkbox">
-                </label>
-              </td>
-              <td>1</td>
-              <td>울트라 스킨</td>
-              <td>신변잡화</td>
-              <td>화장품</td>
-              <td>150ml</td>
-              <td>20000</td>
-              <td>30000</td>
-            </tr> -->
           </tbody>
         </table>
       </div>

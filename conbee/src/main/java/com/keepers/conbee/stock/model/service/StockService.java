@@ -37,6 +37,15 @@ public interface StockService {
 	 */
 	int goodsUpdate(Stock stock);
 
+	/** 자동 완성
+	 * @param inputQuery
+	 * @param storeNo
+	 * @param scategoryName 
+	 * @param lcategoryName 
+	 * @return
+	 */
+	List<Stock> autoComplete(String inputQuery, int storeNo, String lcategoryName, String scategoryName);
+
 
 
 }

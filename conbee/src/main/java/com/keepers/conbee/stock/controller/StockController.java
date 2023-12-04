@@ -99,13 +99,38 @@ public class StockController {
 		
 		return null;
 	}
-	
 	/** 발주 페이지
 	 * @return
 	 */
 	@GetMapping("order/list")
-	public String orderPage() {
-		return "stock/order/order";
+	public String orderList(Stock stock) {
+		
+		return "stock/order/orderList";
+	}
+	
+	/** 발주 신청 화면 전환
+	 * @return
+	 */
+	@GetMapping("order/insert")
+	public String orderInsertPage() {
+		
+		return "stock/order/orderInsert";
+	}
+	/** 발주 신청
+	 * @return
+	 */
+	@PostMapping("order/insert")
+	public String orderInsert() {
+		
+		return "stock/order/orderInsert";
+	}
+	
+	@GetMapping("autoComplete")
+	@ResponseBody
+	public List<Stock> autoComplete(String inputQuery, String storeNo, String lcategoryName, String scategoryName) {
+		List<Stock> stockList = service.autoComplete(inputQuery, Integer.parseInt(storeNo), lcategoryName, scategoryName);
+		
+		return stockList;
 	}
 	
 
