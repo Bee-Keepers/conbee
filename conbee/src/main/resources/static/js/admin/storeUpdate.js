@@ -21,8 +21,6 @@ function sample6_execDaumPostcode() {
       }
   }).open();
 }
-<<<<<<< HEAD
-=======
 
 
 //============================================================================
@@ -421,4 +419,3 @@ submitBtn.addEventListener("click", ()=>{
     } */
 
 });
->>>>>>> origin/main

@@ -9,10 +9,7 @@
   <style>
     tr { height: 80px; }
     td { text-align: start;}
-<<<<<<< HEAD
-=======
     article{margin-top: 3.2px; font-size: 14.5px;}
->>>>>>> origin/main
   </style>
 </head>
 <body class="d-flex flex-column" style="height: 100vh;">
@@ -34,64 +31,19 @@
         </div>
       </div>
 
-      <div class="d-flex flex-column align-items-center" style="height: 85%;">
+      <!-- 점포 정보가 없을 경우 -->
+      <th:block th:unless="${readStore != null}">
+        <div class="d-flex flex-column align-items-center" style="height: 85%;">
 
-        <table class="table mt-2 border-top-none" style="width: 95%; text-align: center; vertical-align: middle;">
-          <colgroup>
-            <col width=15%>
-            <col width=34%>
-            <col width=2%>
-            <col width=15%>
-            <col width=34%>
-          </colgroup>
+          <table class="table mt-2 border-top-none" style="width: 95%; text-align: center; vertical-align: middle;">
+            <colgroup>
+              <col width=15%>
+              <col width=34%>
+              <col width=2%>
+              <col width=15%>
+              <col width=34%>
+            </colgroup>
 
-<<<<<<< HEAD
-          <tbody>
-            <tr>
-              <th>점포번호</th>
-              <td colspan="4"><b class="ps-10" style="margin-left: 5px;">3642</b></td>
-            </tr>
-            <tr>
-              <th>점포명</th>
-              <td colspan="4">
-                <form class="form-floating">
-                  <!-- input class명에 유효성검사가 실패하면 is-invalid 를 추가 -->
-                  <input type="text" class="form-control" id="" placeholder="" name="storeName" style="width: 350px;">
-                  <label for="floatingInputInvalid">관악구청점</label>
-                </form>
-              </td>
-            </tr>
-            <tr>
-              <th>점주명</th>
-              <td>
-                <form class="form-floating">
-                  <!-- input class명에 유효성검사가 실패하면 is-invalid 를 추가 -->
-                  <input type="text" class="form-control" id="" placeholder="" name="storeManagerName" style="width: 350px;">
-                  <label for="floatingInputInvalid">김점주</label>
-                </form>
-              </td>
-              <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
-              <th>점주회원번호</th>
-              <td><b class="ps-10" style="margin-left: 5px;">0000</b></td>
-            </tr>
-            <tr>
-              <th>전화번호</th>
-              <td colspan="4">
-                <form class="form-floating">
-                  <!-- input class명에 유효성검사가 실패하면 is-invalid 를 추가 -->
-                  <input type="text" class="form-control" id="" placeholder="" name="storeTel" style="width: 350px;">
-                  <label for="floatingInputInvalid">028855913</label>
-                </form>
-              </td>
-            </tr>
-            <tr>
-              <th>위치</th>
-              <td colspan="4">
-                <form class="form-floating d-flex align-items-center" >
-                  <!-- input class명에 유효성검사가 실패하면 is-invalid 를 추가 -->
-                  <input type="text" class="form-control" id="storeAddress" placeholder="" name="storeAddress" style="width: 500px;">
-                  <label for="floatingInputInvalid">서울특별시 송파구 가락로 74, (석촌동) 1층</label>
-=======
             <tbody>
               <tr>
                 <th>점포번호</th>
@@ -136,22 +88,16 @@
       <!-- 점포 정보가 있을 경우 -->
       <th:block th:if="${readStore != null}">
         <div class="d-flex flex-column align-items-center" style="height: 85%;">
->>>>>>> origin/main
 
-                  <div class="signUp-input-area">
-                    <button type="button" class="btn ms-4 btn-outline-warning" onclick="sample6_execDaumPostcode()">주소 검색</button>
-                  </div>
+          <table class="table mt-2 border-top-none" style="width: 95%; text-align: center; vertical-align: middle;" th:object="${readStore}">
+            <colgroup>
+              <col width=15%>
+              <col width=34%>
+              <col width=2%>
+              <col width=15%>
+              <col width=34%>
+            </colgroup>
 
-<<<<<<< HEAD
-                  <div class="signUp-input-area">
-                  </div>
-                </form>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-=======
             <tbody>
               <tr>
                 <th>점포번호</th>
@@ -224,7 +170,6 @@
           </table>
         </div>
       </th:block>
->>>>>>> origin/main
 
       <!-- 선택버튼 하단 고정 -->
       <div class="w-100 align-items-start sticky-bottom bg-white">

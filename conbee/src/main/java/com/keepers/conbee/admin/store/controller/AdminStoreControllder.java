@@ -7,24 +7,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.admin.store.model.dto.Store;
 import com.keepers.conbee.admin.store.model.service.AdminStoreService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
 @RequestMapping("admin/storeManage")
 @RequiredArgsConstructor
-<<<<<<< HEAD
-=======
 @SessionAttributes({"readStore"})
->>>>>>> origin/main
 public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트롤러
 	
 	private final AdminStoreService service;
@@ -34,23 +35,33 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	
 	/** 점포정보조회 포워드
 	 * @author 예리나
+	 * @param model : 데이터 전달 객체
+	 * @param paramMap : 검색어 넘어옴
+	 * @param cp : 현재 페이지
 	 * @return storeList 전 점포 정보 리스트
 	 */
 	@GetMapping("storeList")
-	public String storeList(Model model,
+	public String storeList(Model model, @RequestParam Map<String, Object> paramMap, 
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		
-		Map<String, Object> map = service.readAllStoreList(cp);
-		
-		model.addAttribute("map", map);
+		// 검색이 아닌 일반 목록 조회인 경우
+		if(paramMap.get("query") == null) {
+			
+			Map<String, Object> map = service.readAllStoreList(cp);
+			model.addAttribute("map", map);
+		} 
+		// 검색어가 있는 경우
+		else {
+			
+			Map<String, Object> map = service.searchStoreList(paramMap, cp);
+			model.addAttribute("map", map);
+		}
 		
 		return "admin/storeManage/storeList";
 	}
 	
 	
 	
-<<<<<<< HEAD
-=======
 	/** 점포 운영상태 변경
 	 * @author 이예리나
 	 * @param storeNo
@@ -75,7 +86,6 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	
 	/*========================== 점포정보수정 =================================*/
 	
->>>>>>> origin/main
 	/** 점포정보수정 포워드 _ 점포명을 클릭해서 수정하는 경우가 아닐때
 	 * @author 예리나
 	 * @return
@@ -86,8 +96,6 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	}
 	
 	
-<<<<<<< HEAD
-=======
 	/** 점포정보 수정
 	 * @author 예리나
 	 * @param updateStore : 수정할 점포 정보가 담긴 커맨드 객체
@@ -156,20 +164,20 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	 * @param ra
 	 * @return
 	 */
->>>>>>> origin/main
 	@GetMapping("storeUpdate/{storeNo:[0-9]+}")
 	public String storeUpdate(@PathVariable("storeNo") int storeNo,
-			Model model, RedirectAttributes ra) {
+			Model model) {
 		
+		// 해당 점포 정보 얻어오기
+		Store readStore = service.readStoreInfo(storeNo);
 		
+		model.addAttribute("readStore", readStore);
 		
-		return null;
+		return "admin/storeManage/storeUpdate";
 		
 	}
 	
 	
-<<<<<<< HEAD
-=======
 	/** 매장명 중복 검사
 	 * @author 이예리나
 	 * @param storeName
@@ -224,7 +232,6 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	}
 	
 	
->>>>>>> origin/main
 	
 	/*========================== 신규점포등록 =================================*/
 	

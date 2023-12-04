@@ -21,8 +21,6 @@ public interface AdminStoreMapper {
 	 * @return
 	 */
 	int getListCount();
-<<<<<<< HEAD
-=======
 
 	/** 검색한 정보와 일치하는 점포갯수
 	 * @param paramMap
@@ -94,7 +92,6 @@ public interface AdminStoreMapper {
 	 * @return
 	 */
 	int storeInsert(Store inputStore);
->>>>>>> origin/main
 	
 	
 

@@ -1,16 +1,17 @@
 package com.keepers.conbee.admin.store.model.service;
 
-import java.util.List;
 import java.util.Map;
 
 import com.keepers.conbee.admin.store.model.dto.Store;
 
 public interface AdminStoreService {
 
+	/** 전체 점포 목록 조회
+	 * @param cp
+	 * @return
+	 */
 	Map<String, Object> readAllStoreList(int cp);
 
-<<<<<<< HEAD
-=======
 	/** 검색한 점포 목록 조회
 	 * @param paramMap
 	 * @param cp
@@ -67,6 +68,5 @@ public interface AdminStoreService {
 	 */
 	int storeInsert(Store inputStore);
 
->>>>>>> origin/main
 
 }

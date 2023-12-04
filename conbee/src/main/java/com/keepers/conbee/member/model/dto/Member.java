@@ -27,12 +27,8 @@ public class Member {
 	private int teamNo;
 	private int departmentNo;
 	private int gradeNo;
-<<<<<<< HEAD
-=======
-	
 	private List<Store> storeList;
 	
 	//전자결재 작업 중 추가 유진
 	private String teamName;
->>>>>>> origin/main
 }
