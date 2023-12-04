@@ -31,6 +31,12 @@ public interface StockService {
 	 */
 	int goodsDelete(List<Integer> goodsNo);
 
+	/** 등록된 물품 수정
+	 * @param stock
+	 * @return
+	 */
+	int goodsUpdate(Stock stock);
+
 
 
 }

@@ -35,4 +35,10 @@ public interface StockMapper {
 	 */
 	int goodsDelete(int goodsNo);
 
+	/** 등록된 물품 수정
+	 * @param stock
+	 * @return
+	 */
+	int goodsUpdate(Stock stock);
+
 }

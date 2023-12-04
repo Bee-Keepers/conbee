@@ -39,5 +39,10 @@
 		DELETE FROM GOODS
 		WHERE GOODS_NO = #{goodsNo}
 	</delete>
+	
+	<update id="goodsUpdate">
+		UPDATE STOCK SET
+		
+	</update>
 
 </mapper>

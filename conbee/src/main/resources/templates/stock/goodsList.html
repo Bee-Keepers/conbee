@@ -19,14 +19,14 @@
     <div class="d-flex flex-column flex-grow-1 align-items-center overflow-y-auto">
       <div class="d-flex justify-content-between align-items-center w-100 px-2">
         <p class="fs-4 pb-3 px-3 border-bottom w-100 pt-3">상품 등록</p>
+        <!-- 검색창 -->
+        <div class="searchBox fs-4 pb-3 px-3 border-bottom w-100 pt-3">
+          <input type="text" class="form-control" placeholder="검색어를 입력해주세요" 
+                aria-label="Recipient's username" aria-describedby="button-addon2">
+          <button class="btn btn-outline-secondary" type="button" id="button-addon2">검색</button>
+        </div>
       </div>
 
-      <!-- 검색창 -->
-      <div class="searchBox">
-        <input type="text" class="form-control" placeholder="검색어를 입력해주세요" 
-              aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2">검색</button>
-      </div>
 
       <div class="w-100 px-4 flex-grow-1">
 
@@ -50,7 +50,7 @@
               <tr id="checkbox" th:each="stock : ${map.stockList}" th:object="${stock}">
                 <td>
                   <label class="w-100">
-                    <input th:name="*{goodsNo}" type="checkbox" class="checkbox">
+                    <input type="checkbox" class="checkbox">
                   </label>
                 </td>
                 <td th:text="*{goodsNo}">상품번호</td>
@@ -66,10 +66,10 @@
       </div>
 
       <!-- 버튼 모음 -->
-      <div class="w-100 align-items-start sticky-bottom bg-white">
+      <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white">
         <div class="btn-group" role="group" aria-label="Basic outlined example">
           <button type="button" class="btn btn-cor" data-bs-toggle="modal" data-bs-target="#goodsInsertModel">등록</button>
-          <button type="button" class="btn btn-cor" data-bs-toggle="modal" data-bs-target="#goodsInsertModel">수정</button>
+          <button type="button" class="btn btn-cor" data-bs-toggle="modal" data-bs-target="#goodsUpdateModel" id="updateBtn">수정</button>
           <button name="goodsDelete" id="deleteBtn" type="button" class="btn btn-cor">삭제</button>
         </div>
       </div>    
@@ -135,92 +135,34 @@
     </div>
   </form>
 
-  <!-- 상품 등록 Modal -->
-  <form action="/stock/goodsInsert" method="post">
-    <div class="modal fade" id="goodsInsertModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-
-          <!-- 큰 제목 -->
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">상품 등록</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          
-          <!-- 상품명 -->
-          <div class="form-floating mb-3">
-            <input name="goodsName" type="text" class="form-control" id="" placeholder="품목명">
-            <label for="floatingInput">상품명</label>
-          </div>
-
-          <!-- 재고 규격 -->
-          <div class="form-floating mb-3">
-            <input name="goodsStandard" type="text" class="form-control" id="" placeholder="품목구분">
-            <label for="floatingPassword">재고규격</label>
-          </div>
-
-          <!-- 대분류 -->
-          <div class="input-group mb-3">
-            <label class="input-group-text" for="inputGroupSelect01">대분류</label>
-            <select class="form-select" name="lcategoryName" id="lcategorySelect">
-              <option value="0">선택</option>
-              <option>간편식사</option>
-              <option>즉석조리</option>
-              <option>과자류</option>
-              <option>아이스크림</option>
-              <option>식품</option>
-              <option>음료</option>
-              <option>생활용품</option>
-            </select>
-          </div>
-
-          <!-- 소분류 -->
-          <div class="input-group mb-3">
-            <label class="input-group-text" for="inputGroupSelect01">소분류</label>
-            <select class="form-select" name="scategoryName" id="scategorySelect">
-              <option value="0">선택</option>
-            </select>
-          </div>
-
-          <!-- 버튼 -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-            <button type="submit" class="btn btn-primary" id="goodsInsertBtn">등록</button>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </form>
-
   <!-- 상품 수정 Modal -->
   <form action="/stock/goodsUpdate" method="post">
-    <div class="modal fade" id="goodsInsertModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="goodsUpdateModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
 
           <!-- 큰 제목 -->
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">상품 등록</h1>
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">상품 수정</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           
           <!-- 상품명 -->
           <div class="form-floating mb-3">
-            <input name="goodsName" type="text" class="form-control" id="" placeholder="품목명">
+            <input name="goodsName" type="text" class="form-control" id="goodsName" placeholder="품목명">
             <label for="floatingInput">상품명</label>
           </div>
 
           <!-- 재고 규격 -->
           <div class="form-floating mb-3">
-            <input name="goodsStandard" type="text" class="form-control" id="" placeholder="품목구분">
+            <input name="goodsStandard" type="text" class="form-control" id="goodsStandard" placeholder="품목구분">
             <label for="floatingPassword">재고규격</label>
           </div>
 
           <!-- 대분류 -->
           <div class="input-group mb-3">
-            <label class="input-group-text" for="inputGroupSelect01">대분류</label>
-            <select class="form-select" name="lcategoryName" id="lcategorySelect">
+            <label class="input-group-text" for="lcategorySelectUpdate">대분류</label>
+            <select class="form-select" name="lcategoryName" id="lcategorySelectUpdate">
               <option value="0">선택</option>
               <option>간편식사</option>
               <option>즉석조리</option>
@@ -234,8 +176,8 @@
 
           <!-- 소분류 -->
           <div class="input-group mb-3">
-            <label class="input-group-text" for="inputGroupSelect01">소분류</label>
-            <select class="form-select" name="scategoryName" id="scategorySelect">
+            <label class="input-group-text" for="scategorySelectUpdate">소분류</label>
+            <select class="form-select" name="scategoryName" id="scategorySelectUpdate">
               <option value="0">선택</option>
             </select>
           </div>
@@ -243,12 +185,13 @@
           <!-- 버튼 -->
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-            <button type="submit" class="btn btn-primary" id="goodsInsertBtn">등록</button>
+            <button type="submit" class="btn btn-primary" id="goodsUpdateBtn">수정</button>
           </div>
-
+          
         </div>
       </div>
     </div>
+    <input type="hidden" id="goodsNo" name="goodsNo" value="">
   </form>
 
   <th:block th:replace="~{common/footer}"></th:block>
