@@ -52,6 +52,19 @@ function sample6_execDaumPostcode() {
 }
 
 
+
+//============================================================================
+
+/* 점주명, 점주회원번호 동시작성/동시빈칸 유효성 검사 */
+// 0 : 기존 정보 그대로
+// false : 기존 정보를 삭제함(빈칸)
+// true : 유효한 정보를 입력함
+// false : 유효하지 않은 정보를 입력함
+const checkMemberObj = {
+"memberName" : 0,
+"memberNo" : 0
+}
+
 //============================================================================
 
 /* 정보 수정 유효성 검사 */
@@ -134,7 +147,7 @@ const messageMemberName = document.getElementById("messageMemberName");
 // 점주명 입력시 유효성 검사
 memberName.addEventListener("input", ()=>{
 
-    // 점포명이 입력되지 않은 경우
+    // 점주명이 입력되지 않은 경우
     if(memberName.value.trim().length == 0){
         memberName.value = "";
 
@@ -144,6 +157,8 @@ memberName.addEventListener("input", ()=>{
 
         memberName.classList.remove("is-invalid");
         memberName.classList.remove("is-valid");
+
+        checkMemberObj.memberName = false;
 
         return;
     }
@@ -163,6 +178,8 @@ memberName.addEventListener("input", ()=>{
         memberName.classList.add("is-valid");
         memberName.classList.remove("is-invalid");
 
+        checkMemberObj.memberName = true;
+
     // 입력한 점주명이 유효하지 않을 경우    
     } else {
         messageMemberName.innerText= "점주명이 형식에 맞지 않습니다.";
@@ -172,6 +189,8 @@ memberName.addEventListener("input", ()=>{
         // 인풋 요소 변화
         memberName.classList.add("is-invalid");
         memberName.classList.remove("is-valid");
+
+        checkMemberObj.memberName = false;
     }
 
 })
@@ -198,6 +217,8 @@ memberNo.addEventListener("input", ()=>{
         memberNo.classList.remove("is-valid");
         memberNo.classList.remove("is-invalid");
 
+        checkMemberObj.memberNo = false;
+
         return;
     }
 
@@ -216,6 +237,8 @@ memberNo.addEventListener("input", ()=>{
         memberNo.classList.add("is-valid");
         memberNo.classList.remove("is-invalid");
 
+        checkMemberObj.memberNo = true;
+
     // 입력한 점주번호가 유효하지 않을 경우    
     } else {
         messageMemberNo.innerText= "점주회원번호가 양식에 맞지 않습니다.";
@@ -225,6 +248,8 @@ memberNo.addEventListener("input", ()=>{
         // 인풋 요소 변화
         memberNo.classList.add("is-invalid");
         memberNo.classList.remove("is-valid");
+
+        checkMemberObj.memberNo = false;
     }
 
 })
@@ -375,6 +400,7 @@ storeAddress.addEventListener("input", ()=>{
 
 const cancelBtn = document.querySelector("#cancelBtn");
 const submitBtn = document.querySelector("#submitBtn");
+const storeUpdateFrm = document.getElementById("storeUpdateFrm");
 
 
 // 취소 버튼 클릭 시 input 작성내용 지우기
@@ -391,10 +417,20 @@ cancelBtn.addEventListener("click", ()=>{
 
 
 // 확인 버튼 클릭 시 form 전체 제출
-submitBtn.addEventListener("click", ()=>{
-    
-    document.getElementById("storeUpdateFrm").submit();
+submitBtn.addEventListener("click", (e)=>{
 
+    // 점주회원번호와 점주명이 동시에 작성되거나 미작성된 경우가 아니라면
+    if(checkMemberObj.memberName === false || checkMemberObj.memberNo === false){
+        let str;
+        str = "점주명과 점주회원번호 수정시 모두 작성해주세요.";
+        
+        alert(str);
+
+        e.preventDefault(); // form 제출 X
+        return;
+    }
+    
+    storeUpdateFrm.submit();
 
     // 전체 form 얻어와 제출 (정말 이게 최선일까...?^^....)
     // document.getElementById("updateStoreNoFrm").submit();
