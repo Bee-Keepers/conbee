@@ -18,7 +18,7 @@
                         <strong style="color: white;">프로필명</strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow" style="z-index: 1021;">
-                        <li><a class="dropdown-item" href="/mypage">마이페이지</a></li>
+                        <li><a class="dropdown-item" href="/mypage/mypage-profile">마이페이지</a></li>
                         <li><a class="dropdown-item" href="#">환경설정</a></li>
                         <li><a class="dropdown-item" href="#">쪽지</a></li>
                         <li th:if="${session.loginMember != null && session.loginMember.memberAuthority == 0}">
@@ -61,7 +61,7 @@
             <a class="nav-link" href="#">캘린더</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="/stock/list">재고</a>
+            <a class="nav-link" href="/stock/stockList">재고</a>
             </li>
             <li class="nav-item">
             <a class="nav-link" href="/revenue/list">매출</a>
