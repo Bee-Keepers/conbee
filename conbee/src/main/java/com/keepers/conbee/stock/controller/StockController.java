@@ -87,5 +87,14 @@ public class StockController {
 		return service.goodsDelete(goodsNo);
 	}
 	
+	
+	/** 발주 페이지
+	 * @return
+	 */
+	@GetMapping("order/list")
+	public String orderPage() {
+		return "stock/order/order";
+	}
+	
 
 }

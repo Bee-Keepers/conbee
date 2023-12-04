@@ -67,7 +67,7 @@ lcategorySelect.addEventListener("change", ()=>{
 
 // 지점 변경 시 화면 변경
 storeNoSelect.addEventListener("change", ()=>{
-   location.href = "/revenue/list?storeNo=" + storeNoSelect.value;
+   location.href = "/revenue/history?storeNo=" + storeNoSelect.value;
 })
 
 // 지점 선택 옵션 저장
@@ -81,15 +81,6 @@ for(let option of options){
         break;
     }
 }
-
-// 합계 계산
-const totalPrice = document.getElementById("totalPrice");
-const totalPriceList = document.querySelectorAll("#tableTbody>tr>td:last-of-type");
-let temp = 0;
-for(let totalPrices of totalPriceList){
-   temp += parseInt(totalPrices.innerText);
-}
-totalPrice.innerText = temp;
 
 const startDate = document.querySelector("input[name='startDate']");
 const endDate = document.querySelector("input[name='endDate']");

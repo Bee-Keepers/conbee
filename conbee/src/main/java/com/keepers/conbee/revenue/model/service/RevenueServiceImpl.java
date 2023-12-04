@@ -20,9 +20,12 @@ public class RevenueServiceImpl implements RevenueService{
 	// 매출 상세 검색
 	@Override
 	public List<Revenue> revenueSearch(Revenue revenue) {
-		
-		
-		
 		return mapper.revenueSearch(revenue);
+	}
+	
+	// 입출고 내역 검색
+	@Override
+	public List<Revenue> historySearch(Revenue revenue) {
+		return mapper.historySearch(revenue);
 	}
 }
