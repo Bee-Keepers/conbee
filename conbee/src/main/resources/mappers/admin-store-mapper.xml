@@ -18,8 +18,6 @@
 	</select>
 	
 	
-<<<<<<< HEAD
-=======
 	<!--검색한 정보와 일치하는 점포갯수-->
 	<select id="searchStoreListCount" resultType="_int">
 		SELECT COUNT(*) 
@@ -116,5 +114,4 @@
 	
 	
 	
->>>>>>> origin/main
 </mapper>
