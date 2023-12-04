@@ -14,21 +14,14 @@
     // console.log(map);
     const docWriteInfosMap = new Map(Object.entries(map));
 
-    const approverList = docWriteInfosMap.get('approverList');
 
-    console.log(approverList);
-
-
-
-    console.log(approverList[0].memberName);
-
-
-
+    // 팀이름
     const infoTeams = document.querySelectorAll(".infoTeam");
     infoTeams.forEach((infoTeam)=>{
       infoTeam.innerText = docWriteInfosMap.get('infoTeam');
     })
 
+    // 이름
     const infoNames = document.querySelectorAll(".infoName");
     // console.log(infoNames);
     // console.log(docWriteInfosMap.get('infoName'));
@@ -41,10 +34,46 @@
       docWriteInfo.innerText = docWriteInfosMap.get('infoName') + "(" + docWriteInfosMap.get('infoTeam') + ")";
     })
 
+    // 결재자 리스트
+    const approverList = docWriteInfosMap.get('InfoApproverList');
 
+    const sajangs = document.querySelectorAll(".sajang");
+    const busajangs = document.querySelectorAll(".busajang");
+    const bujangs = document.querySelectorAll(".bujang");
+    const teamjangs  = document.querySelectorAll(".teamjang");
+    const donteamjangs = document.querySelectorAll(".donteamjang");
 
+    for(let i=0; i<approverList.length;i++){
+      // console.log(approverList[i].memberName);
+
+      if(approverList[i].gradeNo==0){ // 사장
+        sajangs.forEach((sajang)=>{
+        sajang.innerText = approverList[i].memberName;
+        })
+      }
+      if(approverList[i].gradeNo==1){ // 부사장
+        busajangs.forEach((busajang)=>{
+          busajang.innerText=approverList[i].memberName;
+        })
+      }
+      if(approverList[i].gradeNo==2){ // 부장
+        bujangs.forEach((bujang)=>{
+          bujang.innerText=approverList[i].memberName;
+        })
+      }
+      if(approverList[i].gradeNo==3 && approverList[i].teamNo==6){ // 회계팀장
+        donteamjangs.forEach((donteamjang)=>{
+          donteamjang.innerText=approverList[i].memberName;
+        })
+      }
+      /* 회의 필요! 회계팀은 지출결의 어떻게 할건지.. */
+      if(approverList[i].gradeNo==3 && approverList[i].teamNo!=6){
+        teamjangs.forEach((teamjang)=>{ //팀장
+          teamjang.innerText=approverList[i].memberName;
+        })
+      }
+    }
   })
-
   .catch(e => console.log(e));
 
 })();

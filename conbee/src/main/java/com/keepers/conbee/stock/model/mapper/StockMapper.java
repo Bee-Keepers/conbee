@@ -52,5 +52,11 @@ public interface StockMapper {
 	 * @return
 	 */
 	int stockInsert(Stock stock);
+  
+	/** 자동 완성
+	 * @param map
+	 * @return
+	 */
+	List<Stock> autoComplete(Map<String, Object> map);
 
 }

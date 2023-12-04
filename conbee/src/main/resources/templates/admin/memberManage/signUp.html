@@ -36,17 +36,17 @@
         </div>
       </div>
 
-      <form  action="/admin/memberManage/signup" class="validation-form"  method="post" >
+      <form  action="signUp/insert" class="validation-form"  method="post" id="memberInsertFrm" name="memberInsertFrm">
         <div class="d-flex flex-column justify-content-center align-items-center">
   
           <table class="table mt-2 border-top-none" style="width: 95%; text-align: center; vertical-align: middle;">
             
             <colgroup>
               <col width=15%>
-              <col width=34%>
+              <col width=30%>
               <col width=2%>
-              <col width=15%>
-              <col width=34%>
+              <col width=14%>
+              <col width=39%>
             </colgroup>
   
             <tbody>
@@ -55,7 +55,7 @@
                 <th>아이디</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" name="memberId" id="memberId" placeholder="아이디를 입력해주세요." required>
+                    <input type="text" class="form-control" name="memberId" id="memberId" placeholder="아이디를 입력해주세요." maxlength="12" required>
                   </div>
                   <article id="messageMemberId"></article>
                 </td>
@@ -64,13 +64,13 @@
                 <th>이 름</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" name="memberName" id="memberName" placeholder="이름을 입력해주세요." required>
+                    <input type="text" class="form-control" name="memberName" id="memberName" placeholder="이름을 입력해주세요." maxlength="8" required>
                   </div>
                   <article id="messageMemberName"></article>
                 </td>
               </tr>
 
-              <tr>
+              <!-- <tr>
                 <th>비밀번호</th>
                 <td>
                   <div class="d-flex align-items-center" >
@@ -85,34 +85,15 @@
                     <input type="password" class="form-control" name="memberPwConfirm" id="memberPwConfirm" placeholder="비밀번호 확인을 입력해주세요.">
                   </div>
                 </td>
-              </tr>
+              </tr> -->
 
               <tr>
-                <th><label for="email">이메일</label></th>
+                <th>이메일</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="email" class="form-control" name="memberEmail" id=" memberEmail" placeholder="이메일을 입력해주세요." required>
+                    <input type="text" class="form-control" name="memberEmail" id="memberEmail" placeholder="이메일을 입력해주세요." required>
                   </div>
                   <article id="messageMemberEmail"></article>
-                </td>
-  
-                <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
-  
-                <th>이메일 인증번호</th>
-                <td>
-                  <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" name="emailAuthKey" id="emailAuthKey" placeholder="이메일 인증번호를 입력해주세요."  maxlength="6" autocomplete="off">
-                    <button class="btn btn-warning  ms-3" style="width: 90px; margin-right: 35px;" id="checkEmailAuthKeyBtn"  type="button">인증하기</button>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <th>휴대폰번호</th>
-                <td>
-                  <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" name="memberTel" id="memberTel" placeholder="휴대폰번호를 입력해주세요.">
-                  </div>
                 </td>
 
                 <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
@@ -120,17 +101,66 @@
                 <th>점포 식별번호</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" name="storeNo" id="storeNo" placeholder="점포 식별번호를 입력해주세요." required>
+                    <input type="text" class="form-control" name="storeNo" id="storeNo" placeholder="점포 식별번호를 입력해주세요." maxlength="5" required>
                   </div>
                   <article id="messageStoreNo"></article>
                 </td>
+  
+              <!--   <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td> -->
+  
+             <!--    <th>이메일 인증번호</th>
+                <td>
+                  <div class="d-flex align-items-center" >
+                    <input type="text" class="form-control" name="emailAuthKey" id="emailAuthKey" placeholder="이메일 인증번호를 입력해주세요."  maxlength="6" autocomplete="off">
+                    <button class="btn btn-warning  ms-3" style="width: 90px; margin-right: 35px;" id="checkEmailAuthKeyBtn"  type="button">인증하기</button>
+                  </div>
+                </td> -->
+              </tr>
+
+              <!-- <tr>
+                <th>휴대폰번호</th>
+                <td>
+                  <div class="d-flex align-items-center" >
+                    <input type="text" class="form-control" name="memberTel" id="memberTel" placeholder="휴대폰번호를 입력해주세요.">
+                  </div>
+                </td>
+
+              
 
 
+              </tr> -->
+
+              <tr>
+                <th>팀 코드번호</th>
+                <td>
+                  <div class="d-flex align-items-center" >
+                    <input type="number" class="form-control" name="teamNo" id="teamNo" maxlength="2" placeholder="팀 코드번호를 입력해주세요." required>
+                  </div>
+                </td>
+
+                <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
+  
+                <th>부서 코드번호</th>
+                <td>
+                  <div class="d-flex align-items-center" >
+                    <input type="number" class="form-control" name="departmentNo" id="departmentNo" maxlength="1" placeholder="부서 코드번호를 입력해주세요." required>
+                  </div>
+                </td>
+               
               </tr>
 
 
   
               <tr>
+                <th>직급 코드번호</th>
+                <td colspan="5">
+                  <div class="d-flex align-items-center" >
+                    <input type="number" class="form-control" name="gradeNo" id="gradeNo" placeholder="직급 코드번호를 입력해주세요." maxlength="1" required>
+                  </div>
+                </td>
+
+              <!--   <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
+
                 <th>위치</th>
                 <td colspan="4">
                   <section class="d-flex align-items-center">
@@ -144,28 +174,21 @@
                   </section>
                 </td>
                 <span class="signUp-message" id="authKeyMessage"></span>
-              </tr>
+              </tr> -->
             </tbody>
           </table>
   
           
           <div class="w-100 align-items-start sticky-bottom bg-white">
-            <section class="d-flex justify-content-end mb-2" style="width: 96%;">
-              <button type="button" class="btn btn-secondary" style="width: 177px;">임시 비밀번호</button>
-            </section>
             <section class="d-flex justify-content-end" style="width: 100%;">
               <section class="btn btn-secondary" id="cancelBtn" style="width: 80px;">취소</section>
-              <button type="submit" class="btn btn-warning ms-3" style="width: 80px; margin-right: 35px;">확인</button>
+              <button type="submit" id="submitBtn" class="btn btn-warning ms-3" style="width: 177px; margin-right: 35px;">임시 비밀번호</button>
             </section>
           </div>
   
         </div>
       </form>
 
-
-    </div>
-
-    </div>
   </main>
 
   <th:block th:replace="~{common/footer}"></th:block>
@@ -175,7 +198,6 @@
 
   <!-- 다음 주소 API -->
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-  <script src="/js/admin/storeUpdate.js"></script>
 
 
   <!-- 전달받은 메세지 출력 -->

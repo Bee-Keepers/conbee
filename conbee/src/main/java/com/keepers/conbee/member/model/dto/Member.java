@@ -18,15 +18,17 @@ public class Member {
 	private String memberEmail;
 	private String memberName;
 	private String memberAddress;
-	private int memberTel;
+	private String memberTel;
 	private String memberProfile;
 	private int memberAuthority;
 	private String memberEnrollDate;
 	private String memberDelFl;
 	
+	private List<Member> memberList;
 	private int teamNo;
 	private int departmentNo;
 	private int gradeNo;
+	private int storeNo;
 	private List<Store> storeList;
 	
 	//전자결재 작업 중 추가 유진
