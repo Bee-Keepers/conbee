@@ -25,23 +25,8 @@ public class RevenueController {
 
 	private final RevenueService service;
 	
-//	@GetMapping("list")
-//	public String revenueList(Model model) {
-//		
-//		return "stock/revenue/revenue";
-//	}
-//	
-//	@PostMapping("list")
-//	public String revenueSearchList(Model model, String lcategoryName, String scategoryName,
-//			String goodsName, int revenue, int flag, String startDate, String endDate) {
-//		
-//		
-//		
-//		return "stock/revenue/revenue";
-//	}
 	@GetMapping("list")
 	public String revenueSearch(Model model, Revenue revenue, @SessionAttribute("loginMember") Member loginMember) {
-//		if(revenue)
 		log.info("----------" + revenue);
 		if(revenue.getStartDate() == null && revenue.getStartDate() == null && revenue.getGoodsName() == null && revenue.getLcategoryName() == null && revenue.getScategoryName() == null) {
 			Date today = new Date();
@@ -61,14 +46,33 @@ public class RevenueController {
 		model.addAttribute("endDate", revenue.getEndDate());
 		model.addAttribute("revenueList", revenueList);
 		
-		return "stock/revenue/revenue";
+		return "revenue/revenue";
 	}
 	
 	@GetMapping("history")
-	public String historyPage() {
+	public String historyPage(Model model, Revenue revenue, @SessionAttribute("loginMember") Member loginMember) {
 		
-		
-		return "stock/revenue/history";
+		log.info("----------" + revenue);
+		if(revenue.getStartDate() == null && revenue.getStartDate() == null && revenue.getGoodsName() == null && revenue.getLcategoryName() == null && revenue.getScategoryName() == null) {
+			Date today = new Date();
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			revenue.setStartDate(dateFormat.format(today));
+			revenue.setEndDate(dateFormat.format(today));
+			revenue.setGoodsName("");
+			revenue.setLcategoryName("");
+			revenue.setScategoryName("");
+			if(revenue.getStoreNo() == 0) {
+				revenue.setStoreNo(loginMember.getStoreList().get(0).getStoreNo());
+			}
+		}	
+		List<Revenue> historyList = service.historySearch(revenue);
+		model.addAttribute("startDate", revenue.getStartDate());
+		model.addAttribute("endDate", revenue.getEndDate());
+		model.addAttribute("historyList", historyList);
+//		
+		return "revenue/history";
 	}
+	
+
 	
 }
