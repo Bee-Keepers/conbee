@@ -33,7 +33,7 @@
           <!-- 담당자(부서) -->
           <div class="d-flex mb-1">
             <span class="elem me-3" style="height: 27px;">담당자(부서) : </span>
-            <span class="docWriteInfo" style="height: 27px;" th:text="${memberName}">정유진(전산팀)</span><!-- ${memberName, teamName} -->
+            <span class="docWriteInfo" style="height: 27px;"></span>
           </div>
 
           <!-- 협조부서 -->
@@ -146,17 +146,20 @@
               <tr>
 
                 <th>퇴직 예정일</th>
-                <td><input type="date" name="retirementDate" id="retirementDate"></td><!-- ${퇴직 예정일} -->
+                <td><input type="date" name="docRetireDate" id="retirementDate"></td>
 
               </tr>
               <tr>
                 <th style="vertical-align: middle;">상세 내용</th>
-                <td><textarea class="docText" cols="30" rows="10"></textarea></td>
+                <td>
+                  <textarea class="docText" maxlength="1000" cols="30" rows="10" id="docHolidayText" name="approvalContent"></textarea>
+                  <div style="text-align: end; font-size: 14px;" id="textCount" class="textCount">0 / 1000 글자</div>
+                </td>
               </tr>
               <tr>
 
                 <th>첨부파일</th>
-                <td><input type="file" name="" id=""></td>
+                <td><input type="file"></td>
 
               </tr>
             </table>
