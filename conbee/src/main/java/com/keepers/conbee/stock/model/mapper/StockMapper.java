@@ -41,4 +41,10 @@ public interface StockMapper {
 	 */
 	int goodsUpdate(Stock stock);
 
+	/** 자동 완성
+	 * @param map
+	 * @return
+	 */
+	List<Stock> autoComplete(Map<String, Object> map);
+
 }

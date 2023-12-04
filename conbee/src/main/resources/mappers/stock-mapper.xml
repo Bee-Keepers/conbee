@@ -44,5 +44,22 @@
 		UPDATE STOCK SET
 		
 	</update>
+	
+	<select id="autoComplete" resultType="Stock">
+		SELECT STORE_NO, GOODS_NO, GOODS_NAME, LCATEGORY_NAME, SCATEGORY_NAME, STOCK_OUT_PRICE, STOCK_IN_PRICE, STOCK_DISCOUNT
+			,STOCK_AMOUNT
+		FROM STOCK
+		JOIN GOODS USING(GOODS_NO)
+		JOIN LCATEGORY USING(LCATEGORY_NO)
+		JOIN SCATEGORY USING(SCATEGORY_NO)
+		WHERE GOODS_NAME LIKE '%${inputQuery}%'
+		AND STORE_NO = #{storeNo}
+		<if test='lcategoryName != ""'>
+			AND LCATEGORY_NAME = #{lcategoryName}
+		</if>
+		<if test='scategoryName != ""'>
+			AND SCATEGORY_NAME = #{scategoryName}
+		</if>
+	</select>
 
 </mapper>

@@ -74,7 +74,7 @@ public interface AdminStoreMapper {
 	/** 점포정보수정-점주명
 	 * @param updateStore
 	 */
-	void storeUpdateName(Store updateStore);
+	int storeUpdateName(Store updateStore);
 
 	/** 점포 번호 중복검사
 	 * @param storeNo
@@ -93,6 +93,11 @@ public interface AdminStoreMapper {
 	 * @return
 	 */
 	int matchMemberNo(Store updateStore);
+
+	/** 신규점포등록 - 기존회원이 점주일 경우
+	 * @param inputStore
+	 */
+	void storeInsertwMember(Store inputStore);
 	
 	
 

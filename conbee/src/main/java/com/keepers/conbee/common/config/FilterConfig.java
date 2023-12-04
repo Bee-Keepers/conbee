@@ -20,7 +20,7 @@ public class FilterConfig {
 		
 		filter.setFilter(new LoginFilter()); // 사용할 필터 객체 추가
 		
-		String[] filteringUrl = {"/revenue/*"};
+		String[] filteringUrl = {"/revenue/*", "/stock/*"};
 		
 		// Arrays.asList(배열) : 배열을 List로 변환
 		filter.setUrlPatterns(Arrays.asList(filteringUrl)); // 필터링할 주소 지정
