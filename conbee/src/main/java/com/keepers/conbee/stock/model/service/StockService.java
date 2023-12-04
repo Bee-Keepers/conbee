@@ -37,6 +37,18 @@ public interface StockService {
 	 */
 	int goodsUpdate(Stock stock);
 
+	/** 재고 현황 리스트 전체 조회
+	 * @param paramMap
+	 * @return
+	 */
+	Map<String, Object> stockList(Map<String, Object> paramMap);
+
+	/** 재고 현황 등록
+	 * @param stock
+	 * @return
+	 */
+	int stockInsert(Stock stock);
+
 
 
 }

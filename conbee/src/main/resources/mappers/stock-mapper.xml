@@ -40,9 +40,40 @@
 		WHERE GOODS_NO = #{goodsNo}
 	</delete>
 	
+	<!-- 상품 수정 -->
 	<update id="goodsUpdate">
-		UPDATE STOCK SET
-		
+	  	UPDATE "GOODS" SET
+	    	GOODS_NAME = #{goodsName},
+	    	<if test="goodsStandard != ''">
+	      		GOODS_STANDARD = #{goodsStandard},
+	    	</if>
+	    	<if test="goodsStandard == ''">
+	      		GOODS_STANDARD = DEFAULT,
+	    	</if>
+	    	LCATEGORY_NO = (SELECT LCATEGORY_NO FROM LCATEGORY WHERE LCATEGORY_NAME = #{lcategoryName}),
+	    	SCATEGORY_NO = (SELECT SCATEGORY_NO FROM SCATEGORY WHERE SCATEGORY_NAME = #{scategoryName})
+	  	WHERE GOODS_NO = #{goodsNo}
 	</update>
+	
+	<select id="stockList" resultType="Stock">
+		SELECT GOODS_NO, GOODS_NAME, GOODS_STANDARD, LCATEGORY_NAME, SCATEGORY_NAME 
+		FROM GOODS
+		JOIN LCATEGORY USING(LCATEGORY_NO)
+		JOIN SCATEGORY USING(SCATEGORY_NO)
+		JOIN STOCK USING(GOODS_NO)
+		ORDER BY GOODS_NO DESC
+	</select>
+	
+		<!-- 상품 등록 -->
+	<insert id="stockInsert">
+		INSERT INTO "STOCK"
+		VALUES (SEQ_STOCK_NO.NEXTVAL, 
+			#{goodsNo},
+			0,
+			#{stockDiscount},
+			#{stockOutPrice},
+			null	
+	</insert>
+	
 
 </mapper>
