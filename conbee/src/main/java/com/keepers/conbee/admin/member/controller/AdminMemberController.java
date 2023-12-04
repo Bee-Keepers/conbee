@@ -32,14 +32,17 @@ public class AdminMemberController {
 	 * @author 김민규
 	 */
 	@GetMapping("memberList")
-	public String deleteMember(Model model, @RequestParam Map<String, Object> paramMap,
+	public String readAllMemberList(Model model, @RequestParam Map<String, Object> paramMap,
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp){ 
 		
+		// 검색이 아닌 일반 목록 조회인 경우
 		if(paramMap.get("query") == null) {
 			
 			Map<String, Object> map = service.readAllMemberList(cp);
+			
 			model.addAttribute("map", map);
 		}
+		
 		else {
 			Map<String, Object> map = service.searchMemberList(paramMap, cp);
 			model.addAttribute("map", map);
@@ -47,14 +50,6 @@ public class AdminMemberController {
 		
 		return "admin/memberManage/memberList";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

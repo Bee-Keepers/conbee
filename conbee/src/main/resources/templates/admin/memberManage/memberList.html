@@ -20,8 +20,9 @@
 <body class="d-flex flex-column" style="height: 100vh;">
 
   <th:block th:replace="~{admin/header}"></th:block>
-
-  <main class="d-flex flex-grow-1">
+  
+  <!-- storeList, pagination 변수 선언 -->
+  <main class="d-flex flex-grow-1" th:with="memberList=${map.memberList}, pagination=${map.pagination}">
 
     <!-- 사이드바 -->
     <th:block th:replace="~{admin/memberManage/sidebar}"></th:block>
