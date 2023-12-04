@@ -1,4 +1,4 @@
-package com.keepers.conbee.MyPage.model.mapper;
+package com.keepers.conbee.mypage.model.mapper;
 
 public class MyPageMapper {
 
