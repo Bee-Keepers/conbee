@@ -175,23 +175,32 @@ public class AdminStoreServiceImpl implements AdminStoreService{
 	@Override
 	public int storeInsert(Store inputStore) {
 		
-		// 입력한 점주번호가 기존 회원번호에 없을 경우 return하고 회원가입하고오라고하기!
-		int result = mapper.matchMemberNo(inputStore);
+		int result = 0;
 		
-		// 기존 회원번호가 없을 경우 return
-		if(result <= 0) {
-			return 100;
-		}
+		// 입력된 회원번호가 있는 경우
+		if(inputStore.getMemberNo() != 0) {
+			
+			// 입력한 점주번호가 기존 회원번호에 있는지 확인
+			result = mapper.matchMemberNo(inputStore);
+			
+			// 기존 회원번호가 없을 경우 return
+			if(result <= 0) {
+				return 100;
+			} 
+			
+			// 신규점포등록 - 기존회원이 점주일 경우
+			else {
+				// 점포정보 insert
+				mapper.storeInsertwMember(inputStore);
+				
+				// 회원정보 insert
+				return mapper.storeUpdateName(inputStore);
+			}
+		} 
 		
-		// inputStore에 점주번호가 
-		
-		
-		
-		
+		// 입력된 회원번호가 없는 경우
 		// 점포정보 인서트
-		mapper.storeInsert(inputStore);
-		
-		return 0;
+		return mapper.storeInsert(inputStore);
 	}
 	
 	
