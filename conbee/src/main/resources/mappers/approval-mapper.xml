@@ -4,30 +4,74 @@
 <mapper namespace="com.keepers.conbee.approval.model.mapper.ApprovalMapper">
 
 
-  <!-- 기안문 작성자 정보 조회 -->
-  <select id="selectWriteInfo" resultType="Member">
-    SELECT MEMBER_NAME, TEAM_NAME
-    FROM "MEMBER"
-    JOIN "TEAM" USING(TEAM_NO)
-    WHERE MEMBER_NO = #{memberNo}
-  </select>
+	<!-- 정보조회 합치기,,-->
+	<!-- 기안문 작성자 정보 조회 -->
+	<select id="selectWriteInfo" resultType="Member">
+		SELECT MEMBER_NAME, TEAM_NAME
+		FROM "MEMBER"
+		JOIN "TEAM" USING(TEAM_NO)
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+	<!-- 결재자 리스트-->
+	<!-- 사장부사장/부장/팀장-->
+	<select id="selectApproverList" resultType="Member">
+		SELECT MEMBER_NO, GRADE_NO, TEAM_NO, MEMBER_NAME
+		FROM "MEMBER"
+		WHERE TEAM_NO=0
+		
+		UNION
+		
+		SELECT MEMBER_NO, GRADE_NO, TEAM_NO, MEMBER_NAME
+		FROM "MEMBER"
+		WHERE DEPARTMENT_NO = (SELECT DEPARTMENT_NO FROM "MEMBER" WHERE MEMBER_NO=#{memberNo})
+		AND GRADE_NO=2
+		AND MEMBER_NO!=#{memberNo}
+		
+		UNION
+		
+		SELECT MEMBER_NO, GRADE_NO, TEAM_NO, MEMBER_NAME
+		FROM "MEMBER"
+		WHERE TEAM_NO = (SELECT TEAM_NO FROM "MEMBER" WHERE MEMBER_NO=#{memberNo})
+		AND GRADE_NO=3
+		AND MEMBER_NO!=#{memberNo}
+	</select>
 
+	<!-- 기안문 insert -->
+	<insert id="insertApproval" parameterType="Approval" useGeneratedKeys="true">
 
+		<selectKey order="BEFORE" resultType="_int" keyProperty="approvalNo">
+		  SELECT SEQ_APPROVAL_NO.NEXTVAL FROM DUAL
+		</selectKey>
 
-  <!-- 기안문 insert -->
-  <!-- db에 코드 추가해야함!! -->
-  <insert id="insertApproval" parameterType="Approval" useGeneratedKeys="true">
+		INSERT INTO "APPROVAL"
+		VALUES(#{approvalNo}, SYSDATE, #{approvalTitle}, #{approvalContent}, #{approvalCondition}, 
+		DEFAULT, DEFAULT, #{memberNo},#{departmentNo},#{docCategoryNo},#{approvalDocTitle})
 
-    <selectKey order="BEFORE" resultType="_int" keyProperty="approvalNo">
-      SELECT SEQ_APPROVAL_NO.NEXTVAL FROM DUAL
-    </selectKey>
+	</insert> 
 
-    INSERT INTO "APPROVAL"
-    VALUES(#{approvalNo}, SYSDATE, #{approvalTitle}, #{approvalContent}, #{approvalCondition}, 
-    DEFAULT, DEFAULT, #{memberNo},#{departmentNo},#{docCategoryNo},#{approvalDocTitle})
-
-  </insert> 
-
+	<!-- 기안문 doc insert -->
+	<insert id="insertApprovalDoc">
+		<choose>
+			<!-- 휴가 -->
+			<when test="docCategoryNo==0">
+				INSERT INTO "DOC_HOLIDAY"
+				VALUES(#{approvalNo}, #{docHolidayStart}, #{docHolidayEnd})
+			</when>
+			<!-- 퇴직 -->
+			<when test="docCategoryNo==1">
+				INSERT INTO "DOC_RETIREMENT"
+				VALUES(#{approvalNo}, #{docRetireDate})
+			</when>
+			<!-- 출폐점 -->
+			<when test="docCategoryNo==2 or docCategoryNo==3">
+				INSERT INTO "DOC_STORE"
+				VALUES(#{approvalNo}, #{docStoreState}, #{storNo})
+			</when>
+			<!-- 지출은 doc 없음-->
+			<!-- 발주 추가예정-->
+		</choose>
+	</insert>
 
 </mapper>
 

@@ -31,180 +31,194 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class ApprovalController { // 전자결재 컨트롤러
 
-  private final ApprovalService service; 
+	private final ApprovalService service; 
 
 
 
-  // =============== 페이지 포워드 =============== 
+	// =============== 페이지 포워드 =============== 
 
-  /** 임시저장함 (전자결재 첫 페이지) 포워드
-   * @return
-   * @author 예리나
-   */
-  @GetMapping("tempSave")
-  public String tempSave() {
-    return "approval/tempSave";
-  }
-
-
-  /** 기안문작성 포워드
-   * @return
-   * @author 예리나
-   */
-  @GetMapping("writeApproval")
-  public String writeApproval() {
-    return "approval/writeApproval";
-  }
-
-  /** 결재요청함 포워드
-   * @return
-   * @author 예리나
-   */
-  @GetMapping("requestApproval")
-  public String requestApproval() {
-    return "approval/requestApproval";
-  }
-
-  /** 회수문서함 포워드
-   * @return
-   * @author 예리나
-   */
-  @GetMapping("reclaimeApproval")
-  public String reclaimeApproval() {
-    return "approval/reclaimeApproval";
-  }
-
-  /** 결재대기함 포워드
-   * @return
-   * @author 예리나
-   */
-  @GetMapping("waitApproval")
-  public String waitApproval() {
-    return "approval/waitApproval";
-  }
-
-  /** 결재진행함 포워드
-   * @return
-   * @author 예리나
-   */
-  @GetMapping("progressApproval")
-  public String progressApproval() {
-    return "approval/progressApproval";
-  }
-
-  /** 완료문서함 포워드
-   * @return
-   * @author 예리나
-   */
-  @GetMapping("completeApproval")
-  public String completeApproval() {
-    return "approval/completeApproval";
-  }
-
-  /** 반려문서함 포워드
-   * @return
-   * @author 예리나
-   */
-  @GetMapping("returnApproval")
-  public String returnApproval() {
-    return "approval/returnApproval";
-  }
-
-  /** 협조문서함 포워드
-   * @return
-   * @author 예리나
-   */
-  @GetMapping("joinApproval")
-  public String joinApproval() {
-    return "approval/joinApproval";
-  }
-
-  // ====================================================
-
-  /** 기안문 작성자 정보 조회 - 로그인한 회원의 이름, 팀이름, 결재자 받아오기
-   * @param loginMember
-   * @return map
-   * @author 유진
-   */
-  @GetMapping(value = "writeApproval/docWriteInfos", produces = "application/json; charset=UTF-8")
-  @ResponseBody
-  public Map<String, Object> selectWriteInfo(@SessionAttribute(value="loginMember", required=false) Member loginMember) {
-
-    // 이건 나중에 삭제
-    if(loginMember==null) {
-      return null;
-    }
-
-    // 로그인한 회원의 이름, 팀이름, 결재자 받아오기
-    Member member = service.selectWriteInfo(loginMember.getMemberNo());
-    // List<Member> approverList = service.selectApproverList(loginMember.getMemberNo());
-
-    Map<String, Object> docWriteInfosMap = new HashMap<>();
-    docWriteInfosMap.put("infoName", member.getMemberName());
-    docWriteInfosMap.put("infoTeam", member.getTeamName());
-
-    return docWriteInfosMap;
+	/** 임시저장함 (전자결재 첫 페이지) 포워드
+	* @return
+	* @author 예리나
+	*/
+	@GetMapping("tempSave")
+	public String tempSave() {
+		return "approval/tempSave";
+	}
 
 
-  }
+	/** 기안문작성 포워드
+	* @return
+	* @author 예리나
+	*/
+	@GetMapping("writeApproval")
+	public String writeApproval() {
+		return "approval/writeApproval";
+	}
+
+	/** 결재요청함 포워드
+	* @return
+	* @author 예리나
+	*/
+	@GetMapping("requestApproval")
+	public String requestApproval() {
+		return "approval/requestApproval";
+	}
+
+	/** 회수문서함 포워드
+	* @return
+	* @author 예리나
+	*/
+	@GetMapping("reclaimeApproval")
+	public String reclaimeApproval() {
+		return "approval/reclaimeApproval";
+	}
+
+	/** 결재대기함 포워드
+	* @return
+	* @author 예리나
+	*/
+	@GetMapping("waitApproval")
+	public String waitApproval() {
+		return "approval/waitApproval";
+	}
+
+	/** 결재진행함 포워드
+	* @return
+	* @author 예리나
+	*/
+	@GetMapping("progressApproval")
+	public String progressApproval() {
+		return "approval/progressApproval";
+	}
+
+	/** 완료문서함 포워드
+	* @return
+	* @author 예리나
+	*/
+	@GetMapping("completeApproval")
+	public String completeApproval() {
+		return "approval/completeApproval";
+	}
+
+	/** 반려문서함 포워드
+	* @return
+	* @author 예리나
+	*/
+	@GetMapping("returnApproval")
+	public String returnApproval() {
+		return "approval/returnApproval";
+	}
+
+	/** 협조문서함 포워드
+	* @return
+	* @author 예리나
+	*/
+	@GetMapping("joinApproval")
+	public String joinApproval() {
+		return "approval/joinApproval";
+	}
+
+	// ====================================================
+
+	/** 기안문 작성자 정보 조회 - 로그인한 회원의 이름, 팀이름, 결재자 받아오기
+	* @param loginMember
+	* @return map
+	* @author 유진
+	*/
+	@GetMapping(value = "writeApproval/docWriteInfos", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> selectWriteInfo(@SessionAttribute(value="loginMember", required=false) Member loginMember) {
+	
+		// 이건 나중에 삭제
+		if(loginMember==null) {
+		  return null;
+		}
+		
+		// 로그인한 회원의 이름, 팀이름, 결재자 받아오기
+		Member member = service.selectWriteInfo(loginMember.getMemberNo());
+		List<Member> approverList = service.selectApproverList(loginMember.getMemberNo());
+		
+		Map<String, Object> docWriteInfosMap = new HashMap<>();
+		docWriteInfosMap.put("infoName", member.getMemberName());
+		docWriteInfosMap.put("infoTeam", member.getTeamName());
+		
+		docWriteInfosMap.put("approverList", approverList);
+
+//		for(int i=0; i<approverList.size(); i++) {
+//						
+//			if(approverList.get(i).getGradeNo()==0) { // 사장
+//				docWriteInfosMap.put("사장", approverList.get(i).getMemberName());
+//			}
+//			else if(approverList.get(i).getGradeNo()==1) {
+//				docWriteInfosMap.put("부사장", approverList.get(i).getMemberName());
+//			}
+//			else if(approverList.get(i).)
+//		}
+		
+
+			
+			
+			
+		
+		
+		return docWriteInfosMap;
+
+	}
 
 
-  /** 기안문 insert
-   * @param doc
-   * @param ConditionBtn
-   * @param loginMember
-   * @param approval
-   * @param ra
-   * @return
-   * @author 유진
-   */
-  @PostMapping("writeApproval/{doc}")
-  public String insertDocHoliday(@PathVariable("doc") String doc,
-                  @RequestParam int ConditionBtn,
-                  @SessionAttribute("loginMember") Member loginMember,
-                  Approval approval, RedirectAttributes ra) {
-                  // 파일첨부 추가예정
-
-    int departNo;
-    int cateNo;
-
-    switch(doc) {
-    case "docHoliday" : departNo=0; cateNo=0; break;
-    case "docRetirement" : departNo=0; cateNo=1; break;
-    case "docStore" : departNo=0;  cateNo = approval.getDocStoreState()==0?2:3; break;
-    case "docExpense" : departNo=1; cateNo=4; break;
-    case "docOrder" : departNo=1; cateNo=5; break;
-    default : departNo=0; cateNo=0; 
-    }
-
-
-    // 값 세팅
-    approval.setApprovalCondition(ConditionBtn); // 문서 상태
-    approval.setMemberNo(loginMember.getMemberNo()); // 사원 번호
-    approval.setDepartmentNo(departNo); // 협조부서 코드
-    approval.setDocCategoryNo(cateNo); // 문서 분류 번호
-
-    int approvalNo = service.insertApproval(approval);
-
-
-    if(approvalNo > 0 && approval.getApprovalCondition()==0) {
-      ra.addFlashAttribute("message", "결재 요청이 완료되었습니다.");
-      return "redirect:/approval/requestApproval";
-    }
-
-    if(approvalNo > 0 && approval.getApprovalCondition()==1) {
-      ra.addFlashAttribute("message", "임시저장이 완료되었습니다.");
-      return "redirect:/approval/tempSave";
-    }
-
-    // 실패 시 
-    ra.addFlashAttribute("message", "오류");
-    return "redirect:/approval/writeApproval";
-  }
-
-
-
-
-
+	/** 기안문 insert
+	* @param doc
+	* @param ConditionBtn
+	* @param loginMember
+	* @param approval
+	* @param ra
+	* @return
+	* @author 유진
+	*/
+	@PostMapping("writeApproval/{doc}")
+	public String insertDocHoliday(@PathVariable("doc") String doc,
+		              @RequestParam int ConditionBtn,
+		              @SessionAttribute("loginMember") Member loginMember,
+		              Approval approval, RedirectAttributes ra) {
+		              // 파일첨부 추가예정
+		
+		int departNo;
+		int cateNo;
+		
+		switch(doc) {
+		case "docHoliday" : departNo=0; cateNo=0; break;
+		case "docRetirement" : departNo=0; cateNo=1; break;
+		// 출폐점 카테고리를 나눠야할까..? 고민
+		case "docStore" : departNo=0;  cateNo = approval.getDocStoreState()==0?2:3; break; 
+		case "docExpense" : departNo=1; cateNo=4; break;
+		case "docOrder" : departNo=1; cateNo=5; break;
+		default : departNo=0; cateNo=0; 
+		}
+		
+		
+		// 값 세팅
+		approval.setApprovalCondition(ConditionBtn); // 문서 상태
+		approval.setMemberNo(loginMember.getMemberNo()); // 사원 번호
+		approval.setDepartmentNo(departNo); // 협조부서 코드
+		approval.setDocCategoryNo(cateNo); // 문서 분류 번호
+		
+		int approvalNo = service.insertApproval(approval);
+		
+		
+		if(approvalNo > 0 && approval.getApprovalCondition()==0) {
+		  ra.addFlashAttribute("message", "결재 요청이 완료되었습니다.");
+		  return "redirect:/approval/requestApproval";
+		}
+		
+		if(approvalNo > 0 && approval.getApprovalCondition()==1) {
+		  ra.addFlashAttribute("message", "임시저장이 완료되었습니다.");
+		  return "redirect:/approval/tempSave";
+		}
+		
+		// 실패 시 
+		ra.addFlashAttribute("message", "오류");
+		return "redirect:/approval/writeApproval";
+	}
 
 }
