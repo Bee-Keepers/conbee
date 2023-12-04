@@ -33,7 +33,7 @@ const checkObj = {
   "memberName" : false,
   "storeTel" : false,
   "storeAddress" : false
-}
+};
 
 
 /* 점포번호 유효성 검사 */

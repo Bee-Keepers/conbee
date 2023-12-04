@@ -16,4 +16,15 @@ public interface MemberService {
 	 */
 	Member quickLogin(String memberId);
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 }

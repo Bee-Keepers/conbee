@@ -26,13 +26,25 @@ VALUES(SEQ_MEMBER_NO.NEXTVAL, 'manager2', '123123', 'manager2@admin.com', '점�
 INSERT INTO "MEMBER"
 VALUES(SEQ_MEMBER_NO.NEXTVAL, 'test01', '123123', 'test01@test.com', '사원', '04540^^^서울시 중구 남대문로 120^^^4층',
 '01012341234', NULL, 1, DEFAULT, DEFAULT, 10, 4, 5);
+INSERT INTO "MEMBER"
+VALUES(SEQ_MEMBER_NO.NEXTVAL, 'test02', '123123', 'test02@test.com', '팀장', '04540^^^서울시 중구 남대문로 120^^^4층',
+'01012341234', NULL, 1, DEFAULT, DEFAULT, 10, 4, 3);
+INSERT INTO "MEMBER"
+VALUES(SEQ_MEMBER_NO.NEXTVAL, 'test03', '123123', 'test03@test.com', '부장', '04540^^^서울시 중구 남대문로 120^^^4층',
+'01012341234', NULL, 1, DEFAULT, DEFAULT, 10, 4, 2);
+INSERT INTO "MEMBER"
+VALUES(SEQ_MEMBER_NO.NEXTVAL, 'test04', '123123', 'test04@test.com', '부사장', '04540^^^서울시 중구 남대문로 120^^^4층',
+'01012341234', NULL, 1, DEFAULT, DEFAULT, 10, 4, 3);
+INSERT INTO "MEMBER"
+VALUES(SEQ_MEMBER_NO.NEXTVAL, 'test05', '123123', 'test05@test.com', '사장', '04540^^^서울시 중구 남대문로 120^^^4층',
+'01012341234', NULL, 1, DEFAULT, DEFAULT, 10, 4, 3);
 
 DELETE FROM "MEMBER" ;
 COMMIT;
 
 
 
-
+ROLLBACK;
 
 
 /* 점주 생성 */
@@ -63,6 +75,16 @@ VALUES(SEQ_MEMBER_NO.NEXTVAL, 'manager10', '123123', 'manager10@admin.com', '점
 INSERT INTO "MEMBER"
 VALUES(SEQ_MEMBER_NO.NEXTVAL, 'manager11', '123123', 'manager11@admin.com', '점주11', '04540^^^서울시 중구 남대문로 120^^^4층',
 '01012341234', NULL, 1, DEFAULT, DEFAULT, 11, 5, 6);
+INSERT INTO "MEMBER"
+VALUES(SEQ_MEMBER_NO.NEXTVAL, 'manager12', '123123', 'manager12@admin.com', '점주12', '04540^^^서울시 중구 남대문로 120^^^4층',
+'01012341234', NULL, 1, DEFAULT, DEFAULT, 11, 5, 6);
+COMMIT;
+
+
+INSERT INTO "MEMBER"
+VALUES(SEQ_MEMBER_NO.NEXTVAL, 'manager12', '123123', 'manager12@admin.com', '점주12', '04540^^^서울시 중구 남대문로 120^^^4층',
+'01012341234', NULL, 1, DEFAULT, DEFAULT, 11, 5, 6);
+COMMIT;
 INSERT INTO "MEMBER"
 VALUES(SEQ_MEMBER_NO.NEXTVAL, 'manager12', '123123', 'manager12@admin.com', '점주12', '04540^^^서울시 중구 남대문로 120^^^4층',
 '01012341234', NULL, 1, DEFAULT, DEFAULT, 11, 5, 6);
