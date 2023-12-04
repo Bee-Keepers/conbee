@@ -4,13 +4,30 @@
 <mapper namespace="com.keepers.conbee.approval.model.mapper.ApprovalMapper">
 
 
-	<!-- 템플릿 info 조회 -->
-	<select id="selectWriteInfo" resultType="Member">
-		SELECT MEMBER_NAME, TEAM_NAME
-		FROM "MEMBER"
-		JOIN "TEAM" USING(TEAM_NO)
-		WHERE MEMBER_NO = #{memberNo}
-	</select>
+  <!-- 기안문 작성자 정보 조회 -->
+  <select id="selectWriteInfo" resultType="Member">
+    SELECT MEMBER_NAME, TEAM_NAME
+    FROM "MEMBER"
+    JOIN "TEAM" USING(TEAM_NO)
+    WHERE MEMBER_NO = #{memberNo}
+  </select>
+
+
+
+  <!-- 기안문 insert -->
+  <!-- db에 코드 추가해야함!! -->
+  <insert id="insertApproval" parameterType="Approval" useGeneratedKeys="true">
+
+    <selectKey order="BEFORE" resultType="_int" keyProperty="approvalNo">
+      SELECT SEQ_APPROVAL_NO.NEXTVAL FROM DUAL
+    </selectKey>
+
+    INSERT INTO "APPROVAL"
+    VALUES(#{approvalNo}, SYSDATE, #{approvalTitle}, #{approvalContent}, #{approvalCondition}, 
+    DEFAULT, DEFAULT, #{memberNo},#{departmentNo},#{docCategoryNo},#{approvalDocTitle})
+
+  </insert> 
 
 
 </mapper>
+

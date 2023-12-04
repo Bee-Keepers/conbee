@@ -50,5 +50,23 @@ public interface AdminStoreService {
 	 */
 	int checkStoreAddress(String storeAddress);
 
+	/** 점포정보 수정
+	 * @param updateStore
+	 * @return
+	 */
+	int storeUpdate(Store updateStore);
+
+	/** 점포번호 중복검사
+	 * @param storeNo
+	 * @return
+	 */
+	int checkStoreNo(String storeNo);
+
+	/** 신규 점포 등록
+	 * @param inputStore
+	 * @return
+	 */
+	int storeInsert(Store inputStore);
+
 
 }

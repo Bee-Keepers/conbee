@@ -1,13 +1,14 @@
 package com.keepers.conbee.stock.controller;
 
-import java.io.Console;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,10 +18,9 @@ import com.keepers.conbee.stock.model.dto.Stock;
 import com.keepers.conbee.stock.model.service.StockService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-/**
- * 
- */
+@Slf4j
 @Controller
 @RequestMapping("stock")
 @RequiredArgsConstructor
@@ -63,7 +63,6 @@ public class StockController {
 			ra.addFlashAttribute("message", "등록 실패");
 		}
 		return "redirect:goodsList";
-		
 	}
 	
 	/** 상품 등록 시 대분류 선택하면 소분류 조회기능
@@ -77,10 +76,16 @@ public class StockController {
 		return scategoryList;
 	}
 	
-	@GetMapping("goodsDelete")
-	public String goodsDelete(int goodsNo) {
-		int result = service.goodsDelete(goodsNo);
-		return "redirect:goodsList";
+	
+	/** 상품 삭제
+	 * @param goodsNo
+	 * @return
+	 */
+	@DeleteMapping("goodsDelete")
+	@ResponseBody
+	public int goodsDelete(@RequestBody List<Integer> goodsNo) {
+		return service.goodsDelete(goodsNo);
 	}
+	
 
 }
