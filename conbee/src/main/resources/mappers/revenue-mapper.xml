@@ -30,7 +30,7 @@
 			<![CDATA[ HAVING SUM(HISTORY_AMOUNT * HISTORY_ACTUAL_PRICE) >= #{revenue} ]]>
 		</if>
 		<if test='flag == 2'>
-			<![CDATA[ AND SUM(HISTORY_AMOUNT * HISTORY_ACTUAL_PRICE) <= #{revenue} ]]>
+			<![CDATA[ HAVING SUM(HISTORY_AMOUNT * HISTORY_ACTUAL_PRICE) <= #{revenue} ]]>
 		</if>
 		ORDER BY LCATEGORY_NAME, SCATEGORY_NAME
 	</select>

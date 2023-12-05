@@ -17,17 +17,17 @@
     <th:block th:replace="~{stock/sidebar}"></th:block>
 
     <div class="d-flex flex-column flex-grow-1 align-items-center overflow-y-auto">
-      <div class="d-flex justify-content-between align-items-center w-100 px-2">
-        <p class="fs-4 pb-3 px-3 border-bottom w-100 pt-3">재고 현황</p>
+      <div class="d-flex justify-content-between align-items-center border-bottom w-100 px-2">
+        <div class="fs-3 pb-3 px-3 w-100 pt-3">재고 현황</div>
         <!-- 검색창 -->
-        <div class="searchBox fs-4 pb-3 px-3 border-bottom w-100 pt-3">
+        <div class="input-group fs-4 pb-3 px-3 pt-3">
           <input type="text" class="form-control" placeholder="검색어를 입력해주세요" 
                 aria-label="Recipient's username" aria-describedby="button-addon2">
           <button class="btn btn-outline-secondary" type="button" id="button-addon2">검색</button>
         </div>
       </div>
       
-      <div class="w-100 px-4 flex-grow-1">
+      <div class="w-100 px-5 pt-2 flex-grow-1">
         <!-- 테이블 제목 -->
         <table class="table table-striped table-hover m-0">
           <thead class="sticky-top text-center">
@@ -67,7 +67,7 @@
           </tbody>
         </table>
       </div>
-      <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white">
+      <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">
         <div class="btn-group" role="group" aria-label="Basic outlined example">
           <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#stockInsertModel">등록</button>
           <button type="button" class="btn btn-warning">수정</button>
@@ -128,9 +128,6 @@
       </div>
     </div>
   </div>
-
-
-  <th:block th:replace="~{common/footer}"></th:block>
 
   <script src="/js/stock/stockList.js"></script>
   <script src="/js/bootstrap.bundle.min.js"></script>
