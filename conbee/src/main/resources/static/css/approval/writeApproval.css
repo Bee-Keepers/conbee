@@ -85,13 +85,14 @@
 
 /* 템플릿 내용 */
 .tempContents th{
-  width: 18%;
+  /* width: 18%; */
   text-align: center;
   background-color: #f2f2f2;
   padding: 4px;
 }
 .tempContents td{
   padding: 4px 6px;
+  height: 26px;
 }
 /* textarea */
 .docText{
