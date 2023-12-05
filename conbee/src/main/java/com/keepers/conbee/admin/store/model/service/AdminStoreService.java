@@ -68,5 +68,33 @@ public interface AdminStoreService {
 	 */
 	int storeInsert(Store inputStore);
 
+	/** 점포번호순 조회
+	 * @param query
+	 * @param cp
+	 * @return
+	 */
+	Map<String, Object> sortStoreNo(String query, int cp);
+
+	/**점포명순 조회
+	 * @param query
+	 * @param cp
+	 * @return
+	 */
+	Map<String, Object> sortStoreName(String query, int cp);
+
+	/** 폐점승인 정렬 (비동기)
+	 * @param query
+	 * @param cp
+	 * @return
+	 */
+	Map<String, Object> sortRunApproval(String query, int cp);
+
+	/** 운영여부 정렬 (비동기)
+	 * @param query
+	 * @param cp
+	 * @return
+	 */
+	Map<String, Object> sortStoreRunFl(String query, int cp);
+
 
 }

@@ -6,8 +6,8 @@
       <div><h1 class="modal-title fs-5" id="exampleModalLabel">기안문 작성 - 사직서</h1></div>
       <div>
         <button type="submit" form="docRetirement" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveRetirement"
-        name="ConditionBtn" value="1">임시저장</button>
-        <button type="submit" form="docRetirement" class="btn btn-warning me-1" id="submitRetirement" name="ConditionBtn" value="0">결재</button>
+        name="approvalCondition" value="1">임시저장</button>
+        <button type="submit" form="docRetirement" class="btn btn-warning me-1" id="submitRetirement" name="approvalCondition" value="0">결재</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
       </div> 
     </div>
@@ -152,8 +152,8 @@
               <tr>
                 <th style="vertical-align: middle;">상세 내용</th>
                 <td>
-                  <textarea class="docText" maxlength="1000" cols="30" rows="10" id="docHolidayText" name="approvalContent"></textarea>
-                  <div style="text-align: end; font-size: 14px;" id="textCount" class="textCount">0 / 1000 글자</div>
+                  <textarea class="docText" maxlength="1000" cols="30" rows="10" id="docRetirementText" name="approvalContent"></textarea>
+                  <div style="text-align: end; font-size: 14px;" class="textCount">0 / 1000 글자</div>
                 </td>
               </tr>
               <tr>

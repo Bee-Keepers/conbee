@@ -84,6 +84,126 @@ public class AdminStoreServiceImpl implements AdminStoreService{
 	}
 	
 	
+	
+	/** 점포번호순 조회
+	 *
+	 */
+	@Override
+	public Map<String, Object> sortStoreNo(String query, int cp) {
+		
+		// query를 mapper에 매개변수로 넘길 수 있도록 map에 넣기
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("query", query);
+		
+		// 검색 조건이 일치하는 게시글 수 조회
+		int listCount = mapper.searchStoreListCount(paramMap);
+		
+		/* cp, listCount를 이용해 Pagination 객체 생성*/
+		Pagination pagination = new Pagination(cp, listCount);
+		
+		// RowBounds 객체 생성
+		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
+		int limit = pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		List<Store> storeList = mapper.sortStoreNo(query, rowBounds);
+		
+		// Map에 담아 반환
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("storeList", storeList);
+		
+		return map;
+	}
+	
+	
+	/** 점포명순 조회
+	 *
+	 */
+	@Override
+	public Map<String, Object> sortStoreName(String query, int cp) {
+		
+		// query를 mapper에 매개변수로 넘길 수 있도록 map에 넣기
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("query", query);
+		
+		// 검색 조건이 일치하는 게시글 수 조회
+		int listCount = mapper.searchStoreListCount(paramMap);
+		
+		/* cp, listCount를 이용해 Pagination 객체 생성*/
+		Pagination pagination = new Pagination(cp, listCount);
+		
+		// RowBounds 객체 생성
+		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
+		int limit = pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		List<Store> storeList = mapper.sortStoreName(query, rowBounds);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("storeList", storeList);
+		
+		return map;
+	}
+	
+	
+	
+	/** 폐점승인 정렬 (비동기)
+	 *
+	 */
+	@Override
+	public Map<String, Object> sortRunApproval(String query, int cp) {
+
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("query", query);
+		
+		int listCount = mapper.searchStoreListCount(paramMap);
+		
+		Pagination pagination = new Pagination(cp, listCount);
+		
+		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
+		int limit = pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		List<Store> storeList = mapper.sortRunApproval(query, rowBounds);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("storeList", storeList);
+		
+		return map;
+	}
+	
+	
+	/** 운영여부 정렬 (비동기)
+	 *
+	 */
+	@Override
+	public Map<String, Object> sortStoreRunFl(String query, int cp) {
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("query", query);
+		
+		int listCount = mapper.searchStoreListCount(paramMap);
+		
+		Pagination pagination = new Pagination(cp, listCount);
+		
+		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
+		int limit = pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		List<Store> storeList = mapper.sortStoreRunFl(query, rowBounds);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("storeList", storeList);
+		
+		return map;
+	}
+	
+	
+	
 	/** 점포 운영상태 변경
 	 *
 	 */
