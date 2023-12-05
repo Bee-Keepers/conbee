@@ -6,8 +6,8 @@
       <div><h1 class="modal-title fs-5" id="exampleModalLabel">기안문 작성 - 지출결의서</h1></div>
       <div>
         <button type="submit" form="docExpense" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveExpense"
-        name="ConditionBtn" value="1">임시저장</button>
-        <button type="submit" form="docExpense" class="btn btn-warning me-1" id="submitExpense" name="ConditionBtn" value="0">결재</button>
+        name="approvalCondition" value="1">임시저장</button>
+        <button type="submit" form="docExpense" class="btn btn-warning me-1" id="submitExpense" name="approvalCondition" value="0">결재</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
       </div>
     </div> 
@@ -119,17 +119,17 @@
                 </tr>
                 <tr>
                   <td>
-                    <div style="height: 46px;"><img src="/images/approval/stamp.png" alt="stamp"></div>
-                    <div>김결재</div>
+                    <div style="height: 46px;"></div><!-- 도장 -->
+                    <div style="height: 32px;"></div><!-- 이름 -->
                   </td>
                   <td>
-                    <div style="height: 46px;"><img src="/images/approval/stamp.png" alt="stamp"></div>
-                    <div>김결재</div>
+                    <div style="height: 46px;"></div><!-- 도장 -->
+                    <div style="height: 32px;"></div><!-- 이름 -->
                   </td>
                 </tr>
-                <tr style="font-size:12px;">
-                  <td>2023-11-25</td>
-                  <td>2023-11-25</td>
+                <tr style="height: 27px; font-size:12px;">
+                  <td></td><!-- 날짜 -->
+                  <td></td>
                 </tr>
               </table>
             </div>
@@ -144,12 +144,14 @@
               </tr>
               <tr>
                 <th style="vertical-align: middle;">상세 내용</th>
-                <td><textarea class="docText" cols="30" rows="10"> ※ 영수증 첨부 필
-                </textarea></td>
+                <td>
+                  <textarea class="docText" maxlength="1000" cols="30" rows="10" id="docHolidayText" name="approvalContent"> ※ 영수증 첨부 필</textarea>
+                  <div style="text-align: end; font-size: 14px;" class="textCount">0 / 1000 글자</div>
+                </td>
               </tr>
               <tr>
                 <th>첨부파일</th>
-                <td><input type="file" name="" id=""></td>
+                <td><input type="file"></td>
               </tr>
             </table>
           </div>

@@ -1,4 +1,10 @@
+/* =========================================== */
+// 추가로 생각할 것
+// - confirm 창 커스텀(모달)
 
+
+
+/* =========================================== */
 /* 기안문 정보 받아오기 */
 
 (()=>{
@@ -85,7 +91,7 @@
 /* 공통 */
 
 
-// 임시저장 confirm
+// 임시저장 confirm 
 const saveDoc = document.querySelectorAll('#saveHoliday, #saveRetirement, #saveStore, #saveExpense, #saveOrder');
 
 saveDoc.forEach((doc)=>{
@@ -104,34 +110,55 @@ const textareas = document.querySelectorAll(".docText");
 const textCounts = document.querySelectorAll(".textCount");
 const maxLength = 1000;
 
-textareas.forEach((textarea)=>{
+// textareas.forEach((textarea)=>{
 
-  textarea.addEventListener('input', function() {
-      let currentLength = textarea.value.length;
+//   textarea.addEventListener('input', e=> {
 
-      textCounts.forEach((textCount)=>{
-        textCount.textContent = currentLength + ' / ' + maxLength + ' 글자';
+//     let currentLength = textarea.value.length;
 
-        // 글자수 초과시 빨간색
-        if (currentLength > maxLength) {
-          textCount.style.color='red';
-        } else {
-          textCount.style.color='black';
-        }
-      })
+//     textCounts.forEach((textCount)=>{
+//       textCount.textContent = currentLength + ' / ' + maxLength + ' 글자';
 
-  });
-})
+//       // 글자수 초과시 빨간색
+//       if (currentLength > maxLength) {
+//         textCount.style.color='red';
+//       } else {
+//         textCount.style.color='black';
+//       }
+//     })
+
+//   });
+// })
+// textareas.forEach((textarea)=>{
+
+//   textarea.addEventListener('input', function() {
+//       let currentLength = textarea.value.length;
+
+//       textCounts.forEach((textCount)=>{
+//         textCount.textContent = currentLength + ' / ' + maxLength + ' 글자';
+
+//         // 글자수 초과시 빨간색
+//         if (currentLength > maxLength) {
+//           textCount.style.color='red';
+//         } else {
+//           textCount.style.color='black';
+//         }
+//       })
+
+//   });
+// })
 
 /* =========================================================== */
-const openDocOne = document.getElementById("docOne")
-const openDocTwo = document.getElementById("docTwo")
-const openDocThree = document.getElementById("docThree")
-const openDocFour = document.getElementById("docFour")
-const openDocFive = document.getElementById("docFive")
+const openDocOne = document.getElementById("docOne") // 휴가
+const openDocTwo = document.getElementById("docTwo") // 퇴직
+const openDocThree = document.getElementById("docThree") // 점포
+const openDocFour = document.getElementById("docFour") // 지출
+const openDocFive = document.getElementById("docFive") // 발주
 
 
-// 모달 창 띄울 때 주소 넣기 + reset
+// 모달 창 띄울 때 주소 넣기
+// 모달 창 다시 켰을 때 reset하기
+// 주소 굳이 넣어야..? => 나중에 삭제
 openDocOne.addEventListener("click",()=>{
   history.pushState(null, null, 'writeApproval/docHoliday');
   inputHoliday.value="";
@@ -142,6 +169,10 @@ openDocOne.addEventListener("click",()=>{
 })
 openDocTwo.addEventListener("click",()=>{
   history.pushState(null, null, 'writeApproval/docRetirement');
+  inputRetire.value="";
+  inputRetire2.value="";
+  retirementDate.value="";
+  docRetirementText.value="";
 })
 openDocThree.addEventListener("click",()=>{
   history.pushState(null, null, 'writeApproval/docStore');
@@ -159,8 +190,16 @@ openDocFive.addEventListener("click",()=>{
 // 닫기 버튼 클릭 
 const closeDoc = document.querySelectorAll('button[name="closeDoc"]');
 closeDoc.forEach(function(e){
-  e.addEventListener("click",()=>{
+  e.addEventListener("click",(k)=>{
+    // const userConfirm = confirm("임시저장하려면 임시저장 버튼을 클릭해주세요");
+    
+    // if(!userConfirm){
+    //   k.style.display='block';
+    //   return;
+    // }
     history.pushState(null, null, '/approval/writeApproval');
+
+
   })
 })
 
@@ -198,7 +237,6 @@ submitHoliday.addEventListener("click", e =>{
   // 제목
   if(inputHoliday.value.trim().length == 0){
     alert("제목을 입력해주세요");
-
     inputHoliday.focus();
     e.preventDefault();
     return;
@@ -206,7 +244,6 @@ submitHoliday.addEventListener("click", e =>{
 
   if(inputHoliday2.value.trim().length == 0){
     alert("제목을 입력해주세요");
-
     inputHoliday2.focus();
     e.preventDefault();
     return;
@@ -215,21 +252,18 @@ submitHoliday.addEventListener("click", e =>{
   // 날짜
   if(docHolidayStart.value===''){
     alert("휴가 시작일을 입력해주세요");
-
     docHolidayStart.focus();
     e.preventDefault();
     return;
   }
   if(docHolidayEnd.value===''){
     alert("휴가 종료일을 입력해주세요");
-
     docHolidayEnd.focus();
     e.preventDefault();
     return;
   }
   if(docHolidayStart.value>docHolidayEnd.value){ // 휴가 종료일이 시작일보다 앞일때
     alert("휴가 종료일을 정확하게 입력해주세요")
-
     docHolidayEnd.focus();
     e.preventDefault();
     return;
@@ -238,7 +272,6 @@ submitHoliday.addEventListener("click", e =>{
   // 내용
   if(docHolidayText.value===''){
     alert("내용을 입력해주세요");
-
     docHolidayText.focus();
     e.preventDefault();
     return;
@@ -250,18 +283,62 @@ submitHoliday.addEventListener("click", e =>{
     e.preventDefault();
     return;
   }
-
-
 })
 
 /* =========================================================== */
 /* 사직서  */
+const submitRetirement = document.getElementById("submitRetirement");
+const saveRetirement = document.getElementById("saveRetirement");
 const inputRetire = document.getElementById("inputRetire");
 const inputRetire2 = document.getElementById("inputRetire2");
+const retirementDate = document.getElementById("retirementDate");
+const docRetirementText = document.getElementById("docRetirementText")
 
 inputRetire.addEventListener("input",e=>{
   const val = inputRetire.value;
   inputRetire2.value = val;
+})
+
+// 결재 버튼 클릭
+submitRetirement.addEventListener("click", e =>{
+
+  // 제목
+  if(inputRetire.value.trim().length == 0){
+    alert("제목을 입력해주세요");
+    inputRetire.focus();
+    e.preventDefault();
+    return;
+  }
+
+  if(inputRetire2.value.trim().length == 0){
+    alert("제목을 입력해주세요");
+    inputRetire2.focus();
+    e.preventDefault();
+    return;
+  }
+
+  // 날짜
+  if(retirementDate.value===''){
+    alert("퇴직 예정일을 입력해주세요");
+    retirementDate.focus();
+    e.preventDefault();
+    return;
+  }
+
+  // 내용
+  if(docRetirementText.value===''){
+    alert("내용을 입력해주세요");
+    docRetirementText.focus();
+    e.preventDefault();
+    return;
+  }
+
+  const userConfirm = confirm("결재를 요청하시겠습니까?");
+
+  if(!userConfirm){
+    e.preventDefault();
+    return;
+  }
 })
 
 /* =========================================================== */
@@ -276,13 +353,17 @@ inputStore.addEventListener("input",e=>{
 
 /* =========================================================== */
 /* 지출결의서 */
-const inputExpense = document.getElementById("inputExpense");
-const inputExpense2 = document.getElementById("inputExpense2");
+// const submitExpense = document.getElementById("submitExpense");
+// const saveExpense = document.getElementById("saveExpense");
+// const inputExpense = document.getElementById("inputExpense");
+// const inputExpense2 = document.getElementById("inputExpense2");
+// const 
 
-inputExpense.addEventListener("input",e=>{
-  const val = inputExpense.value;
-  inputExpense2.value = val;
-})
+
+// inputExpense.addEventListener("input",e=>{
+//   const val = inputExpense.value;
+//   inputExpense2.value = val;
+// })
 
 /* =========================================================== */
 /* 발주기안서 */

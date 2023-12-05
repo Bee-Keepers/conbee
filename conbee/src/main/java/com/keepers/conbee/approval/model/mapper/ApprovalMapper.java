@@ -47,5 +47,7 @@ public interface ApprovalMapper {
 	 */
 	int insertApproverList(List<Approver> approverList);
 
+	List<Approval> selectRequestApproval(int memberNo);
+
 
 }

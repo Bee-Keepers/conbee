@@ -56,14 +56,14 @@ public class ApprovalController { // 전자결재 컨트롤러
 		return "approval/writeApproval";
 	}
 
-	/** 결재요청함 포워드
-	* @return
-	* @author 예리나
-	*/
-	@GetMapping("requestApproval")
-	public String requestApproval() {
-		return "approval/requestApproval";
-	}
+//	/** 결재요청함 포워드
+//	* @return
+//	* @author 예리나
+//	*/
+//	@GetMapping("requestApproval")
+//	public String requestApproval() {
+//		return "approval/requestApproval";
+//	}
 
 	/** 회수문서함 포워드
 	* @return
@@ -161,7 +161,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 	*/
 	@PostMapping("writeApproval/{doc}")
 	public String insertApproval(@PathVariable("doc") String doc,
-		              @RequestParam int ConditionBtn,
+		              @RequestParam("approvalCondition") int approvalCondition,
 		              @SessionAttribute("loginMember") Member loginMember,
 		              Approval approval, RedirectAttributes ra) {
 		              // 파일첨부 추가예정
@@ -181,7 +181,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 		
 		
 		// 값 세팅
-		approval.setApprovalCondition(ConditionBtn); // 문서 상태
+		approval.setApprovalCondition(approvalCondition); // 문서 상태
 		approval.setMemberNo(loginMember.getMemberNo()); // 사원 번호
 		approval.setDepartmentNo(departNo); // 협조부서 코드
 		approval.setDocCategoryNo(cateNo); // 문서 분류 번호
@@ -205,5 +205,21 @@ public class ApprovalController { // 전자결재 컨트롤러
 		ra.addFlashAttribute("message", "오류");
 		return "redirect:/approval/writeApproval";
 	}
+	
+	
+	@GetMapping("requestApproval")
+	public String selectRequestApproval(Model model,@SessionAttribute("loginMember") Member loginMember) { // cp 추가예정
+		
+		
+		List<Approval> requestApprovalList = service.selectRequestApproval(loginMember.getMemberNo());
+		
+		model.addAttribute("requestApprovalList",requestApprovalList);
+		
+		return "approval/requestApproval";
+	}
+	
+	
+	
+	
 
 }
