@@ -5,6 +5,13 @@
 
 
 /* =========================================== */
+/* 주소 파라미터 가져오기 */
+// const urlParams = new URL(location.href)
+console.log(window.location.href);
+
+
+
+/* =========================================== */
 /* 기안문 정보 받아오기 */
 
 (()=>{
@@ -72,7 +79,6 @@
           donteamjang.innerText=approverList[i].memberName;
         })
       }
-      /* 회의 필요! 회계팀은 지출결의 어떻게 할건지.. */
       if(approverList[i].gradeNo==3 && approverList[i].teamNo!=6){
         teamjangs.forEach((teamjang)=>{ //팀장
           teamjang.innerText=approverList[i].memberName;
@@ -231,8 +237,13 @@ inputHoliday.addEventListener("input",e=>{
   inputHoliday2.value = val;
 })
 
+
+// 나중에 사용(?)
+// if(location.href=='http://localhost/approval/writeApproval/docHoliday')
+
 // 결재 버튼 클릭
 submitHoliday.addEventListener("click", e =>{
+
 
   // 제목
   if(inputHoliday.value.trim().length == 0){
@@ -299,9 +310,10 @@ inputRetire.addEventListener("input",e=>{
   inputRetire2.value = val;
 })
 
+
 // 결재 버튼 클릭
 submitRetirement.addEventListener("click", e =>{
-
+  
   // 제목
   if(inputRetire.value.trim().length == 0){
     alert("제목을 입력해주세요");
@@ -339,16 +351,69 @@ submitRetirement.addEventListener("click", e =>{
     e.preventDefault();
     return;
   }
+
 })
 
 /* =========================================================== */
 /* 출/폐점 등록 요청서 */
+const submitStore = document.getElementById("submitStore");
+const saveStore = document.getElementById("saveStore");
 const inputStore = document.getElementById("inputStore");
 const inputStore2 = document.getElementById("inputStore2");
+const storeName = document.getElementById("storeName");
+const openStore = document.getElementById("openStore");
+const closeStore = document.getElementById("closeStore");
+const docStoreText = document.getElementById("docStoreText");
 
 inputStore.addEventListener("input",e=>{
   const val = inputStore.value;
   inputStore2.value = val;
+})
+
+// 결재 버튼 클릭
+submitStore.addEventListener("click", e =>{
+  // 제목
+  if(inputStore.value.trim().length == 0){
+    alert("제목을 입력해주세요");
+    inputStore.focus();
+    e.preventDefault();
+    return;
+  }
+
+  if(inputStore2.value.trim().length == 0){
+    alert("제목을 입력해주세요");
+    inputStore2.focus();
+    e.preventDefault();
+    return;
+  }
+
+  // storeName = storeName.value.trim();
+  if(storeName.length == 0){
+    alert("매장명을 입력해주세요");
+    storeName.focus();
+    e.preventDefault();
+    return;
+  }
+
+  if(!(openStore.checked) && !(closeStore.checked)){
+    alert("출/폐점 여부를 체크해주세요");
+    e.preventDefault();
+    return;
+  }
+
+  if(docStoreText.value===''){
+    alert("내용을 입력해주세요");
+    docStoreText.focus();
+    e.preventDefault();
+    return;
+  }
+
+  const userConfirm = confirm("결재를 요청하시겠습니까?");
+
+  if(!userConfirm){
+    e.preventDefault();
+    return;
+  }  
 })
 
 /* =========================================================== */

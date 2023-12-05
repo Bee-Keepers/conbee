@@ -161,10 +161,10 @@ public class ApprovalController { // 전자결재 컨트롤러
 	*/
 	@PostMapping("writeApproval/{doc}")
 	public String insertApproval(@PathVariable("doc") String doc,
-		              @RequestParam("approvalCondition") int approvalCondition,
-		              @SessionAttribute("loginMember") Member loginMember,
-		              Approval approval, RedirectAttributes ra) {
-		              // 파일첨부 추가예정
+							@RequestParam("approvalCondition") int approvalCondition,
+							@SessionAttribute("loginMember") Member loginMember,
+							Approval approval, RedirectAttributes ra) {
+		              		// 파일첨부 추가예정
 		
 		int departNo;
 		int cateNo;
@@ -172,8 +172,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 		switch(doc) {
 		case "docHoliday" : departNo=0; cateNo=0; break;
 		case "docRetirement" : departNo=0; cateNo=1; break;
-		// 출폐점 카테고리를 나눠야할까..? 고민
-		case "docStore" : departNo=0;  cateNo = approval.getDocStoreState()==0?2:3; break; 
+		case "docStore" : departNo=0;  cateNo = approval.getDocStoreState()==0?2:3; break; //출점:2 폐점:3
 		case "docExpense" : departNo=1; cateNo=4; break;
 		case "docOrder" : departNo=1; cateNo=5; break;
 		default : departNo=0; cateNo=0; 
@@ -185,6 +184,8 @@ public class ApprovalController { // 전자결재 컨트롤러
 		approval.setMemberNo(loginMember.getMemberNo()); // 사원 번호
 		approval.setDepartmentNo(departNo); // 협조부서 코드
 		approval.setDocCategoryNo(cateNo); // 문서 분류 번호
+		
+		
 		
 		int result = service.insertApproval(approval);
 		
