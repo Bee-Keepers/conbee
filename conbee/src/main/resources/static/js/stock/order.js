@@ -172,3 +172,18 @@ checkAll.addEventListener("click", e=>{
     }
   }
 });
+
+// 행 삭제
+const deleteBtn = document.getElementById("deleteBtn");
+
+deleteBtn.addEventListener("click", ()=>{
+  if(confirm("삭제하시겠습니까?")){
+    const rowCheckbox = document.querySelectorAll(".rowCheckbox");
+    for(let rowCheck of rowCheckbox){
+      if(rowCheck.checked){
+        rowCheck.parentElement.parentElement.remove();
+        checkAll.checked = false;
+      }
+    }
+  }
+});

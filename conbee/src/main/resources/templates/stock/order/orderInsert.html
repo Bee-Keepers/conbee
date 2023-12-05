@@ -13,7 +13,7 @@
   <!-- Button trigger modal -->
 
   <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="exampleModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -93,7 +93,6 @@
                 </option>
               </th:block>
             </select>
-            <!-- <button type="button" class="btn btn-light" id="deleteBtn">삭제</button> -->
             <button id="modalBtn" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
               품목 검색
             </button>
@@ -124,7 +123,10 @@
       <div class="px-3 py-2 d-flex align-items-center sticky-bottom table-group-divider w-100 fw-bold">
         <div class="w-50 text-end me-auto">합계</div>
         <div class="w-25" id="totalPrice">0</div>
-        <button class="btn btn-warning">발주 신청</button>
+        <div class="btn-group">
+          <button id="deleteBtn" class="btn btn-warning">삭제</button>
+          <button class="btn btn-warning">발주 신청</button>
+        </div>
       </div>
     </div>
   </main>
