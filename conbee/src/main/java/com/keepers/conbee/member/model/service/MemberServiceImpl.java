@@ -40,9 +40,9 @@ public class MemberServiceImpl implements MemberService{
 		// 회원가입 완료 후 풀기
 		
 		// 입력받은 비밀번호(평문)와 조회한 비밀번호(암호문)가 같지 않으면 return null;
-//		if(!bcrypt.matches(inputMember.getMemberPw(), loginMember.getMemberPw())) {
-//			return null;
-//		}
+		if(!bcrypt.matches(inputMember.getMemberPw(), loginMember.getMemberPw())) {
+			return null;
+		}
 		
 		
 		// 비밀번호 일치 시 비밀번호 제거 후 loginMember return
