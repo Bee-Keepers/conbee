@@ -111,6 +111,7 @@ public class StockController {
 		
 		return "stock/order/orderInsert";
 	}
+	
 	/** 발주 신청
 	 * @return
 	 */
@@ -119,6 +120,7 @@ public class StockController {
 		
 		return "stock/order/orderInsert";
 	}
+	
 	
 	@GetMapping("autoComplete")
 	@ResponseBody
@@ -140,14 +142,17 @@ public class StockController {
 		return "stock/stockList";
 	}
 	
+	/** 재고 현황 등록
+	 * @param stock
+	 * @param ra
+	 * @return
+	 */
 	@PostMapping("stockInsert")
 	public String stockInsert( Stock stock, RedirectAttributes ra) {
-		
 		int result = service.stockInsert(stock);
 		if(result <= 0) {
 			ra.addFlashAttribute("message", "등록 실패");
 		}
 		return "redirect:stockList";
-	
 	}
 }

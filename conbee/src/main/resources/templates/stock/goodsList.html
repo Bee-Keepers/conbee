@@ -46,11 +46,10 @@
           <!-- 테이블 내용 -->
 
           <tbody id="goodsTable" class="text-center overflow-y-auto">
-            <form action="">
               <tr id="checkbox" th:each="stock : ${map.goodsListSelect}" th:object="${stock}">
                 <td>
                   <label class="w-100">
-                    <input type="checkbox" class="checkbox">
+                    <input type="checkbox" class="checkbox" th:name="*{goodsNo}">
                   </label>
                 </td>
                 <td th:text="*{goodsNo}">상품번호</td>
@@ -59,7 +58,6 @@
                 <td th:text="*{lcategoryName}">대분류</td>
                 <td th:text="*{scategoryName}">소분류</td>
               </tr>
-            </form>
           </tbody>
 
         </table>
