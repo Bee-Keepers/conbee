@@ -18,6 +18,7 @@ public class Store { // 점포 DTO
 	private String storeOpenDate;
 	private String storeCloseDate;
 	private int memberNo; // 점주 회원번호
+	private String storeRunApproval; // 폐점승인여부('N'디폴트)
 	
 	private String memberName; // 점주명
 	
