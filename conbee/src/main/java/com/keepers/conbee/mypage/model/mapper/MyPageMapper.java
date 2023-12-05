@@ -1,5 +1,13 @@
 package com.keepers.conbee.MyPage.model.mapper;
 
-public class MyPageMapper {
+import org.apache.ibatis.annotations.Mapper;
+
+import com.keepers.conbee.member.model.dto.Member;
+
+@Mapper
+public interface MyPageMapper {
+	
+	
+
 
 }
