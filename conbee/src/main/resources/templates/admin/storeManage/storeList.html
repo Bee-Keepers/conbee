@@ -19,6 +19,12 @@
       cursor: pointer;
     }
 
+    a {
+      text-decoration: none;
+      color: black;
+    }
+
+
   </style>
 </head>
 <body class="d-flex flex-column" style="height: 100vh;">
@@ -42,7 +48,7 @@
 
         <!-- 검색버튼 -->
         <form action="storeList" method="GET" style="width: 75%;">
-          <div class="d-flex justify-content-end">
+          <div class="d-flex justify-content-end">                                                                                
             <input type="text" name="query" id="searchQuery" class="form-control me-5" placeholder="점포정보 검색" size="40" style="width: 15%;">
           </div>
         </form>
@@ -66,24 +72,24 @@
 
           <thead>
             <tr style="text-align: center;">
-              <th data-sort="num" class="d-flex">점포번호
-                <i class="fa-sharp fa-solid fa-sort-down"></i>
+              <th data-sort="num" class="d-flex">
+                <a id="sortStoreNo">점포번호<i class="fa-sharp fa-solid fa-sort-down"></i></a>
               </th>
-              <th data-sort="str">점포명
-                <i class="fa-sharp fa-solid fa-sort-down"></i>
+              <th data-sort="str">
+                <a id="sortStoreName">점포명<i class="fa-sharp fa-solid fa-sort-down"></i></a>
               </th>
               <th>점주명</th>
               <th>전화번호</th>
               <th>위치</th>
-              <th data-sort="str">폐점 승인
-                <i class="fa-sharp fa-solid fa-sort-down"></i>
+              <th data-sort="str">
+                <a id="sortRunApproval">폐점 승인<i class="fa-sharp fa-solid fa-sort-down"></i></a>
               </th>
-              <th data-sort="str">운영여부
-                <i class="fa-sharp fa-solid fa-sort-down"></i>
+              <th data-sort="str">
+                <a id="sortStoreRunFl">운영여부<i class="fa-sharp fa-solid fa-sort-down"></i></a>
               </th>
             </tr>
           </thead>
-          <tbody class="table-group-divider">
+          <tbody class="table-group-divider" id="storeListFull">
 
             <!-- 점포가 존재하지 않을 때 -->
             <tr th:if="${storeList == null}">
@@ -98,7 +104,7 @@
             <!-- 점포가 존재할 때 -->
             <th:block th:unless="${storeList == null}">
 
-              <tr th:each="store : ${storeList}" th:object="${store}">
+              <tr th:each="store : ${storeList}" th:object="${store}" >
                 <td th:text="*{storeNo}">3642</td>
                 <td>
                   <b><a th:href="@{/admin/storeManage/storeUpdate/{storeNo}(storeNo=*{storeNo})}"
@@ -108,7 +114,12 @@
                 <td th:text="*{memberName}">김점주</td>
                 <td th:text="*{storeTel}">028855913</td>
                 <td th:text="*{storeAddress}">서울특별시 서대문구 모래내로 412 서울시립서대문도서관 (연희동)</td>
-                <td>미승인</td> <!-- 폐점승인여부. 어케 가져올건지? -->
+                <td th:if="*{storeRunApproval == 'N'}" id="storeRunApproval"> <!-- 폐점 미승인-->
+                  미승인
+                </td>
+                <td th:unless="*{storeRunApproval == 'N'}" id="storeRunApproval"> <!-- 폐점승인 -->
+                  승인
+                </td>
 
                 <td th:if="*{storeRunFl == 'Y'}"> <!--매장 운영 O-->
                   <a th:href="@{changeRunFl/{storeNo}/{storeRunFl}(storeNo=*{storeNo}, storeRunFl=*{storeRunFl})}" class="btn btn-warning mx-3" style="width: 80px;">
