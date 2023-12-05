@@ -56,15 +56,15 @@
           </thead>
           <tbody class="table-group-divider">
             
-            <tr style="text-align: center;">
+            <tr style="text-align: center;" th:each="approval : ${requestApprovalList}" th:object="${approval}">
               <td><input type="checkbox"></td>
-              <td>6</td>
-              <td>업무</td>
-              <td>발주</td>
-              <td style="text-align: start;">발주기안서</td>
-              <td>정유진</td>
+              <td th:text="*{approvalNo}">6</td>
+              <td th:text="*{docCategoryGroup}">업무</td>
+              <td th:text="*{docCategorySort}">발주</td>
+              <td style="text-align: start;" th:text="*{approvalTitle}">발주기안서</td>
+              <td th:text="*{memberName}">정유진</td>
               <td>전산팀</td>
-              <td>2023-11-28 11:00</td>
+              <td th:text="*{approvalDate}">2023-11-28 11:00</td>
               <td>이예리나</td>
               <td>결재중</td>
             </tr>

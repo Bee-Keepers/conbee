@@ -100,6 +100,13 @@ public class ApprovalServiceImpl implements ApprovalService{
 	
 	    return result;
 	}
+	
+	
+	
+	@Override
+	public List<Approval> selectRequestApproval(int memberNo) {
+		return mapper.selectRequestApproval(memberNo);
+	}
 
 
 
