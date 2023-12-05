@@ -15,19 +15,15 @@
 
     <th:block th:replace="~{approval/sidebar}"></th:block>
 
-    <div class="d-flex flex-column p-3" style="width: 100%;">
+    <div class="d-flex flex-column flex-grow-1 p-3">
 
-      <div class="fs-4 pb-3 px-3 border-bottom">
+      <div class="fs-3 pb-3 px-3 border-bottom">
         결재요청함
       </div>
 
-      <div class="m-3 pe-5 d-flex justify-content-end">
-        <a href="#" class="btn btn-warning" style="width: 80px;">회수</a>
-      </div>
+      <div class="w-100 px-4 pt-2 flex-grow-1">
 
-      <div class="d-flex justify-content-center">
-
-        <table class="table table-striped table-hover" style="width: 95%;">
+        <table class="table table-striped table-hover">
           <colgroup>
             <col width=5%>
             <col width=7%>
@@ -77,8 +73,9 @@
 
   </main>
 
-  <th:block th:replace="~{common/footer}"></th:block>
-
+  <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">
+    <a href="#" class="btn btn-warning" style="width: 80px;">회수</a>
+  </div>
   <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

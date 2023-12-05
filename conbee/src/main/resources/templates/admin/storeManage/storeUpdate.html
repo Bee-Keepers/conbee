@@ -182,8 +182,6 @@
 
   </main>
 
-  <th:block th:replace="~{common/footer}"></th:block>
-
   <script src="/js/bootstrap.bundle.min.js"></script>
 
   <!-- 다음 주소 API -->
@@ -191,12 +189,12 @@
   <script th:inline="javaScript">
 
     // 해당 점포 DB정보 얻어오기(수정전 정보)
-    const readStoreNo = /*[[${readStore.storeNo}]]*/ 점포번호;
-    const readStoreName = /*[[${readStore.storeName}]]*/ 점포명;
-    const readMemberName = /*[[${readStore.memberName}]]*/ 점주명;
-    const readMemberNo = /*[[${readStore.memberNo}]]*/ 점포 회원번호;
-    const readStoreTel = /*[[${readStore.storeTel}]]*/ 점포 전화번호;
-    const readStoreAddress = /*[[${readStore.storeAddress}]]*/ 점포주소;
+    const readStoreNo = /*[[${readStore.storeNo}]]*/ "점포번호";
+    const readStoreName = /*[[${readStore.storeName}]]*/ "점포명";
+    const readMemberName = /*[[${readStore.memberName}]]*/ "점주명";
+    const readMemberNo = /*[[${readStore.memberNo}]]*/ "점포 회원번호";
+    const readStoreTel = /*[[${readStore.storeTel}]]*/ "점포 전화번호";
+    const readStoreAddress = /*[[${readStore.storeAddress}]]*/ "점포주소";
 
   </script>
   <script src="/js/admin/storeUpdate.js"></script>
