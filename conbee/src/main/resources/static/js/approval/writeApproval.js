@@ -1,17 +1,4 @@
 /* =========================================== */
-// 추가로 생각할 것
-// - confirm 창 커스텀(모달)
-
-
-
-/* =========================================== */
-/* 주소 파라미터 가져오기 */
-// const urlParams = new URL(location.href)
-console.log(window.location.href);
-
-
-
-/* =========================================== */
 /* 기안문 정보 받아오기 */
 
 (()=>{
@@ -92,10 +79,7 @@ console.log(window.location.href);
 
 
 
-
 /* =========================================================== */
-/* 공통 */
-
 
 // 임시저장 confirm 
 const saveDoc = document.querySelectorAll('#saveHoliday, #saveRetirement, #saveStore, #saveExpense, #saveOrder');
@@ -111,48 +95,6 @@ saveDoc.forEach((doc)=>{
   })
 })
 
-// 내용 글자수 표시
-const textareas = document.querySelectorAll(".docText");
-const textCounts = document.querySelectorAll(".textCount");
-const maxLength = 1000;
-
-// textareas.forEach((textarea)=>{
-
-//   textarea.addEventListener('input', e=> {
-
-//     let currentLength = textarea.value.length;
-
-//     textCounts.forEach((textCount)=>{
-//       textCount.textContent = currentLength + ' / ' + maxLength + ' 글자';
-
-//       // 글자수 초과시 빨간색
-//       if (currentLength > maxLength) {
-//         textCount.style.color='red';
-//       } else {
-//         textCount.style.color='black';
-//       }
-//     })
-
-//   });
-// })
-// textareas.forEach((textarea)=>{
-
-//   textarea.addEventListener('input', function() {
-//       let currentLength = textarea.value.length;
-
-//       textCounts.forEach((textCount)=>{
-//         textCount.textContent = currentLength + ' / ' + maxLength + ' 글자';
-
-//         // 글자수 초과시 빨간색
-//         if (currentLength > maxLength) {
-//           textCount.style.color='red';
-//         } else {
-//           textCount.style.color='black';
-//         }
-//       })
-
-//   });
-// })
 
 /* =========================================================== */
 const openDocOne = document.getElementById("docOne") // 휴가
@@ -172,6 +114,7 @@ openDocOne.addEventListener("click",()=>{
   docHolidayStart.value="";
   docHolidayEnd.value="";
   docHolidayText.value="";
+  updateTextCount();
 })
 openDocTwo.addEventListener("click",()=>{
   history.pushState(null, null, 'writeApproval/docRetirement');
@@ -182,9 +125,20 @@ openDocTwo.addEventListener("click",()=>{
 })
 openDocThree.addEventListener("click",()=>{
   history.pushState(null, null, 'writeApproval/docStore');
+  inputStore.value="";
+  inputStore2.value="";
+  storeName.value="";
+  openStore.checked=false;
+  closeStore.checked=false;
+  docStoreText.value="";
+
 })
 openDocFour.addEventListener("click",()=>{
   history.pushState(null, null, 'writeApproval/docExpense');
+  inputExpense.value="";
+  inputExpense2.value="";
+  docExpenseText.value="";
+  // 파일도 추가
 })
 openDocFive.addEventListener("click",()=>{
   history.pushState(null, null, 'writeApproval/docOrder');
@@ -192,34 +146,15 @@ openDocFive.addEventListener("click",()=>{
 
 
 /* 닫기 -> 주소 복원 */
-//----------------------------> 닫기 전에 임시저장 confirm 코드 추가 예정
 // 닫기 버튼 클릭 
-const closeDoc = document.querySelectorAll('button[name="closeDoc"]');
-closeDoc.forEach(function(e){
-  e.addEventListener("click",(k)=>{
-    // const userConfirm = confirm("임시저장하려면 임시저장 버튼을 클릭해주세요");
-    
-    // if(!userConfirm){
-    //   k.style.display='block';
-    //   return;
-    // }
+const closeDocs = document.querySelectorAll('button[name="closeDoc"]');
+
+closeDocs.forEach(closeDoc=>{
+  closeDoc.addEventListener("click",e=>{
     history.pushState(null, null, '/approval/writeApproval');
-
-
   })
 })
 
-// 모달 외부 클릭
-const modals = document.querySelectorAll('.modal');
-
-modals.forEach(function(modal){
-  modal.addEventListener("click", function(m){
-
-    if(m.target === modal){
-      history.pushState(null, null, '/approval/writeApproval');
-    }
-  })
-})
 
 /* =========================================================== */
 /* 휴가 신청서 */
@@ -231,15 +166,31 @@ const docHolidayStart = document.getElementById("docHolidayStart");
 const docHolidayEnd = document.getElementById("docHolidayEnd");
 const docHolidayText = document.getElementById("docHolidayText");
 
-//제목 입력 시 -> 템플릿 안 제목 같이 입력되기
+// 제목 입력 시 -> 템플릿 안 제목 같이 입력되기
 inputHoliday.addEventListener("input",e=>{
   const val = inputHoliday.value.trim();
   inputHoliday2.value = val;
 })
 
+// 내용 글자수 표시
+const textCountHoliday = document.getElementById("textCountHoliday");
+const maxLength = 1000;
 
-// 나중에 사용(?)
-// if(location.href=='http://localhost/approval/writeApproval/docHoliday')
+function updateTextCount() {
+  let currentLength = docHolidayText.value.length;
+  textCountHoliday.textContent = currentLength + ' / ' + maxLength + ' 글자';
+
+  if (currentLength > maxLength) {
+    textCountHoliday.style.color = 'red';
+  } else {
+    textCountHoliday.style.color = 'black';
+  }
+}
+
+docHolidayText.addEventListener('input',e=>{
+  updateTextCount();
+})
+
 
 // 결재 버튼 클릭
 submitHoliday.addEventListener("click", e =>{
@@ -414,26 +365,109 @@ submitStore.addEventListener("click", e =>{
     e.preventDefault();
     return;
   }  
+
 })
 
 /* =========================================================== */
 /* 지출결의서 */
-// const submitExpense = document.getElementById("submitExpense");
-// const saveExpense = document.getElementById("saveExpense");
-// const inputExpense = document.getElementById("inputExpense");
-// const inputExpense2 = document.getElementById("inputExpense2");
-// const 
+const submitExpense = document.getElementById("submitExpense");
+const saveExpense = document.getElementById("saveExpense");
+const inputExpense = document.getElementById("inputExpense");
+const inputExpense2 = document.getElementById("inputExpense2");
+const docExpenseText = document.getElementById("docExpenseText");
+// 첨부파일 추가
+
+inputExpense.addEventListener("input",e=>{
+  const val = inputExpense.value;
+  inputExpense2.value = val;
+})
+
+// 결재 버튼 클릭
+submitExpense.addEventListener("click", e =>{
+  // 제목
+  if(inputExpense.value.trim().length == 0){
+    alert("제목을 입력해주세요");
+    inputExpense.focus();
+    e.preventDefault();
+    return;
+  }
+
+  if(inputExpense2.value.trim().length == 0){
+    alert("제목을 입력해주세요");
+    inputExpense2.focus();
+    e.preventDefault();
+    return;
+  }
+
+  if(docExpenseText.value===''){
+    alert("내용을 입력해주세요");
+    docExpenseText.focus();
+    e.preventDefault();
+    return;
+  }
 
 
-// inputExpense.addEventListener("input",e=>{
-//   const val = inputExpense.value;
-//   inputExpense2.value = val;
-// })
+  // 첨부파일 유효성 검사 추가
+
+  const userConfirm = confirm("결재를 요청하시겠습니까?");
+
+  if(!userConfirm){
+    e.preventDefault();
+    return;
+  }  
+
+})
 
 /* =========================================================== */
 /* 발주기안서 */
+const submitOrder = document.getElementById("submitOrder");
+const saveOrder = document.getElementById("saveOrder");
+const inputOrder = document.getElementById("inputOrder");
+const inputOrder2 = document.getElementById("inputOrder2");
+const orderDate = document.getElementById("orderDate");
+//품목 리스트 추가
 
 
+inputOrder.addEventListener("input",e=>{
+  const val = inputOrder.value;
+  inputOrder2.value = val;
+})
+
+// 결재 버튼 클릭
+submitOrder.addEventListener("click", e =>{
+  
+  // 제목
+  if(inputOrder.value.trim().length == 0){
+    alert("제목을 입력해주세요");
+    inputOrder.focus();
+    e.preventDefault();
+    return;
+  }
+
+  if(inputOrder2.value.trim().length == 0){
+    alert("제목을 입력해주세요");
+    inputOrder2.focus();
+    e.preventDefault();
+    return;
+  }
+
+  // 날짜
+  if(orderDate.value===''){
+    alert("납기일을 입력해주세요");
+    orderDate.focus();
+    e.preventDefault();
+    return;
+  }
+
+  // 품목리스트 추가예정
+
+  const userConfirm = confirm("결재를 요청하시겠습니까?");
+
+  if(!userConfirm){
+    e.preventDefault();
+    return;
+  }
+
+})
 
 /* =========================================================== */
-
