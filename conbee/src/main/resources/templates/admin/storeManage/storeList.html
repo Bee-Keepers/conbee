@@ -122,13 +122,13 @@
                 </td>
 
                 <td th:if="*{storeRunFl == 'Y'}"> <!--매장 운영 O-->
-                  <a th:href="@{changeRunFl/{storeNo}/{storeRunFl}(storeNo=*{storeNo}, storeRunFl=*{storeRunFl})}" class="btn btn-warning mx-3" style="width: 80px;">
+                  <a th:href="@{changeRunFl/{storeNo}/{storeRunFl}(storeNo=*{storeNo}, storeRunFl=*{storeRunFl})}" class="btn btn-warning mx-3" style="width: 80px;" id="storeRunFlY">
                     운영
                   </a>
                 </td>
 
                 <td th:unless="*{storeRunFl == 'Y'}"> <!--매장 운영 X-->
-                  <a th:href="@{changeRunFl/{storeNo}/{storeRunFl}(storeNo=*{storeNo}, storeRunFl=*{storeRunFl})}" class="btn btn-secondary mx-3" style="width: 80px;">
+                  <a th:href="@{changeRunFl/{storeNo}/{storeRunFl}(storeNo=*{storeNo}, storeRunFl=*{storeRunFl})}" class="btn btn-secondary mx-3" style="width: 80px;" id="storeRunFlN">
                     폐쇄
                   </a>
                 </td>
