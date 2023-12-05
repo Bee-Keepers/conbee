@@ -1,60 +1,4 @@
 
-/* 주소검색 API */
-function sample6_execDaumPostcode() {
-  new daum.Postcode({
-      oncomplete: function(data) {
-          // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-          // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-          // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-          var addr = ''; // 주소 변수
-
-          //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-          if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-              addr = data.roadAddress;
-          } else { // 사용자가 지번 주소를 선택했을 경우(J)
-              addr = data.jibunAddress;
-          }
-
-          // 우편번호와 주소 정보를 해당 필드에 넣는다.
-          document.getElementById("memberAddress").value = addr;
-
-          // 중복검사 코드 넣기!
-
-          /* ===================== 점포주소 중복 검사 ======================= */
-            fetch("/admin/memberManage/checkMemberAddress?memberAddress=" + memberAddress.value)
-            .then(response => response.text())
-            .then(result =>{
-
-                if(result == 0){ // 중복 X
-                  messageMemberAddress.innerText= "사용 가능한 점포 주소입니다.";
-                  messageMemberAddress.classList.add("OK-feedback");
-                  messageMemberAddress.classList.remove("NotOK-feedback");
-
-                  // 인풋 요소 변화
-                  memberAddress.classList.add("is-valid");
-                  memberAddress.classList.remove("is-invalid");
-
-                } else { // 중복 O
-                  messageMemberAddress.innerText= "이미 등록된 점포 주소입니다.";
-                  messageMemberAddress.classList.add("NotOK-feedback");
-                  messageMemberAddress.classList.remove("OK-feedback");
-
-                    // 인풋 요소 변화
-                  memberAddress.classList.add("is-invalid");
-                  memberAddress.classList.remove("is-valid");
-                }
-            })
-            .catch(e=> console.log(e))
-
-        }
-    }).open();
-}
-
-
-
-
-
 
 
 /* ***** 회원 가입 유효성 검사 ***** */
@@ -65,7 +9,6 @@ const checkObj = {
     "memberId" : false,
     "memberName" : false,
     "memberEmail" : false, 
-    "storeNo" : false
 };
 
 
@@ -294,9 +237,9 @@ const messageStoreNo = document.getElementById("messageStoreNo");
 // 점포번호 입력시 유효성 검사
 storeNo.addEventListener("input", ()=>{
 
-  // 점포명이 입력되지 않은 경우
-  if(storeNo.value.trim().length == 0){
-    storeNo.value = "";
+  // // 점포번호가 입력되지 않은 경우
+  if(storeNo.value > 99999 || storeNo.value < 0){
+      storeNo.value = "";
 
     messageStoreNo.innerText = "점포번호는 숫자 1~5자리 이내로 작성해주세요.";
     messageStoreNo.classList.remove("OK-feedback");
@@ -359,7 +302,6 @@ cancelBtn.addEventListener("click", ()=>{
   memberId.value = "";
   memberName.value = "";
   memberEmail.value = "";
-  storeNo.value = "";
   return;
 })
 
@@ -390,7 +332,6 @@ document.getElementById("submitBtn").addEventListener("click", e => {
               
               case "memberEmail": str = "이메일이 유효하지 않습니다"; break;
 
-              case "storeNo": str = "점포번호가 유효하지 않습니다"; break;
           }
 
           alert(str);
@@ -403,4 +344,10 @@ document.getElementById("submitBtn").addEventListener("click", e => {
           return;
       }
   }
+});
+
+const storeNoBtn = document.getElementById("storeNoBtn");
+
+storeNoBtn.addEventListener("click", ()=>{
+  storeNo.disabled = false;
 });

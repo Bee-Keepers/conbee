@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
+import com.keepers.conbee.admin.store.model.dto.Store;
 import com.keepers.conbee.member.model.dto.Member;
 
 @Mapper
@@ -29,7 +30,7 @@ public interface AdminMemberMapper {
 	 * @param storeNo
 	 * @return
 	 */
-	int checkStoreNo(int storeNo);
+	int checkStoreNo(Store storeNo);
 
 	/** 회원 주소 유효성 검사
 	 * @param memberAddress
@@ -71,6 +72,17 @@ public interface AdminMemberMapper {
 	 */
 	List<Map<String, Object>> searchMemberList(Map<String, Object> paramMap, RowBounds rowBounds);
 
+	/** 회원 등록 비밀번호 지정 및 암호화
+	 * @param inputMember
+	 */
+	void password(Member inputMember);
 
+	/** 점포 번호 얻어오기
+	 * @param inputMember
+	 * @return
+	 */
+	int setMemberNo(Member inputMember);
+
+	
 
 }
