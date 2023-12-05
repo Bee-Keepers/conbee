@@ -5,7 +5,7 @@
 	
 	<!-- 점포 전체 정보조회-->
 	<select id="readAllStoreList" resultType="Store">
-		SELECT STORE_NO, STORE_NAME, STORE_TEL, STORE_ADDRESS, STORE_RUN_FL, 
+		SELECT STORE_NO, STORE_NAME, STORE_TEL, STORE_ADDRESS, STORE_RUN_FL, STORE_RUN_APPROVAL,
 		       CASE 
 			       WHEN MEMBER_NO IS NULL
 			       THEN NULL
@@ -40,7 +40,7 @@
 	
 	<!--검색한 정보와 일치하는 점포정보 조회-->
 	<select id="searchStoreList" resultType="Store">
-		SELECT STORE_NO , STORE_NAME , STORE_TEL , STORE_ADDRESS , STORE_RUN_FL , MEMBER_NO , MEMBER_NAME
+		SELECT STORE_NO , STORE_NAME , STORE_TEL , STORE_ADDRESS , STORE_RUN_FL , MEMBER_NO , MEMBER_NAME, STORE_RUN_APPROVAL
 		FROM STORE
 		LEFT JOIN "MEMBER" USING (MEMBER_NO)
 		WHERE STORE_NAME LIKE '%${query}%' OR
@@ -48,6 +48,95 @@
 		STORE_ADDRESS LIKE '%${query}%' OR
 		MEMBER_NAME LIKE  '%${query}%'
 	</select>
+	
+	<!--점포리스트 조회(점포번호순)-->
+	<select id="sortStoreNo" resultType="Store">
+		SELECT STORE_NO, STORE_NAME, STORE_TEL, STORE_ADDRESS, STORE_RUN_FL, STORE_RUN_APPROVAL,
+	       CASE 
+		       WHEN MEMBER_NO IS NULL
+		       THEN NULL
+		       ELSE MEMBER_NO
+		   END MEMBER_NO,
+	       CASE
+		       WHEN MEMBER_NO IS NOT NULL
+		       THEN M.MEMBER_NAME
+		    END MEMBER_NAME
+		FROM STORE
+		LEFT JOIN "MEMBER" M USING (MEMBER_NO)
+		WHERE STORE_NAME LIKE '%${query}%' OR
+		STORE_TEL LIKE '%${query}%' OR
+		STORE_ADDRESS LIKE '%${query}%' OR
+		MEMBER_NAME LIKE  '%${query}%'
+		ORDER BY STORE_NO
+	</select>
+	
+	<!--점포리스트 조회(점포명순)-->
+	<select id="sortStoreName" resultType="Store">
+		SELECT STORE_NO, STORE_NAME, STORE_TEL, STORE_ADDRESS, STORE_RUN_FL, STORE_RUN_APPROVAL,
+	       CASE 
+		       WHEN MEMBER_NO IS NULL
+		       THEN NULL
+		       ELSE MEMBER_NO
+		   END MEMBER_NO,
+	       CASE
+		       WHEN MEMBER_NO IS NOT NULL
+		       THEN M.MEMBER_NAME
+		    END MEMBER_NAME
+		FROM STORE
+		LEFT JOIN "MEMBER" M USING (MEMBER_NO)
+		WHERE STORE_NAME LIKE '%${query}%' OR
+		STORE_TEL LIKE '%${query}%' OR
+		STORE_ADDRESS LIKE '%${query}%' OR
+		MEMBER_NAME LIKE  '%${query}%'
+		ORDER BY STORE_NAME
+	</select>
+	
+	<!--점포리스트 조회(폐점승인)-->
+	<select id="sortRunApproval" resultType="Store">
+		SELECT STORE_NO, STORE_NAME, STORE_TEL, STORE_ADDRESS, STORE_RUN_FL, STORE_RUN_APPROVAL,
+	       CASE 
+		       WHEN MEMBER_NO IS NULL
+		       THEN NULL
+		       ELSE MEMBER_NO
+		   END MEMBER_NO,
+	       CASE
+		       WHEN MEMBER_NO IS NOT NULL
+		       THEN M.MEMBER_NAME
+		    END MEMBER_NAME
+		FROM STORE
+		LEFT JOIN "MEMBER" M USING (MEMBER_NO)
+		WHERE STORE_NAME LIKE '%${query}%' OR
+		STORE_TEL LIKE '%${query}%' OR
+		STORE_ADDRESS LIKE '%${query}%' OR
+		MEMBER_NAME LIKE  '%${query}%'
+		ORDER BY STORE_RUN_APPROVAL DESC
+	</select>
+	
+	<!--점포리스트 조회(운영여부)-->
+	<select id="sortStoreRunFl" resultType="Store">
+		SELECT STORE_NO, STORE_NAME, STORE_TEL, STORE_ADDRESS, STORE_RUN_FL, STORE_RUN_APPROVAL,
+	       CASE 
+		       WHEN MEMBER_NO IS NULL
+		       THEN NULL
+		       ELSE MEMBER_NO
+		   END MEMBER_NO,
+	       CASE
+		       WHEN MEMBER_NO IS NOT NULL
+		       THEN M.MEMBER_NAME
+		    END MEMBER_NAME
+		FROM STORE
+		LEFT JOIN "MEMBER" M USING (MEMBER_NO)
+		WHERE STORE_NAME LIKE '%${query}%' OR
+		STORE_TEL LIKE '%${query}%' OR
+		STORE_ADDRESS LIKE '%${query}%' OR
+		MEMBER_NAME LIKE  '%${query}%'
+		ORDER BY STORE_RUN_FL
+	</select>
+	
+	
+	
+	
+	
 	
 	<!--점포 운영상태 변경-->
 	<update id="changeRunFl">
@@ -58,7 +147,7 @@
 	
 	<!-- 선택한 점포 정보 얻어오기 -->
 	<select id="readStoreInfo" resultType="Store">
-		SELECT STORE_NO , STORE_NAME , STORE_TEL , STORE_ADDRESS , STORE_RUN_FL , MEMBER_NO , MEMBER_NAME
+		SELECT STORE_NO , STORE_NAME , STORE_TEL , STORE_ADDRESS , STORE_RUN_FL , MEMBER_NO , MEMBER_NAME, STORE_RUN_APPROVAL
 		FROM STORE
 		LEFT JOIN "MEMBER" USING (MEMBER_NO)
 		WHERE STORE_NO = #{storeNo}
@@ -120,14 +209,14 @@
 	<insert id="storeInsert">
 		INSERT INTO STORE
 		VALUES(SEQ_STORE_NO.NEXTVAL, #{storeName}, #{storeAddress},
-			#{storeTel}, DEFAULT, DEFAULT, NULL, NULL)
+			#{storeTel}, DEFAULT, DEFAULT, NULL, NULL, DEFAULT)
 	</insert>
 	
 	<!--신규 점포 등록 / 기존회원의 경우-->
 	<insert id="storeInsertwMember">
 		INSERT INTO STORE
 		VALUES(SEQ_STORE_NO.NEXTVAL, #{storeName}, #{storeAddress},
-			#{storeTel}, DEFAULT, DEFAULT, NULL, ${memberNo})
+			#{storeTel}, DEFAULT, DEFAULT, NULL, ${memberNo}, DEFAULT)
 	</insert>
 	
 	

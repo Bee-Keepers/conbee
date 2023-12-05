@@ -2,6 +2,7 @@ package com.keepers.conbee.admin.member.model.service;
 
 import java.util.Map;
 
+import com.keepers.conbee.admin.store.model.dto.Store;
 import com.keepers.conbee.member.model.dto.Member;
 
 public interface AdminMemberService {
@@ -24,7 +25,7 @@ public interface AdminMemberService {
 	 * @param storeNo
 	 * @return
 	 */
-	int checkStoreNo(int storeNo);
+	int checkStoreNo(Store storeNo);
 
 	/** 회원 주소 유효성 검사
 	 * @param memberAddress

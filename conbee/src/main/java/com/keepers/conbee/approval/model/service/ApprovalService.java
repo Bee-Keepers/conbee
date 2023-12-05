@@ -30,6 +30,12 @@ public interface ApprovalService {
 	*/
 	int insertApproval(Approval approval);
 
+	/**
+	 * @param memberNo
+	 * @return
+	 */
+	List<Approval> selectRequestApproval(int memberNo);
+
 
 } 
 
