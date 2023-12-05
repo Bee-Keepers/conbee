@@ -18,6 +18,17 @@ const searchQuery = document.getElementById("searchQuery");
 
 //=============================================================================
 
+// 운영버튼을 눌렀을 때 폐점승인 미승인인 경우 폐점 이벤트 막기 안댐...^^
+// document.getElementById("storeRunFlY").addEventListener("click", e=>{
+
+//   if(document.getElementById("storeRunApproval").innerText === '미승인'){
+//     e.preventDefault();
+//   }
+// })
+
+
+//=============================================================================
+
 /* th 정렬 */
 const sortStoreNo = document.getElementById("sortStoreNo");
 const sortStoreName = document.getElementById("sortStoreName");
