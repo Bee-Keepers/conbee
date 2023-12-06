@@ -32,7 +32,7 @@
 .title-input{
   /* background-color: #e3f1ff; */
   height: 27px; 
-  width: 640px;
+  width: 620px;
 }
 .title-input:focus{
   outline: none;
@@ -112,6 +112,20 @@
 }
 .storeName:focus{
   outline: none;
+}
+
+
+/* ========================= */
+
+.cancle{
+  font-size: 20px;
+  vertical-align: middle;
+  border: none;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #FFE15D;
+  line-height: 5px;
+  color: white;
 }
 
 

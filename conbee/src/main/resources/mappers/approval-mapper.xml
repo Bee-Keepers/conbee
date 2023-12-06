@@ -25,6 +25,24 @@
 		AND MEMBER_NO!=#{memberNo}
 		ORDER BY GRADE_NO DESC
 	</select>
+	
+	
+	<!-- 부서 선택 시 팀 조회 -->
+	<select id="selectTeam" resultType="String">
+		SELECT TEAM_NAME FROM TEAM
+		JOIN DEPARTMENT USING(DEPARTMENT_NO)
+		WHERE DEPARTMENT_NAME=#{selectDepartment}
+		
+	</select>
+	
+	<!-- 팀 선택 시 결재자 조회 -->
+	<select id="selectApprover" resultType="String">
+		SELECT GRADE_NAME, MEMBER_NAME FROM "MEMBER"
+		JOIN TEAM USING(TEAM_NO)
+		JOIN GRADE USING(GRADE_NO)
+		WHERE TEAM_NAME=#{selectTeam}
+	</select>
+	
 
 	<!-- 기안문 insert -->
 	<insert id="insertApproval" parameterType="Approval" useGeneratedKeys="true">

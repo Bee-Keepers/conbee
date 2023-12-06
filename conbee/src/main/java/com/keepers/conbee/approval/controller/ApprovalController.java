@@ -152,6 +152,33 @@ public class ApprovalController { // 전자결재 컨트롤러
 		return docWriteInfosMap;
 
 	}
+	
+	/** 부서 선택 - 팀 선택
+	 * @param selectDepartment
+	 * @return
+	 */
+	@GetMapping(value = "writeApproval/selectTeam", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<String> selectTeam(String selectDepartment){
+		
+		List<String> teamList = service.selectTeam(selectDepartment);
+		
+		return teamList;
+	}
+	
+	/** 팀 선택 - 결재자 선택
+	 * @param selectTeam
+	 * @return
+	 */
+	@GetMapping(value = "writeApproval/selectApprover", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<String> selectApprover(String selectTeam){
+		
+		List<String> approverList = service.selectApprover(selectTeam);
+		
+		return approverList;
+	}
+	
 
 
 	/** 기안문 insert
