@@ -22,7 +22,6 @@ public class MyPageController {
     
     private final MyPageService service;
     
-    
     /** 프로필 정보 조회
      * @param mypage
      * @return
