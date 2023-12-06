@@ -98,9 +98,16 @@
                 <td th:text="*{memberAddress}">서울특별시 서대문구 모래내로 412 서울시립서대문도서관 (연희동) 서울시립서대문도서관</td>
                 <td th:text="*{memberEnrollDate}">2015.12.12</td>
                 <td>승인</td>
-                <td>
-                  <a href="#" class="btn btn-secondary mx-3" style="width: 80px;">탈퇴</a>
-                  <!-- <a href="#" class="btn btn-warning mx-3" style="width: 80px;">복구</a> -->
+                <td th:if="*{memberDelFl == 'Y'}"> <!--회원 탈퇴 O-->
+                  <a th:href="@{changeMemberDelFl/{memberNo}/{memberDelFl}(memberNo=*{memberNo}, memberDelFl=*{memberDelFl})}" class="btn btn-warning mx-3" style="width: 80px;">
+                    복구
+                  </a>
+                </td>
+
+                <td th:unless="*{memberDelFl == 'Y'}"> <!--회원 탈퇴 X-->
+                  <a th:href="@{changeMemberDelFl/{memberNo}/{memberDelFl}(memberNo=*{memberNo}, memberDelFl=*{memberDelFl})}" class="btn btn-secondary mx-3" style="width: 80px;">
+                    탈퇴
+                  </a>
                 </td>
               </tr>
             </th:block>
@@ -212,5 +219,13 @@
 
   <script src="/js/bootstrap.bundle.min.js"></script>
   
+  <script th:inline="javascript">
+    
+    // RedirectAttributes를 통해 전달된 message 출력
+    const message = /*[[${message}]]*/"전달받은 message";
+    // message가 없다면 null
+
+    if(message != null) alert(message);
+</script>
 </body>
 </html>

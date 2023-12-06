@@ -58,6 +58,19 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	
+	// 아이디 찾기(회원 조회)
+	@Override
+	public int findMember(Member inputInformation) {
+		return mapper.findMember(inputInformation);
+	}
+
+	// 아이디 찾기 (찐)
+	@Override
+	public String findMemberId(Member inputInformation) {
+		return mapper.findMemberId(inputInformation);
+	}
+	
+	
 	
 	
 	

@@ -83,6 +83,12 @@ public interface AdminMemberMapper {
 	 */
 	int setMemberNo(Member inputMember);
 
+	/** 회원 탈퇴 버튼 작동
+	 * @param map
+	 * @return
+	 */
+	int changeMemberDelFl(Map<String, Object> map);
+
 	
 
 }
