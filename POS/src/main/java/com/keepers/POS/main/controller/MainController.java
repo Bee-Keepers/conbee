@@ -85,23 +85,8 @@ public class MainController {
 		int storeNo = Integer.parseInt(arr[0]);
 		String historyStoreName = arr[1];
 		
-		// 전달 받은 값들 가공해서 리스트에 넣은 후 전달
-		List<History> historyList = new ArrayList<>();
-		for(int i = 0; i < historyDiscount.size(); i++) {
-			History history = new History();
-			history.setGoodsNo(goodsNo.get(i));
-			history.setHistoryDiscount(historyDiscount.get(i));
-			history.setHistoryUnitPrice(historyUnitPrice.get(i));
-			history.setHistoryGoodsName(historyGoodsName.get(i));
-			history.setHistoryAmount(historyAmount.get(i));
-			history.setHistoryActualPrice(historyActualPrice.get(i));
-			history.setHistoryStoreName(historyStoreName);
-			history.setStoreNo(storeNo);
-			historyList.add(history);
-		}
-		
 		// 결과에 따라 메세지 전달
-		int result = service.insert(historyList);
+		int result = service.insert(historyDiscount, historyUnitPrice, historyGoodsName, historyAmount, historyActualPrice, goodsNo, historyStoreName, storeNo);
 		if(result > 0) {
 			ra.addFlashAttribute("message", "결제 성공");
 		} else {

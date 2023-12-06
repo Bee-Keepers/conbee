@@ -94,5 +94,22 @@
 			AND SCATEGORY_NAME = #{scategoryName}
 		</if>
 	</select>
-
+	
+	<!-- 발주 신청 삽입 -->
+	<insert id="orderInsert">
+		INSERT INTO "ORDER"
+		<foreach collection="list" item="order" separator=" UNION ">
+			SELECT NEXT_ORDER_NO(), SYSDATE, #{order.orderAmount}, #{order.storeNo}, #{order.goodsNo}
+			FROM DUAL
+		</foreach>
+	</insert>
+	
+	<!-- 발주 내역 조회 -->
+	<select id="selectOrderList" resultType="string">
+		SELECT TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') ORDER_DATE FROM "ORDER"
+		WHERE STORE_NO = #{storeNo}
+		GROUP BY TO_CHAR(ORDER_DATE, 'YYYY-MM-DD')
+		HAVING TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') BETWEEN #{startDate} AND #{endDate}
+		ORDER BY ORDER_DATE DESC
+	</select>
 </mapper>
