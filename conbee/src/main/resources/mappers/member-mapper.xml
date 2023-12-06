@@ -6,8 +6,11 @@
 	<resultMap id="member_rm" type="Member">
 		<id property="memberNo" column="MEMBER_NO"/>
 		<collection property="storeList" select="loginStore" column="MEMBER_NO" javaType="java.util.ArrayList" ofType="Store" />
+		<collection property="storeNoList" select="loginStoreNo" column="MEMBER_NO" javaType="java.util.ArrayList" ofType="Integer" />
 	</resultMap>
-	
+	<select id="loginStoreNo" resultType="_int">
+		SELECT STORE_NO FROM STORE WHERE MEMBER_NO = #{memberNo}
+	</select>
 	<select id="loginStore" resultType="Store">
 		SELECT * FROM STORE
 		WHERE MEMBER_NO = #{memberNo}

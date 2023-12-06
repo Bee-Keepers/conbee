@@ -110,13 +110,16 @@ public class StockController {
 	 */
 	@GetMapping("order/list")
 	public String orderList(@SessionAttribute("loginMember") Member loginMember, @RequestParam(value = "storeNo", required = false, defaultValue = "0") int storeNo, Model model,
-			String startDate, String endDate) {
+			String startDate, String endDate, RedirectAttributes ra) {
 		
 				
 		if(storeNo == 0) {
 			storeNo = loginMember.getStoreList().get(0).getStoreNo();
 		}
-		
+		if(!loginMember.getStoreNoList().contains(storeNo)) {
+			ra.addFlashAttribute("message", "소유한 지점만 검색해주세요");
+			return "redirect:list";
+		}
 		List<String> orderList = service.selectOrderList(storeNo, startDate, endDate);
 		
 		model.addAttribute("orderList", orderList);

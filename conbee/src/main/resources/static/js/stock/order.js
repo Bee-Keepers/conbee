@@ -208,7 +208,9 @@ const placeOrderForm = document.getElementById("placeOrderForm");
 const submitBtn = document.getElementById("submitBtn");
 
 
-
+// 발주 신청 폼 제출
 submitBtn.addEventListener("click", ()=>{
   placeOrderForm.submit();
 });
+
+

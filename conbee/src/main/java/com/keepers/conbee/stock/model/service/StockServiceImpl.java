@@ -129,5 +129,14 @@ public class StockServiceImpl implements StockService{
 		
 		return mapper.selectOrderList(map);
 	}
+
+	// 발주 마감 스케쥴러 동작
+	@Override
+	public void orderScheduling() {
+		
+		List<Order> orderList = mapper.selectOrderScheduling();
+		mapper.orderScheduling(orderList);
+		
+	}
 	
 }

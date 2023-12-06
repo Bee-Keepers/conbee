@@ -86,6 +86,8 @@ public interface StockService {
 	 */
 	List<String> selectOrderList(int storeNo, String startDate, String endDate);
 
+	void orderScheduling();
+
 
 
 }
