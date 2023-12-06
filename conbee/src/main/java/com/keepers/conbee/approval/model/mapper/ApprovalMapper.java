@@ -49,5 +49,16 @@ public interface ApprovalMapper {
 
 	List<Approval> selectRequestApproval(int memberNo);
 
+	/** 부서 선택 시 팀 조회
+	 * @param selectDepartment
+	 * @return
+	 */
+	List<String> selectTeam(String selectDepartment);
+
+	/** 팀 선택 시 결재자 조회
+	 * @param selectTeam
+	 * @return
+	 */
+	List<String> selectApprover(String selectTeam); 
 
 }

@@ -3,6 +3,7 @@ package com.keepers.conbee.stock.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.stock.model.dto.Order;
 import com.keepers.conbee.stock.model.dto.Stock;
 
@@ -38,18 +39,7 @@ public interface StockService {
 	 */
 	int goodsUpdate(Stock stock);
 
-	/** 재고 현황 리스트 전체 조회
-	 * @param paramMap
-	 * @return
-	 */
-	Map<String, Object> stockList(Map<String, Object> paramMap);
 
-	/** 재고 현황 등록
-	 * @param stock
-	 * @return
-	 */
-	int stockInsert(Stock stock);
-  
 	/** 자동 완성
 	 * @param inputQuery
 	 * @param storeNo
@@ -58,6 +48,27 @@ public interface StockService {
 	 * @return
 	 */
 	List<Stock> autoComplete(String inputQuery, int storeNo, String lcategoryName, String scategoryName);
+
+	/** 재고 현황 전체 조회
+	 * @param stock
+	 * @return
+	 */
+	List<Stock> stockList(Stock stock);
+
+	/** 재고 등록
+	 * @param stock
+	 * @return
+	 */
+	int stockInsert(Stock stock);
+
+	/** 재고 등록 이름 검색 시 물품 조회
+	 * @param goodsName
+	 * @param scategoryName 
+	 * @param lcategoryName 
+	 * @param goodsNo 
+	 * @return
+	 */
+	List<String> goodsNameSelect(String intputGoods);
 
 	/** 발주 신청
 	 * @param goodsNo

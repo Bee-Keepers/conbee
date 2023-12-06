@@ -1,5 +1,5 @@
 <!-- 4. 지출결의  -->
-<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
   <div class="modal-content">
     <!-- 모달 헤더 -->
     <div class="modal-header">
@@ -93,7 +93,7 @@
                 </tr>
                 <tr>
                   <th>기안자</th>
-                  <td class="infoName"></td>
+                  <td th:text="${session.loginMember.memberName}"></td>
                 </tr>
                 <tr>
                   <th>구분(항목)</th>

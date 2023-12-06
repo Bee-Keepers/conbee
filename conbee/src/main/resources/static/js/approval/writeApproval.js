@@ -34,44 +34,6 @@
       docWriteInfo.innerText = docWriteInfosMap.get('infoName') + "(" + docWriteInfosMap.get('infoTeam') + ")";
     })
 
-    // 결재자 리스트
-    const approverList = docWriteInfosMap.get('InfoApproverList');
-
-    const sajangs = document.querySelectorAll(".sajang");
-    const busajangs = document.querySelectorAll(".busajang");
-    const bujangs = document.querySelectorAll(".bujang");
-    const teamjangs  = document.querySelectorAll(".teamjang");
-    const donteamjangs = document.querySelectorAll(".donteamjang");
-
-    for(let i=0; i<approverList.length;i++){
-      // console.log(approverList[i].memberName);
-
-      if(approverList[i].gradeNo==0){ // 사장
-        sajangs.forEach((sajang)=>{
-        sajang.innerText = approverList[i].memberName;
-        })
-      }
-      if(approverList[i].gradeNo==1){ // 부사장
-        busajangs.forEach((busajang)=>{
-          busajang.innerText=approverList[i].memberName;
-        })
-      }
-      if(approverList[i].gradeNo==2){ // 부장
-        bujangs.forEach((bujang)=>{
-          bujang.innerText=approverList[i].memberName;
-        })
-      }
-      if(approverList[i].gradeNo==3 && approverList[i].teamNo==6){ // 회계팀장
-        donteamjangs.forEach((donteamjang)=>{
-          donteamjang.innerText=approverList[i].memberName;
-        })
-      }
-      if(approverList[i].gradeNo==3 && approverList[i].teamNo!=6){
-        teamjangs.forEach((teamjang)=>{ //팀장
-          teamjang.innerText=approverList[i].memberName;
-        })
-      }
-    }
   })
   .catch(e => console.log(e));
 
@@ -471,3 +433,66 @@ submitOrder.addEventListener("click", e =>{
 })
 
 /* =========================================================== */
+/* 부서선택 - 팀 선택 - 결재자 선택 */
+const selectDepartment = document.getElementById("selectDepartment");
+const selectTeam = document.getElementById("selectTeam");
+const selectApprover = document.getElementById("selectApprover");
+
+
+selectDepartment.addEventListener("change",()=>{
+  console.log(selectDepartment.value);
+
+  selectTeam.innerHTML="";
+  const option = document.createElement("option");
+  option.innerText ="--팀 선택--";
+  option.setAttribute("value", "0");
+  selectTeam.append(option);
+  if(selectDepartment.value!=0){
+    fetch("/approval/writeApproval/selectTeam?selectDepartment=" + selectDepartment.value)
+    .then(resp=>resp.json())
+    .then((list)=>{
+      if(list.length!=0){
+        for(let team of list){
+          const option = document.createElement("option");
+          option.innerText=team;
+          selectTeam.append(option);
+        }
+      }
+    })
+    .catch(e=>console.log(e));
+  }
+
+  const option2=document.createElement("option");
+  option2.innerText="부장";
+  selectApprover.append(option2);
+
+
+});
+
+selectTeam.addEventListener("change",()=>{
+  
+  selectApprover.innerHTML="";
+  const option = document.createElement("option");
+  option.innerText ="--결재자 선택--";
+  option.setAttribute("value", "0");
+  selectApprover.append(option);
+  if(selectTeam.value!=0){
+    fetch("/approval/writeApproval/selectApprover?selectTeam=" + selectTeam.value)
+    .then(resp=>resp.json())
+    .then((list)=>{
+      if(list.length!=0){
+        for(let approver of list){
+          const option = document.createElement("option");
+          option.innerText=approver;
+          selectApprover.append(option);
+        }
+      }
+    })
+  
+    .catch(e=>console.log(e));
+  }
+
+
+})
+
+
