@@ -1,6 +1,5 @@
-package com.keepers.conbee.MyPage.controller;
+package com.keepers.conbee.myPage.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,8 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.keepers.conbee.MyPage.model.service.MyPageService;
 import com.keepers.conbee.member.model.dto.Member;
+import com.keepers.conbee.myPage.model.service.MyPageService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MyPageController {
 	
 	
+
 	private final MyPageService service;
 	
 	/** 프로필 정보 조회
@@ -32,6 +32,7 @@ public class MyPageController {
 	public String mypageProfile(Member member, Model model) {
 		return "mypage/mypage-profile";
 	}
+
 	
 	@GetMapping("mypage-mywrite")
 	public String mypageMywrite() {

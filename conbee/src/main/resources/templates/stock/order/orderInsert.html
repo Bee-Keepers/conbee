@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko"  xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>발주 신청</title>
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/css/stock/order.css">
+</head>
+<body class="d-flex flex-column" style="height: 100vh;">
+
+  <!-- Button trigger modal -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">상세 검색</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex">
+          <div class="" style="width: 35%;">
+            <form id="orderInsertForm" action="/stock/order/insert" method="post">
+              <!-- 대분류 -->
+              <div class="input-group mb-3">
+                <label class="input-group-text" for="lcategorySelect">대분류</label>
+                <select class="form-select" name="lcategoryName" id="lcategorySelect">
+                  <option value="">선택</option>
+                  <option>간편식사</option>
+                  <option>즉석조리</option>
+                  <option>과자류</option>
+                  <option>아이스크림</option>
+                  <option>식품</option>
+                  <option>음료</option>
+                  <option>생활용품</option>
+                </select>
+              </div>
+    
+              <!-- 소분류 -->
+              <div class="input-group mb-3">
+                <label class="input-group-text" for="scategorySelect">소분류</label>
+                <select class="form-select" name="scategoryName" id="scategorySelect">
+                  <option value="">선택</option>
+                </select>
+              </div>
+    
+              <div id="autoCompleteContainer" class="form-floating mb-3 position-relative">
+                <div  class="position-absolute w-100 start-0" style="top: 110%;">
+                  <ul id="autoComplete" class="list-group">
+                    <!-- <li class="list-group-item">An item</li>
+                    <li class="list-group-item">A second item</li>
+                    <li class="list-group-item">A third item</li>
+                    <li class="list-group-item">A fourth item</li>
+                    <li class="list-group-item">And a fifth one</li> -->
+                  </ul>
+                </div>
+                <input type="text" class="form-control" name="goodsName" id="floatingName" placeholder="">
+                <label for="floatingName">품목 이름</label>
+              </div>
+              <input type="hidden" name="storeNo" id="storeNo" th:value="${session.loginMember.storeList[0].storeNo}">
+            </form>
+          </div>
+          <div id="nameBtns" class="px-2" style="width: 65%;">
+            <!-- <button type="button" class="btn btn-sm btn-warning mx-1 mb-1">자이언트치킨<input type="hidden" value="27"></button> -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <p class="me-5 fw-light">태그 클릭 시 삭제</p>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          <button type="button" class="btn btn-warning" data-bs-dismiss="modal" id="revenueSearchBtn">등록</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <th:block th:replace="~{common/header}"></th:block>
+
+  <main class="d-flex flex-grow-1 overflow-y-auto">
+
+    <th:block th:replace="~{stock/sidebar}"></th:block>
+
+    <div class="d-flex flex-column flex-grow-1 align-items-center overflow-y-auto">
+
+      <div class="d-flex justify-content-between align-items-center w-100 px-2 border-bottom">
+        <div class="fs-4 pb-3 px-3 pt-3">발주 신청</div>
+        <div class="d-flex align-items-center">
+          <div class="input-group">
+            <select class="form-select" aria-label="Default select example" name="historyStoreInfo" id="storeSelect">
+              <th:block th:each="store : ${session.loginMember.storeList}" th:object="${store}">
+                <option th:value="*{storeNo}" th:text="*{storeName}">
+                </option>
+              </th:block>
+            </select>
+            <!-- <button type="button" class="btn btn-light" id="deleteBtn">삭제</button> -->
+            <button id="modalBtn" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              품목 검색
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <form action="#" method="post" class="w-100 px-4 flex-grow-1">
+        <!-- 테이블 제목 -->
+        <table id="revenueTable" class="table table-striped table-hover m-0">
+          <thead class="sticky-top text-center">
+            <tr>
+              <th><input type="checkbox" id="checkAll"></th>
+              <th>상품번호</th>
+              <th>품목명</th>
+              <th>대분류</th>
+              <th>소분류</th>
+              <th>현재재고</th>
+              <th>입고단가</th>
+              <th>발주수량</th>
+            </tr>
+          </thead>
+          <!-- 테이블 내용 -->
+          <tbody id="tableTbody" class="text-center">
+          </tbody>
+        </table>
+      </form>
+      <div class="px-3 py-2 d-flex align-items-center sticky-bottom table-group-divider w-100 fw-bold">
+        <div class="w-50 text-end me-auto">합계</div>
+        <div class="w-25" id="totalPrice">0</div>
+        <button class="btn btn-warning">발주 신청</button>
+      </div>
+    </div>
+  </main>
+
+  <th:block th:replace="~{common/footer}"></th:block>
+
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/stock/order.js"></script>
+</body>
+</html>

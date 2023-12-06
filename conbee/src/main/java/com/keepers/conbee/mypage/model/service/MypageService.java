@@ -1,10 +1,5 @@
-package com.keepers.conbee.MyPage.model.service;
-
-import com.keepers.conbee.member.model.dto.Member;
+package com.keepers.conbee.myPage.model.service;
 
 public interface MyPageService {
-
-
-	
 
 }

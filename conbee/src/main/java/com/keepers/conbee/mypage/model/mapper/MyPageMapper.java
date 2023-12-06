@@ -1,4 +1,4 @@
-package com.keepers.conbee.MyPage.model.mapper;
+package com.keepers.conbee.myPage.model.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
