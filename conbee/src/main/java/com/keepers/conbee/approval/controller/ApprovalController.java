@@ -35,7 +35,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 
 
 
-	// =============== 페이지 포워드 =============== 
+	// ============================== 페이지 포워드 ==============================
 
 	/** 임시저장함 (전자결재 첫 페이지) 포워드
 	* @return
@@ -118,8 +118,12 @@ public class ApprovalController { // 전자결재 컨트롤러
 	public String joinApproval() {
 		return "approval/joinApproval";
 	}
+	
+	
+	// ============================== 임시 저장함 ==============================
+	
 
-	// ====================================================
+	// ============================== 기안문 작성 ==============================
 
 	/** 기안문 작성자 정보 조회 - 로그인한 회원의 이름, 팀이름, 결재자 받아오기
 	* @param loginMember
@@ -165,7 +169,6 @@ public class ApprovalController { // 전자결재 컨트롤러
 							@SessionAttribute("loginMember") Member loginMember,
 							Approval approval, RedirectAttributes ra) {
 		              		// 파일첨부 추가예정
-		
 		int departNo;
 		int cateNo;
 		
@@ -178,15 +181,12 @@ public class ApprovalController { // 전자결재 컨트롤러
 		default : departNo=0; cateNo=0; 
 		}
 		
-		
 		// 값 세팅
 		approval.setApprovalCondition(approvalCondition); // 문서 상태
 		approval.setMemberNo(loginMember.getMemberNo()); // 사원 번호
 		approval.setDepartmentNo(departNo); // 협조부서 코드
 		approval.setDocCategoryNo(cateNo); // 문서 분류 번호
-		
-		
-		
+			
 		int result = service.insertApproval(approval);
 		
 		log.debug(result+"d");
@@ -208,6 +208,9 @@ public class ApprovalController { // 전자결재 컨트롤러
 	}
 	
 	
+	
+	// ============================== 결재 요청함 ==============================
+	
 	@GetMapping("requestApproval")
 	public String selectRequestApproval(Model model,@SessionAttribute("loginMember") Member loginMember) { // cp 추가예정
 		
@@ -219,8 +222,22 @@ public class ApprovalController { // 전자결재 컨트롤러
 		return "approval/requestApproval";
 	}
 	
+	// ============================== 회수 문서함 ==============================
 	
 	
+	// ============================== 결재 대기함 ==============================
+	
+	
+	// ============================== 완료 문서함 ==============================
+	
+	
+	// ============================== 반려 문서함 ==============================
+	
+	
+	// ============================== 협조 문서함 ==============================
+	
+	
+	// =========================================================================
 	
 
 }
