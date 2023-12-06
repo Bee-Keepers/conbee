@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.stock.model.dto.Order;
 import com.keepers.conbee.stock.model.dto.Stock;
 import com.keepers.conbee.stock.model.mapper.StockMapper;
@@ -64,13 +65,10 @@ public class StockServiceImpl implements StockService{
 		return mapper.goodsUpdate(stock);
 	}
 	
-	// 재고 현황 리스트 전체 조회
+	// 재고 현황 전체 조회
 	@Override
-	public Map<String, Object> stockList(Map<String, Object> paramMap) {
-		List<Stock> stockListSelect = mapper.stockList(paramMap);
-		Map<String, Object> map = new HashMap<>();
-		map.put("stockListSelect", stockListSelect);
-		return map;
+	public List<Stock> stockList(Stock stock) {
+		return mapper.stockList(stock);
 	}
 	
 	// 재고 현황 등록
@@ -91,6 +89,12 @@ public class StockServiceImpl implements StockService{
 		map.put("scategoryName", scategoryName);
 		
 		return mapper.autoComplete(map);
+	}
+	
+	// 재고 등록 이름 검색 시 물품 조회
+	@Override
+	public List<String> goodsNameSelect(String intputGoods) {
+		return mapper.goodsNameSelect(intputGoods);
 	}
 	
 	// 발주 신청

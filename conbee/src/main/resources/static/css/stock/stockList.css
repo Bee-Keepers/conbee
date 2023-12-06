@@ -39,3 +39,22 @@ thead>tr>th{
 .btn-cor{
    background-color: #FFE15D;
 }
+
+#autoSerchNameContainer {
+   position: relative;
+}
+ 
+#serachName {
+   z-index: 2; /* 텍스트 필드는 다른 요소들보다 앞에 표시되도록 설정 */
+}
+ 
+#goodsNameList {
+   position: absolute;
+   top: 100%;
+   left: 0;
+   z-index: 3; /* 자동완성 목록은 텍스트 필드보다 앞에 표시되도록 설정 */
+}
+
+#goodsNameList li {
+   cursor: pointer; /* 자동완성 목록의 각 항목에 마우스 포인터 스타일을 포인터로 설정 */
+}
