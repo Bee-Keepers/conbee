@@ -1,4 +1,4 @@
-package com.keepers.conbee.mypage.controller;
+package com.keepers.conbee.myPage.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,49 +8,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.keepers.conbee.member.model.dto.Member;
-import com.keepers.conbee.mypage.model.service.MypageService;
+import com.keepers.conbee.myPage.model.service.MyPageService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping("mypage")
+@RequestMapping("myPage")
 @SessionAttributes({"loginMember"})
 @RequiredArgsConstructor
 @Slf4j
-public class MypageController {
+public class MyPageController {
     
-    private final MypageService service;
+    private final MyPageService service;
     
     /** 프로필 정보 조회
      * @param mypage
      * @return
      */
-    @GetMapping("mypage-profile")
+    @GetMapping("myPage-profile")
     public String mypageProfile(Member member, Model model) {
-        return "mypage/mypage-profile";
+        return "myPage/myPage-profile";
     }
 
     
-    @GetMapping("mypage-mywrite")
+    @GetMapping("myPage-mywrite")
     public String mypageMywrite() {
-        return "mypage/mypage-mywrite";
+        return "myPage/myPage-mywrite";
     }
     
-    @GetMapping("mypage-comment")
+    @GetMapping("myPage-comment")
     public String mypageComment() {
-        return "mypage/mypage-comment";
+        return "myPage/myPage-comment";
     }
     
-    @GetMapping("mypage-choice")
+    @GetMapping("myPage-choice")
     public String mypageChoice() {
-        return "mypage/mypage-choice";
+        return "myPage/myPage-choice";
     }
     
     @PostMapping("myPageUpdate")
     public String mypageUpdate() {
         
-        return "mypage/mypage-update";
+        return "myPage/myPage-update";
     }
 
 }

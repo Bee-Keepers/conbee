@@ -15,7 +15,7 @@
   
   <main class="d-flex overflow-y-auto h-100">
 
-    <th:block th:replace="~{mypage/sidebar}"></th:block>
+    <th:block th:replace="~{myPage/sidebar}"></th:block>
 
     <div class="d-flex flex-column flex-grow-1 align-items-center overflow-y-auto w-100">
       <div class="d-flex justify-content-between align-items-center w-100 px-2">
@@ -49,7 +49,7 @@
 
               <div class="mb-3">
                 <label for="userphone">전화번호</label>
-                <input type="phonenumber" class="form-control p-3" id="userphone" placeholder="phonenumber" name="userphone" required>
+                <input type="text" class="form-control p-3" id="*{memberTel}" placeholder="phonenumber" name="*{memberTel}" required>
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">Please fill out this field.</div>
               </div>
@@ -73,16 +73,16 @@
 
 
             <div class="mb-3">
-                <input type="address"  class="form-control p-3"  name="myaddress" placeholder="우편번호" id="postcode">   
+                <input type="address"  class="form-control p-3"  name="memberAddress" placeholder="우편번호" id="postcode">   
               
             </div>
 
             <div class="mb-3">
-                <input type="address"  class="form-control p-3"  name="myaddress"  placeholder="도로명/지번 주소" id="address">                
+                <input type="address"  class="form-control p-3"  name="memberAddress"  placeholder="도로명/지번 주소" id="address">                
             </div>
 
             <div class="mb-3">
-                <input type="address"  class="form-control p-3"  name="myaddress"  placeholder="상세 주소" id="detailAddress">                
+                <input type="address"  class="form-control p-3"  name="memberAddress"  placeholder="상세 주소" id="detailAddress">                
             </div>
             <button class="btn btn-warning btnBox fs-5" onclick="sample6_execDaumPostcode()">검색</button>
             
@@ -132,7 +132,7 @@
     </script>
 
   <script src="/js/bootstrap.bundle.min.js"></script>
-  <script src="/js/mypage.js"></script>
+  <script src="/js/myPage.js"></script>
 
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>
