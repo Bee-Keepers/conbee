@@ -211,9 +211,11 @@ public class AdminStoreServiceImpl implements AdminStoreService{
 	public int changeRunFl(int storeNo, String storeRunFl) {
 		
 		// 운영상태 바꾸기
-		if(storeRunFl.equals("Y")) {
-			storeRunFl = "N";
-		} else {
+		if(storeRunFl.equals("Y")) { // 운영중인 경우
+			//storeRunFl = "N";
+			return 100;
+			
+		} else { // 폐쇄인 경우 운영으로 바꿈
 			storeRunFl = "Y";
 		}
 		

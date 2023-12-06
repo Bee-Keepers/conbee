@@ -124,8 +124,6 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	
 	
 	
-	
-	
 	/** 점포 운영상태 변경
 	 * @author 이예리나
 	 * @param storeNo
@@ -138,7 +136,10 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 		
 		int result = service.changeRunFl(storeNo, storeRunFl);
 		
-		if(result > 0) {
+		if(result == 100) {
+			ra.addFlashAttribute("message", "관리자페이지에서의 운영 여부 변경은 폐쇄된 경우에만 운영으로 전환 가능합니다.");
+		}
+		else if(result > 0) {
 			ra.addFlashAttribute("message", "권한 변경 완료");
 		} else {
 			ra.addFlashAttribute("message", "권한 변경 실패");
