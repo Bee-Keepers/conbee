@@ -52,10 +52,10 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		// 2) 휴가/퇴직/출폐점/발주 결재문서 테이블 삽입
 		
-		
-		int resultApprovalDoc = mapper.insertApprovalDoc(approval);
-		if(resultApprovalDoc ==0) return 0;
-				
+		if(approval.getDocCategoryNo()!=4) {			
+			resultApproval = mapper.insertApprovalDoc(approval);
+			if(resultApproval==0) return 0;
+		}				
 		
 		// 3) 결재자 리스트 테이블 삽입
 		
@@ -95,7 +95,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 		if(resultApprover>0) resultApprover=1;
 				
 	
-		if(resultApproval==1 && resultApprovalDoc==1 && resultApprover==1) result = 1;
+		if(resultApproval==1 && resultApprover==1) result = 1;
 		else result =0;
 	
 	    return result;
