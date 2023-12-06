@@ -6,8 +6,8 @@
       <div><h1 class="modal-title fs-5" id="exampleModalLabel">기안문 작성 - 출/폐점 등록 요청서</h1></div>
       <div>
         <button type="submit" form="docStore" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveStore"
-        name="ConditionBtn" value="1">임시저장</button>
-        <button type="submit" form="docStore" class="btn btn-warning me-1" id="submitStore" name="ConditionBtn" value="0">결재</button>
+        name="approvalCondition" value="1">임시저장</button>
+        <button type="submit" form="docStore" class="btn btn-warning me-1" id="submitStore" name="approvalCondition" value="0">결재</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
       </div>
     </div> 
@@ -58,7 +58,7 @@
                 <tr>
                   <td>결재</td>
                   <td>사장</td>
-                  <td>이예리나</td>
+                  <td class="sajang"></td>
                 </tr>
                 <tr>
                   <td>결재</td>
@@ -166,7 +166,7 @@
               </tr>
               <tr>
                 <th>매 장 명</th>
-                <td><input class="storeName" type="text"></td>
+                <td><input class="storeName" name="storeName" id="storeName" type="text"></td>
               </tr>
               <tr>
 
@@ -179,12 +179,15 @@
               </tr>
               <tr>
                 <th style="vertical-align: middle;">상세 내용</th>
-                <td><textarea class="docText" cols="30" rows="10"></textarea></td>
+                <td>
+                  <textarea class="docText" maxlength="1000" cols="30" rows="10" id="docStoreText" name="approvalContent"></textarea>
+                  <div style="text-align: end; font-size: 14px;" class="textCount">0 / 1000 글자</div>
+                </td>
               </tr>
               <tr>
 
                 <th>첨부파일</th>
-                <td><input type="file" name="" id=""></td>
+                <td><input type="file"></td>
 
               </tr>
             </table>

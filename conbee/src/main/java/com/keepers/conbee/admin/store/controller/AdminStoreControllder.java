@@ -60,6 +60,69 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	}
 	
 	
+	/** 점포번호순 조회 (비동기)
+	 * @author 이예리나
+	 * @param query
+	 * @param cp
+	 * @return
+	 */
+	@GetMapping(value="/storeList/sortStoreNo", produces="application/json")
+	@ResponseBody
+	public Map<String, Object> sortStoreNo (String query, int cp) {
+		
+		Map<String, Object> map = service.sortStoreNo(query, cp);
+		
+		return map;
+	}
+	
+	/** 점포명순 조회 (비동기)
+	 * @author 이예리나
+	 * @param query
+	 * @param cp
+	 * @return
+	 */
+	@GetMapping(value="/storeList/sortStoreName", produces="application/json")
+	@ResponseBody
+	public Map<String, Object> sortStoreName(String query, int cp) {
+		
+		Map<String, Object> map = service.sortStoreName(query, cp);
+		
+		return map;
+	}
+	
+	
+	/** 폐점승인 정렬 (비동기)
+	 * @author 이예리나
+	 * @param query
+	 * @param cp
+	 * @return
+	 */
+	@GetMapping(value="/storeList/sortRunApproval", produces="application/json")
+	@ResponseBody
+	public Map<String, Object> sortRunApproval(String query, int cp) {
+		
+		Map<String, Object> map = service.sortRunApproval(query, cp);
+		
+		return map;
+	}
+	
+	
+	/** 운영여부 정렬 (비동기)
+	 * @author 이예리나
+	 * @param query
+	 * @param cp
+	 * @return
+	 */
+	@GetMapping(value="/storeList/sortStoreRunFl", produces="application/json")
+	@ResponseBody
+	public Map<String, Object> sortStoreRunFl(String query, int cp) {
+		
+		Map<String, Object> map = service.sortStoreRunFl(query, cp);
+		
+		return map;
+	}
+	
+	
 	
 	/** 점포 운영상태 변경
 	 * @author 이예리나
@@ -73,7 +136,10 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 		
 		int result = service.changeRunFl(storeNo, storeRunFl);
 		
-		if(result > 0) {
+		if(result == 100) {
+			ra.addFlashAttribute("message", "관리자페이지에서의 운영 여부 변경은 폐쇄된 경우에만 운영으로 전환 가능합니다.");
+		}
+		else if(result > 0) {
 			ra.addFlashAttribute("message", "권한 변경 완료");
 		} else {
 			ra.addFlashAttribute("message", "권한 변경 실패");

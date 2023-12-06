@@ -44,7 +44,7 @@ public class Approval {
 
   // 출폐점 템플릿 (approvalNo)
   private int docStoreState; // 출폐상태
-  private int storeNo; // 점포번호 - 점포테이블 매핑
+  private String storeName; // 점포명
 
   // 발주 템플릿 (approvalNo)
   private int docOrderNo; // 발주 번호
@@ -53,6 +53,11 @@ public class Approval {
   private int docOrderPrice; // 금액
   private int goodsNo; // 상품번호 - 상품테이블 매핑
 
+
+  
+  //==================================
+  
+  private String memberName;
 
 
 }

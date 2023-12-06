@@ -2,9 +2,8 @@
 package com.keepers.conbee.approval.model.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +13,9 @@ import com.keepers.conbee.approval.model.mapper.ApprovalMapper;
 import com.keepers.conbee.member.model.dto.Member;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -50,23 +51,23 @@ public class ApprovalServiceImpl implements ApprovalService{
 		if(resultApproval == 0) return 0;
 		
 		// 2) 휴가/퇴직/출폐점/발주 결재문서 테이블 삽입
-		int resultApprovalDoc = mapper.insertApprovalDoc(approval);
-		if(resultApprovalDoc ==0) return 0;
-				
-	
-		// 코드 정리 필요======================================================
+		
+		if(approval.getDocCategoryNo()!=4) {			
+			resultApproval = mapper.insertApprovalDoc(approval);
+			if(resultApproval==0) return 0;
+		}				
 		
 		// 3) 결재자 리스트 테이블 삽입
 		
 		// 결재라인 개수
 		int approverNum;
 		switch(approval.getDocCategoryNo()) {
-		case 0: approverNum = 1;
-		case 1: approverNum = 2;
-		case 2,3: approverNum = 4;
-		case 4: approverNum = 2;
-		case 5: approverNum = 4;
-		default: approverNum=0;
+		case 0: approverNum = 1; break;
+		case 1: approverNum = 2; break;
+		case 2,3: approverNum = 4; break;
+		case 4: approverNum = 2; break;
+		case 5: approverNum = 4; break;
+		default: approverNum=0; break;
 		}
 		
 		List<Approver> approverList = new ArrayList<>(); 
@@ -80,22 +81,31 @@ public class ApprovalServiceImpl implements ApprovalService{
 			
 			Approver approvers = new Approver();
 			
+			approvers.setApproverOrder(i);
 			approvers.setApproverCondition(0);
 			approvers.setApprovalNo(approval.getApprovalNo());
-			approvers.setApproverOrder(i);
 			approvers.setMemberNo(approverNoList.get(i).getMemberNo());
 			
 			approverList.add(approvers);
 		}
 
 		
+
 		int resultApprover = mapper.insertApproverList(approverList);
-		
+		if(resultApprover>0) resultApprover=1;
+				
 	
-		if(resultApproval==1 && resultApprovalDoc==1 && resultApprover==1) result = 1;
+		if(resultApproval==1 && resultApprover==1) result = 1;
 		else result =0;
 	
 	    return result;
+	}
+	
+	
+	
+	@Override
+	public List<Approval> selectRequestApproval(int memberNo) {
+		return mapper.selectRequestApproval(memberNo);
 	}
 
 

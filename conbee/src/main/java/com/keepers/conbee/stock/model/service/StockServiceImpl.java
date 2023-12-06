@@ -75,8 +75,9 @@ public class StockServiceImpl implements StockService{
 	public int stockInsert(Stock stock) {
 		return mapper.stockInsert(stock);
 	}
-
-  @Override
+	
+	
+	@Override
 	public List<Stock> autoComplete(String inputQuery, int storeNo, String lcategoryName, String scategoryName) {
 		
 		Map<String, Object> map = new HashMap<>();

@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.admin.member.model.service.AdminMemberService;
+import com.keepers.conbee.admin.store.model.dto.Store;
 import com.keepers.conbee.member.model.dto.Member;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("admin/memberManage")
@@ -83,6 +86,9 @@ public class AdminMemberController {
 	 */
 	@PostMapping("signUp/insert")
 	public String memberInsert(Member inputMember, RedirectAttributes ra) {
+		log.info("--------------------" + inputMember.getStoreNo());
+		inputMember.setMemberPw("123123");
+		
 		int result = service.memberInsert(inputMember);
 		
 		if(result>0) {
@@ -118,7 +124,7 @@ public class AdminMemberController {
 	// 점포번호 유효성 검사
 	@GetMapping("checkStoreNo")
 	@ResponseBody
-	public int checkStoreNo(int storeNo) {
+	public int checkStoreNo(Store storeNo) {
 		int result = service.checkStoreNo(storeNo);
 		return result;
 	}

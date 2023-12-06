@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.keepers.conbee.admin.member.model.mapper.AdminMemberMapper;
+import com.keepers.conbee.admin.store.model.dto.Store;
 import com.keepers.conbee.approval.model.dto.Pagination;
 import com.keepers.conbee.member.model.dto.Member;
 
@@ -20,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class AdminMemberServiceImpl implements AdminMemberService{
 
 	private final AdminMemberMapper mapper;
+	private final BCryptPasswordEncoder bcrypt;
 	
 	
 	/**
@@ -99,7 +102,19 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 	@Override
 	public int memberInsert(Member inputMember) {
 		
+		// 비밀번호 암호화
+		// 암호화된 비밀번호 inputMember에 저장
+		inputMember.setMemberPw(bcrypt.encode("123123"));
+		
 		int result = mapper.memberInsert(inputMember);
+		
+		// 위에 메서드를 받아올 때 int result 말고 Member DTO로 받아옴 (inputMember 정보가 등록된 멤버정보)
+		// 받아온 Member DTO에서 setter로 memberNo 따로 변수로 빼기
+		// inputMember의 점포번호의 점포에 memberNo를 update하는 구문 mapper 호출하기
+		if(result > 0 && inputMember.getStoreNo() > 0) {
+			result = mapper.setMemberNo(inputMember);
+		}
+		
 		
 		return result;
 	}
@@ -118,9 +133,9 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 		return mapper.checkMemberEmail(memberEmail);
 	}
 	
-	//  번호 유효성 검사
+	// 점포 번호 유효성 검사
 	@Override
-	public int checkStoreNo(int storeNo) {
+	public int checkStoreNo(Store storeNo) {
 		return mapper.checkStoreNo(storeNo);
 	}
 	

@@ -55,24 +55,26 @@
 	  	WHERE GOODS_NO = #{goodsNo}
 	</update>
 	
+	<!-- 재고 현황 리스트 전체 조회 -->
 	<select id="stockList" resultType="Stock">
-		SELECT GOODS_NO, GOODS_NAME, GOODS_STANDARD, LCATEGORY_NAME, SCATEGORY_NAME 
+		SELECT GOODS_NO, GOODS_NAME, GOODS_STANDARD, LCATEGORY_NAME, SCATEGORY_NAME, STORE_NAME
 		FROM GOODS
 		JOIN LCATEGORY USING(LCATEGORY_NO)
 		JOIN SCATEGORY USING(SCATEGORY_NO)
 		JOIN STOCK USING(GOODS_NO)
+		JOIN STORE USING(STORE_NO)
 		ORDER BY GOODS_NO DESC
 	</select>
 	
 		<!-- 상품 등록 -->
 	<insert id="stockInsert">
 		INSERT INTO "STOCK"
-		VALUES (SEQ_STOCK_NO.NEXTVAL, 
+		VALUES (#{storeNo}, 
 			#{goodsNo},
 			0,
 			#{stockDiscount},
 			#{stockOutPrice},
-			null	
+			null
 	</insert>
 	
 <!-- 발주 자동 완성 검색 기능-->

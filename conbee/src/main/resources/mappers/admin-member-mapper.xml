@@ -18,8 +18,8 @@
 	
 	<!-- 점포 번호 유효성 검사 -->
 	<select id="checkStoreNo" resultType="_int">
-		SELECT COUNT(*) FROM STORE
-		WHERE STORE_NO = #{storeNo}
+		SELECT STORE_NO FROM STORE
+		WHERE MEMBER_NO IS NULL
 	</select>
 	
 	<!-- 회원 주소 유효성 검사 -->
@@ -28,24 +28,40 @@
 		WHERE MEMBER_ADDRESS = #{memberAddress}
 	</select>
 	
+	
+	
+	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 	<!-- 신규 회원 등록 -->
-	<insert id="memberInsert">
+	<insert id="memberInsert" useGeneratedKeys="true" parameterType="Member">
+		
+		<selectKey order="BEFORE" keyProperty="memberNo" resultType="_int">
+			SELECT SEQ_MEMBER_NO.NEXTVAL FROM DUAL
+		</selectKey>
+		
 		INSERT INTO MEMBER
-		VALUES(SEQ_MEMBER_NO.NEXTVAL, #{memberId}, 123123, 
+		VALUES(#{memberNo}, #{memberId}, #{memberPw}, 
 		#{memberEmail}, #{memberName}, NULL, NULL, NULL, DEFAULT, DEFAULT, DEFAULT,
 		#{teamNo}, #{departmentNo}, #{gradeNo})
 	</insert>
-	
+	<!-- 신규 회원 등록 시 점포 번호 얻어오기 -->
+	<update id="setMemberNo">
+		UPDATE STORE SET MEMBER_NO = #{memberNo}
+		WHERE STORE_NO = #{storeNo}
+	</update>
+	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 	
 	
 	
 	
 	<!-- 전체 회원 조회 -->
 	<select id="readAllMemberList" resultType="Member">
-		SELECT MEMBER_NO, DEPARTMENT_NO,TEAM_NO, GRADE_NO, MEMBER_TEL, MEMBER_ADDRESS,
-		MEMBER_ENROLL_DATE
-		<!--, MEMBER_DEL_FL-->
+		SELECT MEMBER_NO, MEMBER_TEL, MEMBER_ADDRESS,
+		MEMBER_ENROLL_DATE, DEPARTMENT_NAME, TEAM_NAME, GRADE_NAME, MEMBER_NAME
 		FROM MEMBER
+		JOIN TEAM USING (TEAM_NO)
+		JOIN DEPARTMENT USING (DEPARTMENT_NO)
+		JOIN GRADE USING (GRADE_NO)
+		ORDER BY MEMBER_NO DESC
 	</select>
 	
 	
@@ -58,28 +74,39 @@
 	<!-- 검색 회원 조회 -->
 	<select id="searchMemberListCount" resultType="_int">
 		SELECT COUNT(*) FROM MEMBER
+		JOIN TEAM USING (TEAM_NO)
+		JOIN DEPARTMENT USING (DEPARTMENT_NO)
+		JOIN GRADE USING (GRADE_NO)
 		WHERE MEMBER_NO LIKE '%${query}%' 
-		OR DEPARTMENT_NO LIKE '%${query}%'
-		OR TEAM_NO LIKE '%${query}%'
-		OR GRADE_NO LIKE '%${query}%'
+		OR DEPARTMENT_NAME LIKE '%${query}%'
+		OR TEAM_NAME LIKE '%${query}%'
+		OR GRADE_NAME LIKE '%${query}%'
+		OR MEMBER_NAME LIKE '%${query}%'
 		OR MEMBER_TEL LIKE '%${query}%'
 		OR MEMBER_ADDRESS LIKE '%${query}%'
+		ORDER BY MEMBER_NO
 	</select>
 	
 	<!-- 검색한 회원과 일치하는 회원 조회 -->
 	<select id="searchMemberList" resultType="Member">
-		SELECT MEMBER_NO, DEPARTMENT_NO,TEAM_NO, GRADE_NO, MEMBER_TEL, MEMBER_ADDRESS,
+		SELECT MEMBER_NO, DEPARTMENT_NAME, TEAM_NAME, GRADE_NAME, MEMBER_NAME, MEMBER_TEL, MEMBER_ADDRESS,
 		MEMBER_ENROLL_DATE
 		<!--, MEMBER_DEL_FL-->
 		FROM MEMBER
+		JOIN TEAM USING (TEAM_NO)
+		JOIN DEPARTMENT USING (DEPARTMENT_NO)
+		JOIN GRADE USING (GRADE_NO)
 		WHERE MEMBER_NO LIKE '%${query}%' 
-		OR DEPARTMENT_NO LIKE '%${query}%'
-		OR TEAM_NO LIKE '%${query}%'
-		OR GRADE_NO LIKE '%${query}%'
+		OR DEPARTMENT_NAME LIKE '%${query}%'
+		OR TEAM_NAME LIKE '%${query}%'
+		OR GRADE_NAME LIKE '%${query}%'
+		OR MEMBER_NAME LIKE '%${query}%'
 		OR MEMBER_TEL LIKE '%${query}%'
 		OR MEMBER_ADDRESS LIKE '%${query}%'
+		ORDER BY MEMBER_NO
 	</select>
 	
+
 	
 	
 	

@@ -10,31 +10,109 @@
 </head>
 <body class="d-flex flex-column" style="height: 100vh;">
 
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">상세 검색</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="revenueSearchForm" action="/revenue/list" method="get">
+            <!-- 대분류 -->
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="lcategorySelect">대분류</label>
+              <select class="form-select" name="lcategoryName" id="lcategorySelect">
+                <option value="">선택</option>
+                <option>간편식사</option>
+                <option>즉석조리</option>
+                <option>과자류</option>
+                <option>아이스크림</option>
+                <option>식품</option>
+                <option>음료</option>
+                <option>생활용품</option>
+              </select>
+            </div>
+  
+            <!-- 소분류 -->
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="inputGroupSelect01">소분류</label>
+              <select class="form-select" name="scategoryName" id="scategorySelect">
+                <option value="">선택</option>
+              </select>
+            </div>
+  
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" name="goodsName" id="floatingName" placeholder="">
+              <label for="floatingName">품목 이름</label>
+            </div>
+            <div class="input-group mb-3">
+              <div class="form-floating w-75">
+                <input type="number" name="revenue" class="form-control" id="floatingPrice" value="0">
+                <label for="floatingPrice">판매금액</label>
+              </div>
+              <select class="form-select" name="flag">
+                <option value="1">이상</option>
+                <option value="2">이하</option>
+              </select>
+            </div>
+            <div class="input-group input-daterange d-flex align-items-center">
+              <div class="input-group-text">날짜선택</div>
+              <input type="text" class="form-control" name="startDate">
+              <div class="input-group-text">to</div>
+              <input type="text" class="form-control" name="endDate">
+            </div>
+            <input type="hidden" name="storeNo" id="storeNo" value="">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          <button type="button" class="btn btn-warning" id="revenueSearchBtn">검색</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <th:block th:replace="~{common/header}"></th:block>
 
   <main class="d-flex flex-grow-1 overflow-y-auto">
 
     <th:block th:replace="~{stock/sidebar}"></th:block>
 
-    <div class="d-flex flex-column flex-grow-1 align-items-center overflow-y-auto">
-      <div class="d-flex justify-content-between align-items-center w-100 px-2">
-        <p class="fs-4 pb-3 px-3 border-bottom w-100 pt-3">재고 현황</p>
-        <!-- 검색창 -->
-        <div class="searchBox fs-4 pb-3 px-3 border-bottom w-100 pt-3">
-          <input type="text" class="form-control" placeholder="검색어를 입력해주세요" 
-                aria-label="Recipient's username" aria-describedby="button-addon2">
-          <button class="btn btn-outline-secondary" type="button" id="button-addon2">검색</button>
+    <div class="d-flex flex-column flex-grow-1 align-items-center overflow-y-auto p-3">
+
+      <div class="d-flex justify-content-between align-items-center w-100 border-bottom">
+        <div class="fs-3 pb-3 px-3">재고 조회</div>
+        <div class="d-flex align-items-center">
+          <div class="me-3">
+            <span id="startDate" th:text="${startDate}"></span>
+            <span> / </span>
+            <span id="endDate" th:text="${endDate}"></span>
+          </div>
+          <div>
+            <div class="input-group">
+              <select class="form-select" id="storeNoSelect">
+                <th:block th:each="store : ${session.loginMember.storeList}">
+                  <option th:value="${store.storeNo}" th:text="${store.storeName}"></option>
+                </th:block>
+              </select>
+              <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                상세 검색
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       
-      <div class="w-100 px-4 flex-grow-1">
+      <div class="w-100 px-4 pt-2 flex-grow-1">
         <!-- 테이블 제목 -->
         <table class="table table-striped table-hover m-0">
           <thead class="sticky-top text-center">
             <tr>
               <th>#</th>
-              <th>번호</th>
-              <th>품목명</th>
+              <th>점포이름</th>
+              <th>상품이름</th>
               <th>품목구분</th>
               <th>그룹명</th>
               <th>재고규격</th>
@@ -53,7 +131,7 @@
                   <input type="checkbox" class="checkbox">
                 </label>
               </td>
-              <td th:text="*{goodsNo}">1</td>
+              <td th:text="*{storeName}">1</td>
               <td th:text="*{goodsName}">신라면</td>
               <td th:text="*{lcategoryName}">식품</td>
               <td th:text="*{scategoryName}">가공식사</td>
@@ -67,7 +145,7 @@
           </tbody>
         </table>
       </div>
-      <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white">
+      <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">
         <div class="btn-group" role="group" aria-label="Basic outlined example">
           <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#stockInsertModel">등록</button>
           <button type="button" class="btn btn-warning">수정</button>
@@ -93,16 +171,23 @@
 
         <div class="modal-body">
           <form action="/stock/stockInsert" method="post">
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="goodsName" placeholder="품목명">
-              <label for="">품목명</label>
+            <div class="mb-3">
+              <select class="form-select" name="storeNameClick" id="storeNameClick">
+                <option value="0">선택</option>
+                <option>선택</option>
+                <option>선택</option>
+              </select>
             </div>
             <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="lcategoryName" placeholder="대분류" disabled>
+              <input type="text" class="form-control" id="goodsName" placeholder="품목명">
+              <label for="">상품명</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="text" th:text="${lcategoryName}" class="form-control" id="lcategoryName" placeholder="대분류" disabled>
               <label for="">대분류</label>
             </div>
             <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="scategoryName" placeholder="소분류" disabled>
+              <input type="text" th:text="${scategoryName}" class="form-control" id="scategoryName" placeholder="소분류" disabled>
               <label for="">소분류</label>
             </div>
             <div class="form-floating mb-3">
@@ -122,6 +207,8 @@
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
               <button type="submit" class="btn btn-primary btn-warning">등록</button>
             </div>
+            <input type="hidden" id="goodsNo" name="goodsNo" value="">
+            <input type="hidden" id="storeNo" name="storeNo" value="">
           </form>
         </div>
 
@@ -129,12 +216,7 @@
     </div>
   </div>
 
-
-  <th:block th:replace="~{common/footer}"></th:block>
-
   <script src="/js/stock/stockList.js"></script>
   <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-

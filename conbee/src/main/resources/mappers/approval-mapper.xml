@@ -14,8 +14,8 @@
 	</select>
 	
 	<!-- 결재자 리스트-->
-	<!-- 사장부사장/부장/팀장-->
-	<select id="selectApproverList" resultType="Member">
+	<!-- 사장부사장/부장/팀장--><!-- 사원 많음 코드 고치기-->
+	<select id="selectApproverList" resultType="Member"> 
 		SELECT MEMBER_NO, GRADE_NO, TEAM_NO, MEMBER_NAME
 		FROM "MEMBER"
 		WHERE TEAM_NO=0
@@ -55,37 +55,39 @@
 			<!-- 출폐점 -->
 			<when test="docCategoryNo==2 or docCategoryNo==3">
 				INSERT INTO "DOC_STORE"
-				VALUES(#{approvalNo}, #{docStoreState}, #{storNo})
+				VALUES(#{approvalNo}, #{docStoreState}, #{storeName})
 			</when>
 			<!-- 지출은 doc 없음-->
 			<!-- 발주 추가예정-->
 		</choose>
 	</insert>
 	
-<!--	
-	 결재자 리스트 insert
-	<insert id="insertApproverList" parameterType="List">
-	    INSERT INTO "APPROVER" (APPROVER_NO, APPROVER_ORDER, APPROVER_CONDITION, APPROVER_DATE, APPROVAL_NO, MEMBER_NO)
-	    VALUES
-	    <foreach collection="list" item="approvers" separator=",">
-	        (NEXT_APPROVER_NO(), #{approvers.approverOrder}, #{approvers.approverCondition}, SYSDATE,#{approvers.approvalNo},#{approvers.memberNo})
-	    </foreach>
-	</insert>-->
-	
-	
-<!--	
-	<insert id="insertApproverList" parameterType="List">
-		INSERT INTO "APPROVER" VALUES
-		<foreach collection="list" item="approvers" separator=" UNION ALL ">
-			SELECT NEXT_APPROVER_NO(),
-			 #{approvers.approverOrder},
-			 #{approvers.approverCondition},
-			 SYSDATE,
-			 #{approvers.approvalNo},
-			 #{approvers.memberNo}
+	<!-- 결재자 리스트 insert -->
+	<insert id="insertApproverList" parameterType="list">
+		INSERT INTO "APPROVER"
+		<foreach collection="list" item="item" separator=" UNION ">
+			SELECT NEXT_APPROVER_NO(), 
+				#{item.approverOrder},
+				#{item.approverCondition},
+				SYSDATE,
+				#{item.approvalNo},
+				#{item.memberNo}
 			FROM DUAL
 		</foreach>
-	</insert>-->
+	</insert>
+	
+	
+	<!-- 결재요청함 -->
+	<select id="selectRequestApproval" resultType="Approval">
+		SELECT APPROVAL_NO, DOC_CATEGORY_GROUP , DOC_CATEGORY_SORT, APPROVAL_TITLE, MEMBER_NAME, APPROVAL_DATE
+		FROM APPROVAL
+		JOIN DOC_CATEGORY USING(DOC_CATEGORY_NO)
+		JOIN MEMBER USING(MEMBER_NO)
+		WHERE MEMBER_NO = #{memberNo}
+		AND APPROVAL_CONDITION =0
+		ORDER BY APPROVAL_DATE DESC
+	</select>
+	
 
 </mapper>
 

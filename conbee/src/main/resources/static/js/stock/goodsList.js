@@ -39,7 +39,6 @@ const deleteBtn = document.getElementById("deleteBtn");
 deleteBtn.addEventListener('click', () => {
    
    if( confirm("삭제 하시겠습니까?") ){
-
       let obj = document.querySelectorAll(".checkbox");
       let idList = new Array();
       for(let i = 0; i<obj.length; i++){
