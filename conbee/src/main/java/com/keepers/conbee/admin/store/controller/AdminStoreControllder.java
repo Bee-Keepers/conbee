@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("admin/storeManage")
 @RequiredArgsConstructor
-@SessionAttributes({"readStore"})
+//@SessionAttributes({"readStore"})
 public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트롤러
 	
 	private final AdminStoreService service;
@@ -157,6 +157,8 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	 */
 	@GetMapping("storeUpdate")
 	public String storeUpdate() {
+		
+		
 		return "admin/storeManage/storeUpdate";
 	}
 	
