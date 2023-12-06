@@ -22,11 +22,11 @@
     <th:block th:replace="~{admin/storeManage/sidebar}"></th:block>
 
     <!-- 점포정보수정 -->
-    <div class="d-flex flex-column p-3" style="width: 100%;">
+    <div class="d-flex flex-column p-3 flex-grow-1">
 
       <!-- 타이틀 -->
       <div class="d-flex justify-content-between align-items-center border-bottom">
-        <div class="fs-4 pb-3 px-3">
+        <div class="fs-3 pb-3 px-3">
           점포정보수정
         </div>
       </div>
@@ -182,8 +182,6 @@
 
   </main>
 
-  <th:block th:replace="~{common/footer}"></th:block>
-
   <script src="/js/bootstrap.bundle.min.js"></script>
 
   <!-- 다음 주소 API -->
@@ -191,12 +189,12 @@
   <script th:inline="javaScript">
 
     // 해당 점포 DB정보 얻어오기(수정전 정보)
-    const readStoreNo = /*[[${readStore.storeNo}]]*/ 점포번호;
-    const readStoreName = /*[[${readStore.storeName}]]*/ 점포명;
-    const readMemberName = /*[[${readStore.memberName}]]*/ 점주명;
-    const readMemberNo = /*[[${readStore.memberNo}]]*/ 점포 회원번호;
-    const readStoreTel = /*[[${readStore.storeTel}]]*/ 점포 전화번호;
-    const readStoreAddress = /*[[${readStore.storeAddress}]]*/ 점포주소;
+    const readStoreNo = /*[[${readStore?.storeNo}]]*/ "점포번호";
+    const readStoreName = /*[[${readStore?.storeName}]]*/ "점포명";
+    const readMemberName = /*[[${readStore?.memberName}]]*/ "점주명";
+    const readMemberNo = /*[[${readStore?.memberNo}]]*/ "점포 회원번호";
+    const readStoreTel = /*[[${readStore?.storeTel}]]*/ "점포 전화번호";
+    const readStoreAddress = /*[[${readStore?.storeAddress}]]*/ "점포주소";
 
   </script>
   <script src="/js/admin/storeUpdate.js"></script>

@@ -1,7 +1,5 @@
 package com.keepers.conbee.revenue.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -27,19 +25,11 @@ public class RevenueController {
 	
 	@GetMapping("list")
 	public String revenueSearch(Model model, Revenue revenue, @SessionAttribute("loginMember") Member loginMember) {
-		log.info("----------" + revenue);
-		if(revenue.getStartDate() == null && revenue.getStartDate() == null && revenue.getGoodsName() == null && revenue.getLcategoryName() == null && revenue.getScategoryName() == null) {
-			Date today = new Date();
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			revenue.setStartDate(dateFormat.format(today));
-			revenue.setEndDate(dateFormat.format(today));
-			revenue.setGoodsName("");
-			revenue.setLcategoryName("");
-			revenue.setScategoryName("");
-			if(revenue.getStoreNo() == 0) {
-				revenue.setStoreNo(loginMember.getStoreList().get(0).getStoreNo());
-			}
+		
+		if(revenue.getStoreNo() == 0) {
+			revenue.setStoreNo(loginMember.getStoreList().get(0).getStoreNo());
 		}
+		
 		List<Revenue> revenueList = service.revenueSearch(revenue);
 		
 		model.addAttribute("startDate", revenue.getStartDate());
@@ -52,24 +42,16 @@ public class RevenueController {
 	@GetMapping("history")
 	public String historyPage(Model model, Revenue revenue, @SessionAttribute("loginMember") Member loginMember) {
 		
-		log.info("----------" + revenue);
-		if(revenue.getStartDate() == null && revenue.getStartDate() == null && revenue.getGoodsName() == null && revenue.getLcategoryName() == null && revenue.getScategoryName() == null) {
-			Date today = new Date();
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			revenue.setStartDate(dateFormat.format(today));
-			revenue.setEndDate(dateFormat.format(today));
-			revenue.setGoodsName("");
-			revenue.setLcategoryName("");
-			revenue.setScategoryName("");
-			if(revenue.getStoreNo() == 0) {
-				revenue.setStoreNo(loginMember.getStoreList().get(0).getStoreNo());
-			}
-		}	
+		if(revenue.getStoreNo() == 0) {
+			revenue.setStoreNo(loginMember.getStoreList().get(0).getStoreNo());
+		}
+			
 		List<Revenue> historyList = service.historySearch(revenue);
+		
 		model.addAttribute("startDate", revenue.getStartDate());
 		model.addAttribute("endDate", revenue.getEndDate());
 		model.addAttribute("historyList", historyList);
-//		
+		
 		return "revenue/history";
 	}
 	

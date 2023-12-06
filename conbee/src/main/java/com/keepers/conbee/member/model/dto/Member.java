@@ -35,4 +35,5 @@ public class Member {
 	private String teamName;
 	private String gradeName;
 	private String departmentName;
+	
 }

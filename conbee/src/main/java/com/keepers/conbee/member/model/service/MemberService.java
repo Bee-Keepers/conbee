@@ -16,6 +16,18 @@ public interface MemberService {
 	 */
 	Member quickLogin(String memberId);
 
+	/** ID 찾기(멤버 조회)
+	 * @param inputInformation
+	 * @return
+	 */
+	int findMember(Member inputInformation);
+
+	/** Id 찾기
+	 * @param inputInformation
+	 * @return
+	 */
+	String findMemberId(Member inputInformation);
+
 	
 	
 	

@@ -20,6 +20,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.revenue.model.dto.Revenue;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.stock.model.dto.Stock;
 import com.keepers.conbee.stock.model.service.StockService;
 
@@ -30,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("stock")
 @RequiredArgsConstructor
+@SessionAttributes({"loginMember"})
 public class StockController {
 	
 	private final StockService service;
@@ -104,7 +109,17 @@ public class StockController {
 	 * @return
 	 */
 	@GetMapping("order/list")
-	public String orderList(Stock stock) {
+	public String orderList(@SessionAttribute("loginMember") Member loginMember, @RequestParam(value = "storeNo", required = false, defaultValue = "0") int storeNo, Model model,
+			String startDate, String endDate) {
+		
+				
+		if(storeNo == 0) {
+			storeNo = loginMember.getStoreList().get(0).getStoreNo();
+		}
+		
+		List<String> orderList = service.selectOrderList(storeNo, startDate, endDate);
+		
+		model.addAttribute("orderList", orderList);
 		
 		return "stock/order/orderList";
 	}
@@ -122,9 +137,18 @@ public class StockController {
 	 * @return
 	 */
 	@PostMapping("order/insert")
-	public String orderInsert() {
+	public String orderInsert(@RequestParam List<Integer> goodsNo, @RequestParam List<Integer> orderAmount,
+			int storeNo, RedirectAttributes ra) {
 		
-		return "stock/order/orderInsert";
+		int result = service.orderInsert(goodsNo, orderAmount, storeNo);
+		
+		// 발주 신청 결과에 따른 메세지
+		if(result > 0) {
+			ra.addFlashAttribute("message", "발주 신청 완료");
+		} else {
+			ra.addFlashAttribute("message", "발주 신청 실패");
+		}
+		return "redirect:insert";
 	}
 	
 	

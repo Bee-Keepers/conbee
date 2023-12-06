@@ -1,5 +1,7 @@
 package com.keepers.conbee.stock.model.service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.keepers.conbee.member.model.dto.Member;
+import com.keepers.conbee.stock.model.dto.Order;
 import com.keepers.conbee.stock.model.dto.Stock;
 import com.keepers.conbee.stock.model.mapper.StockMapper;
 
@@ -94,5 +97,37 @@ public class StockServiceImpl implements StockService{
 		return mapper.goodsNameSelect(intputGoods);
 	}
 	
+	// 발주 신청
+	@Override
+	public int orderInsert(List<Integer> goodsNo, List<Integer> orderAmount, int storeNo) {
+		List<Order> orderList = new ArrayList<>();
+		for(int i = 0; i<goodsNo.size(); i++) {
+			Order order = new Order();
+			order.setGoodsNo(goodsNo.get(i));
+			order.setOrderAmount(orderAmount.get(i));
+			order.setStoreNo(storeNo);
+			orderList.add(order);
+		}
+		return mapper.orderInsert(orderList);
+	}
+
+	// 발주 내역 조회
+	@Override
+	public List<String> selectOrderList(int storeNo, String startDate, String endDate) {
+		
+		if(endDate == null) {
+			endDate = String.valueOf(LocalDate.now());
+		}
+		if(startDate == null) {
+			startDate = String.valueOf(LocalDate.now().minusWeeks(1));
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("storeNo", storeNo);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		
+		return mapper.selectOrderList(map);
+	}
 	
 }

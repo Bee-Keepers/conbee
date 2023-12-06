@@ -98,6 +98,34 @@ public interface AdminStoreMapper {
 	 * @param inputStore
 	 */
 	void storeInsertwMember(Store inputStore);
+
+	/** 점포번호 정렬 리스트
+	 * @param query
+	 * @param rowBounds
+	 * @return
+	 */
+	List<Store> sortStoreNo(String query, RowBounds rowBounds);
+
+	/**점포명 정렬 리스트
+	 * @param query
+	 * @param rowBounds
+	 * @return
+	 */
+	List<Store> sortStoreName(String query, RowBounds rowBounds);
+
+	/** 폐점승인 정렬 리스트
+	 * @param query
+	 * @param rowBounds
+	 * @return
+	 */
+	List<Store> sortRunApproval(String query, RowBounds rowBounds);
+
+	/** 운영여부 정렬 (비동기)
+	 * @param query
+	 * @param rowBounds
+	 * @return
+	 */
+	List<Store> sortStoreRunFl(String query, RowBounds rowBounds);
 	
 	
 

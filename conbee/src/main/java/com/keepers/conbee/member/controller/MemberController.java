@@ -120,10 +120,44 @@ public class MemberController {
 
 
 	
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 아이디 / 비번 찾기 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
 	
 	
+	/** 아이디 찾기 화면 전환
+	 * @return
+	 */
+	@GetMapping("findId")
+	public String findId() {
+		return "member/findId";
+	}
 	
-	
+	/** 아이디 찾기 화면
+	 * @param inputInformation
+	 * @param model
+	 * @param ra
+	 * @return
+	 */
+	@PostMapping("findId")
+	public String findId(Member inputInformation, Model model, RedirectAttributes ra) {
+		
+		// 1. 일단 회원을 다 조회해본다
+		int result = service.findMember(inputInformation);
+		
+		// 2. 메퍼까지 갔다 온 후 조회된 회원이 1명 이상(result > 0) 이라면
+		//    회원들 중에서 입력된 아이디가 일치하는 회원 찾아서 반환
+		if(result > 0) {
+			String memberId = service.findMemberId(inputInformation);
+			
+			// 아이디가 담긴 객체를 전달 
+			model.addAttribute("memberId", memberId);
+			
+			return "member/findId-result";
+		}
+		
+		
+		return "redirect:/";
+	}
 	
 	
 	

@@ -39,5 +39,21 @@
 		UPDATE MEMBER
 		SET MEMBER_PW = #{memberPw}
 	</update>
+	
+	<!-- 아이디 찾기(멤버 조회) -->
+	<select id="findMember" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE MEMBER_EMAIL = #{memberEmail}
+		AND MEMBER_NAME = #{memberName}
+		AND MEMBER_DEL_FL = 'N'
+	</select>
+
+	<!-- 아이디 찾기(찐) -->
+	<select id="findMemberId" resultType="string">
+		SELECT MEMBER_ID FROM MEMBER
+		WHERE MEMBER_NAME = #{memberName}
+		AND MEMBER_EMAIL =  #{memberEmail}
+		AND MEMBER_DEL_FL = 'N'
+	</select>
 
 </mapper>

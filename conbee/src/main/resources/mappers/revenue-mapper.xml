@@ -13,24 +13,19 @@
 		WHERE STORE_NO = #{storeNo}
 		AND HISTORY_DIVIDE = '출고'
 		AND HISTORY_GOODS_NAME LIKE '%${goodsName}%'
+		AND TO_CHAR(HISTORY_DATE, 'YYYY-MM-DD')  BETWEEN #{startDate} AND #{endDate}
 		<if test='lcategoryName != ""'>
 			AND LCATEGORY_NAME = #{lcategoryName}
 		</if>
 		<if test='scategoryName != ""'>
 			AND SCATEGORY_NAME = #{scategoryName}
 		</if>
-		<if test='startDate != "" and endDate != ""'>
-			AND TO_CHAR(HISTORY_DATE, 'YYYY-MM-DD')  BETWEEN #{startDate} AND #{endDate}
-		</if>
-		<if test='startDate == "" or endDate == ""'>
-			AND TO_CHAR(HISTORY_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
-		</if>
 		GROUP BY GOODS_NO, LCATEGORY_NAME, SCATEGORY_NAME, HISTORY_GOODS_NAME
 		<if test='flag == 1'>
 			<![CDATA[ HAVING SUM(HISTORY_AMOUNT * HISTORY_ACTUAL_PRICE) >= #{revenue} ]]>
 		</if>
 		<if test='flag == 2'>
-			<![CDATA[ AND SUM(HISTORY_AMOUNT * HISTORY_ACTUAL_PRICE) <= #{revenue} ]]>
+			<![CDATA[ HAVING SUM(HISTORY_AMOUNT * HISTORY_ACTUAL_PRICE) <= #{revenue} ]]>
 		</if>
 		ORDER BY LCATEGORY_NAME, SCATEGORY_NAME
 	</select>
@@ -44,6 +39,23 @@
 		JOIN LCATEGORY USING(LCATEGORY_NO)
 		JOIN SCATEGORY USING(SCATEGORY_NO)
 		WHERE STORE_NO = #{storeNo}
+		AND HISTORY_GOODS_NAME LIKE '%${goodsName}%'
+		AND TO_CHAR(HISTORY_DATE, 'YYYY-MM-DD')  BETWEEN #{startDate} AND #{endDate}
+		<if test='historyDivide != "전체"'>
+			AND HISTORY_DIVIDE = #{historyDivide}
+		</if>
+		<if test='lcategoryName != ""'>
+			AND LCATEGORY_NAME = #{lcategoryName}
+		</if>
+		<if test='scategoryName != ""'>
+			AND SCATEGORY_NAME = #{scategoryName}
+		</if>
+		<if test='flag == 1'>
+			<![CDATA[ AND HISTORY_ACTUAL_PRICE * HISTORY_AMOUNT >= #{revenue} ]]>
+		</if>
+		<if test='flag == 2'>
+			<![CDATA[ AND HISTORY_ACTUAL_PRICE * HISTORY_AMOUNT <= #{revenue} ]]>
+		</if>
 		ORDER BY HISTORY_NO DESC
 	</select>
 

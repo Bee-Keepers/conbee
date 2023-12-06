@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,10 +13,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.admin.member.model.service.AdminMemberService;
+import com.keepers.conbee.admin.store.model.dto.Store;
 import com.keepers.conbee.member.model.dto.Member;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("admin/memberManage")
@@ -25,7 +29,8 @@ public class AdminMemberController {
 	private final AdminMemberService service;
 	
 	
-	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡ 회원 조회 ㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡ 1. 회원 조회 ㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
 	
 	/** 회원조회 화면 전환
 	 * @return
@@ -50,22 +55,10 @@ public class AdminMemberController {
 		
 		return "admin/memberManage/memberList";
 	}
+
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 2. 회원 등록 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
 	/** 회원등록 화면 전환
 	 * @return
 	 * @author 김민규
@@ -83,6 +76,9 @@ public class AdminMemberController {
 	 */
 	@PostMapping("signUp/insert")
 	public String memberInsert(Member inputMember, RedirectAttributes ra) {
+		log.info("--------------------" + inputMember.getStoreNo());
+		inputMember.setMemberPw("123123");
+		
 		int result = service.memberInsert(inputMember);
 		
 		if(result>0) {
@@ -118,7 +114,7 @@ public class AdminMemberController {
 	// 점포번호 유효성 검사
 	@GetMapping("checkStoreNo")
 	@ResponseBody
-	public int checkStoreNo(int storeNo) {
+	public int checkStoreNo(Store storeNo) {
 		int result = service.checkStoreNo(storeNo);
 		return result;
 	}
@@ -132,6 +128,49 @@ public class AdminMemberController {
 	}
 	
 	
+	
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 3. 회원 탈퇴 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+	@GetMapping("changeMemberDelFl/{memberNo:[0-9]+}/{memberDelFl:[A-Z]}") // 회원 탈퇴 경로
+	public String changeMemberDelFl(@PathVariable("memberDelFl") String memberDelFl, @PathVariable("memberNo") int memberNo, RedirectAttributes ra) {
+		
+		int result = service.changeMemberDelFl(memberDelFl, memberNo);
+		
+		// result에 담긴 값이 있을 때 
+		if(result > 0) {
+			ra.addFlashAttribute("message", "회원 탈퇴 성공");
+		} else { // result에 담긴 값이 없을 때
+			ra.addFlashAttribute("message", "회원 탈퇴 실패");
+		}
+		
+		// 반환 (위에 result 데이터 값만 남겨두고 나머지는 다 삭제 >> redirect!!)
+		// redirect가 있어서 redirectAttributes로 값을 반환
+		return "redirect:/admin/memberManage/memberList";
+	}
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 

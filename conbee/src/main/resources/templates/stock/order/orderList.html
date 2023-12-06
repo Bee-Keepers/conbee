@@ -62,9 +62,9 @@
             </div>
             <div class="input-group input-daterange d-flex align-items-center">
               <div class="input-group-text">날짜선택</div>
-              <input type="text" class="form-control" name="startDate">
+              <input type="text" class="form-control" name="startDate" readonly>
               <div class="input-group-text">to</div>
-              <input type="text" class="form-control" name="endDate">
+              <input type="text" class="form-control" name="endDate" readonly>
             </div>
             <input type="hidden" name="storeNo" id="storeNo" value="">
           </form>
@@ -83,10 +83,10 @@
 
     <th:block th:replace="~{stock/sidebar}"></th:block>
 
-    <div class="d-flex flex-column flex-grow-1 align-items-center overflow-y-auto">
+    <div class="d-flex flex-column flex-grow-1 align-items-center overflow-y-auto p-3">
 
-      <div class="d-flex justify-content-between align-items-center w-100 px-2 border-bottom">
-        <div class="fs-4 pb-3 px-3 pt-3">발주 조회</div>
+      <div class="d-flex justify-content-between align-items-center w-100 border-bottom">
+        <div class="fs-3 pb-3 px-3">발주 조회</div>
         <div class="d-flex align-items-center">
           <div class="me-3">
             <span id="startDate" th:text="${startDate}"></span>
@@ -108,41 +108,24 @@
         </div>
       </div>
       
-      <div class="w-100 px-4 flex-grow-1">
+      <div class="w-100 px-4 pt-2 flex-grow-1">
         <!-- 테이블 제목 -->
         <table id="revenueTable" class="table table-striped table-hover m-0">
           <thead class="sticky-top text-center">
             <tr>
-              <th>발주번호</th>
-              <th>품목명</th>
-              <th>대분류</th>
-              <th>소분류</th>
-              <th>발주수량</th>
               <th>발주날짜</th>
             </tr>
           </thead>
           <!-- 테이블 내용 -->
           <tbody id="tableTbody" class="text-center">
-            <tr th:each="revenue : ${revenueList}" th:object="${revenue}">
-              <td th:text="*{goodsNo}">1</td>
-              <td th:text="*{historyGoodsName}">울트라 스킨</td>
-              <td th:text="*{lcategoryName}">신변잡화</td>
-              <td th:text="*{scategoryName}">화장품</td>
-              <td th:text="*{historyActualPrice}">150ml</td>
-              <td th:text="*{historyAmount}">20000</td>
-              <td th:text="*{totalPrice}">30000</td>
+            <tr th:each="order : ${orderList}">
+              <td th:text="${order}">30000</td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div class="px-3 py-2 d-flex align-items-center sticky-bottom table-group-divider w-100 fw-bold">
-        <div class="w-50 text-end me-auto">합계</div>
-        <div class="w-25" id="totalPrice">0</div>
-        <input type="hidden" name="historyActualPrice" value="">
     </div>
   </main>
-
-  <th:block th:replace="~{common/footer}"></th:block>
 
   <script src="/js/bootstrap.bundle.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

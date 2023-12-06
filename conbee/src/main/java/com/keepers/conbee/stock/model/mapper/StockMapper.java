@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.keepers.conbee.stock.model.dto.Order;
 import com.keepers.conbee.stock.model.dto.Stock;
 
 @Mapper
@@ -67,5 +68,17 @@ public interface StockMapper {
 	 * @return
 	 */
 	List<String> goodsNameSelect(String intputGoods);
+  
+	/** 발주 신청
+	 * @param orderList
+	 * @return
+	 */
+	int orderInsert(List<Order> orderList);
+
+	/** 발주 내역 조회
+	 * @param map
+	 * @return
+	 */
+	List<String> selectOrderList(Map<String, Object> map);
 
 }

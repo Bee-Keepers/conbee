@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.keepers.conbee.admin.member.model.mapper.AdminMemberMapper;
+import com.keepers.conbee.admin.store.model.dto.Store;
 import com.keepers.conbee.approval.model.dto.Pagination;
 import com.keepers.conbee.member.model.dto.Member;
 
@@ -20,7 +22,12 @@ import lombok.RequiredArgsConstructor;
 public class AdminMemberServiceImpl implements AdminMemberService{
 
 	private final AdminMemberMapper mapper;
+	private final BCryptPasswordEncoder bcrypt;
 	
+	
+	
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡ 1. 회원 조회 ㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
 	
 	/**
 	 * 전체 멤버 조회
@@ -81,17 +88,8 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 2. 회원 등록 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
 	
 	/**
 	 * 회원가입
@@ -99,7 +97,19 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 	@Override
 	public int memberInsert(Member inputMember) {
 		
+		// 비밀번호 암호화
+		// 암호화된 비밀번호 inputMember에 저장
+		inputMember.setMemberPw(bcrypt.encode("123123"));
+		
 		int result = mapper.memberInsert(inputMember);
+		
+		// 위에 메서드를 받아올 때 int result 말고 Member DTO로 받아옴 (inputMember 정보가 등록된 멤버정보)
+		// 받아온 Member DTO에서 setter로 memberNo 따로 변수로 빼기
+		// inputMember의 점포번호의 점포에 memberNo를 update하는 구문 mapper 호출하기
+		if(result > 0 && inputMember.getStoreNo() > 0) {
+			result = mapper.setMemberNo(inputMember);
+		}
+		
 		
 		return result;
 	}
@@ -118,9 +128,9 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 		return mapper.checkMemberEmail(memberEmail);
 	}
 	
-	//  번호 유효성 검사
+	// 점포 번호 유효성 검사
 	@Override
-	public int checkStoreNo(int storeNo) {
+	public int checkStoreNo(Store storeNo) {
 		return mapper.checkStoreNo(storeNo);
 	}
 	
@@ -130,6 +140,34 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 		return mapper.checkMemberAddress(memberAddress);
 	}
 	
+	
+	
+	
+	
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 3. 회원 탈퇴 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+	
+	// 회원 탈퇴 버튼
+	@Override
+	public int changeMemberDelFl(String memberDelFl, int memberNo) {
+		
+		// 회원 여부가 탈퇴 "Y"일 경우 "N" 복구로 변경 등
+		if(memberDelFl.equals("Y")) {
+			memberDelFl = "N";
+		} else {
+			memberDelFl ="Y";
+		}
+		
+		// 처음에 받아온 memberNo와 memberEnrollDate를 한번에 두개의 값을 보낼 수 없기에 
+		// Map에 두개를 담아서 한번에 전달하기
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberDelFl", memberDelFl);
+		map.put("memberNo", memberNo);
+		
+		return mapper.changeMemberDelFl(map);
+		
+		
+	}
 	
 	
 	
