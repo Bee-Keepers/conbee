@@ -14,10 +14,20 @@ public interface MainService {
 	 */
 	List<Goods> search(String inputPosSearch, String storeName);
 
+
 	/** 입출고 내역 삽입
-	 * @param historyList
+	 * @param historyDiscount
+	 * @param historyUnitPrice 
+	 * @param historyGoodsName
+	 * @param historyAmount
+	 * @param historyActualPrice
+	 * @param goodsNo
+	 * @param historyStoreName
+	 * @param storeNo
 	 * @return
 	 */
-	int insert(List<History> historyList);
+	int insert(List<Integer> historyDiscount, List<Integer> historyUnitPrice, List<String> historyGoodsName,
+			List<Integer> historyAmount, List<Integer> historyActualPrice, List<Integer> goodsNo,
+			String historyStoreName, int storeNo);
 
 }
