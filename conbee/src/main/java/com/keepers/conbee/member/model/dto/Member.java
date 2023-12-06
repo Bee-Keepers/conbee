@@ -30,6 +30,7 @@ public class Member {
 	private int gradeNo;
 	private int storeNo;
 	private List<Store> storeList;
+	private List<Integer> storeNoList;
 	
 	//전자결재 작업 중 추가 유진
 	private String teamName;

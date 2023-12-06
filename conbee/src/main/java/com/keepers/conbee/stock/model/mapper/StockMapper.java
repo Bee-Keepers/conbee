@@ -81,4 +81,15 @@ public interface StockMapper {
 	 */
 	List<String> selectOrderList(Map<String, Object> map);
 
+	/** 발주 마감 스케쥴러
+	 * @param orderList 
+	 * 
+	 */
+	void orderScheduling(List<Order> orderList);
+
+	/** 발주 마감 위한 발주 조회 구문
+	 * @return
+	 */
+	List<Order> selectOrderScheduling();
+
 }

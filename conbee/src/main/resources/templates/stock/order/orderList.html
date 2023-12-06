@@ -114,12 +114,14 @@
           <thead class="sticky-top text-center">
             <tr>
               <th>발주날짜</th>
+              <th>발주날짜</th>
             </tr>
           </thead>
           <!-- 테이블 내용 -->
           <tbody id="tableTbody" class="text-center">
             <tr th:each="order : ${orderList}">
-              <td th:text="${order}">30000</td>
+              <td th:text="${order}">발주 날짜</td>
+              <td><button type="button" class="btn btn-warning btn-sm">상세 조회</button></td>
             </tr>
           </tbody>
         </table>
@@ -131,6 +133,6 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js" integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="/js/stock/order.js"></script>
+  <script src="/js/stock/orderList.js"></script>
 </body>
 </html>
