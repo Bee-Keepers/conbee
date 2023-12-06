@@ -20,3 +20,8 @@
   width: 80px;
   height: 50px;
 }
+
+.form-label{
+  font-size: 1.2rem;
+  font-weight: bold;
+}
