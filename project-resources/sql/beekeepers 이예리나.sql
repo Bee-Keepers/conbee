@@ -292,11 +292,58 @@ UPDATE STORE SET
 STORE_RUN_APPROVAL = 'Y'
 WHERE STORE_NO = 3;
 
+SELECT * FROM MEMBER;
+-- 사장, 부사장 회원정보변경
+UPDATE MEMBER SET
+MEMBER_NAME = '윤성민'
+WHERE MEMBER_NO =11;
 
+-- 팀장 인서트
+-- 인사관리부 직원 인서트
+INSERT INTO "MEMBER"
+VALUES(SEQ_MEMBER_NO.NEXTVAL, 'mate', '$2a$10$xlsemZtWCryE7fTgWUVVfemE2RnzTXp1mXvmjVq6hmmZHrp6vsuQi', '12@admin.com', '박정훈', '주소주소주소주소',
+'01012312239', NULL, 1, DEFAULT, DEFAULT, 1, 1, 5);
 
+INSERT INTO "MEMBER"
+VALUES(SEQ_MEMBER_NO.NEXTVAL, 'mate1', '$2a$10$xlsemZtWCryE7fTgWUVVfemE2RnzTXp1mXvmjVq6hmmZHrp6vsuQi', '12@admin.com', '김상철', '주소주소주소주소',
+'01012312239', NULL, 1, DEFAULT, DEFAULT, 2, 1, 5);
 
+INSERT INTO "MEMBER"
+VALUES(SEQ_MEMBER_NO.NEXTVAL, 'mate2', '$2a$10$xlsemZtWCryE7fTgWUVVfemE2RnzTXp1mXvmjVq6hmmZHrp6vsuQi', '12@admin.com', '유상관', '주소주소주소주소',
+'01012312239', NULL, 1, DEFAULT, DEFAULT, 3, 1, 5);
 
+-- 경영관리부 직원 인서트
+INSERT INTO "MEMBER"
+VALUES(SEQ_MEMBER_NO.NEXTVAL, 'mate3', '$2a$10$xlsemZtWCryE7fTgWUVVfemE2RnzTXp1mXvmjVq6hmmZHrp6vsuQi', '12@admin.com', '최한울', '주소주소주소주소',
+'01012312236', NULL, 1, DEFAULT, DEFAULT, 4, 2, 5);
 
+INSERT INTO "MEMBER"
+VALUES(SEQ_MEMBER_NO.NEXTVAL, 'mate4', '$2a$10$xlsemZtWCryE7fTgWUVVfemE2RnzTXp1mXvmjVq6hmmZHrp6vsuQi', '12@admin.com', '이서', '주소주소주소주소',
+'01012312236', NULL, 1, DEFAULT, DEFAULT, 5, 2, 5);
 
+INSERT INTO "MEMBER"
+VALUES(SEQ_MEMBER_NO.NEXTVAL, 'mate5', '$2a$10$xlsemZtWCryE7fTgWUVVfemE2RnzTXp1mXvmjVq6hmmZHrp6vsuQi', '12@admin.com', '조상균', '주소주소주소주소',
+'01012312236', NULL, 1, DEFAULT, DEFAULT, 6, 2, 5);
+
+INSERT INTO "MEMBER"
+VALUES(SEQ_MEMBER_NO.NEXTVAL, 'mate6', '$2a$10$xlsemZtWCryE7fTgWUVVfemE2RnzTXp1mXvmjVq6hmmZHrp6vsuQi', '12@admin.com', '유정서', '주소주소주소주소',
+'01012312236', NULL, 1, DEFAULT, DEFAULT, 7, 2, 5);
+
+-- 운영관리부 직원 인서트
+INSERT INTO "MEMBER"
+VALUES(SEQ_MEMBER_NO.NEXTVAL, 'mate7', '$2a$10$xlsemZtWCryE7fTgWUVVfemE2RnzTXp1mXvmjVq6hmmZHrp6vsuQi', '12@admin.com', '김민준', '주소주소주소주소',
+'01012312237', NULL, 1, DEFAULT, DEFAULT, 8, 3, 5);
+
+INSERT INTO "MEMBER"
+VALUES(SEQ_MEMBER_NO.NEXTVAL, 'mate8', '$2a$10$xlsemZtWCryE7fTgWUVVfemE2RnzTXp1mXvmjVq6hmmZHrp6vsuQi', '12@admin.com', '이윤지', '주소주소주소주소',
+'01012312237', NULL, 1, DEFAULT, DEFAULT, 9, 3, 5);
+
+-- 고객관리부 직원 인서트
+INSERT INTO "MEMBER"
+VALUES(SEQ_MEMBER_NO.NEXTVAL, 'mate9', '$2a$10$xlsemZtWCryE7fTgWUVVfemE2RnzTXp1mXvmjVq6hmmZHrp6vsuQi', '12@admin.com', '윤정호', '주소주소주소주소',
+'01012312238', NULL, 1, DEFAULT, DEFAULT, 10, 4, 5);
+
+DELETE FROM "MEMBER"
+WHERE MEMBER_NO = 78;
 
 
