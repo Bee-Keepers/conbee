@@ -365,7 +365,7 @@ memberAddress.addEventListener("input", ()=>{
   if(regEx.test(memberAddress.value)){
 
       /* ===================== 점포주소 중복 검사 ======================= */
-      fetch("/mypage/memberAddress/checkMemberAddress?memberAddress=" + memberAddress.value)
+      fetch("/myPage/memberAddress/checkMemberAddress?memberAddress=" + memberAddress.value)
       .then(response => response.text())
       .then(result =>{
 

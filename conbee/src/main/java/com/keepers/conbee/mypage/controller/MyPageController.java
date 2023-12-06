@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping("mypage")
+@RequestMapping("myPage")
 @SessionAttributes({"loginMember"})
 @RequiredArgsConstructor
 @Slf4j
@@ -22,35 +22,36 @@ public class MyPageController {
     
     private final MyPageService service;
     
+    
     /** 프로필 정보 조회
      * @param mypage
      * @return
      */
-    @GetMapping("mypage-profile")
+    @GetMapping("myPage-profile")
     public String mypageProfile(Member member, Model model) {
-        return "mypage/mypage-profile";
+        return "myPage/myPage-profile";
     }
 
     
-    @GetMapping("mypage-mywrite")
+    @GetMapping("myPage-mywrite")
     public String mypageMywrite() {
-        return "mypage/mypage-mywrite";
+        return "myPage/myPage-mywrite";
     }
     
-    @GetMapping("mypage-comment")
+    @GetMapping("myPage-comment")
     public String mypageComment() {
-        return "mypage/mypage-comment";
+        return "myPage/myPage-comment";
     }
     
-    @GetMapping("mypage-choice")
+    @GetMapping("myPage-choice")
     public String mypageChoice() {
-        return "mypage/mypage-choice";
+        return "myPage/myPage-choice";
     }
     
     @PostMapping("myPageUpdate")
     public String mypageUpdate() {
         
-        return "mypage/mypage-update";
+        return "myPage/myPage-update";
     }
 
 }
