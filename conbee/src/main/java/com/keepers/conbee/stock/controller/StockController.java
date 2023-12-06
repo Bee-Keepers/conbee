@@ -1,5 +1,8 @@
 package com.keepers.conbee.stock.controller;
 
+import java.io.Console;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -12,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.keepers.conbee.member.model.dto.Member;
+import com.keepers.conbee.revenue.model.dto.Revenue;
 import com.keepers.conbee.stock.model.dto.Stock;
 import com.keepers.conbee.stock.model.service.StockService;
 
@@ -131,14 +137,22 @@ public class StockController {
 	}
 	
 	
-	/** 물품 현황 리스트 조회
+	/** 물품 현황 전체 조회
 	 * @return
 	 */
 	@GetMapping("stockList")
 	public String stockList(Model model,
-			@RequestParam Map<String, Object> paramMap) {
-		Map<String, Object> map = service.stockList(paramMap);
-		model.addAttribute("map", map);
+			@SessionAttribute("loginMember") Member loginMember,
+			Stock stock
+			) {
+		if(stock.getStoreNo() == 0) {
+			int storeNo = loginMember.getStoreList().get(0).getStoreNo();
+			stock.setStoreNo(storeNo);
+		}
+		List<Stock> stockListSelect = service.stockList(stock);
+		
+		model.addAttribute("stockListSelect", stockListSelect);
+		
 		return "stock/stockList";
 	}
 	
@@ -155,4 +169,21 @@ public class StockController {
 		}
 		return "redirect:stockList";
 	}
+	
+	
+	
+	/** 재고 등록 이름 검색 시 물품 조회
+	 * @param goodsName
+	 * @return
+	 */
+	@GetMapping("/goodsNameSelect")
+	@ResponseBody
+	public List<String> goodsNameSelect( String intputGoods ){
+		List<String> goodsNameSelect = service.goodsNameSelect(intputGoods);
+		return goodsNameSelect;
+	}
+	
+	
+	
+	
 }

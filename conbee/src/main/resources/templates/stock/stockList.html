@@ -85,11 +85,6 @@
       <div class="d-flex justify-content-between align-items-center w-100 px-2 border-bottom">
         <div class="fs-4 pb-3 px-3 pt-3">재고 조회</div>
         <div class="d-flex align-items-center">
-          <div class="me-3">
-            <span id="startDate" th:text="${startDate}"></span>
-            <span> / </span>
-            <span id="endDate" th:text="${endDate}"></span>
-          </div>
           <div>
             <div class="input-group">
               <select class="form-select" id="storeNoSelect">
@@ -125,13 +120,13 @@
           </thead>
           <!-- 테이블 내용 -->
           <tbody class="text-center">
-            <tr th:each="stock : ${map.stockListSelect}" th:object="${stock}">
+            <tr th:each="stock : ${stockListSelect}" th:object="${stock}">
               <td>
                 <label class="w-100">
                   <input type="checkbox" class="checkbox">
                 </label>
               </td>
-              <td th:text="*{storeName}">1</td>
+              <td th:text="*{goodsNo}">1</td>
               <td th:text="*{goodsName}">신라면</td>
               <td th:text="*{lcategoryName}">식품</td>
               <td th:text="*{scategoryName}">가공식사</td>
@@ -170,37 +165,42 @@
         </div>
 
         <div class="modal-body">
-          <form action="/stock/stockInsert" method="post">
+          <form action="/stock/stockInsert" method="post" >
             <div class="mb-3">
               <select class="form-select" name="storeNameClick" id="storeNameClick">
-                <option value="0">선택</option>
-                <option>선택</option>
-                <option>선택</option>
+                <option th:each="store : ${session.loginMember.storeList}" th:value="${store.storeNo}" th:text="${store.storeName}"></option>
               </select>
             </div>
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="goodsName" placeholder="품목명">
-              <label for="">상품명</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="text" th:text="${lcategoryName}" class="form-control" id="lcategoryName" placeholder="대분류" disabled>
-              <label for="">대분류</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="text" th:text="${scategoryName}" class="form-control" id="scategoryName" placeholder="소분류" disabled>
-              <label for="">소분류</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="stockInPrice" placeholder="입고단가">
-              <label for="">입고단가</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="stockOutPrice" placeholder="출고단가">
+            <div>
+              <div id="autoSerchNameContainer" class="form-floating mb-3">
+                <div  class="position-absolute w-100 start-0" style="top: 110%;">
+                  <ul id="goodsNameList" class="list-group">
+                    <!-- <li class="list-group-item">An item</li> -->
+                  </ul>
+                </div>
+                <input type="text" class="form-control" name="goodsName" id="serachName" placeholder="품목명">
+                <label for="serachName">상품명</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="lcategoryName" placeholder="대분류" disabled>
+                <label for="">대분류</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="scategoryName" placeholder="소분류" disabled>
+                <label for="">소분류</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="stockInPrice" placeholder="입고단가">
+                <label for="">입고단가</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="stockOutPrice" placeholder="출고단가">
               <label for="">출고단가</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="stockDiscount" placeholder="할인율">
-              <label for="">할인율</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="stockDiscount" placeholder="할인율">
+                <label for="">할인율</label>
+              </div>
             </div>
             
             <div class="modal-footer">
@@ -208,7 +208,6 @@
               <button type="submit" class="btn btn-primary btn-warning">등록</button>
             </div>
             <input type="hidden" id="goodsNo" name="goodsNo" value="">
-            <input type="hidden" id="storeNo" name="storeNo" value="">
           </form>
         </div>
 
@@ -223,3 +222,4 @@
   <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
