@@ -52,5 +52,12 @@ public interface AdminMemberService {
 	 */
 	Map<String, Object> searchMemberList(Map<String, Object> paramMap, int cp);
 
+	/** 회원 탈퇴 버튼
+	 * @param memberDelFl
+	 * @param memberNo
+	 * @return
+	 */
+	int changeMemberDelFl(String memberDelFl, int memberNo);
+
 
 }

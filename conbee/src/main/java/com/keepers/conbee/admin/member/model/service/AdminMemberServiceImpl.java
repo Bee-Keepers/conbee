@@ -25,6 +25,10 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 	private final BCryptPasswordEncoder bcrypt;
 	
 	
+	
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡ 1. 회원 조회 ㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+	
 	/**
 	 * 전체 멤버 조회
 	 */
@@ -84,17 +88,8 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 2. 회원 등록 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
 	
 	/**
 	 * 회원가입
@@ -145,6 +140,34 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 		return mapper.checkMemberAddress(memberAddress);
 	}
 	
+	
+	
+	
+	
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 3. 회원 탈퇴 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+	
+	// 회원 탈퇴 버튼
+	@Override
+	public int changeMemberDelFl(String memberDelFl, int memberNo) {
+		
+		// 회원 여부가 탈퇴 "Y"일 경우 "N" 복구로 변경 등
+		if(memberDelFl.equals("Y")) {
+			memberDelFl = "N";
+		} else {
+			memberDelFl ="Y";
+		}
+		
+		// 처음에 받아온 memberNo와 memberEnrollDate를 한번에 두개의 값을 보낼 수 없기에 
+		// Map에 두개를 담아서 한번에 전달하기
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberDelFl", memberDelFl);
+		map.put("memberNo", memberNo);
+		
+		return mapper.changeMemberDelFl(map);
+		
+		
+	}
 	
 	
 	

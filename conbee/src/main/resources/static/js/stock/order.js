@@ -56,7 +56,7 @@ function createElement(tag, obj, classList){
 }
 
 
-const storeNo = document.getElementById("storeNo");
+const storeNo = document.getElementsByClassName("storeNo");
 const autoCompleteContainer = document.getElementById("autoCompleteContainer");
 
 
@@ -69,7 +69,7 @@ floatingName.addEventListener("input", e=>{
     return;
   }
   
-  fetch("/stock/autoComplete?inputQuery=" + floatingName.value + "&storeNo=" + storeNo.value
+  fetch("/stock/autoComplete?inputQuery=" + floatingName.value + "&storeNo=" + storeSelect.value
     + "&lcategoryName=" + lcategorySelect.value + "&scategoryName=" + scategorySelect.value)
   .then(resp => resp.json())
   .then(list =>{
@@ -132,8 +132,21 @@ revenueSearchBtn.addEventListener("click", ()=>{
       tr.append(td);
     }
     const td2 = document.createElement("td");
-    const input2 = createElement("input", {"type" : "number", "value" : 0}, ["form-control", "inputOrderAmount"]);
+    const input2 = createElement("input", {"type" : "number", "value" : 1, "name" : "orderAmount"}, ["form-control", "inputOrderAmount"]);
+
+    // 발주 수량 입력 시 합계 계산
     input2.addEventListener("change", totalPriceFn);
+    
+    // 발주 수량 제한
+    input2.addEventListener("input", e=>{
+      if(e.target.value < 1){
+        e.target.value = 1;
+      }
+      if(e.target.value > 99){
+        e.target.value = 99;
+      }
+    });
+    
     td2.append(input2);
     tr.append(td2);
     tableTbody.append(tr);
@@ -146,7 +159,9 @@ revenueSearchBtn.addEventListener("click", ()=>{
 // 지점 선택 시
 const storeSelect = document.getElementById("storeSelect");
 storeSelect.addEventListener("change", ()=>{
-  storeNo.value = storeSelect.value;
+  for(let storeNos of storeNo){
+    storeNos.value = storeSelect.value;
+  }
 });
 
 
@@ -186,4 +201,14 @@ deleteBtn.addEventListener("click", ()=>{
       }
     }
   }
+});
+
+
+const placeOrderForm = document.getElementById("placeOrderForm");
+const submitBtn = document.getElementById("submitBtn");
+
+
+
+submitBtn.addEventListener("click", ()=>{
+  placeOrderForm.submit();
 });

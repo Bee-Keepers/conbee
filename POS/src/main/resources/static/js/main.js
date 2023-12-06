@@ -14,6 +14,7 @@ function calcPay(e){
     input.setAttribute("type", "hidden");
     input.setAttribute("value", price);
     input.setAttribute("name", "historyActualPrice");
+
     e.parentElement.nextElementSibling.append(input);
 }
 const posForm = document.getElementById("posForm");
@@ -21,49 +22,6 @@ const totalPrice = document.getElementById("totalPrice");
 // 포스기에 행 추가하는 기능
 const plusBtn = document.getElementById("plusBtn");
 const parentTable = document.getElementById("parentTable");
-// plusBtn.addEventListener("click", ()=>{
-
-//     const tr = document.createElement("tr");
-
-//     tr.append(
-//         document.createElement("td"),
-//         document.createElement("td"),
-//         document.createElement("td"),
-//         document.createElement("td"),
-//         document.createElement("td"),
-//         document.createElement("td"),
-//         document.createElement("td")
-//     )
-//     // const input1 = document.createElement("input");
-//     // input1.classList.add("form-control");
-//     // input1.setAttribute("type", "text");
-//     // tr.children[3].append(input1);
-
-//     const input2 = document.createElement("input");
-//     input2.classList.add("form-control");
-    
-//     input2.setAttribute("type", "number");
-//     input2.setAttribute("min", "0");
-//     input2.setAttribute("value", "0");
-//     tr.children[5].append(input2);
-
-//     parentTable.append(tr);
-
-//     input2.addEventListener("input", e => {
-//         calcPay(e.target);
-
-//         // 총 합계 계산
-//         const prices = document.querySelectorAll("#parentTable>tr>td:nth-of-type(7)");
-//         let temp = 0;
-//         for(let price of prices){
-//             if(price.innerText != ""){
-//                 temp += parseInt(price.innerText);
-//             }
-//         }
-//         totalPrice.innerText = temp;
-//     });
-// });
-
 
 // 품목 검색하는 모달창
 const plusRowBtn = document.getElementById("plusRowBtn");
@@ -82,7 +40,6 @@ plusRowBtn.addEventListener("click", ()=>{
             for(let goodsName of goodsNameList){
                 if(parent.children[4].innerText == goodsName.innerText){
                     flag = false;
-                    // alert("존재하는 품목이 있습니다");
                     break;
                 }
             }
@@ -110,6 +67,7 @@ plusRowBtn.addEventListener("click", ()=>{
                     case 4 : input.setAttribute("name", "historyGoodsName"); break;
                     case 5 : input.setAttribute("name", "historyDiscount"); break;
                     case 6 : input.setAttribute("name", "historyUnitPrice"); break;
+                    case 7 : input.setAttribute("name", "historyActualPrice"); break;
                     default : break;
                 }
                 td.innerText = parent.children[i].innerText;
@@ -124,7 +82,7 @@ plusRowBtn.addEventListener("click", ()=>{
             input.setAttribute("type", "number");
             input.setAttribute("min", "0");
             input.setAttribute("max", "99");
-            input.setAttribute("value", "0");
+            input.setAttribute("value", "1");
             input.setAttribute("name", "historyAmount");
             td6.append(input);
 
@@ -136,9 +94,9 @@ plusRowBtn.addEventListener("click", ()=>{
                     input.value = 99;
                     alert("수량은 99를 초과할 수 없습니다")
                 }
-                if(input.value < 0){
-                    input.value = 0;
-                    alert("수량은 0을 미만할 수 없습니다")
+                if(input.value < 1){
+                    input.value = 1;
+                    alert("수량은 1을 미만할 수 없습니다")
                 }
                 calcPay(e.target);
                 // 총 합계 계산
@@ -151,6 +109,15 @@ plusRowBtn.addEventListener("click", ()=>{
                 }
                 totalPrice.innerText = temp;
             });
+            calcPay(input);
+            const prices = document.querySelectorAll("#parentTable>tr>td:nth-of-type(10)");
+                let temp = 0;
+                for(let price of prices){
+                    if(price.innerText != ""){
+                        temp += parseInt(price.innerText);
+                    }
+                }
+                totalPrice.innerText = temp;
 
         }
     }

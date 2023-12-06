@@ -24,6 +24,18 @@ public interface MemberMapper {
 	 */
 	void password(Member inputMember);
 
+	/** 아이디 찾기(멤버 조회)
+	 * @param inputInformation
+	 * @return
+	 */
+	int findMember(Member inputInformation);
+
+	/** 아이디 찾기 (찐)
+	 * @param inputInformation
+	 * @return
+	 */
+	String findMemberId(Member inputInformation);
+
 
 
 
