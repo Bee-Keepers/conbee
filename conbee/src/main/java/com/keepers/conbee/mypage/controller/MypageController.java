@@ -1,4 +1,4 @@
-package com.keepers.conbee.myPage.controller;
+package com.keepers.conbee.mypage.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.keepers.conbee.member.model.dto.Member;
-import com.keepers.conbee.myPage.model.service.MyPageService;
+import com.keepers.conbee.mypage.model.service.MypageService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,9 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 @SessionAttributes({"loginMember"})
 @RequiredArgsConstructor
 @Slf4j
-public class MyPageController {
+public class MypageController {
     
-    private final MyPageService service;
+    private final MypageService service;
     
     /** 프로필 정보 조회
      * @param mypage
