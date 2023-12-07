@@ -4,34 +4,25 @@
 (()=>{
 
   // 기안문 정보 가져오기
-  fetch("/approval/writeApproval/docWriteInfos")
-  .then((resp) => {
-    // console.log(resp);
-    return resp.json();
-  })
-  .then((map) => {
-
-    // console.log(map);
-    const docWriteInfosMap = new Map(Object.entries(map));
-
+  fetch("/approval/writeApproval/selectInfo")
+  .then((resp) => {return resp.json(); })
+  .then((writeInfo) => {
 
     // 팀이름
     const infoTeams = document.querySelectorAll(".infoTeam");
     infoTeams.forEach((infoTeam)=>{
-      infoTeam.innerText = docWriteInfosMap.get('infoTeam');
+      infoTeam.innerText = writeInfo.teamName;
     })
 
     // 이름
     const infoNames = document.querySelectorAll(".infoName");
-    // console.log(infoNames);
-    // console.log(docWriteInfosMap.get('infoName'));
     infoNames.forEach((infoName)=>{
-      infoName.innerText = docWriteInfosMap.get('infoName');
+      infoName.innerText = writeInfo.memberName;
     })
 
     const docWriteInfos = document.querySelectorAll(".docWriteInfo");
     docWriteInfos.forEach((docWriteInfo)=>{
-      docWriteInfo.innerText = docWriteInfosMap.get('infoName') + "(" + docWriteInfosMap.get('infoTeam') + ")";
+      docWriteInfo.innerText = writeInfo.memberName + "(" + writeInfo.teamName + ")";
     })
 
   })
@@ -76,7 +67,10 @@ openDocOne.addEventListener("click",()=>{
   docHolidayStart.value="";
   docHolidayEnd.value="";
   docHolidayText.value="";
+  block2.innerHTML="";
+  block3.innerHTML="";
   updateTextCount();
+  
 })
 openDocTwo.addEventListener("click",()=>{
   history.pushState(null, null, 'writeApproval/docRetirement');
@@ -127,6 +121,8 @@ const inputHoliday2 = document.getElementById("inputHoliday2");
 const docHolidayStart = document.getElementById("docHolidayStart");
 const docHolidayEnd = document.getElementById("docHolidayEnd");
 const docHolidayText = document.getElementById("docHolidayText");
+const block2 = document.getElementById("block2");
+const block3 = document.getElementById("block3");
 
 // 제목 입력 시 -> 템플릿 안 제목 같이 입력되기
 inputHoliday.addEventListener("input",e=>{
@@ -197,6 +193,12 @@ submitHoliday.addEventListener("click", e =>{
   if(docHolidayText.value===''){
     alert("내용을 입력해주세요");
     docHolidayText.focus();
+    e.preventDefault();
+    return;
+  }
+
+  if(block3.innerHTML===''){
+    alert("결재선을 추가해주세요");
     e.preventDefault();
     return;
   }
@@ -463,12 +465,10 @@ function selectAllMember(e){
   .then((member)=>{
     if(member.length!=0){
       for(let i of member){
-        // console.log(i);
         const li = document.createElement("li");
         li.setAttribute("value",i.memberNo);
-        li.innerText=i.memberName + "(" + i.gradeName + ")";
+        li.innerText=i.memberName + "(" + (i.teamName ? i.teamName + " " : "") + i.gradeName + ")";
         li.setAttribute("ondblclick","addLine(this)");
-        console.log(li);
         block2.append(li);
       }
     }
@@ -489,9 +489,8 @@ function selectTeamMember(e){
       for(let i of member){
         const li = document.createElement("li");
         li.setAttribute("value",i.memberNo);
-        li.innerText=i.memberName + "(" + i.gradeName + ")";
+        li.innerText=i.memberName + "("  + (i.teamName ? i.teamName + " " : "") + i.gradeName + ")";
         li.setAttribute("ondblclick","addLine(this)");
-        console.log(li);
         block2.append(li);
       }
     }
@@ -502,11 +501,16 @@ function selectTeamMember(e){
 
 /* 팀원 더블클릭 시 결재라인에 추가 */
 
-function addLine(e){
-  const block3 = document.getElementById("block3");
-  const innerBoxs = block3.querySelectorAll(".lineBox");
+let count = 0;
 
-  if(innerBoxs.length<4){
+function addLine(e){
+
+  const block3 = document.getElementById("block3");
+  const innerBoxes = block3.querySelectorAll(".lineBox");
+
+  // 결재자 중복선택 방지 코드 작성 예정
+
+  if(innerBoxes.length<4){
     
     const lineBox = document.createElement("div");
     const approverInfo = document.createElement("div");
@@ -515,44 +519,44 @@ function addLine(e){
     const teamInfo = document.createElement("div");
     const gradeInfo = document.createElement("div");
     const nameInfo = document.createElement("div");
-    
+    //const orderInfo = document.createElement("input");
+    const memberNoInfo = document.createElement("input");
     const remove = document.createElement("div");
     
-    lineBox.classList.add("lineBox");
 
-    console.log(e.value);
+    lineBox.classList.add("lineBox");
+    //orderInfo.setAttribute("name",`approverList[${count}].approverOrder`);
+    //orderInfo.setAttribute("type","hidden");
+    memberNoInfo.setAttribute("name","approverMemNo");
+    memberNoInfo.setAttribute("type","hidden");
 
     fetch("/approval/writeApproval/selectMember?memberNo=" + e.value)
     .then(resp=>resp.json())
     .then((member)=>{
-      if(member.length!=0){
-        for(let i of member){
-          const li = document.createElement("li");
-          li.setAttribute("value",i.memberNo);
-          li.innerText=i.memberName + "(" + i.gradeName + ")";
-          li.setAttribute("ondblclick","addLine(this)");
-          console.log(li);
-          block2.append(li);
-        }
+      departmentInfo.innerText=member.departmentName;
+      if(member.teamName!=null){
+        teamInfo.innerText=member.teamName;
       }
+      gradeInfo.innerText=member.gradeName;
+      nameInfo.innerText=member.memberName;
+      memberNoInfo.setAttribute("value",member.memberNo);
     })
     .catch(e=>console.log(e));
 
-    departmentInfo.innerText=1;
-    teamInfo.innerText=2;
-    gradeInfo.innerText=3
-    nameInfo.innerText =4;
 
-    
+
     remove.innerHTML=`<i class="bi bi-x-circle-fill"></i>`;
     remove.classList.add("remove");
     remove.setAttribute("onclick","remove(this)");
   
   
-    approverInfo.append(departmentInfo,teamInfo,gradeInfo,nameInfo);
+    approverInfo.append(departmentInfo,teamInfo,gradeInfo,nameInfo,memberNoInfo);
     lineBox.append(approverInfo);
     lineBox.append(remove);
     block3.append(lineBox);
+
+    console.log(lineBox);
+    count++;
   }
 
   else alert("결재선을 추가할 수 없습니다.");
