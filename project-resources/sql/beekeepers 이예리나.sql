@@ -347,3 +347,13 @@ DELETE FROM "MEMBER"
 WHERE MEMBER_NO = 78;
 
 
+-- 부장 팀코드 null로 업데이트
+UPDATE "MEMBER" SET
+TEAM_NO = NULL
+WHERE GRADE_NO = 2
+;
+
+COMMIT;
+
+
+

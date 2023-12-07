@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.approval.model.dto.Approval;
+import com.keepers.conbee.approval.model.dto.Approver;
 import com.keepers.conbee.approval.model.service.ApprovalService;
 import com.keepers.conbee.member.model.dto.Member;
 
@@ -153,31 +154,43 @@ public class ApprovalController { // 전자결재 컨트롤러
 
 	}
 	
-	/** 부서 선택 - 팀 선택
+	
+	/** 부서 모든 멤버 조회
 	 * @param selectDepartment
 	 * @return
 	 */
-	@GetMapping(value = "writeApproval/selectTeam", produces = "application/json; charset=UTF-8")
+	@GetMapping(value = "writeApproval/selectAllMember", produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public List<String> selectTeam(String selectDepartment){
-		
-		List<String> teamList = service.selectTeam(selectDepartment);
-		
-		return teamList;
+	public List<Member> selectAllMember(String selectDepartment){
+		List<Member> departmentMember = service.selectAllMember(selectDepartment);
+		return departmentMember;
 	}
 	
-	/** 팀 선택 - 결재자 선택
+	/** 팀 멤버 조회
 	 * @param selectTeam
 	 * @return
 	 */
-	@GetMapping(value = "writeApproval/selectApprover", produces = "application/json; charset=UTF-8")
+	@GetMapping(value = "writeApproval/selectTeamMember", produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public List<String> selectApprover(String selectTeam){
-		
-		List<String> approverList = service.selectApprover(selectTeam);
-		
-		return approverList;
+	public List<Member> selectTeamMember(String selectTeam){
+		List<Member> teamMember = service.selectTeamMember(selectTeam);
+		return teamMember;
 	}
+	
+	/** 멤버 조회
+	 * @param memberNo
+	 * @return
+	 */
+	@GetMapping(value = "writeApproval/selectMember", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public Member selectMember(int memberNo) {
+		
+		Member memberInfo = service.selectMember(memberNo);
+		
+		return memberInfo;
+	}
+	
+	
 	
 
 
@@ -194,8 +207,11 @@ public class ApprovalController { // 전자결재 컨트롤러
 	public String insertApproval(@PathVariable("doc") String doc,
 							@RequestParam("approvalCondition") int approvalCondition,
 							@SessionAttribute("loginMember") Member loginMember,
-							Approval approval, RedirectAttributes ra) {
+							Approval approval, Approver approver, RedirectAttributes ra) {
 		              		// 파일첨부 추가예정
+		
+
+		/* 문서 정보 셋팅 */
 		int departNo;
 		int cateNo;
 		
@@ -208,11 +224,14 @@ public class ApprovalController { // 전자결재 컨트롤러
 		default : departNo=0; cateNo=0; 
 		}
 		
-		// 값 세팅
 		approval.setApprovalCondition(approvalCondition); // 문서 상태
 		approval.setMemberNo(loginMember.getMemberNo()); // 사원 번호
 		approval.setDepartmentNo(departNo); // 협조부서 코드
 		approval.setDocCategoryNo(cateNo); // 문서 분류 번호
+		
+		
+		/* 결재자 정보 셋팅 */
+		
 			
 		int result = service.insertApproval(approval);
 		

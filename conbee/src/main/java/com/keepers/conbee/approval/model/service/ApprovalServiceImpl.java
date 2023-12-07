@@ -38,19 +38,27 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		return mapper.selectApproverList(memberNo);
 	}
+	
+	// 부서 모든 멤버 조회
+	@Override
+	public List<Member> selectAllMember(String selectDepartment) {
+		return mapper.selectAllMember(selectDepartment);
+	}
+
+	// 팀 멤버 조회
+	@Override
+	public List<Member> selectTeamMember(String selectTeam) {
+		return mapper.selectTeamMember(selectTeam);
+	}
+	
+	// 멤버 조회
+	@Override
+	public Member selectMember(int memberNo) {
+		return mapper.selectMember(memberNo);
+	}
+
 
 	
-	// 부서 선택 시 팀 조회
-	@Override
-	public List<String> selectTeam(String selectDepartment) {
-		return mapper.selectTeam(selectDepartment);
-	}
-	
-	// 팀 선택 시 결재자 조회
-	@Override
-	public List<String> selectApprover(String selectTeam) {
-		return mapper.selectApprover(selectTeam);
-	}
 
 	// 기안문 insert
 	@Override
@@ -119,6 +127,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 	public List<Approval> selectRequestApproval(int memberNo) {
 		return mapper.selectRequestApproval(memberNo);
 	}
+
 
 
 
