@@ -1,4 +1,4 @@
-package com.keepers.conbee.myPage.controller;
+package com.keepers.conbee.mypage.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,7 +46,7 @@ public class MyPageController {
     public String mypageChoice() {
         return "mypage/mypage-choice";
     }
-    
+     
     @PostMapping("myPageUpdate")
     public String mypageUpdate() {
         
