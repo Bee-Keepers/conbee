@@ -29,12 +29,12 @@ function sample6_execDaumPostcode() {
 /* 정보 등록 유효성 검사 */
 
 const checkObj = {
-    "storeName" : false,
-    "storeTel" : false,
-    "storeAddress" : false
+    "memberName" : false,
+    "memberTel" : false,
+    "memberAddress" : false
   };
   
-  /* 점주명, 점주회원번호 동시작성/동시빈칸 */
+
   const checkMemberObj = {
     "memberName" : false,
     "memberNo" : false
@@ -132,7 +132,7 @@ memberEmail.addEventListener("input", () => {
         
 
         /* =========== 이메일 중복 검사(비동기) ============ */
-        fetch("/admin/memberManage/checkMemberEmail?memberEmail=" + memberEmail.value)
+        fetch("/myPage/checkMemberEmail?memberEmail=" + memberEmail.value)
         .then( response => response.text() )   // 첫번째 then은 응답이 왔을 때 수행, 응답 결과를 text로 파싱
         .then( result => {                     // 두번째 then은 첫번째 then의 반환된 결과를 이용해 기능 수행
             if(result == 0) { // 중복 X
@@ -181,12 +181,9 @@ memberEmail.addEventListener("input", () => {
     }
 });
 
-// 점포전화번호 유효성 검사
-const storeTel = document.getElementById("storeTel");
-const messageStoreTel = document.getElementById("messageStoreTel");
 
 // 점포전화번호 입력시 유효성 검사
-storeTel.addEventListener("input", ()=>{
+memberTel.addEventListener("input", ()=>{
 
   // 점포전화번호가 입력되지 않은 경우
   if(storeTel.value.trim().length == 0){
@@ -212,38 +209,38 @@ storeTel.addEventListener("input", ()=>{
   if(regEx.test(storeTel.value)){
 
       /* ===================== 점포전화번호 중복 검사 ======================= */
-      fetch("/admin/storeManage/checkStoreTel?storeTel=" + storeTel.value)
+      fetch("/myPage/checkMemberTel?memberTel=" + memberTel.value)
       .then(response => response.text())
       .then(result =>{
 
         if(result == 0){ // 중복 X
-          messageStoreTel.innerText= "사용 가능한 점포 전화번호입니다.";
-          messageStoreTel.classList.add("OK-feedback");
-          messageStoreTel.classList.remove("NotOK-feedback");
+          messageMemberTel.innerText= "사용 가능한 전화번호입니다.";
+          messageMemberTel.classList.add("OK-feedback");
+          messageMemberTel.classList.remove("NotOK-feedback");
 
           // 인풋 요소 변화
-          storeTel.classList.add("is-valid");
-          storeTel.classList.remove("is-invalid");
+          memberTel.classList.add("is-valid");
+          memberTel.classList.remove("is-invalid");
 
-          checkObj.storeTel = true;
+          checkObj.memberTel = true;
 
         } else { // 중복 O
-          messageStoreTel.innerText= "이미 사용중인 점포 전화번호입니다.";
-          messageStoreTel.classList.add("NotOK-feedback");
-          messageStoreTel.classList.remove("OK-feedback");
+          messageMemberTel.innerText= "이미 사용중인 전화번호입니다.";
+          messageMemberTel.classList.add("NotOK-feedback");
+          messageMemberTel.classList.remove("OK-feedback");
 
           // 인풋 요소 변화
-          storeTel.classList.add("is-invalid");
-          storeTel.classList.remove("is-valid");
+          memberTel.classList.add("is-invalid");
+          memberTel.classList.remove("is-valid");
 
-          checkObj.storeTel = false;
+          checkObj.memberTel  = false;
         }
       })
       .catch(e=> console.log(e))
 
   // 입력한 점포명이 유효하지 않을 경우    
   } else {
-    messageStoreTel.innerText= "점포 전화번호가 형식에 맞지 않습니다.";
+    messageStoreTel.innerText= "전화번호가 형식에 맞지 않습니다.";
     messageStoreTel.classList.add("NotOK-feedback");
     messageStoreTel.classList.remove("OK-feedback");
 
@@ -287,12 +284,12 @@ memberTel.addEventListener("input", ()=>{
   if(regEx.test(memberTel.value)){
 
       /* ===================== 점포전화번호 중복 검사 ======================= */
-      fetch("/admin/storeManage/checkStoreTel?storeTel=" + memberTel.value)
+      fetch("/myPage/checkMemberTel?memberTel=" + memberTel.value)
       .then(response => response.text())
       .then(result =>{
 
         if(result == 0){ // 중복 X
-            messageMemberTel.innerText= "사용 가능한 점포 전화번호입니다.";
+            messageMemberTel.innerText= "사용 가능한 전화번호입니다.";
             messageMemberTel.classList.add("OK-feedback");
             messageMemberTel.classList.remove("NotOK-feedback");
 
@@ -303,7 +300,7 @@ memberTel.addEventListener("input", ()=>{
           checkObj.memberTel = true;
 
         } else { // 중복 O
-            messageMemberTel.innerText= "이미 사용중인 점포 전화번호입니다.";
+            messageMemberTel.innerText= "이미 사용중인 전화번호입니다.";
             messageMemberTel.classList.add("NotOK-feedback");
             messageMemberTel.classList.remove("OK-feedback");
 
@@ -318,7 +315,7 @@ memberTel.addEventListener("input", ()=>{
 
   // 입력한 점포명이 유효하지 않을 경우    
   } else {
-    messageMemberTel.innerText= "점포 전화번호가 형식에 맞지 않습니다.";
+    messageMemberTel.innerText= "전화번호가 형식에 맞지 않습니다.";
     messageMemberTel.classList.add("NotOK-feedback");
     messageMemberTel.classList.remove("OK-feedback");
 
@@ -334,18 +331,18 @@ memberTel.addEventListener("input", ()=>{
 
 //-------------------------------------------------------------------------
 
-// 점포주소 유효성 검사
+// 주소 유효성 검사
 const memberAddress = document.getElementById("memberAddress");
 const messageMemberAddress = document.getElementById("messageMemberAddress");
 
-// 점포주소 입력시 유효성 검사
+// 주소 입력시 유효성 검사
 memberAddress.addEventListener("input", ()=>{
 
-  // 점포주소가 입력되지 않은 경우
+  // 주소가 입력되지 않은 경우
   if(memberAddress.value.trim().length == 0){
     memberAddress.value = "";
 
-    messageMemberAddress.innerText = "점포 주소는 한글, 숫자로 작성해주세요.";
+    messageMemberAddress.innerText = "주소는 한글, 숫자로 작성해주세요.";
     messageMemberAddress.classList.remove("OK-feedback");
     messageMemberAddress.classList.remove("NotOK-feedback");
 
@@ -357,20 +354,20 @@ memberAddress.addEventListener("input", ()=>{
     return;
   }
 
-  // 점포주소 정규표현식
+  // 주소 정규표현식
   // 한글, 숫자, 띄어쓰기, -, (), ,를 포함한 10~100글자 이내의 정규표현식
   const regEx = /^[가-힣0-9\s\-\(\),]{10,100}$/;
 
-  // 입력한 점포주소가 유효할 경우
+  // 입력한 주소가 유효할 경우
   if(regEx.test(memberAddress.value)){
 
-      /* ===================== 점포주소 중복 검사 ======================= */
+      /* ===================== 주소 중복 검사 ======================= */
       fetch("/myPage/memberAddress/checkMemberAddress?memberAddress=" + memberAddress.value)
       .then(response => response.text())
       .then(result =>{
 
         if(result == 0){ // 중복 X
-          messageStoreAddress.innerText= "사용 가능한 점포 주소입니다.";
+          messageStoreAddress.innerText= "사용 가능한 주소입니다.";
           messageStoreAddress.classList.add("OK-feedback");
           messageStoreAddress.classList.remove("NotOK-feedback");
 
@@ -381,7 +378,7 @@ memberAddress.addEventListener("input", ()=>{
           checkObj.storeAddress = true;
 
         } else { // 중복 O
-          messageStoreAddress.innerText= "이미 등록된 점포 주소입니다.";
+          messageStoreAddress.innerText= "이미 등록된 주소입니다.";
           messageStoreAddress.classList.add("NotOK-feedback");
           messageStoreAddress.classList.remove("OK-feedback");
 
@@ -394,9 +391,9 @@ memberAddress.addEventListener("input", ()=>{
       })
       .catch(e=> console.log(e))
 
-  // 입력한 점포주소가 유효하지 않을 경우    
+  // 입력한 주소가 유효하지 않을 경우    
   } else {
-    messageStoreAddress.innerText= "점포 주소가 형식에 맞지 않습니다.";
+    messageStoreAddress.innerText= "주소가 형식에 맞지 않습니다.";
     messageStoreAddress.classList.add("NotOK-feedback");
     messageStoreAddress.classList.remove("OK-feedback");
 
@@ -411,52 +408,6 @@ memberAddress.addEventListener("input", ()=>{
 
 /* ======================================================================== */
 
-// 회원가입 버튼 클릭 시
-document.getElementById("storeInsertFrm").addEventListener("submit", e=>{
-
-  // 점주회원번호와 점주명이 동시에 작성되거나 미작성된 경우가 아니라면
-  if(checkMemberObj.memberName != checkMemberObj.memberNo){
-    let str;
-    str = "점주명과 점주회원번호 기입시 모두 작성해주세요.";
-    
-    alert(str);
-
-    e.preventDefault(); // form 제출 X
-    return;
-  }
-
-  /* checkObj의 모든 값을 검사해서
-    하나라도 false이면 가입 시도 X */
-  // 객체 전용 향상된 for문 (for .... in)
-  for(let key in checkObj){
-
-
-    // 객체에서 얻어온 값이 false인 경우
-    // (유효하지 않거나 작성되지 않은 값이 있을 경우)
-    if( !checkObj[key] ){
-
-      let str;
-      switch(key){
-      case "storeName"   : str = "점포명이 유효하지 않습니다"; break;
-      case "storeTel"    : str = "점포 전화번호가 유효하지 않습니다"; break;
-      case "storeAddress": str = "점포주소가 유효하지 않습니다"; break;
-      }
-
-      alert(str);
-
-      // key == input id 속성 값
-      // 유효하지 않은 input 태그로 focus 맞춤
-      document.getElementById(key).focus();
-
-      e.preventDefault(); // form 제출 X
-      return;
-    }
-  }
-})
-
-
-/* ======================================================================== */
-
 /* 취소 버튼 작동 */
 
 const cancelBtn = document.querySelector("#cancelBtn");
@@ -464,11 +415,9 @@ const cancelBtn = document.querySelector("#cancelBtn");
 // 취소 버튼 클릭 시 input 작성내용 지우기
 cancelBtn.addEventListener("click", ()=>{
 
-  storeName.value = "";
-  memberName.value = "";
-  memberNo.value = "";
-  storeTel.value = "";
-  storeAddress.value = "";
+  memberTel.value = "";
+  memberEmail.value = "";
+  memberAddress.value = "";
 })
 
 //-------------------------------------------------------------------------

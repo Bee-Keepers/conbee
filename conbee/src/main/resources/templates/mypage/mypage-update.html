@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>conBee</title>
+  <title>내 점포 수정</title>
   <link rel="stylesheet" href="/css/mypage/myPage.css">
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
@@ -48,7 +48,7 @@
                 </fieldset>
 
               <div class="mb-3">
-                <label for="userphone">전화번호</label>
+                <label for="userphone" class ="form-label">전화번호</label>
                 <input type="text" class="form-control p-3" id="*{memberTel}" placeholder="phonenumber" name="*{memberTel}" required>
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">Please fill out this field.</div>
@@ -62,17 +62,29 @@
 
               </fieldset>
 
-
               <div class="mb-3">
-                <label for="userEmail">이메일</label>
-                <section><button class="btn btn-warning btnBox fs-6" id="modify-pw-btn">이메일 변경</button></section>
-                
+                <label for="userphone"  class ="form-label">이메일 변경</label>
+                <input type="text" id="*{memberEmail}" class="form-control p-3" th:placeholder="*{memberEmail}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">Please fill out this field.</div>
               </div>
 
+                <!-- 인증번호 입력 -->
+              
+                <div class="mb-3">
+                  <input type="text" name="authKey" id="authKey" class="form-control p-3" s placeholder="인증번호 입력" maxlength="6" autocomplete="off" >
+               
+              </div>
+              <button type="button" class="btn btn-outline-warning">인증하기</button>
+
+              <span class="signUp-message" id="authKeyMessage"></span>
+                              <!-- 인증번호가 일치하지 않습니다 -->
+
+
+              
 
             <div class="mb-3">
+              <label for="useraddress" class ="form-label">주소</label>
                 <input type="address"  class="form-control p-3"  name="memberAddress" placeholder="우편번호" id="postcode">   
               
             </div>
@@ -84,7 +96,7 @@
             <div class="mb-3">
                 <input type="address"  class="form-control p-3"  name="memberAddress"  placeholder="상세 주소" id="detailAddress">                
             </div>
-            <button class="btn btn-warning btnBox fs-5" onclick="sample6_execDaumPostcode()">검색</button>
+            <button class="btn btn-outline-warning" onclick="sample6_execDaumPostcode()">검색</button>
             
             
 
