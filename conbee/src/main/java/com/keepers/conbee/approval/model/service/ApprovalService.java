@@ -22,20 +22,25 @@ public interface ApprovalService {
 	 */
 	List<Member> selectApproverList(int memberNo);
 	
-	
-	
-	/** 부서 선택 시 팀 조회
+	/** 부서 모든 멤버 조회
 	 * @param selectDepartment
 	 * @return
 	 */
-	List<String> selectTeam(String selectDepartment);
-  
-	/** 팀 선택 시 결재자 조회
+	List<Member> selectAllMember(String selectDepartment);
+
+	/** 팀 멤버 조회
 	 * @param selectTeam
 	 * @return
 	 */
-	List<String> selectApprover(String selectTeam);
-  
+	List<Member> selectTeamMember(String selectTeam);
+
+	/** 멤버 조회
+	 * @param memberNo
+	 * @return
+	 */
+	Member selectMember(int memberNo);
+
+	
 	
 	/** 기안문 insert
 	* @param approval
@@ -44,14 +49,12 @@ public interface ApprovalService {
 	*/
 	int insertApproval(Approval approval);
 
+	
 	/**
 	 * @param memberNo
 	 * @return
 	 */
 	List<Approval> selectRequestApproval(int memberNo);
-
-
-
 
 
 
