@@ -27,19 +27,18 @@
 	</select>
 	
 	
-	<!-- 부서 선택 시 팀 조회 -->
-	<select id="selectTeam" resultType="String">
-		SELECT TEAM_NAME FROM TEAM
+	<!-- 부서 선택 시 부장 이상 조회 -->
+	<select id="selectApprover" resultType="String">
+		SELECT MEMBER_NAME FROM "MEMBER"
 		JOIN DEPARTMENT USING(DEPARTMENT_NO)
-		WHERE DEPARTMENT_NAME=#{selectDepartment}
-		
+		WHERE DEPARTMENT_NO=#{selectDepartment}
+		AND GRADE_NO IN(0,1,2)
 	</select>
 	
 	<!-- 팀 선택 시 결재자 조회 -->
-	<select id="selectApprover" resultType="String">
-		SELECT GRADE_NAME, MEMBER_NAME FROM "MEMBER"
+	<select id="selectApprover2" resultType="String">
+		SELECT MEMBER_NAME FROM "MEMBER"
 		JOIN TEAM USING(TEAM_NO)
-		JOIN GRADE USING(GRADE_NO)
 		WHERE TEAM_NAME=#{selectTeam}
 	</select>
 	
@@ -106,6 +105,32 @@
 		ORDER BY APPROVAL_DATE DESC
 	</select>
 	
+	
+	<!-- 부서 모든 멤버 조회 -->
+	<select id="selectAllMember" resultType="Member">
+		SELECT MEMBER_NO, MEMBER_NAME, GRADE_NAME FROM "MEMBER"
+		JOIN "GRADE" USING(GRADE_NO)
+		WHERE DEPARTMENT_NO = #{selectDepartment}
+		ORDER BY GRADE_NO
+	</select>
+	
+	<!-- 팀 멤버 조회 -->
+	<select id="selectTeamMember" resultType="Member">
+		SELECT MEMBER_NO,MEMBER_NAME, GRADE_NAME FROM "MEMBER"
+		JOIN "GRADE" USING(GRADE_NO)
+		WHERE TEAM_NO = #{selectTeam}
+		ORDER BY GRADE_NO
+	</select>
+	
+	<!-- 멤버 정보 조회 -->
+	<select id="selectMember" resultType="Member">
+		SELECT MEMBER_NO, MEMBER_NAME, GRADE_NAME, TEAM_NAME, DEPARTMENT_NAME
+		FROM "MEMBER"
+		JOIN "GRADE" USING(GRADE_NO)
+		LEFT JOIN "TEAM" USING(TEAM_NO)
+		JOIN "DEPARTMENT" ON(MEMBER.DEPARTMENT_NO=DEPARTMENT.DEPARTMENT_NO)
+		WHERE MEMBER_NO = #{mebmerNo}
+	</select>
 
 </mapper>
 

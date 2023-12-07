@@ -129,3 +129,18 @@
 }
 
 
+#block1 div *, #block2 *, #block3 .remove{
+  cursor: pointer;
+  user-select: none;
+}
+
+.approverFull *{
+  list-style-type: none;
+}
+
+.lineBox{
+  border: 1px solid lightgray;
+  width:200px;
+  height: 120px;
+  border-radius: 10px;
+}

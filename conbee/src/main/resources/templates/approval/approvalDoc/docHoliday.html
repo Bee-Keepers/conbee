@@ -12,7 +12,7 @@
       </div> 
     </div>
     <!-- 모달 바디 -->
-    <div class="modal-body" style="width: 1140px; overflow: hidden;">
+    <div class="modal-body" style="width: 1400px; overflow: hidden;">
       <form class="d-flex flex-row" action="docHoliday" id="docHoliday" method="POST">
 
         <div style="height: 700px; overflow: auto;">
@@ -116,61 +116,96 @@
           </div>
         </div>
 
-        <div class="ps-3 pt-2" style="width: 380px;">
+        <div class="ps-3 pt-2" style="width: 645px;">
 
           <div class="fs-5">결재 : </div>
+          <!-- 결재 전체 박스 -->
+          <div class="approverFull d-flex">
+            <!-- 결재선1+결재선2 박스 -->
+            <div class="approverLine d-flex" style="border: 1px solid black; width: 425px; height: 650px;">
+              <!-- 결재선1 -->
+              <div style="border: 1px solid lightgray; width: 50%; height: 100%;">
+                <div>결재선1</div>
 
-          <div class="mb-4" style="border: solid 1px lightgray; padding: 10px; border-radius: 10px;">
-            <select class="form-select mb-3" id="selectDepartment">
-              <option value="0">-- 부서 선택 --</option>
-              <option>임원부</option>
-              <option>인사관리부</option>
-              <option>경영관리부</option>
-              <option>운영관리부</option>
-              <option>고객관리부</option>
-            </select>
-            <select class="form-select mb-3" id="selectTeam">
-              <option value="0">-- 팀 선택--</option>
-            </select>
-            <select class="form-select mb-3" id="selectApprover">
-              <option value="0">-- 결재자 선택 --</option>
-            </select>
+                <div id="block1">
 
-            <button class="btn btn-warning" style="width: 342px;">결재선 추가</button>
+                  <div>
+                    <span><i class="bi bi-caret-right-fill"></i></span>
+                    <span onclick="selectAllMember(this);" id="dep0" data-value="0">임원</span>
+                  </div>
+                  
+                  <div>
+                    <span onclick="toggleTeams(this)"><i class="bi bi-caret-right-fill"></i></span>
+                    <span onclick="selectAllMember(this);" id="dep1" data-value="1">인사관리부</span>
+                  </div>
 
+                  <div style="display: none;">
+                    <li onclick="selectTeamMember(this)" value="1">사원관리팀</li>
+                    <li onclick="selectTeamMember(this)" value="2">점주관리팀</li>
+                    <li onclick="selectTeamMember(this)" value="3">점포관리팀</li>
+                  </div>
+
+                  <div>
+                    <span onclick="toggleTeams(this)"><i class="bi bi-caret-right-fill"></i></span>
+                    <span onclick="selectAllMember(this);" id="dep2" data-value="2">경영관리부</span>
+                  </div>
+
+                  <div style="display: none;">
+                    <li onclick="selectTeamMember(this)" value="4">재고관리팀</li>
+                    <li onclick="selectTeamMember(this)" value="5">매출관리팀</li>
+                    <li onclick="selectTeamMember(this)" value="6">회계팀</li>
+                    <li onclick="selectTeamMember(this)" value="7">영업팀</li>
+                  </div>
+
+                  <div>
+                    <span onclick="toggleTeams(this)"><i class="bi bi-caret-right-fill"></i></span>
+                    <span onclick="selectAllMember(this);" id="dep3" data-value="3">운영관리부</span>
+                  </div>
+                  <div style="display: none;">
+                    <li onclick="selectTeamMember(this)" value="8">전산팀</li>
+                    <li onclick="selectTeamMember(this)" value="9">행정팀</li>
+                  </div>
+
+                  <div>
+                    <span onclick="toggleTeams(this)"><i class="bi bi-caret-right-fill"></i></span>
+                    <span onclick="selectAllMember(this);" id="dep4" data-value="4">고객관리부</span>
+                  </div>
+                  <div style="display: none;">
+                    <li onclick="selectTeamMember(this)" value="10">고객서비스팀</li>
+                  </div>
+                </div>
+              </div>
+              <!-- 결재선2 -->
+              <div style="border: 1px solid lightgray; width: 50%; height: 100%;">
+                <div>결재선2</div>
+
+                <div id="block2">
+
+                </div>
+
+              </div>
+            </div>
+            <!-- 결재라인 박스 -->
+            <div style="border: 1px solid black; width: 200px; height: 650px;">
+              <div>결재라인</div>
+              <div id="block3">
+
+                <div class="lineBox">
+                  <div>
+                    <div>인사관리부</div>
+                    <div>사원관리팀</div>
+                    <div>팀장</div>
+                    <div>김땡땡</div>
+                  </div>
+                  <div class="remove" onclick="remove(this)">
+                    <i class="bi bi-x-circle-fill"></i></div>
+                </div>
+
+              </div>
+            </div>
           </div>
 
-          <div class="d-flex justify-content-between " style="border: solid 1px lightgray; padding: 10px; border-radius: 10px; height: 80px;">
-            <div>
-              <div>인사관리부 사원관리팀</div>
-              <div>팀장 김땡땡</div>
-            </div>
-            <button class="cancle">x</button>
-          </div>
-          <div style="text-align: center; color: lightgray;">▼</div>
-          <div class="d-flex justify-content-between" style="border: solid 1px lightgray; padding: 10px; border-radius: 10px; height: 80px;">
-            <div>
-              <div>인사관리부 사원관리팀</div>
-              <div>팀장 김땡땡</div>
-            </div>
-            <button class="cancle">x</button>
-          </div>
-          <div style="text-align: center; color: lightgray;">▼</div>
-          <div class="d-flex justify-content-between" style="border: solid 1px lightgray; padding: 10px; border-radius: 10px; height: 80px;">
-            <div>
-              <div>인사관리부 사원관리팀</div>
-              <div>팀장 김땡땡</div>
-            </div>
-            <button class="cancle">x</button>
-          </div>
-          <div style="text-align: center; color: lightgray;">▼</div>
-          <div class="d-flex justify-content-between" style="border: solid 1px lightgray; padding: 10px; border-radius: 10px; height: 80px;">
-            <div>
-              <div>인사관리부 사원관리팀</div>
-              <div>팀장 김땡땡</div>
-            </div>
-            <button class="cancle">x</button>
-          </div>
+
         </div>
       </form>
     </div>
