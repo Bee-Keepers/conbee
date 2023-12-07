@@ -46,7 +46,7 @@ public class MyPageController {
     public String mypageChoice() {
         return "myPage/myPage-choice";
     }
-    
+     
     @PostMapping("myPageUpdate")
     public String mypageUpdate() {
         
