@@ -36,7 +36,25 @@ public interface MemberMapper {
 	 */
 	String findMemberId(Member inputInformation);
 
+	/** 비밀번호 찾기(회원 조회) 부대찌개 재료 탐색
+	 * @param inputInformation
+	 * @return
+	 */
+	int findMemberPw(Member inputInformation);
 
+	/** 비밀번호 찾기(찐)
+	 * @param inputInformation
+	 * @return
+	 */
+	Member findPw(Member inputInformation);
+
+	/** 비밀번호 찾기 후 변경
+	 * @param inputMember
+	 * @return
+	 */
+	int findPwResult(Member inputMember);
+
+	
 
 
 	

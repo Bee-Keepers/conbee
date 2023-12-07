@@ -37,11 +37,11 @@ public class MemberController {
 	 * @return
 	 * @author 김민규
 	 */
-//	@GetMapping("login")
-//	public String login(){
-//		return "member/login";
-//	}
-//	
+	@GetMapping("login")
+	public String login(){
+		return "member/login";
+	}
+	
 	
 
 	
@@ -155,36 +155,115 @@ public class MemberController {
 			return "member/findId-result";
 		}
 		
+		ra.addAttribute("message", "입력하신 값이 올바르지 않습니다.");
 		
 		return "redirect:/";
 	}
 	
 	
 	
+	/** 비밀번호 찾기 화면 전환
+	 * @return
+	 */
+	// 부대찌개로 메뉴 선정
+	@GetMapping("findPw")
+	public String findPw() {
+		return "/member/findPw";
+	}
+	
+	/** 비밀번호 찾기 
+	 * @param inputInformation
+	 * @param model
+	 * @param ra
+	 * @return
+	 */
+	@PostMapping("findPw")
+	public String findPw(Member inputInformation, Model model, RedirectAttributes ra) {
+		
+		// 부대찌개 재료가 있는지 탐색
+		int result = service.findMemberPw(inputInformation);
+		
+		// 부대찌개 재료 > 부족한 것만 구매 (있는 것은 활용)
+		if(result > 0) {
+			Member searchMember = service.findPw(inputInformation);
+			
+			model.addAttribute("searchMember", searchMember);
+			
+			// 일부 장보러 가기
+			return "member/findPw-result";
+		}
+		// 전체 장보러 가기
+		
+		String message = "입력하신 값이 올바르지 않습니다.";
+		ra.addFlashAttribute("message", message);
+	
+		return "redirect:findPw";
+	}
 	
 	
+	@PostMapping("findPw-result")
+	public String findPwResult(Member inputMember, RedirectAttributes ra, SessionStatus status) {
+		
+		// 비밀번호 변경 서비스 호출
+		int result = service.findPwResult(inputMember);
+		
+		// 비밀번호 변경 성공시
+		if(result > 0) {
+			ra.addFlashAttribute("message", "비밀번호가 변경되었습니다.");
+			
+			// 로그아웃
+			status.setComplete();
+
+			// 로그인페이지 리다이렉트
+			return "redirect:login";
+		}
+		
+		ra.addFlashAttribute("message", "비밀번호 변경이 실패하였습니다.");
+		
+		return "member/findPw-result";
+		}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+ 
