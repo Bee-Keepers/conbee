@@ -19,11 +19,9 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.member.model.dto.Member;
-import com.keepers.conbee.revenue.model.dto.Revenue;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.context.annotation.RequestScope;
 
-import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.stock.model.dto.Stock;
 import com.keepers.conbee.stock.model.service.StockService;
 
@@ -203,13 +201,36 @@ public class StockController {
 	 * @param goodsName
 	 * @return
 	 */
-	@GetMapping("/goodsNameSelect")
+	@GetMapping("goodsNameSelect")
 	@ResponseBody
-	public List<String> goodsNameSelect( String intputGoods ){
-		List<String> goodsNameSelect = service.goodsNameSelect(intputGoods);
+	public List<Stock> goodsNameSelect( String intputGoods ){
+		List<Stock> goodsNameSelect = service.goodsNameSelect(intputGoods);
 		return goodsNameSelect;
 	}
 	
+	/** 재고 삭제
+	 * @param dataList
+	 * @return
+	 */
+	@DeleteMapping("stockDelete")
+	@ResponseBody
+	public int stockDelete(@RequestBody Map<String, Object> paramMap) {
+		return service.stockDelete(paramMap);
+	}
+	
+	/** 재고 현황 등록
+	 * @param stock
+	 * @param ra
+	 * @return
+	 */
+	@PostMapping("stockUpdate")
+	public String stockUpdate( Stock stock, RedirectAttributes ra) {
+		int result = service.stockUpdate(stock);
+		if(result <= 0) {
+			ra.addFlashAttribute("message", "수정 실패");
+		}
+		return "redirect:stockList";
+	}
 	
 	
 	

@@ -68,7 +68,7 @@ public interface StockService {
 	 * @param goodsNo 
 	 * @return
 	 */
-	List<String> goodsNameSelect(String intputGoods);
+	List<Stock> goodsNameSelect(String intputGoods);
 
 	/** 발주 신청
 	 * @param goodsNo
@@ -87,6 +87,19 @@ public interface StockService {
 	List<String> selectOrderList(int storeNo, String startDate, String endDate);
 
 	void orderScheduling();
+
+	/** 재고 삭제
+	 * @param stockNo
+	 * @return
+	 */
+	int stockDelete(Map<String, Object> paramMap);
+
+	/** 재고 품목 수정
+	 * @param stock
+	 * @return
+	 */
+	int stockUpdate(Stock stock);
+
 
 
 

@@ -72,12 +72,12 @@
 	<!-- 상품 등록 -->
 	<insert id="stockInsert">
 		INSERT INTO "STOCK"
-		VALUES (#{storeNo}, 
-			#{goodsNo},
-			0,
+		VALUES ( #{storeNo},
+			(SELECT GOODS_NO FROM GOODS WHERE GOODS_NAME = #{goodsName}), 
+			#{stockAmount},
 			#{stockDiscount},
 			#{stockOutPrice},
-			NULL)
+			#{stockInPrice})
 	</insert>
 	
 	<!-- 발주 자동 완성 검색 기능-->
@@ -98,7 +98,8 @@
 		</if>
 	</select>
 	
-	<select id="goodsNameSelect" resultType="string">
+	<!-- 상품명 입력 시 대소분류 작성 -->
+	<select id="goodsNameSelect" resultType="Stock">
 		SELECT GOODS_NAME, GOODS_NO, LCATEGORY_NAME, SCATEGORY_NAME
 		FROM GOODS
 		JOIN LCATEGORY USING(LCATEGORY_NO)
@@ -132,4 +133,27 @@
 		JOIN STORE USING(STORE_NO)
 		WHERE ORDER_DATE BETWEEN SYSDATE-1 AND SYSDATE
 	</select>
+	
+	<!-- 상품 삭제 -->
+	<delete id="stockDelete">
+		DELETE FROM STOCK
+		WHERE GOODS_NO IN (${goodsNoList})
+		AND STORE_NO = #{storeNo}
+	</delete>
+	
+	<update id="stockUpdate">
+		UPDATE "STOCK" SET
+		STOCK_NO = #{stockNo},
+		GOODS_NO = (SELECT GOODS_NO FROM GOODS WHERE GOODS_NAME = #{goodsName}),
+		STOCK_AMOUNT = #{stockAmount},
+		STOCK_DISCOUNT = #{stockDiscount},
+		STOCK_OUT_PRICE = #{stockOutPrice},
+		STOCK_IN_PRICE = #{stockInPrice}
+		WHERE GOODS_NO = #{goodsNo}
+		AND STORE_NO = #{stockNo}
+		
+	</update>
+	
+	
+	
 </mapper>

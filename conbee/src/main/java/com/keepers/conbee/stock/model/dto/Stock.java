@@ -1,5 +1,7 @@
 package com.keepers.conbee.stock.model.dto;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -52,20 +54,6 @@ public class Stock {
 	private String historyDate;
 	private String historyStoreName;
 	private String historyGoodsName;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }
