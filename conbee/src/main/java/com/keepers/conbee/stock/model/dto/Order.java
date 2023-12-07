@@ -17,6 +17,11 @@ public class Order {
 	private int orderNo;
 	private String orderDate;
 	private int stockInPrice;
+	private String storeName;
+	private String goodsName;
+	private int stockAmount;
+	private String lcategoryName;
+	private String scategoryName;
 	
 	
 }

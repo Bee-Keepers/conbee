@@ -88,6 +88,12 @@ public interface StockService {
 
 	void orderScheduling();
 
+	/** 발주 신청/수정 화면 출력용 orderList
+	 * @param storeNo
+	 * @return orderList
+	 */
+	List<Order> orderInsertUpdate(int storeNo);
+
 
 
 }

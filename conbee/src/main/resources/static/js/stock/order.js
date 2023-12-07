@@ -85,7 +85,13 @@ floatingName.addEventListener("input", e=>{
 
         // 자동완성검색어 클릭 시 태그 생성
         button.addEventListener("click", ()=>{
-
+          const goodsNameList = document.querySelectorAll("#tableTbody>tr>td:nth-of-type(2)>input");
+          // 발주 신청 창에 이미 존재하면 생성되지 않음
+          for(let goodsNameInput of goodsNameList){
+            if(goodsNameInput.value == stock.goodsNo){
+              return;
+            }
+          }
           // 검색 태그들이 이미 있으면 생성되지 않음
           for(let children of nameBtns.children){
             if(children.children[0].value == stock.goodsNo){
@@ -118,6 +124,7 @@ const tableTbody = document.getElementById("tableTbody");
 // 상세 검색 모달창에서 등록 버튼 누를 시 테이블에 행 추가하는 구문
 revenueSearchBtn.addEventListener("click", ()=>{
   const nameBtn = document.querySelectorAll("#nameBtns>button");
+  
   for(let btn of nameBtn){
     const tr = document.createElement("tr");
     const td1 = document.createElement("td");
@@ -130,7 +137,7 @@ revenueSearchBtn.addEventListener("click", ()=>{
       const input = temp.cloneNode(true);
       td.append(input);
       tr.append(td);
-    }
+    };
     const td2 = document.createElement("td");
     const input2 = createElement("input", {"type" : "number", "value" : 1, "name" : "orderAmount"}, ["form-control", "inputOrderAmount"]);
 
@@ -150,7 +157,7 @@ revenueSearchBtn.addEventListener("click", ()=>{
     td2.append(input2);
     tr.append(td2);
     tableTbody.append(tr);
-  }
+  };
   
 
 });
@@ -194,12 +201,26 @@ const deleteBtn = document.getElementById("deleteBtn");
 deleteBtn.addEventListener("click", ()=>{
   if(confirm("삭제하시겠습니까?")){
     const rowCheckbox = document.querySelectorAll(".rowCheckbox");
+    let data = [];
     for(let rowCheck of rowCheckbox){
       if(rowCheck.checked){
         rowCheck.parentElement.parentElement.remove();
         checkAll.checked = false;
+        data.push(rowCheck.parentElement.nextElementSibling.children[0].value);
       }
     }
+    let obj ={
+      "goodsNoList" : data,
+      "storeNo" : storeSelect.value
+    }
+    fetch("/stock/order/delete",{
+      method : "DELETE",
+      headers : {"Content-Type" : "application/json"},
+      body : JSON.stringify(obj)
+    })
+    .then()
+    .then()
+    .catch(e=>console.log(e));
   }
 });
 

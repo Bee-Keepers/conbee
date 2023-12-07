@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.member.model.dto.Member;
+import com.keepers.conbee.stock.model.dto.Order;
 import com.keepers.conbee.stock.model.dto.Stock;
 import com.keepers.conbee.stock.model.service.StockService;
 
@@ -127,12 +128,23 @@ public class StockController {
 		return "stock/order/orderList";
 	}
 	
-	/** 발주 신청 화면 전환
+	/** 발주 신청
 	 * @return
 	 */
 	@GetMapping("order/insert")
-	public String orderInsertPage() {
+	public String orderInsertPage(@SessionAttribute("loginMember") Member loginMember, @RequestParam(value = "storeNo", required = false, defaultValue = "0") int storeNo, Model model,
+			RedirectAttributes ra) {
+		if(storeNo == 0) {
+			storeNo = loginMember.getStoreList().get(0).getStoreNo();
+		}
+		if(!loginMember.getStoreNoList().contains(storeNo)) {
+			ra.addFlashAttribute("message", "소유한 지점만 검색해주세요");
+			return "redirect:insert";
+		}
+		List<Order> orderList = service.orderInsertUpdate(storeNo);
 		
+		model.addAttribute("orderList", orderList);
+
 		return "stock/order/orderInsert";
 	}
 	
@@ -153,6 +165,17 @@ public class StockController {
 		}
 		return "redirect:insert";
 	}
+//	/** 발주 삭제
+//	 * @return
+//	 */
+//	@DeleteMapping("order/delete")
+//	@ResponseBody
+//	public int orderDelete() {
+//		
+//		int result = service.orderDelete(storeNo);
+//		
+//		return result;
+//	}
 	
 	
 	@GetMapping("autoComplete")
@@ -203,7 +226,7 @@ public class StockController {
 	 * @param goodsName
 	 * @return
 	 */
-	@GetMapping("/goodsNameSelect")
+	@GetMapping("goodsNameSelect")
 	@ResponseBody
 	public List<String> goodsNameSelect( String intputGoods ){
 		List<String> goodsNameSelect = service.goodsNameSelect(intputGoods);
