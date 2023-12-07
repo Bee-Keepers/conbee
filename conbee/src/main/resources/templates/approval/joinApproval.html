@@ -15,6 +15,49 @@
 
     <th:block th:replace="~{approval/sidebar}"></th:block>
 
+    <!-- ==================================================템플릿들============================================================= -->
+
+    <!-- 지출결의서 Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          
+          <!-- 모달 헤더 -->
+          <div class="modal-header">
+            <div><h1 class="modal-title fs-5" id="exampleModalLabel">결재 요청문서</h1></div>
+            <div>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+          </div>
+
+          <!-- 기안서 템플릿 바디 -->
+          <th:block th:replace="~{approval/approvalDoc/docExpenseFin}"></th:block>
+
+          <!-- 모달 푸터 -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-warning me-1" data-bs-target="#" style="width: 80px;">결재</button>
+            <button type="button" class="btn btn-secondary me-1" data-bs-target="#" style="width: 80px;">반려</button>
+
+
+            <div class="btn-group dropup">
+              <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+              style="width: 80px; background-color: #f2f2f2; color: black;">
+                인쇄
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">PDF 저장</a></li>
+                <li><a class="dropdown-item" href="#">인쇄</a></li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- =============================================================================================================== -->
+
+    
+
     <div class="d-flex flex-column flex-grow-1 p-3">
 
       <div class="fs-3 pb-3 px-3 border-bottom">
@@ -38,7 +81,7 @@
           </colgroup>
           <thead>
             <tr style="text-align: center;">
-              <th><input type="checkbox"></th>
+              <th><input type="checkbox" id="checkAll"></th>
               <th>문서번호</th>
               <th>구분</th>
               <th>항목</th>
@@ -52,12 +95,12 @@
           </thead>
           <tbody class="table-group-divider">
 
-            <tr style="text-align: center;">
+            <tr style="text-align: center; cursor: pointer;" onclick="handleClick(event);">
               <td><input type="checkbox"></td>
               <td>62</td>
               <td>업무</td>
               <td>지출결의서</td>
-              <td style="text-align: start; font-weight: bold;"><a href="" style="text-decoration: none; color: black;">전산팀 사무비 지출결의서</a></td>
+              <td style="text-align: start; font-weight: bold;" class="approvalTitle" data-bs-toggle="modal" data-bs-target="#exampleModal" id="clickModal">전산팀 사무비 지출결의서</td>
               <td>이전산</td>
               <td>전산팀</td>
               <td>2023-11-29 10:04</td>
@@ -77,5 +120,6 @@
   </div>
 
   <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/approval/commonApproval.js"></script>
 </body>
 </html>
