@@ -92,4 +92,16 @@ public interface StockMapper {
 	 */
 	List<Order> selectOrderScheduling();
 
+	/**발주 신청/수정 화면 출력용
+	 * @param storeNo
+	 * @return
+	 */
+	List<Order> orderInsertUpdate(int storeNo);
+
+	/** 발주 수정을 위한 기존의 발주 조회
+	 * @param storeNo
+	 * @return
+	 */
+	List<Integer> preGoodsNo(int storeNo);
+
 }

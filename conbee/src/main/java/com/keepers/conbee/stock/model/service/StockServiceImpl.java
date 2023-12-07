@@ -15,10 +15,12 @@ import com.keepers.conbee.stock.model.dto.Stock;
 import com.keepers.conbee.stock.model.mapper.StockMapper;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
 @RequiredArgsConstructor
+@Slf4j
 public class StockServiceImpl implements StockService{
 
 	private final StockMapper mapper;
@@ -100,15 +102,27 @@ public class StockServiceImpl implements StockService{
 	// 발주 신청
 	@Override
 	public int orderInsert(List<Integer> goodsNo, List<Integer> orderAmount, int storeNo) {
-		List<Order> orderList = new ArrayList<>();
+		List<Integer> preGoodsNo = mapper.preGoodsNo(storeNo);
+		
+		List<Order> orderInsertList = new ArrayList<>();
+		List<Order> orderUpdateList = new ArrayList<>();
 		for(int i = 0; i<goodsNo.size(); i++) {
-			Order order = new Order();
-			order.setGoodsNo(goodsNo.get(i));
-			order.setOrderAmount(orderAmount.get(i));
-			order.setStoreNo(storeNo);
-			orderList.add(order);
+			if(preGoodsNo.contains(goodsNo.get(i))) {
+				log.info("=-=-=-=-=-=" + goodsNo.get(i));
+				Order orderUpdate = new Order();
+				orderUpdate.setGoodsNo(goodsNo.get(i));
+				orderUpdate.setOrderAmount(orderAmount.get(i));
+				orderUpdate.setStoreNo(storeNo);
+				orderUpdateList.add(orderUpdate);
+			} else {
+				Order order = new Order();
+				order.setGoodsNo(goodsNo.get(i));
+				order.setOrderAmount(orderAmount.get(i));
+				order.setStoreNo(storeNo);
+				orderInsertList.add(order);
+			}
 		}
-		return mapper.orderInsert(orderList);
+		return mapper.orderInsert(orderInsertList);
 	}
 
 	// 발주 내역 조회
@@ -135,8 +149,16 @@ public class StockServiceImpl implements StockService{
 	public void orderScheduling() {
 		
 		List<Order> orderList = mapper.selectOrderScheduling();
-		mapper.orderScheduling(orderList);
-		
+		log.info("-=-=--=-=-= orderList : " + orderList);
+		if(orderList.size() != 0) {
+			mapper.orderScheduling(orderList);
+		}
+	}
+	
+	// 발주 신청/수정 화면 출력용
+	@Override
+	public List<Order> orderInsertUpdate(int storeNo) {
+		return mapper.orderInsertUpdate(storeNo);
 	}
 	
 }

@@ -11,10 +11,68 @@
 </head>
 <body class="d-flex flex-column" style="height: 100vh;">
 
-  <!-- Button trigger modal -->
+  <!-- 상세 조회 Modal -->
+  <div class="modal fade" id="detailModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">상세 조회</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div>
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th style="width: 3%;"><input type="checkbox"></th>
+                  <th style="width: 7%;">상품번호</th>
+                  <th>상품명</th>
+                  <th style="width: 10%;">대분류</th>
+                  <th style="width: 10%;">소분류</th>
+                  <th style="width: 6%;">재고</th>
+                  <th style="width: 9%;">입고단가</th>
+                  <th style="width: 7%;">발주수량</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input type="checkbox"></td>
+                  <td>2</td>
+                  <td>망곰젤리</td>
+                  <td>과자류</td>
+                  <td>스낵</td>
+                  <td>7</td>
+                  <td>2000</td>
+                  <td><input class="form-control" type="number" value="0"></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox"></td>
+                  <td>2</td>
+                  <td>망곰젤리</td>
+                  <td>과자류</td>
+                  <td>스낵</td>
+                  <td>7</td>
+                  <td>2000</td>
+                  <td><input class="form-control" type="number" value="0"></td>
+                </tr>
+              </tbody>
+              <tfoot>
+  
+              </tfoot>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          <button type="button" class="btn btn-light">삭제</button>
+          <button type="button" class="btn btn-warning">수정</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- 상세 검색 Modal -->
+  <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -100,7 +158,7 @@
                   <option th:value="${store.storeNo}" th:text="${store.storeName}"></option>
                 </th:block>
               </select>
-              <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#searchModal">
                 상세 검색
               </button>
             </div>
@@ -121,7 +179,7 @@
           <tbody id="tableTbody" class="text-center">
             <tr th:each="order : ${orderList}">
               <td th:text="${order}">발주 날짜</td>
-              <td><button type="button" class="btn btn-warning btn-sm">상세 조회</button></td>
+              <td><button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal">상세 조회</button></td>
             </tr>
           </tbody>
         </table>
