@@ -1,5 +1,7 @@
 package com.keepers.conbee.stock.model.dto;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,6 +19,13 @@ public class Order {
 	private int orderNo;
 	private String orderDate;
 	private int stockInPrice;
+	private String storeName;
+	private String goodsName;
+	private int stockAmount;
+	private String lcategoryName;
+	private String scategoryName;
+	
+	private List<Integer> goodsNoList;
 	
 	
 }

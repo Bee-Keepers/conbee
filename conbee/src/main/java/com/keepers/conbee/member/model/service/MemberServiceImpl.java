@@ -70,6 +70,29 @@ public class MemberServiceImpl implements MemberService{
 		return mapper.findMemberId(inputInformation);
 	}
 	
+	// 비밀번호 찾기(회원조회) 부대찌개 찾기
+	@Override
+	public int findMemberPw(Member inputInformation) {
+		return mapper.findMemberPw(inputInformation);
+	}
+
+	// 비밀번호 찾기
+	@Override
+	public Member findPw(Member inputInformation) {
+		return mapper.findPw(inputInformation);
+	}
+
+	// 비밀번호 찾기 후 비밀번호 변경
+	@Override
+	public int findPwResult(Member inputMember) {
+
+		// 비밀번호 암호화
+		inputMember.setMemberPw( bcrypt.encode(inputMember.getMemberPw()) );
+		
+		return mapper.findPwResult(inputMember);
+	}
+	
+	
 	
 	
 	

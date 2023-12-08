@@ -58,5 +58,30 @@
 		AND MEMBER_EMAIL =  #{memberEmail}
 		AND MEMBER_DEL_FL = 'N'
 	</select>
+	
+	<!-- 비밀번호 찾기(멤버 조회) -->
+	<select id="findMemberPw" resultType="_int">
+		SELECT COUNT(*)
+	   	FROM "MEMBER" 
+		WHERE MEMBER_ID = #{memberId} 
+		AND MEMBER_EMAIL = #{memberEmail}
+		AND MEMBER_DEL_FL = 'N'
+	</select>
+	
+	<!-- 비밀번호 찾기(찐) -->
+	<select id="findPw" resultType="Member">
+		SELECT MEMBER_NO, MEMBER_ID FROM MEMBER
+		WHERE MEMBER_ID = #{memberId}
+		AND MEMBER_EMAIL = #{memberEmail}
+		AND MEMBER_DEL_FL = 'N'
+	</select>
+	
+	  <!-- 비밀번호 변경 -->
+	 <update id="findPwResult">
+		UPDATE "MEMBER" SET 
+		MEMBER_PW = #{memberPw}
+		WHERE MEMBER_NO = #{memberNo}
+	 </update>
+	
 
 </mapper>

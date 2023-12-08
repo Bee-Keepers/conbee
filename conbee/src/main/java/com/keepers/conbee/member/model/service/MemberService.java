@@ -22,11 +22,29 @@ public interface MemberService {
 	 */
 	int findMember(Member inputInformation);
 
-	/** Id 찾기
+	/** ID 찾기
 	 * @param inputInformation
 	 * @return
 	 */
 	String findMemberId(Member inputInformation);
+
+	/** 비밀번호 찾기(멤버 조회)  부대찌개 탐색
+	 * @param inputInformation
+	 * @return
+	 */
+	int findMemberPw(Member inputInformation);
+
+	/** 비밀번호 찾기 
+	 * @param inputInformation
+	 * @return
+	 */
+	Member findPw(Member inputInformation);
+
+	/** 비밀번호 찾기 후 비밀번호 변경
+	 * @param inputMember
+	 * @return
+	 */
+	int findPwResult(Member inputMember);
 
 	
 	

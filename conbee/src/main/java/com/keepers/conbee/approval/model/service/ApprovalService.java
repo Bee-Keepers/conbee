@@ -4,52 +4,56 @@ package com.keepers.conbee.approval.model.service;
 import java.util.List;
 
 import com.keepers.conbee.approval.model.dto.Approval;
+import com.keepers.conbee.approval.model.dto.Approver;
 import com.keepers.conbee.member.model.dto.Member;
 
 public interface ApprovalService {
-
+	
+	
 	/** 기안문 작성자 정보 조회
-	* @param memberNo
-	* @return member
-	* @author 유진
-	*/
-	Member selectWriteInfo(int memberNo);
-
-	/** 결재자 리스트 정보 조회
 	 * @param memberNo
+	 * @return member
+	 * @author 유진
+	 */
+	Member selectInfo(int memberNo);
+	
+	/** 부서 모든 멤버 조회
+	 * @param selectDepartment
 	 * @return member list
 	 * @author 유진
 	 */
-	List<Member> selectApproverList(int memberNo);
-	
-	
-	
-	/** 부서 선택 시 팀 조회
-	 * @param selectDepartment
-	 * @return
-	 */
-	List<String> selectTeam(String selectDepartment);
-  
-	/** 팀 선택 시 결재자 조회
+	List<Member> selectAllMember(String selectDepartment);
+
+	/** 팀 멤버 조회
 	 * @param selectTeam
-	 * @return
+	 * @return member list
+	 * @author 유진
 	 */
-	List<String> selectApprover(String selectTeam);
-  
-	
+	List<Member> selectTeamMember(String selectTeam);
+
+	/** 멤버 조회
+	 * @param memberNo
+	 * @return member
+	 * @author 유진
+	 */
+	Member selectMember(int memberNo);
+
+
 	/** 기안문 insert
 	* @param approval
 	* @return result
 	* @author 유진
+	 * @param approverList 
 	*/
-	int insertApproval(Approval approval);
+	int insertApproval(Approval approval, List<Approver> approverList);
 
-	/**
+	
+	/** 결재요청함 조회
 	 * @param memberNo
-	 * @return
+	 * @return approval list
+	 * @author 유진
 	 */
 	List<Approval> selectRequestApproval(int memberNo);
-
 
 
 

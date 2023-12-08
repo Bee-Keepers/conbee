@@ -26,35 +26,33 @@ public class ApprovalServiceImpl implements ApprovalService{
 
 	// 기안문 작성자 정보 조회
 	@Override
-	public Member selectWriteInfo(int memberNo) {
-
-		return mapper.selectWriteInfo(memberNo);
+	public Member selectInfo(int memberNo) {
+		return mapper.selectInfo(memberNo);
 	}
 	
-	
-	// 결재자 리스트 조회
+	// 부서 모든 멤버 조회
 	@Override
-	public List<Member> selectApproverList(int memberNo) {
-		
-		return mapper.selectApproverList(memberNo);
+	public List<Member> selectAllMember(String selectDepartment) {
+		return mapper.selectAllMember(selectDepartment);
 	}
 
-	
-	// 부서 선택 시 팀 조회
+	// 팀 멤버 조회
 	@Override
-	public List<String> selectTeam(String selectDepartment) {
-		return mapper.selectTeam(selectDepartment);
+	public List<Member> selectTeamMember(String selectTeam) {
+		return mapper.selectTeamMember(selectTeam);
 	}
 	
-	// 팀 선택 시 결재자 조회
+	// 멤버 조회
 	@Override
-	public List<String> selectApprover(String selectTeam) {
-		return mapper.selectApprover(selectTeam);
+	public Member selectMember(int memberNo) {
+		return mapper.selectMember(memberNo);
 	}
+
+
 
 	// 기안문 insert
 	@Override
-	public int insertApproval(Approval approval) {
+	public int insertApproval(Approval approval, List<Approver> approverList) {
 	
 		int result;
 		
@@ -62,46 +60,17 @@ public class ApprovalServiceImpl implements ApprovalService{
 		int resultApproval = mapper.insertApproval(approval);
 		if(resultApproval == 0) return 0;
 		
-		// 2) 휴가/퇴직/출폐점/발주 결재문서 테이블 삽입
 		
+		// 2) 휴가/퇴직/출폐점/발주 결재문서 테이블 삽입	
 		if(approval.getDocCategoryNo()!=4) {			
 			resultApproval = mapper.insertApprovalDoc(approval);
 			if(resultApproval==0) return 0;
 		}				
 		
 		// 3) 결재자 리스트 테이블 삽입
-		
-		// 결재라인 개수
-		int approverNum;
-		switch(approval.getDocCategoryNo()) {
-		case 0: approverNum = 1; break;
-		case 1: approverNum = 2; break;
-		case 2,3: approverNum = 4; break;
-		case 4: approverNum = 2; break;
-		case 5: approverNum = 4; break;
-		default: approverNum=0; break;
+		for(Approver approver:approverList) {
+			approver.setApprovalNo(approval.getApprovalNo()); //문서번호
 		}
-		
-		List<Approver> approverList = new ArrayList<>(); 
-		
-		
-		// 결재자 이름 받아오기
-		List<Member> approverNoList = mapper.selectApproverList(approval.getMemberNo()); 
-
-		
-		for(int i=0; i<approverNum; i++) {
-			
-			Approver approvers = new Approver();
-			
-			approvers.setApproverOrder(i);
-			approvers.setApproverCondition(0);
-			approvers.setApprovalNo(approval.getApprovalNo());
-			approvers.setMemberNo(approverNoList.get(i).getMemberNo());
-			
-			approverList.add(approvers);
-		}
-
-		
 
 		int resultApprover = mapper.insertApproverList(approverList);
 		if(resultApprover>0) resultApprover=1;
@@ -114,11 +83,12 @@ public class ApprovalServiceImpl implements ApprovalService{
 	}
 	
 	
-	
+	// 결재요청함 조회
 	@Override
 	public List<Approval> selectRequestApproval(int memberNo) {
 		return mapper.selectRequestApproval(memberNo);
 	}
+
 
 
 

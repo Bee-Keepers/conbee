@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.stock.model.dto.Order;
+import com.keepers.conbee.stock.model.dto.OrderDetail;
 import com.keepers.conbee.stock.model.dto.Stock;
 
 public interface StockService {
@@ -100,6 +101,23 @@ public interface StockService {
 	 */
 	int stockUpdate(Stock stock);
 
+	/** 발주 신청/수정 화면 출력용 orderList
+	 * @param storeNo
+	 * @return orderList
+	 */
+	List<Order> orderInsertUpdate(int storeNo);
+
+	/** 발주 삭제
+	 * @param order
+	 * @return
+	 */
+	void orderDelete(Order order);
+
+	/** 발주 상세 조회
+	 * @param order
+	 * @return
+	 */
+	List<OrderDetail> orderSelect(Order order);
 
 
 

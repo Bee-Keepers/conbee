@@ -22,6 +22,9 @@ import com.keepers.conbee.member.model.dto.Member;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.annotation.RequestScope;
 
+import com.keepers.conbee.member.model.dto.Member;
+import com.keepers.conbee.stock.model.dto.Order;
+import com.keepers.conbee.stock.model.dto.OrderDetail;
 import com.keepers.conbee.stock.model.dto.Stock;
 import com.keepers.conbee.stock.model.service.StockService;
 
@@ -125,12 +128,23 @@ public class StockController {
 		return "stock/order/orderList";
 	}
 	
-	/** 발주 신청 화면 전환
+	/** 발주 신청
 	 * @return
 	 */
 	@GetMapping("order/insert")
-	public String orderInsertPage() {
+	public String orderInsertPage(@SessionAttribute("loginMember") Member loginMember, @RequestParam(value = "storeNo", required = false, defaultValue = "0") int storeNo, Model model,
+			RedirectAttributes ra) {
+		if(storeNo == 0) {
+			storeNo = loginMember.getStoreList().get(0).getStoreNo();
+		}
+		if(!loginMember.getStoreNoList().contains(storeNo)) {
+			ra.addFlashAttribute("message", "소유한 지점만 검색해주세요");
+			return "redirect:insert";
+		}
+		List<Order> orderList = service.orderInsertUpdate(storeNo);
 		
+		model.addAttribute("orderList", orderList);
+
 		return "stock/order/orderInsert";
 	}
 	
@@ -150,6 +164,14 @@ public class StockController {
 			ra.addFlashAttribute("message", "발주 신청 실패");
 		}
 		return "redirect:insert";
+	}
+	/** 발주 삭제
+	 * @return
+	 */
+	@DeleteMapping("order/delete")
+	@ResponseBody
+	public void orderDelete(@RequestBody Order order) {
+		service.orderDelete(order);
 	}
 	
 	
@@ -232,6 +254,12 @@ public class StockController {
 		return "redirect:stockList";
 	}
 	
+	@GetMapping("order/select")
+	@ResponseBody
+	public List<OrderDetail> orderSelect(Order order) {
+		log.info("=-=-=-=-=-=-=-=-=-=-==-=- order : " + order);
+		return service.orderSelect(order);
+	}
 	
 	
 }

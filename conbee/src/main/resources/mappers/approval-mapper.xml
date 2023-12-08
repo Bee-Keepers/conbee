@@ -4,43 +4,40 @@
 <mapper namespace="com.keepers.conbee.approval.model.mapper.ApprovalMapper">
 
 
-	<!-- 정보조회 합치기,,-->
 	<!-- 기안문 작성자 정보 조회 -->
-	<select id="selectWriteInfo" resultType="Member">
-		SELECT MEMBER_NAME, TEAM_NAME
+	<select id="selectInfo" resultType="Member">
+		SELECT TEAM_NAME, MEMBER_NAME
 		FROM "MEMBER"
-		JOIN "TEAM" USING(TEAM_NO)
+		LEFT JOIN "TEAM" USING(TEAM_NO)
 		WHERE MEMBER_NO = #{memberNo}
 	</select>
 	
-	<!-- 결재자 리스트-->
-	<!-- 사장부사장/부장/팀장--><!-- 사원 많음 코드 고치기-->
-	<select id="selectApproverList" resultType="Member"> 
-		SELECT MEMBER_NO, GRADE_NO, TEAM_NO, MEMBER_NAME
+		<!-- 부서 모든 멤버 조회 -->
+	<select id="selectAllMember" resultType="Member">
+		SELECT MEMBER_NO, MEMBER_NAME, GRADE_NAME, TEAM_NAME, TEAM_NO FROM "MEMBER"
+		JOIN "GRADE" USING(GRADE_NO)
+		LEFT JOIN "TEAM" USING(TEAM_NO)
+		WHERE MEMBER.DEPARTMENT_NO = #{selectDepartment}
+		ORDER BY GRADE_NO
+	</select>
+	
+	<!-- 팀 멤버 조회 -->
+	<select id="selectTeamMember" resultType="Member">
+		SELECT MEMBER_NO,MEMBER_NAME, GRADE_NAME, TEAM_NAME, TEAM_NO FROM "MEMBER"
+		JOIN "GRADE" USING(GRADE_NO)
+		LEFT JOIN "TEAM" USING(TEAM_NO)
+		WHERE TEAM_NO = #{selectTeam}
+		ORDER BY GRADE_NO
+	</select>
+	
+	<!-- 멤버 정보 조회 -->
+	<select id="selectMember" resultType="Member">
+		SELECT MEMBER_NO, MEMBER_NAME, GRADE_NAME, TEAM_NAME, DEPARTMENT_NAME
 		FROM "MEMBER"
-		WHERE TEAM_NO=0
-		OR (DEPARTMENT_NO =(SELECT DEPARTMENT_NO FROM "MEMBER" WHERE MEMBER_NO=#{memberNo}) AND GRADE_NO=2)
-		OR (TEAM_NO = (SELECT TEAM_NO FROM "MEMBER" WHERE MEMBER_NO=#{memberNo}) AND GRADE_NO=3)
-		OR (GRADE_NO =3 AND DEPARTMENT_NO =2 AND TEAM_NO = 6)
-		AND MEMBER_NO!=#{memberNo}
-		ORDER BY GRADE_NO DESC
-	</select>
-	
-	
-	<!-- 부서 선택 시 팀 조회 -->
-	<select id="selectTeam" resultType="String">
-		SELECT TEAM_NAME FROM TEAM
-		JOIN DEPARTMENT USING(DEPARTMENT_NO)
-		WHERE DEPARTMENT_NAME=#{selectDepartment}
-		
-	</select>
-	
-	<!-- 팀 선택 시 결재자 조회 -->
-	<select id="selectApprover" resultType="String">
-		SELECT GRADE_NAME, MEMBER_NAME FROM "MEMBER"
-		JOIN TEAM USING(TEAM_NO)
-		JOIN GRADE USING(GRADE_NO)
-		WHERE TEAM_NAME=#{selectTeam}
+		JOIN "GRADE" USING(GRADE_NO)
+		LEFT JOIN "TEAM" USING(TEAM_NO)
+		JOIN "DEPARTMENT" ON(MEMBER.DEPARTMENT_NO=DEPARTMENT.DEPARTMENT_NO)
+		WHERE MEMBER_NO = #{mebmerNo}
 	</select>
 	
 
@@ -83,13 +80,13 @@
 	<!-- 결재자 리스트 insert -->
 	<insert id="insertApproverList" parameterType="list">
 		INSERT INTO "APPROVER"
-		<foreach collection="list" item="item" separator=" UNION ">
+		<foreach collection="list" item="approver" separator=" UNION ">
 			SELECT NEXT_APPROVER_NO(), 
-				#{item.approverOrder},
-				#{item.approverCondition},
+				#{approver.approverOrder},
+				#{approver.approverCondition},
 				SYSDATE,
-				#{item.approvalNo},
-				#{item.memberNo}
+				#{approver.approvalNo},
+				#{approver.memberNo}
 			FROM DUAL
 		</foreach>
 	</insert>
@@ -105,6 +102,7 @@
 		AND APPROVAL_CONDITION =0
 		ORDER BY APPROVAL_DATE DESC
 	</select>
+	
 	
 
 </mapper>

@@ -1,9 +1,8 @@
 
 package com.keepers.conbee.approval.controller;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.approval.model.dto.Approval;
+import com.keepers.conbee.approval.model.dto.Approver;
 import com.keepers.conbee.approval.model.service.ApprovalService;
 import com.keepers.conbee.member.model.dto.Member;
 
@@ -125,61 +125,54 @@ public class ApprovalController { // 전자결재 컨트롤러
 
 	// ============================== 기안문 작성 ==============================
 
-	/** 기안문 작성자 정보 조회 - 로그인한 회원의 이름, 팀이름, 결재자 받아오기
+	/** 기안문 작성자 정보 조회
 	* @param loginMember
-	* @return map
+	* @return teamName
 	* @author 유진
 	*/
-	@GetMapping(value = "writeApproval/docWriteInfos", produces = "application/json; charset=UTF-8")
+	@GetMapping(value = "writeApproval/selectInfo", produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public Map<String, Object> selectWriteInfo(@SessionAttribute(value="loginMember", required=false) Member loginMember) {
+	public Member selectInfo(@SessionAttribute(value="loginMember", required=false) Member loginMember) {
 	
-		// 이건 나중에 삭제
-		if(loginMember==null) {
-		  return null;
-		}
-		
-		// 로그인한 회원의 이름, 팀이름, 결재자 받아오기
-		Member member = service.selectWriteInfo(loginMember.getMemberNo());
-		List<Member> InfoApproverList = service.selectApproverList(loginMember.getMemberNo());
-		
-		Map<String, Object> docWriteInfosMap = new HashMap<>();
-		docWriteInfosMap.put("infoName", member.getMemberName());
-		docWriteInfosMap.put("infoTeam", member.getTeamName());	
-		docWriteInfosMap.put("InfoApproverList", InfoApproverList);
-
-
-		return docWriteInfosMap;
-
+		Member writeInfo = service.selectInfo(loginMember.getMemberNo());
+		return writeInfo;
 	}
 	
-	/** 부서 선택 - 팀 선택
+	
+	/** 부서 모든 멤버 조회
 	 * @param selectDepartment
 	 * @return
 	 */
-	@GetMapping(value = "writeApproval/selectTeam", produces = "application/json; charset=UTF-8")
+	@GetMapping(value = "writeApproval/selectAllMember", produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public List<String> selectTeam(String selectDepartment){
-		
-		List<String> teamList = service.selectTeam(selectDepartment);
-		
-		return teamList;
+	public List<Member> selectAllMember(String selectDepartment){
+		List<Member> departmentMember = service.selectAllMember(selectDepartment);
+		return departmentMember;
 	}
 	
-	/** 팀 선택 - 결재자 선택
+	/** 팀 멤버 조회
 	 * @param selectTeam
 	 * @return
 	 */
-	@GetMapping(value = "writeApproval/selectApprover", produces = "application/json; charset=UTF-8")
+	@GetMapping(value = "writeApproval/selectTeamMember", produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public List<String> selectApprover(String selectTeam){
-		
-		List<String> approverList = service.selectApprover(selectTeam);
-		
-		return approverList;
+	public List<Member> selectTeamMember(String selectTeam){
+		List<Member> teamMember = service.selectTeamMember(selectTeam);
+		return teamMember;
 	}
 	
-
+	/** 멤버 조회
+	 * @param memberNo
+	 * @return
+	 */
+	@GetMapping(value = "writeApproval/selectMember", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public Member selectMember(int memberNo) {	
+		Member memberInfo = service.selectMember(memberNo);
+		return memberInfo;
+	}
+	
+	
 
 	/** 기안문 insert
 	* @param doc
@@ -193,28 +186,46 @@ public class ApprovalController { // 전자결재 컨트롤러
 	@PostMapping("writeApproval/{doc}")
 	public String insertApproval(@PathVariable("doc") String doc,
 							@RequestParam("approvalCondition") int approvalCondition,
-							@SessionAttribute("loginMember") Member loginMember,
-							Approval approval, RedirectAttributes ra) {
+							@SessionAttribute("loginMember") Member loginMember, Approval approval,
+							@RequestParam("approverMemNo") List<Integer> approverMemNo,RedirectAttributes ra) {
 		              		// 파일첨부 추가예정
+
+
+		/* 문서 정보 셋팅 */
 		int departNo;
 		int cateNo;
 		
 		switch(doc) {
-		case "docHoliday" : departNo=0; cateNo=0; break;
+		case "docHoliday" 	 : departNo=0; cateNo=0; break;
 		case "docRetirement" : departNo=0; cateNo=1; break;
-		case "docStore" : departNo=0;  cateNo = approval.getDocStoreState()==0?2:3; break; //출점:2 폐점:3
-		case "docExpense" : departNo=1; cateNo=4; break;
-		case "docOrder" : departNo=1; cateNo=5; break;
-		default : departNo=0; cateNo=0; 
+		case "docStore" 	 : departNo=0;  cateNo = approval.getDocStoreState()==0?2:3; break; //출점:2 폐점:3
+		case "docExpense" 	 : departNo=1; cateNo=4; break;
+		case "docOrder" 	 : departNo=1; cateNo=5; break;
+		default 			 : departNo=0; cateNo=0; 
 		}
 		
-		// 값 세팅
 		approval.setApprovalCondition(approvalCondition); // 문서 상태
 		approval.setMemberNo(loginMember.getMemberNo()); // 사원 번호
 		approval.setDepartmentNo(departNo); // 협조부서 코드
 		approval.setDocCategoryNo(cateNo); // 문서 분류 번호
+		
+				
+		/* 결재자 정보 셋팅 */
+		
+		List<Approver> approverList = new ArrayList<>();
+		
+		for(int i=0; i<approverMemNo.size(); i++) {
+			Approver approver = new Approver();
+	
+			approver.setMemberNo(approverMemNo.get(i)); // 결재자 회원번호
+			approver.setApproverCondition(0);// 결재상태 미승인=0
+			approver.setApproverOrder(i);// 결재순서
 			
-		int result = service.insertApproval(approval);
+			approverList.add(approver);
+		}
+				
+			
+		int result = service.insertApproval(approval, approverList);
 		
 		log.debug(result+"d");
 		log.debug(approval.getApprovalCondition()+"s");

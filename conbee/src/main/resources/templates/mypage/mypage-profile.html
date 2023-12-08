@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>conBee</title>
+  <title>내 프로필 조회</title>
   <link rel="stylesheet" href="/css/mypage/myPage.css">
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
@@ -62,18 +62,18 @@
                 <label for="disabledTextInput" class="form-label">주소</label>
                 <input type="text" id="disabledTextInput" class="form-control p-3" th:placeholder="*{memberAddress}">
               </div>
-
+            </fieldset>
          
-            
+              <div class="d-flex justify-content-end my-5 py-4" >
+                <button class="btn btn-warning btnBox fs-5" type="submit">수정</button>
+              </div>
             </div>
 
       
-            </fieldset>
+           
           
           
-          <div class="d-flex justify-content-end my-5 py-4" >
-            <button class="btn btn-warning btnBox fs-5" type="submit">수정</button>
-          </div>
+       
         </div>
         </form>
 
@@ -81,7 +81,6 @@
     </main>
 
 
-  <th:block th:replace="~{common/footer}"></th:block>
   <script src="/js/bootstrap.bundle.min.js"></script>
 
 

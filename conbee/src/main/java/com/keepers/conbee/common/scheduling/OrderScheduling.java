@@ -22,7 +22,8 @@ public class OrderScheduling {
 	private StockService service;
 	
 	// 자정마다 동작
-	@Scheduled(cron = "0 0 0 * * *")
+//	@Scheduled(cron = "0 0 0 * * *")
+	@Scheduled(cron = "0 0 * * * *")
 	public void orderScheduling() {
 		log.info("Order 스케쥴러 동작");
 		

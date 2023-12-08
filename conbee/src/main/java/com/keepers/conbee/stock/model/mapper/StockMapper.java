@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.keepers.conbee.stock.model.dto.Order;
+import com.keepers.conbee.stock.model.dto.OrderDetail;
 import com.keepers.conbee.stock.model.dto.Stock;
 
 @Mapper
@@ -103,5 +104,34 @@ public interface StockMapper {
 	 * @return
 	 */
 	int stockUpdate(Stock stock);
+	/**발주 신청/수정 화면 출력용
+	 * @param storeNo
+	 * @return
+	 */
+	List<Order> orderInsertUpdate(int storeNo);
+
+	/** 발주 수정을 위한 기존의 발주 조회
+	 * @param storeNo
+	 * @return
+	 */
+	List<Integer> preGoodsNo(int storeNo);
+
+	/** 발주 삭제
+	 * @param order
+	 * @return
+	 */
+	int orderDelete(Order order);
+
+	/** 발주 수정
+	 * @param orderUpdate
+	 * @return
+	 */
+	int orderUpdate(Order orderUpdate);
+
+	/** 발주 상세 조회
+	 * @param order
+	 * @return
+	 */
+	List<OrderDetail> orderSelect(Order order);
 
 }

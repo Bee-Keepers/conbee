@@ -5,8 +5,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.keepers.conbee.admin.store.model.dto.Store;
 import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.mypage.model.service.MyPageService;
 
@@ -46,11 +50,41 @@ public class MyPageController {
     public String mypageChoice() {
         return "myPage/myPage-choice";
     }
-    
+     
     @PostMapping("myPageUpdate")
     public String mypageUpdate() {
         
         return "myPage/myPage-update";
+    }
+    
+    @GetMapping("myPage-store")
+    public String myPageStore(@SessionAttribute("loginMember") Member loginMember, Model model) {
+    	int storeNo = loginMember.getStoreNoList().get(0);
+    	Store store = service.myPageStore(storeNo);
+    	
+    	model.addAttribute("store", store);
+    	
+        return "myPage/myPage-store";
+    }
+    
+    @GetMapping("myPage-store/select")
+    @ResponseBody
+    public Store myPageStoreSelect(int storeNo) {
+    	Store store = service.myPageStore(storeNo);
+    	
+    	return store;
+    }
+    
+    
+    @PostMapping("myPage-store")
+    public String myPageStoreUpdate(String storeTel, int storeNo, RedirectAttributes ra) {
+    	int result = service.myPageStoreUpdate(storeNo, storeTel);
+    	if(result > 0) {
+    		ra.addFlashAttribute("message", "수정 성공");
+    	} else {
+    		ra.addFlashAttribute("message", "수정 실패");
+    	}
+    	return "redirect:myPage-store";
     }
 
 }
