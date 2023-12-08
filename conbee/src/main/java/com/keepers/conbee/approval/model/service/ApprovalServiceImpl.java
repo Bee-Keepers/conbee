@@ -88,9 +88,27 @@ public class ApprovalServiceImpl implements ApprovalService{
 	public List<Approval> selectRequestApproval(int memberNo) {
 		return mapper.selectRequestApproval(memberNo);
 	}
+	
+	
 
+	/* ============================= 예리나 ================================ */
+	
+	/** 결재대기함 조회
+	 *
+	 */
+	@Override
+	public List<Approval> selectWaitApproval(int memberNo) {
+		return mapper.selectWaitApproval(memberNo);
+	}
 
-
+	
+	/** 결재진행함 조회
+	 *
+	 */
+	@Override
+	public List<Approval> selectProgressApproval(int memberNo) {
+		return mapper.selectProgressApproval(memberNo);
+	}
 
 }
 

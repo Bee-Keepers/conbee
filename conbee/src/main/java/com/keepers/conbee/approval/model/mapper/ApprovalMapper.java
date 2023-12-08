@@ -71,6 +71,26 @@ public interface ApprovalMapper {
 	 */
 	List<Approval> selectRequestApproval(int memberNo);
 
+	
+	
+	
+	
+	
+	/* ============================= 예리나 ================================ */
+
+	/** 결재대기함
+	 * @param memberNo
+	 * @return
+	 */
+	List<Approval> selectWaitApproval(int memberNo);
+
+
+	/** 결재진행함 조회
+	 * @param memberNo
+	 * @return
+	 */
+	List<Approval> selectProgressApproval(int memberNo);
+
 
 
 

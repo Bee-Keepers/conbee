@@ -74,23 +74,6 @@ public class ApprovalController { // 전자결재 컨트롤러
 		return "approval/reclaimeApproval";
 	}
 
-	/** 결재대기함 포워드
-	* @return
-	* @author 예리나
-	*/
-	@GetMapping("waitApproval")
-	public String waitApproval() {
-		return "approval/waitApproval";
-	}
-
-	/** 결재진행함 포워드
-	* @return
-	* @author 예리나
-	*/
-	@GetMapping("progressApproval")
-	public String progressApproval() {
-		return "approval/progressApproval";
-	}
 
 	/** 완료문서함 포워드
 	* @return
@@ -265,6 +248,38 @@ public class ApprovalController { // 전자결재 컨트롤러
 	
 	// ============================== 결재 대기함 ==============================
 	
+	/** 결재대기함 포워드
+	* @return
+	* @author 예리나
+	*/
+	@GetMapping("waitApproval")
+	public String waitApproval(@SessionAttribute("loginMember") Member loginMember, Model model) {
+		
+		// 로그인한 멤버가 승인하지 않은 모든 결재문서 얻어오기
+		List<Approval> waitApprovalList = service.selectWaitApproval(loginMember.getMemberNo());
+		
+		model.addAttribute("waitApprovalList", waitApprovalList);
+		
+		return "approval/waitApproval";
+	}
+	
+	
+	// ============================== 결재 진행함 ==============================
+	
+	/** 결재진행함 포워드
+	* @return
+	* @author 예리나
+	*/
+	@GetMapping("progressApproval")
+	public String progressApproval(@SessionAttribute("loginMember") Member loginMember, Model model) {
+		
+		// 로그인한 멤버가 승인한 모든 결재문서 얻어오기
+		List<Approval> progressApprovalList = service.selectProgressApproval(loginMember.getMemberNo());
+		
+		model.addAttribute("progressApprovalList", progressApprovalList);
+		
+		return "approval/progressApproval";
+	}
 	
 	// ============================== 완료 문서함 ==============================
 	
