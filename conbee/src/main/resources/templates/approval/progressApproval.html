@@ -50,14 +50,14 @@
           </thead>
           <tbody class="table-group-divider">
 
-            <!-- 결재 대기 문서가 없을 때 -->
-            <tr th:if="${#lists.size(waitApprovalList) == 0}">
+            <!-- 결재 진행 문서가 없을 때 -->
+            <tr th:if="${#lists.size(progressApprovalList) == 0}">
               <th colspan="9" style="text-align: center;">결재 진행중인 문서가 없습니다.</th>
             </tr>
 
-            <!-- 결재 대기 문서가 존재할 때 -->
-            <th:block th:unless="${#lists.size(waitApprovalList) == 0}">
-              <tr th:each="approval : ${waitApprovalList}" th:object="${approval}" style="text-align: center;">
+            <!-- 결재 진행 문서가 존재할 때 -->
+            <th:block th:unless="${#lists.size(progressApprovalList) == 0}">
+              <tr th:each="approval : ${progressApprovalList}" th:object="${approval}" style="text-align: center;">
                 <td th:text="*{approvalNo}">16</td>
                 <td th:text="*{docCategoryGroup}">복무</td>
                 <td th:text="*{docCategorySort}">휴가</td>
