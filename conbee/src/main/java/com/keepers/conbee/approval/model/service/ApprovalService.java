@@ -71,6 +71,12 @@ public interface ApprovalService {
 	 */
 	List<Approval> selectProgressApproval(int memberNo);
 
+	/** 완료문서함 조회
+	 * @param memberNo
+	 * @return
+	 */
+	List<Approval> selectCompleteApproval(int memberNo);
+
 
 
 

@@ -75,15 +75,6 @@ public class ApprovalController { // 전자결재 컨트롤러
 	}
 
 
-	/** 완료문서함 포워드
-	* @return
-	* @author 예리나
-	*/
-	@GetMapping("completeApproval")
-	public String completeApproval() {
-		return "approval/completeApproval";
-	}
-
 	/** 반려문서함 포워드
 	* @return
 	* @author 예리나
@@ -282,6 +273,22 @@ public class ApprovalController { // 전자결재 컨트롤러
 	}
 	
 	// ============================== 완료 문서함 ==============================
+	
+	/** 완료문서함 포워드
+	* @return
+	* @author 예리나
+	*/
+	@GetMapping("completeApproval")
+	public String completeApproval(@SessionAttribute("loginMember") Member loginMember, Model model) {
+		
+		// 1) 자신이 승인한 문서가 완료된 경우 조회
+		// 2) 기안자가 자신이 기안한 문서가 최종승인 된 경우 조회
+		List<Approval> completeApprovalList = service.selectCompleteApproval(loginMember.getMemberNo());
+		
+		model.addAttribute("completeApprovalList", completeApprovalList);
+		
+		return "approval/completeApproval";
+	}
 	
 	
 	// ============================== 반려 문서함 ==============================

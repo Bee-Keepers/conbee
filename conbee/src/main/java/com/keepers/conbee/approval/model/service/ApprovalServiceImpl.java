@@ -45,8 +45,6 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return mapper.selectMember(memberNo);
 	}
 
-
-
 	// 기안문 insert
 	@Override
 	public int insertApproval(Approval approval, List<Approver> approverList) {
@@ -106,6 +104,16 @@ public class ApprovalServiceImpl implements ApprovalService{
 	public List<Approval> selectProgressApproval(int memberNo) {
 		return mapper.selectProgressApproval(memberNo);
 	}
+	
+	/** 완료문서함 조회
+	 *
+	 */
+	@Override
+	public List<Approval> selectCompleteApproval(int memberNo) {
+		return null;
+	}
+	
+	
 
 }
 
