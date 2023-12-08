@@ -15,3 +15,34 @@ for(let option of options){
         break;
     }
 }
+
+const detailTbody = document.getElementById("detailTbody");
+
+function detailOrderFn(e){
+  console.log(e.parentElement.previousElementSibling.innerText);
+
+  fetch("/stock/order/select?storeNo=" + storeNoSelect.value + "&orderDate=" + e.parentElement.previousElementSibling.innerText)
+  .then(resp=>resp.json())
+  .then(orderList=>{
+
+    detailTbody.innerHTML = "";
+
+    if(orderList.length != 0){
+      for(let order of orderList){
+        const tr = document.createElement("tr");
+        console.log(order);
+        for(let key in order){
+          const td = document.createElement("td");
+          td.innerText = order[key];
+          tr.append(td);
+        }
+        detailTbody.append(tr);
+      }
+    } else {
+      detailTbody.innerText = "조회 결과가 없습니다";
+    }
+
+  })
+  .catch(e=>console.log(e));
+  
+};

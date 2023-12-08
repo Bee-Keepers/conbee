@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.stock.model.dto.Order;
+import com.keepers.conbee.stock.model.dto.OrderDetail;
 import com.keepers.conbee.stock.model.dto.Stock;
 import com.keepers.conbee.stock.model.service.StockService;
 
@@ -165,17 +166,14 @@ public class StockController {
 		}
 		return "redirect:insert";
 	}
-//	/** 발주 삭제
-//	 * @return
-//	 */
-//	@DeleteMapping("order/delete")
-//	@ResponseBody
-//	public int orderDelete() {
-//		
-//		int result = service.orderDelete(storeNo);
-//		
-//		return result;
-//	}
+	/** 발주 삭제
+	 * @return
+	 */
+	@DeleteMapping("order/delete")
+	@ResponseBody
+	public void orderDelete(@RequestBody Order order) {
+		service.orderDelete(order);
+	}
 	
 	
 	@GetMapping("autoComplete")
@@ -233,7 +231,12 @@ public class StockController {
 		return goodsNameSelect;
 	}
 	
-	
+	@GetMapping("order/select")
+	@ResponseBody
+	public List<OrderDetail> orderSelect(Order order) {
+		log.info("=-=-=-=-=-=-=-=-=-=-==-=- order : " + order);
+		return service.orderSelect(order);
+	}
 	
 	
 }

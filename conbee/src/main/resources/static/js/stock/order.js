@@ -156,7 +156,7 @@ revenueSearchBtn.addEventListener("click", ()=>{
     
     td2.append(input2);
     tr.append(td2);
-    tableTbody.append(tr);
+    tableTbody.prepend(tr);
   };
   
 
@@ -218,8 +218,6 @@ deleteBtn.addEventListener("click", ()=>{
       headers : {"Content-Type" : "application/json"},
       body : JSON.stringify(obj)
     })
-    .then()
-    .then()
     .catch(e=>console.log(e));
   }
 });
@@ -233,5 +231,4 @@ const submitBtn = document.getElementById("submitBtn");
 submitBtn.addEventListener("click", ()=>{
   placeOrderForm.submit();
 });
-
 
