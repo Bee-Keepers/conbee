@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>자유게시판</title>
   <link rel="stylesheet" href="/css/bootstrap.css">
-  <link rel="stylesheet" href="/css/board/writer.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <style>
 
@@ -32,28 +31,26 @@
     <th:block th:replace="~{admin/boardManage/sidebar}"></th:block>
 
     <!-- 회원정보조회 -->
-    <div class="d-flex flex-column p-3 w-100">
+    <div class="d-flex flex-column p-3">
 
       <!-- 타이틀 -->
       <div class="d-flex justify-content-between align-items-center border-bottom">
         <div class="fs-3 pb-3 px-3">
           게시글 작성
         </div>
-        
+        <!-- 검색버튼 -->
+        <div class="" style="width: 200px;">
+          <input id="" class="form-control" type="text" placeholder="검색내용 입력 후 ENTER" size="40">
+        </div>
       </div>
 
-      <div class="px-4 pt-2 flex-grow-1 align-items-center" >
-        <form action="">
-          <div class="d-flex align-items-center" >
-            <input type="text" class="form-control mb-1" name="memberId" id="memberId" placeholder="제목" maxlength="50" required>
-          </div>
-  
-          <div>
-            <textarea class="textareaSize" id="editor" required></textarea>
-          </div>
-          <button>dfjasoidfj</button>
-        </form>
-      </div>
+      <form action="">
+        <input type="text">
+
+        <div class="w-100 px-4 pt-2 flex-grow-1">
+          <textarea id="editor"></textarea>
+        </div>
+      </form>
 
       <!-- 페이지네이션 // 게시글 있을때만 보이게 함 -->
 
