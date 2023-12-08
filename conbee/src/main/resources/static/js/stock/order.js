@@ -166,6 +166,7 @@ revenueSearchBtn.addEventListener("click", ()=>{
 // 지점 선택 시
 const storeSelect = document.getElementById("storeSelect");
 storeSelect.addEventListener("change", ()=>{
+  location.href = "/stock/order/insert?storeNo=" + storeSelect.value;
   for(let storeNos of storeNo){
     storeNos.value = storeSelect.value;
   }
@@ -229,6 +230,21 @@ const submitBtn = document.getElementById("submitBtn");
 
 // 발주 신청 폼 제출
 submitBtn.addEventListener("click", ()=>{
+  if(tableTbody.children[0] == null){
+    alert("품목을 입력해주세요");
+    return;
+  } 
   placeOrderForm.submit();
 });
 
+// 지점 선택 옵션 저장
+const url = new URL(location.href);
+const urlParams = url.searchParams;
+
+const options = document.querySelectorAll("#storeSelect>option");
+for(let option of options){
+    if(option.value == urlParams.get("storeNo")){
+        option.selected = true;
+        break;
+    }
+}
