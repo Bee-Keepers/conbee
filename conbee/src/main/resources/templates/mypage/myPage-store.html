@@ -34,7 +34,7 @@
 
       <!-- 점포 정보가 없을 경우 -->
       <th:block th:unless="${readStore != null}">
-        <div class="d-flex flex-column align-items-center" style="height: 85%;">
+        <form action="/myPage/myPage-store" method="post" class="d-flex flex-column align-items-center" style="height: 85%;">
 
           <table class="table mt-2 border-top-none" style="width: 95%; text-align: center; vertical-align: middle;">
             <colgroup>
@@ -47,18 +47,18 @@
 
             <tbody>
               <tr>
-                <th>점포번호</th>
-                <td colspan="4" th:text="${session.loginMember.storeList[0].storeNo}">
-                  <form class="form-floating d-flex align-items-center" action="storeUpdate" method="POST"> <!-- 밑에 input의 value를 얻어와서 주소에쓰기 -->
-                    
-                   
-                   
-                  </form>
+                <th>점포명</th>
+                <td colspan="1">
+                  <select class="form-select" name="storeNo" id="storeChange">
+                    <option th:each="store : ${session.loginMember.storeList}" th:value="${store.storeNo}" th:text="${store.storeName}"></option>
+                  </select>
                 </td>
+                <td colspan="3"></td>
+                
               </tr>
               <tr>
-                <th>점포명</th>
-                <td colspan="4" th:text="${session.loginMember.storeList[0].storeName}">
+                <th>점포번호</th>
+                <td colspan="4" th:text="${store.storeNo}" id="storeNo">
                 </td>
               </tr>
               <tr>
@@ -74,10 +74,11 @@
               <tr>
                 <th>전화번호</th>
                 <td colspan="1">
-                  <form action="/myPage/myPage-store" class="d-flex" method="post">
-                    <input class="form-control w-50" name="storeTel" type="text" th:value="${session.loginMember.storeList[0].storeTel}">
-                    <input type="hidden" name="storeNo" th:value="${session.loginMember.storeList[0].storeNo}">
-                    <button  class="ms-1 btn btn-warning">수정</button>
+
+                    <div class="d-flex">
+                      <input id="storeTel" class="form-control w-50" name="storeTel" type="text" th:value="${store.storeTel}">
+                      <button  class="ms-1 btn btn-warning">수정</button>
+                    </div>
                   </form>
                 </td>
                 <td colspan="3">
@@ -86,12 +87,12 @@
               </tr>
               <tr>
                 <th>위치</th>
-                <td colspan="4" th:text="${session.loginMember.storeList[0].storeAddress}">
+                <td id="storeAddress" colspan="4" th:text="${store.storeAddress}">
                 </td>
               </tr>
             </tbody>
           </table>
-        </div>
+        </form>
       </th:block>
       
       
@@ -181,19 +182,10 @@
         </div>
       </th:block>
 
-      <!-- 선택버튼 하단 고정 -->
-      <div class="w-100 align-items-start sticky-bottom bg-white">
-        <section class="d-flex justify-content-end" style="width: 100%;">
-          <section class="btn btn-secondary" id="cancelBtn" style="width: 80px;">취소</section>
-          <section class="btn btn-warning ms-3" id="submitBtn" style="width: 80px; margin-right: 35px;">확인</section>
-        </section>
-      </div>
-
-    </div>
-
   </main>
 
   <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/myPage/myPageStore.js"></script>
 
   <!-- 다음 주소 API -->
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

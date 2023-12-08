@@ -9,4 +9,9 @@
 		WHERE STORE_NO = #{storeNo}
 	</update>
 
+	<select id="myPageStore" resultType="Store">
+		SELECT STORE_NO, STORE_NAME, STORE_TEL, STORE_ADDRESS
+		FROM "STORE"
+		WHERE STORE_NO = #{storeNo}
+	</select>
 </mapper>

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.keepers.conbee.admin.store.model.dto.Store;
 import com.keepers.conbee.myPage.model.mapper.MyPageMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -28,4 +29,8 @@ public class MyPageServiceImpl implements MyPageService{
 		return mapper.myPageStoreUpdate(map);
 	}
 
+	@Override
+	public Store myPageStore(int storeNo) {
+		return mapper.myPageStore(storeNo);
+	}
 }
