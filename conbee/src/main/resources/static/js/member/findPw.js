@@ -1,8 +1,10 @@
 const checkObj = {
     "authKey" : false,
-    "memberPw" : false,
-    "memberPwConfirm" : false,
-    "authKeyMessage" : false
+    "authKeyMessage" : false,
+    "memberEmail" : false
+};
+const checkObj2 = {
+    "authKey" : false
 };
 
 // ============================== 이메일 인증 ==============================
@@ -11,6 +13,33 @@ const checkObj = {
 const sendAuthKeyBtn = document.getElementById("sendAuthKeyBtn");
 const authKeyMessage = document.getElementById("authKeyMessage");
 const memberEmail = document.querySelector(".memberEmail");
+const findPwFrm = document.getElementById("findPw-Frm");
+
+
+
+/* 이메일 유효성 검사 */
+
+// 1) 이메일 유효성 검사에 사용할 요소 모두 얻어오기
+
+// 2) 이메일이 입력(input) 될 때 마다 유효성 검사 실행
+memberEmail.addEventListener("input", () => {
+
+    // 3) 입력된 이메일이 없을 경우
+    if(memberEmail.value.trim().length == 0){
+        memberEmail.value = '';
+
+        // checkObj의 memberEmail 값을 false로 변경
+        // == 이메일이 유효하지 않음을 의미
+        checkObj.memberEmail = false;
+        return;
+    } else {
+        checkObj.memberEmail = true;
+        
+    }
+
+});
+
+
 
 // 인증번호 보내기 버튼을 클릭하면
 // authKeyMessage에 5분 타이머를 출력 
@@ -27,6 +56,12 @@ sendAuthKeyBtn.addEventListener("click", function(){
     authSec = 59;
 
     checkObj.authKey = false;
+    checkObj2.authKey = false;
+
+    if(!checkObj.memberEmail) {
+        alert("이메일을 입력해주세요");
+        return;
+    }
 
     /* if(checkObj.memberEmail){ */ // 중복이 아닌 이메일인 경우
 
@@ -65,6 +100,7 @@ sendAuthKeyBtn.addEventListener("click", function(){
             // 남은 시간이 0분 0초인 경우
             if(authMin == 0 && authSec == 0){
                 checkObj.authKey = false;
+                checkObj2.authKey = false;
                 clearInterval(authTimer);
                 return;
             }
@@ -111,11 +147,13 @@ checkAuthKeyBtn.addEventListener("click", function(){
                 clearInterval(authTimer);
                 authKeyMessage.innerText = "인증되었습니다.";
                 checkObj.authKey = true;
+                checkObj2.authKey = true;
 
                 authKey.disabled = true;
             } else{
                 alert("인증번호가 일치하지 않습니다.")
                 checkObj.authKey = false;
+                checkObj2.authKey = false;
             }
         })
         .catch(err => console.log(err));
@@ -127,9 +165,30 @@ checkAuthKeyBtn.addEventListener("click", function(){
 
 });
 
+findPwFrm.addEventListener('submit', e => {
+    
+    for(let key in checkObj2){
 
+        // 객체에서 얻어온 값이 false 경우
+        // (유효하지 않은 것이 있을 경우)
+        if( !checkObj2[key] ){
 
+            let str;
+            switch(key){
+                case "authKey": str = "인증번호가 유효하지 않습니다"; break;
+            }
 
+            alert(str);
+
+            // key == input id 속성 값
+            // 유효하지 않은 input 태그로 focus 맞춤
+            document.querySelector(`.${key}`).focus();
+
+            e.preventDefault(); // form 제출 X
+            return;
+        }
+    }
+});
 
 
 

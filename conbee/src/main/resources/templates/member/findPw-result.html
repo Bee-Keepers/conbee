@@ -20,6 +20,8 @@
       <form action="findPw-result" method="POST" id="findPw-resultFrm">
         <img class="mb-3" th:src="#{logo.login.image}" style="width: 10rem" >
         <h1 class="h3 mb-4 fw-normal">비밀번호 변경</h1>
+
+        <input type="hidden" name="memberNo" th:value="${searchMember.memberNo}">
     
         <div class="form-floating">
           <input type="password" class="form-control memberPw" id="floatingInput" placeholder="" name="memberPw" required>
@@ -29,9 +31,7 @@
           <input type="password" class="form-control memberPwCheck" id="floatingPassword" placeholder="" name="memberPwCheck" required>
           <label for="floatingPassword">새 비밀번호 확인</label>
           <article id="checkMessage"></article>
-          <a href="/member/login">
-            <button class="btn loginBtn-primary w-100 py-2 mt-3" type="button">비밀번호 변경하기</button>
-          </a>
+            <button class="btn loginBtn-primary w-100 py-2 mt-3">비밀번호 변경하기</button>
           <p class="text-body-secondary mb-5 mt-1">&copy; beekeepers</p>
       </form>
       </div>

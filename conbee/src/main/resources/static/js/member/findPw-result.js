@@ -5,13 +5,14 @@
 /* 모든 입력이 유효성 검사가 진행되었는지 체크할 객체를 생성 */
 const checkObj = {
     "memberPw" : false,
-    "memberPwCheck" : false,
+    "memberPwCheck" : false
   };
   
   /*  비밀번호/비밀번호 확인 유효성 검사 */
   const memberPw = document.querySelector(".memberPw");
   const memberPwCheck = document.querySelector(".memberPwCheck");
   const checkMessage = document.getElementById("checkMessage");
+  const submitBtn = document.getElementById("submitBtn");
   
   
   // 비밀번호 입력 시 유효성 검사

@@ -70,7 +70,7 @@
 	
 	<!-- 비밀번호 찾기(찐) -->
 	<select id="findPw" resultType="Member">
-		SELECT MEMBER_ID FROM MEMBER
+		SELECT MEMBER_NO, MEMBER_ID FROM MEMBER
 		WHERE MEMBER_ID = #{memberId}
 		AND MEMBER_EMAIL = #{memberEmail}
 		AND MEMBER_DEL_FL = 'N'
