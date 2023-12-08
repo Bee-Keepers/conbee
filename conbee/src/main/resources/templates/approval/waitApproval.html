@@ -94,7 +94,7 @@
     </div>
 
     <!-- 휴가신청서 Modal -->
-    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="holidayModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
           
@@ -221,10 +221,10 @@
             <col width=7%>
             <col width=25%>
             <col width=8%>
-            <col width=8%>
+            <col width=12%>
             <col width=15%>
             <col width=8%>
-            <col width=10%>
+            <col width=6%>
           </colgroup>
           <thead>
             <tr style="text-align: center;">
@@ -241,7 +241,27 @@
           </thead>
           <tbody class="table-group-divider">
 
-            <tr style="text-align: center;">
+            <!-- 결재 대기 문서가 없을 때 -->
+            <tr th:if="${#lists.size(waitApprovalList) == 0}">
+              <th colspan="9" style="text-align: center;">결재 대기중인 문서가 없습니다.</th>
+            </tr>
+
+            <!-- 결재 대기 문서가 존재할 때 -->
+            <th:block th:unless="${#lists.size(waitApprovalList) == 0}">
+              <tr th:each="approval : ${waitApprovalList}" th:object="${approval}" style="text-align: center;">
+                <td th:text="*{approvalNo}">16</td>
+                <td th:text="*{docCategoryGroup}">복무</td>
+                <td th:text="*{docCategorySort}">휴가</td>
+                <td th:text="*{approvalTitle}" style="text-align: start; font-weight: bold; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#holidayModal" id="clickModal">연차 신청합니다.</a></td>
+                <td th:text="*{memberName}">정유진</td>
+                <td th:text="|*{departmentName}(*{teamName})|">운영부(전산팀)</td>
+                <td th:text="*{approvalDate}">2023-11-30 16:24</td>
+                <td th:text="*{finalApproverName}">이예리나</td>
+                <td>결재중</td>
+              </tr>
+            </th:block>
+
+            <!-- <tr style="text-align: center;">
               <td>16</td>
               <td>업무</td>
               <td>지출결의서</td>
@@ -263,21 +283,9 @@
               <td>2023-11-30 16:24</td>
               <td>이예리나</td>
               <td>결재중</td>
-            </tr>
+            </tr> -->
 
-            <tr style="text-align: center;">
-              <td>16</td>
-              <td>복무</td>
-              <td>휴가</td>
-              <td style="text-align: start; font-weight: bold;"><a href="" style="text-decoration: none; color: black;" data-bs-toggle="modal" data-bs-target="#exampleModal3" id="clickModal">연차 신청합니다.</a></td>
-              <td>정유진</td>
-              <td>전산팀</td>
-              <td>2023-11-30 16:24</td>
-              <td>이예리나</td>
-              <td>결재중</td>
-            </tr>
-
-            <tr style="text-align: center;">
+            <!-- <tr style="text-align: center;">
               <td>16</td>
               <td>업무</td>
               <td>출점/폐점</td>
@@ -299,7 +307,7 @@
               <td>2023-11-30 16:24</td>
               <td>이예리나</td>
               <td>결재중</td>
-            </tr>
+            </tr> -->
 
           </tbody>
         </table>
