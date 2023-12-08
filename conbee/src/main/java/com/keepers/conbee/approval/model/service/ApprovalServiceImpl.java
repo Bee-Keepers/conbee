@@ -1,7 +1,6 @@
 
 package com.keepers.conbee.approval.model.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -13,9 +12,7 @@ import com.keepers.conbee.approval.model.mapper.ApprovalMapper;
 import com.keepers.conbee.member.model.dto.Member;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor

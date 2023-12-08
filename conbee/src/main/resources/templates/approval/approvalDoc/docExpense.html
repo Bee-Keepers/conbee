@@ -3,7 +3,7 @@
   <div class="modal-content">
     <!-- 모달 헤더 -->
     <div class="modal-header">
-      <div><h1 class="modal-title fs-5" id="exampleModalLabel">기안문 작성 - 지출결의서</h1></div>
+      <div><h1 class="modal-title fs-5">기안문 작성 - 지출결의서</h1></div>
       <div>
         <button type="submit" form="docExpense" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveExpense"
         name="approvalCondition" value="1">임시저장</button>
@@ -12,155 +12,180 @@
       </div>
     </div> 
     <!-- 모달 바디 -->
-    <div class="modal-body" style="width: 800px; height: 800px; ">
-      <form class="d-flex flex-column" action="docExpense" id="docExpense" method="POST">
-        <!-- 결재 정보 -->
-        <div class="my-2 mx-3">
-      
-          <!-- 제목 -->
-          <div class="d-flex mb-2">
-            <span class="elem me-3" style="height: 27px;">제목 : </span>
-            <input type="text" class="form-control title-input" id="inputExpense" name="approvalTitle">
-          </div>
-      
-          <!-- 구분 -->
-          <div class="d-flex mb-2">
-            <span class="elem me-3">구분(항목) : </span>
-            <span style="height: 27px;">업무(지출)</span>
-          </div>
-      
-          <!-- 담당자(부서) -->
-          <div class="d-flex mb-1">
-            <span class="elem me-3" style="height: 27px;">담당자(부서) : </span>
-            <span class="docWriteInfo" style="height: 27px;" th:text="${memberName}">정유진(전산팀)</span><!-- ${memberName, teamName} -->
-          </div>
-      
-          <!-- 협조부서 -->
-          <div class="d-flex mb-2">
-            <span class="elem me-3">협조부서 : </span>
-            <span style="height: 27px;">경영관리부</span>
-          </div>
-      
-          <!-- 결재 -->
-          <div class="d-flex">
-            <span class="elem me-3">결재 : </span>
-            <table class="infoTable table table-striped table-hover" style="width: 640px; text-align: center;">
-      
-              <thead>
-                <tr>
-                  <th>결재</th>
-                  <th>직급</th>
-                  <th>결재자</th>
-                </tr>
-              </thead>
-      
-              <tbody class="table-group-divider">
-                <tr>
-                  <td>결재</td>
-                  <td>회계팀장</td>
-                  <td class="donteamjang"></td>
-                </tr>
-                <tr>
-                  <td>결재</td>
-                  <td>팀장</td>
-                  <td class="teamjang"></td>
-                </tr>
-              </tbody>
-
-            </table>
-          </div>
-      
-        </div>
-      
-        <!-- 템플릿 -->
-        <div class="temps my-2 mx-3 p-3">
-      
-          <!-- 템플릿 제목 -->
-          <div class="pt-4" style="font-size:30px; font-weight: bold; text-align: center;">지 출 결 의 서</div>
-      
-          <!-- 템플릿 정보/승인 -->
-          <div class="d-flex justify-content-between">
-            <!-- 정보 -->
-            <div class="tempInfo my-2 mx-3 px-2">
-              <table class="table table-bordered" style="width: 250px; border: black;">
-                <tr>
-                  <th>문서번호</th>
-                  <td></td>
-                </tr>
-                <tr>
-                  <th>부 서</th>
-                  <td class="infoTeam"></td>
-                </tr>
-                <tr>
-                  <th>기안자</th>
-                  <td th:text="${session.loginMember.memberName}"></td>
-                </tr>
-                <tr>
-                  <th>구분(항목)</th>
-                  <td>복무(휴가)</td>
-                </tr>
-                <tr>
-                  <th>협조 부서</th>
-                  <td>인사관리부</td>
-                </tr>
-                <tr>
-                  <th>기안일</th>
-                  <td></td>
-                </tr>
-              </table>
+    <div class="modal-body" style="width: 1300px; overflow: hidden;">
+      <form class="d-flex flex-row" action="docExpense" id="docExpense" method="POST">
+        
+        <!--======================== 왼쪽 영역 ========================= -->
+        <div style="height: 700px; overflow: auto;">
+          <!-- 결재 정보 -->
+          <div class="my-2 mx-3">
+        
+            <!-- 제목 -->
+            <div class="d-flex mb-2">
+              <span class="elem me-3" style="height: 27px;">제목 : </span>
+              <input type="text" class="form-control title-input" id="inputExpense" name="approvalTitle">
             </div>
-      
-            <!-- 승인 -->
-            <div class="tempApprov my-2 mx-3 px-2">
-              <table class="table table-bordered" style="width: 160px; border: black; text-align: center;">
+        
+            <!-- 구분 -->
+            <div class="d-flex mb-2">
+              <span class="elem me-3">구분(항목) : </span>
+              <span style="height: 27px;">업무(지출)</span>
+            </div>
+        
+            <!-- 담당자(부서) -->
+            <div class="d-flex mb-1">
+              <span class="elem me-3" style="height: 27px;">담당자(부서) : </span>
+              <span class="docWriteInfo" style="height: 27px;"></span>
+            </div>
+        
+            <!-- 협조부서 -->
+            <div class="d-flex mb-2">
+              <span class="elem me-3">협조부서 : </span>
+              <span style="height: 27px;">경영관리부</span>
+            </div>
+          </div>
+        
+          <!-- 템플릿 -->
+          <div class="temps my-2 mx-3 p-3">
+        
+            <!-- 템플릿 제목 -->
+            <div class="pt-4" style="font-size:30px; font-weight: bold; text-align: center;">지 출 결 의 서</div>
+        
+            <!-- 템플릿 정보/승인 -->
+            <div class="d-flex justify-content-between">
+              <!-- 정보 -->
+              <div class="tempInfo my-2 mx-3 px-2">
+                <table class="table table-bordered" style="width: 250px; border: black;">
+                  <tr>
+                    <th>문서번호</th>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <th>부 서</th>
+                    <td class="infoTeam"></td>
+                  </tr>
+                  <tr>
+                    <th>기안자</th>
+                    <td th:text="${session.loginMember.memberName}"></td>
+                  </tr>
+                  <tr>
+                    <th>구분(항목)</th>
+                    <td>복무(휴가)</td>
+                  </tr>
+                  <tr>
+                    <th>협조 부서</th>
+                    <td>인사관리부</td>
+                  </tr>
+                  <tr>
+                    <th>기안일</th>
+                    <td></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+        
+            <!-- 본문 -->
+            <div class="tempContents my-2 mx-3 px-2">
+              <table class="table table-bordered" style="width: 100%; border: black;">
                 <tr>
-                  <th style="background-color: #f2f2f2;">결재</th>
-                  <th style="background-color: #f2f2f2;">결재</th>
+                  <th>제 목</th>
+                  <td><input class="title-input2" type="text" id="inputExpense2" name="approvalDocTitle"></td>
                 </tr>
                 <tr>
+                  <th style="vertical-align: middle;">상세 내용</th>
                   <td>
-                    <div style="height: 46px;"></div><!-- 도장 -->
-                    <div style="height: 32px;"></div><!-- 이름 -->
-                  </td>
-                  <td>
-                    <div style="height: 46px;"></div><!-- 도장 -->
-                    <div style="height: 32px;"></div><!-- 이름 -->
+                    <textarea class="docText" maxlength="1000" cols="30" rows="10" id="docExpenseText" name="approvalContent" placeholder="※ 영수증 첨부 필"></textarea>
+                    <div style="text-align: end; font-size: 14px;" class="textCount">0 / 1000 글자</div>
                   </td>
                 </tr>
-                <tr style="height: 27px; font-size:12px;">
-                  <td></td><!-- 날짜 -->
-                  <td></td>
+                <tr>
+                  <th>첨부파일</th>
+                  <td><input type="file"></td>
                 </tr>
               </table>
             </div>
           </div>
-      
-          <!-- 본문 -->
-          <div class="tempContents my-2 mx-3 px-2">
-            <table class="table table-bordered" style="width: 100%; border: black;">
-              <tr>
-                <th>제 목</th>
-                <td><input class="title-input2" type="text" id="inputExpense2" name="approvalDocTitle"></td>
-              </tr>
-              <tr>
-                <th style="vertical-align: middle;">상세 내용</th>
-                <td>
-                  <textarea class="docText" maxlength="1000" cols="30" rows="10" id="docExpenseText" name="approvalContent" placeholder="※ 영수증 첨부 필"></textarea>
-                  <div style="text-align: end; font-size: 14px;" class="textCount">0 / 1000 글자</div>
-                </td>
-              </tr>
-              <tr>
-                <th>첨부파일</th>
-                <td><input type="file"></td>
-              </tr>
-            </table>
+        </div>
+
+        <!--======================== 오른쪽 영역 ========================= -->
+        <div class="ps-3 pt-2">
+          <div class="fs-5">결재 : </div>
+          <!-- 결재 전체 박스 -->
+          <div class="approverFull d-flex" style="width: 520px;">
+            <!-- 결재선1+결재선2 박스 -->
+            <div class="approverLine d-flex" style="border: 1px solid black; width: 66%; height: 650px;">
+              <!-- 결재선1 -->
+              <div style="border: 1px solid lightgray; width: 45%; height: 100%;">
+                <div class="blockTitle">결재선1</div>
+
+                <div class="block1">
+
+                  <div>
+                    <span><i class="bi bi-record-fill"></i></span>
+                    <span onclick="selectAllMember(this);" data-value="0">임원</span>
+                  </div>
+                  
+                  <div>
+                    <span onclick="toggleTeams(this)"><i class="bi bi-caret-right-fill"></i></span>
+                    <span onclick="selectAllMember(this);" data-value="1">인사관리부</span>
+                  </div>
+
+                  <div style="display: none;">
+                    <li onclick="selectTeamMember(this)" value="1">사원관리팀</li>
+                    <li onclick="selectTeamMember(this)" value="2">점주관리팀</li>
+                    <li onclick="selectTeamMember(this)" value="3">점포관리팀</li>
+                  </div>
+
+                  <div>
+                    <span onclick="toggleTeams(this)"><i class="bi bi-caret-right-fill"></i></span>
+                    <span onclick="selectAllMember(this);" data-value="2">경영관리부</span>
+                  </div>
+
+                  <div style="display: none;">
+                    <li onclick="selectTeamMember(this)" value="4">재고관리팀</li>
+                    <li onclick="selectTeamMember(this)" value="5">매출관리팀</li>
+                    <li onclick="selectTeamMember(this)" value="6">회계팀</li>
+                    <li onclick="selectTeamMember(this)" value="7">영업팀</li>
+                  </div>
+
+                  <div>
+                    <span onclick="toggleTeams(this)"><i class="bi bi-caret-right-fill"></i></span>
+                    <span onclick="selectAllMember(this);" data-value="3">운영관리부</span>
+                  </div>
+                  <div style="display: none;">
+                    <li onclick="selectTeamMember(this)" value="8">전산팀</li>
+                    <li onclick="selectTeamMember(this)" value="9">행정팀</li>
+                  </div>
+
+                  <div>
+                    <span onclick="toggleTeams(this)"><i class="bi bi-caret-right-fill"></i></span>
+                    <span onclick="selectAllMember(this);" data-value="4">고객관리부</span>
+                  </div>
+                  <div style="display: none;">
+                    <li onclick="selectTeamMember(this)" value="10">고객서비스팀</li>
+                  </div>
+                </div>
+              </div>
+              <!-- 결재선2 -->
+              <div style="border: 1px solid lightgray; width: 55%; height: 100%;">
+                <div class="blockTitle">결재선2</div>
+
+                <div class="block2">
+
+                </div>
+
+              </div>
+            </div>
+            <!-- 결재라인 박스 -->
+            <div style="border: 1px solid black; width: 34%; height: 650px;">
+              <div class="blockTitle">결재라인</div>
+              <div class="block3">
+              </div>
+            </div>
           </div>
         </div>
 
-      
       </form>
     </div>
-
-
   </div>
 </div>

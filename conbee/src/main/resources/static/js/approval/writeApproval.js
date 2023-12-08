@@ -8,10 +8,17 @@
   .then((resp) => {return resp.json(); })
   .then((writeInfo) => {
 
-    // 팀이름
+    // 팀이름(부장일 경우 부서이름)
     const infoTeams = document.querySelectorAll(".infoTeam");
     infoTeams.forEach((infoTeam)=>{
-      infoTeam.innerText = writeInfo.teamName;
+
+      if(writeInfo.teamName==null){
+        infoTeam.innerText = writeInfo.departmentName;
+      }
+      else{
+        infoTeam.innerText = writeInfo.departmentName + "(" + writeInfo.teamName + ")";
+      }
+
     })
 
     // 이름
@@ -22,7 +29,7 @@
 
     const docWriteInfos = document.querySelectorAll(".docWriteInfo");
     docWriteInfos.forEach((docWriteInfo)=>{
-      docWriteInfo.innerText = writeInfo.memberName + "(" + writeInfo.teamName + ")";
+      docWriteInfo.innerText = writeInfo.memberName + "(" + writeInfo.departmentName + ")";
     })
 
   })
@@ -285,6 +292,7 @@ inputStore.addEventListener("input",e=>{
   inputStore2.value = val;
 })
 
+
 // 결재 버튼 클릭
 submitStore.addEventListener("click", e =>{
   // 제목
@@ -437,13 +445,17 @@ submitOrder.addEventListener("click", e =>{
 /* =========================================================== */
 
 
-/* 부서 이름 클릭시 팀 목록 토글 */
+/* 화살표 클릭시 팀 목록 토글 */
 function toggleTeams(e){
 
   const teamsList = e.parentElement.nextElementSibling;
   const displayTeams = teamsList.style.display;
 
   teamsList.style.display=(displayTeams==='none')?'block':'none';
+
+  /* 아이콘 토글 */
+  e.innerHTML=(displayTeams==='none')?`<i class="bi bi-caret-down-fill"></i>`:`<i class="bi bi-caret-right-fill">`;
+
   // if(displayTeams==='block'){
   //   setTimeout(() => {
   //     const block2 = document.getElementById("block2");
@@ -455,7 +467,8 @@ function toggleTeams(e){
 
 /* 결재선1에서 부서 클릭 시 결재선2에 모든 멤버 나오기 */
 function selectAllMember(e){
-  const block2 = document.getElementById("block2");
+
+  const block2 = e.parentElement.parentElement.parentElement.nextElementSibling.lastElementChild;
   block2.innerHTML="";
 
   // console.log(e.dataset.value);
@@ -479,7 +492,7 @@ function selectAllMember(e){
 
 /* 결재선1에서 팀 클릭시 결재선2에 팀 멤버 나오기 */
 function selectTeamMember(e){
-  const block2 = document.getElementById("block2");
+  const block2 = e.parentElement.parentElement.parentElement.nextElementSibling.lastElementChild;
   block2.innerHTML="";
 
   fetch("/approval/writeApproval/selectTeamMember?selectTeam=" + e.value)
@@ -500,12 +513,9 @@ function selectTeamMember(e){
 }
 
 /* 팀원 더블클릭 시 결재라인에 추가 */
-
-let count = 0;
-
 function addLine(e){
 
-  const block3 = document.getElementById("block3");
+  const block3 = e.parentElement.parentElement.parentElement.nextElementSibling.lastElementChild;
   const innerBoxes = block3.querySelectorAll(".lineBox");
 
   // 결재자 중복선택 방지 코드 작성 예정
@@ -519,14 +529,11 @@ function addLine(e){
     const teamInfo = document.createElement("div");
     const gradeInfo = document.createElement("div");
     const nameInfo = document.createElement("div");
-    //const orderInfo = document.createElement("input");
     const memberNoInfo = document.createElement("input");
     const remove = document.createElement("div");
     
 
     lineBox.classList.add("lineBox");
-    //orderInfo.setAttribute("name",`approverList[${count}].approverOrder`);
-    //orderInfo.setAttribute("type","hidden");
     memberNoInfo.setAttribute("name","approverMemNo");
     memberNoInfo.setAttribute("type","hidden");
 
@@ -556,7 +563,6 @@ function addLine(e){
     block3.append(lineBox);
 
     console.log(lineBox);
-    count++;
   }
 
   else alert("결재선을 추가할 수 없습니다.");
