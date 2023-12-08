@@ -25,7 +25,9 @@ public class RevenueController {
 	
 	@GetMapping("list")
 	public String revenueSearch(Model model, Revenue revenue, @SessionAttribute("loginMember") Member loginMember) {
-		
+		if(loginMember.getStoreList() == null) {
+			
+		}
 		if(revenue.getStoreNo() == 0) {
 			revenue.setStoreNo(loginMember.getStoreList().get(0).getStoreNo());
 		}

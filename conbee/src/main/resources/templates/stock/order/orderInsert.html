@@ -82,7 +82,7 @@
         <div class="fs-3 pb-3 px-3">발주 신청/수정</div>
         <div class="d-flex align-items-center">
           <div class="input-group">
-            <select class="form-select" aria-label="Default select example" name="historyStoreInfo" id="storeSelect">
+            <select class="form-select" name="historyStoreInfo" id="storeSelect">
               <th:block th:each="store : ${session.loginMember.storeList}" th:object="${store}">
                 <option th:value="*{storeNo}" th:text="*{storeName}">
                 </option>
@@ -126,16 +126,12 @@
         </table>
         <input type="hidden" name="storeNo" class="storeNo" th:value="${session.loginMember.storeList[0].storeNo}">
       </form>
-      <div class="px-3 py-2 d-flex align-items-center sticky-bottom table-group-divider w-100 fw-bold">
-        <div class="w-50 text-end me-auto">합계</div>
-        <div class="w-25" id="totalPrice">0</div>
-        <div class="btn-group">
-          <button id="deleteBtn" class="btn btn-warning">삭제</button>
-          <button id="submitBtn" class="btn btn-warning">발주 신청</button>
-        </div>
-      </div>
     </div>
   </main>
+  <div class="justify-content-end mb-3 d-flex sticky-bottom bg-white w-100 fw-bold pe-4">
+    <button id="deleteBtn" class="btn btn-secondary me-3">삭제</button>
+    <button id="submitBtn" class="btn btn-warning">발주 신청/수정</button>
+  </div>
 
   <script src="/js/bootstrap.bundle.min.js"></script>
   <script src="/js/stock/order.js"></script>
