@@ -3,7 +3,7 @@
   <div class="modal-content">
     <!-- 모달 헤더 -->
     <div class="modal-header">
-      <div><h1 class="modal-title fs-5" id="exampleModalLabel">기안문 작성 - 휴가신청서</h1></div>
+      <div><h1 class="modal-title fs-5">기안문 작성 - 휴가신청서</h1></div>
       <div>
         <button type="submit" form="docHoliday" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveHoliday"
         name="approvalCondition" value="1">임시저장</button>
@@ -12,9 +12,10 @@
       </div> 
     </div>
     <!-- 모달 바디 -->
-    <div class="modal-body" style="width: 1400px; overflow: hidden;">
+    <div class="modal-body" style="width: 1300px; overflow: hidden;">
       <form class="d-flex flex-row" action="docHoliday" id="docHoliday" method="POST">
 
+        <!--======================== 왼쪽 영역 ========================= -->
         <div style="height: 700px; overflow: auto;">
           <!-- 결재 정보 -->
           <div class="my-2 mx-3"> 
@@ -81,8 +82,6 @@
                   </tr>
                 </table>
               </div>
-  
-
             </div>
   
             <!-- 본문 -->
@@ -116,27 +115,28 @@
           </div>
         </div>
 
-        <div class="ps-3 pt-2" style="width: 645px;">
 
+        <!--======================== 오른쪽 영역 ========================= -->
+        <div class="ps-3 pt-2">
           <div class="fs-5">결재 : </div>
           <!-- 결재 전체 박스 -->
-          <div class="approverFull d-flex">
+          <div class="approverFull d-flex" style="width: 520px;">
             <!-- 결재선1+결재선2 박스 -->
-            <div class="approverLine d-flex" style="border: 1px solid black; width: 425px; height: 650px;">
+            <div class="approverLine d-flex" style="border: 1px solid black; width: 66%; height: 650px;">
               <!-- 결재선1 -->
-              <div style="border: 1px solid lightgray; width: 50%; height: 100%;">
-                <div>결재선1</div>
+              <div style="border: 1px solid lightgray; width: 45%; height: 100%;">
+                <div class="blockTitle">결재선1</div>
 
-                <div id="block1">
+                <div class="block1">
 
                   <div>
-                    <span><i class="bi bi-caret-right-fill"></i></span>
-                    <span onclick="selectAllMember(this);" id="dep0" data-value="0">임원</span>
+                    <span><i class="bi bi-record-fill"></i></span>
+                    <span onclick="selectAllMember(this);" data-value="0">임원</span>
                   </div>
                   
                   <div>
                     <span onclick="toggleTeams(this)"><i class="bi bi-caret-right-fill"></i></span>
-                    <span onclick="selectAllMember(this);" id="dep1" data-value="1">인사관리부</span>
+                    <span onclick="selectAllMember(this);" data-value="1">인사관리부</span>
                   </div>
 
                   <div style="display: none;">
@@ -147,7 +147,7 @@
 
                   <div>
                     <span onclick="toggleTeams(this)"><i class="bi bi-caret-right-fill"></i></span>
-                    <span onclick="selectAllMember(this);" id="dep2" data-value="2">경영관리부</span>
+                    <span onclick="selectAllMember(this);" data-value="2">경영관리부</span>
                   </div>
 
                   <div style="display: none;">
@@ -159,7 +159,7 @@
 
                   <div>
                     <span onclick="toggleTeams(this)"><i class="bi bi-caret-right-fill"></i></span>
-                    <span onclick="selectAllMember(this);" id="dep3" data-value="3">운영관리부</span>
+                    <span onclick="selectAllMember(this);" data-value="3">운영관리부</span>
                   </div>
                   <div style="display: none;">
                     <li onclick="selectTeamMember(this)" value="8">전산팀</li>
@@ -168,7 +168,7 @@
 
                   <div>
                     <span onclick="toggleTeams(this)"><i class="bi bi-caret-right-fill"></i></span>
-                    <span onclick="selectAllMember(this);" id="dep4" data-value="4">고객관리부</span>
+                    <span onclick="selectAllMember(this);" data-value="4">고객관리부</span>
                   </div>
                   <div style="display: none;">
                     <li onclick="selectTeamMember(this)" value="10">고객서비스팀</li>
@@ -176,32 +176,19 @@
                 </div>
               </div>
               <!-- 결재선2 -->
-              <div style="border: 1px solid lightgray; width: 50%; height: 100%;">
-                <div>결재선2</div>
+              <div style="border: 1px solid lightgray; width: 55%; height: 100%;">
+                <div class="blockTitle">결재선2</div>
 
-                <div id="block2">
+                <div class="block2">
 
                 </div>
 
               </div>
             </div>
             <!-- 결재라인 박스 -->
-            <div style="border: 1px solid black; width: 200px; height: 650px;">
-              <div>결재라인</div>
-              <div id="block3">
-
-         <!-- <div class="lineBox">
-                  <div>
-                    <div>인사관리부</div>
-                    <div>사원관리팀</div>
-                    <div>팀장</div>
-                    <div>김땡땡</div>
-                    <input type="hidden" name="approverList.memberNo">
-                  </div>
-                  <div class="remove" onclick="remove(this)">
-                    <i class="bi bi-x-circle-fill"></i></div>
-                </div>-->
-
+            <div style="border: 1px solid black; width: 34%; height: 650px;">
+              <div class="blockTitle">결재라인</div>
+              <div class="block3">
               </div>
             </div>
           </div>
@@ -212,8 +199,3 @@
     </div>
   </div>
 </div>
-
-
-
-
-

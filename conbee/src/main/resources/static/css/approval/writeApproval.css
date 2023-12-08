@@ -1,5 +1,5 @@
 
-/* writeApproval.css =============================================== */
+/* ======================== 기안문 작성 목록 ======================== */
 
 #tblBody tr{
   cursor: pointer;
@@ -9,19 +9,7 @@
   vertical-align: middle;
 }
 
-
-/* approvalDoc.css =============================================== */
-
-/* 기안문 스크롤바 */
-/* 안먹음 수정! */
-
-.modal-body::-webkit-scrollbar-track{
-  background: #f2f2f2 !important;
-}
-.modal-body::-webkit-scrollbar-thumb{
-  background-color: #FFE15D !important;
-  border-radius: 10px !important;
-}
+/* =========================== 템플릿 공통 =========================== */
 
 /* 기안문 작성 정보  */
 .elem{
@@ -30,7 +18,6 @@
 
 /* 제목 */
 .title-input{
-  /* background-color: #e3f1ff; */
   height: 27px; 
   width: 620px;
 }
@@ -46,26 +33,16 @@
   outline: none;
 }
 
-/* 결재 테이블 */
-.infoTable th,.infoTable td{
-  padding: 4px 4px !important;
-
-}
-
-
-
 /* 템플릿 박스 */
 .temps{
   border: 1px solid black;
-  /* height: 500px; */
-  /* overflow: auto; */
-
 }
 
 /* 템플릿 정보/승인 */
 .tempInfo, .tempApprov{
   padding-top: 50px;
 }
+
 .tempInfo th{
   width: 35%;
   text-align: center;
@@ -74,6 +51,7 @@
 }
 .tempInfo td{
   padding: 4px 6px;
+  font-size: 13.5px
 }
 
 .tempApprov table *{
@@ -105,7 +83,7 @@
 }
 
 
-/* docStore =============================================== */
+/* ==================== 템플릿3 docStore 출폐점 ========================= */
 .storeName{
   width: 100%;
   border: none;
@@ -113,7 +91,6 @@
 .storeName:focus{
   outline: none;
 }
-
 
 /* ========================= */
 
@@ -129,7 +106,7 @@
 }
 
 
-#block1 div *, #block2 *, #block3 .remove{
+.block1 div *, .block2 *, .block3 .remove{
   cursor: pointer;
   user-select: none;
 }
@@ -140,7 +117,22 @@
 
 .lineBox{
   border: 1px solid lightgray;
-  width:200px;
+  width:170px;
   height: 120px;
   border-radius: 10px;
+}
+
+/* 결재선 */
+.block1>div{
+  padding: 2px;
+}
+.block2>li{
+  padding: 4px;
+}
+.block3>div{
+  padding: 2px;
+}
+.blockTitle{
+  text-align: center;
+  padding: 10px 0;
 }
