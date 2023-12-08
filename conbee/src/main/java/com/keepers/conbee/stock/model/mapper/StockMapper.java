@@ -68,7 +68,7 @@ public interface StockMapper {
 	 * @param goodsNo 
 	 * @return
 	 */
-	List<String> goodsNameSelect(String intputGoods);
+	List<Stock> goodsNameSelect(String intputGoods);
   
 	/** 발주 신청
 	 * @param orderList
@@ -93,6 +93,17 @@ public interface StockMapper {
 	 */
 	List<Order> selectOrderScheduling();
 
+	/** 재고 삭제
+	 * @param paramMap
+	 * @return
+	 */
+	int stockDelete(Map<String, Object> paramMap);
+
+	/** 재고 품목 수정
+	 * @param stock
+	 * @return
+	 */
+	int stockUpdate(Stock stock);
 	/**발주 신청/수정 화면 출력용
 	 * @param storeNo
 	 * @return

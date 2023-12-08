@@ -96,7 +96,7 @@ public class StockServiceImpl implements StockService{
 	
 	// 재고 등록 이름 검색 시 물품 조회
 	@Override
-	public List<String> goodsNameSelect(String intputGoods) {
+	public List<Stock> goodsNameSelect(String intputGoods) {
 		return mapper.goodsNameSelect(intputGoods);
 	}
 	
@@ -154,13 +154,24 @@ public class StockServiceImpl implements StockService{
 	// 발주 마감 스케쥴러 동작
 	@Override
 	public void orderScheduling() {
-		
 		List<Order> orderList = mapper.selectOrderScheduling();
-		log.info("-=-=--=-=-= orderList : " + orderList);
+	  log.info("-=-=--=-=-= orderList : " + orderList);
 		if(orderList.size() != 0) {
 			mapper.orderScheduling(orderList);
 		}
 	}
+	
+	// 재고 삭제
+	@Override
+	public int stockDelete(Map<String, Object> paramMap) {
+		
+		return mapper.stockDelete(paramMap);
+	}
+	
+	@Override
+	public int stockUpdate(Stock stock) {
+		return mapper.stockUpdate(stock);
+  }
 	
 	// 발주 신청/수정 화면 출력용
 	@Override
