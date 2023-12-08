@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko"  xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>내 프로필 조회</title>
+  <link rel="stylesheet" href="/css/mypage/myPage.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body class="d-flex flex-column" style="height: 100vh;">
+
+  <th:block th:replace="~{common/header}"></th:block>
+
+  
+  <main class="d-flex overflow-y-auto h-100">
+
+    <th:block th:replace="~{note/sidebar}"></th:block>
+
+    <div class="d-flex flex-column flex-grow-1 align-items-center overflow-y-auto w-100">
+      <div class="d-flex justify-content-between align-items-center w-100 px-2">
+        <p class="fs-4 pb-3 px-3 border-bottom w-100 pt-3">쪽지</p>
+      </div>
+  
+      <div class ="content_header">
+        <form name="" id="search_form" action="#" onsubmit="return false;">
+          <fieldset class="notesearch">
+            <legend>쪽지검색</legend>
+            <label for="q01" class="blind">검색할 쪽지함 선택</label>								
+            <select id="q01">
+            <option value="8">전체쪽지</option>
+            <option value="0">받은쪽지</option>
+            <option value="1">보낸쪽지</option>
+            <option value="7">보관쪽지</option>
+            </select>
+            <label for="q02" class="blind">검색 옵션 선택</label>
+            <select id="q02">
+            <option value="0">아이디</option>
+            <option value="1">이름</option>
+            <option value="2">내용</option>
+            </select>
+            <label for="q03" class="blind">검색 키워드 입력</label>
+            <input id="q03" type="text" name="" value="쪽지검색" onfocus="nList.onFocusSearchInput();" onblur="nList.onFocusSearchInput();">
+            <button class="search _click(nList|search) _stopDefault">
+            <span class="blind">검색</span></button>
+          </fieldset>
+          </form>
+
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+      </div>
+    </main>
+
+
+  <script src="/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+</html>
