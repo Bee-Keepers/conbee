@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.stock.model.dto.Order;
+import com.keepers.conbee.stock.model.dto.OrderDetail;
 import com.keepers.conbee.stock.model.dto.Stock;
 import com.keepers.conbee.stock.model.mapper.StockMapper;
 
@@ -102,10 +103,12 @@ public class StockServiceImpl implements StockService{
 	// 발주 신청
 	@Override
 	public int orderInsert(List<Integer> goodsNo, List<Integer> orderAmount, int storeNo) {
-		List<Integer> preGoodsNo = mapper.preGoodsNo(storeNo);
 		
+		List<Integer> preGoodsNo = mapper.preGoodsNo(storeNo);
 		List<Order> orderInsertList = new ArrayList<>();
-		List<Order> orderUpdateList = new ArrayList<>();
+		
+		int result = 0;
+		
 		for(int i = 0; i<goodsNo.size(); i++) {
 			if(preGoodsNo.contains(goodsNo.get(i))) {
 				log.info("=-=-=-=-=-=" + goodsNo.get(i));
@@ -113,7 +116,8 @@ public class StockServiceImpl implements StockService{
 				orderUpdate.setGoodsNo(goodsNo.get(i));
 				orderUpdate.setOrderAmount(orderAmount.get(i));
 				orderUpdate.setStoreNo(storeNo);
-				orderUpdateList.add(orderUpdate);
+				result = mapper.orderUpdate(orderUpdate);
+				if(result == 0) return 0;
 			} else {
 				Order order = new Order();
 				order.setGoodsNo(goodsNo.get(i));
@@ -122,7 +126,10 @@ public class StockServiceImpl implements StockService{
 				orderInsertList.add(order);
 			}
 		}
-		return mapper.orderInsert(orderInsertList);
+		if(orderInsertList.size() != 0) {
+			result = mapper.orderInsert(orderInsertList);
+		}
+		return result;
 	}
 
 	// 발주 내역 조회
@@ -161,4 +168,24 @@ public class StockServiceImpl implements StockService{
 		return mapper.orderInsertUpdate(storeNo);
 	}
 	
+	// 발주 삭제
+	@Override
+	public void orderDelete(Order order) {
+		// 하루단위 발주에 입력되어있는 상품번호들 조회
+		List<Integer> preGoodsNo = mapper.preGoodsNo(order.getStoreNo());
+		
+		// 비교해서 있으면 삭제 작업
+		for(int i = 0; i<order.getGoodsNoList().size(); i++) {
+			if(preGoodsNo.contains(order.getGoodsNoList().get(i))) {
+				order.setGoodsNo(order.getGoodsNoList().get(i));
+				mapper.orderDelete(order);
+			}
+		}
+	}
+	
+	// 발주 상세 조회
+	@Override
+	public List<OrderDetail> orderSelect(Order order) {
+		return mapper.orderSelect(order);
+	}
 }

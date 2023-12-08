@@ -116,10 +116,13 @@
 		</foreach>
 	</insert>
 	
-	<update id="">
+	<!-- 발주 수정 -->
+	<update id="orderUpdate">
 		UPDATE "ORDER" SET
 		ORDER_AMOUNT = #{orderAmount}
-		WHERE ORDER_NO = #{orderNo}
+		WHERE STORE_NO = #{storeNo}
+		AND GOODS_NO = #{goodsNo}
+		AND TO_CHAR(ORDER_DATE, 'YYYY-MM-DD HH24:MI:SS')  BETWEEN TO_CHAR(SYSDATE, 'YYYY-MM-DD "00":"00":"00"') AND TO_CHAR(SYSDATE+1, 'YYYY-MM-DD "00":"00":"00"')
 	</update>
 	
 	<!-- 발주 내역 조회 -->
@@ -163,6 +166,7 @@
 		AND TO_CHAR(ORDER_DATE, 'YYYY-MM-DD HH24:MI:SS')  BETWEEN TO_CHAR(SYSDATE, 'YYYY-MM-DD "00":"00":"00"') AND TO_CHAR(SYSDATE+1, 'YYYY-MM-DD "00":"00":"00"')
 	</select>
 	
+	<!-- 발주 수정,삭제 위한 이미 존재하는 발주 상품번호 조회-->
 	<select id="preGoodsNo" resultType="_int">
 		SELECT GOODS_NO
 		FROM "ORDER"
@@ -170,5 +174,22 @@
 		AND TO_CHAR(ORDER_DATE, 'YYYY-MM-DD HH24:MI:SS')  BETWEEN TO_CHAR(SYSDATE, 'YYYY-MM-DD "00":"00":"00"') AND TO_CHAR(SYSDATE+1, 'YYYY-MM-DD "00":"00":"00"')
 	</select>
 	
+	<!-- 발주 삭제 -->
+	<delete id="orderDelete">
+		DELETE FROM "ORDER"
+		WHERE GOODS_NO = #{goodsNo}
+		AND STORE_NO = #{storeNo}
+		AND TO_CHAR(ORDER_DATE, 'YYYY-MM-DD HH24:MI:SS')  BETWEEN TO_CHAR(SYSDATE, 'YYYY-MM-DD "00":"00":"00"') AND TO_CHAR(SYSDATE+1, 'YYYY-MM-DD "00":"00":"00"')
+	</delete>
+	
+	<select id="orderSelect" resultType="OrderDetail">
+		SELECT GOODS_NO, GOODS_NAME, LCATEGORY_NAME, SCATEGORY_NAME, ORDER_AMOUNT
+		FROM "ORDER"
+		JOIN GOODS USING(GOODS_NO)
+		JOIN LCATEGORY USING(LCATEGORY_NO)
+		JOIN SCATEGORY USING(SCATEGORY_NO)
+		WHERE STORE_NO = #{storeNo}
+		AND TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') = #{orderDate}
+	</select>
 	
 </mapper>
