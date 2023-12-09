@@ -77,6 +77,18 @@ public interface ApprovalService {
 	 */
 	List<Approval> selectCompleteApproval(int memberNo);
 
+	/** 반려문서함 조회
+	 * @param memberNo
+	 * @return
+	 */
+	List<Approval> selectReturnApprovalList(int memberNo);
+
+	/** 협조문서함 조회
+	 * @param departmentNo
+	 * @return
+	 */
+	List<Approval> selectJoinApprovalList(int departmentNo);
+
 
 
 

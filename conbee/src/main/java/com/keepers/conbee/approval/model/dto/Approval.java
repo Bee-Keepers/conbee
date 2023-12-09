@@ -61,6 +61,11 @@ public class Approval {
   private String departmentName; // 작성자 부서명
   private String teamName; // 작성자 팀명
   private String finalApproverName; // 최종결재자 이름
+  
+  private String approvalConditionTitle; //  문서 상태명
+  
+  
+  
 
 }
 

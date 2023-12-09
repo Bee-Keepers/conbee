@@ -254,7 +254,7 @@
                 <td th:text="*{docCategorySort}">휴가</td>
                 <td th:text="*{approvalTitle}" style="text-align: start; font-weight: bold; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#holidayModal" id="clickModal">연차 신청합니다.</a></td>
                 <td th:text="*{memberName}">정유진</td>
-                <td th:text="|*{departmentName}(*{teamName})|">운영부(전산팀)</td>
+                <td>[[*{departmentName}]]([[*{teamName}?: '']])</td>
                 <td th:text="*{approvalDate}">2023-11-30 16:24</td>
                 <td th:text="*{finalApproverName}">이예리나</td>
                 <td>결재중</td>
