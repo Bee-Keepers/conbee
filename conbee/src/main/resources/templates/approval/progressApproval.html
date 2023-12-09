@@ -63,24 +63,12 @@
                 <td th:text="*{docCategorySort}">휴가</td>
                 <td th:text="*{approvalTitle}" style="text-align: start; font-weight: bold; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#holidayModal" id="clickModal">연차 신청합니다.</a></td>
                 <td th:text="*{memberName}">정유진</td>
-                <td th:text="|*{departmentName}(*{teamName})|">운영부(전산팀)</td>
+                <td>[[*{departmentName}]]([[*{teamName}?: '']])</td>
                 <td th:text="*{approvalDate}">2023-11-30 16:24</td>
                 <td th:text="*{finalApproverName}">이예리나</td>
                 <td>결재중</td>
               </tr>
             </th:block>
-
-            <!-- <tr style="text-align: center;">
-              <td>16</td>
-              <td>업무</td>
-              <td>출점</td>
-              <td style="text-align: start; font-weight: bold;"><a href="" style="text-decoration: none; color: black;">낙성대점 출점 요청합니다.</a></td>
-              <td>김유미</td>
-              <td>점포관리팀</td>
-              <td>2023-11-30 11:01</td>
-              <td>사장님</td>
-              <td>결재완료</td>
-            </tr> -->
 
           </tbody>
         </table>

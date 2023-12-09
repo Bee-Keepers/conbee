@@ -110,9 +110,47 @@ public class ApprovalServiceImpl implements ApprovalService{
 	 */
 	@Override
 	public List<Approval> selectCompleteApproval(int memberNo) {
-		return null;
+		
+		// 1) 결재승인권한자가 조회하는 완료문서 리스트
+		List<Approval> completeApprovalListByApprover = mapper.selectCompleteApprovalApprover(memberNo);
+		
+		// 2) 기안자가 조회하는 결재완료문서 리스트
+		List<Approval> completeApprovalListByDrafter = mapper.selectCompleteApprovalDrafter(memberNo);
+		
+		// 리스트 합치기
+		completeApprovalListByApprover.addAll(completeApprovalListByDrafter);
+		
+		return completeApprovalListByApprover;
 	}
 	
+	
+	
+	/** 반려문서함 조회
+	 *
+	 */
+	@Override
+	public List<Approval> selectReturnApprovalList(int memberNo) {
+		
+		// 1) 자신이 반려한 문서 리스트 조회
+		List<Approval> returnApprovalListByApprover = mapper.selectReturnApprovalApprover(memberNo);
+		
+		// 2) 기안자가 자신이 기안한 문서가 반려된 경우 리스트 조회
+		List<Approval> returnApprovalListByDrafter = mapper.selectReturnApprovalDrafter(memberNo);
+
+		// 리스트 합치기
+		returnApprovalListByApprover.addAll(returnApprovalListByDrafter);
+		
+		
+		return returnApprovalListByApprover;
+	}
+	
+	/** 협조문서함 조회
+	 *
+	 */
+	@Override
+	public List<Approval> selectJoinApprovalList(int departmentNo) {
+		return mapper.selectJoinApprovalList(departmentNo);
+	}
 	
 
 }

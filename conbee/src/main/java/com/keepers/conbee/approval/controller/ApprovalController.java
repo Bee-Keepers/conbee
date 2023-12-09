@@ -74,25 +74,6 @@ public class ApprovalController { // 전자결재 컨트롤러
 		return "approval/reclaimeApproval";
 	}
 
-
-	/** 반려문서함 포워드
-	* @return
-	* @author 예리나
-	*/
-	@GetMapping("returnApproval")
-	public String returnApproval() {
-		return "approval/returnApproval";
-	}
-
-	/** 협조문서함 포워드
-	* @return
-	* @author 예리나
-	*/
-	@GetMapping("joinApproval")
-	public String joinApproval() {
-		return "approval/joinApproval";
-	}
-	
 	
 	// ============================== 임시 저장함 ==============================
 	
@@ -293,9 +274,41 @@ public class ApprovalController { // 전자결재 컨트롤러
 	
 	// ============================== 반려 문서함 ==============================
 	
+
+	/** 반려문서함 포워드
+	* @return
+	* @author 예리나
+	*/
+	@GetMapping("returnApproval")
+	public String returnApproval(@SessionAttribute("loginMember") Member loginMember, Model model) {
+		
+		// 1) 자신이 반려한 문서 조회
+		// 2) 기안자가 자신이 기안한 문서가 반려된 경우 조회
+		List<Approval> returnApprovalList = service.selectReturnApprovalList(loginMember.getMemberNo());
+		
+		model.addAttribute("returnApprovalList", returnApprovalList);
+		
+		return "approval/returnApproval";
+	}
+
+	
 	
 	// ============================== 협조 문서함 ==============================
 	
+	/** 협조문서함 포워드
+	* @return
+	* @author 예리나
+	*/
+	@GetMapping("joinApproval")
+	public String joinApproval(@SessionAttribute("loginMember") Member loginMember, Model model) {
+		
+		// 로그인멤버가 속한 부서를 협조부터코드로 작성한 기안문만 불러오기
+		List<Approval> joinApprovalList = service.selectJoinApprovalList(loginMember.getDepartmentNo());
+		
+		model.addAttribute("joinApprovalList", joinApprovalList);
+		
+		return "approval/joinApproval";
+	}
 	
 	// =========================================================================
 	
