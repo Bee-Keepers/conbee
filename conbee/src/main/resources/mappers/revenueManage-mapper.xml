@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 연결할 인터페이스의 패키지명.인터페이스명을 작성 -->
+<mapper namespace="com.keepers.conbee.revenue.model.mapper.RevenueManageMapper">
+	
+	<select id="revenueManageList" resultType="Revenue">
+		SELECT LCATEGORY_NAME, SCATEGORY_NAME, GOODS_NO ,HISTORY_GOODS_NAME,
+			SUM(HISTORY_AMOUNT) HISTORY_AMOUNT, AVG(HISTORY_ACTUAL_PRICE) HISTORY_ACTUAL_PRICE, SUM(HISTORY_AMOUNT * HISTORY_ACTUAL_PRICE) TOTAL_PRICE
+		FROM HISTORY
+		JOIN GOODS USING(GOODS_NO)
+		JOIN LCATEGORY USING(LCATEGORY_NO)
+		JOIN SCATEGORY USING(SCATEGORY_NO)
+		WHERE HISTORY_DIVIDE = '출고'
+		AND STORE_NO = #{storeNo}
+		AND HISTORY_GOODS_NAME LIKE '%${goodsName}%'
+		AND TO_CHAR(HISTORY_DATE, 'YYYY-MM-DD')  BETWEEN #{startDate} AND #{endDate}
+		<if test='lcategoryName != ""'>
+			AND LCATEGORY_NAME = #{lcategoryName}
+		</if>
+		<if test='scategoryName != ""'>
+			AND SCATEGORY_NAME = #{scategoryName}
+		</if>
+		GROUP BY GOODS_NO, LCATEGORY_NAME, SCATEGORY_NAME, HISTORY_GOODS_NAME
+		<if test='flag == 1'>
+			<![CDATA[ HAVING SUM(HISTORY_AMOUNT * HISTORY_ACTUAL_PRICE) >= #{revenue} ]]>
+		</if>
+		<if test='flag == 2'>
+			<![CDATA[ HAVING SUM(HISTORY_AMOUNT * HISTORY_ACTUAL_PRICE) <= #{revenue} ]]>
+		</if>
+		ORDER BY LCATEGORY_NAME, SCATEGORY_NAME
+	</select>
+	<select id="historySearch" resultType="Revenue">
+		SELECT LCATEGORY_NAME, SCATEGORY_NAME, GOODS_NO ,HISTORY_GOODS_NAME,
+			HISTORY_AMOUNT, HISTORY_ACTUAL_PRICE, HISTORY_NO, HISTORY_DIVIDE, HISTORY_UNIT_PRICE, HISTORY_DISCOUNT, TO_CHAR(HISTORY_DATE, 'YYYY-MM-DD HH24:MI:SS') HISTORY_DATE
+			, (HISTORY_ACTUAL_PRICE * HISTORY_AMOUNT) TOTAL_PRICE
+		FROM HISTORY
+		JOIN GOODS USING(GOODS_NO)
+		JOIN LCATEGORY USING(LCATEGORY_NO)
+		JOIN SCATEGORY USING(SCATEGORY_NO)
+		WHERE STORE_NO = #{storeNo}
+		AND HISTORY_GOODS_NAME LIKE '%${goodsName}%'
+		AND TO_CHAR(HISTORY_DATE, 'YYYY-MM-DD')  BETWEEN #{startDate} AND #{endDate}
+		<if test='historyDivide != "전체"'>
+			AND HISTORY_DIVIDE = #{historyDivide}
+		</if>
+		<if test='lcategoryName != ""'>
+			AND LCATEGORY_NAME = #{lcategoryName}
+		</if>
+		<if test='scategoryName != ""'>
+			AND SCATEGORY_NAME = #{scategoryName}
+		</if>
+		<if test='flag == 1'>
+			<![CDATA[ AND HISTORY_ACTUAL_PRICE * HISTORY_AMOUNT >= #{revenue} ]]>
+		</if>
+		<if test='flag == 2'>
+			<![CDATA[ AND HISTORY_ACTUAL_PRICE * HISTORY_AMOUNT <= #{revenue} ]]>
+		</if>
+		ORDER BY HISTORY_NO DESC
+	</select>
+	
+	<select id="storeSearch" resultType="Store">
+		SELECT STORE_NO, STORE_NAME
+		FROM STORE
+		WHERE STORE_NAME LIKE '%${inputStoreName}%'
+	</select>
+	
+	<select id="storeName" resultType="string">
+		SELECT STORE_NAME
+		FROM STORE
+		WHERE STORE_NO = #{storeNo}
+	</select>
+
+</mapper>

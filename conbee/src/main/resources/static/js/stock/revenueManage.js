@@ -1,3 +1,27 @@
+const storeSearch = document.getElementById("storeSearch");
+const storeSelect = document.getElementById("storeSelect");
+// 지점 이름으로 검색
+storeSearch.addEventListener("input", e=>{
+
+    fetch("/revenueManage/storeSearch?inputStoreName=" + e.target.value)
+    .then(resp=>resp.json())
+    .then(list=>{
+        storeSelect.innerHTML = "";
+        console.log(list);
+        if(list.length == 0){
+            storeSelect.innerText = "검색된 지점이 없습니다.";
+        } else{
+            for(let opt of list){
+                const option = document.createElement("option");
+                option.value = opt.storeNo;
+                option.innerText = opt.storeName;
+                storeSelect.append(option);
+            }
+        }
+    })
+    .catch(e=>console.log(e));
+});
+
 $('.input-daterange')
     .datepicker({
         format: 'yyyy-mm-dd', //데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
@@ -29,10 +53,12 @@ $('.input-daterange input').datepicker('setDate', new Date());
 const revenueSearchBtn = document.getElementById("revenueSearchBtn");
 const revenueSearchForm = document.getElementById("revenueSearchForm");
 const storeNoSelect = document.getElementById("storeNoSelect");
-const storeNo = document.getElementById("storeNo");
 
 revenueSearchBtn.addEventListener("click", ()=>{
-    storeNo.value = storeNoSelect.value;
+    if(storeSelect.value == ""){
+        alert("지점을 선택해주세요");
+        return;
+    }
     revenueSearchForm.submit();
 });
 
@@ -64,22 +90,7 @@ lcategorySelect.addEventListener("change", ()=>{
    }
 });
 
-// 지점 변경 시 화면 변경
-storeNoSelect.addEventListener("change", ()=>{
-   location.href = "/revenue/list?storeNo=" + storeNoSelect.value;
-})
 
-// 지점 선택 옵션 저장
-const url = new URL(location.href);
-const urlParams = url.searchParams;
-
-const options = document.querySelectorAll("#storeNoSelect>option");
-for(let option of options){
-    if(option.value == urlParams.get("storeNo")){
-        option.selected = true;
-        break;
-    }
-}
 
 // 합계 계산
 const totalPrice = document.getElementById("totalPrice");
@@ -94,8 +105,10 @@ totalPrice.innerText = temp;
 const startDate = document.querySelector("input[name='startDate']");
 const endDate = document.querySelector("input[name='endDate']");
 
-startDate.value = document.getElementById("startDate").innerText;
-endDate.value = document.getElementById("endDate").innerText;
+if(document.getElementById("startDate") != null){
+    startDate.value = document.getElementById("startDate").innerText;
+    endDate.value = document.getElementById("endDate").innerText;
+}
 
 const floatingPrice = document.getElementById("floatingPrice");
 floatingPrice.addEventListener("input", e=>{

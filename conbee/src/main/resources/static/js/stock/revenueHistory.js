@@ -1,3 +1,26 @@
+const storeSearch = document.getElementById("storeSearch");
+const storeSelect = document.getElementById("storeSelect");
+// 지점 이름으로 검색
+storeSearch.addEventListener("input", e=>{
+
+    fetch("/revenueManage/storeSearch?inputStoreName=" + e.target.value)
+    .then(resp=>resp.json())
+    .then(list=>{
+        storeSelect.innerHTML = "";
+        console.log(list);
+        if(list.length == 0){
+            storeSelect.innerText = "검색된 지점이 없습니다.";
+        } else{
+            for(let opt of list){
+                const option = document.createElement("option");
+                option.value = opt.storeNo;
+                option.innerText = opt.storeName;
+                storeSelect.append(option);
+            }
+        }
+    })
+    .catch(e=>console.log(e));
+});
 $('.input-daterange')
     .datepicker({
         format: 'yyyy-mm-dd', //데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
@@ -8,6 +31,7 @@ $('.input-daterange')
         }, //다음달 이전달로 넘어가는 화살표 모양 커스텀 마이징
         showWeekDays: true, // 위에 요일 보여주는 옵션 기본값 : true
         todayHighlight: true, //오늘 날짜에 하이라이팅 기능 기본값 :false
+        toggleActive: true, //이미 선택된 날짜 선택하면 기본값 : false인경우 그대로 유지 true인 경우 날짜 삭제
         language: 'ko', //달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
         todayBtn: "linked"
     })
@@ -29,10 +53,8 @@ $('.input-daterange input').datepicker('setDate', new Date());
 const revenueSearchBtn = document.getElementById("revenueSearchBtn");
 const revenueSearchForm = document.getElementById("revenueSearchForm");
 const storeNoSelect = document.getElementById("storeNoSelect");
-const storeNo = document.getElementById("storeNo");
 
 revenueSearchBtn.addEventListener("click", ()=>{
-    storeNo.value = storeNoSelect.value;
     revenueSearchForm.submit();
 });
 
@@ -64,11 +86,6 @@ lcategorySelect.addEventListener("change", ()=>{
    }
 });
 
-// 지점 변경 시 화면 변경
-storeNoSelect.addEventListener("change", ()=>{
-   location.href = "/revenue/list?storeNo=" + storeNoSelect.value;
-})
-
 // 지점 선택 옵션 저장
 const url = new URL(location.href);
 const urlParams = url.searchParams;
@@ -81,25 +98,10 @@ for(let option of options){
     }
 }
 
-// 합계 계산
-const totalPrice = document.getElementById("totalPrice");
-const totalPriceList = document.querySelectorAll("#tableTbody>tr>td:last-of-type");
-let temp = 0;
-for(let totalPrices of totalPriceList){
-   temp += parseInt(totalPrices.innerText);
-}
-totalPrice.innerText = temp;
-
-// 검색한 날짜 저장
 const startDate = document.querySelector("input[name='startDate']");
 const endDate = document.querySelector("input[name='endDate']");
 
-startDate.value = document.getElementById("startDate").innerText;
-endDate.value = document.getElementById("endDate").innerText;
-
-const floatingPrice = document.getElementById("floatingPrice");
-floatingPrice.addEventListener("input", e=>{
-   if(e.target.value < 0){
-      e.target.value = 0;
-   }
-});
+if(document.getElementById("startDate") != null){
+    startDate.value = document.getElementById("startDate").innerText;
+    endDate.value = document.getElementById("endDate").innerText;
+}
