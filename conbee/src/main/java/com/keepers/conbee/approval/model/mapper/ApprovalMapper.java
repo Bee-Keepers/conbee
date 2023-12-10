@@ -92,6 +92,42 @@ public interface ApprovalMapper {
 	List<Approval> selectProgressApproval(int memberNo);
 
 
+	/** 완료문서함 조회(승인자 기준)
+	 * @param memberNo
+	 * @return
+	 */
+	List<Approval> selectCompleteApprovalApprover(int memberNo);
+
+
+	/** 완료문서함 조회(기안자 기준)
+	 * @param memberNo
+	 * @return
+	 */
+	List<Approval> selectCompleteApprovalDrafter(int memberNo);
+
+
+	/** 반려문서함 조회(승인자 기준)
+	 * @param memberNo
+	 * @return
+	 */
+	List<Approval> selectReturnApprovalApprover(int memberNo);
+
+
+	/** 반려문서함 조회(기안자 기준)
+	 * @param memberNo
+	 * @return
+	 */
+	List<Approval> selectReturnApprovalDrafter(int memberNo);
+
+
+
+	/** 협조문서함 조회
+	 * @param departmentNo
+	 * @return
+	 */
+	List<Approval> selectJoinApprovalList(int departmentNo);
+
+
 
 
 

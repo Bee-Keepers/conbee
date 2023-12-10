@@ -74,10 +74,10 @@
             <col width=7%>
             <col width=25%>
             <col width=8%>
-            <col width=8%>
+            <col width=12%>
             <col width=15%>
             <col width=8%>
-            <col width=10%>
+            <col width=6%>
           </colgroup>
           <thead>
             <tr style="text-align: center;">
@@ -95,18 +95,28 @@
           </thead>
           <tbody class="table-group-divider">
 
-            <tr style="text-align: center; cursor: pointer;" onclick="handleClick(event);">
-              <td><input type="checkbox"></td>
-              <td>62</td>
-              <td>업무</td>
-              <td>지출결의서</td>
-              <td style="text-align: start; font-weight: bold;" class="approvalTitle" data-bs-toggle="modal" data-bs-target="#exampleModal" id="clickModal">전산팀 사무비 지출결의서</td>
-              <td>이전산</td>
-              <td>전산팀</td>
-              <td>2023-11-29 10:04</td>
-              <td>회계팀장</td>
-              <td>결재완료</td>
+            <!-- 협조요청 문서가 없을 때 -->
+            <tr th:if="${#lists.size(joinApprovalList) == 0}">
+              <th colspan="10" style="text-align: center;">협조 요청된 문서가 없습니다.</th>
             </tr>
+
+            <!-- 결재 완료 문서가 존재할 때 -->
+            <th:block th:unless="${#lists.size(joinApprovalList) == 0}">
+              <tr th:each="approval : ${joinApprovalList}" th:object="${approval}"  style="text-align: center; cursor: pointer;" onclick="handleClick(event);">
+                <td><input type="checkbox"></td>
+
+                <td th:text="*{approvalNo}">16</td>
+                <td th:text="*{docCategoryGroup}">복무</td>
+                <td th:text="*{docCategorySort}">휴가</td>
+                <td th:text="*{approvalTitle}" style="text-align: start; font-weight: bold; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#holidayModal" id="clickModal">연차 신청합니다.</a></td>
+                <td th:text="*{memberName}">정유진</td>
+                <td>[[*{departmentName}]]([[*{teamName}?: '']])</td>
+                <td th:text="*{approvalDate}">2023-11-30 16:24</td>
+                <td th:text="*{finalApproverName}">이예리나</td>
+
+                <td th:text="*{approvalConditionTitle}">결재완료</td>
+              </tr>
+            </th:block>
 
           </tbody>
         </table>
