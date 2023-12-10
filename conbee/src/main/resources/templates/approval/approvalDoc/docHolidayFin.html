@@ -10,32 +10,34 @@
     <div class="d-flex justify-content-between">
       <!-- 정보 -->
       <div class="tempInfo my-2 mx-3 px-2">
-        <table class="table table-bordered" style="width: 250px; border: black;">
+
+        <table class="table table-bordered" style="width: 250px; border: black;" th:object="${approval}">
           <tr>
             <th>문서번호</th> 
-            <td>-</td> <!--th: -->
+            <td th:text="*{approvalNo}">-</td>
           </tr>
           <tr>
             <th>부 서</th>
-            <td>전산팀</td><!-- ${teamName} -->
+            <td>[[*{departmentName}]]([[*{teamName}?: '']])</td>
           </tr>
           <tr>
             <th>기안자</th>
-            <td>정유진</td><!-- ${memberName} -->
+            <td th:text="*{memberName}">정유진</td>
           </tr>
           <tr>
             <th>구분(항목)</th>
-            <td>복무(휴가)</td>
+            <td th:text="*{docCategoryTitle}">복무(휴가)</td>
           </tr>
           <tr>
             <th>협조 부서</th>
-            <td>인사관리부</td>
+            <td th:text="*{departmentTitle}">인사관리부</td>
           </tr>
           <tr>
             <th>기안일</th>
-            <td>2023-11-25</td><!-- sysdate -->
+            <td th:text="*{approvalDate}">2023-11-25</td>
           </tr>
         </table>
+        
       </div>
 
       <!-- 승인 -->
@@ -64,18 +66,18 @@
 
         <tr>
           <th>제 목</th>
-          <td></td> <!-- th: -->
+          <td th:text="*{approvalTitle}"></td>
         </tr>
         <tr>
           <th>휴가 시작일</th>
-          <td>2023.11.30</td><!-- ${휴가시작일} -->
+          <td th:text="*{docHolidayStart}">2023.11.30</td>
         </tr>
         <tr>
           <th>휴가 종료일</th>
-          <td>2024.11.29</td><!-- ${휴가종료일} -->
+          <td th:text="*{docHolidayEnd}">2024.11.29</td><!-- ${휴가종료일} -->
         </tr>
         <tr>
-          <th style="vertical-align: middle;">상세 내용</th>
+          <th style="vertical-align: middle;" th:text="approvalContent">상세 내용</th>
           <td>안식년 가지려구합니다요</td>
         </tr>
         <tr>

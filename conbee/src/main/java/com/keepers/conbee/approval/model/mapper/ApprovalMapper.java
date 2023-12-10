@@ -128,6 +128,13 @@ public interface ApprovalMapper {
 	List<Approval> selectJoinApprovalList(int departmentNo);
 
 
+	/** 기안서 상세조회(휴가)
+	 * @param approvalNo
+	 * @return
+	 */
+	Approval selectHolidayApproval(int approvalNo);
+
+
 
 
 
