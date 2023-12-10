@@ -61,10 +61,12 @@
             <a class="nav-link" href="#">캘린더</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="/stock/stockList">재고</a>
+                <a class="nav-link" href="/stock/stockList" th:if="${session.loginMember.teamNo == 11}">재고</a>
+                <a class="nav-link" href="/stockManage/goodsList" th:unless="${session.loginMember.teamNo == 11}">재고 관리</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="/revenue/list">매출</a>
+            <a class="nav-link" href="/revenue/list" th:if="${session.loginMember.teamNo == 11}">매출</a>
+            <a class="nav-link" href="/revenueManage/revenueList" th:unless="${session.loginMember.teamNo == 11}">매출 관리</a>
             </li>
         </ul>
         </div>

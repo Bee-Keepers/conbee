@@ -62,56 +62,20 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="revenueSearchForm" action="/revenue/list" method="get">
+          <form id="stockSearchForm" action="/stock/order/list" method="get">
             <!-- 대분류 -->
-            <div class="input-group mb-3">
-              <label class="input-group-text" for="lcategorySelect">대분류</label>
-              <select class="form-select" name="lcategoryName" id="lcategorySelect">
-                <option value="">선택</option>
-                <option>간편식사</option>
-                <option>즉석조리</option>
-                <option>과자류</option>
-                <option>아이스크림</option>
-                <option>식품</option>
-                <option>음료</option>
-                <option>생활용품</option>
-              </select>
-            </div>
-  
-            <!-- 소분류 -->
-            <div class="input-group mb-3">
-              <label class="input-group-text" for="inputGroupSelect01">소분류</label>
-              <select class="form-select" name="scategoryName" id="scategorySelect">
-                <option value="">선택</option>
-              </select>
-            </div>
-  
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" name="goodsName" id="floatingName" placeholder="">
-              <label for="floatingName">품목 이름</label>
-            </div>
-            <div class="input-group mb-3">
-              <div class="form-floating w-75">
-                <input type="number" name="revenue" class="form-control" id="floatingPrice" value="0">
-                <label for="floatingPrice">판매금액</label>
-              </div>
-              <select class="form-select" name="flag">
-                <option value="1">이상</option>
-                <option value="2">이하</option>
-              </select>
-            </div>
             <div class="input-group input-daterange d-flex align-items-center">
               <div class="input-group-text">날짜선택</div>
-              <input type="text" class="form-control" name="startDate" readonly>
+              <input type="text" class="form-control" name="startDate" th:value="${startDate}" readonly>
               <div class="input-group-text">to</div>
-              <input type="text" class="form-control" name="endDate" readonly>
+              <input type="text" class="form-control" name="endDate" th:value="${endDate}" readonly>
             </div>
             <input type="hidden" name="storeNo" id="storeNo" value="">
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-          <button type="button" class="btn btn-warning" id="revenueSearchBtn">검색</button>
+          <button type="button" class="btn btn-warning" id="stockSearchBtn">검색</button>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 package com.keepers.conbee.stock.controller;
 
-import java.io.Console;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 public class StockController {
 	
 	private final StockService service;
+	
 	
 	/** 재고 현황 리스트 전체 조회
 	 * @return
@@ -106,20 +107,23 @@ public class StockController {
 	 * @return
 	 */
 	@GetMapping("order/list")
-	public String orderList(@SessionAttribute("loginMember") Member loginMember, @RequestParam(value = "storeNo", required = false, defaultValue = "0") int storeNo, Model model,
+	public String orderList(@SessionAttribute("loginMember") Member loginMember, @RequestParam(value = "storeNo", required = false, defaultValue = "-1") int storeNo, Model model,
 			String startDate, String endDate, RedirectAttributes ra) {
-		
 				
-		if(storeNo == 0) {
+		if(storeNo == -1) {
 			storeNo = loginMember.getStoreList().get(0).getStoreNo();
 		}
-		if(!loginMember.getStoreNoList().contains(storeNo)) {
-			ra.addFlashAttribute("message", "소유한 지점만 검색해주세요");
-			return "redirect:list";
+		if(endDate == null) {
+			endDate = String.valueOf(LocalDate.now());
+		}
+		if(startDate == null) {
+			startDate = String.valueOf(LocalDate.now().minusWeeks(1));
 		}
 		List<String> orderList = service.selectOrderList(storeNo, startDate, endDate);
 		
 		model.addAttribute("orderList", orderList);
+		model.addAttribute("endDate", endDate);
+		model.addAttribute("startDate", startDate);
 		
 		return "stock/order/orderList";
 	}
@@ -128,15 +132,12 @@ public class StockController {
 	 * @return
 	 */
 	@GetMapping("order/insert")
-	public String orderInsertPage(@SessionAttribute("loginMember") Member loginMember, @RequestParam(value = "storeNo", required = false, defaultValue = "0") int storeNo, Model model,
+	public String orderInsertPage(@SessionAttribute("loginMember") Member loginMember, @RequestParam(value = "storeNo", required = false, defaultValue = "-1") int storeNo, Model model,
 			RedirectAttributes ra) {
-		if(storeNo == 0) {
+		if(storeNo == -1) {
 			storeNo = loginMember.getStoreList().get(0).getStoreNo();
 		}
-		if(!loginMember.getStoreNoList().contains(storeNo)) {
-			ra.addFlashAttribute("message", "소유한 지점만 검색해주세요");
-			return "redirect:insert";
-		}
+		
 		List<Order> orderList = service.orderInsertUpdate(storeNo);
 		
 		model.addAttribute("orderList", orderList);
@@ -250,10 +251,10 @@ public class StockController {
 		return "redirect:stockList";
 	}
 	
+	// 발주 상세 조회
 	@GetMapping("order/select")
 	@ResponseBody
 	public List<OrderDetail> orderSelect(Order order) {
-		log.info("=-=-=-=-=-=-=-=-=-=-==-=- order : " + order);
 		return service.orderSelect(order);
 	}
 	

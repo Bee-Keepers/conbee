@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko"  xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>입출고 내역</title>
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/css/stock/revenue.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker3.min.css" integrity="sha512-aQb0/doxDGrw/OC7drNaJQkIKFu6eSWnVMAwPN64p6sZKeJ4QCDYL42Rumw2ZtL8DB9f66q4CnLIUnAw28dEbg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body class="d-flex flex-column" style="height: 100vh;">
+
+  <!-- Button trigger modal -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">상세 검색</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="revenueSearchForm" action="/revenueManage/history" method="get">
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="storeSelect">지점</label>
+              <input type="text" class="form-control" placeholder="지점을 검색해주세요" id="storeSearch">
+              <select class="form-select" name="storeNo" id="storeSelect">
+                  <option value="">선택</option>
+              </select>
+          </div>
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="historyDivide">입/출고 구분</label>
+              <select class="form-select" name="historyDivide" id="historyDivide">
+                <option selected>전체</option>
+                <option >입고</option>
+                <option >출고</option>
+              </select>
+
+            </div>
+            <!-- 대분류 -->
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="lcategorySelect">대분류</label>
+              <select class="form-select" name="lcategoryName" id="lcategorySelect">
+                <option value="">선택</option>
+                <option>간편식사</option>
+                <option>즉석조리</option>
+                <option>과자류</option>
+                <option>아이스크림</option>
+                <option>식품</option>
+                <option>음료</option>
+                <option>생활용품</option>
+              </select>
+            </div>
+  
+            <!-- 소분류 -->
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="inputGroupSelect01">소분류</label>
+              <select class="form-select" name="scategoryName" id="scategorySelect">
+                <option value="">선택</option>
+              </select>
+            </div>
+  
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" name="goodsName" id="floatingName" placeholder="">
+              <label for="floatingName">품목 이름</label>
+            </div>
+            <div class="input-group mb-3">
+              <div class="form-floating w-75">
+                <input type="number" name="revenue" class="form-control" id="floatingPrice" placeholder="" value="0">
+                <label for="floatingPrice">판매금액</label>
+              </div>
+              <select class="form-select" name="flag">
+                <option value="1">이상</option>
+                <option value="2">이하</option>
+              </select>
+            </div>
+            <div class="input-group input-daterange d-flex align-items-center">
+              <div class="input-group-text">날짜선택</div>
+              <input type="text" class="form-control" name="startDate" readonly>
+              <div class="input-group-text">to</div>
+              <input type="text" class="form-control" name="endDate" readonly>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          <button type="button" class="btn btn-warning" id="revenueSearchBtn">검색</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <th:block th:replace="~{common/header}"></th:block>
+
+  <main class="d-flex flex-grow-1 overflow-y-auto">
+
+    <th:block th:replace="~{revenue/revenueManage/sidebar}"></th:block>
+
+
+    
+
+    <div class="d-flex flex-column flex-grow-1 align-items-center p-3">
+      <div class="d-flex justify-content-between align-items-center w-100 border-bottom">
+        <div class="fs-3 pb-3 px-3">입출고 내역</div>
+        <div class="d-flex align-items-center">
+          <div th:if="${startDate != null}"  class="me-3">
+            <span id="startDate" th:text="${startDate}"></span>
+            <span> / </span>
+            <span id="endDate" th:text="${endDate}"></span>
+          </div>
+          <div>
+            <div class="input-group">
+              <span class="input-group-text" th:if="${storeName == null}">검색된 지점이 없습니다</span>
+              <span class="input-group-text" th:if="${storeName != null}" th:text="${storeName}">검색된 지점이 없습니다</span>
+              <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                상세 검색
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="w-100 px-4 mt-2 flex-grow-1 overflow-y-auto">
+        <!-- 테이블 제목 -->
+        <table id="revenueTable" class="table table-striped table-hover m-0">
+          <thead class="sticky-top text-center">
+            <tr>
+              <th>내역번호</th>
+              <th>구분</th>
+              <th>품목명</th>
+              <th>대분류</th>
+              <th>소분류</th>
+              <th>단가</th>
+              <th>할인율</th>
+              <th>가격</th>
+              <th>수량</th>
+              <th>총판매가</th>
+              <th>날짜</th>
+            </tr>
+          </thead>
+          <!-- 테이블 내용 -->
+          <tbody class="text-center">
+            <th:block th:if="${#lists.size(historyList) != 0}">
+              <tr th:each="revenue : ${historyList}" th:object="${revenue}">
+                <td th:text="*{historyNo}">1</td>
+                <td th:text="*{historyDivide}">출고/입고</td>
+                <td th:text="*{historyGoodsName}">울트라 스킨</td>
+                <td th:text="*{lcategoryName}">신변잡화</td>
+                <td th:text="*{scategoryName}">화장품</td>
+                <td th:text="*{historyUnitPrice}">20000</td>
+                <td th:text="*{historyDiscount}">10</td>
+                <td th:text="*{historyActualPrice}">30000</td>
+                <td th:text="*{historyAmount}">30000</td>
+                <td th:text="*{totalPrice}">30000</td>
+                <td th:text="*{historyDate}">2023-12-02 15:48:23</td>
+              </tr>
+            </th:block>
+            <th:block th:if="${#lists.size(historyList) == 0}">
+                <tr>
+                  <td colspan="11">상세 검색 후 출력됩니다</td>
+                </tr>
+            </th:block>
+          </tbody>
+        </table>
+      </div>
+    </div>    
+  </main>
+
+
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js" integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="/js/stock/revenueHistory.js"></script>
+</body>
+</html>
