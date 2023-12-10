@@ -11,35 +11,34 @@ public class Board {
 	private int boardNo;
 	private String boardTitle;
 	private String boardContent;
-	private String boardAttach;
-	private int board_Hits;
-	private int memberNo;
-	private int BoardCodeNo;
-	private int BoardDate;
+	private String boardAttach; // 첨부 파일
+	private int board_Hits; // 조회수
+	private int memberNo; // 작성자
+	private int BoardCodeNo; // 게시판 번호
+	private int BoardDate; // 작성일
 	
 	// 신고
 	private int reportNo;
 	private String reportTitle;
 	private String reportContent;
-	private String reportKind;
-	private int reportContentNo; 
+	private String reportKind; // 신고 종류
+	private int reportContentNo; // 신고 대상 번호
 	private String reportAnswer; // 신고 처리 여부
-	private String reportLocation;
+	private String reportLocation; // 신고 대상 주소
 	
 	// 게시판 종류
-	private int boardCodeNo; // 게시판 번호
-	private String boardCodeName;
+	private String boardCodeName; // 게시판 이름
 	
 	// 게시판 댓글
-	private int boardCommentNo;
-	private int boardCommentDate;
-	private String boardCommentContent;
-	private String boardCommentDelFl;
-	private int boardCommentParent;
+	private int boardCommentNo; // 댓글 번호
+	private int boardCommentDate; // 댓글 등록일
+	private String boardCommentContent; // 댓글 내용
+	private String boardCommentDelFl; // 댓글 삭제 여부
+	private int boardCommentParent; // 부모 댓글?
 	
 	// 게시판 사진
-	private int boardImageNo;
-	private String boardImageRename;
+	private int boardImageNo; // 사진 번호
+	private String boardImageRename; // 사진 등록 이름 변경
 	
 	// 즐겨찾기
 	

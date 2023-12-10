@@ -160,12 +160,17 @@ JOIN GRADE USING (GRADE_NO);
 
 
 
+/* 셀프 데이터 삽입 */
+INSERT INTO "BOARD"
+		VALUES(1, '제목입니다', '내용입니다', NULL, default, 6, 1);
 
 
-
-
-
-
+/* 게시판 별 코드 생성 */
+INSERT INTO BOARD_CODE
+VALUES(2, '자유게시판');
+INSERT INTO BOARD_CODE
+VALUES(3, '익명게시판');
+COMMIT;
 
 
 
