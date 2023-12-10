@@ -111,37 +111,39 @@
         <div class="ps-3 pt-2">
           <div class="fs-5">결재 : </div>
           <!-- 결재 전체 박스 -->
-          <div class="approverFull d-flex" style="width: 520px;">
+          <div class="approverFull d-flex" style="width: 530px;">
             <!-- 결재선1+결재선2 박스 -->
-            <div class="approverLine d-flex" style="border: 1px solid black; width: 66%; height: 650px;">
+            <div class="approverLine d-flex" style="width: 66%; height: 650px;">
               <!-- 결재선1 -->
-              <div style="border: 1px solid lightgray; width: 45%; height: 100%;">
-                <div class="blockTitle">결재선1</div>
+              <div class="block1Container">
+                <div class="blockTitle">부서</div>
 
                 <div class="block1">
 
                   <div>
                     <span><i class="bi bi-record-fill"></i></span>
-                    <span onclick="selectAllMember(this);" data-value="0">임원</span>
-                  </div>
-                  
-                  <div>
-                    <span onclick="toggleTeams(this)"><i class="bi bi-caret-right-fill"></i></span>
-                    <span onclick="selectAllMember(this);" data-value="1">인사관리부</span>
+                    <span onclick="selectAllMember(this);" data-value="0" >임원</span>
                   </div>
 
-                  <div style="display: none;">
+                  <input type="hidden" style="display: none;">
+                  
+                  <div>
+                    <span class="d-inline-flex" onclick="toggleTeams(this)"><i class="bi bi-caret-right-fill origin"></i></span>
+                    <span onclick="selectAllMember(this);" data-value="1" >인사관리부</span>
+                  </div>
+
+                  <div style="display: none; padding-left: 20px;">
                     <li onclick="selectTeamMember(this)" value="1">사원관리팀</li>
                     <li onclick="selectTeamMember(this)" value="2">점주관리팀</li>
                     <li onclick="selectTeamMember(this)" value="3">점포관리팀</li>
                   </div>
 
                   <div>
-                    <span onclick="toggleTeams(this)"><i class="bi bi-caret-right-fill"></i></span>
+                    <span class="d-inline-flex" onclick="toggleTeams(this)"><i class="bi bi-caret-right-fill origin"></i></span>
                     <span onclick="selectAllMember(this);" data-value="2">경영관리부</span>
                   </div>
 
-                  <div style="display: none;">
+                  <div style="display: none; padding-left: 20px;">
                     <li onclick="selectTeamMember(this)" value="4">재고관리팀</li>
                     <li onclick="selectTeamMember(this)" value="5">매출관리팀</li>
                     <li onclick="selectTeamMember(this)" value="6">회계팀</li>
@@ -149,36 +151,33 @@
                   </div>
 
                   <div>
-                    <span onclick="toggleTeams(this)"><i class="bi bi-caret-right-fill"></i></span>
+                    <span class="d-inline-flex" onclick="toggleTeams(this)"><i class="bi bi-caret-right-fill origin"></i></span>
                     <span onclick="selectAllMember(this);" data-value="3">운영관리부</span>
                   </div>
-                  <div style="display: none;">
+                  <div style="display: none; padding-left: 20px;">
                     <li onclick="selectTeamMember(this)" value="8">전산팀</li>
                     <li onclick="selectTeamMember(this)" value="9">행정팀</li>
                   </div>
 
                   <div>
-                    <span onclick="toggleTeams(this)"><i class="bi bi-caret-right-fill"></i></span>
+                    <span class="d-inline-flex" onclick="toggleTeams(this)"><i class="bi bi-caret-right-fill origin"></i></span>
                     <span onclick="selectAllMember(this);" data-value="4">고객관리부</span>
                   </div>
-                  <div style="display: none;">
+                  <div style="display: none; padding-left: 20px;">
                     <li onclick="selectTeamMember(this)" value="10">고객서비스팀</li>
                   </div>
                 </div>
               </div>
               <!-- 결재선2 -->
-              <div style="border: 1px solid lightgray; width: 55%; height: 100%;">
-                <div class="blockTitle">결재선2</div>
-
-                <div class="block2">
-
-                </div>
+              <div class="block2Container">
+                <div class="blockTitle">결재자</div>
+                <div class="block2"></div>
 
               </div>
             </div>
             <!-- 결재라인 박스 -->
-            <div style="border: 1px solid black; width: 34%; height: 650px;">
-              <div class="blockTitle">결재라인</div>
+            <div class="block3Container">
+              <div class="blockTitle">결재선</div>
               <div class="block3">
               </div>
             </div>

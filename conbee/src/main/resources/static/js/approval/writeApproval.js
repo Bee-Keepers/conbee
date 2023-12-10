@@ -39,6 +39,8 @@
 
 
 
+
+
 /* =========================================================== */
 
 // 임시저장 confirm 
@@ -56,67 +58,9 @@ saveDoc.forEach((doc)=>{
 })
 
 
-/* =========================================================== */
-const openDocOne = document.getElementById("docOne") // 휴가
-const openDocTwo = document.getElementById("docTwo") // 퇴직
-const openDocThree = document.getElementById("docThree") // 점포
-const openDocFour = document.getElementById("docFour") // 지출
-const openDocFive = document.getElementById("docFive") // 발주
 
+// =========================================================== 템플릿 코드 하나로 정리 예정
 
-// 모달 창 띄울 때 주소 넣기
-// 모달 창 다시 켰을 때 reset하기
-// 주소 굳이 넣어야..? => 나중에 삭제
-openDocOne.addEventListener("click",()=>{
-  history.pushState(null, null, 'writeApproval/docHoliday');
-  inputHoliday.value="";
-  inputHoliday2.value="";
-  docHolidayStart.value="";
-  docHolidayEnd.value="";
-  docHolidayText.value="";
-  block2.innerHTML="";
-  block3.innerHTML="";
-  updateTextCount();
-  
-})
-openDocTwo.addEventListener("click",()=>{
-  history.pushState(null, null, 'writeApproval/docRetirement');
-  inputRetire.value="";
-  inputRetire2.value="";
-  retirementDate.value="";
-  docRetirementText.value="";
-})
-openDocThree.addEventListener("click",()=>{
-  history.pushState(null, null, 'writeApproval/docStore');
-  inputStore.value="";
-  inputStore2.value="";
-  storeName.value="";
-  openStore.checked=false;
-  closeStore.checked=false;
-  docStoreText.value="";
-
-})
-openDocFour.addEventListener("click",()=>{
-  history.pushState(null, null, 'writeApproval/docExpense');
-  inputExpense.value="";
-  inputExpense2.value="";
-  docExpenseText.value="";
-  // 파일도 추가
-})
-openDocFive.addEventListener("click",()=>{
-  history.pushState(null, null, 'writeApproval/docOrder');
-})
-
-
-/* 닫기 -> 주소 복원 */
-// 닫기 버튼 클릭 
-const closeDocs = document.querySelectorAll('button[name="closeDoc"]');
-
-closeDocs.forEach(closeDoc=>{
-  closeDoc.addEventListener("click",e=>{
-    history.pushState(null, null, '/approval/writeApproval');
-  })
-})
 
 
 /* =========================================================== */
@@ -128,8 +72,10 @@ const inputHoliday2 = document.getElementById("inputHoliday2");
 const docHolidayStart = document.getElementById("docHolidayStart");
 const docHolidayEnd = document.getElementById("docHolidayEnd");
 const docHolidayText = document.getElementById("docHolidayText");
-const block2 = document.getElementById("block2");
-const block3 = document.getElementById("block3");
+const docHoliday = document.getElementById("docHoliday");
+const block1 = docHoliday.lastElementChild.lastElementChild.firstElementChild.lastElementChild.lastElementChild;
+const block2 = docHoliday.lastElementChild.lastElementChild.firstElementChild.lastElementChild.lastElementChild;
+const block3 = docHoliday.lastElementChild.lastElementChild.lastElementChild.lastElementChild;
 
 // 제목 입력 시 -> 템플릿 안 제목 같이 입력되기
 inputHoliday.addEventListener("input",e=>{
@@ -441,9 +387,60 @@ submitOrder.addEventListener("click", e =>{
   }
 
 })
+// =========================================================== 템플릿 코드 하나로 정리 예정
 
 /* =========================================================== */
+const openDocOne = document.getElementById("docOne") // 휴가
+const openDocTwo = document.getElementById("docTwo") // 퇴직
+const openDocThree = document.getElementById("docThree") // 점포
+const openDocFour = document.getElementById("docFour") // 지출
+const openDocFive = document.getElementById("docFive") // 발주
 
+
+const inputs = document.getElementsByTagName('input');
+
+// 모달 창 띄울 때 주소 넣기 + 모달 창 다시 켰을 때 reset하기
+// => 주소 넣기 삭제 
+openDocOne.addEventListener("click",()=>{
+  Array.from(inputs).forEach(e => e.value="");
+  docHolidayText.value="";
+
+  // block1 초기화 코드 추가
+  block2.innerHTML="";
+  block3.innerHTML="";
+  members=[];
+  updateTextCount();
+  
+})
+openDocTwo.addEventListener("click",()=>{
+  Array.from(inputs).forEach(e => e.value="");
+  docRetirementText.value="";
+  block2.innerHTML="";
+  block3.innerHTML="";
+})
+openDocThree.addEventListener("click",()=>{
+  Array.from(inputs).forEach(e => e.value="");
+  openStore.checked=false;
+  closeStore.checked=false;
+  docStoreText.value="";
+  block2.innerHTML="";
+  block3.innerHTML="";
+
+})
+openDocFour.addEventListener("click",()=>{
+  Array.from(inputs).forEach(e => e.value="");
+  docExpenseText.value="";
+  block2.innerHTML="";
+  block3.innerHTML="";
+  // 파일도 추가
+})
+openDocFive.addEventListener("click",()=>{
+  block2.innerHTML="";
+  block3.innerHTML="";
+})
+
+
+/* =========================================================== */
 
 /* 화살표 클릭시 팀 목록 토글 */
 function toggleTeams(e){
@@ -453,25 +450,31 @@ function toggleTeams(e){
 
   teamsList.style.display=(displayTeams==='none')?'block':'none';
 
-  /* 아이콘 토글 */
-  e.innerHTML=(displayTeams==='none')?`<i class="bi bi-caret-down-fill"></i>`:`<i class="bi bi-caret-right-fill">`;
+  /* 아이콘 회전 */
+  displayTeams==='none'? e.children[0].classList.replace('origin','rotate') : e.children[0].classList.replace('rotate','origin');
 
-  // if(displayTeams==='block'){
-  //   setTimeout(() => {
-  //     const block2 = document.getElementById("block2");
-  //     block2.innerHTML = "";
-  //   }, 0);
-  // }
 }
 
 
 /* 결재선1에서 부서 클릭 시 결재선2에 모든 멤버 나오기 */
 function selectAllMember(e){
 
+  const children = e.parentElement.parentElement.children;
+
+  for (let i = 0; i < children.length; i++) {
+    const children2 = children[i].children;
+    for(let j=0; j<children2.length;j++){
+      children[i].children[j].style.fontWeight='';
+      children[i].children[j].style.textDecoration = '';
+    }
+  }
+
+  e.style.fontWeight='bold';
+  e.style.textDecoration = 'underline';
+
   const block2 = e.parentElement.parentElement.parentElement.nextElementSibling.lastElementChild;
   block2.innerHTML="";
 
-  // console.log(e.dataset.value);
   
   fetch("/approval/writeApproval/selectAllMember?selectDepartment=" + e.dataset.value)
   .then(resp=>resp.json())
@@ -492,6 +495,22 @@ function selectAllMember(e){
 
 /* 결재선1에서 팀 클릭시 결재선2에 팀 멤버 나오기 */
 function selectTeamMember(e){
+
+  const children = e.parentElement.parentElement.children;
+
+  for (let i = 0; i < children.length; i++) {
+    children[i].style.fontWeight='';
+    children[i].style.textDecoration = '';
+    const children2 = children[i].children;
+    for(let j=0; j<children2.length;j++){
+      children[i].children[j].style.fontWeight='';
+      children[i].children[j].style.textDecoration = '';
+    }
+  }
+
+  e.style.fontWeight='bold';
+  e.style.textDecoration = 'underline';
+
   const block2 = e.parentElement.parentElement.parentElement.nextElementSibling.lastElementChild;
   block2.innerHTML="";
 
@@ -499,6 +518,7 @@ function selectTeamMember(e){
   .then(resp=>resp.json())
   .then((member)=>{
     if(member.length!=0){
+
       for(let i of member){
         const li = document.createElement("li");
         li.setAttribute("value",i.memberNo);
@@ -512,63 +532,102 @@ function selectTeamMember(e){
 
 }
 
+
+
 /* 팀원 더블클릭 시 결재라인에 추가 */
+
+let members=[];
+
 function addLine(e){
 
   const block3 = e.parentElement.parentElement.parentElement.nextElementSibling.lastElementChild;
-  const innerBoxes = block3.querySelectorAll(".lineBox");
+  const innerBoxes = block3.querySelectorAll(".lineContainer");
 
-  // 결재자 중복선택 방지 코드 작성 예정
 
   if(innerBoxes.length<4){
     
-    const lineBox = document.createElement("div");
-    const approverInfo = document.createElement("div");
-    
-    const departmentInfo = document.createElement("div");
-    const teamInfo = document.createElement("div");
-    const gradeInfo = document.createElement("div");
-    const nameInfo = document.createElement("div");
-    const memberNoInfo = document.createElement("input");
-    const remove = document.createElement("div");
-    
-
-    lineBox.classList.add("lineBox");
-    memberNoInfo.setAttribute("name","approverMemNo");
-    memberNoInfo.setAttribute("type","hidden");
-
     fetch("/approval/writeApproval/selectMember?memberNo=" + e.value)
     .then(resp=>resp.json())
     .then((member)=>{
+
+      if(members.includes(member.memberNo)){
+        alert("이미 추가된 결재자 입니다.");
+        return;
+      }
+
+      const lineContainer = document.createElement("div");
+
+      const lineSign = document.createElement("div");
+      const lineBox = document.createElement("div");
+
+      const approverInfo = document.createElement("div");
+      const removeBtn = document.createElement("div");
+
+      const departmentInfo = document.createElement("div");
+      const teamInfo = document.createElement("div");
+      const gradeNameInfo = document.createElement("div");
+      const memberNoInfo = document.createElement("input");
+      
+      lineContainer.classList.add("lineContainer");
+
+      lineSign.classList.add("lineSign");
+      lineBox.classList.add("lineBox");
+      
+      approverInfo.classList.add("approverInfo");
+      removeBtn.classList.add("removeBtn");
+
+      departmentInfo.classList.add("departmentInfo");
+      memberNoInfo.setAttribute("name","approverMemNo");
+      memberNoInfo.setAttribute("type","hidden");
+
+      if(members.length>0){
+        lineSign.innerHTML=`<i class="bi bi-arrow-down"></i>`;
+      }
+
+
+      members.push(member.memberNo);
+
+
       departmentInfo.innerText=member.departmentName;
       if(member.teamName!=null){
         teamInfo.innerText=member.teamName;
       }
-      gradeInfo.innerText=member.gradeName;
-      nameInfo.innerText=member.memberName;
+      gradeNameInfo.innerText= member.memberName+ "  " + member.gradeName;
       memberNoInfo.setAttribute("value",member.memberNo);
+
+
+      removeBtn.innerHTML=`<i class="bi bi-x-circle-fill"></i>`;
+      removeBtn.classList.add("removeBtn");
+      removeBtn.setAttribute("onclick","remove(this)");
+      
+      
+      approverInfo.append(departmentInfo,teamInfo,gradeNameInfo,memberNoInfo);
+      lineBox.append(approverInfo,removeBtn)
+      lineContainer.append(lineSign,lineBox);
+      block3.append(lineContainer);
+
+      console.log(innerBoxes);
+      console.log(innerBoxes.length);
     })
     .catch(e=>console.log(e));
 
 
-
-    remove.innerHTML=`<i class="bi bi-x-circle-fill"></i>`;
-    remove.classList.add("remove");
-    remove.setAttribute("onclick","remove(this)");
-  
-  
-    approverInfo.append(departmentInfo,teamInfo,gradeInfo,nameInfo,memberNoInfo);
-    lineBox.append(approverInfo);
-    lineBox.append(remove);
-    block3.append(lineBox);
-
-    console.log(lineBox);
   }
 
   else alert("결재선을 추가할 수 없습니다.");
+
+
 }
 
 /* 결재선 삭제 */
 function remove(e){
-  e.parentElement.remove();
+
+  let index = members.indexOf(parseInt(e.previousElementSibling.lastElementChild.value));
+  members.splice(index,1);
+
+  if(index==0 && members.length>0){
+    e.parentElement.parentElement.nextElementSibling.firstElementChild.remove();
+  }
+
+  e.parentElement.parentElement.remove();
 }
