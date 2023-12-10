@@ -152,6 +152,31 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return mapper.selectJoinApprovalList(departmentNo);
 	}
 	
+	
+	/** 기안서 상세조회(비동기)
+	 *
+	 */
+	@Override
+	public Approval waitApproval(int approvalNo, int docCategoryNo) {
+		
+		// 문서타입별 mapper 호출
+		switch(docCategoryNo) {
+		case 0 : return mapper.selectHolidayApproval(approvalNo); // 휴가
+		case 1 :  // 퇴직
+		case 2 : break; // 출점
+		case 3 : break; // 폐점
+		case 4 : break; // 지출
+		case 5 : break; // 발주
+		}
+		
+		// 문서타입 없을 경우 null 반환
+		return null;
+	}
+	
+	
+	
+	
+	
 
 }
 

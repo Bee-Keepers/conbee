@@ -89,6 +89,12 @@ public interface ApprovalService {
 	 */
 	List<Approval> selectJoinApprovalList(int departmentNo);
 
+	/** 기안서 상세조회(비동기)
+	 * @param approvalNo
+	 * @return
+	 */
+	Approval waitApproval(int approvalNo, int docCategoryNo);
+
 
 
 

@@ -236,6 +236,20 @@ public class ApprovalController { // 전자결재 컨트롤러
 	}
 	
 	
+	/** 기안서 상세조회(비동기)
+	 * @param approvalNo : 전달받은 기안서 번호
+	 * @return
+	 */
+	@GetMapping(value="detailWaitApproval", produces ="application/json; charset=UTF-8")
+	@ResponseBody
+	public Approval waitApproval(int approvalNo, int docCategoryNo) {
+		return service.waitApproval(approvalNo, docCategoryNo);
+	}
+	
+	
+	
+	
+	
 	// ============================== 결재 진행함 ==============================
 	
 	/** 결재진행함 포워드

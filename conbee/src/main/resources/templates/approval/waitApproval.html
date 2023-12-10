@@ -15,6 +15,83 @@
 
     <th:block th:replace="~{approval/sidebar}"></th:block>
 
+    <div class="d-flex flex-column flex-grow-1 p-3">
+
+      <div class="fs-3 pb-3 px-3 border-bottom">
+        결재대기함
+      </div>
+
+      <div class="w-100 px-4 pt-2 flex-grow-1">
+
+        <table class="table table-striped table-hover">
+          <colgroup>
+            <col width=7%>
+            <col width=7%>
+            <col width=7%>
+            <col width=25%>
+            <col width=8%>
+            <col width=12%>
+            <col width=15%>
+            <col width=8%>
+            <col width=6%>
+          </colgroup>
+          <thead>
+            <tr style="text-align: center;">
+              <th>문서번호</th>
+              <th>구분</th>
+              <th>항목</th>
+              <th>제목</th>
+              <th>작성자</th>
+              <th>부서</th>
+              <th>작성일자</th>
+              <th>결재자</th>
+              <th>처리상태</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+
+            <!-- 결재 대기 문서가 없을 때 -->
+            <tr th:if="${#lists.size(waitApprovalList) == 0}">
+              <th colspan="9" style="text-align: center;">결재 대기중인 문서가 없습니다.</th>
+            </tr>
+
+            <!-- 결재 대기 문서가 존재할 때 -->
+            <th:block th:unless="${#lists.size(waitApprovalList) == 0}">
+              <tr th:each="approval : ${waitApprovalList}" th:object="${approval}" style="text-align: center;">
+                <td th:text="*{approvalNo}">16</td>
+                <td th:text="*{docCategoryGroup}">복무</td>
+                <td th:text="*{docCategorySort}">휴가</td>
+                
+                <!-- <td th:text="*{approvalTitle}" style="text-align: start; font-weight: bold; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#holidayModal" id="clickModal">연차 신청합니다.</td> -->
+                <td th:text="*{approvalTitle}" style="text-align: start; font-weight: bold; cursor: pointer;" id="clickModal" th:onclick="modal([[*{approvalNo}]], [[*{docCategoryNo}]])">연차 신청합니다.</td>
+                
+                <td th:text="*{memberName}">정유진</td>
+                <td>[[*{departmentName}]]([[*{teamName}?: '']])</td>
+                <td th:text="*{approvalDate}">2023-11-30 16:24</td>
+                <td th:text="*{finalApproverName}">이예리나</td>
+                <td>결재중</td>
+              </tr>
+            </th:block>
+
+            <!-- <tr style="text-align: center;">
+              <td>16</td>
+              <td>업무</td>
+              <td>지출결의서</td>
+              <td class="approvalTitle" style="text-align: start; font-weight: bold; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal" id="clickModal">전산팀 품목비 지출결의서 신청합니다.</td>
+              <td>정유진</td>
+              <td>전산팀</td>
+              <td>2023-11-30 16:24</td>
+              <td>이예리나</td>
+              <td>결재중</td>
+            </tr>-->
+
+          </tbody>
+        </table>
+      </div>
+      
+    </div>
+
+    
     <!-- ==================================================템플릿들============================================================= -->
 
     <!-- 지출결의서 Modal -->
@@ -107,7 +184,7 @@
           </div>
 
           <!-- 기안서 템플릿 바디 -->
-          <th:block th:replace="~{approval/approvalDoc/docHolidayFin}"></th:block>
+          <!-- <th:block th:replace="~{approval/approvalDoc/docHolidayFin}"></th:block> -->
 
           <!-- 모달 푸터 -->
           <div class="modal-footer">
@@ -131,7 +208,7 @@
     </div>
 
     <!-- 출점/폐점 신청서 Modal -->
-    <div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
           
@@ -206,117 +283,137 @@
 
     <!-- ===================================================================================================================== -->
 
-    <div class="d-flex flex-column flex-grow-1 p-3">
-
-      <div class="fs-3 pb-3 px-3 border-bottom">
-        결재대기함
-      </div>
-
-      <div class="w-100 px-4 pt-2 flex-grow-1">
-
-        <table class="table table-striped table-hover">
-          <colgroup>
-            <col width=7%>
-            <col width=7%>
-            <col width=7%>
-            <col width=25%>
-            <col width=8%>
-            <col width=12%>
-            <col width=15%>
-            <col width=8%>
-            <col width=6%>
-          </colgroup>
-          <thead>
-            <tr style="text-align: center;">
-              <th>문서번호</th>
-              <th>구분</th>
-              <th>항목</th>
-              <th>제목</th>
-              <th>작성자</th>
-              <th>부서</th>
-              <th>작성일자</th>
-              <th>결재자</th>
-              <th>처리상태</th>
-            </tr>
-          </thead>
-          <tbody class="table-group-divider">
-
-            <!-- 결재 대기 문서가 없을 때 -->
-            <tr th:if="${#lists.size(waitApprovalList) == 0}">
-              <th colspan="9" style="text-align: center;">결재 대기중인 문서가 없습니다.</th>
-            </tr>
-
-            <!-- 결재 대기 문서가 존재할 때 -->
-            <th:block th:unless="${#lists.size(waitApprovalList) == 0}">
-              <tr th:each="approval : ${waitApprovalList}" th:object="${approval}" style="text-align: center;">
-                <td th:text="*{approvalNo}">16</td>
-                <td th:text="*{docCategoryGroup}">복무</td>
-                <td th:text="*{docCategorySort}">휴가</td>
-                <td th:text="*{approvalTitle}" style="text-align: start; font-weight: bold; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#holidayModal" id="clickModal">연차 신청합니다.</a></td>
-                <td th:text="*{memberName}">정유진</td>
-                <td>[[*{departmentName}]]([[*{teamName}?: '']])</td>
-                <td th:text="*{approvalDate}">2023-11-30 16:24</td>
-                <td th:text="*{finalApproverName}">이예리나</td>
-                <td>결재중</td>
-              </tr>
-            </th:block>
-
-            <!-- <tr style="text-align: center;">
-              <td>16</td>
-              <td>업무</td>
-              <td>지출결의서</td>
-              <td class="approvalTitle" style="text-align: start; font-weight: bold; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal" id="clickModal">전산팀 품목비 지출결의서 신청합니다.</td>
-              <td>정유진</td>
-              <td>전산팀</td>
-              <td>2023-11-30 16:24</td>
-              <td>이예리나</td>
-              <td>결재중</td>
-            </tr>
-
-            <tr style="text-align: center;">
-              <td>16</td>
-              <td>업무</td>
-              <td>발주서</td>
-              <td style="text-align: start; font-weight: bold;"><a href="" style="text-decoration: none; color: black;" data-bs-toggle="modal" data-bs-target="#exampleModal2" id="clickModal">농심 새우깡 150박스 발주기안서</a></td>
-              <td>정유진</td>
-              <td>전산팀</td>
-              <td>2023-11-30 16:24</td>
-              <td>이예리나</td>
-              <td>결재중</td>
-            </tr> -->
-
-            <!-- <tr style="text-align: center;">
-              <td>16</td>
-              <td>업무</td>
-              <td>출점/폐점</td>
-              <td style="text-align: start; font-weight: bold;"><a href="" style="text-decoration: none; color: black;" data-bs-toggle="modal" data-bs-target="#exampleModal4" id="clickModal">낙성대점 출점 신청합니다.</a></td>
-              <td>박상언</td>
-              <td>점포관리팀</td>
-              <td>2023-11-30 16:24</td>
-              <td>이예리나</td>
-              <td>결재중</td>
-            </tr>
-
-            <tr style="text-align: center;">
-              <td>16</td>
-              <td>인사</td>
-              <td>퇴직</td>
-              <td style="text-align: start; font-weight: bold;"><a href="" style="text-decoration: none; color: black;" data-bs-toggle="modal" data-bs-target="#exampleModal5" id="clickModal">사직서 제출합니다.</a></td>
-              <td>이예리나</td>
-              <td>전산팀</td>
-              <td>2023-11-30 16:24</td>
-              <td>이예리나</td>
-              <td>결재중</td>
-            </tr> -->
-
-          </tbody>
-        </table>
-      </div>
-      
-    </div>
-
   </main>
 
   <script src="/js/bootstrap.bundle.min.js"></script>
+  <script th:inline="javaScript">
+    
+    // 요소 생성 코드
+    // createElement("input",{type:"text", name:"inputId"},["test", "aaa"])
+    function createElement(tag, obj, classList){
+      const element = document.createElement(tag);
+
+      for(let key in obj){
+        element.setAttribute(key, obj[key]);
+      }
+      for(let clas of classList){
+        element.classList.add(clas);
+      }
+      return element;
+    }
+
+    function modal(approvalNo, docCategoryNo){
+      console.log("모달클릭댐");
+      console.log(approvalNo, docCategoryNo);
+
+      // 기안서 상세조회 비동기 호출
+      fetch('detailWaitApproval?approvalNo=' +approvalNo + '&docCategoryNo=' + docCategoryNo)
+      .then(resp => resp.json())
+      .then(approval=>{
+
+        if(docCategoryNo == 0){  // 휴가
+
+          // 모달 속성 추가
+          document.getElementById("clickModal").setAttribute("data-bs-toggle", "modal");
+          document.getElementById("clickModal").setAttribute("data-bs-target", "#holidayModal");
+
+          // 휴가기안서 템플릿 바디 생성
+          const divModalBody = createElement("div", {"style" : "width: 800px; height: 800px;"},["modal-body"]);
+          const divTemp = createElement("div", {}, ["temps", "my-2", "mx-3", "p-3"]);
+
+          const divTempTitle = createElement("div", {"style" : "font-size:30px; font-weight: bold; text-align: center;"}, ["pt-4"]);
+
+          const divTempBox = createElement("div", {}, ["d-flex", "justify-content-between"]); // 템플릿 정보/승인
+
+          const divInfo = createElement("div", {}, ["tempInfo","my-2", "mx-3", "px-2"]); // 정보
+
+          // 테이블
+          const tableTemp = createElement("table", {"style":"width: 250px; border: black;"}, ["table", "table-bordered"]);
+
+          // 테이블 문서번호 tr
+          const trNo = createElement("tr", {}, []);
+          const thNo = createElement("th", {}, []);
+          thNo.innerHTML = '문서번호';
+          const tdNo = createElement("td", {}, []);
+          tdNo.innerHTML = approval.approvalNo;
+
+          trNo.append(thNo);
+          trNo.append(tdNo);
+
+          // 부서
+          const trDepartment = createElement("tr", {}, []);
+          const thDepartment = createElement("th", {}, []);
+          thDepartment.innerHTML = '부 서';
+          const tdDepartment = createElement("td", {}, []);
+
+          trDepartment.append(thDepartment);
+          trDepartment.append(tdDepartment);
+
+          // 기안자
+          const trName = createElement("tr", {}, []);
+          const thName = createElement("th", {}, []);
+          thName.innerHTML = '기안자';
+          const tdName = createElement("td", {}, []);
+          tdName.innerHTML = approval.memberName;
+
+          trName.append(thName);
+          trName.append(tdName);
+
+          // 구분(항목)
+          const trCategory = createElement("tr", {}, []);
+          const thCategory = createElement("th", {}, []);
+          thCategory.innerHTML = '구분(항목)';
+          const tdCategory = createElement("td", {}, []);
+          tdCategory.innerHTML = approval.docCategoryTitle;
+
+          trCategory.append(thCategory);
+          trCategory.append(tdCategory);
+
+          // 협조 부서
+          const trCorDepartment = createElement("tr", {}, []);
+          const thCorDepartment = createElement("th", {}, []);
+          thCorDepartment.innerHTML = '협조 부서';
+          const tdCorDepartment = createElement("td", {}, []);
+          tdCorDepartment.innerHTML = approval.departmentTitle;
+
+          trCorDepartment.append(thCorDepartment);
+          trCorDepartment.append(tdCorDepartment);
+
+          // 기안일
+          const trDate = createElement("tr", {}, []);
+          const thDate = createElement("th", {}, []);
+          thDate.innerHTML = '협조 부서';
+          const tdDate = createElement("td", {}, []);
+          tdDate.innerHTML = approval.approvalDate;
+
+          trDate.append(thDate);
+          trDate.append(tdDate);
+
+          tableTemp.append(trNo, trDepartment, trName, trCategory, trCorDepartment, trDate);
+
+          divInfo.append(tableTemp);
+          divTempBox.append(divInfo);
+
+          divTemp.append(divTempTitle, divTempBox);
+          divModalBody.append(divTemp);
+
+          document.querySelector(".modal-header").after(divModalBody);
+
+        } else if(docCategoryNo == 1){ //퇴직
+
+        } else{
+          // 오류
+        }
+      })
+      .catch((e)=>console.log(e));
+
+    }
+  </script>
 </body>
 </html>
+
+
+<!-- createElement("input",{type:"text", name:"inputId"},["test", "aaa"])
+function createElement(tag, obj, classList){
+const nameBtn = createElement("button", {"type":"button"}, ["btn", "btn-sm", "btn-warning", "mx-1", "mb-1"]);
+nameBtn.append(createElement("input", {"type" : "hidden", "name" : "goodsNo", "value" : stock.goodsNo}, [])); -->

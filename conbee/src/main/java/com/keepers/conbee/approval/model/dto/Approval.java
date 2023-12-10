@@ -64,6 +64,9 @@ public class Approval {
   
   private String approvalConditionTitle; //  문서 상태명
   
+  private String departmentTitle; //  협조부서명
+  private String docCategoryTitle; //  문서분류명
+  private int approverCount; //  결재자 수
   
   
 
