@@ -1,4 +1,4 @@
-package com.keepers.conbee.myPage.controller;
+package com.keepers.conbee.myPage2.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.admin.store.model.dto.Store;
 import com.keepers.conbee.member.model.dto.Member;
-import com.keepers.conbee.myPage.model.service.MyPageService;
+import com.keepers.conbee.myPage2.model.service.MyPageService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

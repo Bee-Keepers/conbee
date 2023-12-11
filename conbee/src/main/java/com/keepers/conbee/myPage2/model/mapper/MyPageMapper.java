@@ -1,4 +1,4 @@
-package com.keepers.conbee.myPage.model.mapper;
+package com.keepers.conbee.myPage2.model.mapper;
 
 import java.util.Map;
 
