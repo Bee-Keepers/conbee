@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.keepers.conbee.approval.model.dto.Approval;
+import com.keepers.conbee.approval.model.dto.ApprovalFile;
 import com.keepers.conbee.approval.model.dto.Approver;
 import com.keepers.conbee.member.model.dto.Member;
 
@@ -13,12 +14,20 @@ import com.keepers.conbee.member.model.dto.Member;
 public interface ApprovalMapper {
 
 
+	/* ============================= 유진 ================================ */
+	
+	/** 임시저장함 조회
+	 * @param memberNo
+	 * @return approval list
+	 */
+	List<Approval> selectTempSave(int memberNo);
+	
+	
 	/** 기안문 작성자 정보 조회
 	 * @param memberNo
 	 * @return member
 	 */
 	Member selectInfo(int memberNo); 
-	
 	
 	
 	/** 부서 모든 멤버 조회
@@ -27,12 +36,14 @@ public interface ApprovalMapper {
 	 */
 	List<Member> selectAllMember(String selectDepartment);
 
+	
 	/** 팀 멤버 조회
 	 * @param selectTeam
 	 * @return
 	 */
 	List<Member> selectTeamMember(String selectTeam);
 
+	
 	/** 멤버 조회
 	 * @param memberNo
 	 * @return
@@ -40,13 +51,20 @@ public interface ApprovalMapper {
 	Member selectMember(int memberNo);
 
 	
-	
 	/** 기안문 insert
 	* @param approval
 	* @return result
 	* @author 유진
 	*/
 	int insertApproval(Approval approval);
+	
+	
+	/** 파일 insert
+	 * @param uploadFile
+	 * @return result
+	 * @author 유진
+	 */
+	int insertApprovalFile(ApprovalFile uploadFile);
 
 	
 	/** Doc insert
@@ -56,6 +74,7 @@ public interface ApprovalMapper {
 	 */
 	int insertApprovalDoc(Approval approval);
 
+	
 	/** 결재자 리스트 insert
 	 * @param approverList
 	 * @return result
@@ -63,16 +82,20 @@ public interface ApprovalMapper {
 	 */
 	int insertApproverList(List<Approver> approverList);
 	
-	
 
 	/** 결재요청함
 	 * @param memberNo
-	 * @return
+	 * @return approval list
 	 */
 	List<Approval> selectRequestApproval(int memberNo);
+	
+	
+	/** 회수문서함 조회
+	 * @param memberNo
+	 * @return approval list
+	 */
+	List<Approval> selectReclaimApproval(int memberNo);
 
-	
-	
 	
 	
 	
@@ -133,6 +156,10 @@ public interface ApprovalMapper {
 	 * @return
 	 */
 	Approval selectHolidayApproval(int approvalNo);
+
+
+
+
 
 
 

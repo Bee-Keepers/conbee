@@ -1,7 +1,10 @@
 
 package com.keepers.conbee.approval.model.service;
 
+import java.io.IOException;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.approval.model.dto.Approver;
@@ -9,51 +12,63 @@ import com.keepers.conbee.member.model.dto.Member;
 
 public interface ApprovalService {
 	
+
+	/* ============================= 유진 ================================ */
+
+	
+	/** 임시저장함 조회
+	 * @param memberNo
+	 * @return approval list
+	 */
+	List<Approval> selectTempSave(int memberNo);
+	
 	
 	/** 기안문 작성자 정보 조회
 	 * @param memberNo
 	 * @return member
-	 * @author 유진
 	 */
 	Member selectInfo(int memberNo);
 	
 	/** 부서 모든 멤버 조회
 	 * @param selectDepartment
 	 * @return member list
-	 * @author 유진
 	 */
 	List<Member> selectAllMember(String selectDepartment);
 
 	/** 팀 멤버 조회
 	 * @param selectTeam
 	 * @return member list
-	 * @author 유진
 	 */
 	List<Member> selectTeamMember(String selectTeam);
 
 	/** 멤버 조회
 	 * @param memberNo
 	 * @return member
-	 * @author 유진
 	 */
 	Member selectMember(int memberNo);
 
 
 	/** 기안문 insert
 	* @param approval
+	* @param approverList
+	 * @param file 
 	* @return result
-	* @author 유진
-	 * @param approverList 
 	*/
-	int insertApproval(Approval approval, List<Approver> approverList);
+	int insertApproval(Approval approval, List<Approver> approverList, MultipartFile approvalFile) throws IllegalStateException, IOException;
 
 	
 	/** 결재요청함 조회
 	 * @param memberNo
 	 * @return approval list
-	 * @author 유진
 	 */
 	List<Approval> selectRequestApproval(int memberNo);
+	
+	
+	/** 회수문서함 조회
+	 * @param memberNo
+	 * @return approval list
+	 */
+	List<Approval> selectReclaimApproval(int memberNo);
 	
 	
 	
@@ -94,8 +109,6 @@ public interface ApprovalService {
 	 * @return
 	 */
 	Approval waitApproval(int approvalNo, int docCategoryNo);
-
-
 
 
 

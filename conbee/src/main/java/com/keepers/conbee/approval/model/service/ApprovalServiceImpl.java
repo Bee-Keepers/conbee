@@ -1,12 +1,18 @@
 
 package com.keepers.conbee.approval.model.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
-
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.keepers.conbee.approval.model.dto.Approval;
+import com.keepers.conbee.approval.model.dto.ApprovalFile;
 import com.keepers.conbee.approval.model.dto.Approver;
 import com.keepers.conbee.approval.model.mapper.ApprovalMapper;
 import com.keepers.conbee.member.model.dto.Member;
@@ -16,11 +22,27 @@ import lombok.RequiredArgsConstructor;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@PropertySource("classpath:/config.properties")
 public class ApprovalServiceImpl implements ApprovalService{
 
-
+	
 	private final ApprovalMapper mapper;
+	
+	/* ============================= 유진 ================================ */
 
+	@Value("${my.approval.location}")
+	private String folderPath; //서버 저장 폴더 경로
+	
+	@Value("${my.approval.webpath}")
+	private String webPath; //웹 요청 경로
+	
+
+	// 임시저장함 조회
+	@Override
+	public List<Approval> selectTempSave(int memberNo) {
+		return mapper.selectTempSave(memberNo);
+	}
+	
 	// 기안문 작성자 정보 조회
 	@Override
 	public Member selectInfo(int memberNo) {
@@ -45,9 +67,10 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return mapper.selectMember(memberNo);
 	}
 
+
 	// 기안문 insert
 	@Override
-	public int insertApproval(Approval approval, List<Approver> approverList) {
+	public int insertApproval(Approval approval, List<Approver> approverList, MultipartFile approvalFile) throws IllegalStateException, IOException {
 	
 		int result;
 		
@@ -56,13 +79,33 @@ public class ApprovalServiceImpl implements ApprovalService{
 		if(resultApproval == 0) return 0;
 		
 		
-		// 2) 휴가/퇴직/출폐점/발주 결재문서 테이블 삽입	
+		
+		// 2) 파일 테이블 삽입
+		ApprovalFile uploadFile = new ApprovalFile();
+
+		uploadFile.setApprovalNo(approval.getApprovalNo());
+		
+		if(!approvalFile.isEmpty()) {
+			
+			uploadFile.setApprovalFileRoute(webPath);
+			uploadFile.setUploadFile(approvalFile);
+			
+		}
+		
+		int resultApprovalFile = mapper.insertApprovalFile(uploadFile);
+		if(resultApprovalFile!=0) {
+			uploadFile.getUploadFile().transferTo(new File(folderPath));
+		}
+		else resultApproval=0;
+		
+		
+		// 3) 휴가/퇴직/출폐점/발주 결재문서 테이블 삽입	
 		if(approval.getDocCategoryNo()!=4) {			
 			resultApproval = mapper.insertApprovalDoc(approval);
 			if(resultApproval==0) return 0;
 		}				
 		
-		// 3) 결재자 리스트 테이블 삽입
+		// 4) 결재자 리스트 테이블 삽입
 		for(Approver approver:approverList) {
 			approver.setApprovalNo(approval.getApprovalNo()); //문서번호
 		}
@@ -77,13 +120,18 @@ public class ApprovalServiceImpl implements ApprovalService{
 	    return result;
 	}
 	
-	
+
 	// 결재요청함 조회
 	@Override
 	public List<Approval> selectRequestApproval(int memberNo) {
 		return mapper.selectRequestApproval(memberNo);
 	}
 	
+	// 회수문서함 조회
+	@Override
+	public List<Approval> selectReclaimApproval(int memberNo) {
+		return mapper.selectReclaimApproval(memberNo);
+	}
 	
 
 	/* ============================= 예리나 ================================ */
