@@ -119,6 +119,24 @@ public interface StockService {
 	 */
 	List<OrderDetail> orderSelect(Order order);
 
+	/** 상품(재고) 상세 조회
+	 * @param goodsNo
+	 * @return
+	 */
+	Stock goodsDetail(int goodsNo);
+
+	/** 상품 상세 조회
+	 * @param goodsNo
+	 * @return
+	 */
+	Stock goodsDetailSelect(int goodsNo);
+
+	/** 상품 상세 수정
+	 * @param stock
+	 * @return
+	 */
+	int goodsDetailUpdate(Stock stock);
+
 
 
 }

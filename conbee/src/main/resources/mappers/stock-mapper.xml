@@ -22,7 +22,10 @@
 				DEFAULT,
 			</if>
 			(SELECT LCATEGORY_NO FROM LCATEGORY WHERE LCATEGORY_NAME = #{lcategoryName}),
-			(SELECT SCATEGORY_NO FROM SCATEGORY WHERE SCATEGORY_NAME = #{scategoryName}))
+			(SELECT SCATEGORY_NO FROM SCATEGORY WHERE SCATEGORY_NAME = #{scategoryName}),
+			NULL,
+			NULL,
+			NULL)
 	</insert>
 	
 	<!-- 상품 등록 후 조회 -->
@@ -210,7 +213,31 @@
 		STOCK_IN_PRICE = #{stockInPrice}
 		WHERE GOODS_NO = #{goodsNo}
 		AND STORE_NO = #{stockNo}
-		
+	</update>
+	
+	<!-- 상품(재고) 상세 조회 -->
+	<select id="goodsDetail" resultType="Stock">
+		SELECT GOODS_NAME, GOODS_STANDARD, GOODS_DETAIL, GOODS_IMAGE, GOODS_IMAGE_PATH
+		FROM GOODS
+		WHERE GOODS_NO = #{goodsNo}
+	</select>
+	
+	<!-- 상품 상세 조회 -->
+	<select id="goodsDetailSelect" resultType="Stock">
+		SELECT GOODS_NAME, GOODS_STANDARD, GOODS_DETAIL, GOODS_IMAGE, GOODS_IMAGE_PATH
+		FROM GOODS
+		WHERE GOODS_NO = #{goodsNo}
+	</select>
+	
+	<!-- 상품 상세 수정 -->
+	<update id="goodsDetailUpdate">
+		UPDATE "GOODS" SET
+		GOODS_NAME = #{goodsName},
+		GOODS_STANDARD = #{goodsStandard},
+		GOODS_DETAIL = #{goodsDetail},
+		GOODS_IMAGE = #{goodsImage},
+		GOODS_IMAGE_PATH = #{goodsImagePath}
+		WHERE GOODS_NO = #{goodsNo}
 	</update>
 	
 	

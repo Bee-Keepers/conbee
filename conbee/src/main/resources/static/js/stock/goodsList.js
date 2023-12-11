@@ -21,6 +21,7 @@ const lcategoryFn = (lcategorySelect, scategorySelect)=>{
    })
    .catch(e=>console.log(e));
 };
+
 // 등록 창 모달에서 대분류 선택 시 대분류 안에있는 소분류 불러오기
 lcategorySelect.addEventListener("change", ()=>{
    scategorySelect.innerHTML = "";
@@ -107,6 +108,52 @@ updateBtn.addEventListener("click", () => {
 
 });
 
+const goodsDetailBtn = document.querySelectorAll(".goodsDetailBtn");
+const goodsDetailName = document.getElementById("goodsDetailName");
+const goodsDetailStandard = document.getElementById("goodsDetailStandard");
+const goodsDetail = document.getElementById("goodsDetail");
+/* 상품(재고) 상세 조회 */
+for(let item of goodsDetailBtn){
+
+   item.addEventListener("click", () => {
+   
+      const goodsNo = item.previousElementSibling.innerText;
+      console.log(goodsNo);
+      fetch("/stock/goodsDetail?goodsNo=" + goodsNo)
+      .then( resp => resp.json() )
+      .then( goods => {
+         goodsDetailName.innerText = goods.goodsName;
+         goodsDetailStandard.innerText = goods.goodsStandard;
+         goodsDetail.innerText = goods.goodsDetail;
+      } )
+      .catch(e=>console.log(e));
+   });
+};
+
+const goodsDetailSelectBtn = document.querySelectorAll(".goodsDetailUpdateBtn");
+const stockImage = document.querySelector(".stockImage");
+const goodsDetailNameUpdate = document.getElementById("goodsDetailNameUpdate");
+const goodsDetailStandardUpdate = document.getElementById("goodsDetailStandardUpdate");
+const goodsDetailUpdate = document.getElementById("goodsDetailUpdate");
+
+/* 상품 상세 조회 */
+for(let goodsItem of goodsDetailSelectBtn){
+   
+   goodsItem.addEventListener("click", () => {
+      
+      const goodsNo = goodsItem.previousElementSibling.innerText;
+      fetch("/stock/goodsDetailSelect?goodsNo=" + goodsNo)
+      .then( resp => resp.json() )
+      .then( goodsSelect => {
+         stockImage.value = goodsSelect.goodsImage;
+         goodsDetailNameUpdate.value = goodsSelect.goodsName;
+         goodsDetailStandardUpdate.value = goodsSelect.goodsStandard;
+         goodsDetailUpdate.value = goodsSelect.goodsDetail;
+      } )
+      .catch(e=>console.log(e));
+
+   });
+}
 
 
 

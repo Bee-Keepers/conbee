@@ -127,7 +127,7 @@
                 </label>
               </td>
               <td th:text="*{goodsNo}">1</td>
-              <td th:text="*{goodsName}">신라면</td>
+              <td th:text="*{goodsName}" data-bs-toggle="modal" data-bs-target="#goodsDateilModel" class="goodsDetailBtn">신라면</td>
               <td th:text="*{lcategoryName}">식품</td>
               <td th:text="*{scategoryName}">가공식사</td>
               <td th:text="*{goodsStandard}">-</td>
@@ -273,6 +273,50 @@
           </form>
         </div>
 
+      </div>
+    </div>
+  </div>
+
+  <!-- 상품 상세 조회 Modal -->
+  <div class="modal fade" id="goodsDateilModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        
+        <!-- 큰 제목 -->
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">상품 상세 조회</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+        <div class="modal-body">
+          <div class="d-flex flex-grow-1 align-items-center justify-content-evenly">
+            <div name="stockImage" id="stockImage">
+              <img src="/images/goods/2312110859384170.jpg" alt="" class="stockImage">
+            </div>
+            <div id="stockListBox">
+              <div name="goodsName" id="goodsDetailName" class="fs-2 fw-bold mb-3">
+                농심) 신라면 더 레드
+              </div>
+              <div name="goodsStandard" class="fs-6 mb-3 d-flex flex-column">
+                <span class="fw-bold mb-1">규격</span>
+                <span id="goodsDetailStandard">1*6 box</span>
+              </div>
+              <div name="goodsDetail" class="fs-6 mb-3 d-flex flex-column ">
+                <span class="fw-bold mb-1">상품 설명</span>
+                <span id="goodsDetail">
+                  더 매워지고 깊어진 최적 밸런스의 국물맛, 표고버섯, 고기, 청경채 등을 늘려 건더기가 더욱 풍부, 꼬들꼬들하고 탱탱한 신라면의 면발을 그대로
+                </span>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        </div>
+          
       </div>
     </div>
   </div>

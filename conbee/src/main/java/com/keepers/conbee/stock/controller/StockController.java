@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.member.model.dto.Member;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.context.request.RequestAttributes;
 
 import com.keepers.conbee.stock.model.dto.Order;
 import com.keepers.conbee.stock.model.dto.OrderDetail;
@@ -257,6 +258,45 @@ public class StockController {
 	public List<OrderDetail> orderSelect(Order order) {
 		return service.orderSelect(order);
 	}
+	
+	/** 상품(재고) 상세 조회
+	 * @param goodsNo
+	 * @return
+	 */
+	@GetMapping("goodsDetail")
+	@ResponseBody
+	public Stock goodsDetail( int goodsNo ) {
+		return service.goodsDetail(goodsNo);
+	}
+	
+	/** 상품 상세 조회
+	 * @param goodsNo
+	 * @return
+	 */
+	@GetMapping("goodsDetailSelect")
+	@ResponseBody
+	public Stock goodsDetailSelect( int goodsNo ) {
+		return service.goodsDetailSelect(goodsNo);
+	}
+	
+	/** 상품 상세 수정
+	 * @param stock
+	 * @param ra
+	 * @return
+	 */
+	@PostMapping("goodsDetailUpdate")
+	@ResponseBody
+	public String goodsDetailUpdate( Stock stock, RedirectAttributes ra ) {
+		
+		int result = service.goodsDetailUpdate(stock);
+		
+		if(result > 0) {
+			ra.addFlashAttribute("message", "수정 실패");
+		}
+		return "redirect:stockList";
+	}
+	
+	
 	
 	
 }
