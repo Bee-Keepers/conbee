@@ -8,9 +8,16 @@
 	
 	
 	<!-- 임시저장함 조회 -->
+	<select id="selectTempSave" resultType="Approval">
+		SELECT APPROVAL_NO, DOC_CATEGORY_GROUP, DOC_CATEGORY_SORT, APPROVAL_TITLE, APPROVAL_DATE
+		FROM "APPROVAL"
+		JOIN DOC_CATEGORY USING(DOC_CATEGORY_NO)
+		WHERE APPROVAL_DELETE=0
+		AND APPROVAL_CONDITION=1
+		ORDER BY APPROVAL_DATE DESC
+	</select>
 	
-	
-	
+		
 	<!-- 기안문 작성자 정보 조회 -->
 	<select id="selectInfo" resultType="Member">
 		SELECT TEAM_NAME, MEMBER_NAME, DEPARTMENT_NAME
@@ -71,13 +78,11 @@
 		</selectKey>
 		
 		INSERT INTO "APPROVAL_FILE"
-		VALUES (#{approvalFileNo}, #{approvalNo}, #{approvalFileRoute})
+		VALUES (#{approvalFileNo}, #{approvalNo}, #{approvalFileRoute}, #{approvalFileOriginName}, #{approvalFileRename})
 		
 	</insert>
 	
 	
-	
-
 	<!-- 기안문 doc insert -->
 	<insert id="insertApprovalDoc">
 		<choose>
@@ -129,6 +134,14 @@
 	
 	
 	<!-- 회수문서함 조회 -->
+	<select id="selectReclaimApproval" resultType="Approval">
+		SELECT APPROVAL_NO, DOC_CATEGORY_GROUP, DOC_CATEGORY_SORT, APPROVAL_TITLE, APPROVAL_DATE
+		FROM "APPROVAL"
+		JOIN DOC_CATEGORY USING(DOC_CATEGORY_NO)
+		WHERE APPROVAL_DELETE=0
+		AND APPROVAL_CONDITION=2
+		ORDER BY APPROVAL_DATE DESC
+	</select>
 
 	
 	
