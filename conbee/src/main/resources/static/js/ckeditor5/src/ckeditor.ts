@@ -5,6 +5,7 @@
 
 import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
 
+import { UploadAdapter } from '@ckeditor/ckeditor5-adapter-ckfinder';
 import { Alignment } from '@ckeditor/ckeditor5-alignment';
 import { Autoformat } from '@ckeditor/ckeditor5-autoformat';
 import { Autosave } from '@ckeditor/ckeditor5-autosave';
@@ -17,16 +18,16 @@ import {
 	Underline
 } from '@ckeditor/ckeditor5-basic-styles';
 import { BlockQuote } from '@ckeditor/ckeditor5-block-quote';
-import { CKBox } from '@ckeditor/ckeditor5-ckbox';
 import { CloudServices } from '@ckeditor/ckeditor5-cloud-services';
 import type { EditorConfig } from '@ckeditor/ckeditor5-core';
 import { Essentials } from '@ckeditor/ckeditor5-essentials';
 import { FindAndReplace } from '@ckeditor/ckeditor5-find-and-replace';
 import { FontBackgroundColor, FontColor, FontFamily, FontSize } from '@ckeditor/ckeditor5-font';
-import { Heading, Title } from '@ckeditor/ckeditor5-heading';
+import { Heading } from '@ckeditor/ckeditor5-heading';
 import { Highlight } from '@ckeditor/ckeditor5-highlight';
 import { HorizontalLine } from '@ckeditor/ckeditor5-horizontal-line';
-import { DataFilter, GeneralHtmlSupport } from '@ckeditor/ckeditor5-html-support';
+import { HtmlEmbed } from '@ckeditor/ckeditor5-html-embed';
+import { GeneralHtmlSupport, HtmlComment } from '@ckeditor/ckeditor5-html-support';
 import {
 	AutoImage,
 	Image,
@@ -35,23 +36,29 @@ import {
 	ImageResize,
 	ImageStyle,
 	ImageToolbar,
-	ImageUpload,
-	PictureEditing
+	ImageUpload
 } from '@ckeditor/ckeditor5-image';
 import { Indent, IndentBlock } from '@ckeditor/ckeditor5-indent';
+import { TextPartLanguage } from '@ckeditor/ckeditor5-language';
 import { AutoLink, Link, LinkImage } from '@ckeditor/ckeditor5-link';
-import { List, TodoList } from '@ckeditor/ckeditor5-list';
+import { List, ListProperties, TodoList } from '@ckeditor/ckeditor5-list';
+import { Markdown } from '@ckeditor/ckeditor5-markdown-gfm';
 import { MediaEmbed, MediaEmbedToolbar } from '@ckeditor/ckeditor5-media-embed';
 import { Mention } from '@ckeditor/ckeditor5-mention';
+import { PageBreak } from '@ckeditor/ckeditor5-page-break';
 import { Paragraph } from '@ckeditor/ckeditor5-paragraph';
 import { PasteFromOffice } from '@ckeditor/ckeditor5-paste-from-office';
 import { RemoveFormat } from '@ckeditor/ckeditor5-remove-format';
+import { StandardEditingMode } from '@ckeditor/ckeditor5-restricted-editing';
 import { SelectAll } from '@ckeditor/ckeditor5-select-all';
+import { ShowBlocks } from '@ckeditor/ckeditor5-show-blocks';
+import { SourceEditing } from '@ckeditor/ckeditor5-source-editing';
 import {
 	SpecialCharacters,
 	SpecialCharactersArrows,
 	SpecialCharactersCurrency,
 	SpecialCharactersEssentials,
+	SpecialCharactersLatin,
 	SpecialCharactersMathematical,
 	SpecialCharactersText
 } from '@ckeditor/ckeditor5-special-characters';
@@ -65,6 +72,7 @@ import {
 	TableToolbar
 } from '@ckeditor/ckeditor5-table';
 import { TextTransformation } from '@ckeditor/ckeditor5-typing';
+import { EditorWatchdog } from '@ckeditor/ckeditor5-watchdog';
 import { WordCount } from '@ckeditor/ckeditor5-word-count';
 
 // You can read more about extending the build with additional plugins in the "Installing plugins" guide.
@@ -79,9 +87,7 @@ class Editor extends ClassicEditor {
 		Autosave,
 		BlockQuote,
 		Bold,
-		CKBox,
 		CloudServices,
-		DataFilter,
 		Essentials,
 		FindAndReplace,
 		FontBackgroundColor,
@@ -92,6 +98,8 @@ class Editor extends ClassicEditor {
 		Heading,
 		Highlight,
 		HorizontalLine,
+		HtmlComment,
+		HtmlEmbed,
 		Image,
 		ImageCaption,
 		ImageInsert,
@@ -105,20 +113,26 @@ class Editor extends ClassicEditor {
 		Link,
 		LinkImage,
 		List,
+		ListProperties,
+		Markdown,
 		MediaEmbed,
 		MediaEmbedToolbar,
 		Mention,
+		PageBreak,
 		Paragraph,
 		PasteFromOffice,
-		PictureEditing,
 		RemoveFormat,
 		SelectAll,
+		ShowBlocks,
+		SourceEditing,
 		SpecialCharacters,
 		SpecialCharactersArrows,
 		SpecialCharactersCurrency,
 		SpecialCharactersEssentials,
+		SpecialCharactersLatin,
 		SpecialCharactersMathematical,
 		SpecialCharactersText,
+		StandardEditingMode,
 		Strikethrough,
 		Style,
 		Subscript,
@@ -129,10 +143,11 @@ class Editor extends ClassicEditor {
 		TableColumnResize,
 		TableProperties,
 		TableToolbar,
+		TextPartLanguage,
 		TextTransformation,
-		Title,
 		TodoList,
 		Underline,
+		UploadAdapter,
 		WordCount
 	];
 
@@ -145,41 +160,36 @@ class Editor extends ClassicEditor {
 				'fontSize',
 				'fontColor',
 				'fontBackgroundColor',
-				'|',
-				'bold',
 				'highlight',
-				'horizontalLine',
-				'underline',
-				'selectAll',
-				'|',
-				'italic',
-				'link',
-				'bulletedList',
-				'numberedList',
 				'|',
 				'alignment',
-				'outdent',
-				'indent',
-				'-',
-				'style',
-				'|',
-				'imageInsert',
-				'mediaEmbed',
-				'|',
-				'insertTable',
-				'subscript',
-				'superscript',
-				'todoList',
-				'|',
-				'specialCharacters',
+				'bold',
+				'italic',
+				'horizontalLine',
 				'strikethrough',
-				'blockQuote',
-				'ckbox',
-				'removeFormat',
+				'underline',
 				'|',
 				'undo',
 				'redo',
-				'findAndReplace'
+				'-',
+				'style',
+				'|',
+				'bulletedList',
+				'todoList',
+				'numberedList',
+				'outdent',
+				'indent',
+				'|',
+				'specialCharacters',
+				'insertTable',
+				'blockQuote',
+				'pageBreak',
+				'|',
+				'imageInsert',
+				'mediaEmbed',
+				'link',
+				'findAndReplace',
+				'selectAll'
 			],
 			shouldNotGroupWhenFull: true
 		},
@@ -206,4 +216,4 @@ class Editor extends ClassicEditor {
 	};
 }
 
-export default Editor;
+export default { Editor, EditorWatchdog };

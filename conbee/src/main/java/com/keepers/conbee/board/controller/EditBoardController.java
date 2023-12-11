@@ -46,6 +46,7 @@ public class EditBoardController {
 //		board.setMemberNo(loginMember.getMemberNo());
 //		board.setBoardCode(boardCode);
 		
+		log.info("==-=-=-=-=" + board);
 		
 		int boardNo = service.boardWrite(board);
 		
