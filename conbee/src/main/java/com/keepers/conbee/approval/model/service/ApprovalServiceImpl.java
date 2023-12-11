@@ -15,11 +15,14 @@ import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.approval.model.dto.ApprovalFile;
 import com.keepers.conbee.approval.model.dto.Approver;
 import com.keepers.conbee.approval.model.mapper.ApprovalMapper;
+import com.keepers.conbee.common.utility.Util;
 import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.stock.model.dto.Stock;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -81,41 +84,50 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		
 		
-		// 2) 파일 테이블 삽입
-		ApprovalFile uploadFile = new ApprovalFile();
-
-		uploadFile.setApprovalNo(approval.getApprovalNo());
-		
-		if(!approvalFile.isEmpty()) {
+		// 2) 파일 테이블 삽입		
+		if(approvalFile!=null) {
 			
+			ApprovalFile uploadFile = new ApprovalFile();
+			
+			uploadFile.setApprovalNo(approval.getApprovalNo());
 			uploadFile.setApprovalFileRoute(webPath);
+			uploadFile.setApprovalFileOriginName(approvalFile.getOriginalFilename());
+			uploadFile.setApprovalFileRename(Util.fileRename(approvalFile.getOriginalFilename()));
+			
 			uploadFile.setUploadFile(approvalFile);
 			
+			int resultApprovalFile = mapper.insertApprovalFile(uploadFile);
+			if(resultApprovalFile>0) {
+				log.info(new File(folderPath).toString());
+				uploadFile.getUploadFile().transferTo(new File(folderPath + uploadFile.getApprovalFileRename()));
+			}
+			else resultApproval=0;
 		}
 		
-		int resultApprovalFile = mapper.insertApprovalFile(uploadFile);
-		if(resultApprovalFile!=0) {
-			uploadFile.getUploadFile().transferTo(new File(folderPath));
-		}
-		else resultApproval=0;
 		
 		
 		// 3) 휴가/퇴직/출폐점/발주 결재문서 테이블 삽입	
+		// => 임시 저장시 삽입됨 임시저장 문서 재작성시 insert or update 에 따라 수정하기
 		if(approval.getDocCategoryNo()!=4) {			
 			resultApproval = mapper.insertApprovalDoc(approval);
 			if(resultApproval==0) return 0;
 		}				
 		
+		
+		
 		// 4) 결재자 리스트 테이블 삽입
-		for(Approver approver:approverList) {
-			approver.setApprovalNo(approval.getApprovalNo()); //문서번호
+		if(!approverList.isEmpty()) {			
+			for(Approver approver:approverList) {
+				approver.setApprovalNo(approval.getApprovalNo()); //문서번호
+			}
+			
+			resultApproval = mapper.insertApproverList(approverList);
+			if(resultApproval>0) return 0;
 		}
-
-		int resultApprover = mapper.insertApproverList(approverList);
-		if(resultApprover>0) resultApprover=1;
+		
 				
 	
-		if(resultApproval==1 && resultApprover==1) result = 1;
+		if(resultApproval==1) result = 1;
 		else result =0;
 	
 	    return result;
