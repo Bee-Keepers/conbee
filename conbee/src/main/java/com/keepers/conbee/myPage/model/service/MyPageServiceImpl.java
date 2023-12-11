@@ -1,4 +1,4 @@
-package com.keepers.conbee.myPage2.model.service;
+package com.keepers.conbee.myPage.model.service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.keepers.conbee.admin.store.model.dto.Store;
-import com.keepers.conbee.myPage2.model.mapper.MyPageMapper;
+import com.keepers.conbee.myPage.model.mapper.MyPageMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
