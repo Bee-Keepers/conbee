@@ -16,10 +16,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequiredArgsConstructor
 @Slf4j
 @RequestMapping("board")
 @SessionAttributes({"loginMember"})
+@RequiredArgsConstructor
 public class EditBoardController {
 	
 	private final EditBoardService service;
