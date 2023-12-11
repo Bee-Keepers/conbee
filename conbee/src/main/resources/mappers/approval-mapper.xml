@@ -351,7 +351,14 @@
 		WHERE AL.APPROVAL_NO =${approvalNo}
 	</select>
 	
-	
+	<!-- 발주기안서 품목명 입력시 자동완성 기능 -->
+	<select id="docOrderName" resultType="Stock">
+		SELECT GOODS_NO, GOODS_NAME, STOCK_IN_PRICE
+		FROM STOCK
+		JOIN GOODS USING(GOODS_NO)
+		WHERE STORE_NO = 0
+		AND GOODS_NAME LIKE '%${goodsName}%'
+	</select>
 	
 	
 	

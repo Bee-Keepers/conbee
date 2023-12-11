@@ -22,6 +22,7 @@ import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.approval.model.dto.Approver;
 import com.keepers.conbee.approval.model.service.ApprovalService;
 import com.keepers.conbee.member.model.dto.Member;
+import com.keepers.conbee.stock.model.dto.Stock;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -340,7 +341,25 @@ public class ApprovalController { // 전자결재 컨트롤러
 		return "approval/joinApproval";
 	}
 	
+	// ===============================발주 기안서==========================================
+	
+	
+	/** 발주기안서 품목명 입력시 자동완성 기능
+	 * @param goodsName
+	 * @return
+	 */
+	@GetMapping("docOrderName")
+	@ResponseBody
+	public List<Stock> docOrderName(String goodsName){
+		
+		List<Stock> goodsList = service.docOrderName(goodsName);
+		
+		return goodsList;
+	}
 	// =========================================================================
+	// =========================================================================
+	// =========================================================================
+	
 	
 
 }

@@ -28,7 +28,7 @@ serachName.addEventListener("input", e=>{
     return;
   }
 
-  fetch("/stock/goodsNameSelect?intputGoods=" + inputValue)
+  fetch("/stockManage/goodsNameSelect?intputGoods=" + inputValue)
     .then(resp => resp.json())
     .then(list => {
       goodsNameList.innerHTML = ""; // 기존 자동완성 목록 초기화

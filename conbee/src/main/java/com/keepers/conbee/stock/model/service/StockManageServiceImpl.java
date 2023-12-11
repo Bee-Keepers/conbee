@@ -54,4 +54,15 @@ public class StockManageServiceImpl implements StockManageService{
 	public int goodsUpdate(Stock stock) {
 		return mapper.goodsUpdate(stock);
 	}
+	
+	@Override
+	public List<Stock> stockList(Stock stock) {
+		return mapper.stockList(stock);
+	}
+	
+	// 재고 등록 이름 검색 시 물품 조회
+	@Override
+	public List<Stock> goodsNameSelect(String intputGoods) {
+		return mapper.goodsNameSelect(intputGoods);
+	}
 }
