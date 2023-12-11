@@ -136,6 +136,14 @@ public interface ApprovalMapper {
 
 
 
+	/** 결재자 목록 상세조회(비동기)
+	 * @param approvalNo
+	 * @return
+	 */
+	List<Approver> waitApprover(int approvalNo);
+
+
+
 
 
 

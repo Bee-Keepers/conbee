@@ -95,6 +95,14 @@ public interface ApprovalService {
 	 */
 	Approval waitApproval(int approvalNo, int docCategoryNo);
 
+	/** 결재자 상세조회(비동기)
+	 * @param approvalNo
+	 * @return
+	 */
+	List<Approver> waitApprover(int approvalNo);
+
+
+
 
 
 

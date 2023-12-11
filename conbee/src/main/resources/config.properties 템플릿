@@ -42,6 +42,17 @@ my.member.webpath=/images/member/
 my.board.location=C:/final_workspace/project-resources/images/board/
 my.board.webpath=/images/board/
 
+#전자결재 파일 저장 경로
+my.approval.location=C:/final_workspace/project-resources/approvalFiles/
+my.approval.webpath=/approvalFiles/
+
+#상품 이미지 저장 경로
+my.board.location=C:/final_workspace/project-resources/images/goods/
+my.board.webpath=/images/goods/
+
+# logback-spring.xml 사용 값
+log.config.path=C:/final_workspace/project-resources/log/
+log.config.fileName=conbee-log-yerina
 
 # 파일을 디스크에 쓸 때까지의 임계값
 # 기본값: 0B
