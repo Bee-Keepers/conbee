@@ -4,6 +4,13 @@
 <mapper namespace="com.keepers.conbee.approval.model.mapper.ApprovalMapper">
 
 
+	<!--=============================== 유진 =========================================-->
+	
+	
+	<!-- 임시저장함 조회 -->
+	
+	
+	
 	<!-- 기안문 작성자 정보 조회 -->
 	<select id="selectInfo" resultType="Member">
 		SELECT TEAM_NAME, MEMBER_NAME, DEPARTMENT_NAME
@@ -54,6 +61,22 @@
 		DEFAULT, DEFAULT, #{memberNo},#{departmentNo},#{docCategoryNo},#{approvalDocTitle})
 
 	</insert> 
+	
+	
+	<!-- 기안문 파일 insert -->
+	<insert id="insertApprovalFile">
+		
+		<selectKey order="BEFORE" resultType="_int" keyProperty="approvalFileNo">
+		  SELECT SEQ_APPROVAL_FILE_NO.NEXTVAL FROM DUAL
+		</selectKey>
+		
+		INSERT INTO "APPROVAL_FILE"
+		VALUES (#{approvalFileNo}, #{approvalNo}, #{approvalFileRoute})
+		
+	</insert>
+	
+	
+	
 
 	<!-- 기안문 doc insert -->
 	<insert id="insertApprovalDoc">
@@ -104,6 +127,9 @@
 		ORDER BY APPROVAL_DATE DESC
 	</select>
 	
+	
+	<!-- 회수문서함 조회 -->
+
 	
 	
 	

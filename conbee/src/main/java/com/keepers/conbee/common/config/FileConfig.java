@@ -59,6 +59,10 @@ public class FileConfig implements WebMvcConfigurer{
 		registry.addResourceHandler("/pdf/**").addResourceLocations("file:///C:/workspace/project-resources/pdf/");
 		
 		
+		// 전자결재 파일
+		registry.addResourceHandler("/approvalFiles/**").addResourceLocations("file:///C:/workspace/project-resources/approvalFiles/");
+		
+		
 	}
 	
     // MultipartResolver 설정 bean 생성

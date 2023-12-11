@@ -1,6 +1,7 @@
 
 package com.keepers.conbee.approval.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.approval.model.dto.Approval;
@@ -33,53 +35,39 @@ public class ApprovalController { // 전자결재 컨트롤러
 
 	private final ApprovalService service; 
 
-
-
-	// ============================== 페이지 포워드 ==============================
+	
+	// ============================== 임시 저장함 ==============================
 
 	/** 임시저장함 (전자결재 첫 페이지) 포워드
-	* @return
-	* @author 예리나
-	*/
+	 * @param loginMember
+	 * @param model
+	 * @return
+	 * @author 유진
+	 */
 	@GetMapping("tempSave")
-	public String tempSave() {
+	public String tempSave(@SessionAttribute("loginMember") Member loginMember, Model model) {
+		
+		//List<Approval> tempSaveList = service.selectTempSave(loginMember.getMemberNo());
+		
+		//model.addAttribute("tempSaveList",tempSaveList);
+		
 		return "approval/tempSave";
+			
 	}
 
 
+	// ============================== 기안문 작성 ==============================
+	
 	/** 기안문작성 포워드
-	* @return
-	* @author 예리나
-	*/
+	 * @return
+	 * @author 예리나
+	 */
 	@GetMapping("writeApproval")
 	public String writeApproval() {
 		return "approval/writeApproval";
 	}
 
-//	/** 결재요청함 포워드
-//	* @return
-//	* @author 예리나
-//	*/
-//	@GetMapping("requestApproval")
-//	public String requestApproval() {
-//		return "approval/requestApproval";
-//	}
-
-	/** 회수문서함 포워드
-	* @return
-	* @author 예리나
-	*/
-	@GetMapping("reclaimeApproval")
-	public String reclaimeApproval() {
-		return "approval/reclaimeApproval";
-	}
-
 	
-	// ============================== 임시 저장함 ==============================
-	
-
-	// ============================== 기안문 작성 ==============================
-
 	/** 기안문 작성자 정보 조회
 	* @param loginMember
 	* @return teamName
@@ -129,21 +117,28 @@ public class ApprovalController { // 전자결재 컨트롤러
 	
 	
 
+
 	/** 기안문 insert
-	* @param doc
-	* @param ConditionBtn
-	* @param loginMember
-	* @param approval
-	* @param ra
-	* @return
-	* @author 유진
-	*/
+	 * @param doc : 문서종류
+	 * @param approvalCondition : 문서상태 0-결재중, 1-임시저장
+	 * @param loginMember : 로그인한 회원정보
+	 * @param approval : 문서내용
+	 * @param approverMemNo : 결재자 회원번호 list
+	 * @param file : 등록한 file
+	 * @param ra
+	 * @return
+	 * @author 유진
+	 * @throws IOException 
+	 * @throws IllegalStateException 
+	 */
 	@PostMapping("writeApproval/{doc}")
 	public String insertApproval(@PathVariable("doc") String doc,
 							@RequestParam("approvalCondition") int approvalCondition,
-							@SessionAttribute("loginMember") Member loginMember, Approval approval,
-							@RequestParam("approverMemNo") List<Integer> approverMemNo,RedirectAttributes ra) {
-		              		// 파일첨부 추가예정
+							@SessionAttribute("loginMember") Member loginMember, 
+							Approval approval,
+							@RequestParam("approverMemNo") List<Integer> approverMemNo,
+							@RequestParam("approvalFile") MultipartFile approvalFile,
+							RedirectAttributes ra) throws IllegalStateException, IOException {
 
 
 		/* 문서 정보 셋팅 */
@@ -180,7 +175,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 		}
 				
 			
-		int result = service.insertApproval(approval, approverList);
+		int result = service.insertApproval(approval, approverList, approvalFile);
 		
 		log.debug(result+"d");
 		log.debug(approval.getApprovalCondition()+"s");
@@ -204,9 +199,14 @@ public class ApprovalController { // 전자결재 컨트롤러
 	
 	// ============================== 결재 요청함 ==============================
 	
+	/** 결재요청함 조회
+	 * @param model
+	 * @param loginMember
+	 * @return
+	 * @author 유진
+	 */
 	@GetMapping("requestApproval")
-	public String selectRequestApproval(Model model,@SessionAttribute("loginMember") Member loginMember) { // cp 추가예정
-		
+	public String selectRequestApproval(@SessionAttribute("loginMember") Member loginMember, Model model) { // cp 추가예정
 		
 		List<Approval> requestApprovalList = service.selectRequestApproval(loginMember.getMemberNo());
 		
@@ -216,6 +216,22 @@ public class ApprovalController { // 전자결재 컨트롤러
 	}
 	
 	// ============================== 회수 문서함 ==============================
+	
+	/** 회수문서함 조회
+	 * @param loginMember
+	 * @param model
+	 * @return 
+	 * @author 유진
+	 */
+	@GetMapping("reclaimApproval")
+	public String reclaimApproval(@SessionAttribute("loginMember") Member loginMember, Model model) {
+		
+		//List<Approval> reclaimApprovalList = service.selectReclaimApproval(loginMember.getMemberNo());
+		
+		//model.addAttribute("reclaimApprovalList",reclaimApprovalList);
+		
+		return "approval/reclaimApproval";
+	}
 	
 	
 	// ============================== 결재 대기함 ==============================
