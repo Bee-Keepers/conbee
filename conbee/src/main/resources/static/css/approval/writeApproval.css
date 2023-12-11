@@ -219,3 +219,17 @@
   transition: all ease 0.5s;
 }
 
+
+/* ======================= doc_order ======================== */
+.orderRow>td{
+  padding: 0;
+  position: relative;
+}
+.orderRow>td>input{
+  width: 100%;
+  border: none;
+  outline: none;
+}
+.zindex2000{
+  z-index: 2000;
+}

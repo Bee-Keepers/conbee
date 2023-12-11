@@ -35,4 +35,16 @@ public interface StockManageMapper {
 	 */
 	int goodsInsert(Stock stock);
 
+	/** 재고 전체 조회  
+	 * @param stock
+	 * @return
+	 */
+	List<Stock> stockList(Stock stock);
+
+	/** 재고 등록 이름 검색 시 물품 조회
+	 * @param intputGoods
+	 * @return
+	 */
+	List<Stock> goodsNameSelect(String intputGoods);
+
 }

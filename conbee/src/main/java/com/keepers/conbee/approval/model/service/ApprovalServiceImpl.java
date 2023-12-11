@@ -10,6 +10,7 @@ import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.approval.model.dto.Approver;
 import com.keepers.conbee.approval.model.mapper.ApprovalMapper;
 import com.keepers.conbee.member.model.dto.Member;
+import com.keepers.conbee.stock.model.dto.Stock;
 
 import lombok.RequiredArgsConstructor;
 
@@ -177,6 +178,13 @@ public class ApprovalServiceImpl implements ApprovalService{
 	
 	
 	
+	/** 발주기안서 품목명 입력시 자동완성 기능
+	 *
+	 */
+	@Override
+	public List<Stock> docOrderName(String goodsName) {
+		return mapper.docOrderName(goodsName);
+	}
 
 }
 

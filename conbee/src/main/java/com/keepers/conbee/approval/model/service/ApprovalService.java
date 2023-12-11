@@ -6,6 +6,7 @@ import java.util.List;
 import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.approval.model.dto.Approver;
 import com.keepers.conbee.member.model.dto.Member;
+import com.keepers.conbee.stock.model.dto.Stock;
 
 public interface ApprovalService {
 	
@@ -94,6 +95,12 @@ public interface ApprovalService {
 	 * @return
 	 */
 	Approval waitApproval(int approvalNo, int docCategoryNo);
+
+	/** 발주기안서 품목명 입력시 자동완성 기능
+	 * @param goodsName
+	 * @return
+	 */
+	List<Stock> docOrderName(String goodsName);
 
 
 
