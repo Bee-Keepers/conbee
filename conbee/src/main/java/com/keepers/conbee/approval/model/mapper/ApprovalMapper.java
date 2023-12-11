@@ -2,6 +2,7 @@
 package com.keepers.conbee.approval.model.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -172,6 +173,13 @@ public interface ApprovalMapper {
 	 * @return
 	 */
 	List<Stock> docOrderName(String goodsName);
+
+
+	/** 결재버튼 클릭 시 승인
+	 * @param paramMap
+	 * @return
+	 */
+	int approve(Map<String, Object> paramMap);
 
 
 
