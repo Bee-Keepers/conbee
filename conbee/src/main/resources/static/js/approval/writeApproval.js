@@ -1,4 +1,4 @@
-/* =========================================== */
+/* =========================================================== */
 /* 기안문 정보 받아오기 */
 
 (()=>{
@@ -38,12 +38,81 @@
 })();
 
 
-
-
-
 /* =========================================================== */
+/* 초기화 */
+const openDocOne = document.getElementById("docOne") // 휴가
+const openDocTwo = document.getElementById("docTwo") // 퇴직
+const openDocThree = document.getElementById("docThree") // 점포
+const openDocFour = document.getElementById("docFour") // 지출
+const openDocFive = document.getElementById("docFive") // 발주
+const openDoc = document.querySelectorAll('#docOne, #docTwo, #docThree, #docFour, #docFive');
 
-// 임시저장 confirm 
+const inputs = document.querySelectorAll('input');
+const textareas = document.querySelectorAll('textarea');
+const block1s = document.querySelectorAll(".block1");
+const initialBlock1State = [];
+block1s.forEach((block1)=>{initialBlock1State.push(block1.innerHTML);});
+const block2s = document.querySelectorAll(".block2");
+const block3s = document.querySelectorAll(".block3"); 
+
+
+openDoc.forEach((doc)=>{
+  doc.addEventListener("click",(element)=>{
+    inputs.forEach((input) => {input.value = ""});
+    textareas.forEach((textarea) => {
+      textarea.value = "";
+      docTextCount(textarea.id);
+    });
+    block1s.forEach((block1, index) => {block1.innerHTML = initialBlock1State[index];});
+    block2s.forEach((block2) => {block2.innerHTML = ""});
+    block3s.forEach((block3) => {block3.innerHTML = ""});
+    members=[];
+  })
+});
+
+openDocOne.addEventListener("click",()=>{ history.pushState(null, null, 'writeApproval/docHoliday');})
+openDocTwo.addEventListener("click",()=>{ history.pushState(null, null, 'writeApproval/docRetirement');})
+openDocThree.addEventListener("click",()=>{ history.pushState(null, null, 'writeApproval/docStore');
+openStore.checked=false;
+closeStore.checked=false;
+})
+openDocFour.addEventListener("click",()=>{ history.pushState(null, null, 'writeApproval/docExpense');})
+openDocFive.addEventListener("click",()=>{history.pushState(null, null, 'writeApproval/docOrder');})
+
+
+
+/* 글자수 */
+const maxLength = 1000;
+
+textareas.forEach(function(textarea){
+  textarea.addEventListener("input",function(){
+    docTextCount(textarea.id);
+  })
+})
+
+function docTextCount(docTextId){
+  const docText = document.getElementById(docTextId);
+  const textCountArea = docText.nextElementSibling;
+
+  const textCount = docText.value.length;
+  textCountArea.textContent = textCount + ' / ' + maxLength + ' 글자';
+
+  if(textCount > maxLength){textCountArea.style.color = 'red';}
+  else{textCountArea.style.color = 'black';}
+}
+
+
+
+/* 제목 입력 함수 */
+function inputToInput(title1, title2){
+  title1.addEventListener("input", (e) => {
+    const val = title1.value.trim();
+    title2.value = val;
+  });
+}
+
+
+/* 임시저장 confirm */
 const saveDoc = document.querySelectorAll('#saveHoliday, #saveRetirement, #saveStore, #saveExpense, #saveOrder');
 
 saveDoc.forEach((doc)=>{
@@ -57,11 +126,15 @@ saveDoc.forEach((doc)=>{
   })
 })
 
+/* 닫기 -> 주소 복원 */
+// 닫기 버튼 클릭 
+const closeDocs = document.querySelectorAll('button[name="closeDoc"]');
 
-
-// =========================================================== 템플릿 코드 하나로 정리 예정
-
-
+closeDocs.forEach(closeDoc=>{
+  closeDoc.addEventListener("click",e=>{
+    history.pushState(null, null, '/approval/writeApproval');
+  })
+})
 
 /* =========================================================== */
 /* 휴가 신청서 */
@@ -72,41 +145,12 @@ const inputHoliday2 = document.getElementById("inputHoliday2");
 const docHolidayStart = document.getElementById("docHolidayStart");
 const docHolidayEnd = document.getElementById("docHolidayEnd");
 const docHolidayText = document.getElementById("docHolidayText");
-const docHoliday = document.getElementById("docHoliday");
-const block1 = docHoliday.lastElementChild.lastElementChild.firstElementChild.lastElementChild.lastElementChild;
-const block2 = docHoliday.lastElementChild.lastElementChild.firstElementChild.lastElementChild.lastElementChild;
-const block3 = docHoliday.lastElementChild.lastElementChild.lastElementChild.lastElementChild;
 
 // 제목 입력 시 -> 템플릿 안 제목 같이 입력되기
-inputHoliday.addEventListener("input",e=>{
-  const val = inputHoliday.value.trim();
-  inputHoliday2.value = val;
-})
-
-// 내용 글자수 표시
-const textCountHoliday = document.getElementById("textCountHoliday");
-const maxLength = 1000;
-
-function updateTextCount() {
-  let currentLength = docHolidayText.value.length;
-  textCountHoliday.textContent = currentLength + ' / ' + maxLength + ' 글자';
-
-  if (currentLength > maxLength) {
-    textCountHoliday.style.color = 'red';
-  } else {
-    textCountHoliday.style.color = 'black';
-  }
-}
-
-docHolidayText.addEventListener('input',e=>{
-  updateTextCount();
-})
-
+inputToInput(inputHoliday, inputHoliday2);
 
 // 결재 버튼 클릭
 submitHoliday.addEventListener("click", e =>{
-
-
   // 제목
   if(inputHoliday.value.trim().length == 0){
     alert("제목을 입력해주세요");
@@ -150,7 +194,7 @@ submitHoliday.addEventListener("click", e =>{
     return;
   }
 
-  if(block3.innerHTML===''){
+  if(block3s[0].innerHTML===''){
     alert("결재선을 추가해주세요");
     e.preventDefault();
     return;
@@ -173,15 +217,11 @@ const inputRetire2 = document.getElementById("inputRetire2");
 const retirementDate = document.getElementById("retirementDate");
 const docRetirementText = document.getElementById("docRetirementText")
 
-inputRetire.addEventListener("input",e=>{
-  const val = inputRetire.value;
-  inputRetire2.value = val;
-})
+inputToInput(inputRetire, inputRetire2);
 
 
 // 결재 버튼 클릭
 submitRetirement.addEventListener("click", e =>{
-  
   // 제목
   if(inputRetire.value.trim().length == 0){
     alert("제목을 입력해주세요");
@@ -213,13 +253,18 @@ submitRetirement.addEventListener("click", e =>{
     return;
   }
 
+  if(block3s[1].innerHTML===''){
+    alert("결재선을 추가해주세요");
+    e.preventDefault();
+    return;
+  }
+
   const userConfirm = confirm("결재를 요청하시겠습니까?");
 
   if(!userConfirm){
     e.preventDefault();
     return;
   }
-
 })
 
 /* =========================================================== */
@@ -233,11 +278,7 @@ const openStore = document.getElementById("openStore");
 const closeStore = document.getElementById("closeStore");
 const docStoreText = document.getElementById("docStoreText");
 
-inputStore.addEventListener("input",e=>{
-  const val = inputStore.value;
-  inputStore2.value = val;
-})
-
+inputToInput(inputStore, inputStore2);
 
 // 결재 버튼 클릭
 submitStore.addEventListener("click", e =>{
@@ -277,13 +318,18 @@ submitStore.addEventListener("click", e =>{
     return;
   }
 
+  if(block3s[2].innerHTML===''){
+    alert("결재선을 추가해주세요");
+    e.preventDefault();
+    return;
+  }
+
   const userConfirm = confirm("결재를 요청하시겠습니까?");
 
   if(!userConfirm){
     e.preventDefault();
     return;
   }  
-
 })
 
 /* =========================================================== */
@@ -293,12 +339,9 @@ const saveExpense = document.getElementById("saveExpense");
 const inputExpense = document.getElementById("inputExpense");
 const inputExpense2 = document.getElementById("inputExpense2");
 const docExpenseText = document.getElementById("docExpenseText");
-// 첨부파일 추가
+const docExpenseFile = document.getElementById("docExpenseFile");
 
-inputExpense.addEventListener("input",e=>{
-  const val = inputExpense.value;
-  inputExpense2.value = val;
-})
+inputToInput(inputExpense, inputExpense2);
 
 // 결재 버튼 클릭
 submitExpense.addEventListener("click", e =>{
@@ -324,8 +367,17 @@ submitExpense.addEventListener("click", e =>{
     return;
   }
 
+  if(docExpenseFile.value===''){
+    alert("영수증 파일을 첨부해주세요");
+    e.preventDefault();
+    return;
+  }
 
-  // 첨부파일 유효성 검사 추가
+  if(block3s[3].innerHTML===''){
+    alert("결재선을 추가해주세요");
+    e.preventDefault();
+    return;
+  }
 
   const userConfirm = confirm("결재를 요청하시겠습니까?");
 
@@ -333,7 +385,6 @@ submitExpense.addEventListener("click", e =>{
     e.preventDefault();
     return;
   }  
-
 })
 
 /* =========================================================== */
@@ -345,15 +396,10 @@ const inputOrder2 = document.getElementById("inputOrder2");
 const orderDate = document.getElementById("orderDate");
 //품목 리스트 추가
 
-
-inputOrder.addEventListener("input",e=>{
-  const val = inputOrder.value;
-  inputOrder2.value = val;
-})
+inputToInput(inputOrder, inputOrder2);
 
 // 결재 버튼 클릭
 submitOrder.addEventListener("click", e =>{
-  
   // 제목
   if(inputOrder.value.trim().length == 0){
     alert("제목을 입력해주세요");
@@ -379,64 +425,18 @@ submitOrder.addEventListener("click", e =>{
 
   // 품목리스트 추가예정
 
+  if(block3s[4].innerHTML===''){
+    alert("결재선을 추가해주세요");
+    e.preventDefault();
+    return;
+  }
+
   const userConfirm = confirm("결재를 요청하시겠습니까?");
 
   if(!userConfirm){
     e.preventDefault();
     return;
   }
-
-})
-// =========================================================== 템플릿 코드 하나로 정리 예정
-
-/* =========================================================== */
-const openDocOne = document.getElementById("docOne") // 휴가
-const openDocTwo = document.getElementById("docTwo") // 퇴직
-const openDocThree = document.getElementById("docThree") // 점포
-const openDocFour = document.getElementById("docFour") // 지출
-const openDocFive = document.getElementById("docFive") // 발주
-
-
-const inputs = document.getElementsByTagName('input');
-
-// 모달 창 띄울 때 주소 넣기 + 모달 창 다시 켰을 때 reset하기
-// => 주소 넣기 삭제 
-openDocOne.addEventListener("click",()=>{
-  Array.from(inputs).forEach(e => e.value="");
-  docHolidayText.value="";
-
-  // block1 초기화 코드 추가
-  block2.innerHTML="";
-  block3.innerHTML="";
-  members=[];
-  updateTextCount();
-  
-})
-openDocTwo.addEventListener("click",()=>{
-  Array.from(inputs).forEach(e => e.value="");
-  docRetirementText.value="";
-  block2.innerHTML="";
-  block3.innerHTML="";
-})
-openDocThree.addEventListener("click",()=>{
-  Array.from(inputs).forEach(e => e.value="");
-  openStore.checked=false;
-  closeStore.checked=false;
-  docStoreText.value="";
-  block2.innerHTML="";
-  block3.innerHTML="";
-
-})
-openDocFour.addEventListener("click",()=>{
-  Array.from(inputs).forEach(e => e.value="");
-  docExpenseText.value="";
-  block2.innerHTML="";
-  block3.innerHTML="";
-  // 파일도 추가
-})
-openDocFive.addEventListener("click",()=>{
-  block2.innerHTML="";
-  block3.innerHTML="";
 })
 
 
@@ -533,7 +533,6 @@ function selectTeamMember(e){
 }
 
 
-
 /* 팀원 더블클릭 시 결재라인에 추가 */
 
 let members=[];
@@ -610,14 +609,10 @@ function addLine(e){
       console.log(innerBoxes.length);
     })
     .catch(e=>console.log(e));
-
-
   }
-
   else alert("결재선을 추가할 수 없습니다.");
-
-
 }
+
 
 /* 결재선 삭제 */
 function remove(e){
