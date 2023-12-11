@@ -60,3 +60,9 @@ spring.servlet.multipart.max-request-size = 52428800
 
 # 파일의 임시 저장 경로(메모리 임계값 초과 시 임시 저장할 폴더)
 spring.servlet.multipart.location=C:/final-workspace/project-resources/temp/
+
+
+
+#전자결재 파일 저장 경로
+my.approval.location=C:/final_workspace/project-resources/approvalFiles/
+my.approval.webpath=/approvalFiles
