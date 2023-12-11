@@ -25,12 +25,14 @@ public class Approval {
   private int docCategoryNo; // 분류번호 - 문서분류 테이블
 
 
+
   // 결재문서 첨부파일 (approvalNo)
   private int approvalFileNo; // 첨부파일 번호
   private String approvalFileRoute; // 첨부파일 경로
   private String approvalFileOriginName; // 원본 파일 이름
   private String approvalFileReName; // 변경 파일 이름
   
+
 
   // 문서분류 (docCategoryNo)
   private String docHtmlName; // html 파일 이름

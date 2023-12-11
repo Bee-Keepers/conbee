@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.stock.model.dto.Stock;
 import com.keepers.conbee.stock.model.service.StockManageService;
 
@@ -38,7 +40,7 @@ public class StockManageController {
 			
 		model.addAttribute("map", map);
 			
-		return "stock/goodsList";
+		return "stock/stockManage/goodsManageList";
 	}
 	
 	/** 상품 등록
@@ -77,5 +79,30 @@ public class StockManageController {
 			ra.addFlashAttribute("message", "수정 실패");
 		}
 		return "redirect:goodsList";
+	}
+	
+	/** 물품 현황 전체 조회
+	 * @return
+	 */
+	@GetMapping("stockList")
+	public String stockList(Model model,
+			Stock stock
+			) {
+		List<Stock> stockListSelect = service.stockList(stock);
+		
+		model.addAttribute("stockListSelect", stockListSelect);
+		
+		return "stock/stockManage/stockList";
+	}
+	
+	/** 재고 등록 이름 검색 시 물품 조회
+	 * @param goodsName
+	 * @return
+	 */
+	@GetMapping("goodsNameSelect")
+	@ResponseBody
+	public List<Stock> goodsNameSelect( String intputGoods ){
+		List<Stock> goodsNameSelect = service.goodsNameSelect(intputGoods);
+		return goodsNameSelect;
 	}
 }

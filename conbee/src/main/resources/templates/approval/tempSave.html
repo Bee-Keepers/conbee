@@ -11,6 +11,23 @@
 
   <th:block th:replace="~{common/header}"></th:block>
 
+  <!-- Modal -->
+  <div class="modal fade" id="doc5" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <th:block th:replace="~{approval/approvalDoc/docOrder}"></th:block>
+  </div>
+  <div class="modal fade" id="doc4" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <th:block th:replace="~{approval/approvalDoc/docExpense}"></th:block>
+  </div>
+  <div class="modal fade" id="doc3" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <th:block th:replace="~{approval/approvalDoc/docStore}"></th:block>
+  </div>
+  <div class="modal fade" id="doc2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <th:block th:replace="~{approval/approvalDoc/docRetirement}"></th:block>
+  </div>
+  <div class="modal fade" id="doc1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <th:block th:replace="~{approval/approvalDoc/docHoliday}"></th:block>
+  </div>
+
   <main class="d-flex flex-grow-1">
 
     <th:block th:replace="~{approval/sidebar}"></th:block>
@@ -45,14 +62,22 @@
           </thead>
           <tbody class="table-group-divider">
 
-            <tr style="text-align: center;">
-              <td><input type="checkbox"></td>
-              <td>6</td>
-              <td>업무</td>
-              <td>발주</td>
-              <td style="text-align: start;">발주기안서</td>
-              <td>2023-11-28 11:00</td>
+            <!-- 임시 저장 문서가 없을 때 -->
+            <tr th:if="${#lists.size(tempSaveList) == 0}">
+              <th colspan="6" style="text-align: center;">임시 저장한 문서가 없습니다.</th>
             </tr>
+
+            <!-- 임시 저장 문서가 존재할 때 -->
+            <th:block th:unless="${#lists.size(tempSaveList) == 0}">
+              <tr th:each="approval : ${tempSaveList}" th:object="${approval}" style="text-align: center;">
+                <td><input type="checkbox"></td>
+                <td th:text="*{approvalNo}">문서번호</td>
+                <td th:text="*{docCategoryGroup}">구분</td>
+                <td th:text="*{docCategorySort}">항목</td>
+                <td th:text="*{approvalTitle}">제목</td>
+                <td th:text="*{approvalDate}">임시저장 날짜</td>
+              </tr>
+            </th:block>
 
           </tbody>
         </table>
