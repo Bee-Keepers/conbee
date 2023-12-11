@@ -22,6 +22,7 @@ import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.approval.model.dto.Approver;
 import com.keepers.conbee.approval.model.service.ApprovalService;
 import com.keepers.conbee.member.model.dto.Member;
+import com.keepers.conbee.stock.model.dto.Stock;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,9 +48,8 @@ public class ApprovalController { // 전자결재 컨트롤러
 	@GetMapping("tempSave")
 	public String tempSave(@SessionAttribute("loginMember") Member loginMember, Model model) {
 		
-		//List<Approval> tempSaveList = service.selectTempSave(loginMember.getMemberNo());
-		
-		//model.addAttribute("tempSaveList",tempSaveList);
+		List<Approval> tempSaveList = service.selectTempSave(loginMember.getMemberNo());
+		model.addAttribute("tempSaveList",tempSaveList);
 		
 		return "approval/tempSave";
 			
@@ -136,8 +136,8 @@ public class ApprovalController { // 전자결재 컨트롤러
 							@RequestParam("approvalCondition") int approvalCondition,
 							@SessionAttribute("loginMember") Member loginMember, 
 							Approval approval,
-							@RequestParam("approverMemNo") List<Integer> approverMemNo,
-							@RequestParam("approvalFile") MultipartFile approvalFile,
+							@RequestParam(value="approverMemNo", required=false) List<Integer> approverMemNo,
+							@RequestParam(value="approvalFile", required=false) MultipartFile approvalFile,
 							RedirectAttributes ra) throws IllegalStateException, IOException {
 
 
@@ -154,6 +154,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 		default 			 : departNo=0; cateNo=0; 
 		}
 		
+		if(approval.getApprovalTitle().equals("")) approval.setApprovalTitle("제목 없음");
 		approval.setApprovalCondition(approvalCondition); // 문서 상태
 		approval.setMemberNo(loginMember.getMemberNo()); // 사원 번호
 		approval.setDepartmentNo(departNo); // 협조부서 코드
@@ -161,17 +162,19 @@ public class ApprovalController { // 전자결재 컨트롤러
 		
 				
 		/* 결재자 정보 셋팅 */
-		
 		List<Approver> approverList = new ArrayList<>();
 		
-		for(int i=0; i<approverMemNo.size(); i++) {
-			Approver approver = new Approver();
-	
-			approver.setMemberNo(approverMemNo.get(i)); // 결재자 회원번호
-			approver.setApproverCondition(0);// 결재상태 미승인=0
-			approver.setApproverOrder(i);// 결재순서
+		if(approverMemNo!=null) {			
 			
-			approverList.add(approver);
+			for(int i=0; i<approverMemNo.size(); i++) {
+				Approver approver = new Approver();
+				
+				approver.setMemberNo(approverMemNo.get(i)); // 결재자 회원번호
+				approver.setApproverCondition(0);// 결재상태 미승인=0
+				approver.setApproverOrder(i);// 결재순서
+				
+				approverList.add(approver);
+			}
 		}
 				
 			
@@ -226,9 +229,9 @@ public class ApprovalController { // 전자결재 컨트롤러
 	@GetMapping("reclaimApproval")
 	public String reclaimApproval(@SessionAttribute("loginMember") Member loginMember, Model model) {
 		
-		//List<Approval> reclaimApprovalList = service.selectReclaimApproval(loginMember.getMemberNo());
+		List<Approval> reclaimApprovalList = service.selectReclaimApproval(loginMember.getMemberNo());
 		
-		//model.addAttribute("reclaimApprovalList",reclaimApprovalList);
+		model.addAttribute("reclaimApprovalList",reclaimApprovalList);
 		
 		return "approval/reclaimApproval";
 	}
@@ -340,7 +343,25 @@ public class ApprovalController { // 전자결재 컨트롤러
 		return "approval/joinApproval";
 	}
 	
+	// ===============================발주 기안서==========================================
+	
+	
+	/** 발주기안서 품목명 입력시 자동완성 기능
+	 * @param goodsName
+	 * @return
+	 */
+	@GetMapping("docOrderName")
+	@ResponseBody
+	public List<Stock> docOrderName(String goodsName){
+		
+		List<Stock> goodsList = service.docOrderName(goodsName);
+		
+		return goodsList;
+	}
 	// =========================================================================
+	// =========================================================================
+	// =========================================================================
+	
 	
 
 }

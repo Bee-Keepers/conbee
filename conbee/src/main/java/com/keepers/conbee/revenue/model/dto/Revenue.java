@@ -11,7 +11,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class Revenue {
 	
-	private int storeNo;
+	private int storeNo=-1;
 	private int goodsNo;
 
 	private int historyNo;

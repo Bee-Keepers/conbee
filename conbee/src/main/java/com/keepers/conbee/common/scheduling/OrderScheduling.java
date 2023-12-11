@@ -1,5 +1,8 @@
 package com.keepers.conbee.common.scheduling;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -26,9 +29,19 @@ public class OrderScheduling {
 	@Scheduled(cron = "0 0 0 * * *")
 	public void orderScheduling() {
 		log.info("Order 스케쥴러 동작");
-		
 		service.orderScheduling();
 		
 	}
+//	@Scheduled(cron = "0 0 0 * * *")
+//	public void orderScheduling2() {
+//		log.info("Order 스케쥴러 동작");
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+//		String today = sdf.format(new Date()); // 2023-12-12
+//		
+//		// 1,3
+//		service.orderScheduling();
+//		
+//	}
+	
 
 }

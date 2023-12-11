@@ -29,6 +29,7 @@ public class ManagerInterceptor implements HandlerInterceptor{
 		
 		Member loginMember = (Member)(session.getAttribute("loginMember"));
 
+		// storeNo를 가지고 있지 않으면 권한이 없다
 		if(request.getParameter("storeNo") != null) {
 			if(!loginMember.getStoreNoList().contains(Integer.parseInt(request.getParameter("storeNo")))) {
 				response.sendRedirect("/storeError");

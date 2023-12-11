@@ -46,14 +46,22 @@
           </thead>
           <tbody class="table-group-divider">
 
-            <tr style="text-align: center;">
-              <td><input type="checkbox"></td>
-              <td>6</td>
-              <td>업무</td>
-              <td>발주</td>
-              <td style="text-align: start;">발주기안서</td>
-              <td>2023-11-28 11:00</td>
+            <!-- 회수 문서가 없을 때 -->
+            <tr th:if="${#lists.size(reclaimApprovalList) == 0}">
+              <th colspan="6" style="text-align: center;">회수한 문서가 없습니다.</th>
             </tr>
+
+            <!-- 회수 문서가 존재할 때 -->
+            <th:block th:unless="${#lists.size(reclaimApprovalList) == 0}">
+              <tr th:each="approval : ${reclaimApprovalList}" th:object="${approval}" style="text-align: center;">
+                <td><input type="checkbox"></td>
+                <td th:text="*{approvalNo}">문서번호</td>
+                <td th:text="*{docCategoryGroup}">구분</td>
+                <td th:text="*{docCategorySort}">항목</td>
+                <td th:text="*{approvalTitle}">제목</td>
+                <td th:text="*{approvalDate}">임시저장 날짜</td>
+              </tr>
+            </th:block>
 
           </tbody>
         </table>

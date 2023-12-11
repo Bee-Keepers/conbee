@@ -631,3 +631,109 @@ function remove(e){
 
   e.parentElement.parentElement.remove();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 요소 생성 코드
+// createElement("input",{type:"text", name:"inputId"},["test", "aaa"])
+function createElement(tag, obj, classList){
+  const element = document.createElement(tag);
+
+  for(let key in obj){
+    element.setAttribute(key, obj[key]);
+  }
+  for(let clas of classList){
+    element.classList.add(clas);
+  }
+  return element;
+}
+
+/* 김민석 ----------------- DOC_ORDER 작업 */
+const orderSum = document.getElementById("orderSum");
+
+const docOrderGoodsName = document.getElementById("docOrderGoodsName");
+docOrderGoodsName.addEventListener("input", e=>{
+  orderInputFn(e);
+});
+
+function orderInputFn(e){
+  if(e.target.value.trim().length ==0){
+    e.target.parentElement.previousElementSibling.innerHTML = "";
+    e.target.parentElement.nextElementSibling.nextElementSibling.innerHTML = "";
+    e.target.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.innerHTML = "";
+    e.target.parentElement.nextElementSibling.innerHTML = "";
+    e.target.nextElementSibling.remove();
+    return;
+  }
+
+  // 자동완성 초기화
+  if(e.target.nextElementSibling != null){
+    e.target.nextElementSibling.remove();
+  }
+  const div = createElement("div", null, ["list-group", "position-absolute", "zindex2000"]);
+  e.target.after(div);
+  fetch("/approval/docOrderName?goodsName=" + e.target.value)
+  .then(resp=>resp.json())
+  .then(goodsList=>{
+    for(let goods of goodsList){
+      const button = createElement("button", {"type" : "button"}, ["list-group-item"]);
+      button.innerText = goods.goodsName;
+      div.append(button);
+
+      // button 누르면 기안서 안으로 정보 들어가는 이벤트 달기
+      button.addEventListener("click", ()=>{
+        // 만약 goodsNo가 이미 존재하는 경우는 입력 안되게
+        const goodsNos = document.querySelectorAll(".orderRow>td:first-of-type>input");
+        for(let item of goodsNos){
+          if(item.value == goods.goodsNo){
+            alert("이미 존재하는 품목입니다");
+            div.remove();
+            button.remove();
+            return;
+          }
+        }
+        e.target.value = goods.goodsName;
+        const input1 = createElement("input", {"type":"number", "name":"goodsNo", "value":goods.goodsNo, "readonly":true},[]);
+        const input2 = createElement("input", {"type":"number", "name":"docOrderUnitPrice", "value":goods.stockInPrice, "readonly":true},[]);
+        const input3 = createElement("input", {"type":"number", "name":"docOrderAmount", "value":0},[]);
+        input3.addEventListener("change", ()=>{
+          e.target.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.innerText =
+          input2.value * input3.value;
+          const orderPrice = document.querySelectorAll(".orderRow>td:last-of-type");
+          let temp = 0;
+          for(let price of orderPrice){
+            if(price.innerText != ""){
+              temp += parseInt(price.innerText);
+            }
+          }
+          orderSum.innerText = temp;
+        });
+        e.target.parentElement.previousElementSibling.innerHTML = "";
+        e.target.parentElement.nextElementSibling.nextElementSibling.innerHTML = "";
+        e.target.parentElement.nextElementSibling.innerHTML = "";
+        e.target.parentElement.previousElementSibling.append(input1);
+        e.target.parentElement.nextElementSibling.nextElementSibling.append(input2);
+        e.target.parentElement.nextElementSibling.append(input3);
+        button.parentElement.remove();
+        button.remove();
+      });
+      
+    }
+  })
+  .catch(e=>console.log(e));
+  const input = createElement("input", {"type":"text", "name":"docOrderGoodsName"});
+  input.addEventListener("input", e=>{
+    orderInputFn(e);
+  })
+  e.target.parentElement.parentElement.nextElementSibling.children[1].append(input);
+}
