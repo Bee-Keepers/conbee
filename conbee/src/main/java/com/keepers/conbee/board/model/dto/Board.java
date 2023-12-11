@@ -2,20 +2,24 @@ package com.keepers.conbee.board.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class Board {
+	
+	private String memberName;
 	
 	// 게시판
 	private int boardNo;
 	private String boardTitle;
 	private String boardContent;
 	private String boardAttach; // 첨부 파일
-	private int board_Hits; // 조회수
+	private int boardHits; // 조회수
 	private int memberNo; // 작성자
-	private int BoardCodeNo; // 게시판 번호
-	private int BoardDate; // 작성일
+	private int boardCodeNo; // 게시판 번호
+	private String boardWriteDate; // 작성일
 	
 	// 신고
 	private int reportNo;
