@@ -29,6 +29,10 @@ public class Stock {
 	private int goodsNo;
 	private String goodsName;
 	private String goodsStandard;
+	private String goodsDetail;
+	private String goodsImage;
+	private String goodsImagePath;
+	
 	
 	// 점포
 	private int storeNo;

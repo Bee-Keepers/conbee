@@ -193,4 +193,23 @@ public class StockServiceImpl implements StockService{
 	public List<OrderDetail> orderSelect(Order order) {
 		return mapper.orderSelect(order);
 	}
+	
+	// 상품(재고) 상세 조회
+	@Override
+	public Stock goodsDetail(int goodsNo) {
+		return mapper.goodsDetail(goodsNo);
+	}
+	
+	// 상품 상세 조회
+	@Override
+	public Stock goodsDetailSelect(int goodsNo) {
+		return mapper.goodsDetailSelect(goodsNo);
+	}
+	
+	// 상품 상세 수정
+	@Override
+	public int goodsDetailUpdate(Stock stock) {
+		return mapper.goodsDetailUpdate(stock);
+	}
+	
 }

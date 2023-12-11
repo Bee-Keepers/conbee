@@ -53,7 +53,7 @@
                   </label>
                 </td>
                 <td th:text="*{goodsNo}">상품번호</td>
-                <td th:text="*{goodsName}">상품이름</td>
+                <td th:text="*{goodsName}" data-bs-toggle="modal" data-bs-target="#goodsDetailSelectBtn" class="goodsDetailUpdateBtn">상품이름</td>
                 <td th:text="*{goodsStandard}">재고규격</td>
                 <td th:text="*{lcategoryName}">대분류</td>
                 <td th:text="*{scategoryName}">소분류</td>
@@ -195,6 +195,72 @@
         </div>
       </div>
     </div>
+
+  <!-- 상품 상세 조회 수정 Modal -->
+  <div class="modal fade" id="goodsDetailSelectBtn" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        
+        <!-- 큰 제목 -->
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">상품 정보 수정</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+        <form action="goodsDetailUpdate" method="post">
+          <div class="modal-body">
+            <div class="d-flex flex-grow-1 align-items-center justify-content-evenly">
+              
+              <div class="goodsImg">
+                <label for="image">
+                  <img class="preview" src="">
+                </label>
+                <input type="file" name="goodsImage" class="stockImage" id="image" accept="image/*">
+                <span class="delete-image">&times;</span>
+              </div>
+              
+              <div id="stockListBox">
+                <input type="text" name="goodsName" id="goodsDetailNameUpdate" class="fs-3 fw-bold mb-3 w-100 p-2"></input>
+                <div name="goodsStandard" class="fs-6 mb-3 d-flex flex-column">
+                  <span class="fw-bold mb-1">규격</span>
+                  <input type="text" id="goodsDetailStandardUpdate" class="p-3"></input>
+                </div>
+                <div name="goodsDetail" class="fs-6 mb-3 d-flex flex-column ">
+                  <span class="fw-bold mb-1">상품 설명</span>
+                  <textarea rows="5" cols="10" id="goodsDetailUpdate" class="p-3"></textarea>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          <button type="submit" class="btn btn-primary btn-warning" id="goodsUpdateBtn">수정</button>
+        </div>
+          
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <!-- 이미지 미리보기 설정 -->
+  <script th:inline="javascript">
+    // 파일 선택 시 이미지 미리보기 설정
+    document.getElementById('image').addEventListener('change', function(e) {
+      var reader = new FileReader();
+      reader.onload = function(event) {
+        var previewImage = document.querySelector('.preview');
+        previewImage.src = event.target.result;
+        previewImage.style.display = 'block';
+      };
+      reader.readAsDataURL(e.target.files[0]);
+      console.log(reader);
+    });
+  </script>
 
   <script src="/js/stock/goodsList.js"></script>
   <script src="/js/bootstrap.bundle.min.js"></script>

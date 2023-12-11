@@ -100,41 +100,23 @@ deleteBtn.addEventListener('click', () => {
    }
 });
 
-/* 상품 목록 수정 데이터 가져오기 */
-const updateBtn = document.getElementById("updateBtn");
-updateBtn.addEventListener("click", () => {
-
-  const checkbox = document.querySelector("input[type='checkbox']:checked");
-
-  const row = checkbox.closest("tr");
-  document.getElementById("goodsNo").value = row.children[1].innerText;
-  document.getElementById("goodsName").value = row.children[2].innerText;
-  document.getElementById("goodsStandard").value = row.children[3].innerText;
-  document.getElementById("lcategorySelectUpdate").value = row.children[4].innerText;
-  fetch(
-    "/stock/scategoryList?lcategory=" + document.getElementById("lcategorySelectUpdate").value
-  )
-  .then(resp=>resp.json())
-  .then(list=>{
-    if(list.length != 0){
-      scategorySelectUpdate.innerHTML = "";
-      const option = document.createElement("option");
-      option.innerText = "선택";
-      option.setAttribute("value", "");
-      scategorySelectUpdate.append(option);
-      for(let scategory of list){
-        const option = document.createElement("option");
-        option.innerText = scategory;
-        scategorySelectUpdate.append(option);
-      }
-      const options = document.querySelectorAll("#scategorySelectUpdate>option");
-      for(let option of options){
-        if(option.innerText == row.children[5].innerText){
-          option.selected = true;
-        }
-      }
-    }
-  })
-  .catch(e=>console.log(e));
-
-});
+/* 재고 제품 상세조회 */
+const goodsDetailBtn = document.querySelectorAll(".goodsDetailBtn");
+const goodsDetailName = document.getElementById("goodsDetailName");
+const goodsDetailStandard = document.getElementById("goodsDetailStandard");
+const goodsDetail = document.getElementById("goodsDetail");
+for(let item of goodsDetailBtn){
+  
+  item.addEventListener("click", () => {
+  
+    const goodsNo = item.previousElementSibling.innerText;
+    fetch("/stock/goodsDetail?goodsNo=" + goodsNo)
+    .then( resp => resp.json() )
+    .then( goods => {
+      goodsDetailName.innerText = goods.goodsName;
+      goodsDetailStandard.innerText = goods.goodsStandard;
+      goodsDetail.innerText = goods.goodsDetail;
+    } )
+    .catch(e=>console.log(e));
+  });
+};
