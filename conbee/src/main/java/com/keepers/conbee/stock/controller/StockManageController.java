@@ -38,7 +38,7 @@ public class StockManageController {
 			
 		model.addAttribute("map", map);
 			
-		return "stock/goodsList";
+		return "stock/stockManage/goodsManageList";
 	}
 	
 	/** 상품 등록
