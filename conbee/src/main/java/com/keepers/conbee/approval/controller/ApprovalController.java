@@ -256,6 +256,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 	
 	
 	/** 기안서 상세조회(비동기)
+	 * @author 예리나
 	 * @param approvalNo : 전달받은 기안서 번호
 	 * @return
 	 */
@@ -268,6 +269,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 	
 	
 	/** 결재자 목록 상세조회(비동기)
+	 * @author 예리나
 	 * @param approvalNo
 	 * @param docCategoryNo
 	 * @return
@@ -278,6 +280,28 @@ public class ApprovalController { // 전자결재 컨트롤러
 		return service.waitApprover(approvalNo);
 	}
 	
+	
+	/** 결재 버튼 클릭 시 승인 동작 
+	 * @author 예리나
+	 * @param approvalNo
+	 * @param loginMember
+	 * @param ra
+	 * @return
+	 */
+	@GetMapping("approve")
+	public String approve(int approvalNo, @SessionAttribute("loginMember") Member loginMember,
+			RedirectAttributes ra) {
+		
+		int result = service.approve(approvalNo, loginMember.getMemberNo());
+		
+		if(result > 0) {
+			ra.addFlashAttribute("message", "결재 승인이 완료되었습니다.");
+		} else {
+			ra.addFlashAttribute("message", "결재 승인이 실패하였습니다.");
+		}
+		
+		return "redirect:waitApproval";
+	}
 	
 	
 	

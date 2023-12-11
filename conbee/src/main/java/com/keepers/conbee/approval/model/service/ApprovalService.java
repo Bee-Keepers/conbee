@@ -120,13 +120,19 @@ public interface ApprovalService {
 
 
 
-
-
 	/** 발주기안서 품목명 입력시 자동완성 기능
 	 * @param goodsName
 	 * @return
 	 */
 	List<Stock> docOrderName(String goodsName);
+
+
+	/** 결재버튼 클릭 시 승인
+	 * @param approvalNo
+	 * @param memberNo
+	 * @return
+	 */
+	int approve(int approvalNo, int memberNo);
 
 
 

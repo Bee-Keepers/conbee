@@ -383,6 +383,16 @@
 		AND GOODS_NAME LIKE '%${goodsName}%'
 	</select>
 	
+	<!--결재버튼 클릭 시 승인-->
+	<select id="approve" resultType="_int">
+		UPDATE APPROVER SET 
+		APPROVER_CONDITION = 1
+		WHERE MEMBER_NO = ${memberNo}
+		AND APPROVAL_NO = ${approvalNo}		
+	</select>
+	
+	
+	
 
 </mapper>
 

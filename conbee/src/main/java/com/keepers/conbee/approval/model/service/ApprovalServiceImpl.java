@@ -3,7 +3,9 @@ package com.keepers.conbee.approval.model.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -253,6 +255,21 @@ public class ApprovalServiceImpl implements ApprovalService{
 	public List<Stock> docOrderName(String goodsName) {
 		return mapper.docOrderName(goodsName);
 	}
+	
+
+	/** 결재버튼 클릭 시 승인
+	 *
+	 */
+	@Override
+	public int approve(int approvalNo, int memberNo) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("approvalNo", approvalNo);
+		paramMap.put("memberNo", memberNo);
+		
+		return mapper.approve(paramMap);
+	}
+	
+	
 
 }
 
