@@ -17,5 +17,6 @@ public class Approver {
 	  
 	  private int approvalNo; // 문서번호
 	  private int memberNo; // 결재자 회원번호
+	  private String memberName; // 결재자명
 
 }

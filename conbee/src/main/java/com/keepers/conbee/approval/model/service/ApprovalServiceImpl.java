@@ -235,6 +235,14 @@ public class ApprovalServiceImpl implements ApprovalService{
 	}
 	
 	
+	/** 결재자 목록 상세조회(비동기)
+	 *
+	 */
+	@Override
+	public List<Approver> waitApprover(int approvalNo) {
+		return mapper.waitApprover(approvalNo);
+	}
+	
 	
 	
 	

@@ -262,7 +262,20 @@ public class ApprovalController { // 전자결재 컨트롤러
 	@GetMapping(value="detailWaitApproval", produces ="application/json; charset=UTF-8")
 	@ResponseBody
 	public Approval waitApproval(int approvalNo, int docCategoryNo) {
-		return service.waitApproval(approvalNo, docCategoryNo);
+		Approval temp = service.waitApproval(approvalNo, docCategoryNo);
+		return temp;
+	}
+	
+	
+	/** 결재자 목록 상세조회(비동기)
+	 * @param approvalNo
+	 * @param docCategoryNo
+	 * @return
+	 */
+	@GetMapping(value="selectWaitApprover", produces ="application/json; charset=UTF-8")
+	@ResponseBody
+	public List<Approver> waitApprover(int approvalNo) {
+		return service.waitApprover(approvalNo);
 	}
 	
 	

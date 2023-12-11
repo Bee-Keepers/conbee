@@ -111,11 +111,23 @@ public interface ApprovalService {
 	 */
 	Approval waitApproval(int approvalNo, int docCategoryNo);
 
+
+	/** 결재자 상세조회(비동기)
+	 * @param approvalNo
+	 * @return
+	 */
+	List<Approver> waitApprover(int approvalNo);
+
+
+
+
+
 	/** 발주기안서 품목명 입력시 자동완성 기능
 	 * @param goodsName
 	 * @return
 	 */
 	List<Stock> docOrderName(String goodsName);
+
 
 
 
