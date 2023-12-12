@@ -68,4 +68,10 @@
 		JOIN SCATEGORY USING(SCATEGORY_NO)
 		WHERE GOODS_NAME LIKE '%${intputGoods}%'
 	</select>
+	
+	<select id="storeName" resultType="string">
+		SELECT STORE_NAME
+		FROM STORE
+		WHERE STORE_NO = #{storeNo}
+	</select>
 </mapper>

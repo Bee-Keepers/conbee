@@ -43,4 +43,10 @@ public interface StockManageService {
 	 */
 	List<Stock> goodsNameSelect(String intputGoods);
 
+	/** 가게이름
+	 * @param storeNo
+	 * @return
+	 */
+	String storeName(int storeNo);
+
 }

@@ -3,6 +3,7 @@ package com.keepers.conbee.stock.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.stock.model.dto.Order;
 import com.keepers.conbee.stock.model.dto.OrderDetail;
@@ -136,6 +137,17 @@ public interface StockService {
 	 * @return
 	 */
 	int goodsDetailUpdate(Stock stock);
+
+	/**
+	 * 승인된 발주 입출고 내역에 삽입
+	 * @param orderList 
+	 */
+	void orderApproval(List<Approval> orderList);
+
+	/** 납기일 일치하는 승인완료된 발주들
+	 * @return
+	 */
+	List<Approval> orderApprovalComplete();
 
 
 
