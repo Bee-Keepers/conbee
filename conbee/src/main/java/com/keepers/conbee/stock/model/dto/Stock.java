@@ -2,6 +2,8 @@ package com.keepers.conbee.stock.model.dto;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -32,6 +34,7 @@ public class Stock {
 	private String goodsDetail;
 	private String goodsImage;
 	private String goodsImagePath;
+	private int deleteCheck;
 	
 	
 	// 점포
@@ -42,6 +45,7 @@ public class Stock {
 	private String storeRunFl;
 	private String storeOpenDate;
 	private String storeCloseDate;
+	private String priceSum;
 	
 	// 발주
 	private int orderNo;

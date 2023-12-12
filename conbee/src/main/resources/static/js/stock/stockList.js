@@ -101,6 +101,7 @@ deleteBtn.addEventListener('click', () => {
 });
 
 /* 재고 제품 상세조회 */
+const goodsDetailImage = document.getElementById("goodsDetailImage");
 const goodsDetailBtn = document.querySelectorAll(".goodsDetailBtn");
 const goodsDetailName = document.getElementById("goodsDetailName");
 const goodsDetailStandard = document.getElementById("goodsDetailStandard");
@@ -113,6 +114,7 @@ for(let item of goodsDetailBtn){
     fetch("/stock/goodsDetail?goodsNo=" + goodsNo)
     .then( resp => resp.json() )
     .then( goods => {
+      goodsDetailImage.src = goods.goodsImagePath + goods.goodsImage;
       goodsDetailName.innerText = goods.goodsName;
       goodsDetailStandard.innerText = goods.goodsStandard;
       goodsDetail.innerText = goods.goodsDetail;
@@ -120,3 +122,6 @@ for(let item of goodsDetailBtn){
     .catch(e=>console.log(e));
   });
 };
+
+const priceSum = document.getElementById("priceSum");
+
