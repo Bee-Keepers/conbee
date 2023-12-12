@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
 import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.approval.model.dto.ApprovalFile;
@@ -12,6 +13,9 @@ import com.keepers.conbee.approval.model.dto.Approver;
 import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.stock.model.dto.Stock;
 
+/**
+ * 
+ */
 @Mapper
 public interface ApprovalMapper {
 
@@ -23,6 +27,14 @@ public interface ApprovalMapper {
 	 * @return approval list
 	 */
 	List<Approval> selectTempSave(int memberNo);
+	
+	
+	
+	/** 임시저장 데이터 조회
+	 * @param approvalNo
+	 * @return
+	 */
+	Approval selectTempData(int approvalNo);
 	
 	
 	/** 기안문 작성자 정보 조회
@@ -83,13 +95,21 @@ public interface ApprovalMapper {
 	 * @author 유진
 	 */
 	int insertApproverList(List<Approver> approverList);
-	
 
+	
+	/** 결재요청함 글 개수 조회
+	 * @param memberNo
+	 * @return
+	 */
+	int searchRequestApprovalCount(int memberNo);
+
+	
 	/** 결재요청함
 	 * @param memberNo
+	 * @param rowBounds 
 	 * @return approval list
 	 */
-	List<Approval> selectRequestApproval(int memberNo);
+	List<Approval> selectRequestApproval(int memberNo, RowBounds rowBounds);
 	
 	
 	/** 회수문서함 조회
@@ -228,6 +248,12 @@ public interface ApprovalMapper {
 	 * @return
 	 */
 	int insertOrder(List<Approval> approvalList);
+
+
+
+
+
+
 
 
 

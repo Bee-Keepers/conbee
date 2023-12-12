@@ -57,18 +57,21 @@ public class ApprovalController { // 전자결재 컨트롤러
 		return "approval/tempSave";
 			
 	}
-//	
-//	@GetMapping(value = "tempSave/selectTempData", produces = "application/json; charset=UTF-8")
-//	public String selectTempData(int approvalNo) {
-//		
-////		Map<String, Object> map = new HashMap<>();
-//		
-//		List<Approval> tempApproval = service.selectTempData(approvalNo);
-//		
-//		
-//		return tempApproval;
-//	}
-//	
+	
+	/** 임시저장 데이터 불러오기
+	 * @param approvalNo
+	 * @return
+	 */
+	@GetMapping(value = "tempSave/selectTempData", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> selectTempData(int approvalNo) {
+		
+		Map<String, Object> map = service.selectTempData(approvalNo);
+				
+		
+		return map;
+	}
+	
 	
 
 
@@ -231,11 +234,11 @@ public class ApprovalController { // 전자결재 컨트롤러
 	 * @author 유진
 	 */
 	@GetMapping("requestApproval")
-	public String selectRequestApproval(@SessionAttribute("loginMember") Member loginMember, Model model) { // cp 추가예정
+	public String selectRequestApproval(@SessionAttribute("loginMember") Member loginMember, Model model, 
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		
-		List<Approval> requestApprovalList = service.selectRequestApproval(loginMember.getMemberNo());
-		
-		model.addAttribute("requestApprovalList",requestApprovalList);
+		Map<String, Object> map = service.selectRequestApproval(loginMember.getMemberNo(), cp);
+		model.addAttribute("map",map);
 		
 		return "approval/requestApproval";
 	}

@@ -72,7 +72,7 @@
             <th:block th:unless="${#lists.size(tempSaveList) == 0}">
               <tr th:each="approval : ${tempSaveList}" th:object="${approval}" class="approvalOne"
                style="text-align: center;" data-bs-toggle="modal" 
-               th:attr="data-one-id=${approval.approvalNo}, data-bs-target='#doc'+${approval.docCategoryNo+1}" >
+               th:attr="data-one-id=${approval.approvalNo}, data-bs-target='#doc'+${approval.docCategoryNo+1}, data-one-sort=${approval.docCategoryNo}" >
                 <td><input type="checkbox"></td>
                 <td th:text="*{approvalNo}">문서번호</td>
                 <td th:text="*{docCategoryGroup}">구분</td>

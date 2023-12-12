@@ -3,6 +3,7 @@ package com.keepers.conbee.approval.model.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,6 +24,13 @@ public interface ApprovalService {
 	 * @return approval list
 	 */
 	List<Approval> selectTempSave(int memberNo);
+	
+	
+	/** 임시저장함 데이터 받아오기
+	 * @param approvalNo
+	 * @return
+	 */
+	Map<String, Object> selectTempData(int approvalNo);
 	
 	
 	/** 기안문 작성자 정보 조회
@@ -62,9 +70,10 @@ public interface ApprovalService {
 	
 	/** 결재요청함 조회
 	 * @param memberNo
+	 * @param cp 
 	 * @return approval list
 	 */
-	List<Approval> selectRequestApproval(int memberNo);
+	public Map<String, Object> selectRequestApproval(int memberNo, int cp);
 	
 	
 	/** 회수문서함 조회
@@ -143,6 +152,12 @@ public interface ApprovalService {
 	 * @return
 	 */
 	int returnApprove(int approvalNo, int memberNo);
+
+
+
+
+
+
 
 
 
