@@ -3,7 +3,9 @@ package com.keepers.conbee.approval.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,6 +56,19 @@ public class ApprovalController { // 전자결재 컨트롤러
 		return "approval/tempSave";
 			
 	}
+//	
+//	@GetMapping(value = "tempSave/selectTempData", produces = "application/json; charset=UTF-8")
+//	public String selectTempData(int approvalNo) {
+//		
+////		Map<String, Object> map = new HashMap<>();
+//		
+//		List<Approval> tempApproval = service.selectTempData(approvalNo);
+//		
+//		
+//		return tempApproval;
+//	}
+//	
+	
 
 
 	// ============================== 기안문 작성 ==============================
@@ -159,6 +174,11 @@ public class ApprovalController { // 전자결재 컨트롤러
 		approval.setMemberNo(loginMember.getMemberNo()); // 사원 번호
 		approval.setDepartmentNo(departNo); // 협조부서 코드
 		approval.setDocCategoryNo(cateNo); // 문서 분류 번호
+		
+		if(cateNo==2) {
+			approval.setStoreNo(-1);
+		}
+		
 		
 				
 		/* 결재자 정보 셋팅 */

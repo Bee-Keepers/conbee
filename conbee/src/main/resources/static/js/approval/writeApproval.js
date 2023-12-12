@@ -280,9 +280,12 @@ const inputStore2 = document.getElementById("inputStore2");
 const storeName = document.getElementById("storeName");
 const openStore = document.getElementById("openStore");
 const closeStore = document.getElementById("closeStore");
+const storeNo = document.getElementById("storeNo");
 const docStoreText = document.getElementById("docStoreText");
 
 inputToInput(inputStore, inputStore2);
+
+
 
 // 결재 버튼 클릭
 submitStore.addEventListener("click", e =>{

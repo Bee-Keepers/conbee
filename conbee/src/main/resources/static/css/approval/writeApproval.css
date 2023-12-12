@@ -84,11 +84,11 @@
 
 
 /* ==================== 템플릿3 docStore 출폐점 ========================= */
-.storeName{
+.storeName, .storeNo{
   width: 100%;
   border: none;
 }
-.storeName:focus{
+.storeName, .storeNo:focus{
   outline: none;
 }
 

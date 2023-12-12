@@ -99,7 +99,11 @@
 			<!-- 출폐점 -->
 			<when test="docCategoryNo==2 or docCategoryNo==3">
 				INSERT INTO "DOC_STORE"
-				VALUES(#{approvalNo}, #{docStoreState}, #{storeName})
+				VALUES(#{approvalNo}, #{docStoreState}, #{storeName},
+				 CASE
+				 	WHEN ${storeNo}=-1 THEN NULL
+				 	ELSE ${storeNo} 
+				 END)
 			</when>
 			<!-- 지출은 doc 없음-->
 			<!-- 발주 추가예정-->
