@@ -225,11 +225,11 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// 문서타입별 mapper 호출
 		switch(docCategoryNo) {
 		case 0 : return mapper.selectHolidayApproval(approvalNo); // 휴가
-		case 1 :  // 퇴직
-		case 2 : break; // 출점
-		case 3 : break; // 폐점
-		case 4 : break; // 지출
-		case 5 : break; // 발주
+		case 1 : return mapper.selectRetirementApproval(approvalNo); // 퇴직
+		case 2 : return mapper.selectOpenStoreApproval(approvalNo); // 출점
+		case 3 : return mapper.selectCloseStoreApproval(approvalNo); // 폐점
+		case 4 : return mapper.selectExpenseApproval(approvalNo); // 지출
+		case 5 : return mapper.selectOrderApproval(approvalNo); // 발주
 		}
 		
 		// 문서타입 없을 경우 null 반환
@@ -268,6 +268,20 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		return mapper.approve(paramMap);
 	}
+	
+	
+	/** 반려버튼 클릭 시 반려
+	 *
+	 */
+	@Override
+	public int returnApprove(int approvalNo, int memberNo) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("approvalNo", approvalNo);
+		paramMap.put("memberNo", memberNo);
+		
+		return mapper.returnApprove(paramMap);
+	}
+	
 	
 	
 

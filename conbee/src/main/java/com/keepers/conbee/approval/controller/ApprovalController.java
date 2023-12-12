@@ -304,6 +304,29 @@ public class ApprovalController { // 전자결재 컨트롤러
 	}
 	
 	
+	/** 결재 버튼 클릭 시 반려 동작 
+	 * @author 예리나
+	 * @param approvalNo
+	 * @param loginMember
+	 * @param ra
+	 * @return
+	 */
+	@GetMapping("returnApprove")
+	public String returnApprove(int approvalNo, @SessionAttribute("loginMember") Member loginMember,
+			RedirectAttributes ra) {
+		
+		int result = service.returnApprove(approvalNo, loginMember.getMemberNo());
+		
+		if(result > 0) {
+			ra.addFlashAttribute("message", "반려처리가 완료되었습니다.");
+		} else {
+			ra.addFlashAttribute("message", "반려처리가 실패하였습니다.");
+		}
+		
+		return "redirect:waitApproval";
+	}
+	
+	
 	
 	
 	// ============================== 결재 진행함 ==============================
