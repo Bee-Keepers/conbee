@@ -85,25 +85,25 @@ public class ApprovalServiceImpl implements ApprovalService{
 		if(resultApproval == 0) return 0;
 		
 		
-		
-		// 2) 파일 테이블 삽입		
+		// 2) 파일 테이블 삽입
 		if(approvalFile!=null) {
 			
-			ApprovalFile uploadFile = new ApprovalFile();
-			
-			uploadFile.setApprovalNo(approval.getApprovalNo());
-			uploadFile.setApprovalFileRoute(webPath);
-			uploadFile.setApprovalFileOriginName(approvalFile.getOriginalFilename());
-			uploadFile.setApprovalFileRename(Util.fileRename(approvalFile.getOriginalFilename()));
-			
-			uploadFile.setUploadFile(approvalFile);
-			
-			int resultApprovalFile = mapper.insertApprovalFile(uploadFile);
-			if(resultApprovalFile>0) {
-				log.info(new File(folderPath).toString());
-				uploadFile.getUploadFile().transferTo(new File(folderPath + uploadFile.getApprovalFileRename()));
+			if(!approvalFile.isEmpty()) {
+				
+				ApprovalFile uploadFile = new ApprovalFile();
+				
+				uploadFile.setApprovalNo(approval.getApprovalNo());
+				uploadFile.setApprovalFileRoute(webPath);
+				uploadFile.setApprovalFileOriginName(approvalFile.getOriginalFilename());
+				uploadFile.setApprovalFileRename(Util.fileRename(approvalFile.getOriginalFilename()));
+				
+				uploadFile.setUploadFile(approvalFile);
+				
+				int resultApprovalFile = mapper.insertApprovalFile(uploadFile);
+				if(resultApprovalFile>0) {
+					uploadFile.getUploadFile().transferTo(new File(folderPath + uploadFile.getApprovalFileRename()));
+				}
 			}
-			else resultApproval=0;
 		}
 		
 		
@@ -124,7 +124,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 			}
 			
 			resultApproval = mapper.insertApproverList(approverList);
-			if(resultApproval>0) return 0;
+			if(resultApproval>0) resultApproval=1;
 		}
 		
 				

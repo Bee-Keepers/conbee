@@ -6,6 +6,7 @@
   <title>임시저장함</title>
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/css/approval/writeApproval.css">
 </head>
 <body class="d-flex flex-column" style="height: 100vh;">
 
@@ -69,7 +70,9 @@
 
             <!-- 임시 저장 문서가 존재할 때 -->
             <th:block th:unless="${#lists.size(tempSaveList) == 0}">
-              <tr th:each="approval : ${tempSaveList}" th:object="${approval}" style="text-align: center;">
+              <tr th:each="approval : ${tempSaveList}" th:object="${approval}" class="approvalOne"
+               style="text-align: center;" data-bs-toggle="modal" 
+               th:attr="data-one-id=${approval.approvalNo}, data-bs-target='#doc'+${approval.docCategoryNo+1}" >
                 <td><input type="checkbox"></td>
                 <td th:text="*{approvalNo}">문서번호</td>
                 <td th:text="*{docCategoryGroup}">구분</td>
@@ -95,5 +98,7 @@
 
   <script src="/js/bootstrap.bundle.min.js"></script>
   <script src="/js/approval/commonApproval.js"></script>
+  <script src="/js/approval/tempSave.js"></script>
+
 </body>
 </html>

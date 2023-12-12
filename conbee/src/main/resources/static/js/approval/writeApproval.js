@@ -67,6 +67,8 @@ openDoc.forEach((doc)=>{
     block2s.forEach((block2) => {block2.innerHTML = ""});
     block3s.forEach((block3) => {block3.innerHTML = ""});
     members=[];
+    openStore.value="0";
+    closeStore.value="1";
   })
 });
 
@@ -146,6 +148,8 @@ const docHolidayStart = document.getElementById("docHolidayStart");
 const docHolidayEnd = document.getElementById("docHolidayEnd");
 const docHolidayText = document.getElementById("docHolidayText");
 
+console.log(block3s);
+
 // 제목 입력 시 -> 템플릿 안 제목 같이 입력되기
 inputToInput(inputHoliday, inputHoliday2);
 
@@ -194,7 +198,7 @@ submitHoliday.addEventListener("click", e =>{
     return;
   }
 
-  if(block3s[0].innerHTML===''){
+  if(block3s[4].innerHTML===''){
     alert("결재선을 추가해주세요");
     e.preventDefault();
     return;
@@ -253,7 +257,7 @@ submitRetirement.addEventListener("click", e =>{
     return;
   }
 
-  if(block3s[1].innerHTML===''){
+  if(block3s[3].innerHTML===''){
     alert("결재선을 추가해주세요");
     e.preventDefault();
     return;
@@ -373,7 +377,7 @@ submitExpense.addEventListener("click", e =>{
     return;
   }
 
-  if(block3s[3].innerHTML===''){
+  if(block3s[1].innerHTML===''){
     alert("결재선을 추가해주세요");
     e.preventDefault();
     return;
@@ -425,7 +429,7 @@ submitOrder.addEventListener("click", e =>{
 
   // 품목리스트 추가예정
 
-  if(block3s[4].innerHTML===''){
+  if(block3s[0].innerHTML===''){
     alert("결재선을 추가해주세요");
     e.preventDefault();
     return;
