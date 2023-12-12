@@ -146,7 +146,8 @@ function modal(approvalNo, docCategoryNo){
       fetch('selectWaitApprover?approvalNo=' +approval.approvalNo)
       .then(resp => resp.json())
       .then(approverList => {
-
+        console.log(approval.approvalNo);
+        console.log(approverList);
         // 승인 div
         const divApprov = createElement("div", {}, ["tempApprov", "my-2", "mx-3", "px-2", "d-flex"])
 
