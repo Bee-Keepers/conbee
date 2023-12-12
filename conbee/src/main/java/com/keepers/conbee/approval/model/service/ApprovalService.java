@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.approval.model.dto.Approver;
+import com.keepers.conbee.approval.model.dto.CommandDTO;
 import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.stock.model.dto.Stock;
 
@@ -52,10 +53,11 @@ public interface ApprovalService {
 	/** 기안문 insert
 	* @param approval
 	* @param approverList
+	 * @param command 
 	 * @param file 
 	* @return result
 	*/
-	int insertApproval(Approval approval, List<Approver> approverList, MultipartFile approvalFile) throws IllegalStateException, IOException;
+	int insertApproval(Approval approval, List<Approver> approverList, MultipartFile approvalFile, CommandDTO command) throws IllegalStateException, IOException;
 
 	
 	/** 결재요청함 조회
@@ -141,6 +143,7 @@ public interface ApprovalService {
 	 * @return
 	 */
 	int returnApprove(int approvalNo, int memberNo);
+
 
 
 

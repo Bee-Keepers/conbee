@@ -152,12 +152,10 @@ public class ApprovalController { // 전자결재 컨트롤러
 							@RequestParam("approvalCondition") int approvalCondition,
 							@SessionAttribute("loginMember") Member loginMember, 
 							Approval approval, CommandDTO command,
-							@RequestParam(value = "docOrderDate", required = false) String docOrderDate,
 							@RequestParam(value="approverMemNo", required=false) List<Integer> approverMemNo,
 							@RequestParam(value="approvalFile", required=false) MultipartFile approvalFile,
 							RedirectAttributes ra) throws IllegalStateException, IOException {
 
-		log.info("=-=-=-=-=-=-=-=-=-=" + command);
 
 		/* 문서 정보 셋팅 */
 		int departNo;
@@ -172,13 +170,13 @@ public class ApprovalController { // 전자결재 컨트롤러
 		default 			 : departNo=0; cateNo=0; 
 		}
 		
-		if(approval.getApprovalTitle().equals("")) approval.setApprovalTitle("제목 없음");
+		if(approval.getApprovalTitle().equals("")) approval.setApprovalTitle("제목 없음"); // 임시저장 제목 null인경우
 		approval.setApprovalCondition(approvalCondition); // 문서 상태
 		approval.setMemberNo(loginMember.getMemberNo()); // 사원 번호
 		approval.setDepartmentNo(departNo); // 협조부서 코드
 		approval.setDocCategoryNo(cateNo); // 문서 분류 번호
 		
-		if(cateNo==2) {
+		if(cateNo==2) { // 출점인 경우 storeNo는 NULL 
 			approval.setStoreNo(-1);
 		}
 		
@@ -199,20 +197,13 @@ public class ApprovalController { // 전자결재 컨트롤러
 				approverList.add(approver);
 			}
 		}
+	
 		
 		// 발주 기안서 작성일 경우 ORDER테이블에 삽입
-		if(doc.equals("docOrder")) {
-			List<Approval> approvalList = command.getApprovalList();
-			for(Approval app : approvalList) {
-				app.setDocOrderDate(docOrderDate);
-			}
-			int orderResult = service.insertOrder(approvalList);
-		}
-			
-		int result = service.insertApproval(approval, approverList, approvalFile);
 		
-		log.debug(result+"d");
-		log.debug(approval.getApprovalCondition()+"s");
+			
+		int result = service.insertApproval(approval, approverList, approvalFile, command);
+		
 		
 		if(result > 0 && approval.getApprovalCondition()==0) {
 		  ra.addFlashAttribute("message", "결재 요청이 완료되었습니다.");
