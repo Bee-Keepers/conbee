@@ -233,11 +233,11 @@
 	<!-- 상품 상세 수정 -->
 	<update id="goodsDetailUpdate">
 		UPDATE "GOODS" SET
-		GOODS_NAME = #{goodsName},
-		GOODS_STANDARD = #{goodsStandard},
-		GOODS_DETAIL = #{goodsDetail},
-		GOODS_IMAGE = #{goodsImage},
-		GOODS_IMAGE_PATH = #{goodsImagePath}
+		GOODS_DETAIL = #{goodsDetail}
+		<if test="deleteCheck >= 0 ">
+			,GOODS_IMAGE = #{goodsImage}
+			,GOODS_IMAGE_PATH = #{goodsImagePath}
+		</if>
 		WHERE GOODS_NO = #{goodsNo}
 	</update>
 	

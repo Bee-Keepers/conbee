@@ -1,13 +1,18 @@
 package com.keepers.conbee.stock.model.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.keepers.conbee.common.utility.Util;
 import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.stock.model.dto.Order;
 import com.keepers.conbee.stock.model.dto.OrderDetail;
@@ -24,6 +29,13 @@ import lombok.extern.slf4j.Slf4j;
 public class StockServiceImpl implements StockService{
 
 	private final StockMapper mapper;
+	
+	@Value("${my.stock.location}")
+	private String folderPath; // 서버 저장 폴더 경로
+	
+	@Value("${my.stock.webpath}")
+	private String webPath; // 웹 이미지 요청 경로
+	
 	
 	// 상품 등록 시 대분류 누르면 소분류 나오는 기능
 	@Override
@@ -70,7 +82,17 @@ public class StockServiceImpl implements StockService{
 	// 재고 현황 전체 조회
 	@Override
 	public List<Stock> stockList(Stock stock) {
-		return mapper.stockList(stock);
+		
+		List<Stock> stockList = mapper.stockList(stock);
+		
+		for(Stock s : stockList ) {
+			double sum = s.getStockOutPrice() * (1- ((double)s.getStockDiscount() * 0.01));
+			
+			s.setPriceSum( (int)sum + "" );
+			
+		}
+		
+		return stockList;
 	}
 	
 	// 재고 현황 등록
@@ -209,8 +231,27 @@ public class StockServiceImpl implements StockService{
 	
 	// 상품 상세 수정
 	@Override
-	public int goodsDetailUpdate(Stock stock) {
-		return mapper.goodsDetailUpdate(stock);
+	public int goodsDetailUpdate(Stock stock, MultipartFile uploadGoodsImage) throws IllegalStateException, IOException {
+		
+		String backupImage = stock.getGoodsImage();
+		String backupPath = stock.getGoodsImagePath();
+		
+		String rename = null;
+		
+		if(uploadGoodsImage.getSize() > 0) {
+			rename = Util.fileRename(uploadGoodsImage.getOriginalFilename());
+			stock.setGoodsImage(rename);
+			stock.setGoodsImagePath(webPath);
+		} 
+		
+		int result = mapper.goodsDetailUpdate(stock);
+		
+		if(result > 0) {
+			if(rename != null) {
+				uploadGoodsImage.transferTo( new File( folderPath + rename ) );
+			}
+		}
+		return result;
 	}
 	
 	// 승인된 발주 입출고 내역에 삽입

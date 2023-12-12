@@ -135,7 +135,7 @@
               <td th:text="*{stockOutPrice}">1500</td>
               <td th:text="*{stockAmount}">0</td>
               <td th:text="*{stockDiscount}">10</td>
-              <td>6750</td>
+              <td th:text="*{priceSum}">6750</td>
             </tr>
           </tbody>
         </table>
@@ -290,8 +290,8 @@
         
         <div class="modal-body">
           <div class="d-flex flex-grow-1 align-items-center justify-content-evenly">
-            <div name="stockImage" id="stockImage">
-              <img src="/images/goods/2312110859384170.jpg" alt="" class="stockImage">
+            <div id="stockImage">
+              <img src="" alt="상품 이미지" id="goodsDetailImage" class="stockDetailImage">
             </div>
             <div id="stockListBox">
               <div name="goodsName" id="goodsDetailName" class="fs-2 fw-bold mb-3">
