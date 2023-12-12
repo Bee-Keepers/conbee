@@ -135,6 +135,14 @@ public interface ApprovalService {
 	int approve(int approvalNo, int memberNo);
 
 
+	/** 반려버튼 클릭 시 반려
+	 * @param approvalNo
+	 * @param memberNo
+	 * @return
+	 */
+	int returnApprove(int approvalNo, int memberNo);
+
+
 
 
 } 
