@@ -186,7 +186,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 			for(Approval app : approvalList) {
 				app.setDocOrderDate(docOrderDate);
 			}
-			int orderResult = service.insertOrder(approvalList);
+//			int orderResult = service.insertOrder(approvalList);
 		}
 			
 		int result = service.insertApproval(approval, approverList, approvalFile);

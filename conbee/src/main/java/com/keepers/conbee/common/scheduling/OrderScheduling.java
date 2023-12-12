@@ -36,7 +36,13 @@ public class OrderScheduling {
 	public void orderScheduling2() {
 		log.info("본사 발주 승인 스케쥴러 동작");
 		
+		// 납기일 일치하는 본사 발주 목록들
 		List<Approval> orderList = service.orderApprovalComplete();
+		if(orderList.size() == 0) {
+			log.info("조회된 결과가 없습니다");
+			return;
+		}
+		// 입출고 내역에 삽입
 		service.orderApproval(orderList);
 		
 	}

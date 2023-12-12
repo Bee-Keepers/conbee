@@ -245,19 +245,19 @@
 	<insert id="orderApproval">
 		INSERT INTO "HISTORY"
 		<foreach collection="list" item="item" separator=" UNION ">
-			SELECT NEXT_HISTORY_NO(), '입고', #{item.docOrderAmount}, #{item.docOrderUnitPrice}, #{item.docOrderUnitPrice}, 
-			NULL, SYSDATE, '본사', #{item.docOrderGoodsName}, 0, #{item.goodsNo} FROM DUAL
+			SELECT NEXT_HISTORY_NO(),'입고',#{item.docOrderAmount},#{item.docOrderUnitPrice},#{item.docOrderUnitPrice}, 
+			NULL,SYSDATE, '본사', #{item.docOrderGoodsName},0,#{item.goodsNo} FROM DUAL
 		</foreach>
 	</insert>
 	
 	<!-- 납기일 다 된 것중에서 승인 된 것들 받는 스케쥴러-->
 	<select id="orderApprovalComplete" resultType="Approval">
-		SELECT DOC_ORDER_AMOUNT, DOC_ORDER_UNIT_PRICE, DOC_ORDER_PRICE, GOODS_NO, DOC_ORDER_GOODS_NAME, DOC_ORDER_DATE, 
+		SELECT DOC_ORDER_AMOUNT, DOC_ORDER_UNIT_PRICE, DOC_ORDER_PRICE, GOODS_NO, DOC_ORDER_GOODS_NAME, DOC_ORDER_DATE
 		FROM DOC_ORDER
 		JOIN APPROVAL USING(APPROVAL_NO)
 		WHERE DOC_CATEGORY_NO = 5
 		AND APPROVAL_CONDITION = 4
-		AND DOC_ORDER_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		AND DOC_ORDER_DATE = TO_CHAR(SYSDATE+1, 'YYYY-MM-DD')
 	</select>
 	
 </mapper>
