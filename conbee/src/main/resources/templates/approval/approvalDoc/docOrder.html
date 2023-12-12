@@ -13,7 +13,7 @@
     </div> 
     <!-- 모달 바디 -->
     <div class="modal-body" style="width: 1300px; overflow: hidden;">
-      <form class="d-flex flex-row" action="docOrder" id="docOrder" method="POST">
+      <form class="d-flex flex-row" action="/approval/writeApproval/docOrder" id="docOrder" method="POST">
 
         <!--======================== 왼쪽 영역 ========================= -->
         <div style="height: 700px; overflow: auto;">
@@ -104,7 +104,7 @@
     
                   <tr>
                     <th>납기일</th>
-                    <td colspan="4"><input type="date" id="orderDate"></td>
+                    <td colspan="4"><input type="date" id="orderDate" name="docOrderDate"></td>
                   </tr>
     
     

@@ -3,7 +3,9 @@ package com.keepers.conbee.approval.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.approval.model.dto.Approver;
+import com.keepers.conbee.approval.model.dto.CommandDTO;
 import com.keepers.conbee.approval.model.service.ApprovalService;
 import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.stock.model.dto.Stock;
@@ -54,6 +57,19 @@ public class ApprovalController { // 전자결재 컨트롤러
 		return "approval/tempSave";
 			
 	}
+//	
+//	@GetMapping(value = "tempSave/selectTempData", produces = "application/json; charset=UTF-8")
+//	public String selectTempData(int approvalNo) {
+//		
+////		Map<String, Object> map = new HashMap<>();
+//		
+//		List<Approval> tempApproval = service.selectTempData(approvalNo);
+//		
+//		
+//		return tempApproval;
+//	}
+//	
+	
 
 
 	// ============================== 기안문 작성 ==============================
@@ -135,11 +151,13 @@ public class ApprovalController { // 전자결재 컨트롤러
 	public String insertApproval(@PathVariable("doc") String doc,
 							@RequestParam("approvalCondition") int approvalCondition,
 							@SessionAttribute("loginMember") Member loginMember, 
-							Approval approval,
+							Approval approval, CommandDTO command,
+							@RequestParam(value = "docOrderDate", required = false) String docOrderDate,
 							@RequestParam(value="approverMemNo", required=false) List<Integer> approverMemNo,
 							@RequestParam(value="approvalFile", required=false) MultipartFile approvalFile,
 							RedirectAttributes ra) throws IllegalStateException, IOException {
 
+		log.info("=-=-=-=-=-=-=-=-=-=" + command);
 
 		/* 문서 정보 셋팅 */
 		int departNo;
@@ -160,6 +178,11 @@ public class ApprovalController { // 전자결재 컨트롤러
 		approval.setDepartmentNo(departNo); // 협조부서 코드
 		approval.setDocCategoryNo(cateNo); // 문서 분류 번호
 		
+		if(cateNo==2) {
+			approval.setStoreNo(-1);
+		}
+		
+		
 				
 		/* 결재자 정보 셋팅 */
 		List<Approver> approverList = new ArrayList<>();
@@ -176,7 +199,15 @@ public class ApprovalController { // 전자결재 컨트롤러
 				approverList.add(approver);
 			}
 		}
-				
+		
+		// 발주 기안서 작성일 경우 ORDER테이블에 삽입
+		if(doc.equals("docOrder")) {
+			List<Approval> approvalList = command.getApprovalList();
+			for(Approval app : approvalList) {
+				app.setDocOrderDate(docOrderDate);
+			}
+			int orderResult = service.insertOrder(approvalList);
+		}
 			
 		int result = service.insertApproval(approval, approverList, approvalFile);
 		
@@ -404,6 +435,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 	}
 	
 	// ===============================발주 기안서==========================================
+	// ===============================  김민석  ==========================================
 	
 	
 	/** 발주기안서 품목명 입력시 자동완성 기능
