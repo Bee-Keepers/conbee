@@ -17,6 +17,14 @@
 		ORDER BY APPROVAL_DATE DESC
 	</select>
 	
+	<!-- 임시저장 데이터 조회 -->
+	<select id="selectTempData" resultType="Approval">
+		SELECT *
+		FROM "APPROVAL"
+		WHERE APPROVAL_NO=#{approvalNo}
+		
+	</select>
+	
 		
 	<!-- 기안문 작성자 정보 조회 -->
 	<select id="selectInfo" resultType="Member">
@@ -124,6 +132,15 @@
 		</foreach>
 	</insert>
 	
+	
+	<!-- 결재요청함 게시글 개수 -->
+	<select id="searchRequestApprovalCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM APPROVAL
+		WHERE MEMBER_NO=#{memberNo}
+		AND APPROVAL_DELETE=0
+		AND APPROVAL_CONDITION=1	
+	</select>
 	
 	<!-- 결재요청함 -->
 	<select id="selectRequestApproval" resultType="Approval">

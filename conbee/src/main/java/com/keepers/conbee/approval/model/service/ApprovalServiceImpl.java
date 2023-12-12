@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.approval.model.dto.ApprovalFile;
 import com.keepers.conbee.approval.model.dto.Approver;
 import com.keepers.conbee.approval.model.dto.CommandDTO;
+import com.keepers.conbee.approval.model.dto.Pagination;
 import com.keepers.conbee.approval.model.mapper.ApprovalMapper;
 import com.keepers.conbee.common.utility.Util;
 import com.keepers.conbee.member.model.dto.Member;
@@ -49,6 +51,21 @@ public class ApprovalServiceImpl implements ApprovalService{
 	public List<Approval> selectTempSave(int memberNo) {
 		return mapper.selectTempSave(memberNo);
 	}
+	
+	
+	// 임시저장함 데이터 조회
+	@Override
+	public Map<String, Object> selectTempData(int approvalNo) {
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		// 1. 기안문
+		Approval approval = mapper.selectTempData(approvalNo);
+		map.put("approval", approval);
+		
+		return map;
+	}
+	
 	
 	// 기안문 작성자 정보 조회
 	@Override
@@ -151,8 +168,27 @@ public class ApprovalServiceImpl implements ApprovalService{
 
 	// 결재요청함 조회
 	@Override
-	public List<Approval> selectRequestApproval(int memberNo) {
-		return mapper.selectRequestApproval(memberNo);
+	public Map<String, Object> selectRequestApproval(int memberNo, int cp) {
+		
+		int listCount = mapper.searchRequestApprovalCount(memberNo);
+		
+		/* cp, listCount를 이용해 Pagination 객체 생성*/
+		Pagination pagination = new Pagination(cp, listCount);
+		
+		// RowBounds 객체 생성
+		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
+		
+		int limit = pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		List<Approval> requestApprovalList = mapper.selectRequestApproval(memberNo, rowBounds);
+		
+		Map<String , Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("requestApprovalList",requestApprovalList);
+		
+		return map;
 	}
 	
 	// 회수문서함 조회
