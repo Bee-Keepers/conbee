@@ -74,7 +74,7 @@ lcategorySelect.addEventListener("change", ()=>{
    scategorySelect.append(option);
    if(lcategorySelect.value != ""){
       fetch(
-         "/stock/scategoryList?lcategory=" + lcategorySelect.value
+         "/stockManage/scategoryList?lcategory=" + lcategorySelect.value
       )
       .then(resp=>resp.json())
       .then(list=>{

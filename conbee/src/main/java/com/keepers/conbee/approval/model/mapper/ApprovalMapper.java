@@ -158,7 +158,41 @@ public interface ApprovalMapper {
 	 * @return
 	 */
 	Approval selectHolidayApproval(int approvalNo);
+	
 
+	/** 기안서 상세조회(퇴직)
+	 * @param approvalNo
+	 * @return
+	 */
+	Approval selectRetirementApproval(int approvalNo);
+
+
+	/** 기안서 상세조회(폐점)
+	 * @param approvalNo
+	 * @return
+	 */
+	Approval selectCloseStoreApproval(int approvalNo);
+
+
+	/** 기안서 상세조회(출점)
+	 * @param approvalNo
+	 * @return
+	 */
+	Approval selectOpenStoreApproval(int approvalNo);
+
+
+	/** 기안서 상세조회(지출)
+	 * @param approvalNo
+	 * @return
+	 */
+	Approval selectExpenseApproval(int approvalNo);
+
+
+	/** 기안서 상세조회(발주)
+	 * @param approvalNo
+	 * @return
+	 */
+	Approval selectOrderApproval(int approvalNo);
 
 
 
@@ -182,6 +216,18 @@ public interface ApprovalMapper {
 	int approve(Map<String, Object> paramMap);
 
 
+	/** 반려버튼 클릭 시 반려
+	 * @param paramMap
+	 * @return
+	 */
+	int returnApprove(Map<String, Object> paramMap);
+
+
+	/** 발주 주문서 insert
+	 * @param approvalList
+	 * @return
+	 */
+	int insertOrder(List<Approval> approvalList);
 
 
 

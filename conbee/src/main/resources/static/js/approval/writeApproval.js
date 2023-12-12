@@ -67,6 +67,8 @@ openDoc.forEach((doc)=>{
     block2s.forEach((block2) => {block2.innerHTML = ""});
     block3s.forEach((block3) => {block3.innerHTML = ""});
     members=[];
+    openStore.value="0";
+    closeStore.value="1";
   })
 });
 
@@ -146,6 +148,8 @@ const docHolidayStart = document.getElementById("docHolidayStart");
 const docHolidayEnd = document.getElementById("docHolidayEnd");
 const docHolidayText = document.getElementById("docHolidayText");
 
+console.log(block3s);
+
 // 제목 입력 시 -> 템플릿 안 제목 같이 입력되기
 inputToInput(inputHoliday, inputHoliday2);
 
@@ -194,7 +198,7 @@ submitHoliday.addEventListener("click", e =>{
     return;
   }
 
-  if(block3s[0].innerHTML===''){
+  if(block3s[4].innerHTML===''){
     alert("결재선을 추가해주세요");
     e.preventDefault();
     return;
@@ -253,7 +257,7 @@ submitRetirement.addEventListener("click", e =>{
     return;
   }
 
-  if(block3s[1].innerHTML===''){
+  if(block3s[3].innerHTML===''){
     alert("결재선을 추가해주세요");
     e.preventDefault();
     return;
@@ -276,9 +280,12 @@ const inputStore2 = document.getElementById("inputStore2");
 const storeName = document.getElementById("storeName");
 const openStore = document.getElementById("openStore");
 const closeStore = document.getElementById("closeStore");
+const storeNo = document.getElementById("storeNo");
 const docStoreText = document.getElementById("docStoreText");
 
 inputToInput(inputStore, inputStore2);
+
+
 
 // 결재 버튼 클릭
 submitStore.addEventListener("click", e =>{
@@ -373,7 +380,7 @@ submitExpense.addEventListener("click", e =>{
     return;
   }
 
-  if(block3s[3].innerHTML===''){
+  if(block3s[1].innerHTML===''){
     alert("결재선을 추가해주세요");
     e.preventDefault();
     return;
@@ -425,7 +432,7 @@ submitOrder.addEventListener("click", e =>{
 
   // 품목리스트 추가예정
 
-  if(block3s[4].innerHTML===''){
+  if(block3s[0].innerHTML===''){
     alert("결재선을 추가해주세요");
     e.preventDefault();
     return;
@@ -653,7 +660,7 @@ function createElement(tag, obj, classList){
   return element;
 }
 
-/* 김민석 ----------------- DOC_ORDER 작업 */
+/* 김민석 ----------------- DOC_ORDER 작업 -----------------------------------------------------------*/
 
 
 // const docOrderGoodsName = document.getElementById("docOrderGoodsName");
@@ -785,7 +792,7 @@ function createElement(tag, obj, classList){
 
 
 
-
+const docOrder = document.getElementById("docOrder");
 const orderSum = document.getElementById("orderSum");
 // 발주기안서 테이블 생성
 const orderTbody = document.getElementById("orderTbody");
@@ -795,13 +802,13 @@ for(let i = 0; i<10 ; i++){
 
   // 상품번호 컬럼 생성
   const td1 = document.createElement("td");
-  const input1 = createElement("input", {"type":"number","name":"goodsNo"},[]);
+  const input1 = createElement("input", {"type":"number","name":"approvalList["+i+"].goodsNo"},[]);
   input1.readOnly = true;
   td1.append(input1);
 
   // 품목이름 컬럼 생성
   const td2 = document.createElement("td");
-  const input2 = createElement("input", {"type":"text","name":"docOrderGoodsName"},[]);
+  const input2 = createElement("input", {"type":"text","name":"approvalList["+i+"].docOrderGoodsName"},[]);
   const div = createElement("div", null, ["list-group", "position-absolute", "zindex2000"]);
 
   // 품목이름 자동완성
@@ -848,8 +855,6 @@ for(let i = 0; i<10 ; i++){
         e.target.value = goods.goodsName;
         e.target.readOnly = true;
 
-        console.log(tr);
-        console.log(goods.goodsNo);
         tr.children[0].children[0].value = goods.goodsNo;
         tr.children[2].children[0].value = 0;
         tr.children[2].children[0].disabled = false;
@@ -863,14 +868,13 @@ for(let i = 0; i<10 ; i++){
 
   });
   input2.addEventListener("dblclick" , e=>{
-    console.log(e.target.readOnly);
     e.target.readOnly = false;
   });
   td2.append(input2, div);
   
   // 수량 컬럼 생성
   const td3 = document.createElement("td");
-  const input3 = createElement("input", {"type":"number","name":"docOrderAmount"},[]);
+  const input3 = createElement("input", {"type":"number","name":"approvalList["+i+"].docOrderAmount"},[]);
   input3.disabled = true;
   input3.addEventListener("input", e=>{
     if(e.target.value < 0){
@@ -883,7 +887,7 @@ for(let i = 0; i<10 ; i++){
   
   // 단가 컬럼 생성
   const td4 = document.createElement("td");
-  const input4 = createElement("input", {"type":"number","name":"docOrderUnitPrice"},[]);
+  const input4 = createElement("input", {"type":"number","name":"approvalList["+i+"].docOrderUnitPrice"},[]);
   input4.readOnly = true;
   td4.append(input4);
 
@@ -905,3 +909,12 @@ function orderPriceFn(){
   }
   orderSum.innerText = temp;
 }
+
+docOrder.addEventListener("submit", ()=>{
+  const docOrder = document.querySelectorAll("#orderTbody>tr>td>input");
+  for(let item of docOrder){
+    if(item.value.trim().length == 0){
+      item.disabled = true;
+    }
+  }
+});

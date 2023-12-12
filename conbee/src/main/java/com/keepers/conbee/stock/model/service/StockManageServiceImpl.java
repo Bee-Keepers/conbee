@@ -65,4 +65,10 @@ public class StockManageServiceImpl implements StockManageService{
 	public List<Stock> goodsNameSelect(String intputGoods) {
 		return mapper.goodsNameSelect(intputGoods);
 	}
+	
+	// 가게이름
+	@Override
+	public String storeName(int storeNo) {
+		return mapper.storeName(storeNo);
+	}
 }

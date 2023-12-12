@@ -47,4 +47,10 @@ public interface StockManageMapper {
 	 */
 	List<Stock> goodsNameSelect(String intputGoods);
 
+	/** 지점 이름
+	 * @param storeNo
+	 * @return
+	 */
+	String storeName(int storeNo);
+
 }

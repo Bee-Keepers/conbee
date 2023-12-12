@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.approval.model.dto.ApprovalFile;
 import com.keepers.conbee.approval.model.dto.Approver;
+import com.keepers.conbee.approval.model.dto.CommandDTO;
 import com.keepers.conbee.approval.model.mapper.ApprovalMapper;
 import com.keepers.conbee.common.utility.Util;
 import com.keepers.conbee.member.model.dto.Member;
@@ -76,7 +77,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 
 	// 기안문 insert
 	@Override
-	public int insertApproval(Approval approval, List<Approver> approverList, MultipartFile approvalFile) throws IllegalStateException, IOException {
+	public int insertApproval(Approval approval, List<Approver> approverList, MultipartFile approvalFile, CommandDTO command) throws IllegalStateException, IOException {
 	
 		int result;
 		
@@ -85,49 +86,61 @@ public class ApprovalServiceImpl implements ApprovalService{
 		if(resultApproval == 0) return 0;
 		
 		
-		
-		// 2) 파일 테이블 삽입		
+		// 2) 파일 테이블 삽입
 		if(approvalFile!=null) {
 			
-			ApprovalFile uploadFile = new ApprovalFile();
-			
-			uploadFile.setApprovalNo(approval.getApprovalNo());
-			uploadFile.setApprovalFileRoute(webPath);
-			uploadFile.setApprovalFileOriginName(approvalFile.getOriginalFilename());
-			uploadFile.setApprovalFileRename(Util.fileRename(approvalFile.getOriginalFilename()));
-			
-			uploadFile.setUploadFile(approvalFile);
-			
-			int resultApprovalFile = mapper.insertApprovalFile(uploadFile);
-			if(resultApprovalFile>0) {
-				log.info(new File(folderPath).toString());
-				uploadFile.getUploadFile().transferTo(new File(folderPath + uploadFile.getApprovalFileRename()));
+			if(!approvalFile.isEmpty()) {
+				
+				ApprovalFile uploadFile = new ApprovalFile();
+				
+				uploadFile.setApprovalNo(approval.getApprovalNo());
+				uploadFile.setApprovalFileRoute(webPath);
+				uploadFile.setApprovalFileOriginName(approvalFile.getOriginalFilename());
+				uploadFile.setApprovalFileRename(Util.fileRename(approvalFile.getOriginalFilename()));
+				
+				uploadFile.setUploadFile(approvalFile);
+				
+				int resultApprovalFile = mapper.insertApprovalFile(uploadFile);
+				if(resultApprovalFile>0) {
+					uploadFile.getUploadFile().transferTo(new File(folderPath + uploadFile.getApprovalFileRename()));
+				}
 			}
-			else resultApproval=0;
 		}
 		
 		
 		
 		// 3) 휴가/퇴직/출폐점/발주 결재문서 테이블 삽입	
 		// => 임시 저장시 삽입됨 임시저장 문서 재작성시 insert or update 에 따라 수정하기
-		if(approval.getDocCategoryNo()!=4) {			
+		if(approval.getDocCategoryNo()!=4 && approval.getDocCategoryNo()!=5) {			
 			resultApproval = mapper.insertApprovalDoc(approval);
 			if(resultApproval==0) return 0;
 		}				
 		
 		
+		// 4) 발주 삽입
+		if(approval.getDocCategoryNo()==5) {
+			
+			List<Approval> approvalList = command.getApprovalList();
+			for(Approval app : approvalList) {
+				app.setApprovalNo(approval.getApprovalNo());
+				app.setDocOrderDate(approval.getDocOrderDate());
+			}
+			resultApproval = mapper.insertOrder(approvalList);
+			if(resultApproval>0) resultApproval=1;
+			
+		}
 		
-		// 4) 결재자 리스트 테이블 삽입
+		
+		// 5) 결재자 리스트 테이블 삽입
 		if(!approverList.isEmpty()) {			
 			for(Approver approver:approverList) {
 				approver.setApprovalNo(approval.getApprovalNo()); //문서번호
 			}
 			
 			resultApproval = mapper.insertApproverList(approverList);
-			if(resultApproval>0) return 0;
+			if(resultApproval>0) resultApproval=1;
 		}
 		
-				
 	
 		if(resultApproval==1) result = 1;
 		else result =0;
@@ -225,11 +238,11 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// 문서타입별 mapper 호출
 		switch(docCategoryNo) {
 		case 0 : return mapper.selectHolidayApproval(approvalNo); // 휴가
-		case 1 :  // 퇴직
-		case 2 : break; // 출점
-		case 3 : break; // 폐점
-		case 4 : break; // 지출
-		case 5 : break; // 발주
+		case 1 : return mapper.selectRetirementApproval(approvalNo); // 퇴직
+		case 2 : return mapper.selectOpenStoreApproval(approvalNo); // 출점
+		case 3 : return mapper.selectCloseStoreApproval(approvalNo); // 폐점
+		case 4 : return mapper.selectExpenseApproval(approvalNo); // 지출
+		case 5 : return mapper.selectOrderApproval(approvalNo); // 발주
 		}
 		
 		// 문서타입 없을 경우 null 반환
@@ -267,6 +280,19 @@ public class ApprovalServiceImpl implements ApprovalService{
 		paramMap.put("memberNo", memberNo);
 		
 		return mapper.approve(paramMap);
+	}
+	
+	
+	/** 반려버튼 클릭 시 반려
+	 *
+	 */
+	@Override
+	public int returnApprove(int approvalNo, int memberNo) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("approvalNo", approvalNo);
+		paramMap.put("memberNo", memberNo);
+		
+		return mapper.returnApprove(paramMap);
 	}
 	
 	
