@@ -1,8 +1,4 @@
 const storeNoSelect = document.getElementById("storeNoSelect");
-// 지점 변경 시 화면 변경
-storeNoSelect.addEventListener("change", ()=>{
-  location.href = "/stock/stockList?storeNo=" + storeNoSelect.value;
-})
 
 const url = new URL(location.href);
 const urlParams = url.searchParams;

@@ -202,8 +202,6 @@ public class ApprovalController { // 전자결재 컨트롤러
 		}
 	
 		
-		// 발주 기안서 작성일 경우 ORDER테이블에 삽입
-		
 			
 		int result = service.insertApproval(approval, approverList, approvalFile, command);
 		
