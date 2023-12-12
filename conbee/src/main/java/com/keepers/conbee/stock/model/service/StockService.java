@@ -1,7 +1,10 @@
 package com.keepers.conbee.stock.model.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.member.model.dto.Member;
@@ -134,9 +137,11 @@ public interface StockService {
 
 	/** 상품 상세 수정
 	 * @param stock
+	 * @param uploadGoodsImage 
+	 * @param goodsImage 
 	 * @return
 	 */
-	int goodsDetailUpdate(Stock stock);
+	int goodsDetailUpdate(Stock stock, MultipartFile uploadGoodsImage)  throws IllegalStateException, IOException;
 
 	/**
 	 * 승인된 발주 입출고 내역에 삽입

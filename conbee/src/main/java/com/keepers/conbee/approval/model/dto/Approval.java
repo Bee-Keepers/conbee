@@ -50,6 +50,7 @@ public class Approval {
   // 출폐점 템플릿 (approvalNo)
   private int docStoreState; // 출폐상태
   private String storeName; // 점포명
+  private int storeNo; // 점포번호
 
   // 발주 템플릿 (approvalNo)
   private int docOrderNo; // 발주 번호
