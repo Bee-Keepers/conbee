@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.approval.model.dto.Approver;
+import com.keepers.conbee.approval.model.dto.CommandDTO;
 import com.keepers.conbee.approval.model.service.ApprovalService;
 import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.stock.model.dto.Stock;
@@ -135,11 +136,13 @@ public class ApprovalController { // 전자결재 컨트롤러
 	public String insertApproval(@PathVariable("doc") String doc,
 							@RequestParam("approvalCondition") int approvalCondition,
 							@SessionAttribute("loginMember") Member loginMember, 
-							Approval approval,
+							Approval approval, CommandDTO command,
+							@RequestParam(value = "docOrderDate", required = false) String docOrderDate,
 							@RequestParam(value="approverMemNo", required=false) List<Integer> approverMemNo,
 							@RequestParam(value="approvalFile", required=false) MultipartFile approvalFile,
 							RedirectAttributes ra) throws IllegalStateException, IOException {
 
+		log.info("=-=-=-=-=-=-=-=-=-=" + command);
 
 		/* 문서 정보 셋팅 */
 		int departNo;
@@ -176,7 +179,15 @@ public class ApprovalController { // 전자결재 컨트롤러
 				approverList.add(approver);
 			}
 		}
-				
+		
+		// 발주 기안서 작성일 경우 ORDER테이블에 삽입
+		if(doc.equals("docOrder")) {
+			List<Approval> approvalList = command.getApprovalList();
+			for(Approval app : approvalList) {
+				app.setDocOrderDate(docOrderDate);
+			}
+			int orderResult = service.insertOrder(approvalList);
+		}
 			
 		int result = service.insertApproval(approval, approverList, approvalFile);
 		
@@ -381,6 +392,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 	}
 	
 	// ===============================발주 기안서==========================================
+	// ===============================  김민석  ==========================================
 	
 	
 	/** 발주기안서 품목명 입력시 자동완성 기능
