@@ -205,8 +205,7 @@
 	
 	<update id="stockUpdate">
 		UPDATE "STOCK" SET
-		STOCK_NO = #{stockNo},
-		GOODS_NO = (SELECT GOODS_NO FROM GOODS WHERE GOODS_NAME = #{goodsName}),
+		GOODS_NAME = #{goodsName},
 		STOCK_AMOUNT = #{stockAmount},
 		STOCK_DISCOUNT = #{stockDiscount},
 		STOCK_OUT_PRICE = #{stockOutPrice},
