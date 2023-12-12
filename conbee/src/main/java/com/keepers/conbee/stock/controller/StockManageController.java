@@ -1,5 +1,6 @@
 package com.keepers.conbee.stock.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -16,8 +17,11 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.member.model.dto.Member;
+import com.keepers.conbee.stock.model.dto.Order;
+import com.keepers.conbee.stock.model.dto.OrderDetail;
 import com.keepers.conbee.stock.model.dto.Stock;
 import com.keepers.conbee.stock.model.service.StockManageService;
+import com.keepers.conbee.stock.model.service.StockService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 public class StockManageController {
 
 	private final StockManageService service;
+	private final StockService stockService;
 	
 	/** 재고 현황 리스트 전체 조회
 	 * @return
@@ -104,5 +109,47 @@ public class StockManageController {
 	public List<Stock> goodsNameSelect( String intputGoods ){
 		List<Stock> goodsNameSelect = service.goodsNameSelect(intputGoods);
 		return goodsNameSelect;
+	}
+	
+	/** 상품 등록 시 대분류 선택하면 소분류 조회기능
+	 * @param lcategory
+	 * @return
+	 */
+	@GetMapping("scategoryList")
+	@ResponseBody
+	public List<String> scategoryList(String lcategory){
+		List<String> scategoryList = stockService.scategoryList(lcategory);
+		return scategoryList;
+	}
+	
+	/** 발주 페이지
+	 * @return
+	 */
+	@GetMapping("order/list")
+	public String orderList(@SessionAttribute("loginMember") Member loginMember, @RequestParam(value = "storeNo", required = false, defaultValue = "-1") int storeNo, Model model,
+			String startDate, String endDate, RedirectAttributes ra) {
+				
+		if(endDate == null) {
+			endDate = String.valueOf(LocalDate.now());
+		}
+		if(startDate == null) {
+			startDate = String.valueOf(LocalDate.now().minusWeeks(1));
+		}
+		List<String> orderList = stockService.selectOrderList(storeNo, startDate, endDate);
+		String storeName = service.storeName(storeNo);
+		
+		model.addAttribute("orderList", orderList);
+		model.addAttribute("storeName", storeName);
+		model.addAttribute("endDate", endDate);
+		model.addAttribute("startDate", startDate);
+
+		return "stock/stockManage/orderList";
+	}
+
+	// 발주 상세 조회
+	@GetMapping("order/select")
+	@ResponseBody
+	public List<OrderDetail> orderSelect(Order order) {
+		return stockService.orderSelect(order);
 	}
 }
