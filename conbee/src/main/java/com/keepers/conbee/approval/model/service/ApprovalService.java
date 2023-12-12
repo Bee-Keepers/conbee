@@ -145,6 +145,14 @@ public interface ApprovalService {
 	int returnApprove(int approvalNo, int memberNo);
 
 
+	/** 발주기안서 상세조회(비동기)
+	 * @param approvalNo
+	 * @param docCategoryNo
+	 * @return
+	 */
+	List<Approval> waitApprovalList(int approvalNo, int docCategoryNo);
+
+
 
 
 

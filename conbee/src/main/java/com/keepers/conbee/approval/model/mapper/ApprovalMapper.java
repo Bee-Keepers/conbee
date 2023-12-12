@@ -192,7 +192,7 @@ public interface ApprovalMapper {
 	 * @param approvalNo
 	 * @return
 	 */
-	Approval selectOrderApproval(int approvalNo);
+	List<Approval> selectOrderApproval(int approvalNo);
 
 
 

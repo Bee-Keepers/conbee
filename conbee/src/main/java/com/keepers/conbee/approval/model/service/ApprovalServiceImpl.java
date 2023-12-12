@@ -242,12 +242,21 @@ public class ApprovalServiceImpl implements ApprovalService{
 		case 2 : return mapper.selectOpenStoreApproval(approvalNo); // 출점
 		case 3 : return mapper.selectCloseStoreApproval(approvalNo); // 폐점
 		case 4 : return mapper.selectExpenseApproval(approvalNo); // 지출
-		case 5 : return mapper.selectOrderApproval(approvalNo); // 발주
 		}
 		
 		// 문서타입 없을 경우 null 반환
 		return null;
 	}
+	
+	
+	/** 발주기안서 상세조회(비동기)
+	 *
+	 */
+	@Override
+	public List<Approval> waitApprovalList(int approvalNo, int docCategoryNo) {
+		return mapper.selectOrderApproval(approvalNo);
+	}
+	
 	
 	
 	/** 결재자 목록 상세조회(비동기)
