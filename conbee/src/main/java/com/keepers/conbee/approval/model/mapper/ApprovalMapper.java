@@ -223,6 +223,13 @@ public interface ApprovalMapper {
 	int returnApprove(Map<String, Object> paramMap);
 
 
+	/** 발주 주문서 insert
+	 * @param approvalList
+	 * @return
+	 */
+	int insertOrder(List<Approval> approvalList);
+
+
 
 
 

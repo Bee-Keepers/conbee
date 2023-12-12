@@ -56,6 +56,9 @@ CREATE SEQUENCE SEQ_APPROVER_NO NOCACHE;
 
 COMMIT;
 
+-- 발주 주문서  SEQ_DOC_ORDER_NO
+DROP SEQUENCE SEQ_DOC_ORDER_NO;
+CREATE SEQUENCE SEQ_DOC_ORDER_NO NOCACHE;
 
 
 -- 문서분류 데이터 생성 ==================================================================

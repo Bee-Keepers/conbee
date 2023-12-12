@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.approval.model.dto.ApprovalFile;
 import com.keepers.conbee.approval.model.dto.Approver;
+import com.keepers.conbee.approval.model.dto.CommandDTO;
 import com.keepers.conbee.approval.model.mapper.ApprovalMapper;
 import com.keepers.conbee.common.utility.Util;
 import com.keepers.conbee.member.model.dto.Member;
@@ -76,7 +77,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 
 	// 기안문 insert
 	@Override
-	public int insertApproval(Approval approval, List<Approver> approverList, MultipartFile approvalFile) throws IllegalStateException, IOException {
+	public int insertApproval(Approval approval, List<Approver> approverList, MultipartFile approvalFile, CommandDTO command) throws IllegalStateException, IOException {
 	
 		int result;
 		
@@ -110,14 +111,27 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		// 3) 휴가/퇴직/출폐점/발주 결재문서 테이블 삽입	
 		// => 임시 저장시 삽입됨 임시저장 문서 재작성시 insert or update 에 따라 수정하기
-		if(approval.getDocCategoryNo()!=4) {			
+		if(approval.getDocCategoryNo()!=4 && approval.getDocCategoryNo()!=5) {			
 			resultApproval = mapper.insertApprovalDoc(approval);
 			if(resultApproval==0) return 0;
 		}				
 		
 		
+		// 4) 발주 삽입
+		if(approval.getDocCategoryNo()==5) {
+			
+			List<Approval> approvalList = command.getApprovalList();
+			for(Approval app : approvalList) {
+				app.setApprovalNo(approval.getApprovalNo());
+				app.setDocOrderDate(approval.getDocOrderDate());
+			}
+			resultApproval = mapper.insertOrder(approvalList);
+			if(resultApproval>0) resultApproval=1;
+			
+		}
 		
-		// 4) 결재자 리스트 테이블 삽입
+		
+		// 5) 결재자 리스트 테이블 삽입
 		if(!approverList.isEmpty()) {			
 			for(Approver approver:approverList) {
 				approver.setApprovalNo(approval.getApprovalNo()); //문서번호
@@ -127,7 +141,6 @@ public class ApprovalServiceImpl implements ApprovalService{
 			if(resultApproval>0) resultApproval=1;
 		}
 		
-				
 	
 		if(resultApproval==1) result = 1;
 		else result =0;
@@ -281,7 +294,6 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		return mapper.returnApprove(paramMap);
 	}
-	
 	
 	
 

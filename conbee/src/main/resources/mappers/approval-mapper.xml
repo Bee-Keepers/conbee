@@ -431,8 +431,18 @@
 	<!--기안서 상세조회(발주)-->
 	<select id="selectOrderApproval" resultType="Approval"></select>
 	
+	<!-- 발주 주문서 insert -->
+	<insert id="insertOrder">
+		
+		INSERT INTO "DOC_ORDER"
+		<foreach collection="list" item="item" separator=" UNION ">
+			SELECT NEXT_DOC_ORDER_NO(), #{item.docOrderAmount}, #{item.docOrderUnitPrice}, #{item.docOrderUnitPrice},
+			#{item.approvalNo},#{item.goodsNo}, #{item.docOrderGoodsName}, #{item.docOrderDate}  FROM DUAL
+		</foreach>
+		
+	</insert>
 	
-	
+
 
 </mapper>
 
