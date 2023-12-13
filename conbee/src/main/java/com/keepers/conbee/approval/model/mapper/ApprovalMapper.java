@@ -30,11 +30,11 @@ public interface ApprovalMapper {
 	
 	
 	
-	/** 임시저장 데이터 조회
+	/** 임시저장 데이터 조회 1
 	 * @param approvalNo
 	 * @return
 	 */
-	Approval selectTempData(int approvalNo);
+	Approval selectApprovalTempData(int approvalNo);
 	
 	
 	/** 기안문 작성자 정보 조회

@@ -204,16 +204,13 @@
 		AND STORE_NO = #{storeNo}
 	</delete>
 	
+	<!-- 재고 수정 -->
 	<update id="stockUpdate">
 		UPDATE "STOCK" SET
-		STOCK_NO = #{stockNo},
-		GOODS_NO = (SELECT GOODS_NO FROM GOODS WHERE GOODS_NAME = #{goodsName}),
-		STOCK_AMOUNT = #{stockAmount},
 		STOCK_DISCOUNT = #{stockDiscount},
-		STOCK_OUT_PRICE = #{stockOutPrice},
-		STOCK_IN_PRICE = #{stockInPrice}
+		STOCK_OUT_PRICE = #{stockOutPrice}
 		WHERE GOODS_NO = #{goodsNo}
-		AND STORE_NO = #{stockNo}
+		AND STORE_NO = #{storeNo}
 	</update>
 	
 	<!-- 상품(재고) 상세 조회 -->

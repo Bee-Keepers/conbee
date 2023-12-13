@@ -122,6 +122,18 @@ for(let item of goodsDetailBtn){
     .catch(e=>console.log(e));
   });
 };
+const stockUpdateBtn = document.getElementById("stockUpdateBtn");
 
-const priceSum = document.getElementById("priceSum");
+stockUpdateBtn.addEventListener("click", () => {
 
+  const checkbox = document.querySelector("input[type='checkbox']:checked");
+  const row = checkbox.closest("tr");
+  document.getElementById("goodsNoUpdate").value = row.children[1].innerText;
+  document.getElementById("goodsName").value = row.children[2].innerText;
+  document.getElementById("lcategoryNameUpdate").value = row.children[3].innerText;
+  document.getElementById("scategoryNameUpdate").value = row.children[4].innerText;
+  document.getElementById("stockInPrice").value = row.children[6].innerText;
+  document.getElementById("stockOutPriceUpdate").value = row.children[7].innerText;
+  document.getElementById("stockDiscountUpdate").value = row.children[9].innerText;
+  document.getElementById("storeNoUpdate").value = row.children[11].innerText;
+});

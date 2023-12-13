@@ -242,7 +242,7 @@ public class StockController {
 		return service.stockDelete(paramMap);
 	}
 	
-	/** 재고 현황 등록
+	/** 재고 현황 수정
 	 * @param stock
 	 * @param ra
 	 * @return

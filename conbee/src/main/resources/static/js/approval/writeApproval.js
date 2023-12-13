@@ -72,14 +72,14 @@ openDoc.forEach((doc)=>{
   })
 });
 
-openDocOne.addEventListener("click",()=>{ history.pushState(null, null, 'writeApproval/docHoliday');})
-openDocTwo.addEventListener("click",()=>{ history.pushState(null, null, 'writeApproval/docRetirement');})
-openDocThree.addEventListener("click",()=>{ history.pushState(null, null, 'writeApproval/docStore');
+// openDocOne.addEventListener("click",()=>{ history.pushState(null, null, 'writeApproval/docHoliday');})
+// openDocTwo.addEventListener("click",()=>{ history.pushState(null, null, 'writeApproval/docRetirement');})
+openDocThree.addEventListener("click",()=>{ /* history.pushState(null, null, 'writeApproval/docStore'); */
 openStore.checked=false;
 closeStore.checked=false;
 })
-openDocFour.addEventListener("click",()=>{ history.pushState(null, null, 'writeApproval/docExpense');})
-openDocFive.addEventListener("click",()=>{history.pushState(null, null, 'writeApproval/docOrder');})
+// openDocFour.addEventListener("click",()=>{ history.pushState(null, null, 'writeApproval/docExpense');})
+// openDocFive.addEventListener("click",()=>{history.pushState(null, null, 'writeApproval/docOrder');})
 
 
 
