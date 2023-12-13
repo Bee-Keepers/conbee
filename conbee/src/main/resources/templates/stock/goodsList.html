@@ -53,7 +53,7 @@
                   </label>
                 </td>
                 <td th:text="*{goodsNo}">상품번호</td>
-                <td th:text="*{goodsName}" data-bs-toggle="modal" data-bs-target="#goodsDetailSelectBtn" class="goodsDetailUpdateBtn">상품이름</td>
+                <td th:text="*{goodsName}" data-bs-toggle="modal" data-bs-target="#goodsDetailSelectBtn" class="goodsDetailSelectBtn" style="cursor: pointer;">상품이름</td>
                 <td th:text="*{goodsStandard}">재고규격</td>
                 <td th:text="*{lcategoryName}">대분류</td>
                 <td th:text="*{scategoryName}">소분류</td>
@@ -207,45 +207,47 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         
-        <form action="goodsDetailUpdate" method="post">
+        <form action="goodsDetailUpdate" method="post" enctype="multipart/form-data">
           <div class="modal-body">
             <div class="d-flex flex-grow-1 align-items-center justify-content-evenly">
               
               <div class="goodsImg">
                 <label for="image">
-                  <img class="preview" src="">
+                  <img class="preview" src="" id="goodsDetailImageUpdate">
                 </label>
-                <input type="file" name="goodsImage" class="stockImage" id="image" accept="image/*">
+                <input type="file" name="uploadGoodsImage" class="goodsImage" id="image" accept="image/*">
                 <span class="delete-image">&times;</span>
               </div>
               
               <div id="stockListBox">
-                <input type="text" name="goodsName" id="goodsDetailNameUpdate" class="fs-3 fw-bold mb-3 w-100 p-2"></input>
+                <input type="text" name="goodsName" id="goodsDetailNameUpdate" class="fs-3 fw-bold mb-3 w-100 p-2" style="border-radius: 10px;" disabled></input>
                 <div name="goodsStandard" class="fs-6 mb-3 d-flex flex-column">
                   <span class="fw-bold mb-1">규격</span>
-                  <input type="text" id="goodsDetailStandardUpdate" class="p-3"></input>
+                  <input type="text" id="goodsDetailStandardUpdate" class="p-3" style="border-radius: 10px;" disabled></input>
                 </div>
                 <div name="goodsDetail" class="fs-6 mb-3 d-flex flex-column ">
                   <span class="fw-bold mb-1">상품 설명</span>
-                  <textarea rows="5" cols="10" id="goodsDetailUpdate" class="p-3"></textarea>
-                  
+                  <textarea rows="5" cols="10" name="goodsDetail" id="goodsDetailUpdate" class="p-3" style="resize: none; border-radius: 10px;"></textarea>
                 </div>
               </div>
             </div>
           </div>
-        </form>
+          
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            <button type="submit" class="btn btn-primary btn-warning" id="goodsUpdateBtn">수정</button>
+          </div>
+          <input type="hidden" id="goodsNoUpdate" name="goodsNo" value="">
 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-          <button type="submit" class="btn btn-primary btn-warning" id="goodsUpdateBtn">수정</button>
-        </div>
+          <!-- deleteCheck :  1  -> 새 이미지 or 바꿈 -->
+          <!-- deleteCheck :  0  ->  지웠음 -->
+          <!-- deleteCheck : -1 -> 아무것도 안함 -->
+          <input type="hidden" id="deleteCheckUpdate" name="deleteCheck" value="-1">
+        </form>
           
       </div>
     </div>
   </div>
-
-
-
 
   <!-- 이미지 미리보기 설정 -->
   <script th:inline="javascript">
@@ -256,9 +258,9 @@
         var previewImage = document.querySelector('.preview');
         previewImage.src = event.target.result;
         previewImage.style.display = 'block';
+        document.getElementById("deleteCheckUpdate").value = 1;
       };
       reader.readAsDataURL(e.target.files[0]);
-      console.log(reader);
     });
   </script>
 

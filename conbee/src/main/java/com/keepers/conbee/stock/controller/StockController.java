@@ -1,5 +1,7 @@
 package com.keepers.conbee.stock.controller;
 
+import java.io.Console;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.keepers.conbee.member.model.dto.Member;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.keepers.conbee.stock.model.dto.Order;
 import com.keepers.conbee.stock.model.dto.OrderDetail;
@@ -190,6 +193,7 @@ public class StockController {
 			@SessionAttribute("loginMember") Member loginMember,
 			Stock stock
 			) {
+		
 		if(stock.getStoreNo() == 0) {
 			int storeNo = loginMember.getStoreList().get(0).getStoreNo();
 			stock.setStoreNo(storeNo);
@@ -238,7 +242,7 @@ public class StockController {
 		return service.stockDelete(paramMap);
 	}
 	
-	/** 재고 현황 등록
+	/** 재고 현황 수정
 	 * @param stock
 	 * @param ra
 	 * @return
@@ -283,17 +287,23 @@ public class StockController {
 	 * @param stock
 	 * @param ra
 	 * @return
+	 * @throws IOException 
+	 * @throws IllegalStateException 
 	 */
 	@PostMapping("goodsDetailUpdate")
-	@ResponseBody
-	public String goodsDetailUpdate( Stock stock, RedirectAttributes ra ) {
+	public String goodsDetailUpdate( 
+			Stock stock, 
+			@RequestParam ("uploadGoodsImage") MultipartFile uploadGoodsImage,
+			RedirectAttributes ra 
+			) throws IllegalStateException, IOException {
 		
-		int result = service.goodsDetailUpdate(stock);
+		int result = service.goodsDetailUpdate(stock, uploadGoodsImage);
 		
-		if(result > 0) {
+		if(result == 0) {
 			ra.addFlashAttribute("message", "수정 실패");
 		}
-		return "redirect:stockList";
+		
+		return "redirect:goodsList";
 	}
 	
 	

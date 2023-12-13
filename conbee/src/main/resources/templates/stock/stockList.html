@@ -135,16 +135,16 @@
               <td th:text="*{stockOutPrice}">1500</td>
               <td th:text="*{stockAmount}">0</td>
               <td th:text="*{stockDiscount}">10</td>
-              <td>6750</td>
+              <td th:text="*{priceSum}">6750</td>
+              <td th:text="*{storeNo}" style="display: none;"></td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">
         <div class="" role="group" aria-label="Basic outlined example">
-          <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="#stockUpdateModel">재고수정</button>
+          <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="#stockUpdateModel" id="stockUpdateBtn">재고수정</button>
           <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="#stockInsertModel">등록</button>
-          <button type="button" class="btn btn-warning me-1">수정</button>
           <button type="button" class="btn btn-warning me-1">사용중단/재사용</button>
           <button name="stockDelete" id="deleteBtn" type="button" class="btn btn-warning">삭제</button>
         </div>
@@ -228,11 +228,6 @@
 
         <div class="modal-body">
           <form action="/stock/stockUpdate" method="post" >
-            <div class="mb-3">
-              <select class="form-select" name="storeNo" id="storeNameClick">
-                <option th:each="store : ${session.loginMember.storeList}" th:value="${store.storeNo}" th:text="${store.storeName}"></option>
-              </select>
-            </div>
             <div>
               <div id="autoSerchNameContainer" class="form-floating mb-3">
                 <div  class="position-absolute w-100 start-0" style="top: 110%;">
@@ -240,15 +235,15 @@
                     <!-- <li class="list-group-item">An item</li> -->
                   </ul>
                 </div>
-                <input type="text" class="form-control" name="goodsName" id="serachName" placeholder="품목명">
+                <input type="text" class="form-control" name="goodsName" id="goodsName" placeholder="품목명">
                 <label for="serachName">상품명</label>
               </div>
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="lcategoryName" placeholder="대분류" disabled>
+                <input type="text" class="form-control" id="lcategoryNameUpdate" placeholder="대분류" disabled>
                 <label for="">대분류</label>
               </div>
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="scategoryName" placeholder="소분류" disabled>
+                <input type="text" class="form-control" id="scategoryNameUpdate" placeholder="소분류" disabled>
                 <label for="">소분류</label>
               </div>
               <div class="form-floating mb-3">
@@ -256,11 +251,11 @@
                 <label for="">입고단가</label>
               </div>
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="stockOutPrice"  id="stockOutPrice" placeholder="출고단가">
+                <input type="text" class="form-control" name="stockOutPrice"  id="stockOutPriceUpdate" placeholder="출고단가">
               <label for="">출고단가</label>
               </div>
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="stockDiscount" id="stockDiscount" placeholder="할인율" value="0">
+                <input type="text" class="form-control" name="stockDiscount" id="stockDiscountUpdate" placeholder="할인율" value="0">
                 <label for="">할인율</label>
               </div>
             </div>
@@ -269,7 +264,8 @@
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
               <button type="submit" class="btn btn-primary btn-warning">수정</button>
             </div>
-            <input type="hidden" name="stockAmount" value="0">
+            <input type="hidden" id="storeNo" name="storeNo" value="">
+            <input type="hidden" id="goodsNoUpdate" name="goodsNo" value="">
           </form>
         </div>
 
@@ -290,8 +286,8 @@
         
         <div class="modal-body">
           <div class="d-flex flex-grow-1 align-items-center justify-content-evenly">
-            <div name="stockImage" id="stockImage">
-              <img src="/images/goods/2312110859384170.jpg" alt="" class="stockImage">
+            <div id="stockImage">
+              <img src="" alt="상품 이미지" id="goodsDetailImage" class="stockDetailImage">
             </div>
             <div id="stockListBox">
               <div name="goodsName" id="goodsDetailName" class="fs-2 fw-bold mb-3">

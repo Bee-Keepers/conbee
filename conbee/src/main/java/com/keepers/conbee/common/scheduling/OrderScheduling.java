@@ -1,12 +1,12 @@
 package com.keepers.conbee.common.scheduling;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.stock.model.service.StockService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,20 +28,24 @@ public class OrderScheduling {
 //	@Scheduled(cron = "0 0 0 * * *")
 	@Scheduled(cron = "0 0 0 * * *")
 	public void orderScheduling() {
-		log.info("Order 스케쥴러 동작");
+		log.info("발주 마감 스케쥴러 동작");
 		service.orderScheduling();
 		
 	}
-//	@Scheduled(cron = "0 0 0 * * *")
-//	public void orderScheduling2() {
-//		log.info("Order 스케쥴러 동작");
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
-//		String today = sdf.format(new Date()); // 2023-12-12
-//		
-//		// 1,3
-//		service.orderScheduling();
-//		
-//	}
+	@Scheduled(cron = "0 0 0 * * *")
+	public void orderScheduling2() {
+		log.info("본사 발주 승인 스케쥴러 동작");
+		
+		// 납기일 일치하는 본사 발주 목록들
+		List<Approval> orderList = service.orderApprovalComplete();
+		if(orderList.size() == 0) {
+			log.info("조회된 결과가 없습니다");
+			return;
+		}
+		// 입출고 내역에 삽입
+		service.orderApproval(orderList);
+		
+	}
 	
 
 }

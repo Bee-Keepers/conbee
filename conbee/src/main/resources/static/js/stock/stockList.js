@@ -101,6 +101,7 @@ deleteBtn.addEventListener('click', () => {
 });
 
 /* 재고 제품 상세조회 */
+const goodsDetailImage = document.getElementById("goodsDetailImage");
 const goodsDetailBtn = document.querySelectorAll(".goodsDetailBtn");
 const goodsDetailName = document.getElementById("goodsDetailName");
 const goodsDetailStandard = document.getElementById("goodsDetailStandard");
@@ -113,6 +114,7 @@ for(let item of goodsDetailBtn){
     fetch("/stock/goodsDetail?goodsNo=" + goodsNo)
     .then( resp => resp.json() )
     .then( goods => {
+      goodsDetailImage.src = goods.goodsImagePath + goods.goodsImage;
       goodsDetailName.innerText = goods.goodsName;
       goodsDetailStandard.innerText = goods.goodsStandard;
       goodsDetail.innerText = goods.goodsDetail;
@@ -120,3 +122,18 @@ for(let item of goodsDetailBtn){
     .catch(e=>console.log(e));
   });
 };
+const stockUpdateBtn = document.getElementById("stockUpdateBtn");
+
+stockUpdateBtn.addEventListener("click", () => {
+
+  const checkbox = document.querySelector("input[type='checkbox']:checked");
+  const row = checkbox.closest("tr");
+  document.getElementById("goodsNoUpdate").value = row.children[1].innerText;
+  document.getElementById("goodsName").value = row.children[2].innerText;
+  document.getElementById("lcategoryNameUpdate").value = row.children[3].innerText;
+  document.getElementById("scategoryNameUpdate").value = row.children[4].innerText;
+  document.getElementById("stockInPrice").value = row.children[6].innerText;
+  document.getElementById("stockOutPriceUpdate").value = row.children[7].innerText;
+  document.getElementById("stockDiscountUpdate").value = row.children[9].innerText;
+  document.getElementById("goodsNoUpdate").value = row.children[11].innerText;
+});
