@@ -1,4 +1,4 @@
-package com.keepers.conbee.note.dto;
+package com.keepers.conbee.note.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;

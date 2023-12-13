@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 연결할 인터페이스의 패키지명.인터페이스명을 작성 -->
 <mapper namespace="com.keepers.conbee.note.model.mapper.NoteMapper">
 
+	<!--주소록 검색-->
+	<select id="nameSearch" resultType="Member">
+		SELECT MEMBER_NO, MEMBER_NAME, MEMBER_EMAIL, DEPARTMENT_NAME
+		FROM "MEMBER"
+		JOIN DEPARTMENT USING(DEPARTMENT_NO)
+		WHERE MEMBER_NAME LIKE '%${memberName}%'
+	</select>
 
-	<insert id="noteInsert">
-		INSERT INTO "NOTE"()
-		
+	<!--쪽지 보내기-->
+	<insert id="">
+		INSERT 
+
 	</insert>
+
 
 </mapper>

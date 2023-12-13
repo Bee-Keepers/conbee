@@ -10,65 +10,113 @@
 </head>
 
 <body class="d-flex flex-column" style="height: 100vh;">
+  <!-- 모달 -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">주소록</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
 
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" id="memberName" placeholder="이름을 검색해주세요">
+            
+            <button class="btn btn-warning" id="searchBtn">검색</button>
+          </div>
+
+          <!-- 주소록 내용 -->
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">이름</th>
+                <th scope="col">이메일</th>
+                <th scope="col">부서명</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody id="noteTbody">
+
+
+              <!-- 주소록 아이템들 -->
+              <tr th:each="member : ${memberList}">
+                <td th:text="${member.memberNo}"></td>
+                <td th:text="${member.memberName}"></td>
+                <td th:text="${member.memberTel}"></td>
+                <td>
+                  <button type="button" class="btn btn-primary">선택</button>
+                </td>
+              </tr>
+
+
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <th:block th:replace="~{common/header}"></th:block>
 
   <main class="d-flex flex-grow-1 overflow-y-auto">
 
     <th:block th:replace="~{note/sidebar}"></th:block>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
 
-          <div class="modal-body">
-            
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="d-flex flex-column flex-grow-1   p-3">
+    <main class="d-flex flex-column flex-grow-1 p-3">
 
       <div class="fs-3 pb-3 px-3 border-bottom">
         쪽지쓰기
       </div>
 
-      <div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Basic outlined example">
+      <div class="btn-group btn-group-sm d-flex justify-content-center" role="group"
+        aria-label="Basic outlined example">
 
         <br>
 
 
-    </div>
+      </div>
+      <div class="w-100 d-flex justify-content-center">
+        <div class="mb-4 d-flex align-item-center flex-column w-50">
+          <label for="exampleFormControlInput1" class="form-label">받는사람</label>
+          
+       
+                <form id="notego" action="note-write" method="post">
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="recipient" id="contact">
+                    <input type="text" class="form-control" name="email" id="memberEmail" readonly>
+                    <input type="hidden"  name="memberNoReciplent" id="memberNoReciplent" value="2" >
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                      주소록
+                    </button>
+                  </div>
+                  <div>
+                    <div style="margin-top: 20px;"> 
+                    <label for="exampleFormControlTextarea1" class="form-label">내용</label>
+                    <textarea class="form-control" name="messageContent" id="exampleFormControlTextarea1" rows="6" style="resize : none"></textarea>
+                  </div>
+                  <div style="margin-top: 20px;"> 
+                  <button type="submit" class="btn btn-warning" style="width: 110px; height: 40px;">보내기</button>
+                </form>
+                
 
-    <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label">받는사람</label>
-      <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" style="width: 200px;">
-    </div>
-
-    <div class="mb-3">
-      <label for="exampleFormControlTextarea1" class="form-label">내용</label>
-      <textarea class="form-control" id="exampleFormControlTextarea1" rows="6" style="width: 40%;"></textarea>
-    </div>
-
-    <div class="d-flex align-items-end justify-content-flex-start pe-4 bg-white mb-4">
-      <a href="/note/note-write" class="btn btn-warning mx-1 mr-4" style="width: 110px; height: 40px;">보내기</a>
-    </div>
-    
 
 
-    </div>
 
+                
+              </div>
+            </div>
+    </main>
   </main>
 
 
   <script src="/js/bootstrap.bundle.min.js"></script>
-  <!--<script src="/js/.js"></script>-->
+  <script src="/js/note/note.js"></script>
 </body>
 
 </html>
