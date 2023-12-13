@@ -18,11 +18,10 @@
 	</select>
 	
 	<!-- 임시저장 데이터 조회 -->
-	<select id="selectTempData" resultType="Approval">
-		SELECT *
+	<select id="selectApprovalTempData" resultType="Approval">
+		SELECT APPROVAL_TITLE, APPROVAL_DOC_TITLE, APPROVAL_CONTENT, DOC_CATEGORY_NO
 		FROM "APPROVAL"
 		WHERE APPROVAL_NO=#{approvalNo}
-		
 	</select>
 	
 		
@@ -453,7 +452,7 @@
 		
 		INSERT INTO "DOC_ORDER"
 		<foreach collection="list" item="item" separator=" UNION ">
-			SELECT NEXT_DOC_ORDER_NO(), #{item.docOrderAmount}, #{item.docOrderUnitPrice}, #{item.docOrderUnitPrice},
+			SELECT NEXT_DOC_ORDER_NO(), #{item.docOrderAmount}, #{item.docOrderUnitPrice}, #{item.docOrderPrice},
 			#{item.approvalNo},#{item.goodsNo}, #{item.docOrderGoodsName}, #{item.docOrderDate}  FROM DUAL
 		</foreach>
 		
