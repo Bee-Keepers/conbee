@@ -6,17 +6,131 @@
   <title>conBee</title>
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/css/common/main.css">
 </head>
 <body class="d-flex flex-column overflow-y-auto" style="height: 100vh;">
 
   <th:block th:replace="~{common/header}"></th:block>
-
   
-  <main class="d-flex flex-grow-1 overflow-y-auto">
+  <main class="d-flex flex-grow-1 overflow-y-auto justify-content-between">
 
-    <th:block th:replace="~{common/sidebar}"></th:block>
-
-    <div class="d-flex flex-column flex-grow-1 align-items-center overflow-y-auto">
+    <div class="d-flex flex-column w-50 flex-grow-1">
+      <div class="d-flex flex-column overflow-y-auto flex-grow-1">
+        <div>일정</div>
+        <div class="w-100 flex-grow-1" style="background-color: cadetblue;">캘린더</div>
+      </div>
+      <div class="card m-2 h-25">
+        <div class="card-header fs-5 fw-bold"><a href="#">전자결재 대기함</a></div>
+        <div class="card-body overflow-y-auto p-0">
+          <table class="table table-striped table-hover">
+            <colgroup>
+              <col width=58%>
+              <col width=14%>
+              <col width=14%>
+              <col width=14%>
+            </colgroup>
+            <thead>
+              <tr>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>부서</th>
+                <th>작성일자</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>12월 27일 휴가신청합니다</td>
+                <td>김민석</td>
+                <td>인사관리부</td>
+                <td>2023-12-13</td>
+              </tr>
+              <tr>
+                <td>2023년 12월 27일 일신상의 이유로 휴가신청합니다 </td>
+                <td>김민석</td>
+                <td>인사관리부</td>
+                <td>2023-12-13</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-column w-50">
+      <div class="d-flex flex-grow-1">
+        <div class="card m-2">
+          <div class="card-header fs-5 fw-bold"><a href="#">재고현황</a></div>
+          <div class="card-body overflow-y-auto p-0">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>분류</th>
+                  <th>이름</th>
+                  <th>수량</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>과자</td>
+                  <td>새우깡</td>
+                  <td>45</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card m-2">
+          <div class="card-header fs-5 fw-bold"><a href="#">판매현황</a></div>
+          <div class="card-body overflow-y-auto p-0">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>분류</th>
+                  <th>이름</th>
+                  <th>수량</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>과자</td>
+                  <td>새우깡</td>
+                  <td>45</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+        
+      <div class="card overflow-y-auto h-50 m-2">
+        <div class="card-header fs-5 fw-bold"><a href="#">자유게시판</a></div>
+        <div class="card-body overflow-y-auto p-0">
+          <table class="table table-striped table-hover">
+            <colgroup>
+              <col width=65%>
+              <col width=14%>
+              <col width=14%>
+              <col width=7%>
+            </colgroup>
+            <thead>
+              <tr>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>날짜</th>
+                <th>조회수</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-truncate">실험중입니다실험중입니다실험중입니다실험중입니다실험중입니다실
+                  험중입니다실험중입니다실험중입니다실험중입니다실험중입니다실험중입니다실험중입니다실험중입니다</td>
+                <td>황금독수리</td>
+                <td>2023-12-13</td>
+                <td>233</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
   </main>

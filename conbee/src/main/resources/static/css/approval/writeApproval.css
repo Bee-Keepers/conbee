@@ -230,6 +230,11 @@
   border: none;
   outline: none;
 }
+#orderSum{
+  width: 100%;
+  border: none;
+  outline: none;
+}
 .zindex2000{
   z-index: 2000;
 }
