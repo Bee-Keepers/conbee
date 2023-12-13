@@ -1,12 +1,20 @@
 package com.keepers.conbee.note.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.board.model.dto.Board;
-import com.keepers.conbee.note.service.NoteService;
+import com.keepers.conbee.member.model.dto.Member;
+import com.keepers.conbee.note.model.dto.Note;
+import com.keepers.conbee.note.model.service.NoteService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,20 +41,52 @@ public class NoteController {
         return "note/note-keep";
     }
     
+    
     @GetMapping("note-write")
-    public String notewrite(Board board, Model model) {
+    public String notewrite(Model model) {
         return "note/note-write";
     }
     
-    
-    
-    
-    
-    
-    
 
+
+    
+    @GetMapping("name-search")
+    @ResponseBody
+    public List<Member> nameSearch(String memberName){
+    	return service.nameSearch(memberName);
+    }
+
+    /**
+     * 쪽지발송
+     * @param ra
+     * @param note
+     * @param loginMember
+     * @return
+     */
+    
+    @PostMapping("note-write")
+    public  String notewrite(RedirectAttributes ra, Note note, @SessionAttribute("loginMember") Member loginMember) {
+    	
+    	note.setMemberNoSender(loginMember.getMemberNo());
+    	
+    	
+    	int result = service.notewrite(note);
+    	
+    	if(result>0) {
+			ra.addFlashAttribute("message", "쪽지가 성공적으로 보내졌습니다");
+		
+		} else {
+			ra.addFlashAttribute("message", "쪽지가 발송되지 않았습니다");	
+		}
+		
+		
+	
+ 
+        return "redirect:note-sent";
+    }
 
 
 
 
 }
+

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko"  xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>발주 조회</title>
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/css/stock/revenue.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker3.min.css" integrity="sha512-aQb0/doxDGrw/OC7drNaJQkIKFu6eSWnVMAwPN64p6sZKeJ4QCDYL42Rumw2ZtL8DB9f66q4CnLIUnAw28dEbg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body class="d-flex flex-column" style="height: 100vh;">
+
+  <!-- 상세 조회 Modal -->
+  <div class="modal fade" id="detailModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">상세 조회</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div>
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th style="width: 10%;">상품번호</th>
+                  <th>상품명</th>
+                  <th style="width: 15%;">대분류</th>
+                  <th style="width: 15%;">소분류</th>
+                  <th style="width: 10%;">발주수량</th>
+                </tr>
+              </thead>
+              <tbody id="detailTbody">
+                <tr>
+                  <td>2</td>
+                  <td>망곰젤리</td>
+                  <td>과자류</td>
+                  <td>스낵</td>
+                  <td>7</td>
+                </tr>
+              </tbody>
+              <tfoot>
+  
+              </tfoot>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 상세 검색 Modal -->
+  <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">상세 검색</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="stockSearchForm" action="/stockManage/order/list" method="get">
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="storeSelect">지점</label>
+              <input type="text" class="form-control" placeholder="지점을 검색해주세요" id="storeSearch">
+              <select class="form-select" name="storeNo" id="storeSelect">
+                  <option value="">선택</option>
+              </select>
+          </div>
+            <!-- 대분류 -->
+            <div class="input-group input-daterange d-flex align-items-center">
+              <div class="input-group-text">날짜선택</div>
+              <input type="text" class="form-control" name="startDate" th:value="${startDate}" readonly>
+              <div class="input-group-text">to</div>
+              <input type="text" class="form-control" name="endDate" th:value="${endDate}" readonly>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          <button type="button" class="btn btn-warning" id="stockSearchBtn">검색</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <th:block th:replace="~{common/header}"></th:block>
+
+  <main class="d-flex flex-grow-1 overflow-y-auto">
+
+    <th:block th:replace="~{stock/stockManage/sidebar}"></th:block>
+
+    <div class="d-flex flex-column flex-grow-1 align-items-center overflow-y-auto p-3">
+
+      <div class="d-flex justify-content-between align-items-center w-100 border-bottom">
+        <div class="fs-3 pb-3 px-3">발주 조회</div>
+        <div class="d-flex align-items-center">
+          <div class="me-3">
+            <span id="startDate" th:text="${startDate}"></span>
+            <span> / </span>
+            <span id="endDate" th:text="${endDate}"></span>
+          </div>
+          <div>
+            <div class="input-group">
+              <span class="input-group-text" th:if="${storeName == null}">검색된 지점이 없습니다</span>
+              <span class="input-group-text" th:if="${storeName != null}" th:text="${storeName}">검색된 지점이 없습니다</span>
+              <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#searchModal">
+                상세 검색
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="w-100 px-4 pt-2 flex-grow-1">
+        <!-- 테이블 제목 -->
+        <table id="revenueTable" class="table table-striped table-hover m-0">
+          <thead class="sticky-top text-center">
+            <tr>
+              <th>발주날짜</th>
+              <th>상세보기</th>
+            </tr>
+          </thead>
+          <!-- 테이블 내용 -->
+          <tbody id="tableTbody" class="text-center">
+            <tr th:each="order : ${orderList}">
+              <td th:text="${order}">발주 날짜</td>
+              <td><button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="detailOrderFn(this)">상세 조회</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js" integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="/js/stock/orderManageList.js"></script>
+</body>
+</html>

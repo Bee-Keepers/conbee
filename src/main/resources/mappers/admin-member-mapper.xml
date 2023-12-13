@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 연결할 인터페이스의 패키지명.인터페이스명을 작성 -->
+<mapper namespace="com.keepers.conbee.admin.member.model.mapper.AdminMemberMapper">
+	
+	<!-- 아이디 유효성 검사 -->
+	<select id="checkMemberId" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+	
+	<!-- 이메일 유효성 검사 -->
+	<select id="checkMemberEmail" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE MEMBER_EMAIL = #{memberEmail}
+	</select>
+	
+	<!-- 점포 번호 유효성 검사 -->
+	<select id="checkStoreNo" resultType="_int">
+		SELECT STORE_NO FROM STORE
+		WHERE MEMBER_NO IS NULL
+	</select>
+	
+	<!-- 회원 주소 유효성 검사 -->
+	<select id="checkMemberAddress" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE MEMBER_ADDRESS = #{memberAddress}
+	</select>
+	
+	
+	
+	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+	<!-- 신규 회원 등록 -->
+	<insert id="memberInsert" useGeneratedKeys="true" parameterType="Member">
+		
+		<selectKey order="BEFORE" keyProperty="memberNo" resultType="_int">
+			SELECT SEQ_MEMBER_NO.NEXTVAL FROM DUAL
+		</selectKey>
+		
+		INSERT INTO MEMBER
+		VALUES(#{memberNo}, #{memberId}, #{memberPw}, 
+		#{memberEmail}, #{memberName}, NULL, NULL, NULL, DEFAULT, DEFAULT, DEFAULT,
+		#{teamNo}, #{departmentNo}, #{gradeNo})
+	</insert>
+	<!-- 신규 회원 등록 시 점포 번호 얻어오기 -->
+	<update id="setMemberNo">
+		UPDATE STORE SET MEMBER_NO = #{memberNo}
+		WHERE STORE_NO = #{storeNo}
+	</update>
+	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+	
+	
+	
+	
+	<!-- 전체 회원 조회 -->
+	<select id="readAllMemberList" resultType="Member">
+		SELECT MEMBER_NO, MEMBER_TEL, MEMBER_ADDRESS,
+		MEMBER_ENROLL_DATE, DEPARTMENT_NAME, TEAM_NAME, GRADE_NAME, MEMBER_NAME
+		, MEMBER_DEL_FL
+		FROM MEMBER M
+		JOIN TEAM USING (TEAM_NO)
+		JOIN DEPARTMENT D ON (D.DEPARTMENT_NO = M.DEPARTMENT_NO)
+		JOIN GRADE USING (GRADE_NO)
+		ORDER BY MEMBER_NO DESC
+	</select>
+	
+	
+	<!-- 전체 회원 수 조회 -->
+	<select id="getListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+	</select>
+	
+	<!-- 검색 회원 조회 -->
+	<select id="searchMemberListCount" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER
+		JOIN TEAM USING (TEAM_NO)
+		JOIN DEPARTMENT USING (DEPARTMENT_NO)
+		JOIN GRADE USING (GRADE_NO)
+		WHERE MEMBER_NO LIKE '%${query}%' 
+		OR DEPARTMENT_NAME LIKE '%${query}%'
+		OR TEAM_NAME LIKE '%${query}%'
+		OR GRADE_NAME LIKE '%${query}%'
+		OR MEMBER_NAME LIKE '%${query}%'
+		OR MEMBER_TEL LIKE '%${query}%'
+		OR MEMBER_ADDRESS LIKE '%${query}%'
+		ORDER BY MEMBER_NO
+	</select>
+	
+	<!-- 검색한 회원과 일치하는 회원 조회 -->
+	<select id="searchMemberList" resultType="Member">
+		SELECT MEMBER_NO, DEPARTMENT_NAME, TEAM_NAME, GRADE_NAME, MEMBER_NAME, MEMBER_TEL, MEMBER_ADDRESS,
+		MEMBER_ENROLL_DATE, MEMBER_DEL_FL
+		FROM MEMBER
+		JOIN TEAM USING (TEAM_NO)
+		JOIN DEPARTMENT USING (DEPARTMENT_NO)
+		JOIN GRADE USING (GRADE_NO)
+		WHERE MEMBER_NO LIKE '%${query}%' 
+		OR DEPARTMENT_NAME LIKE '%${query}%'
+		OR TEAM_NAME LIKE '%${query}%'
+		OR GRADE_NAME LIKE '%${query}%'
+		OR MEMBER_NAME LIKE '%${query}%'
+		OR MEMBER_TEL LIKE '%${query}%'
+		OR MEMBER_ADDRESS LIKE '%${query}%'
+		ORDER BY MEMBER_NO
+	</select>
+	
+	<!-- 회원 탈퇴 버튼 -->
+	<!-- 멤버 정보에 회원번호를 이용하여 탈퇴여부 적용 -->
+	<update id="changeMemberDelFl">
+		UPDATE MEMBER SET
+		MEMBER_DEL_FL = #{memberDelFl}
+		WHERE MEMBER_NO = #{memberNo}
+	</update>
+	
+	
+</mapper>

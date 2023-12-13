@@ -1,0 +1,133 @@
+*{
+   /* border: 1px solid black; */
+}
+
+/* 검색창 */
+/* .searchBox{
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-end;
+   width: 95%;
+   margin-bottom: 18px;
+}
+.searchBox>input{
+   width: 17rem;
+}
+.searchBox>button{
+   width: 4rem;
+} */
+
+
+/* 테이블 줄 없애기 */
+table{
+   border-collapse: separate;
+   border-spacing: 0;
+}
+
+/* 테이블 헤더 밑줄 */
+thead>tr>th{
+   border-bottom: calc(var(--bs-border-width) * 2) solid currentcolor !important;
+}
+
+/* 사이드바 호버 */
+#sidebarHover>li>a:hover{
+   background-color: #FFE15D;
+   border-radius: 0.5rem;
+}
+
+/* 노란 버튼 */
+.btn-cor{
+   background-color: #FFE15D;
+}
+
+#autoSerchNameContainer {
+   position: relative;
+}
+ 
+#serachName {
+   z-index: 2; /* 텍스트 필드는 다른 요소들보다 앞에 표시되도록 설정 */
+}
+ 
+#goodsNameList {
+   position: absolute;
+   top: 100%;
+   left: 0;
+   z-index: 3; /* 자동완성 목록은 텍스트 필드보다 앞에 표시되도록 설정 */
+}
+
+#goodsNameList li {
+   cursor: pointer; /* 자동완성 목록의 각 항목에 마우스 포인터 스타일을 포인터로 설정 */
+}
+
+/* 상품 상세 조회 */
+#stockImageUpdate{
+   width: 250px;
+   height: 250px;
+}
+#stockImageUpdate>img{
+   width: 100%;
+   height: 100%;
+}
+#stockListBox{
+   width: 400px;
+   min-height: 250px;
+}
+
+/* 재고 상세 조회 */
+#stockImage{
+   width: 250px;
+   height: 250px;
+}
+#stockImage>img{
+   width: 100%;
+   height: 100%;
+}
+#stockListBox{
+   width: 400px;
+   min-height: 250px;
+}
+
+/* 파일선택 창 지우기 */
+.goodsImage{
+   display: none;
+}
+ 
+.delete-image{
+   position: absolute;
+   top: 0.3rem;
+   right: 0.7rem;
+   cursor: pointer;
+   font-size: 1rem;
+}
+
+/* 이미지를 감싸는 div */
+.goodsImg{
+   width: 250px;
+   height: 250px;
+   display: inline-block;
+   text-align: center;
+   position: relative;
+}
+ 
+.img-box{
+   width: 90%;
+   display: flex;
+   justify-content: space-between;
+}
+ 
+.goodsImg > label{
+   width: 100%;
+   height: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border: 1px solid #ccc;
+   background-color: white;
+   cursor: pointer;
+   border-radius: 15px;
+}
+ 
+.preview{
+   max-width: 95%;
+   max-height: 95%;
+}
