@@ -1,6 +1,9 @@
 // 승인/반려시 사용할 문서번호 전역변수 선언
 let currentApprovalNo;
 
+// 승인/반려시 사용할 기안자 회원번호 전역변수 선언
+let currentApprovalMemberNo;
+
 // 모달 헤더 전역변수 선언
 const modalHeader = document.querySelectorAll(".modal-header");
 
@@ -40,6 +43,9 @@ function modal(approvalNo, docCategoryNo){
     .then(approval => {
 
       console.log(approval.length);
+
+      currentApprovalNo = approval[0].approvalNo; // 기안서 문서번호 전역변수 대입
+      currentApprovalMemberNo = approval[0].memberNo; // 기안자 회원번호 전역변수 대입
 
       // 모달 속성 추가
       document.getElementById("clickModal").setAttribute("data-bs-toggle", "modal");
@@ -359,7 +365,8 @@ function modal(approvalNo, docCategoryNo){
   .then(resp => resp.json())
   .then(approval => {
 
-    currentApprovalNo = approvalNo;
+    currentApprovalNo = approval.approvalNo;
+    currentApprovalMemberNo = approval.memberNo;
 
     console.log(approval);
 
@@ -1708,6 +1715,56 @@ function approveBtn(){
 // 반려 버튼 클릭 시 작동함수
 function returnBtn(){
   if(currentApprovalNo == undefined) return;
-  location.href="returnApprove?approvalNo=" + currentApprovalNo;
+
+  const returnReason = prompt("반려 사유");
+  if(returnReason != null){ // 반려 사유 입력 후 반려 클릭 시
+
+    location.href="returnApprove?approvalNo=" + currentApprovalNo + "&returnReason=" + returnReason;
+
+  } else {
+    return;
+  }
 }
  
+// 완료문서함에서 삭제 버튼 클릭 시 작동함수
+function deleteBtn(memberNo){
+
+  // console.log(currentApprovalMemberNo);
+  if(currentApprovalNo == undefined) return;
+
+  // 문서번호의 기안자의 회원번호가 로그인memberNo와 다르면 return. 같다면 confirm 후 삭제 진행
+  if(currentApprovalMemberNo != memberNo){
+    alert("기안자인 경우에만 문서를 삭제할 수 있습니다.");
+    return;
+  } 
+
+  if(confirm("해당 기안서를 영구삭제 하시겠습니까?")){
+    location.href="deleteApprove?approvalNo=" + currentApprovalNo;
+  }
+}
+
+// 반려사유 버튼 클릭 시 작동함수
+function returnReasonBtn(){
+
+  // 해당 문서의 반려사유를 불러와서 alert로 띄움
+  fetch('selectReturnReason?approvalNo=' + currentApprovalNo)
+  .then(resp => resp.text())
+  .then(result => {
+    alert(result);
+  })
+}
+
+// 반려문서함에서 삭제버튼 클릭 시 작동함수
+function deleteAtReturnBtn(memberNo){
+  if(currentApprovalNo == undefined) return;
+
+  // 문서번호의 기안자의 회원번호가 로그인memberNo와 다르면 return. 같다면 confirm 후 삭제 진행
+  if(currentApprovalMemberNo != memberNo){
+    alert("기안자인 경우에만 문서를 삭제할 수 있습니다.");
+    return;
+  } 
+
+  if(confirm("해당 기안서를 영구삭제 하시겠습니까?")){
+    location.href="deleteApproveAtReturn?approvalNo=" + currentApprovalNo;
+  }
+}

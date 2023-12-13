@@ -332,14 +332,50 @@ public class ApprovalServiceImpl implements ApprovalService{
 	 *
 	 */
 	@Override
-	public int returnApprove(int approvalNo, int memberNo) {
+	public int returnApprove(int approvalNo, int memberNo, String returnReason) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("approvalNo", approvalNo);
+		paramMap.put("memberNo", memberNo);
+		paramMap.put("returnReason", returnReason);
+		
+		// 반려사유 업데이트
+		mapper.returnApproveReason(paramMap);
+		
+		// 기안서 반려문서로 업데이트
+		mapper.returnApproveCondition(paramMap);
+		
+		return mapper.returnApprove(paramMap);
+	}
+	 
+	/** 삭제버튼 클릭 시 삭제
+	 *
+	 */
+	@Override
+	public int deleteApprove(int approvalNo) {
+		return mapper.deleteApprove(approvalNo);
+	}
+	
+	/** 반려취소
+	 *
+	 */
+	@Override
+	public int cancleReturn(int memberNo, int approvalNo) {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("approvalNo", approvalNo);
 		paramMap.put("memberNo", memberNo);
 		
-		return mapper.returnApprove(paramMap);
+		mapper.cancleReturn(paramMap); // 결재권한자 반려취소
+		
+	 	return mapper.cancleReturnApp(paramMap); // 기안서 결재중으로 상태변경
 	}
 	
+	/** 반려사유 조회
+	 *
+	 */
+	@Override
+	public String selectReturnReason(int approvalNo) {
+		return mapper.selectReturnReason(approvalNo);
+	}
 	
 
 }
