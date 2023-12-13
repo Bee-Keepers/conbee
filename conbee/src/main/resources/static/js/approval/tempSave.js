@@ -4,84 +4,102 @@ const approvalOne = document.querySelectorAll(".approvalOne").forEach(function(o
 
   one.addEventListener("click",function(){
 
+    const docHolidayForm = document.getElementById("docHoliday");
+    const docRetirementForm = document.getElementById("docRetirement");
+    const docStoreForm = document.getElementById("docStore");
+    const docExpenseForm = document.getElementById("docExpense");
+    const docOrderForm = document.getElementById("docOrder");
+
+    docHolidayForm.reset();
+    docRetirementForm.reset();
+    docStoreForm.reset();
+    docExpenseForm.reset();
+    docOrderForm.reset();
+
     // 기안문 정보 가져오기
     fetch("/approval/writeApproval/selectInfo")
     .then((resp) => {return resp.json(); })
     .then((writeInfo) => {
-
       // 팀이름(부장일 경우 부서이름)
       const infoTeams = document.querySelectorAll(".infoTeam");
       infoTeams.forEach((infoTeam)=>{
-
-        if(writeInfo.teamName==null){
-          infoTeam.innerText = writeInfo.departmentName;
-        }
-        else{
-          infoTeam.innerText = writeInfo.departmentName + "(" + writeInfo.teamName + ")";
-        }
-
+        if(writeInfo.teamName==null){infoTeam.innerText = writeInfo.departmentName;}
+        else{infoTeam.innerText = writeInfo.departmentName + "(" + writeInfo.teamName + ")";}
       })
-
       // 이름
       const infoNames = document.querySelectorAll(".infoName");
-      infoNames.forEach((infoName)=>{
-        infoName.innerText = writeInfo.memberName;
-      })
+      infoNames.forEach((infoName)=>{infoName.innerText = writeInfo.memberName;})
 
       const docWriteInfos = document.querySelectorAll(".docWriteInfo");
       docWriteInfos.forEach((docWriteInfo)=>{
         docWriteInfo.innerText = writeInfo.memberName + "(" + writeInfo.departmentName + ")";
       })
-
     })
     .catch(e => console.log(e));
-
-
 
 
     const approvalNo = this.getAttribute('data-one-id');
     const docCategoryNo = this.getAttribute('data-one-sort');
 
-
-
     
-    fetch("/approval/tempSave/selectTempData?approvalNo=" + approvalNo)
+    fetch("/approval/tempSave/selectTempData?approvalNo=" + approvalNo + "&docCategoryNo=" + parseInt(docCategoryNo))
     .then(resp=>resp.json())
     .then((map)=>{
       
       switch(parseInt(docCategoryNo)){
 
         case 0 :{
-         document.getElementById("inputHoliday").value=map.approval.approvalTitle;
-         document.getElementById("inputHoliday2").value=map.approval.approvalDocTitle;
-         document.getElementById("docHolidayStart").value=map.approval.docHolidayStart;
-         document.getElementById("docHolidayEnd").value=map.approval.docHolidayEnd;
-         document.getElementById("docHolidayText").value=map.approval.approvalContent;
+         document.getElementById("inputHoliday").value=map.tempApproval.approvalTitle;
+         document.getElementById("inputHoliday2").value=map.tempApproval.approvalDocTitle;
+         document.getElementById("docHolidayText").value=map.tempApproval.approvalContent;
+        //  if(map.tempApproval.approvalFileOriginName!=null){
+        //   document.getElementById("docHolidayFile").setAttribute("src",map.tempApproval.approvalFileRename);
+
+        //  }
+
+         if(map.tempApproval.docHolidayStart!=null){
+           document.getElementById("docHolidayStart").value=map.tempApproval.docHolidayStart;
+         }
+         if(map.tempApproval.docHolidayEnd!=null){
+           document.getElementById("docHolidayEnd").value=map.tempApproval.docHolidayEnd;
+         }
         }; break;
 
         case 1 :{
-          document.getElementById("inputRetire").value=tempApproval.approvalTitle; 
+          document.getElementById("inputRetire").value=map.tempApproval.approvalTitle;
+          document.getElementById("inputRetire2").value=map.tempApproval.approvalDocTitle;
+          document.getElementById("docRetirementText").value=map.tempApproval.approvalContent;
+
         }; break;
 
         case 2 : {
-          document.getElementById("inputStore").value=tempApproval.approvalTitle;
+          document.getElementById("inputStore").value=map.tempApproval.approvalTitle;
+          document.getElementById("inputStore2").value=map.tempApproval.approvalDocTitle;
+          document.getElementById("docStoreText").value=map.tempApproval.approvalContent;
         }; break;
 
         case 3 : {
-          document.getElementById("inputExpense").value=tempApproval.approvalTitle;
+          document.getElementById("inputStore").value=map.tempApproval.approvalTitle;
+          document.getElementById("inputStore2").value=map.tempApproval.approvalDocTitle;
+          document.getElementById("docStoreText").value=map.tempApproval.approvalContent;
         }; break;
 
         case 4 : {
-          document.getElementById("inputOrder").value=tempApproval.approvalTitle;
+          document.getElementById("inputExpense").value=map.tempApproval.approvalTitle;
+          document.getElementById("inputExpense2").value=map.tempApproval.approvalDocTitle;
+          document.getElementById("docExpenseText").value=map.tempApproval.approvalContent;
+        }; break;
+        
+        case 5 : {
+          document.getElementById("inputOrder").value=map.tempApproval.approvalTitle;
+          document.getElementById("inputOrder2").value=map.tempApproval.approvalDocTitle;
         }; break;
         default : console.log("오류"); break;
 
       }
-
     })
     .catch(e=>console.log(e));
   })
-
 })
 
 

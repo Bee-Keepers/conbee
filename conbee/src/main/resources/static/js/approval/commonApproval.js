@@ -20,17 +20,17 @@ checkAll.addEventListener("change", ()=>{
 })
 
 
-//클릭시 작동 함수
-function handleClick(e) {
-  let target = e.target;
+//클릭시 체크박스 체크기능 함수
+// function handleClick(e) {
+//   let target = e.target;
 
-  // 클릭한 요소가 'approvalTitle' 클래스를 가진 td인 경우, 체크박스인경우, a태그인경우 리턴
-  if (target.tagName === 'INPUT' || target.closest('td').classList.contains('approvalTitle')
-   || target.tagName ==='A' || target === checkAll) {
-    return;
-  }
+//   // 클릭한 요소가 'approvalTitle' 클래스를 가진 td인 경우, 체크박스인경우, a태그인경우 리턴
+//   if (target.tagName === 'INPUT' || target.closest('td').classList.contains('approvalTitle')
+//    || target.tagName ==='A' || target === checkAll) {
+//     return;
+//   }
 
-  let checkbox = target.closest('tr').querySelector('input[type=checkbox]');
+//   let checkbox = target.closest('tr').querySelector('input[type=checkbox]');
 
-  checkbox.checked = !checkbox.checked;
-}
+//   checkbox.checked = !checkbox.checked;
+// }
