@@ -47,8 +47,8 @@ my.approval.location=C:/final_workspace/project-resources/approvalFiles/
 my.approval.webpath=/approvalFiles/
 
 #상품 이미지 저장 경로
-my.board.location=C:/final_workspace/project-resources/images/goods/
-my.board.webpath=/images/goods/
+my.stock.location=C:/final_workspace/project-resources/images/goods/
+my.stock.webpath=/images/goods/
 
 # logback-spring.xml 사용 값
 log.config.path=C:/final_workspace/project-resources/log/
@@ -73,7 +73,3 @@ spring.servlet.multipart.max-request-size = 52428800
 spring.servlet.multipart.location=C:/final-workspace/project-resources/temp/
 
 
-
-#전자결재 파일 저장 경로
-my.approval.location=C:/final_workspace/project-resources/approvalFiles/
-my.approval.webpath=/approvalFiles

@@ -72,61 +72,61 @@ function modal(approvalNo, docCategoryNo){
 
       // 테이블 문서번호 tr
       const trNo = createElement("tr", {}, []);
-      const thNo = createElement("th", {}, []);
+      const thNo = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thNo.innerHTML = '문서번호';
       const tdNo = createElement("td", {}, []);
-      tdNo.innerHTML = approval.approvalNo;
+      tdNo.innerHTML = approval[0].approvalNo;
 
       trNo.append(thNo);
       trNo.append(tdNo);
 
       // 부서
       const trDepartment = createElement("tr", {}, []);
-      const thDepartment = createElement("th", {}, []);
+      const thDepartment = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thDepartment.innerHTML = '부 서';
       const tdDepartment = createElement("td", {}, []);
 
-      tdDepartment.innerHTML = approval.departmentName + '(' + approval.teamName + ')';
+      tdDepartment.innerHTML = approval[0].departmentName + '(' + approval[0].teamName + ')';
 
       trDepartment.append(thDepartment);
       trDepartment.append(tdDepartment);
 
       // 기안자
       const trName = createElement("tr", {}, []);
-      const thName = createElement("th", {}, []);
+      const thName = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thName.innerHTML = '기안자';
       const tdName = createElement("td", {}, []);
-      tdName.innerHTML = approval.memberName;
+      tdName.innerHTML = approval[0].memberName;
 
       trName.append(thName);
       trName.append(tdName);
 
       // 구분(항목)
       const trCategory = createElement("tr", {}, []);
-      const thCategory = createElement("th", {}, []);
+      const thCategory = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thCategory.innerHTML = '구분(항목)';
       const tdCategory = createElement("td", {}, []);
-      tdCategory.innerHTML = approval.docCategoryTitle;
+      tdCategory.innerHTML = approval[0].docCategoryTitle;
 
       trCategory.append(thCategory);
       trCategory.append(tdCategory);
 
       // 협조 부서
       const trCorDepartment = createElement("tr", {}, []);
-      const thCorDepartment = createElement("th", {}, []);
+      const thCorDepartment = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thCorDepartment.innerHTML = '협조 부서';
       const tdCorDepartment = createElement("td", {}, []);
-      tdCorDepartment.innerHTML = approval.departmentTitle;
+      tdCorDepartment.innerHTML = approval[0].departmentTitle;
 
       trCorDepartment.append(thCorDepartment);
       trCorDepartment.append(tdCorDepartment);
 
       // 기안일
       const trDate = createElement("tr", {}, []);
-      const thDate = createElement("th", {}, []);
+      const thDate = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thDate.innerHTML = '기안일';
       const tdDate = createElement("td", {}, []);
-      tdDate.innerHTML = approval.approvalDate;
+      tdDate.innerHTML = approval[0].approvalDate;
 
       trDate.append(thDate);
       trDate.append(tdDate);
@@ -141,10 +141,10 @@ function modal(approvalNo, docCategoryNo){
 
       /* 결재자 승인 */
       // 결재자 불러오기(비동기)
-      fetch('selectWaitApprover?approvalNo=' +approval.approvalNo)
+      fetch('selectWaitApprover?approvalNo=' +approval[0].approvalNo)
       .then(resp => resp.json())
       .then(approverList => {
-        console.log(approval.approvalNo);
+        console.log(approval[0].approvalNo);
         console.log(approverList);
         // 승인 div
         const divApprov = createElement("div", {}, ["tempApprov", "my-2", "mx-3", "px-2", "d-flex"])
@@ -250,20 +250,20 @@ function modal(approvalNo, docCategoryNo){
 
       // 문서 제목
       const trTempContentsTitle = createElement("tr", {}, []);
-      const thTempContentsTitle = createElement("th", {}, []);
+      const thTempContentsTitle = createElement("th", {"style":"text-align : center;  background-color: #f2f2f2;"}, []);
       thTempContentsTitle.innerHTML='제 목';
       const tdTempContentsTitle = createElement("td", {"colspan":"4"}, []);
-      tdTempContentsTitle.innerHTML=approval.approvalTitle; 
+      tdTempContentsTitle.innerHTML=approval[0].approvalTitle; 
 
       trTempContentsTitle.append(thTempContentsTitle, tdTempContentsTitle);
       tableHeadTempContents.append(trTempContentsTitle);
 
       // 납기일
       const trTempContentsStartDate = createElement("tr", {}, []);
-      const thTempContentsStartDate = createElement("th", {}, []);
+      const thTempContentsStartDate = createElement("th", {"style":"text-align : center; background-color: #f2f2f2;"}, []);
       thTempContentsStartDate.innerHTML='납기일';
       const tdTempContentsStartDate = createElement("td", {"colspan":"4"}, []);
-      tdTempContentsStartDate.innerHTML=approval.docHolidayStart; 
+      tdTempContentsStartDate.innerHTML=approval[0].docOrderDate; 
 
       trTempContentsStartDate.append(thTempContentsStartDate, tdTempContentsStartDate);
       tableHeadTempContents.append(trTempContentsStartDate);
@@ -271,19 +271,19 @@ function modal(approvalNo, docCategoryNo){
       // 품목 내역 헤더
       const trTempContentsList = createElement("tr", {}, []);
       
-      const thTempContentsList1 = createElement("th", {}, []);
+      const thTempContentsList1 = createElement("th", {"style":"text-align : center; background-color: #f2f2f2;"}, []);
       thTempContentsList1.innerHTML='No.';
       
-      const thTempContentsList2 = createElement("th", {}, []);
+      const thTempContentsList2 = createElement("th", {"style":"text-align : center; background-color: #f2f2f2;"}, []);
       thTempContentsList2.innerHTML='품목명';
       
-      const thTempContentsList3 = createElement("th", {}, []);
+      const thTempContentsList3 = createElement("th", {"style":"text-align : center; background-color: #f2f2f2;"}, []);
       thTempContentsList3.innerHTML='수량';
       
-      const thTempContentsList4 = createElement("th", {}, []);
+      const thTempContentsList4 = createElement("th", {"style":"text-align : center; background-color: #f2f2f2;"}, []);
       thTempContentsList4.innerHTML='단가';
       
-      const thTempContentsList5 = createElement("th", {}, []);
+      const thTempContentsList5 = createElement("th", {"style":"text-align : center; background-color: #f2f2f2;"}, []);
       thTempContentsList5.innerHTML='금액';
 
       trTempContentsList.append(thTempContentsList1, thTempContentsList2, thTempContentsList3, thTempContentsList4, thTempContentsList5 );
@@ -293,19 +293,50 @@ function modal(approvalNo, docCategoryNo){
       //------tbody 시작
 
       const tableBodyTempContents = createElement("tbody", {}, []);
+      let orderSum = 0; // 합계금액 저장할 변수
 
       // 발주서 내용 for문 돌리기
+      for (let i = 0; i<approval.length; i++){
+        const trGoodsList = createElement("tr", {}, ["orderRow"]);
 
+        const tdGoodsListNo = createElement("td", {"style":"text-align : center"}, []);
+        tdGoodsListNo.innerHTML=i+1 // No.
+
+        const tdGoodsListName = createElement("td", {}, []);
+        tdGoodsListName.innerHTML= approval[i].docOrderGoodsName; // 품목명
+
+        const tdGoodsListAmount = createElement("td", {"style":"text-align: center;"}, []);
+        tdGoodsListAmount.innerHTML= approval[i].docOrderAmount; // 수량
+
+        const tdGoodsListOrderUnitPrice = createElement("td", {"style":"text-align: center;"}, []);
+        tdGoodsListOrderUnitPrice.innerHTML= approval[i].docOrderUnitPrice; // 단가
+
+        const tdGoodsListOrderPrice = createElement("td", {"style":"text-align: center;"}, []);
+        tdGoodsListOrderPrice.innerHTML= approval[i].docOrderPrice; // 금액
+
+        trGoodsList.append(tdGoodsListNo, tdGoodsListName, tdGoodsListAmount, tdGoodsListOrderUnitPrice, tdGoodsListOrderPrice);
+        tableBodyTempContents.append(trGoodsList);
+
+        orderSum += approval[i].docOrderPrice; // 합계에 금액 더함
+      }
 
       //------tbody 끝 / 
       //------tfoot 시작
+
       const tableFootTempContents = createElement("tfoot", {}, []);
+
+      const trGoodsListFooter = createElement("tr", {}, []);
+      const thGoodsListFooter = createElement("th", {"colspan":"4", "style":"text-align: center;"}, []);
+      thGoodsListFooter.innerHTML='합계'
+      const tdGoodsListFooter = createElement("td", {}, []);
+      tdGoodsListFooter.innerHTML= orderSum; // 합계
+
+      trGoodsListFooter.append(thGoodsListFooter, tdGoodsListFooter);
+      tableFootTempContents.append(trGoodsListFooter);
 
       //------tfoot 끝
 
-      // 본문 테이블에 tr들 합치기
-      // tableBodyTempContents.append(trTempContentsTitle, trTempContentsStartDate, trTempContentsEndDate, trTempContentsDetail, trTempContentsFile);
-
+      // 테이블 헤드, 바디, 푸터 테이블에 합치기
       tableTempContents.append(tableHeadTempContents, tableBodyTempContents, tableFootTempContents);
       divTempContents.append(tableTempContents);
 
@@ -365,7 +396,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 테이블 문서번호 tr
       const trNo = createElement("tr", {}, []);
-      const thNo = createElement("th", {}, []);
+      const thNo = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thNo.innerHTML = '문서번호';
       const tdNo = createElement("td", {}, []);
       tdNo.innerHTML = approval.approvalNo;
@@ -375,7 +406,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 부서
       const trDepartment = createElement("tr", {}, []);
-      const thDepartment = createElement("th", {}, []);
+      const thDepartment = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thDepartment.innerHTML = '부 서';
       const tdDepartment = createElement("td", {}, []);
 
@@ -386,7 +417,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 기안자
       const trName = createElement("tr", {}, []);
-      const thName = createElement("th", {}, []);
+      const thName = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thName.innerHTML = '기안자';
       const tdName = createElement("td", {}, []);
       tdName.innerHTML = approval.memberName;
@@ -396,7 +427,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 구분(항목)
       const trCategory = createElement("tr", {}, []);
-      const thCategory = createElement("th", {}, []);
+      const thCategory = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thCategory.innerHTML = '구분(항목)';
       const tdCategory = createElement("td", {}, []);
       tdCategory.innerHTML = approval.docCategoryTitle;
@@ -406,7 +437,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 협조 부서
       const trCorDepartment = createElement("tr", {}, []);
-      const thCorDepartment = createElement("th", {}, []);
+      const thCorDepartment = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thCorDepartment.innerHTML = '협조 부서';
       const tdCorDepartment = createElement("td", {}, []);
       tdCorDepartment.innerHTML = approval.departmentTitle;
@@ -416,7 +447,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 기안일
       const trDate = createElement("tr", {}, []);
-      const thDate = createElement("th", {}, []);
+      const thDate = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thDate.innerHTML = '기안일';
       const tdDate = createElement("td", {}, []);
       tdDate.innerHTML = approval.approvalDate;
@@ -540,7 +571,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 문서 제목
       const trTempContentsTitle = createElement("tr", {}, []);
-      const thTempContentsTitle = createElement("th", {}, []);
+      const thTempContentsTitle = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thTempContentsTitle.innerHTML='제 목';
       const tdTempContentsTitle = createElement("td", {}, []);
       tdTempContentsTitle.innerHTML=approval.approvalTitle; 
@@ -549,7 +580,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 휴가 시작일
       const trTempContentsStartDate = createElement("tr", {}, []);
-      const thTempContentsStartDate = createElement("th", {}, []);
+      const thTempContentsStartDate = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thTempContentsStartDate.innerHTML='휴가 시작일';
       const tdTempContentsStartDate = createElement("td", {}, []);
       tdTempContentsStartDate.innerHTML=approval.docHolidayStart; 
@@ -558,7 +589,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 휴가 종료일
       const trTempContentsEndDate = createElement("tr", {}, []);
-      const thTempContentsEndDate = createElement("th", {}, []);
+      const thTempContentsEndDate = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thTempContentsEndDate.innerHTML='휴가 종료일';
       const tdTempContentsEndDate = createElement("td", {}, []);
       tdTempContentsEndDate.innerHTML=approval.docHolidayEnd; 
@@ -567,7 +598,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 상세 내용
       const trTempContentsDetail = createElement("tr", {}, []);
-      const thTempContentsDetail = createElement("th", {"style":"vertical-align: middle;"}, []);
+      const thTempContentsDetail = createElement("th", {"style":"text-align: center; background-color: #f2f2f2; vertical-align: middle;"}, []);
       thTempContentsDetail.innerHTML='상세 내용';
       const tdTempContentsDetail = createElement("td", {}, []);
       tdTempContentsDetail.innerHTML=approval.approvalContent; 
@@ -577,7 +608,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 첨부 파일 ()
       const trTempContentsFile = createElement("tr", {}, []);
-      const thTempContentsFile = createElement("th", {}, []);
+      const thTempContentsFile = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thTempContentsFile.innerHTML='첨부파일';
 
       const tdTempContentsFile = createElement("td", {}, []);
@@ -636,7 +667,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 테이블 문서번호 tr
       const trNo = createElement("tr", {}, []);
-      const thNo = createElement("th", {}, []);
+      const thNo = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thNo.innerHTML = '문서번호';
       const tdNo = createElement("td", {}, []);
       tdNo.innerHTML = approval.approvalNo;
@@ -646,7 +677,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 부서
       const trDepartment = createElement("tr", {}, []);
-      const thDepartment = createElement("th", {}, []);
+      const thDepartment = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thDepartment.innerHTML = '부 서';
       const tdDepartment = createElement("td", {}, []);
 
@@ -657,7 +688,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 기안자
       const trName = createElement("tr", {}, []);
-      const thName = createElement("th", {}, []);
+      const thName = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thName.innerHTML = '기안자';
       const tdName = createElement("td", {}, []);
       tdName.innerHTML = approval.memberName;
@@ -667,7 +698,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 구분(항목)
       const trCategory = createElement("tr", {}, []);
-      const thCategory = createElement("th", {}, []);
+      const thCategory = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thCategory.innerHTML = '구분(항목)';
       const tdCategory = createElement("td", {}, []);
       tdCategory.innerHTML = approval.docCategoryTitle;
@@ -677,7 +708,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 협조 부서
       const trCorDepartment = createElement("tr", {}, []);
-      const thCorDepartment = createElement("th", {}, []);
+      const thCorDepartment = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thCorDepartment.innerHTML = '협조 부서';
       const tdCorDepartment = createElement("td", {}, []);
       tdCorDepartment.innerHTML = approval.departmentTitle;
@@ -687,7 +718,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 기안일
       const trDate = createElement("tr", {}, []);
-      const thDate = createElement("th", {}, []);
+      const thDate = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thDate.innerHTML = '기안일';
       const tdDate = createElement("td", {}, []);
       tdDate.innerHTML = approval.approvalDate;
@@ -810,7 +841,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 문서 제목
       const trTempContentsTitle = createElement("tr", {}, []);
-      const thTempContentsTitle = createElement("th", {}, []);
+      const thTempContentsTitle = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thTempContentsTitle.innerHTML='제 목';
       const tdTempContentsTitle = createElement("td", {}, []);
       tdTempContentsTitle.innerHTML=approval.approvalTitle; 
@@ -819,7 +850,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 퇴직 예정일
       const trTempContentsRetireDate = createElement("tr", {}, []);
-      const thTempContentsRetireDate = createElement("th", {}, []);
+      const thTempContentsRetireDate = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thTempContentsRetireDate.innerHTML='퇴직 예정일';
       const tdTempContentsRetireDate = createElement("td", {}, []);
       tdTempContentsRetireDate.innerHTML=approval.docRetireDate; 
@@ -828,7 +859,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 상세 내용
       const trTempContentsDetail = createElement("tr", {}, []);
-      const thTempContentsDetail = createElement("th", {"style":"vertical-align: middle;"}, []);
+      const thTempContentsDetail = createElement("th", {"style":"text-align: center; background-color: #f2f2f2; vertical-align: middle;"}, []);
       thTempContentsDetail.innerHTML='상세 내용';
       const tdTempContentsDetail = createElement("td", {}, []);
       tdTempContentsDetail.innerHTML=approval.approvalContent; 
@@ -837,7 +868,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 첨부 파일 ()
       const trTempContentsFile = createElement("tr", {}, []);
-      const thTempContentsFile = createElement("th", {}, []);
+      const thTempContentsFile = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thTempContentsFile.innerHTML='첨부파일';
 
       const tdTempContentsFile = createElement("td", {}, []);
@@ -896,7 +927,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 테이블 문서번호 tr
       const trNo = createElement("tr", {}, []);
-      const thNo = createElement("th", {}, []);
+      const thNo = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thNo.innerHTML = '문서번호';
       const tdNo = createElement("td", {}, []);
       tdNo.innerHTML = approval.approvalNo;
@@ -906,7 +937,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 부서
       const trDepartment = createElement("tr", {}, []);
-      const thDepartment = createElement("th", {}, []);
+      const thDepartment = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thDepartment.innerHTML = '부 서';
       const tdDepartment = createElement("td", {}, []);
 
@@ -917,7 +948,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 기안자
       const trName = createElement("tr", {}, []);
-      const thName = createElement("th", {}, []);
+      const thName = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thName.innerHTML = '기안자';
       const tdName = createElement("td", {}, []);
       tdName.innerHTML = approval.memberName;
@@ -927,7 +958,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 구분(항목)
       const trCategory = createElement("tr", {}, []);
-      const thCategory = createElement("th", {}, []);
+      const thCategory = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thCategory.innerHTML = '구분(항목)';
       const tdCategory = createElement("td", {}, []);
       tdCategory.innerHTML = approval.docCategoryTitle;
@@ -937,7 +968,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 협조 부서
       const trCorDepartment = createElement("tr", {}, []);
-      const thCorDepartment = createElement("th", {}, []);
+      const thCorDepartment = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thCorDepartment.innerHTML = '협조 부서';
       const tdCorDepartment = createElement("td", {}, []);
       tdCorDepartment.innerHTML = approval.departmentTitle;
@@ -947,7 +978,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 기안일
       const trDate = createElement("tr", {}, []);
-      const thDate = createElement("th", {}, []);
+      const thDate = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thDate.innerHTML = '기안일';
       const tdDate = createElement("td", {}, []);
       tdDate.innerHTML = approval.approvalDate;
@@ -1071,7 +1102,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 문서 제목
       const trTempContentsTitle = createElement("tr", {}, []);
-      const thTempContentsTitle = createElement("th", {}, []);
+      const thTempContentsTitle = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thTempContentsTitle.innerHTML='제 목';
       const tdTempContentsTitle = createElement("td", {}, []);
       tdTempContentsTitle.innerHTML=approval.approvalTitle; 
@@ -1080,7 +1111,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 매장명
       const trTempContentsStartDate = createElement("tr", {}, []);
-      const thTempContentsStartDate = createElement("th", {}, []);
+      const thTempContentsStartDate = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thTempContentsStartDate.innerHTML='매장명';
       const tdTempContentsStartDate = createElement("td", {}, []);
       tdTempContentsStartDate.innerHTML=approval.storeName; 
@@ -1089,7 +1120,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 출/폐 여부
       const trTempContentsEndDate = createElement("tr", {}, []);
-      const thTempContentsEndDate = createElement("th", {}, []);
+      const thTempContentsEndDate = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thTempContentsEndDate.innerHTML='출/폐 여부';
       const tdTempContentsEndDate = createElement("td", {}, []);
       tdTempContentsEndDate.innerHTML='출점'; 
@@ -1098,7 +1129,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 상세 내용
       const trTempContentsDetail = createElement("tr", {}, []);
-      const thTempContentsDetail = createElement("th", {"style":"vertical-align: middle;"}, []);
+      const thTempContentsDetail = createElement("th", {"style":"text-align: center; background-color: #f2f2f2; vertical-align: middle;"}, []);
       thTempContentsDetail.innerHTML='상세 내용';
       const tdTempContentsDetail = createElement("td", {}, []);
       tdTempContentsDetail.innerHTML=approval.approvalContent; 
@@ -1108,7 +1139,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 첨부 파일 ()
       const trTempContentsFile = createElement("tr", {}, []);
-      const thTempContentsFile = createElement("th", {}, []);
+      const thTempContentsFile = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thTempContentsFile.innerHTML='첨부파일';
 
       const tdTempContentsFile = createElement("td", {}, []);
@@ -1165,7 +1196,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 테이블 문서번호 tr
       const trNo = createElement("tr", {}, []);
-      const thNo = createElement("th", {}, []);
+      const thNo = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thNo.innerHTML = '문서번호';
       const tdNo = createElement("td", {}, []);
       tdNo.innerHTML = approval.approvalNo;
@@ -1175,7 +1206,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 부서
       const trDepartment = createElement("tr", {}, []);
-      const thDepartment = createElement("th", {}, []);
+      const thDepartment = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thDepartment.innerHTML = '부 서';
       const tdDepartment = createElement("td", {}, []);
 
@@ -1186,7 +1217,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 기안자
       const trName = createElement("tr", {}, []);
-      const thName = createElement("th", {}, []);
+      const thName = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thName.innerHTML = '기안자';
       const tdName = createElement("td", {}, []);
       tdName.innerHTML = approval.memberName;
@@ -1196,7 +1227,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 구분(항목)
       const trCategory = createElement("tr", {}, []);
-      const thCategory = createElement("th", {}, []);
+      const thCategory = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thCategory.innerHTML = '구분(항목)';
       const tdCategory = createElement("td", {}, []);
       tdCategory.innerHTML = approval.docCategoryTitle;
@@ -1206,7 +1237,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 협조 부서
       const trCorDepartment = createElement("tr", {}, []);
-      const thCorDepartment = createElement("th", {}, []);
+      const thCorDepartment = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thCorDepartment.innerHTML = '협조 부서';
       const tdCorDepartment = createElement("td", {}, []);
       tdCorDepartment.innerHTML = approval.departmentTitle;
@@ -1216,7 +1247,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 기안일
       const trDate = createElement("tr", {}, []);
-      const thDate = createElement("th", {}, []);
+      const thDate = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thDate.innerHTML = '기안일';
       const tdDate = createElement("td", {}, []);
       tdDate.innerHTML = approval.approvalDate;
@@ -1340,7 +1371,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 문서 제목
       const trTempContentsTitle = createElement("tr", {}, []);
-      const thTempContentsTitle = createElement("th", {}, []);
+      const thTempContentsTitle = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thTempContentsTitle.innerHTML='제 목';
       const tdTempContentsTitle = createElement("td", {}, []);
       tdTempContentsTitle.innerHTML=approval.approvalTitle; 
@@ -1349,7 +1380,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 매장명
       const trTempContentsStartDate = createElement("tr", {}, []);
-      const thTempContentsStartDate = createElement("th", {}, []);
+      const thTempContentsStartDate = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thTempContentsStartDate.innerHTML='매장명';
       const tdTempContentsStartDate = createElement("td", {}, []);
       tdTempContentsStartDate.innerHTML=approval.storeName; 
@@ -1358,7 +1389,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 매장번호
       const trTempContentsStoreNumber = createElement("tr", {}, []);
-      const thTempContentsStoreNumber = createElement("th", {}, []);
+      const thTempContentsStoreNumber = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thTempContentsStoreNumber.innerHTML='매 장 번 호';
       const tdTempContentsStoreNumber = createElement("td", {}, []);
       tdTempContentsStoreNumber.innerHTML=approval.storeNo; 
@@ -1367,7 +1398,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 출/폐 여부
       const trTempContentsEndDate = createElement("tr", {}, []);
-      const thTempContentsEndDate = createElement("th", {}, []);
+      const thTempContentsEndDate = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thTempContentsEndDate.innerHTML='출/폐 여부';
       const tdTempContentsEndDate = createElement("td", {}, []);
       tdTempContentsEndDate.innerHTML='폐점'; 
@@ -1376,7 +1407,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 상세 내용
       const trTempContentsDetail = createElement("tr", {}, []);
-      const thTempContentsDetail = createElement("th", {"style":"vertical-align: middle;"}, []);
+      const thTempContentsDetail = createElement("th", {"style":"text-align: center; background-color: #f2f2f2; vertical-align: middle;"}, []);
       thTempContentsDetail.innerHTML='상세 내용';
       const tdTempContentsDetail = createElement("td", {}, []);
       tdTempContentsDetail.innerHTML=approval.approvalContent; 
@@ -1386,7 +1417,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 첨부 파일 ()
       const trTempContentsFile = createElement("tr", {}, []);
-      const thTempContentsFile = createElement("th", {}, []);
+      const thTempContentsFile = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thTempContentsFile.innerHTML='첨부파일';
 
       const tdTempContentsFile = createElement("td", {}, []);
@@ -1444,7 +1475,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 테이블 문서번호 tr
       const trNo = createElement("tr", {}, []);
-      const thNo = createElement("th", {}, []);
+      const thNo = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thNo.innerHTML = '문서번호';
       const tdNo = createElement("td", {}, []);
       tdNo.innerHTML = approval.approvalNo;
@@ -1454,7 +1485,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 부서
       const trDepartment = createElement("tr", {}, []);
-      const thDepartment = createElement("th", {}, []);
+      const thDepartment = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thDepartment.innerHTML = '부 서';
       const tdDepartment = createElement("td", {}, []);
 
@@ -1465,7 +1496,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 기안자
       const trName = createElement("tr", {}, []);
-      const thName = createElement("th", {}, []);
+      const thName = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thName.innerHTML = '기안자';
       const tdName = createElement("td", {}, []);
       tdName.innerHTML = approval.memberName;
@@ -1475,7 +1506,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 구분(항목)
       const trCategory = createElement("tr", {}, []);
-      const thCategory = createElement("th", {}, []);
+      const thCategory = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thCategory.innerHTML = '구분(항목)';
       const tdCategory = createElement("td", {}, []);
       tdCategory.innerHTML = approval.docCategoryTitle;
@@ -1485,7 +1516,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 협조 부서
       const trCorDepartment = createElement("tr", {}, []);
-      const thCorDepartment = createElement("th", {}, []);
+      const thCorDepartment = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thCorDepartment.innerHTML = '협조 부서';
       const tdCorDepartment = createElement("td", {}, []);
       tdCorDepartment.innerHTML = approval.departmentTitle;
@@ -1495,7 +1526,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 기안일
       const trDate = createElement("tr", {}, []);
-      const thDate = createElement("th", {}, []);
+      const thDate = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thDate.innerHTML = '기안일';
       const tdDate = createElement("td", {}, []);
       tdDate.innerHTML = approval.approvalDate;
@@ -1618,7 +1649,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 문서 제목
       const trTempContentsTitle = createElement("tr", {}, []);
-      const thTempContentsTitle = createElement("th", {}, []);
+      const thTempContentsTitle = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thTempContentsTitle.innerHTML='제 목';
       const tdTempContentsTitle = createElement("td", {}, []);
       tdTempContentsTitle.innerHTML=approval.approvalTitle; 
@@ -1627,7 +1658,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 상세 내용
       const trTempContentsDetail = createElement("tr", {}, []);
-      const thTempContentsDetail = createElement("th", {"style":"vertical-align: middle;"}, []);
+      const thTempContentsDetail = createElement("th", {"style":"text-align: center; background-color: #f2f2f2; vertical-align: middle;"}, []);
       thTempContentsDetail.innerHTML='상세 내용';
       const tdTempContentsDetail = createElement("td", {}, []);
       tdTempContentsDetail.innerHTML=approval.approvalContent; 
@@ -1636,7 +1667,7 @@ function modal(approvalNo, docCategoryNo){
 
       // 첨부 파일 ()
       const trTempContentsFile = createElement("tr", {}, []);
-      const thTempContentsFile = createElement("th", {}, []);
+      const thTempContentsFile = createElement("th", {"style":"text-align: center; background-color: #f2f2f2;"}, []);
       thTempContentsFile.innerHTML='첨부파일';
 
       const tdTempContentsFile = createElement("td", {}, []);
