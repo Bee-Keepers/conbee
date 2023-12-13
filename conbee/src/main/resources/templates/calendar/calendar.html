@@ -1,0 +1,235 @@
+!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>캘린더</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.5/main.min.css' rel='stylesheet' />
+    
+    <!-- jQuery 스크립트 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- 다른 스크립트 태그들 -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.5/main.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.5/locales/ko.js'></script>
+
+
+    <style>
+        #calendar {
+            max-width: 850px;
+            max-height: 600px;
+            margin: 0 auto;
+            margin-top: 60px;
+        }
+
+    /* FullCalendar의 날짜 셀 스타일 */
+    .fc .fc-daygrid-day .fc-daygrid-day-number {
+        text-decoration: none; /* 밑줄 제거 */
+    }
+
+    .fc .fc-col-header-cell .fc-col-header-cell-cushion {
+        text-decoration: none; /* 밑줄 제거 */
+    }
+    
+    /* 날짜 셀 스타일 */
+    .fc-daygrid-day-number {
+        font-size: 14px; /* 날짜 숫자 크기 */
+        color: #495057; /* 날짜 숫자 색상 */
+    }
+
+    /* 오늘 날짜 스타일 */
+    .fc-day-today {
+        background-color: #fff3cd; /* 오늘 날짜 배경 색상 */
+        border-color: #ffeeba; /* 오늘 날짜 테두리 색상 */
+    }
+      
+        /* 헤더 셀 테두리 */
+        .fc .fc-col-header-cell {
+           background-color: #ffeeba; /* 헤더 셀 테두리 색상 설정 */
+        }
+
+  
+    </style>
+</head>
+
+<body class="d-flex flex-column" style="height: 100vh;">
+
+    <th:block th:replace="~{common/header}"></th:block>
+
+    <div class="d-flex flex-grow-1">
+        <!-- 사이드바 -->
+        <th:block th:replace="~{calendar/sidebar}"></th:block>
+
+        <!-- 메인 콘텐츠 -->
+        <main class="flex-grow-1 p-3">
+            <div class="fs-3 pb-3 px-3 border-bottom">캘린더</div>
+
+            <div id='calendar'></div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay addEventButton'
+                },
+                initialDate: new Date(),
+                locale: 'ko',
+                editable: true,
+                customButtons: {
+                    addEventButton: {
+                        text: '일정추가',
+                        click: function () {
+                            $('#calendarModal').modal('show');
+                        }
+                        
+                    }
+                   
+                },
+                events: [
+                   
+                ],
+                selectable : true, // 날짜 선택
+                dateClick : (info)=>{ // 날짜 비어있는 부분 클릭
+                    console.log("클릭됨");
+                    console.log(info);
+                    $('#calendarModal').modal('show');
+                    document.getElementById("calendar_start_date").value = info.dateStr;
+                } 
+            });
+
+            calendar.render();
+        });
+
+     
+        $(document).on('click', '#addCalendar', function () {
+            var content = $("#calendar_content").val();
+            var start_date = $("#calendar_start_date").val();
+            var end_date = $("#calendar_end_date").val();
+
+            if (content == null || content == "") {
+                alert("내용을 입력하세요");
+            } else if (start_date == "" || end_date == "") {
+                alert("날짜를 입력하세요");
+            } else if (new Date(end_date) - new Date(start_date) < 0) {
+                alert("종료일이 시작일보다 먼저해야 합니다.");
+
+            } else {
+                var obj = {
+                    "title": content,
+                    "start": start_date,
+                    "end": end_date
+                };
+
+                console.log(obj);
+                $("#calendarModal").modal("hide"); // 모달 닫기
+            }
+        });
+
+
+    // 모달 확인 버튼 클릭 시
+    $(document).on("click", "#sprintSettingModalClose", function() {
+    // 일정 데이터 수집
+    var eventTitle = $("#calendar_content").val();
+    var startDate = $("#calendar_start_date").val();
+    var endDate = $("#calendar_end_date").val();
+
+    // AJAX 요청을 통해 서버에 일정 추가
+    $.ajax({
+        url: 'http://localhost/calendar/calendar',
+        method: 'POST', // 여기를 POST로 변경
+        data: {
+            title: eventTitle,
+            start: startDate,
+            end: endDate
+        },
+        dataType: 'json', // 서버로부터 받을 데이터 타입
+        success: function(response) {
+            // 일정 추가 성공 시 처리
+            console.log('일정 추가 성공', response);
+
+            // 모달 닫기
+            $('#calendarModal').modal('hide');
+
+            // 달력에 추가한 일정 출력
+            var calendarEl = document.getElementById('calendar');
+            var calendar = FullCalendar.Calendar(calendarEl);
+            calendar.addEvent({
+                title: eventTitle,
+                start: startDate,
+                end: endDate
+            });
+        },
+        error: function(xhr, status, error) {
+            // 오류 발생 시 처리
+            console.error("일정 추가 실패", error);
+        }
+    });
+});
+
+    </script>
+    
+
+
+
+    <!-- 모달 -->
+    <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">일정을 입력하세요.</h5>              
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="taskId" class="col-form-label">일정 내용</label>
+                        <input type="text" class="form-control" id="calendar_content" name="calendar_content">
+                        <label for="taskId" class="col-form-label">시작 날짜</label>
+                        <input type="date" class="form-control" id="calendar_start_date" name="calendar_start_date">
+                        <label for="taskId" class="col-form-label">종료 날짜</label>
+                        <input type="date" class="form-control" id="calendar_end_date" name="calendar_end_date">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="sprintSettingModalClose" >확인</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+
+    </div>
+
+    </div>
+    </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    </div>
+    </div>
+    </main>
+    </main>
+
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/calendar/ko.js"></script>
+    <!--<script src="/js/note/note.js"></script>-->
+</body>
+
+</html>
