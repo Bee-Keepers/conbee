@@ -185,10 +185,11 @@ public class StockServiceImpl implements StockService{
 		return mapper.stockDelete(paramMap);
 	}
 	
+	// 재고 수정
 	@Override
 	public int stockUpdate(Stock stock) {
 		return mapper.stockUpdate(stock);
-  }
+	}
 	
 	// 발주 신청/수정 화면 출력용
 	@Override
