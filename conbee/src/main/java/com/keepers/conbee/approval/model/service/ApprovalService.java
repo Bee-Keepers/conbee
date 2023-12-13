@@ -149,9 +149,10 @@ public interface ApprovalService {
 	/** 반려버튼 클릭 시 반려
 	 * @param approvalNo
 	 * @param memberNo
+	 * @param returnReason 
 	 * @return
 	 */
-	int returnApprove(int approvalNo, int memberNo);
+	int returnApprove(int approvalNo, int memberNo, String returnReason);
 
 
 	/** 발주기안서 상세조회(비동기)
@@ -160,6 +161,28 @@ public interface ApprovalService {
 	 * @return
 	 */
 	List<Approval> waitApprovalList(int approvalNo, int docCategoryNo);
+
+
+	/** 삭제버튼 클릭 시 삭제
+	 * @param approvalNo
+	 * @return
+	 */
+	int deleteApprove(int approvalNo);
+
+
+	/** 반려취소
+	 * @param memberNo
+	 * @param approvalNo
+	 * @return
+	 */
+	int cancleReturn(int memberNo, int approvalNo);
+
+
+	/** 반려사유 조회
+	 * @param approvalNo
+	 * @return
+	 */
+	String selectReturnReason(int approvalNo);
 
 
 
