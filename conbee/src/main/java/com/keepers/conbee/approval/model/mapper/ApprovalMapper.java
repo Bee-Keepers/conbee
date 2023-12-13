@@ -30,11 +30,21 @@ public interface ApprovalMapper {
 	
 	
 	
-	/** 임시저장 데이터 조회 1
+	/** 임시저장 데이터 조회
 	 * @param approvalNo
 	 * @return
 	 */
-	Approval selectApprovalTempData(int approvalNo);
+	Approval selectTempDocHoliday(int approvalNo);
+
+
+	Approval selectTempDocRetirement(int approvalNo);
+
+
+	Approval selectTempDocStore(int approvalNo);
+	
+
+	Approval selectTempDocExpense(int approvalNo);
+
 	
 	
 	/** 기안문 작성자 정보 조회
@@ -248,16 +258,6 @@ public interface ApprovalMapper {
 	 * @return
 	 */
 	int insertOrder(List<Approval> approvalList);
-
-
-
-
-
-
-
-
-
-
 
 
 

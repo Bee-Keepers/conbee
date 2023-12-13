@@ -64,11 +64,11 @@ public class ApprovalController { // 전자결재 컨트롤러
 	 */
 	@GetMapping(value = "tempSave/selectTempData", produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public Map<String, Object> selectTempData(int approvalNo) {
+	public Map<String, Object> selectTempData(int approvalNo, int docCategoryNo) {
 		
-		Map<String, Object> map = service.selectTempData(approvalNo);
+		Map<String, Object> map = service.selectTempData(approvalNo,docCategoryNo);
 				
-		
+
 		return map;
 	}
 	

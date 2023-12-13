@@ -28,9 +28,10 @@ public interface ApprovalService {
 	
 	/** 임시저장함 데이터 받아오기
 	 * @param approvalNo
+	 * @param docCategoryNo 
 	 * @return
 	 */
-	Map<String, Object> selectTempData(int approvalNo);
+	Map<String, Object> selectTempData(int approvalNo, int docCategoryNo);
 	
 	
 	/** 기안문 작성자 정보 조회
