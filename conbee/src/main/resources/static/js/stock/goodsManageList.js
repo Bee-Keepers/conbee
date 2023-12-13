@@ -7,7 +7,7 @@ const lcategorySelectOptions = document.querySelectorAll("#lcategorySelect>optio
 /* 상품 등록 전체 조회 */
 const lcategoryFn = (lcategorySelect, scategorySelect)=>{
    fetch(
-      "/stock/scategoryList?lcategory=" + lcategorySelect.value
+      "/stockManage/scategoryList?lcategory=" + lcategorySelect.value
    )
    .then(resp=>resp.json())
    .then(list=>{
@@ -47,7 +47,7 @@ deleteBtn.addEventListener('click', () => {
             idList.push(obj[i].name);
          }
       }
-      fetch( "/stock/goodsDelete", {
+      fetch( "/stockManage/goodsDelete", {
          method : "DELETE",
          headers : {"Content-type" : "application/json"},
          body : JSON.stringify(idList)
@@ -81,7 +81,7 @@ updateBtn.addEventListener("click", () => {
    document.getElementById("goodsStandard").value = row.children[3].innerText;
    document.getElementById("lcategorySelectUpdate").value = row.children[4].innerText;
    fetch(
-      "/stock/scategoryList?lcategory=" + document.getElementById("lcategorySelectUpdate").value
+      "/stockManage/scategoryList?lcategory=" + document.getElementById("lcategorySelectUpdate").value
    )
    .then(resp=>resp.json())
    .then(list=>{
@@ -119,7 +119,7 @@ for(let item of goodsDetailBtn){
    
       const goodsNo = item.previousElementSibling.innerText;
       console.log(goodsNo);
-      fetch("/stock/goodsDetail?goodsNo=" + goodsNo)
+      fetch("/stockManage/goodsDetail?goodsNo=" + goodsNo)
       .then( resp => resp.json() )
       .then( goods => {
          goodsDetailName.innerText = goods.goodsName;
@@ -141,9 +141,8 @@ const goodsImage = document.querySelector(".goodsImage");
 /* 상품 상세 조회 및 수정 */
 for(let goodsItem of goodsDetailSelectBtn){
    goodsItem.addEventListener("click", () => {
-      console.log(goodsImage);
       const goodsNo = goodsItem.previousElementSibling.innerText;
-      fetch("/stock/goodsDetailSelect?goodsNo=" + goodsNo)
+      fetch("/stockManage/goodsDetailSelect?goodsNo=" + goodsNo)
       .then( resp => resp.json() )
       .then( goodsSelect => {
          goodsDetailImageUpdate.src = goodsSelect.goodsImagePath + goodsSelect.goodsImage;
@@ -164,4 +163,66 @@ deleteImage.addEventListener("click", () => {
    goodsDetailImageUpdate.src = "";
    document.getElementById("deleteCheckUpdate").value = 0;
    goodsImage.value = "";
+});
+
+const goodsSearchBtn = document.getElementById("goodsSearch");
+
+goodsSearchBtn.addEventListener("click", () => {
+  const goodsNameInput = document.querySelector('input[name="goodsSearch"]');
+  const goodsName = goodsNameInput.value;
+
+  fetch("/stockManage/goodsSearch?goodsName=" + goodsName)
+    .then(resp => resp.json())
+    .then(data => {
+      // 서버 응답 데이터 처리
+      console.log(data);
+
+      // 테이블에 데이터 추가
+      const goodsTable = document.getElementById("goodsTable");
+      goodsTable.innerHTML = ""; // 기존 테이블 내용 초기화
+
+      // 데이터를 순회하면서 새로운 행(tr)을 생성하여 테이블에 추가
+      data.forEach(stock => {
+        const row = document.createElement("tr");
+
+        const checkboxCell = document.createElement("td");
+        const checkboxLabel = document.createElement("label");
+        const checkboxInput = document.createElement("input");
+        checkboxInput.type = "checkbox";
+        checkboxInput.className = "checkbox";
+        checkboxInput.name = stock.goodsNo;
+        checkboxLabel.appendChild(checkboxInput);
+        checkboxCell.appendChild(checkboxLabel);
+        row.appendChild(checkboxCell);
+
+        const goodsNoCell = document.createElement("td");
+        goodsNoCell.textContent = stock.goodsNo;
+        row.appendChild(goodsNoCell);
+
+        const goodsNameCell = document.createElement("td");
+        goodsNameCell.textContent = stock.goodsName;
+        goodsNameCell.dataset.bsToggle = "modal";
+        goodsNameCell.dataset.bsTarget = "#goodsDetailSelectBtn";
+        goodsNameCell.className = "goodsDetailSelectBtn";
+        goodsNameCell.style.cursor = "pointer";
+        row.appendChild(goodsNameCell);
+
+        const goodsStandardCell = document.createElement("td");
+        goodsStandardCell.textContent = stock.goodsStandard;
+        row.appendChild(goodsStandardCell);
+
+        const lcategoryNameCell = document.createElement("td");
+        lcategoryNameCell.textContent = stock.lcategoryName;
+        row.appendChild(lcategoryNameCell);
+
+        const scategoryNameCell = document.createElement("td");
+        scategoryNameCell.textContent = stock.scategoryName;
+        row.appendChild(scategoryNameCell);
+
+        goodsTable.appendChild(row);
+      });
+    })
+    .catch(error => {
+      console.error("에러발생:", error);
+    });
 });

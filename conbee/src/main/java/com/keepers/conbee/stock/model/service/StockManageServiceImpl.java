@@ -71,4 +71,10 @@ public class StockManageServiceImpl implements StockManageService{
 	public String storeName(int storeNo) {
 		return mapper.storeName(storeNo);
 	}
+	
+	// 상품 검색
+	@Override
+	public List<Stock> goodsSearch(Stock stock) {
+		return mapper.goodsSearch(stock);
+	}
 }

@@ -53,4 +53,10 @@ public interface StockManageMapper {
 	 */
 	String storeName(int storeNo);
 
+	/** 상품 검색
+	 * @param stock
+	 * @return
+	 */
+	List<Stock> goodsSearch(Stock stock);
+
 }
