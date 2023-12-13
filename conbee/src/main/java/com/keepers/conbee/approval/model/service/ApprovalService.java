@@ -3,11 +3,13 @@ package com.keepers.conbee.approval.model.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.approval.model.dto.Approver;
+import com.keepers.conbee.approval.model.dto.CommandDTO;
 import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.stock.model.dto.Stock;
 
@@ -22,6 +24,13 @@ public interface ApprovalService {
 	 * @return approval list
 	 */
 	List<Approval> selectTempSave(int memberNo);
+	
+	
+	/** 임시저장함 데이터 받아오기
+	 * @param approvalNo
+	 * @return
+	 */
+	Map<String, Object> selectTempData(int approvalNo);
 	
 	
 	/** 기안문 작성자 정보 조회
@@ -52,17 +61,19 @@ public interface ApprovalService {
 	/** 기안문 insert
 	* @param approval
 	* @param approverList
+	 * @param command 
 	 * @param file 
 	* @return result
 	*/
-	int insertApproval(Approval approval, List<Approver> approverList, MultipartFile approvalFile) throws IllegalStateException, IOException;
+	int insertApproval(Approval approval, List<Approver> approverList, MultipartFile approvalFile, CommandDTO command) throws IllegalStateException, IOException;
 
 	
 	/** 결재요청함 조회
 	 * @param memberNo
+	 * @param cp 
 	 * @return approval list
 	 */
-	List<Approval> selectRequestApproval(int memberNo);
+	public Map<String, Object> selectRequestApproval(int memberNo, int cp);
 	
 	
 	/** 회수문서함 조회
@@ -133,6 +144,29 @@ public interface ApprovalService {
 	 * @return
 	 */
 	int approve(int approvalNo, int memberNo);
+
+
+	/** 반려버튼 클릭 시 반려
+	 * @param approvalNo
+	 * @param memberNo
+	 * @return
+	 */
+	int returnApprove(int approvalNo, int memberNo);
+
+
+	/** 발주기안서 상세조회(비동기)
+	 * @param approvalNo
+	 * @param docCategoryNo
+	 * @return
+	 */
+	List<Approval> waitApprovalList(int approvalNo, int docCategoryNo);
+
+
+
+
+
+
+
 
 
 

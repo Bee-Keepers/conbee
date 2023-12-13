@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.keepers.conbee.common.utility.Util;
+import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.stock.model.dto.Order;
 import com.keepers.conbee.stock.model.dto.OrderDetail;
 import com.keepers.conbee.stock.model.dto.Stock;
@@ -252,4 +253,17 @@ public class StockServiceImpl implements StockService{
 		}
 		return result;
 	}
+	
+	// 승인된 발주 입출고 내역에 삽입
+	@Override
+	public void orderApproval(List<Approval> orderList) {
+		mapper.orderApproval(orderList);
+	}
+	
+	// 납기일 일치하는 승인완료된 발주들
+	@Override
+	public List<Approval> orderApprovalComplete() {
+		return mapper.orderApprovalComplete();
+	}
+	
 }

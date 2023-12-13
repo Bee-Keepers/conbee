@@ -3,7 +3,9 @@ package com.keepers.conbee.approval.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.approval.model.dto.Approver;
+import com.keepers.conbee.approval.model.dto.CommandDTO;
 import com.keepers.conbee.approval.model.service.ApprovalService;
 import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.stock.model.dto.Stock;
@@ -54,6 +57,22 @@ public class ApprovalController { // 전자결재 컨트롤러
 		return "approval/tempSave";
 			
 	}
+	
+	/** 임시저장 데이터 불러오기
+	 * @param approvalNo
+	 * @return
+	 */
+	@GetMapping(value = "tempSave/selectTempData", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> selectTempData(int approvalNo) {
+		
+		Map<String, Object> map = service.selectTempData(approvalNo);
+				
+		
+		return map;
+	}
+	
+	
 
 
 	// ============================== 기안문 작성 ==============================
@@ -135,7 +154,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 	public String insertApproval(@PathVariable("doc") String doc,
 							@RequestParam("approvalCondition") int approvalCondition,
 							@SessionAttribute("loginMember") Member loginMember, 
-							Approval approval,
+							Approval approval, CommandDTO command,
 							@RequestParam(value="approverMemNo", required=false) List<Integer> approverMemNo,
 							@RequestParam(value="approvalFile", required=false) MultipartFile approvalFile,
 							RedirectAttributes ra) throws IllegalStateException, IOException {
@@ -154,11 +173,16 @@ public class ApprovalController { // 전자결재 컨트롤러
 		default 			 : departNo=0; cateNo=0; 
 		}
 		
-		if(approval.getApprovalTitle().equals("")) approval.setApprovalTitle("제목 없음");
+		if(approval.getApprovalTitle().equals("")) approval.setApprovalTitle("제목 없음"); // 임시저장 제목 null인경우
 		approval.setApprovalCondition(approvalCondition); // 문서 상태
 		approval.setMemberNo(loginMember.getMemberNo()); // 사원 번호
 		approval.setDepartmentNo(departNo); // 협조부서 코드
 		approval.setDocCategoryNo(cateNo); // 문서 분류 번호
+		
+		if(cateNo==2) { // 출점인 경우 storeNo는 NULL 
+			approval.setStoreNo(-1);
+		}
+		
 		
 				
 		/* 결재자 정보 셋팅 */
@@ -176,12 +200,11 @@ public class ApprovalController { // 전자결재 컨트롤러
 				approverList.add(approver);
 			}
 		}
-				
-			
-		int result = service.insertApproval(approval, approverList, approvalFile);
+	
 		
-		log.debug(result+"d");
-		log.debug(approval.getApprovalCondition()+"s");
+			
+		int result = service.insertApproval(approval, approverList, approvalFile, command);
+		
 		
 		if(result > 0 && approval.getApprovalCondition()==0) {
 		  ra.addFlashAttribute("message", "결재 요청이 완료되었습니다.");
@@ -209,11 +232,11 @@ public class ApprovalController { // 전자결재 컨트롤러
 	 * @author 유진
 	 */
 	@GetMapping("requestApproval")
-	public String selectRequestApproval(@SessionAttribute("loginMember") Member loginMember, Model model) { // cp 추가예정
+	public String selectRequestApproval(@SessionAttribute("loginMember") Member loginMember, Model model, 
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		
-		List<Approval> requestApprovalList = service.selectRequestApproval(loginMember.getMemberNo());
-		
-		model.addAttribute("requestApprovalList",requestApprovalList);
+		Map<String, Object> map = service.selectRequestApproval(loginMember.getMemberNo(), cp);
+		model.addAttribute("map",map);
 		
 		return "approval/requestApproval";
 	}
@@ -267,6 +290,19 @@ public class ApprovalController { // 전자결재 컨트롤러
 		return temp;
 	}
 	
+	/** 발주기안서 상세조회(비동기)
+	 * @author 예리나
+	 * @param approvalNo : 전달받은 기안서 번호
+	 * @return
+	 */
+	@GetMapping(value="detailWaitApprovalList", produces ="application/json; charset=UTF-8")
+	@ResponseBody
+	public List<Approval> waitApprovalList(int approvalNo, int docCategoryNo) {
+		
+		List<Approval> approvalList = service.waitApprovalList(approvalNo, docCategoryNo);
+		return approvalList;
+	}
+	
 	
 	/** 결재자 목록 상세조회(비동기)
 	 * @author 예리나
@@ -298,6 +334,29 @@ public class ApprovalController { // 전자결재 컨트롤러
 			ra.addFlashAttribute("message", "결재 승인이 완료되었습니다.");
 		} else {
 			ra.addFlashAttribute("message", "결재 승인이 실패하였습니다.");
+		}
+		
+		return "redirect:waitApproval";
+	}
+	
+	
+	/** 결재 버튼 클릭 시 반려 동작 
+	 * @author 예리나
+	 * @param approvalNo
+	 * @param loginMember
+	 * @param ra
+	 * @return
+	 */
+	@GetMapping("returnApprove")
+	public String returnApprove(int approvalNo, @SessionAttribute("loginMember") Member loginMember,
+			RedirectAttributes ra) {
+		
+		int result = service.returnApprove(approvalNo, loginMember.getMemberNo());
+		
+		if(result > 0) {
+			ra.addFlashAttribute("message", "반려처리가 완료되었습니다.");
+		} else {
+			ra.addFlashAttribute("message", "반려처리가 실패하였습니다.");
 		}
 		
 		return "redirect:waitApproval";
@@ -381,6 +440,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 	}
 	
 	// ===============================발주 기안서==========================================
+	// ===============================  김민석  ==========================================
 	
 	
 	/** 발주기안서 품목명 입력시 자동완성 기능

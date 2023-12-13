@@ -20,7 +20,7 @@
                     <ul class="dropdown-menu text-small shadow" style="z-index: 1021;">
                         <li><a class="dropdown-item" href="/myPage/myPage-profile">마이페이지</a></li>
                         <li><a class="dropdown-item" href="#">환경설정</a></li>
-                        <li><a class="dropdown-item" href="#">쪽지</a></li>
+                        <li><a class="dropdown-item" href="/note/note-receive">쪽지</a></li>
                         <li th:if="${session.loginMember != null && session.loginMember.memberAuthority == 0}">
                             <a class="dropdown-item" href="/admin/memberManage/memberList">관리자페이지</a>
                         </li>
@@ -43,16 +43,13 @@
         <div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample10">
         <ul class="navbar-nav">
             <li class="nav-item">
-            <a class="nav-link" href="/board/boardWrite">게시판</a>
+            <a class="nav-link" href="/board/boardList/1">게시판</a>
             </li>
             <li class="nav-item">
             <a class="nav-link" href="/address">주소록</a>
             </li>
             <li class="nav-item">
             <a class="nav-link" href="#">채팅</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="#">인사</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/approval/tempSave">전자결재</a>

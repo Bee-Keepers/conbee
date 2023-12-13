@@ -48,6 +48,7 @@ public class AdminMemberController {
 			model.addAttribute("map", map);
 		}
 		
+		// 검색
 		else {
 			Map<String, Object> map = service.searchMemberList(paramMap, cp);
 			model.addAttribute("map", map);
