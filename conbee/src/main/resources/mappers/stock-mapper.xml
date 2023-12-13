@@ -257,4 +257,23 @@
 		AND DOC_ORDER_DATE = TO_CHAR(SYSDATE+1, 'YYYY-MM-DD')
 	</select>
 	
+	<select id="stockSearch" resultType="Stock">
+		SELECT LCATEGORY_NAME, SCATEGORY_NAME, GOODS_NAME, GOODS_NO
+		FROM GOODS
+		JOIN STOCK USING (GOODS_NO)
+		JOIN LCATEGORY USING(LCATEGORY_NO)
+		JOIN SCATEGORY USING(SCATEGORY_NO)
+		WHERE STORE_NO = #{storeNo}
+		<if test='goodsName != ""'>
+			AND GOODS_NAME LIKE '%${goodsName}%'
+		</if>
+		<if test='lcategoryName != ""'>
+			AND LCATEGORY_NAME = #{lcategoryName}
+		</if>
+		<if test='scategoryName != ""'>
+			AND SCATEGORY_NAME = #{scategoryName}
+		</if>
+		ORDER BY GOODS_NO DESC
+	</select>
+	
 </mapper>

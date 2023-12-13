@@ -267,4 +267,15 @@ public class StockServiceImpl implements StockService{
 		return mapper.orderApprovalComplete();
 	}
 	
+	// 재고 현황 검색
+	@Override
+	public List<Stock> stockSearch(Stock stock) {
+		if(stock.getLcategoryName() == null && stock.getScategoryName() == null && stock.getGoodsName() == null) {
+		stock.setLcategoryName("");
+		stock.setScategoryName("");
+		stock.setGoodsName("");
+		}
+		return mapper.stockSearch(stock);
+	}
+	
 }

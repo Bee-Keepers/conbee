@@ -14,16 +14,16 @@
 
   <main class="d-flex flex-grow-1 overflow-y-auto">
 
-    <th:block th:replace="~{stock/sidebar}"></th:block>
+    <th:block th:replace="~{/stock/stockManage/sidebar}"></th:block>
 
     <div class="d-flex flex-column flex-grow-1 align-items-center p-3 overflow-y-auto">
       <div class="d-flex justify-content-between align-items-center w-100 border-bottom">
         <div class="fs-3 pb-3 px-3">상품 등록</div>
         <!-- 검색창 -->
         <div class="fs-4 w-25 pb-3 px-3 input-group">
-          <input type="text" class="form-control" placeholder="검색어를 입력해주세요" 
-                aria-label="Recipient's username" aria-describedby="button-addon2">
-          <button class="btn btn-outline-secondary" type="button" id="button-addon2">검색</button>
+          <input type="text" class="form-control" placeholder="상품 이름을 입력해주세요" 
+          aria-label="Recipient's username" name="goodsSearch">
+          <button class="btn btn-warning" type="button" name="goodsSearchBtn" id="goodsSearch">검색</button>
         </div>
       </div>
 
@@ -87,7 +87,7 @@
         </div>
         
         <div class="modal-body">
-          <form action="/stock/goodsInsert" method="post">
+          <form action="/stockManage/goodsInsert" method="post">
             <!-- 상품명 -->
             <div class="form-floating mb-3">
               <input name="goodsName" type="text" class="form-control" id="" placeholder="품목명">
@@ -147,7 +147,7 @@
         </div>
         
         <div class="modal-body">
-          <form action="/stock/goodsUpdate" method="post">
+          <form action="/stockManage/goodsUpdate" method="post">
           <!-- 상품명 -->
             <div class="form-floating mb-3">
               <input name="goodsName" type="text" class="form-control" id="goodsName" placeholder="품목명">
@@ -264,7 +264,7 @@
     });
   </script>
 
-  <script src="/js/stock/goodsList.js"></script>
+  <script src="/js/stock/goodsManageList.js"></script>
   <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

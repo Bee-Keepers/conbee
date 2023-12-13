@@ -10,7 +10,7 @@
 </head>
 <body class="d-flex flex-column" style="height: 100vh;">
 
-  <!-- Modal -->
+  <!-- 상세 검색 Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -18,8 +18,8 @@
           <h5 class="modal-title" id="exampleModalLabel">상세 검색</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <form id="revenueSearchForm" action="/revenue/list" method="get">
+        <form id="stockSearchForm" action="/stock/stockSearch" method="get">
+          <div class="modal-body">
             <!-- 대분류 -->
             <div class="input-group mb-3">
               <label class="input-group-text" for="lcategorySelect">대분류</label>
@@ -47,29 +47,13 @@
               <input type="text" class="form-control" name="goodsName" id="floatingName" placeholder="">
               <label for="floatingName">품목 이름</label>
             </div>
-            <div class="input-group mb-3">
-              <div class="form-floating w-75">
-                <input type="number" name="revenue" class="form-control" id="floatingPrice" value="0">
-                <label for="floatingPrice">판매금액</label>
-              </div>
-              <select class="form-select" name="flag">
-                <option value="1">이상</option>
-                <option value="2">이하</option>
-              </select>
-            </div>
-            <div class="input-group input-daterange d-flex align-items-center">
-              <div class="input-group-text">날짜선택</div>
-              <input type="text" class="form-control" name="startDate">
-              <div class="input-group-text">to</div>
-              <input type="text" class="form-control" name="endDate">
-            </div>
             <input type="hidden" name="storeNo" id="storeNo" value="">
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-          <button type="button" class="btn btn-warning" id="revenueSearchBtn">검색</button>
-        </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            <button type="submit" class="btn btn-warning" id="stockSearchBtn">검색</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -92,7 +76,7 @@
                   <option th:value="${store.storeNo}" th:text="${store.storeName}"></option>
                 </th:block>
               </select>
-              <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal" id="storeNoSearch">
                 상세 검색
               </button>
             </div>

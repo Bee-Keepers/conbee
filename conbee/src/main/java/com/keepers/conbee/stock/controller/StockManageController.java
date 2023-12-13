@@ -1,5 +1,6 @@
 package com.keepers.conbee.stock.controller;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.member.model.dto.Member;
@@ -33,7 +35,7 @@ public class StockManageController {
 	private final StockManageService service;
 	private final StockService stockService;
 	
-	/** 재고 현황 리스트 전체 조회
+	/** 상품 리스트 전체 조회
 	 * @return
 	 */
 	@GetMapping("goodsList")
@@ -54,7 +56,7 @@ public class StockManageController {
 	@PostMapping("goodsInsert")
 	public String stockGoodsInsert(Stock stock, RedirectAttributes ra) {
 		
-		int result = service.goodsInsert(stock);
+		int result = stockService.goodsInsert(stock);
 		if(result <= 0) {
 			ra.addFlashAttribute("message", "등록 실패");
 		}
@@ -68,7 +70,7 @@ public class StockManageController {
 	@DeleteMapping("goodsDelete")
 	@ResponseBody
 	public int goodsDelete(@RequestBody List<Integer> goodsNo) {
-		return service.goodsDelete(goodsNo);
+		return stockService.goodsDelete(goodsNo);
 	}
 	
 	/** 상품 수정
@@ -79,7 +81,7 @@ public class StockManageController {
 	@PostMapping("goodsUpdate")
 	public String goodsUpdate (Stock stock, RedirectAttributes ra
 			) {
-		int result = service.goodsUpdate(stock);
+		int result = stockService.goodsUpdate(stock);
 		if(result <= 0) {
 			ra.addFlashAttribute("message", "수정 실패");
 		}
@@ -98,6 +100,20 @@ public class StockManageController {
 		model.addAttribute("stockListSelect", stockListSelect);
 		
 		return "stock/stockManage/stockList";
+	}
+	
+	/** 재고 현황 등록
+	 * @param stock
+	 * @param ra
+	 * @return
+	 */
+	@PostMapping("stockInsert")
+	public String stockInsert( Stock stock, RedirectAttributes ra) {
+		int result = stockService.stockInsert(stock);
+		if(result <= 0) {
+			ra.addFlashAttribute("message", "등록 실패");
+		}
+		return "redirect:stockList";
 	}
 	
 	/** 재고 등록 이름 검색 시 물품 조회
@@ -152,4 +168,54 @@ public class StockManageController {
 	public List<OrderDetail> orderSelect(Order order) {
 		return stockService.orderSelect(order);
 	}
+	
+	/** 상품 상세 조회
+	 * @param goodsNo
+	 * @return
+	 */
+	@GetMapping("goodsDetailSelect")
+	@ResponseBody
+	public Stock goodsDetailSelect( int goodsNo ) {
+		return stockService.goodsDetailSelect(goodsNo);
+	}
+	
+	/** 상품 상세 수정
+	 * @param stock
+	 * @param ra
+	 * @return
+	 * @throws IOException 
+	 * @throws IllegalStateException 
+	 */
+	@PostMapping("goodsDetailUpdate")
+	public String goodsDetailUpdate( 
+			Stock stock, 
+			@RequestParam ("uploadGoodsImage") MultipartFile uploadGoodsImage,
+			RedirectAttributes ra 
+			) throws IllegalStateException, IOException {
+		
+		int result = stockService.goodsDetailUpdate(stock, uploadGoodsImage);
+		
+		if(result == 0) {
+			ra.addFlashAttribute("message", "수정 실패");
+		}
+		
+		return "redirect:goodsList";
+	}
+	
+	/** 재고 현황 검색
+	 * @param stock
+	 * @param model
+	 * @param loginMember
+	 * @return
+	 */
+	@GetMapping("goodsSearch")
+	public String goodsSearch( Stock stock, Model model, @SessionAttribute("loginMember") Member loginMember ) {
+		
+		List<Stock> goodsSearchList = service.goodsSearch(stock);
+		
+		model.addAttribute("goodsListSelect", goodsSearchList);
+		
+		return "stock/stockManage/stockList";
+	}
+	
 }

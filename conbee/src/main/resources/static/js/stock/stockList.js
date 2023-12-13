@@ -57,6 +57,16 @@ serachName.addEventListener("input", e=>{
     .catch(e => console.log(e));
 });
 
+const storeNoSearch = document.getElementById("storeNoSearch");
+storeNoSearch.addEventListener("click", () => {
+  const selectedValue = storeNoSelect.value;
+  const storeNo = document.getElementById("storeNo");
+  storeNo.value = selectedValue;
+});
+
+
+
+
 const deleteBtn = document.getElementById("deleteBtn");
 
 /* 체크박스 선택 후 삭제버튼 눌렀을 때 goodsNo값, storeNo값 넘어옴 */
@@ -137,3 +147,37 @@ stockUpdateBtn.addEventListener("click", () => {
   document.getElementById("stockDiscountUpdate").value = row.children[9].innerText;
   document.getElementById("storeNoUpdate").value = row.children[11].innerText;
 });
+
+const lcategorySelect = document.getElementById("lcategorySelect");
+const scategorySelect = document.getElementById("scategorySelect");
+
+/* 검색창 내부 대,소분류 조회 */
+const lcategoryFn = (lcategorySelect, scategorySelect) => {
+  fetch(
+    "/stock/scategoryList?lcategory=" + lcategorySelect.value
+  )
+  .then(resp => resp.json())
+  .then(list => {
+    if (list.length != 0) {
+      for (let scategory of list) {
+        const option = document.createElement("option");
+        option.innerText = scategory;
+        scategorySelect.append(option);
+      }
+    }
+  })
+  .catch(e => console.log(e));
+};
+
+// 검색 창 모달에서 대분류 선택 시 대분류 안에있는 소분류 불러오기
+lcategorySelect.addEventListener("change", ()=>{
+  scategorySelect.innerHTML = "";
+  const option = document.createElement("option");
+  option.innerText = "선택";
+  option.setAttribute("value", "");
+  scategorySelect.append(option);
+  if(lcategorySelect.value != 0){
+    lcategoryFn(lcategorySelect, scategorySelect);
+  }
+});
+
