@@ -73,6 +73,17 @@ public class ApprovalController { // 전자결재 컨트롤러
 	}
 	
 	
+	@PostMapping("tempSave/{doc}")
+	public String updateApproval() {
+		
+		
+		
+		return null;
+	}
+	
+	
+	
+	
 
 
 	// ============================== 기안문 작성 ==============================
@@ -201,8 +212,6 @@ public class ApprovalController { // 전자결재 컨트롤러
 			}
 		}
 	
-		
-			
 		int result = service.insertApproval(approval, approverList, approvalFile, command);
 		
 		

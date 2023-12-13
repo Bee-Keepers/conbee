@@ -60,8 +60,14 @@ public class ApprovalServiceImpl implements ApprovalService{
 		Map<String, Object> map = new HashMap<>();
 		
 		// 1. 기안문
-		Approval approval = mapper.selectTempData(approvalNo);
+		Approval approval = mapper.selectApprovalTempData(approvalNo);
 		map.put("approval", approval);
+		
+//		log.debug(approval + "=========================");
+//		log.debug(approval.getDocCategoryNo()+"=============================");
+		
+		// 2. DOC
+//		Approval approvalDoc = mapper.selectTempDocData(approvalNo);
 		
 		return map;
 	}
