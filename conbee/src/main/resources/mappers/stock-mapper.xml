@@ -204,16 +204,13 @@
 		AND STORE_NO = #{storeNo}
 	</delete>
 	
+	<!-- 재고 수정 -->
 	<update id="stockUpdate">
 		UPDATE "STOCK" SET
-		STOCK_NO = #{stockNo},
-		GOODS_NO = (SELECT GOODS_NO FROM GOODS WHERE GOODS_NAME = #{goodsName}),
-		STOCK_AMOUNT = #{stockAmount},
 		STOCK_DISCOUNT = #{stockDiscount},
-		STOCK_OUT_PRICE = #{stockOutPrice},
-		STOCK_IN_PRICE = #{stockInPrice}
+		STOCK_OUT_PRICE = #{stockOutPrice}
 		WHERE GOODS_NO = #{goodsNo}
-		AND STORE_NO = #{stockNo}
+		AND STORE_NO = #{storeNo}
 	</update>
 	
 	<!-- 상품(재고) 상세 조회 -->
@@ -233,11 +230,11 @@
 	<!-- 상품 상세 수정 -->
 	<update id="goodsDetailUpdate">
 		UPDATE "GOODS" SET
-		GOODS_NAME = #{goodsName},
-		GOODS_STANDARD = #{goodsStandard},
-		GOODS_DETAIL = #{goodsDetail},
-		GOODS_IMAGE = #{goodsImage},
-		GOODS_IMAGE_PATH = #{goodsImagePath}
+		GOODS_DETAIL = #{goodsDetail}
+		<if test="deleteCheck >= 0 ">
+			,GOODS_IMAGE = #{goodsImage}
+			,GOODS_IMAGE_PATH = #{goodsImagePath}
+		</if>
 		WHERE GOODS_NO = #{goodsNo}
 	</update>
 	
@@ -245,19 +242,19 @@
 	<insert id="orderApproval">
 		INSERT INTO "HISTORY"
 		<foreach collection="list" item="item" separator=" UNION ">
-			SELECT NEXT_HISTORY_NO(), '입고', #{item.docOrderAmount}, #{item.docOrderUnitPrice}, #{item.docOrderUnitPrice}, 
-			NULL, SYSDATE, '본사', #{item.docOrderGoodsName}, 0, #{item.goodsNo} FROM DUAL
+			SELECT NEXT_HISTORY_NO(),'입고',#{item.docOrderAmount},#{item.docOrderUnitPrice},#{item.docOrderUnitPrice}, 
+			NULL,SYSDATE, '본사', #{item.docOrderGoodsName},0,#{item.goodsNo} FROM DUAL
 		</foreach>
 	</insert>
 	
 	<!-- 납기일 다 된 것중에서 승인 된 것들 받는 스케쥴러-->
 	<select id="orderApprovalComplete" resultType="Approval">
-		SELECT DOC_ORDER_AMOUNT, DOC_ORDER_UNIT_PRICE, DOC_ORDER_PRICE, GOODS_NO, DOC_ORDER_GOODS_NAME, DOC_ORDER_DATE, 
+		SELECT DOC_ORDER_AMOUNT, DOC_ORDER_UNIT_PRICE, DOC_ORDER_PRICE, GOODS_NO, DOC_ORDER_GOODS_NAME, DOC_ORDER_DATE
 		FROM DOC_ORDER
 		JOIN APPROVAL USING(APPROVAL_NO)
 		WHERE DOC_CATEGORY_NO = 5
 		AND APPROVAL_CONDITION = 4
-		AND DOC_ORDER_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		AND DOC_ORDER_DATE = TO_CHAR(SYSDATE+1, 'YYYY-MM-DD')
 	</select>
 	
 </mapper>

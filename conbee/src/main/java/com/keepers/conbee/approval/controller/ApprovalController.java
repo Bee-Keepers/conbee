@@ -212,7 +212,6 @@ public class ApprovalController { // 전자결재 컨트롤러
 			}
 		}
 	
-	
 		int result = service.insertApproval(approval, approverList, approvalFile, command);
 		
 		
@@ -298,6 +297,19 @@ public class ApprovalController { // 전자결재 컨트롤러
 	public Approval waitApproval(int approvalNo, int docCategoryNo) {
 		Approval temp = service.waitApproval(approvalNo, docCategoryNo);
 		return temp;
+	}
+	
+	/** 발주기안서 상세조회(비동기)
+	 * @author 예리나
+	 * @param approvalNo : 전달받은 기안서 번호
+	 * @return
+	 */
+	@GetMapping(value="detailWaitApprovalList", produces ="application/json; charset=UTF-8")
+	@ResponseBody
+	public List<Approval> waitApprovalList(int approvalNo, int docCategoryNo) {
+		
+		List<Approval> approvalList = service.waitApprovalList(approvalNo, docCategoryNo);
+		return approvalList;
 	}
 	
 	

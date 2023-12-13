@@ -20,7 +20,7 @@ checkAll.addEventListener("change", ()=>{
 })
 
 
-// 클릭시 작동 함수
+//클릭시 작동 함수
 function handleClick(e) {
   let target = e.target;
 

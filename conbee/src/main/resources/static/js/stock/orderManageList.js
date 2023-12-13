@@ -81,7 +81,7 @@ endDate.value = document.getElementById("endDate").innerText;
 const storeSearch = document.getElementById("storeSearch");
 const storeSelect = document.getElementById("storeSelect");
 // 지점 이름으로 검색
-storeSearch.addEventListener("input", e=>{
+storeSearch.addEventListener("change", e=>{
 
     fetch("/revenueManage/storeSearch?inputStoreName=" + e.target.value)
     .then(resp=>resp.json())

@@ -130,30 +130,38 @@ for(let item of goodsDetailBtn){
    });
 };
 
-const goodsDetailSelectBtn = document.querySelectorAll(".goodsDetailUpdateBtn");
+const goodsDetailSelectBtn = document.querySelectorAll(".goodsDetailSelectBtn");
 const stockImage = document.querySelector(".stockImage");
 const goodsDetailNameUpdate = document.getElementById("goodsDetailNameUpdate");
 const goodsDetailStandardUpdate = document.getElementById("goodsDetailStandardUpdate");
 const goodsDetailUpdate = document.getElementById("goodsDetailUpdate");
+const goodsDetailImageUpdate = document.getElementById("goodsDetailImageUpdate");
+const goodsImage = document.querySelector(".goodsImage");
 
-/* 상품 상세 조회 */
+/* 상품 상세 조회 및 수정 */
 for(let goodsItem of goodsDetailSelectBtn){
-   
    goodsItem.addEventListener("click", () => {
-      
+      console.log(goodsImage);
       const goodsNo = goodsItem.previousElementSibling.innerText;
       fetch("/stock/goodsDetailSelect?goodsNo=" + goodsNo)
       .then( resp => resp.json() )
       .then( goodsSelect => {
-         stockImage.value = goodsSelect.goodsImage;
+         goodsDetailImageUpdate.src = goodsSelect.goodsImagePath + goodsSelect.goodsImage;
          goodsDetailNameUpdate.value = goodsSelect.goodsName;
          goodsDetailStandardUpdate.value = goodsSelect.goodsStandard;
          goodsDetailUpdate.value = goodsSelect.goodsDetail;
+         document.getElementById("goodsNoUpdate").value = goodsNo;
+         document.getElementById("deleteCheckUpdate").value = -1;
       } )
       .catch(e=>console.log(e));
-
    });
+
 }
 
-
-
+const deleteImage = document.querySelector(".delete-image");
+/* 이미지 x 버튼 표시 눌렀을 때 */
+deleteImage.addEventListener("click", () => {
+   goodsDetailImageUpdate.src = "";
+   document.getElementById("deleteCheckUpdate").value = 0;
+   goodsImage.value = "";
+});

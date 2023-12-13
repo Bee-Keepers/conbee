@@ -20,6 +20,13 @@
         </div>
         <div class="modal-body">
           <form id="revenueSearchForm" action="/revenue/list" method="get">
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="storeSelect">지점</label>
+              <input type="text" class="form-control" placeholder="지점을 검색해주세요" id="storeSearch">
+              <select class="form-select" name="storeNo" id="storeSelect">
+                  <option value="">선택</option>
+              </select>
+            </div>
             <!-- 대분류 -->
             <div class="input-group mb-3">
               <label class="input-group-text" for="lcategorySelect">대분류</label>
@@ -57,13 +64,6 @@
                 <option value="2">이하</option>
               </select>
             </div>
-            <div class="input-group input-daterange d-flex align-items-center">
-              <div class="input-group-text">날짜선택</div>
-              <input type="text" class="form-control" name="startDate">
-              <div class="input-group-text">to</div>
-              <input type="text" class="form-control" name="endDate">
-            </div>
-            <input type="hidden" name="storeNo" id="storeNo" value="">
           </form>
         </div>
         <div class="modal-footer">
@@ -87,11 +87,8 @@
         <div class="d-flex align-items-center">
           <div>
             <div class="input-group">
-              <select class="form-select" id="storeNoSelect">
-                <th:block th:each="store : ${session.loginMember.storeList}">
-                  <option th:value="${store.storeNo}" th:text="${store.storeName}"></option>
-                </th:block>
-              </select>
+              <span class="input-group-text" th:if="${storeName == null}">본사</span>
+              <span class="input-group-text" th:if="${storeName != null}" th:text="${storeName}">검색된 지점이 없습니다</span>
               <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 상세 검색
               </button>
@@ -228,6 +225,7 @@
 
         <div class="modal-body">
           <form action="/stock/stockUpdate" method="post" >
+            
             <div class="mb-3">
               <select class="form-select" name="storeNo" id="storeNameClick">
                 <option th:each="store : ${session.loginMember.storeList}" th:value="${store.storeNo}" th:text="${store.storeName}"></option>
