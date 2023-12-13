@@ -82,10 +82,17 @@
 
 
             <tr style="text-align: center;" th:each=" board : ${boardList}" th:object="${board}">
+              
+                
+              
               <td colspan="2" th:text="*{boardNo}">1234</td>
-              <td th:text="*{boardTitle}">오늘 저녁은 부대찌개 맛있게 먹자잉</td>
+              <td>
+                <a style="color: black; text-decoration: none; width: 100%; display: block;"  th:href="@{/board/boardDetail/{boardCodeNo}/{boardNo}(boardCodeNo=${boardCodeNo}, boardNo=*{boardNo}) }"  th:text="*{boardTitle}" > </a>
+              </td>
               <td th:text="*{memberName}">김민규</td>
-              <td th:text="*{boardWriteDate}">2023.12.11</td>
+              <td  th:text="*{boardWriteDate}">
+             
+              </td>
               <td th:text="*{boardHits}">12314</td>
             </tr>
             </th:block>
@@ -197,7 +204,7 @@
         </nav>
       </div>  
       <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">
-        <a href="/board/boardWrite" class="btn btn-warning mx-3" style="width: 80px;">작성</a>
+        <a th:href="@{/board/boardWrite/{boardCodeNo}/insert(boardCodeNo=${boardCodeNo})}" class="btn btn-warning mx-3" style="width: 80px;">작성</a>
       </div>
       
     </div>
@@ -207,7 +214,7 @@
 
   
   <script th:inline="javascript">
-    const boardCode = /*[[${boardCodeNo}]]*/ "게시판 코드";
+    const boardCodeNo = /*[[${boardCodeNo}]]*/ "게시판 코드";
     const boardCodeName = /*[[${boardCodeName}]]*/ "게시판 이름";
     const boardNo = /*[[${boardNo}]]*/ "게시글 번호";
 

@@ -26,11 +26,30 @@ public interface BoardService {
 	 */
 	Board boardDetail(Map<String, Object> map);
 
-	/** 북마크 여부확인
+	/** 게시글 북마크 여부확인
 	 * @param map
 	 * @return
 	 */
 	int bookMark(Map<String, Object> map);
+	
+	/** 북마크 처리
+	 * @param paramMap
+	 * @return
+	 */
+	int bookCheck(Map<String, Object> paramMap);
+
+	/** 게시글 조회수 증가
+	 * @param boardNo
+	 * @return
+	 */
+	int updateBoardHits(int boardNo);
+
+	/** 게시글 이름 불러오기
+	 * @param boardCodeNo
+	 * @return
+	 */
+	String boardName(int boardCodeNo);
+
 
 
 

@@ -18,7 +18,7 @@
 
   </style>
 </head>
-<body class="d-flex flex-column" style="height: 100vh;">
+<body class="d-flex flex-column" style="height: 100vh;" >
 
   <th:block th:replace="~{common/header}"></th:block>
   <!-- memberList, pagination 변수 선언 -->
@@ -32,7 +32,7 @@
 
       <!-- 타이틀 -->
       <div class="d-flex justify-content-between align-items-center border-bottom">
-        <div class="fs-3 pb-3 px-3" >
+        <div class="fs-3 pb-3 px-3" th:text="${boardCodeName}">
           보드 타이틀 예정
         </div>
       </div>
@@ -156,9 +156,9 @@
 
               <!-- 로그인한 회원과 게시글 작성자 번호가 같은 경우-->
               <div class="btn-group W-100" style="float: right;">
-                <button type="button" class="listBtn me-1">목록으로</button>
-                <button type="button" class="saveBtn me-1">저장</button>
-                <a href="/board/boardList" class="cancelBtn">취소</a>
+                <a th:href="@{/board/boardUpdate/{boardCodeNo}/{boardNo}/update(boardCodeNo=${boardCodeNo}, boardNo=*{boardNo})}"  class="updateBtn me-1">수정</a>
+                <button type="button" class="deleteBtn me-1">삭제</button>
+                <button id="goToListBtn" class="listBtn me-1">목록으로</button>
               </div>
           </div>
 
@@ -190,10 +190,15 @@
 
   
   <script th:inline="javascript">
-    const boardCode = /*[[${boardCodeNo}]]*/ "게시판 코드";
+    const boardCodeNo = /*[[${boardCodeNo}]]*/ "게시판 코드";
     const boardCodeName = /*[[${boardCodeName}]]*/ "게시판 이름";
     const boardNo = /*[[${boardNo}]]*/ "게시글 번호";
 
+
+    // 목록 버튼 눌렀을 때 이전 페이지로 이동
+    // document.getElementById("listBtn").addEventListener("click", function() {
+    // window.history.back();
+    // });
   
   </script>
 
