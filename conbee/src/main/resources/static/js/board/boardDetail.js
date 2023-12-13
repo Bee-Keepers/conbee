@@ -108,7 +108,7 @@ if(goToListBtn != null) { // 화면에 목록으로 버튼이 있을 때만 수�
     // console.log(tempParams.toString());
 
     // 2) 목록으로 돌아가기
-    location.href = `/board/${boardCode}?${tempParams.toString()}`;
+    location.href = `/board/boardList/${boardCodeNo}${tempParams.toString()}`;
 
   }
 

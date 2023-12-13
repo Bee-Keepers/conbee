@@ -50,14 +50,14 @@
 
       <!-- 타이틀 -->
       <div class="d-flex justify-content-between align-items-center border-bottom">
-        <div class="fs-3 pb-3 px-3">
+        <div class="fs-3 pb-3 px-3" th:text="|${boardCodeName}  >  게시글 작성|">
           게시글 작성
         </div>
       </div>
 
       <!-- 제목 / 게시글 작성 -->
       <div class="px-4 pt-2 flex-grow-1 align-items-center d-flex justify-content-center" >
-        <form th:action="@{{boardCode}(boardCode=${boardCode})}" method="POST">
+        <form action="insert" method="POST">
           <div class="d-flex align-items-center" style="width: 1000px;">
             <input type="text" style="font-size: 1.5rem;" class="form-control mb-1" name="boardTitle" id="boardTitle" placeholder="제목을 입력해주세요" maxlength="50" required>
           </div>
@@ -156,7 +156,13 @@ function handleSampleError( error ) {
   </script>
   
 
+  <script th:inline="javascript">
+    const boardCodeNo = /*[[${boardCodeNo}]]*/ "게시판 코드";
+    const boardCodeName = /*[[${boardCodeName}]]*/ "게시판 이름";
+    const boardNo = /*[[${boardNo}]]*/ "게시글 번호";
+
   
+  </script>
   
 </body>
 </html>

@@ -36,11 +36,51 @@ public interface BoardMapper {
 	 */
 	String selectBoardName(int boardCodeNo);
 
-	/** 북마쿠 여부 확인
+	/** 게시판에(공지,자유 등) 이름 가져오기2
+	 * @param boardCodeNo
+	 * @return
+	 */
+	String selectBoardName2(int boardCodeNo);
+	
+	/** 북마크 여부 확인
 	 * @param map
 	 * @return
 	 */
 	int bookMark(Map<String, Object> map);
+
+	
+	
+	/** 북마크 삭제
+	 * @param paramMap
+	 * @return
+	 */
+	int deleteBookMark(Map<String, Object> paramMap);
+	
+	
+	/** 북마크 삽입
+	 * @param paramMap
+	 * @return
+	 */
+	int insertBookMark(Map<String, Object> paramMap);
+	
+	
+	/** 북마크 수 조회
+	 * @param integer
+	 * @return
+	 */
+	int countBookMark(Integer integer);
+	
+	
+	
+	/** 게시글 조회수 증가
+	 * @param boardNo
+	 * @return
+	 */
+	int updateBoardHits(int boardNo);
+
+
+
+
 
 	
 }

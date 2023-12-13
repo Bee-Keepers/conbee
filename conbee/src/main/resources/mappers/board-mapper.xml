@@ -3,6 +3,41 @@
 <!-- 연결할 인터페이스의 패키지명.인터페이스명을 작성 -->
 <mapper namespace="com.keepers.conbee.board.model.mapper.BoardMapper">
 	
+	<!-- resultMap 태그
+	  1) 조회된 데이터의 컬럼명과 DTO 필드명이 일치하지 않을 때
+	  	 이를 매핑 시키는 용도 
+	  	 
+	  2) resultMap 사용 시 다른 SELECT 구문을 추가로 수행하고 싶을 때
+	-->
+	<resultMap id="board_rm" type="Board">
+		<id property="boardNo" column="BOARD_NO" />
+		
+	      <!-- collection 태그
+	         select로 조회된 결과를 컬렉션(List)에 담아
+	         지정된 필드에 세팅
+	         
+	         property : List를 담을 DTO의 필드명
+	         select : 실행할 select의 id
+	         column : 조회 결과 중 지정된 컬럼의 값을 파라미터로 전달
+	         javaType : List(컬렉션)의 타입을 지정
+	         ofType : List(컬렉션)의 제네릭(타입 제한) 지정
+	      -->
+		<collection property="commentList" 
+					select="selectCommentList"
+					column="BOARD_NO"
+					javaType="java.util.ArrayList"
+					ofType="Comment"
+					 />		
+		
+		<collection property="imageList" 
+  	                select="selectImageList" 
+	                column="BOARD_NO"
+	                javaType="java.util.ArrayList"
+	                ofType="BoardImg" />			 
+	</resultMap>
+
+	
+	
 	<!-- 전체 게시글 수 조회 -->
 	<select id="getListCount" resultType="_int">
 		SELECT COUNT(*) FROM "BOARD"
@@ -29,11 +64,19 @@
 		
 	</select>
 	
+	<!-- 게시판 이름 얻어오기2 -->
+	<select id="selectBoardName2" resultType="string">
+		SELECT BOARD_CODE_NAME FROM BOARD_CODE
+		WHERE BOARD_CODE_NO = #{boardCodeNo}
+	</select>
+	
+	
+	
 	
 	<!-- 게시글 상세조회 -->
 	
-<!--	
-	<select id="boardDetail" resultMap="board_rm">
+	
+	<select id="boardDetail" resultType="Board">
 
 		SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT, TO_CHAR(BOARD_WRITE_DATE, 'YYYY"년" MM"월" DD"일" HH24:MI:SS') BOARD_WRITE_DATE,
 			BOARD_HITS, BOARD_ATTACH, MEMBER_NAME, MEMBER_NO
@@ -48,12 +91,83 @@
 	</select>
 
 
--->
-	<!-- 게시글 좋아요 여부 확인 -->
+
+	<!-- 게시글 북마크 여부 확인 -->
 	<select id="bookMark" resultType="_int">
 		SELECT COUNT(*) FROM "BOOKMARK"
 		WHERE BOARD_NO = #{boardNo}
 		AND MEMBER_NO = #{memberNo}
 	</select>
+	
+	
+	<!-- 북마크 삭제 -->
+	<delete id="deleteBookMark">
+		DELETE FROM "BOOKMARK"
+		WHERE BOARD_NO = #{boardNo}
+		AND MEMBER_NO = #{memberNo}
+	</delete>
+	
+	<!-- 북마크 삽입 -->
+	<insert id="insertBookMark">
+		INSERT INTO "BOOKMARK" (MEMBER_NO, BOARD_NO)
+		VALUES(#{memberNo}, #{boardNo})
+	</insert>
+	
+	<!-- 좋아요 수 조회 -->
+	<select id="countBookMark" resultType="_int">
+		SELECT COUNT(*) FROM "BOOKMARK"
+		WHERE BOARD_NO = #{boardNo}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 게시글 조회수 증가 -->
+	<update id="updateBoardHits">
+		UPDATE "BOARD" SET
+		BOARD_HITS = BOARD_HITS + 1
+		WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 </mapper>

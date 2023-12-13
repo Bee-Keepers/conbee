@@ -38,8 +38,14 @@ public class EditBoardController {
 	/** 게시글 작성 페이지 전환
 	 * @return
 	 */
-	@GetMapping("boardWrite")
-	public String boardWrite() {
+	@GetMapping("boardWrite/{boardCodeNo:[0-9]+}/insert")
+	public String boardWrite(
+		@PathVariable("boardCodeNo") int boardCodeNo, Model model) {
+		
+		String boardCodeName = service.boardName(boardCodeNo);
+		
+		model.addAttribute("boardCodeName", boardCodeName);
+		
 		return "board/boardWrite";
 	}
 	
@@ -47,24 +53,21 @@ public class EditBoardController {
 	/** 게시글 작성 화면
 	 * @return
 	 */
-	@PostMapping("boardWrite")
+	@PostMapping("boardWrite/{boardCodeNo:[0-9]+}/insert")
 	public String boardWrite(Board board, 
-		@SessionAttribute("loginMember")Member loginMember,
+		@PathVariable("boardCodeNo") int boardCodeNo,
+		@SessionAttribute("loginMember") Member loginMember,
 		RedirectAttributes ra
 		) {
-//		board.setMemberNo(loginMember.getMemberNo());
-//		board.setBoardCodeNo(boardCodeNo);
+		board.setMemberNo(loginMember.getMemberNo());
+		board.setBoardCodeNo(boardCodeNo);
 		
 		
-		int boardNo = service.boardWrite(board);
+		int result = service.boardWrite(board);
 		
-		if(boardNo > 0) {
-			ra.addFlashAttribute("message", "게시글 작성 성공");
-			return "board/boardList";
-		}
+		ra.addFlashAttribute("message", "게시글 작성 성공");
 		
-		
-		return "board/boardWrite";
+		return "redirect:/board/boardDetail/"+boardCodeNo+"/"+board.getBoardNo();
 	}
 	
 	
@@ -74,27 +77,33 @@ public class EditBoardController {
 	
 	
 	/*ㅡㅡㅡㅡㅡㅡㅡㅡ수정 / 삭제ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
-//	@GetMapping("boardUpdate/{boardCodeNo:[0-9]+}/{boardNo:[0-9]+}/update")
-//	public String boardUpdate(
-//		@PathVariable("boardCodeNo") int boardCodeNo,
-//		@PathVariable("boardNo") int boardNo,
-//		Model model) {
-//		
-//		Map<String, Object> map = new HashMap<>();
-//		map.put("boardCodeNo", boardCodeNo);
-//		map.put("boardNo", boardNo);
-//		
-//		Board board = boardService.boardDetail(map);
-//		
-//		model.addAttribute("board", board);
-//		
-//		
-//		return "board/boardUpdate";
-//	}
-//	
-	
-	@GetMapping("boardUpdate")
-	public String boardUpdate() {
+	/** 게시글 수정 화면 전환
+	 * @param boardCodeNo
+	 * @param boardNo
+	 * @param ra
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("boardUpdate/{boardCodeNo:[0-9]+}/{boardNo:[0-9]+}/update")
+	public String boardUpdate(
+		@PathVariable("boardCodeNo") int boardCodeNo,
+		@PathVariable("boardNo") int boardNo,
+		RedirectAttributes ra,
+		Model model) {
+		
+		String boardCodeName = service.boardName(boardCodeNo);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("boardCodeNo", boardCodeNo);
+		map.put("boardNo", boardNo);
+		
+		Board board = boardService.boardDetail(map);
+		
+		
+		model.addAttribute("boardCodeName", boardCodeName);
+		
+		
+		
 		
 		return "board/boardUpdate";
 	}
