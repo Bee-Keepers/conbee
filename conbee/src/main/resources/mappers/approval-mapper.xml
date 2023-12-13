@@ -35,7 +35,7 @@
 		WHERE MEMBER_NO = #{memberNo}
 	</select>
 	
-		<!-- 부서 모든 멤버 조회 -->
+	<!-- 부서 모든 멤버 조회 -->
 	<select id="selectAllMember" resultType="Member">
 		SELECT MEMBER_NO, MEMBER_NAME, GRADE_NAME, TEAM_NAME, TEAM_NO FROM "MEMBER"
 		JOIN "GRADE" USING(GRADE_NO)

@@ -824,7 +824,7 @@ for(let i = 0; i<10 ; i++){
     tr.children[2].children[0].value = "";
     tr.children[2].children[0].disabled = true;
     tr.children[3].children[0].value = "";
-    tr.children[4].innerText = "";
+    tr.children[4].children[0].value = "";
 
     // 글자 지울 시 남아있는 자동완성 삭제
     if(e.target.value.trim().length == 0){
@@ -880,7 +880,7 @@ for(let i = 0; i<10 ; i++){
     if(e.target.value < 0){
       e.target.value = 0;
     }
-    td5.innerText = e.target.value * input4.value;
+    input5.value = e.target.value * input4.value;
     orderPriceFn();
   });
   td3.append(input3);
@@ -893,7 +893,10 @@ for(let i = 0; i<10 ; i++){
 
   // 금액 컬럼 생성
   const td5 = document.createElement("td");
-  td5.classList.add("orderPrice");
+  const input5 = createElement("input", {"type":"number","name":"approvalList["+i+"].docOrderPrice"},[]);
+  input5.classList.add("orderPrice");
+  input5.readOnly = true;
+  td5.append(input5);
 
   orderTr.append(td1, td2, td3, td4, td5);
   orderTbody.append(orderTr);
@@ -901,13 +904,15 @@ for(let i = 0; i<10 ; i++){
 
 function orderPriceFn(){
   const orderPrice = document.getElementsByClassName("orderPrice");
+  console.log(orderPrice);
   let temp = 0;
   for(let price of orderPrice){
-    if(price.innerText != ""){
-      temp += parseInt(price.innerText);
+    if(price.value != ""){
+      temp += Number(price.value);
     }
+    console.log(temp);
   }
-  orderSum.innerText = temp;
+  orderSum.value = temp;
 }
 
 docOrder.addEventListener("submit", ()=>{
