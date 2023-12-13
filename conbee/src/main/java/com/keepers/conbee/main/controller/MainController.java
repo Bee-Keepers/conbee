@@ -1,23 +1,64 @@
 package com.keepers.conbee.main.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.member.model.dto.Member;
+import com.keepers.conbee.revenue.model.dto.Revenue;
+import com.keepers.conbee.revenue.model.service.RevenueService;
+import com.keepers.conbee.stock.model.dto.Stock;
+import com.keepers.conbee.stock.model.service.StockService;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
+@RequiredArgsConstructor
 public class MainController {
+	
+	private final StockService stockService;
+	private final RevenueService revenueService;
 	
 	/** 메인 페이지 전환
 	 * @param loginMember
 	 * @return
 	 */
 	@RequestMapping("/")
-	public String mainPage(@SessionAttribute(value="loginMember", required = false) Member loginMember ) {
+	public String mainPage(@SessionAttribute(value="loginMember", required = false) Member loginMember, Model model) {
+		Stock stock = new Stock();
+		Revenue revenue = new Revenue();
+		// 로그인 한 경우
 		if(loginMember != null) {
+			
+			// 점주인 경우
+			if(loginMember.getDepartmentNo() == 5) {
+				stock.setStoreNo(loginMember.getStoreNoList().get(0));
+				revenue.setStoreNo(loginMember.getStoreNoList().get(0));
+			} 
+			// 경영관리부인 경우
+			if(loginMember.getDepartmentNo() == 2) {
+				
+			} 
+			// 임원인 경우
+			if(loginMember.getDepartmentNo() == 0) {
+				
+			} 
+			List<Stock> stockList = stockService.stockList(stock);
+			List<Revenue> revenueList = revenueService.revenueSearch(revenue);
+			model.addAttribute("stockList", stockList);
+			model.addAttribute("revenueList", revenueList);
+			
+			
+			// 점포 
+			
+			
 			return "common/main";
 			
 		} else {

@@ -1,6 +1,5 @@
 package com.keepers.conbee.stock.controller;
 
-import java.io.Console;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
@@ -20,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.member.model.dto.Member;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.keepers.conbee.stock.model.dto.Order;
@@ -176,6 +174,13 @@ public class StockController {
 	}
 	
 	
+	/** 자동 완성
+	 * @param inputQuery
+	 * @param storeNo
+	 * @param lcategoryName
+	 * @param scategoryName
+	 * @return
+	 */
 	@GetMapping("autoComplete")
 	@ResponseBody
 	public List<Stock> autoComplete(String inputQuery, String storeNo, String lcategoryName, String scategoryName) {
@@ -186,6 +191,9 @@ public class StockController {
 	
 	
 	/** 물품 현황 전체 조회
+	 * @param model
+	 * @param loginMember
+	 * @param stock
 	 * @return
 	 */
 	@GetMapping("stockList")
