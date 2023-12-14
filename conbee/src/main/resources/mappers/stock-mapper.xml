@@ -57,6 +57,7 @@
 	    	<if test="goodsStandard == ''">
 	      		GOODS_STANDARD = DEFAULT,
 	    	</if>
+	    	GOODS_PRICE = #{goodsPrice},
 	    	LCATEGORY_NO = (SELECT LCATEGORY_NO FROM LCATEGORY WHERE LCATEGORY_NAME = #{lcategoryName}),
 	    	SCATEGORY_NO = (SELECT SCATEGORY_NO FROM SCATEGORY WHERE SCATEGORY_NAME = #{scategoryName})
 	  	WHERE GOODS_NO = #{goodsNo}
@@ -199,7 +200,7 @@
 		AND TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') = #{orderDate}
 	</select>
 	
-	<!-- 상품 삭제 -->
+	<!-- 재고 삭제 -->
 	<delete id="stockDelete">
 		DELETE FROM STOCK
 		WHERE GOODS_NO IN (${goodsNoList})
@@ -232,7 +233,8 @@
 	<!-- 상품 상세 수정 -->
 	<update id="goodsDetailUpdate">
 		UPDATE "GOODS" SET
-		GOODS_DETAIL = #{goodsDetail}
+		GOODS_DETAIL = #{goodsDetail},
+		GOODS_PRICE = #{goodPrice}
 		<if test="deleteCheck >= 0 ">
 			,GOODS_IMAGE = #{goodsImage}
 			,GOODS_IMAGE_PATH = #{goodsImagePath}
@@ -259,6 +261,7 @@
 		AND DOC_ORDER_DATE = TO_CHAR(SYSDATE+1, 'YYYY-MM-DD')
 	</select>
 	
+	<!-- 재고에서 등록할 때 검색기능 -->
 	<select id="stockSearch" resultType="Stock">
 		SELECT LCATEGORY_NAME, SCATEGORY_NAME, GOODS_NAME, GOODS_NO
 		FROM GOODS
