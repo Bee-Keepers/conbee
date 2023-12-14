@@ -3,7 +3,6 @@ package com.keepers.conbee.approval.model.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,26 +48,8 @@ public class ApprovalServiceImpl implements ApprovalService{
 
 	// 임시저장함 조회
 	@Override
-	public Map<String, Object> selectTempSave(int memberNo, int cp) {
-		
-		int listCount = mapper.searchTempSaveCount(memberNo);
-		
-		Pagination pagination = new Pagination(cp, listCount);
-		
-		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
-		int limit = pagination.getLimit();
-		
-		RowBounds rowBounds = new RowBounds(offset,limit);
-		
-		List<Approval> tempSaveList = mapper.selectTempSave(memberNo,rowBounds);
-		
-		log.debug(tempSaveList+"======");
-		
-		Map<String, Object> map = new HashMap<>();
-		map.put("pagination", pagination);
-		map.put("tempSaveList", tempSaveList);
-	
-		return map;
+	public List<Approval> selectTempSave(int memberNo) {
+		return mapper.selectTempSave(memberNo);
 	}
 	
 	
@@ -79,24 +60,26 @@ public class ApprovalServiceImpl implements ApprovalService{
 		Map<String, Object> tempData = new HashMap<>();
 		
 		Approval tempApproval = new Approval();
-		tempApproval.setDocCategoryNo(docCategoryNo); // 필요?
 		
-		// 1. 기안문 데이터 + 파일 데이터 + DOC 데이터 
+		// 1. 기안문 데이터 + 파일 데이터 + DOC 데이터
 		switch(docCategoryNo) {
-		case 0 : tempApproval = mapper.selectTempHoliday(approvalNo); break; // 휴가
-		case 1 : tempApproval = mapper.selectTempRetirement(approvalNo); break; // 퇴직
-		case 2,3 : tempApproval = mapper.selectTempStore(approvalNo); break; // 점포
-		case 4 : tempApproval = mapper.selectTempExpense(approvalNo); break; // 점포
+		case 0 : tempApproval = mapper.selectTempDocHoliday(approvalNo); break; // 휴가
+		case 1 : tempApproval = mapper.selectTempDocRetirement(approvalNo); break; // 퇴직
+		case 2,3 : tempApproval = mapper.selectTempDocStore(approvalNo); break; // 점포
+		case 4 : tempApproval = mapper.selectTempDocExpense(approvalNo); break; // 점포
 		// case 5 : 발주 추가
 		}
+		
+
 		tempData.put("tempApproval", tempApproval);
 		
-//		log.debug(tempApproval+"==="); // 각 컬럼이 null이면 걍 null이 되는 것 같음. 컬럼값이 있는 건 잘 받아옴
+		log.debug(tempApproval+"==="); // 각 컬럼이 null이면 걍 null이 되는 것 같음. 컬럼값이 있는 건 잘 받아옴
 		
-		// 2. 결재자 리스트
-		List<Approver> tempApprover = mapper.selectTempAppover(approvalNo);
-		tempData.put("tempApprover", tempApprover);
-
+		// 4. 결재자
+		
+		
+		
+		
 		return tempData;
 	}
 	
@@ -128,8 +111,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 
 	// 기안문 insert
 	@Override
-	public int insertApproval(Approval approval, List<Approver> approverList, MultipartFile approvalFile, CommandDTO command) 
-			throws IllegalStateException, IOException {
+	public int insertApproval(Approval approval, List<Approver> approverList, MultipartFile approvalFile, CommandDTO command) throws IllegalStateException, IOException {
 	
 		int result;
 		
@@ -228,45 +210,10 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return map;
 	}
 	
-
-	// 결재요청함 데이터 조회
-	@Override
-	public Map<String, Object> selectRequestData(int approvalNo, int docCategoryNo) {
-		
-		Map<String, Object> requestData = new HashMap<>();
-		
-		Approval requestApproval = new Approval();
-		
-		// 1. 기안문 데이터 + 파일 데이터 + DOC 데이터 
-		switch(docCategoryNo) {
-		case 0 : requestApproval = mapper.selectRequestHoliday(approvalNo); break; // 휴가
-		case 1 : requestApproval = mapper.selectRequestRetirement(approvalNo); break; // 퇴직
-		case 2,3 : requestApproval = mapper.selectRequestStore(approvalNo); break; // 점포
-		case 4 : requestApproval = mapper.selectRequestExpense(approvalNo); break; // 점포
-		// case 5 : 발주 추가
-		}
-		requestData.put("requestApproval", requestApproval);
-		
-		// 2. 결재자 리스트
-		List<Approver> requestApprover = mapper.selectRequestAppover(approvalNo);
-		requestData.put("requestApprover", requestApprover);
-		
-		
-		return requestData;
-	}
-	
-	
-	
 	// 회수문서함 조회
 	@Override
 	public List<Approval> selectReclaimApproval(int memberNo) {
 		return mapper.selectReclaimApproval(memberNo);
-	}
-
-	// 문서 회수하기
-	@Override
-	public int reclaimApproval(int approvalNo) {
-		return mapper.reclaimApproval(approvalNo);
 	}
 	
 

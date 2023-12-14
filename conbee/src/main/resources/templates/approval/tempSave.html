@@ -174,13 +174,13 @@
           <tbody class="table-group-divider">
 
             <!-- 임시 저장 문서가 없을 때 -->
-            <tr th:if="${#lists.size(map.tempSaveList) == 0}">
+            <tr th:if="${#lists.size(tempSaveList) == 0}">
               <th colspan="6" style="text-align: center;">임시 저장한 문서가 없습니다.</th>
             </tr>
 
             <!-- 임시 저장 문서가 존재할 때 -->
-            <th:block th:unless="${#lists.size(map.tempSaveList) == 0}">
-              <tr th:each="approval : ${map.tempSaveList}" th:object="${approval}" class="approvalOne"
+            <th:block th:unless="${#lists.size(tempSaveList) == 0}">
+              <tr th:each="approval : ${tempSaveList}" th:object="${approval}" class="approvalOne"
                style="text-align: center;" data-bs-toggle="modal" 
                th:attr="data-one-id=${approval.approvalNo}, data-bs-target='#doc' + ${(approval.docCategoryNo == 0 ? 
                 1 : (approval.docCategoryNo == 1 ? 
@@ -200,16 +200,15 @@
           </tbody>
         </table>
       </div>
+      
     </div>
 
 
 
-
   </main>
-  <div class="w-100 sticky-bottom fixed-bottom bg-white pagination-area">
-
+  <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">
     <a href="#" class="btn btn-warning mx-3" style="width: 80px;">작성</a>
-    <a href="#" class="btn btn-secondary" style="width: 80px;">삭제</a>
+        <a href="#" class="btn btn-secondary" style="width: 80px;">삭제</a>
   </div>
 
   <script src="/js/bootstrap.bundle.min.js"></script>

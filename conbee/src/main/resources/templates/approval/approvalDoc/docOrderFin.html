@@ -1,31 +1,31 @@
-<!-- 5. 발주기안 문서 -->
+<!-- 6. 발주기안 작성완료된 문서 -->
 <div class="modal-body" style="width: 800px; height: 800px; ">
   <!-- 템플릿 -->
-  <div class="temps my-2 mx-3 p-3">
+  <div class="temps my-2 mx-3 p-3" style="height: 600px; border: 1px solid black;">
 
     <!-- 템플릿 제목 -->
     <div class="pt-4" style="font-size:30px; font-weight: bold; text-align: center;">발 주 기 안 서</div>
 
     <!-- 템플릿 정보/승인 -->
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between mt-5">
       <!-- 정보 -->
       <div class="tempInfo my-2 mx-3 px-2">
         <table class="table table-bordered" style="width: 250px; border: black;">
           <tr>
             <th>문서번호</th>
-            <td class="docApprovalNo"></td>
+            <td>-</td>
           </tr>
           <tr>
             <th>부 서</th>
-            <td class="infoTeam"></td>
+            <td>점포관리팀</td><!-- ${teamName} -->
           </tr>
           <tr>
             <th>기안자</th>
-            <td th:text="${session.loginMember.memberName}"></td>
+            <td>정유진</td><!-- ${memberName} -->
           </tr>
           <tr>
             <th>구분(항목)</th>
-            <td>업무(발주)</td>
+            <td>업무(출점)</td><!-- 출점/폐점 -->
           </tr>
           <tr>
             <th>협조 부서</th>
@@ -33,7 +33,11 @@
           </tr>
           <tr>
             <th>기안일</th>
-            <td class="docApprovalDate"></td>
+            <td>2023-11-25</td><!-- sysdate -->
+          </tr>
+          <tr>
+            <th>납기일</th>
+            <td>2023-11-25</td><!-- sysdate -->
           </tr>
         </table>
       </div>

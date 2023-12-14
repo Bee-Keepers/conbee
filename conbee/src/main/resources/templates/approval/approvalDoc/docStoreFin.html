@@ -1,27 +1,27 @@
-<!-- 3 . 출점/폐점 문서 -->
+<!-- 3,4 . 출점/폐점 작성완료된 문서 -->
 <div class="modal-body" style="width: 800px; height: 800px; ">
   <!-- 템플릿 -->
-  <div class="temps my-2 mx-3 p-3">
+  <div class="temps my-2 mx-3 p-3" style="border: 1px solid black;">
 
     <!-- 템플릿 제목 -->
     <div class="pt-4" style="font-size:30px; font-weight: bold; text-align: center;">업무 보고</div>
 
     <!-- 템플릿 정보/승인 -->
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between mt-5">
       <!-- 정보 -->
       <div class="tempInfo my-2 mx-3 px-2">
         <table class="table table-bordered" style="width: 250px; border: black;">
           <tr>
             <th>문서번호</th>
-            <td class="docApprovalNo"></td>
+            <td>-</td>
           </tr>
           <tr>
             <th>부 서</th>
-            <td class="infoTeam"></td>
+            <td>점포관리팀</td><!-- ${teamName} -->
           </tr>
           <tr>
             <th>기안자</th>
-            <td th:text="${session.loginMember.memberName}"></td>
+            <td>정유진</td><!-- ${memberName} -->
           </tr>
           <tr>
             <th>구분(항목)</th>
@@ -33,7 +33,7 @@
           </tr>
           <tr>
             <th>기안일</th>
-            <td class="docApprovalDate"></td>
+            <td>2023-11-25</td><!-- sysdate -->
           </tr>
         </table>
       </div>
@@ -87,27 +87,27 @@
         <tbody>
           <tr>
             <th>제 목</th>
-            <td id="docStoreTitle"></td>
+            <td>낙성대점 점포개설 요청드립니다.</td>
           </tr>
           <tr>
             <th>매 장 명</th>
-            <td id="docStoreName"></td>
+            <td>낙성대점</td>
           </tr>
           <tr>
-            <th>매 장 번 호</th>
-            <td id="docStoreNo"></td>
+            <th>매 장 번 호</th> <!-- 폐점인 경우에만 쓰기 -->
+            <td>낙성대점</td>
           </tr>
           <tr>
             <th>출/폐 여부</th>
-            <td id="docStoreState"></td>
+            <td>폐점</td>
           </tr>
           <tr>
-            <th>상세 내용</th>
-            <td id="docStoreText"></td>
+            <th style="vertical-align: middle;">상세 내용</th>
+            <td>낙성대점 점포개설 결재드립니다.</td>
           </tr>
           <tr>
             <th>첨부파일</th>
-            <td></td>
+            <td><a href="" style="text-decoration: none;">점포계약서_낙성대점.doc</a></td>
           </tr>
         </tbody>
       </table>
