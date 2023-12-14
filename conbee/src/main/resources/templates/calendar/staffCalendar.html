@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>캘린더</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.5/main.min.css' rel='stylesheet' />
+
+    <!-- jQuery 스크립트 -->
+    <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> -->
+    <script src="/js/calendar/jquery-3.7.1.min.js"></script>
+
+    <!-- 다른 스크립트 태그들 -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.5/main.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.5/locales/ko.js'></script>
+
+
+    <style>
+        #calendar {
+            max-width: 850px;
+            max-height: 600px;
+            margin: 0 auto;
+            margin-top: 60px;
+        }
+
+        /* FullCalendar의 날짜 셀 스타일 */
+        .fc .fc-daygrid-day .fc-daygrid-day-number {
+            text-decoration: none;
+            /* 밑줄 제거 */
+        }
+
+        .fc .fc-col-header-cell .fc-col-header-cell-cushion {
+            text-decoration: none;
+            /* 밑줄 제거 */
+        }
+
+        /* 날짜 셀 스타일 */
+        .fc-daygrid-day-number {
+            font-size: 14px;
+            /* 날짜 숫자 크기 */
+            color: #495057;
+            /* 날짜 숫자 색상 */
+        }
+
+        /* 오늘 날짜 스타일 */
+        .fc-day-today {
+            background-color: #fff3cd;
+            /* 오늘 날짜 배경 색상 */
+            border-color: #ffeeba;
+            /* 오늘 날짜 테두리 색상 */
+        }
+
+        /* 헤더 셀 테두리 */
+        .fc .fc-col-header-cell {
+            background-color: #ffeeba;
+            /* 헤더 셀 테두리 색상 설정 */
+        }
+    </style>
+</head>
+
+<body class="d-flex flex-column" style="height: 100vh;">
+
+    <th:block th:replace="~{common/header}"></th:block>
+
+    <div class="d-flex flex-grow-1">
+        <!-- 사이드바 -->
+        <th:block th:replace="~{calendar/sidebar}"></th:block>
+
+        <!-- 메인 콘텐츠 -->
+        <main class="flex-grow-1 p-3">
+            <div class="fs-3 pb-3 px-3 border-bottom">캘린더</div>
+
+            <div id='calendar'></div>
+        </main>
+    </div>
+
+
+
+    <!-- 모달 -->
+    <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input type="text" class="form-control" id="calendar_title" name="calendar_title" placeholder="제목"
+                        style="font-weight: bold; font-size:1.3em;">
+                    <input type="color" class="form-control form-control-color" id="calendar_color" value="#563d7c">
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="calendar_content" class="col-form-label">일정 내용</label>
+                        <textarea class="form-control" id="calendar_content" name="calendar_content"
+                            style="resize:none"></textarea>
+                        <!-- <input type="text" class="form-control" id="calendar_content" name="calendar_content"> -->
+
+                        <label for="calendar_allday" class="col-form-label">하루 종일</label>
+                        <input type="checkbox" id="calendar_allday" name="calendar_allday">
+
+                        <hr>
+
+                        <div class="d-flex justify-content-evenly">
+                            <div class="start-container">
+                                <div>
+                                    <label for="calendar_start_date" class="col-form-label">시작 날짜</label>
+                                    <input type="date" class="form-control" id="calendar_start_date"  name="calendar_start_date">
+                                </div>
+
+                                <div class="calendar-time-container">
+                                    <label for="calendar_start_time" class="col-form-label">시작 시간</label>
+                                    <input type="time" class="form-control" id="calendar_start_time" name="calendar_start_time">
+                                </div>
+                            </div>
+
+                            <div class="end-container">
+                                <div>
+                                    <label for="calendar_end_date" class="col-form-label">종료 날짜</label>
+                                    <input type="date" class="form-control" id="calendar_end_date" name="calendar_end_date">
+                                </div>
+                                
+                                <div class="calendar-time-container">
+                                    <label for="calendar_end_time" class="col-form-label">종료 시간</label>
+                                    <input type="time" class="form-control" id="calendar_end_time" name="calendar_end_time">
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="calender-confirm">확인</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+
+    </div>
+
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/calendar/ko.js"></script>
+
+    <script src="/js/calendar/calendar.js"></script>
+
+</body>
+
+</html>
