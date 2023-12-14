@@ -1,5 +1,7 @@
 const lcategorySelect = document.getElementById("lcategorySelect");
+const lcategoryInsert = document.getElementById("lcategoryInsert");
 const scategorySelect = document.getElementById("scategorySelect");
+const scategoryInsert = document.getElementById("scategoryInsert");
 const lcategorySelectUpdate = document.getElementById("lcategorySelectUpdate");
 const scategorySelectUpdate = document.getElementById("scategorySelectUpdate");
 const lcategorySelectOptions = document.querySelectorAll("#lcategorySelect>option");
@@ -27,10 +29,32 @@ lcategorySelect.addEventListener("change", ()=>{
    scategorySelect.innerHTML = "";
    const option = document.createElement("option");
    option.innerText = "선택";
-   option.setAttribute("value", "0");
+   option.setAttribute("value", "");
    scategorySelect.append(option);
    if(lcategorySelect.value != 0){
       lcategoryFn(lcategorySelect, scategorySelect);
+   }
+});
+/* 검색창 내부 대분류 선택 시 소분류 불러오기 */
+lcategoryInsert.addEventListener("change", ()=>{
+   scategoryInsert.innerHTML = "";
+   const option = document.createElement("option");
+   option.innerText = "선택";
+   option.setAttribute("value", "");
+   scategoryInsert.append(option);
+   if(lcategoryInsert.value != 0){
+      lcategoryFn(lcategoryInsert, scategoryInsert);
+   }
+});
+/* 수정창 내부 대분류 선택 시 소분류 불러오기 */
+lcategorySelectUpdate.addEventListener("change", ()=>{
+   scategorySelectUpdate.innerHTML = "";
+   const option = document.createElement("option");
+   option.innerText = "선택";
+   option.setAttribute("value", "");
+   scategorySelectUpdate.append(option);
+   if(lcategorySelectUpdate.value != 0){
+      lcategoryFn(lcategorySelectUpdate, scategorySelectUpdate);
    }
 });
 
@@ -69,20 +93,36 @@ deleteBtn.addEventListener('click', () => {
    }
 });
 
+const checkboxes = document.querySelectorAll(".checkbox");
+
+checkboxes.forEach(checkbox => {
+  checkbox.addEventListener("change", () => {
+    const isChecked = checkbox.checked;
+
+    if (isChecked) {
+      updateBtn.setAttribute("data-bs-target", "#goodsUpdateModel");
+    } else {
+      updateBtn.setAttribute("data-bs-target", "");
+    }
+  });
+});
+
 /* 상품 목록 수정 데이터 가져오기 */
 const updateBtn = document.getElementById("updateBtn");
-updateBtn.addEventListener("click", () => {
 
+updateBtn.addEventListener("click", () => {
    const checkbox = document.querySelector("input[type='checkbox']:checked");
+
+   if (checkbox == null) {
+      alert('체크박스를 선택하세요.');
+   }
 
    const row = checkbox.closest("tr");
    document.getElementById("goodsNo").value = row.children[1].innerText;
    document.getElementById("goodsName").value = row.children[2].innerText;
    document.getElementById("goodsStandard").value = row.children[3].innerText;
    document.getElementById("lcategorySelectUpdate").value = row.children[4].innerText;
-   fetch(
-      "/stockManage/scategoryList?lcategory=" + document.getElementById("lcategorySelectUpdate").value
-   )
+   fetch( "/stockManage/scategoryList?lcategory=" + document.getElementById("lcategorySelectUpdate").value )
    .then(resp=>resp.json())
    .then(list=>{
       if(list.length != 0){
@@ -138,6 +178,8 @@ const goodsDetailUpdate = document.getElementById("goodsDetailUpdate");
 const goodsDetailImageUpdate = document.getElementById("goodsDetailImageUpdate");
 const goodsImage = document.querySelector(".goodsImage");
 
+
+
 /* 상품 상세 조회 및 수정 */
 for(let goodsItem of goodsDetailSelectBtn){
    goodsItem.addEventListener("click", () => {
@@ -145,7 +187,12 @@ for(let goodsItem of goodsDetailSelectBtn){
       fetch("/stockManage/goodsDetailSelect?goodsNo=" + goodsNo)
       .then( resp => resp.json() )
       .then( goodsSelect => {
-         goodsDetailImageUpdate.src = goodsSelect.goodsImagePath + goodsSelect.goodsImage;
+         if(goodsSelect.goodsImagePath == null || goodsSelect.goodsImage == null){
+            goodsDetailImageUpdate.src = defaultImage;
+          } else {
+            goodsDetailImageUpdate.src = goodsSelect.goodsImagePath + goodsSelect.goodsImage;
+          }
+
          goodsDetailNameUpdate.value = goodsSelect.goodsName;
          goodsDetailStandardUpdate.value = goodsSelect.goodsStandard;
          goodsDetailUpdate.value = goodsSelect.goodsDetail;
@@ -165,64 +212,10 @@ deleteImage.addEventListener("click", () => {
    goodsImage.value = "";
 });
 
-const goodsSearchBtn = document.getElementById("goodsSearch");
-
-goodsSearchBtn.addEventListener("click", () => {
-  const goodsNameInput = document.querySelector('input[name="goodsSearch"]');
-  const goodsName = goodsNameInput.value;
-
-  fetch("/stockManage/goodsSearch?goodsName=" + goodsName)
-    .then(resp => resp.json())
-    .then(data => {
-      // 서버 응답 데이터 처리
-      console.log(data);
-
-      // 테이블에 데이터 추가
-      const goodsTable = document.getElementById("goodsTable");
-      goodsTable.innerHTML = ""; // 기존 테이블 내용 초기화
-
-      // 데이터를 순회하면서 새로운 행(tr)을 생성하여 테이블에 추가
-      data.forEach(stock => {
-        const row = document.createElement("tr");
-
-        const checkboxCell = document.createElement("td");
-        const checkboxLabel = document.createElement("label");
-        const checkboxInput = document.createElement("input");
-        checkboxInput.type = "checkbox";
-        checkboxInput.className = "checkbox";
-        checkboxInput.name = stock.goodsNo;
-        checkboxLabel.appendChild(checkboxInput);
-        checkboxCell.appendChild(checkboxLabel);
-        row.appendChild(checkboxCell);
-
-        const goodsNoCell = document.createElement("td");
-        goodsNoCell.textContent = stock.goodsNo;
-        row.appendChild(goodsNoCell);
-
-        const goodsNameCell = document.createElement("td");
-        goodsNameCell.textContent = stock.goodsName;
-        goodsNameCell.dataset.bsToggle = "modal";
-        goodsNameCell.dataset.bsTarget = "#goodsDetailSelectBtn";
-        goodsNameCell.className = "goodsDetailSelectBtn";
-        goodsNameCell.style.cursor = "pointer";
-        row.appendChild(goodsNameCell);
-
-        const goodsStandardCell = document.createElement("td");
-        goodsStandardCell.textContent = stock.goodsStandard;
-        row.appendChild(goodsStandardCell);
-
-        const lcategoryNameCell = document.createElement("td");
-        lcategoryNameCell.textContent = stock.lcategoryName;
-        row.appendChild(lcategoryNameCell);
-
-        const scategoryNameCell = document.createElement("td");
-        scategoryNameCell.textContent = stock.scategoryName;
-        row.appendChild(scategoryNameCell);
-
-        goodsTable.appendChild(row);
-      });
-    })
-    .catch(error => {
-      console.error("에러발생:", error);
-    });
+const goodsInertReset = document.getElementById("goodsInertReset");
+/* 등록 초기화 버튼 클릭 시 데이터 초기화 */
+goodsInertReset.addEventListener("click", () => {
+   document.getElementById("goodsInertForm").reset();
 });
+
+

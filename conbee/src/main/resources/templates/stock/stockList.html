@@ -127,9 +127,8 @@
       </div>
       <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">
         <div class="" role="group" aria-label="Basic outlined example">
-          <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="#stockUpdateModel" id="stockUpdateBtn">재고수정</button>
           <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="#stockInsertModel">등록</button>
-          <button type="button" class="btn btn-warning me-1">사용중단/재사용</button>
+          <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="#stockUpdateModel" id="stockUpdateBtn">재고수정</button>
           <button name="stockDelete" id="deleteBtn" type="button" class="btn btn-warning">삭제</button>
         </div>
       </div>
@@ -301,6 +300,9 @@
     </div>
   </div>
 
+  <script th:inline="javascript">
+    const defaultImage = /*[[#{logo.default.image}]]*/ "상품 기본이미지";
+  </script>
   <script src="/js/stock/stockList.js"></script>
   <script src="/js/bootstrap.bundle.min.js"></script>
 </body>

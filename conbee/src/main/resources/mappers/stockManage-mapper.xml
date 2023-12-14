@@ -77,12 +77,17 @@
 	
 	<!-- 상품 검색 -->
 	<select id="goodsSearch" resultType="Stock">
-		SELECT GOODS_NO, GOODS_NAME, GOODS_STANDARD, LCATEGORY_NAME, SCATEGORY_NAME 
+		SELECT LCATEGORY_NAME, SCATEGORY_NAME, GOODS_NAME, GOODS_NO, GOODS_STANDARD
 		FROM GOODS
-		JOIN STOCK USING (GOODS_NO)
 		JOIN LCATEGORY USING(LCATEGORY_NO)
 		JOIN SCATEGORY USING(SCATEGORY_NO)
 		WHERE GOODS_NAME LIKE '%${goodsName}%'
+		<if test='lcategoryName != ""'>
+			AND LCATEGORY_NAME = #{lcategoryName}
+		</if>
+		<if test='scategoryName != ""'>
+			AND SCATEGORY_NAME = #{scategoryName}
+		</if>
 		ORDER BY GOODS_NO DESC
 	</select>
 </mapper>

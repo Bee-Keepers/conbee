@@ -124,7 +124,11 @@ for(let item of goodsDetailBtn){
     fetch("/stock/goodsDetail?goodsNo=" + goodsNo)
     .then( resp => resp.json() )
     .then( goods => {
-      goodsDetailImage.src = goods.goodsImagePath + goods.goodsImage;
+      if(goods.goodsImagePath == null || goods.goodsImage == null){
+        goodsDetailImage.src = defaultImage;
+      } else {
+        goodsDetailImage.src = goods.goodsImagePath + goods.goodsImage;
+      }
       goodsDetailName.innerText = goods.goodsName;
       goodsDetailStandard.innerText = goods.goodsStandard;
       goodsDetail.innerText = goods.goodsDetail;

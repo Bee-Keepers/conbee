@@ -2,6 +2,7 @@ package com.keepers.conbee.stock.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -209,13 +210,14 @@ public class StockManageController {
 	 * @return
 	 */
 	@GetMapping("goodsSearch")
-	public String goodsSearch( Stock stock, Model model, @SessionAttribute("loginMember") Member loginMember ) {
+	public String stockSearch( Stock stock, Model model ) {
 		
 		List<Stock> goodsSearchList = service.goodsSearch(stock);
+		Map<String, Object> map = new HashMap<>();
+		map.put("goodsListSelect", goodsSearchList);
+		model.addAttribute("map", map);
 		
-		model.addAttribute("goodsListSelect", goodsSearchList);
-		
-		return "stock/stockManage/stockList";
+		return "stock/stockManage/goodsManageList";
 	}
 	
 }

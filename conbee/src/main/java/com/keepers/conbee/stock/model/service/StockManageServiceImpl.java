@@ -75,6 +75,11 @@ public class StockManageServiceImpl implements StockManageService{
 	// 상품 검색
 	@Override
 	public List<Stock> goodsSearch(Stock stock) {
+		if(stock.getLcategoryName() == null && stock.getScategoryName() == null && stock.getGoodsName() == null) {
+			stock.setLcategoryName("");
+			stock.setScategoryName("");
+			stock.setGoodsName("");
+		}
 		return mapper.goodsSearch(stock);
 	}
 }

@@ -10,6 +10,53 @@
 </head>
 <body class="d-flex flex-column" style="height: 100vh;">
 
+  <!-- 상세 검색 Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">상세 검색</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="stockSearchForm" action="/stockManage/goodsSearch" method="get">
+          <div class="modal-body">
+            <!-- 대분류 -->
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="lcategorySelect">대분류</label>
+              <select class="form-select" name="lcategoryName" id="lcategorySelect">
+                <option value="">선택</option>
+                <option>간편식사</option>
+                <option>즉석조리</option>
+                <option>과자류</option>
+                <option>아이스크림</option>
+                <option>식품</option>
+                <option>음료</option>
+                <option>생활용품</option>
+              </select>
+            </div>
+  
+            <!-- 소분류 -->
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="inputGroupSelect01">소분류</label>
+              <select class="form-select" name="scategoryName" id="scategorySelect">
+                <option value="">선택</option>
+              </select>
+            </div>
+  
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" name="goodsName" id="goodsNameSelect" placeholder="">
+              <label for="goodsNameSelect">품목 이름</label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="goodsSearchClose">닫기</button>
+            <button type="submit" class="btn btn-warning" id="stockSearchBtn">검색</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <th:block th:replace="~{common/header}"></th:block>
 
   <main class="d-flex flex-grow-1 overflow-y-auto">
@@ -20,10 +67,14 @@
       <div class="d-flex justify-content-between align-items-center w-100 border-bottom">
         <div class="fs-3 pb-3 px-3">상품 등록</div>
         <!-- 검색창 -->
-        <div class="fs-4 w-25 pb-3 px-3 input-group">
-          <input type="text" class="form-control" placeholder="상품 이름을 입력해주세요" 
-          aria-label="Recipient's username" name="goodsSearch">
-          <button class="btn btn-warning" type="button" name="goodsSearchBtn" id="goodsSearch">검색</button>
+        <div class="d-flex align-items-center">
+          <div>
+            <div class="input-group me-4">
+              <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                상품 검색
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -67,7 +118,7 @@
       <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">
         <div class="btn-group" role="group" aria-label="Basic outlined example">
           <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#goodsInsertModel">등록</button>
-          <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#goodsUpdateModel" id="updateBtn">수정</button>
+          <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="" id="updateBtn">수정</button>
           <button name="goodsDelete" id="deleteBtn" type="button" class="btn btn-warning">삭제</button>
         </div>
       </div>    
@@ -87,24 +138,24 @@
         </div>
         
         <div class="modal-body">
-          <form action="/stockManage/goodsInsert" method="post">
+          <form action="/stockManage/goodsInsert" method="post" id="goodsInertForm">
             <!-- 상품명 -->
             <div class="form-floating mb-3">
-              <input name="goodsName" type="text" class="form-control" id="" placeholder="품목명">
+              <input name="goodsName" type="text" class="form-control" id="" placeholder="품목명" required>
               <label>상품명</label>
             </div>
             
             <!-- 재고 규격 -->
             <div class="form-floating mb-3">
-              <input name="goodsStandard" type="text" class="form-control" id="" placeholder="품목구분">
+              <input name="goodsStandard" type="text" class="form-control" id="" placeholder="품목구분" required>
               <label>재고규격</label>
             </div>
             
             <!-- 대분류 -->
             <div class="input-group mb-3">
               <label class="input-group-text" for="inputGroupSelect01">대분류</label>
-              <select class="form-select" name="lcategoryName" id="lcategorySelect">
-                <option value="0">선택</option>
+              <select class="form-select" name="lcategoryName" id="lcategoryInsert" required>
+                <option selected disabled value="">선택</option>
                 <option>간편식사</option>
                 <option>즉석조리</option>
                 <option>과자류</option>
@@ -118,19 +169,20 @@
             <!-- 소분류 -->
             <div class="input-group mb-3">
               <label class="input-group-text" for="inputGroupSelect01">소분류</label>
-              <select class="form-select" name="scategoryName" id="scategorySelect">
-                <option value="0">선택</option>
+              <select class="form-select" name="scategoryName" id="scategoryInsert" required>
+                <option selected disabled value="">선택</option>
               </select>
             </div>
             
             <!-- 버튼 -->
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+              <button type="button" class="btn btn-warning" id="goodsInertReset">초기화</button>
               <button type="submit" class="btn btn-primary btn-warning" id="goodsInsertBtn">등록</button>
             </div>
           </form>
-        </div>
 
+        </div>
       </div>
     </div>
   </div>
@@ -262,6 +314,9 @@
       };
       reader.readAsDataURL(e.target.files[0]);
     });
+    
+    /* 기본 이미지 */
+    const defaultImage = /*[[#{logo.default.image}]]*/ "상품 기본이미지";
   </script>
 
   <script src="/js/stock/goodsManageList.js"></script>
