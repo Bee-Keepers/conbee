@@ -113,6 +113,7 @@ public class BoardServiceImpl implements BoardService{
 	public Board boardDetail(Map<String, Object> map) {
 		
 		
+		
 		return mapper.boardDetail(map);
 	}
 	

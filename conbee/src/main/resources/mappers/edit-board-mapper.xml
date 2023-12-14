@@ -16,9 +16,24 @@
 	</insert>
 
 
+	<!-- 게시글 삭제 -->
+	<delete id="deleteBoard">
+		UPDATE "BOARD" SET
+		BOARD_DEL_FL = 'Y'
+		WHERE BOARD_CODE_NO = #{boardCodeNo}
+		AND BOARD_NO = #{boardNo}
+		AND MEMBER_NO = #{memberNo}
+	</delete>
 
 
-
+	<!-- 게시글 부분만 수정 -->
+	<update id="updateBoard">
+		UPDATE "BOARD" SET
+		BOARD_TITLE = #{boardTitle},
+		BOARD_CONTENT = #{boardContent}
+		WHERE BOARD_CODE_NO = #{boardCodeNo}
+		AND BOARD_NO = #{boardNo}
+	</update>
 
 
 

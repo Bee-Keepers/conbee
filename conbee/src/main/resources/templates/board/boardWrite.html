@@ -11,7 +11,13 @@
   <link rel="stylesheet" href="/css/board/boardWrite.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <!-- <script src="/js/ckeditor5/build/ckeditor.js"></script> -->  <!-- /* watchdog 방식  */ -->
+
+  <!-- 기존 에디터 js 
   <script src="/js/ckeditor51/build/ckeditor.js"></script>
+   -->
+
+  <!-- 초기 버전 에디터 js(파일 추가 버전) -->
+  <script src="/js/ckeditor52/build/ckeditor.js"></script>
   <script src="/js/bootstrap.bundle.min.js"></script>
 
   
@@ -57,9 +63,9 @@
 
       <!-- 제목 / 게시글 작성 -->
       <div class="px-4 pt-2 flex-grow-1 align-items-center d-flex justify-content-center" >
-        <form action="insert" method="POST">
+        <form action="insert" method="POST" id="boardWriteFrm">
           <div class="d-flex align-items-center" style="width: 1000px;">
-            <input type="text" style="font-size: 1.5rem;" class="form-control mb-1" name="boardTitle" id="boardTitle" placeholder="제목을 입력해주세요" maxlength="50" required>
+            <input type="text" style="font-size: 1.5rem;" class="form-control mb-1" name="boardTitle" id="boardTitle" placeholder="제목을 입력해주세요" maxlength="50">
           </div>
   
           <div>
@@ -70,11 +76,11 @@
               <input type="file" name="boardAttach" class="form-control" id="inputGroupFile02">
             </div>
             
-            <div class="btn-group W-100" style="float: right;">
-              <button type="submit" class="saveBtn me-1">저장</button>
-              <a href="/board/boardList" class="cancelBtn">취소</a>
-            </div>
             
+          </div>
+          <div class="btn-group W-100" style="float: right;">
+            <button type="submit" class="saveBtn me-1">저장</button>
+            <button type="button" onclick="cancelBtn()" class="cancelBtn" >취소</button>
           </div>
         </form>
       </div>
@@ -89,6 +95,8 @@
   
   <script>
 
+    
+/*  108번째 빌드 경로 다름 (기존 에디터)
 ClassicEditor
 	.create( document.querySelector( '#editor' ), {
 		// Editor configuration.
@@ -104,6 +112,34 @@ function handleSampleError( error ) {
 	const message = [
 		'Oops, something went wrong!',
 		`Please, report the following error on ${ issueUrl } with the build id "4x1hzj93m7t7-9ag4f4jxojkm" and the error stack trace:`
+	].join( '\n' );
+
+	console.error( message );
+	console.error( error );
+}
+ */
+
+
+/* 강사님께서 초기 버전으로 만들어보라고하셔서 만든 에디터 */
+ClassicEditor
+	.create( document.querySelector( '#editor' ), {
+    language: "ko",
+    ckfinder : {
+      uploadUrl: "/images/board",
+      withCredentials: true
+    }
+	} )
+	.then( editor => {
+		window.editor = editor;
+	} )
+	.catch( handleSampleError );
+
+function handleSampleError( error ) {
+	const issueUrl = 'https://github.com/ckeditor/ckeditor5/issues';
+
+	const message = [
+		'Oops, something went wrong!',
+		`Please, report the following error on ${ issueUrl } with the build id "914v1vg479na-nohdljl880ze" and the error stack trace:`
 	].join( '\n' );
 
 	console.error( message );
@@ -154,6 +190,11 @@ function handleSampleError( error ) {
     //   } );
 
   </script>
+
+   
+
+
+
   
 
   <script th:inline="javascript">
@@ -161,8 +202,19 @@ function handleSampleError( error ) {
     const boardCodeName = /*[[${boardCodeName}]]*/ "게시판 이름";
     const boardNo = /*[[${boardNo}]]*/ "게시글 번호";
 
-  
+
+
+
+    // 취소 버튼 눌렀을 때 이전 페이지로 이동
+    function cancelBtn() {
+
+      // 입력 값이 비어있지 않은 경우에만 이전 페이지로 이동
+        // 여기에 이전 페이지로 이동하는 코드를 추가할 수 있습니다.
+        // 예를 들면, 아래와 같이 브라우저의 뒤로 가기 기능을 사용할 수 있습니다.
+        window.history.back();
+      }
   </script>
-  
+  <script src="/js/board/boardWrite.js"></script>
+
 </body>
 </html>

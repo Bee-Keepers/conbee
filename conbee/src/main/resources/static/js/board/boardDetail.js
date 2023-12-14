@@ -1,8 +1,8 @@
-// 좋아요 버튼(#boardLike) 요소를 얻어와 변수에 저장
-const boardLike = document.querySelector("#boardLike");
+// 좋아요 버튼(#bookMark) 요소를 얻어와 변수에 저장
+const bookMark = document.querySelector("#bookMark");
 
 // 좋아요 버튼 클릭 시(이벤트 리스너 추가)
-boardLike.addEventListener("click", e => {
+bookMark.addEventListener("click", e => {
   
   // 1. 로그인 여부 확인 (로그인한 회원만 좋아요를 누를 수 있다!)
 
@@ -27,7 +27,7 @@ boardLike.addEventListener("click", e => {
   // "fa-regular" : 비어있는 하트
   // "fa-solid" : 채워져 있는 하트
   // 클릭한 하트에 class 속성 값으로 "fa-regular"가 있으면 true
-  if(e.target.classList.contains("fa-regular")){
+  if(e.target.classList.contains("bi-star")){
     check = 0;
   } else {
     check = 1;
@@ -54,8 +54,8 @@ boardLike.addEventListener("click", e => {
 
     // 요소.classList.toggle
     // - 요소에 클래스가 있으면 삭제, 없으면 추가
-    e.target.classList.toggle("fa-regular");
-    e.target.classList.toggle("fa-solid");
+    e.target.classList.toggle("bi-star");
+    e.target.classList.toggle("bi-star-fill");
 
     // 좋아요 수 (count)를 화면에 출력
     e.target.nextElementSibling.innerText = count;
@@ -135,7 +135,7 @@ if(deleteBtn != null) { // 삭제 버튼이 존재하는 경우
       // 삭제 요청 주소 : /editBoard/{boardCode}/{boardNo}/delete (GET)
 
       location.href
-        = location.pathname.replace("board", "editBoard") + "/delete";
+        = location.pathname.replace("board", "board") + "/delete";
 
     }
   });
@@ -143,21 +143,21 @@ if(deleteBtn != null) { // 삭제 버튼이 존재하는 경우
 
 // --------------------------------------------------------------------------
 /* 수정 버튼 클릭 시 수정 화면 요청 */
-const updateBtn = document.getElementById("updateBtn");
+// const updateBtn = document.getElementById("updateBtn");
 
-if(updateBtn != null) { // 수정 버튼 존재 시
-  updateBtn.addEventListener("click", () => {
+// if(updateBtn != null) { // 수정 버튼 존재 시
+//   updateBtn.addEventListener("click", () => {
 
-    //   /board/{boardCode}}/{boardNo}?cp=1
+//     //   /board/{boardCode}}/{boardNo}?cp=1
 
-    //   /editBoard/{boardCode}/{boardNo}/update?cp=1
+//     //   /editBoard/{boardCode}/{boardNo}/update?cp=1
 
-    let url = `/editBoard/${boardCode}/${boardNo}/update${location.search}`;
-    location.href = url;
+//     let url = `/editBoard/${boardCode}/${boardNo}/update${location.search}`;
+//     location.href = url;
 
 
-  });
+//   });
 
-}
+// }
 
 
