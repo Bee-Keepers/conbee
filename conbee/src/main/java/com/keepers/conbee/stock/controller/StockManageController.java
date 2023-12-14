@@ -103,6 +103,8 @@ public class StockManageController {
 		return "stock/stockManage/stockList";
 	}
 	
+	
+	
 	/** 재고 현황 등록
 	 * @param stock
 	 * @param ra
@@ -210,7 +212,7 @@ public class StockManageController {
 	 * @return
 	 */
 	@GetMapping("goodsSearch")
-	public String stockSearch( Stock stock, Model model ) {
+	public String goodsSearch( Stock stock, Model model ) {
 		
 		List<Stock> goodsSearchList = service.goodsSearch(stock);
 		Map<String, Object> map = new HashMap<>();
@@ -218,6 +220,24 @@ public class StockManageController {
 		model.addAttribute("map", map);
 		
 		return "stock/stockManage/goodsManageList";
+	}
+	
+	@GetMapping("updatePrice")
+	public String updatePrice() {
+		
+		return "stock/stockManage/updatePrice";
+	}
+	
+	/** 입고가 조정 상세검색
+	 * @param stock
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("stockSearch")
+	public String stockSearch(Stock stock, Model model) {
+		List<Stock> stockListSelect = service.stockList(stock);
+		model.addAttribute("stockListSelect", stockListSelect);
+		return "stock/stockManage/updatePrice";
 	}
 	
 }
