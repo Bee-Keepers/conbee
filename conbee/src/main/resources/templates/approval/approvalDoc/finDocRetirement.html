@@ -1,27 +1,27 @@
-<!-- 2. 사직서 작성완료된 문서-->
+<!-- 2. 사직서 문서 -->
 <div class="modal-body" style="width: 800px; height: 800px; ">
   <!-- 템플릿 -->
-  <div class="temps my-2 mx-3 p-3" style="border: 1px solid black;">
+  <div class="temps my-2 mx-3 p-3">
 
     <!-- 템플릿 제목 -->
     <div class="pt-4" style="font-size:30px; font-weight: bold; text-align: center;">사직서</div>
 
     <!-- 템플릿 정보/승인 -->
-    <div class="d-flex justify-content-between mt-5">
+    <div class="d-flex justify-content-between">
       <!-- 정보 -->
       <div class="tempInfo my-2 mx-3 px-2">
         <table class="table table-bordered" style="width: 250px; border: black;">
           <tr>
             <th>문서번호</th>
-            <td>-</td>
+            <td class="docApprovalNo"></td>
           </tr>
           <tr>
             <th>부 서</th>
-            <td>전산팀</td><!-- ${teamName} -->
+            <td class="infoTeam"></td>
           </tr>
           <tr>
             <th>기안자</th>
-            <td>정유진</td><!-- ${memberName} -->
+            <td th:text="${session.loginMember.memberName}"></td>
           </tr>
           <tr>
             <th>구분(항목)</th>
@@ -33,7 +33,7 @@
           </tr>
           <tr>
             <th>기안일</th>
-            <td>2023-11-25</td><!-- sysdate -->
+            <td class="docApprovalDate"></td>
           </tr>
         </table>
       </div>
@@ -101,19 +101,19 @@
         <tbody>
           <tr>
             <th>제 목</th>
-            <td></td>
+            <td id="docRetireTitle"></td>
           </tr>
           <tr>
             <th>퇴직 예정일</th>
-            <td>2023.12.27</td><!-- ${퇴직 예정일} -->
+            <td id="docRetireDate"></td>
           </tr>
           <tr>
-            <th style="vertical-align: middle;">상세 내용</th>
-            <td>퇴사하게해주세요</td>
+            <th>상세 내용</th>
+            <td id="docRetireText"></td>
           </tr>
           <tr>
             <th>첨부파일</th>
-            <td><a href="" style="text-decoration: none;">사직서 첨부_이예리나.doc</a></td>
+            <td></td>
           </tr>
         </tbody>
       </table>

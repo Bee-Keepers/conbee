@@ -118,104 +118,101 @@
           </tbody>
         </table>
       </div>
-        <!-- 페이지네이션 하단고정 -->
-        <div class="w-100 sticky-bottom fixed-bottom bg-white pagination-area" th:if="${#lists.size(memberList) > 0}">
+      <!-- 페이지네이션 하단고정 -->
+      <div class="w-100 sticky-bottom fixed-bottom bg-white pagination-area" th:if="${#lists.size(memberList) > 0}">
 
-          <nav aria-label="Page navigation example" class="d-flex justify-content-center" style="color: #303841;">
-  
-            <!-- ======== 페이지네이션 : 일반 조회 =========== -->
-            <ul class="pagination" th:if="${param.query == null}">
-              <!-- 첫 페이지로 이동 -->
-              <li class="page-item">
-                <a class="page-link" aria-label="First" th:href="@{/admin/memberManage/memberList(cp=1)}">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-  
-              <!-- 이전 목록 마지막 번호로 이동 -->
-              <li class="page-item">
-                <a class="page-link" aria-label="Previous" th:href="@{/admin/memberManage/memberList(cp=${pagination.prevPage})}">
-                  <span aria-hidden="true">&lt;</span>
-                </a>
-              </li>
-  
-              <!-- 특정 페이지로 이동 -->
-              <th:block th:each="i : ${#numbers.sequence(pagination.startPage, pagination.endPage, 1)}">
-  
-                <!-- 현재 보고있는 페이지 -->
-                <li th:if="${i == pagination.currentPage}" class="page-item">
-                  <a class="current page-link" th:text="${i}">1</a>
-                </li>
-  
-                <!-- 보고있지 않은 페이지 -->
-                <li th:unless="${i == pagination.currentPage}" class="page-item">
-                  <a class="page-link" th:href="@{/admin/memberManage/memberList(cp=${i})}" th:text="${i}">2</a>
-                </li>
-              </th:block>
-  
-              <!-- 다음 목록 시작 번호로 이동 -->
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next" th:href="@{/admin/memberManage/memberList(cp=${pagination.nextPage})}">
-                  <span aria-hidden="true">&gt</span>
-                </a>
-              </li>
-  
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="End" th:href="@{/admin/memberManage/memberList(cp=${pagination.maxPage})}">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
-  
-  
-            <!-- ======== 페이지네이션 : 검색 조회 =========== -->
-            <ul class="pagination" th:unless="${param.query == null}">
-              <!-- 첫 페이지로 이동 -->
-              <li class="page-item">
-                <a class="page-link" aria-label="First" th:href="@{/admin/memberManage/memberList(cp=1, query=${param.query})}">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-  
-              <!-- 이전 목록 마지막 번호로 이동 -->
-              <li class="page-item">
-                <a class="page-link" aria-label="Previous" th:href="@{/admin/memberManage/memberList(cp=${pagination.prevPage}, query=${param.query})}">
-                  <span aria-hidden="true">&lt;</span>
-                </a>
-              </li>
-  
-              <!-- 특정 페이지로 이동 -->
-              <th:block th:each="i : ${#numbers.sequence(pagination.startPage, pagination.endPage, 1)}">
-  
-                <!-- 현재 보고있는 페이지 -->
-                <li th:if="${i == pagination.currentPage}" class="page-item">
-                  <a class="current page-link" th:text="${i}">1</a>
-                </li>
-  
-                <!-- 보고있지 않은 페이지 -->
-                <li th:unless="${i == pagination.currentPage}" class="page-item">
-                  <a class="page-link" th:href="@{/admin/memberManage/memberList(cp=${i}, query=${param.query})}" th:text="${i}">2</a>
-                </li>
-              </th:block>
-  
-              <!-- 다음 목록 시작 번호로 이동 -->
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next" th:href="@{/admin/memberManage/memberList(cp=${pagination.nextPage}, query=${param.query})}">
-                  <span aria-hidden="true">&gt</span>
-                </a>
-              </li>
-  
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="End" th:href="@{/admin/memberManage/memberList(cp=${pagination.maxPage}, query=${param.query})}">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
+        <nav aria-label="Page navigation example" class="d-flex justify-content-center" style="color: #303841;">
 
-      </div>
-      </div>  
+          <!-- ======== 페이지네이션 : 일반 조회 =========== -->
+          <ul class="pagination" th:if="${param.query == null}">
+            <!-- 첫 페이지로 이동 -->
+            <li class="page-item">
+              <a class="page-link" aria-label="First" th:href="@{/admin/memberManage/memberList(cp=1)}">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+
+            <!-- 이전 목록 마지막 번호로 이동 -->
+            <li class="page-item">
+              <a class="page-link" aria-label="Previous" th:href="@{/admin/memberManage/memberList(cp=${pagination.prevPage})}">
+                <span aria-hidden="true">&lt;</span>
+              </a>
+            </li>
+
+            <!-- 특정 페이지로 이동 -->
+            <th:block th:each="i : ${#numbers.sequence(pagination.startPage, pagination.endPage, 1)}">
+
+              <!-- 현재 보고있는 페이지 -->
+              <li th:if="${i == pagination.currentPage}" class="page-item">
+                <a class="current page-link" th:text="${i}">1</a>
+              </li>
+
+              <!-- 보고있지 않은 페이지 -->
+              <li th:unless="${i == pagination.currentPage}" class="page-item">
+                <a class="page-link" th:href="@{/admin/memberManage/memberList(cp=${i})}" th:text="${i}">2</a>
+              </li>
+            </th:block>
+
+            <!-- 다음 목록 시작 번호로 이동 -->
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Next" th:href="@{/admin/memberManage/memberList(cp=${pagination.nextPage})}">
+                <span aria-hidden="true">&gt</span>
+              </a>
+            </li>
+
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="End" th:href="@{/admin/memberManage/memberList(cp=${pagination.maxPage})}">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+
+
+          <!-- ======== 페이지네이션 : 검색 조회 =========== -->
+          <ul class="pagination" th:unless="${param.query == null}">
+            <!-- 첫 페이지로 이동 -->
+            <li class="page-item">
+              <a class="page-link" aria-label="First" th:href="@{/admin/memberManage/memberList(cp=1, query=${param.query})}">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+
+            <!-- 이전 목록 마지막 번호로 이동 -->
+            <li class="page-item">
+              <a class="page-link" aria-label="Previous" th:href="@{/admin/memberManage/memberList(cp=${pagination.prevPage}, query=${param.query})}">
+                <span aria-hidden="true">&lt;</span>
+              </a>
+            </li>
+
+            <!-- 특정 페이지로 이동 -->
+            <th:block th:each="i : ${#numbers.sequence(pagination.startPage, pagination.endPage, 1)}">
+
+              <!-- 현재 보고있는 페이지 -->
+              <li th:if="${i == pagination.currentPage}" class="page-item">
+                <a class="current page-link" th:text="${i}">1</a>
+              </li>
+
+              <!-- 보고있지 않은 페이지 -->
+              <li th:unless="${i == pagination.currentPage}" class="page-item">
+                <a class="page-link" th:href="@{/admin/memberManage/memberList(cp=${i}, query=${param.query})}" th:text="${i}">2</a>
+              </li>
+            </th:block>
+
+            <!-- 다음 목록 시작 번호로 이동 -->
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Next" th:href="@{/admin/memberManage/memberList(cp=${pagination.nextPage}, query=${param.query})}">
+                <span aria-hidden="true">&gt</span>
+              </a>
+            </li>
+
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="End" th:href="@{/admin/memberManage/memberList(cp=${pagination.maxPage}, query=${param.query})}">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div> 
     </div>
   </main>
 
