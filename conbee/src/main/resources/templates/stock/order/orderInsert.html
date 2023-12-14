@@ -12,7 +12,7 @@
 
   <!-- Button trigger modal -->
 
-  <!-- Modal -->
+  <!-- 품목 검색 Modal -->
   <div class="modal fade" id="exampleModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
@@ -124,7 +124,7 @@
             </tr>
           </tbody>
         </table>
-        <input type="hidden" name="storeNo" class="storeNo" th:value="${session.loginMember.storeList[0].storeNo}">
+        <input id="orderInputStoreNo" type="hidden" name="storeNo" class="storeNo" th:value="${session.loginMember.storeList[0].storeNo}">
       </form>
     </div>
   </main>

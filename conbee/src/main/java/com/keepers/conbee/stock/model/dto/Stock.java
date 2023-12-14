@@ -34,6 +34,7 @@ public class Stock {
 	private String goodsDetail;
 	private String goodsImage;
 	private String goodsImagePath;
+	private int goodsPrice;
 	private int deleteCheck;
 	
 	

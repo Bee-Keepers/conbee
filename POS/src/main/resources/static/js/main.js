@@ -55,7 +55,7 @@ plusRowBtn.addEventListener("click", ()=>{
             td0.append(checkbox);
             tr.append(td0);
 
-            for(let i = 1; i <=7; i++){
+            for(let i = 1; i <=8; i++){
                 const td = document.createElement("td");
                 const input = document.createElement("input");
                 input.setAttribute("type", "hidden");
@@ -65,9 +65,10 @@ plusRowBtn.addEventListener("click", ()=>{
                     case 2 : input.setAttribute("name", "lcategoryName"); break;
                     case 3 : input.setAttribute("name", "scategoryName"); break;
                     case 4 : input.setAttribute("name", "historyGoodsName"); break;
-                    case 5 : input.setAttribute("name", "historyDiscount"); break;
-                    case 6 : input.setAttribute("name", "historyUnitPrice"); break;
-                    case 7 : input.setAttribute("name", "historyActualPrice"); break;
+                    // case 5 : input.setAttribute("name", "historyGoodsName"); break;
+                    case 6 : input.setAttribute("name", "historyDiscount"); break;
+                    case 7 : input.setAttribute("name", "historyUnitPrice"); break;
+                    case 8 : input.setAttribute("name", "historyActualPrice"); break;
                     default : break;
                 }
                 td.innerText = parent.children[i].innerText;
@@ -81,7 +82,7 @@ plusRowBtn.addEventListener("click", ()=>{
             input.classList.add("form-control", "text-center");
             input.setAttribute("type", "number");
             input.setAttribute("min", "0");
-            input.setAttribute("max", "99");
+            input.setAttribute("max",  Number(parent.children[5].innerText));
             input.setAttribute("value", "1");
             input.setAttribute("name", "historyAmount");
             td6.append(input);
@@ -90,17 +91,17 @@ plusRowBtn.addEventListener("click", ()=>{
             parentTable.prepend(tr);
 
             input.addEventListener("input", e => {
-                if(input.value > 99){
-                    input.value = 99;
-                    alert("수량은 99를 초과할 수 없습니다")
+                if(input.value > Number(parent.children[5].innerText)){
+                    input.value = Number(parent.children[5].innerText);
+                    alert("수량은 재고개수를 초과할 수 없습니다");
                 }
-                if(input.value < 1){
-                    input.value = 1;
-                    alert("수량은 1을 미만할 수 없습니다")
+                if(input.value < 0){
+                    input.value = 0;
+                    alert("0이상의 수량을 선택해주세요");
                 }
                 calcPay(e.target);
                 // 총 합계 계산
-                const prices = document.querySelectorAll("#parentTable>tr>td:nth-of-type(10)");
+                const prices = document.querySelectorAll("#parentTable>tr>td:nth-of-type(11)");
                 let temp = 0;
                 for(let price of prices){
                     if(price.innerText != ""){
@@ -110,7 +111,7 @@ plusRowBtn.addEventListener("click", ()=>{
                 totalPrice.innerText = temp;
             });
             calcPay(input);
-            const prices = document.querySelectorAll("#parentTable>tr>td:nth-of-type(10)");
+            const prices = document.querySelectorAll("#parentTable>tr>td:nth-of-type(11)");
                 let temp = 0;
                 for(let price of prices){
                     if(price.innerText != ""){
@@ -179,7 +180,10 @@ inputPosSearch.addEventListener("input", ()=>{
             const span4 = document.createElement("span");
             span4.innerText = goods.goodsName;
             span4.classList.add("mx-2");
-            
+
+            const span45 = document.createElement("span");
+            span45.innerText = goods.stockAmount;
+            span45.style.display = "none";
 
             const span5 = document.createElement("span");
             span5.innerText = goods.stockDiscount;
@@ -198,7 +202,7 @@ inputPosSearch.addEventListener("input", ()=>{
             span8.innerText = goods.stockAmount;
             span8.style.display = "none";
             
-            label.append(input, span1, span2, span3, span4, span5, span6, span7, span8);
+            label.append(input, span1, span2, span3, span4, span45, span5, span6, span7, span8);
             modalBody.append(label);
 
 
@@ -213,12 +217,15 @@ inputPosSearch.addEventListener("input", ()=>{
 // createElement("input",{type:"text", name:"inputId"},["test", "aaa"])
 function createElement(tag, obj, classList){
     const element = document.createElement(tag);
-
+  
     for(let key in obj){
-        element.setAttribute(key, obj[key]);
+      element.setAttribute(key, obj[key]);
+    }
+    for(let clas of classList){
+      element.classList.add(clas);
     }
     return element;
-}
+  }
 
 // 행 삭제
 const deleteBtn = document.getElementById("deleteBtn");
@@ -232,7 +239,7 @@ deleteBtn.addEventListener("click", ()=>{
                 box.parentElement.parentElement.remove();
             }
         }
-        const prices = document.querySelectorAll("#parentTable>tr>td:nth-of-type(8)");
+        const prices = document.querySelectorAll("#parentTable>tr>td:nth-of-type(9)");
         let temp = 0;
         for(let price of prices){
             if(price.innerText != ""){
@@ -260,6 +267,13 @@ formSubmitBtn.addEventListener("click", ()=>{
     } else {
         if(parentTable.children[0] == undefined){
             alert("선택된 품목이 없습니다");
+            return;
+        }
+    }
+    const amounts = document.querySelectorAll("input[name='historyAmount']");
+    for(let amount of amounts){
+        if(amount.value == 0){
+            alert("수량을 입력해주세요");
             return;
         }
     }
