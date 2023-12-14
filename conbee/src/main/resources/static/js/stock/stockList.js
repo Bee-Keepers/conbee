@@ -178,6 +178,8 @@ stockUpdateBtn.addEventListener("click", () => {
   document.getElementById("stockOutPriceUpdate").value = row.children[7].innerText;
   document.getElementById("stockDiscountUpdate").value = row.children[9].innerText;
   document.getElementById("storeNoUpdate").value = row.children[11].innerText;
+  console.log(row.children[6].innerText);
+  console.log(document.getElementById("stockInPrice"));
 });
 
 const lcategorySelect = document.getElementById("lcategorySelect");
