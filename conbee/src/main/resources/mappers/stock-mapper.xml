@@ -42,7 +42,7 @@
 	
 	<!-- 상품 삭제 -->
 	<update id="goodsDelete">
-		UPDATE FROM GOODS
+		UPDATE "GOODS"
 		SET GOODS_DEL_FL = 'Y'
 		WHERE GOODS_NO = #{goodsNo}
 	</update>

@@ -44,7 +44,7 @@ public class StockManageController {
 			@RequestParam Map<String, Object> paramMap
 			) {
 		
-		Map<String, Object> map = service.goodsList(paramMap);
+		Map<String, Object> map = stockService.goodsList(paramMap);
 			
 		model.addAttribute("map", map);
 			

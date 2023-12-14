@@ -76,6 +76,7 @@ public class StockServiceImpl implements StockService{
 	// 등록된 상품 수정
 	@Override
 	public int goodsUpdate(Stock stock) {
+		log.info("=-=-=-=-=-=-=-= stock : " + stock);
 		return mapper.goodsUpdate(stock);
 	}
 	
