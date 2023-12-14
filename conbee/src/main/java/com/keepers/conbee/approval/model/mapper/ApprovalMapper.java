@@ -293,5 +293,69 @@ public interface ApprovalMapper {
 
 
 
+	/** 삭제버튼 클릭 시 삭제
+	 * @param approvalNo
+	 * @return
+	 */
+	int deleteApprove(int approvalNo);
+
+
+
+	/** 반려취소(결재자)
+	 * @param paramMap
+	 * @return
+	 */
+	int cancleReturn(Map<String, Object> paramMap);
+
+
+
+	/** 반려취소(기안서)
+	 * @param paramMap
+	 * @return
+	 */
+	int cancleReturnApp(Map<String, Object> paramMap);
+
+
+
+	/** 반려사유 업데이트
+	 * @param paramMap
+	 */
+	void returnApproveReason(Map<String, Object> paramMap);
+
+
+
+	/** 기안서 반려상태로 업데이트
+	 * @param paramMap
+	 */
+	void returnApproveCondition(Map<String, Object> paramMap);
+
+
+	/** 반려사유 조회
+	 * @param approvalNo
+	 * @return
+	 */
+	String selectReturnReason(int approvalNo);
+
+
+
+	/** 결재문서가 모두 승인이 났는지 확인 후 문서상태 변경
+	 * @param approvalNo
+	 * @return
+	 */
+	int approveAllCheck(int approvalNo);
+
+
+
+	/** 폐점 최종승인 확인 후 폐쇄하기
+	 * @param approvalNo
+	 * @return
+	 */
+	int storeRunCheck(int approvalNo);
+
+
+
+
+
+
 
 }

@@ -154,6 +154,12 @@ public interface StockService {
 	 */
 	List<Approval> orderApprovalComplete();
 
+	/** 재고 현황 검색
+	 * @param stock
+	 * @return
+	 */
+	List<Stock> stockSearch(Stock stock);
+
 
 
 }

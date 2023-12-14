@@ -18,15 +18,18 @@ thead>tr>th:nth-of-type(6){
     width: 6%;
 }
 thead>tr>th:nth-of-type(7){
-    width: 8%;
+    width: 6%;
 }
 thead>tr>th:nth-of-type(8){
     width: 8%;
 }
 thead>tr>th:nth-of-type(9){
-    width: 6%;
+    width: 8%;
 }
 thead>tr>th:nth-of-type(10){
+    width: 6%;
+}
+thead>tr>th:nth-of-type(11){
     width: 10%;
 }
 

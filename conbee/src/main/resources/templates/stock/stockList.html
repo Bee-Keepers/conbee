@@ -10,7 +10,7 @@
 </head>
 <body class="d-flex flex-column" style="height: 100vh;">
 
-  <!-- Modal -->
+  <!-- 상세 검색 Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -18,8 +18,8 @@
           <h5 class="modal-title" id="exampleModalLabel">상세 검색</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <form id="revenueSearchForm" action="/revenue/list" method="get">
+        <form id="stockSearchForm" action="/stock/stockSearch" method="get">
+          <div class="modal-body">
             <!-- 대분류 -->
             <div class="input-group mb-3">
               <label class="input-group-text" for="lcategorySelect">대분류</label>
@@ -47,29 +47,13 @@
               <input type="text" class="form-control" name="goodsName" id="floatingName" placeholder="">
               <label for="floatingName">품목 이름</label>
             </div>
-            <div class="input-group mb-3">
-              <div class="form-floating w-75">
-                <input type="number" name="revenue" class="form-control" id="floatingPrice" value="0">
-                <label for="floatingPrice">판매금액</label>
-              </div>
-              <select class="form-select" name="flag">
-                <option value="1">이상</option>
-                <option value="2">이하</option>
-              </select>
-            </div>
-            <div class="input-group input-daterange d-flex align-items-center">
-              <div class="input-group-text">날짜선택</div>
-              <input type="text" class="form-control" name="startDate">
-              <div class="input-group-text">to</div>
-              <input type="text" class="form-control" name="endDate">
-            </div>
             <input type="hidden" name="storeNo" id="storeNo" value="">
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-          <button type="button" class="btn btn-warning" id="revenueSearchBtn">검색</button>
-        </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            <button type="submit" class="btn btn-warning" id="stockSearchBtn">검색</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -83,7 +67,7 @@
     <div class="d-flex flex-column flex-grow-1 align-items-center overflow-y-auto p-3">
 
       <div class="d-flex justify-content-between align-items-center w-100 border-bottom">
-        <div class="fs-3 pb-3 px-3">재고 조회</div>
+        <div class="fs-3 pb-3 px-3">재고 현황</div>
         <div class="d-flex align-items-center">
           <div>
             <div class="input-group">
@@ -92,7 +76,7 @@
                   <option th:value="${store.storeNo}" th:text="${store.storeName}"></option>
                 </th:block>
               </select>
-              <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal" id="storeNoSearch">
                 상세 검색
               </button>
             </div>
@@ -111,7 +95,7 @@
               <th>품목구분</th>
               <th>그룹명</th>
               <th>재고규격</th>
-              <th>입고단가</th>
+              <th>현)입고단가</th>
               <th>출고단가</th>
               <th>재고</th>
               <th>할인율</th>
@@ -143,9 +127,8 @@
       </div>
       <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">
         <div class="" role="group" aria-label="Basic outlined example">
-          <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="#stockUpdateModel" id="stockUpdateBtn">재고수정</button>
           <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="#stockInsertModel">등록</button>
-          <button type="button" class="btn btn-warning me-1">사용중단/재사용</button>
+          <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="" id="stockUpdateBtn">재고수정</button>
           <button name="stockDelete" id="deleteBtn" type="button" class="btn btn-warning">삭제</button>
         </div>
       </div>
@@ -165,7 +148,7 @@
         </div>
 
         <div class="modal-body">
-          <form action="/stock/stockInsert" method="post" >
+          <form action="/stock/stockInsert" method="post" id="stockInertForm" >
             <div class="mb-3">
               <select class="form-select" name="storeNo" id="storeNameClick">
                 <option th:each="store : ${session.loginMember.storeList}" th:value="${store.storeNo}" th:text="${store.storeName}"></option>
@@ -178,7 +161,7 @@
                     <!-- <li class="list-group-item">An item</li> -->
                   </ul>
                 </div>
-                <input type="text" class="form-control" name="goodsName" id="serachName" placeholder="품목명">
+                <input type="text" class="form-control" name="goodsName" id="serachName" placeholder="품목명" required>
                 <label for="serachName">상품명</label>
               </div>
               <div class="form-floating mb-3">
@@ -194,7 +177,7 @@
                 <label for="">입고단가</label>
               </div>
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="stockOutPrice"  id="stockOutPrice" placeholder="출고단가">
+                <input type="text" class="form-control" name="stockOutPrice"  id="stockOutPrice" placeholder="출고단가" required>
               <label for="">출고단가</label>
               </div>
               <div class="form-floating mb-3">
@@ -205,6 +188,7 @@
             
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+              <button type="button" class="btn btn-warning" id="stockInertReset">초기화</button>
               <button type="submit" class="btn btn-primary btn-warning">등록</button>
             </div>
             <input type="hidden" name="stockAmount" value="0">
@@ -317,6 +301,9 @@
     </div>
   </div>
 
+  <script th:inline="javascript">
+    const defaultImage = /*[[#{logo.default.image}]]*/ "상품 기본이미지";
+  </script>
   <script src="/js/stock/stockList.js"></script>
   <script src="/js/bootstrap.bundle.min.js"></script>
 </body>

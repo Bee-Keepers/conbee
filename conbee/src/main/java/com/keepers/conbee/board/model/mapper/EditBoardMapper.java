@@ -16,10 +16,17 @@ public interface EditBoardMapper {
 	 */
 	int boardWrite(Board board);
 
-	/** 게시글 수정화면 전환(게시글 상세화면에서!)
-	 * @param map
+	/** 게시글 삭제
+	 * @param paramMap
 	 * @return
 	 */
-//	Board boardDetail(Map<String, Object> map);
+	int deleteBoard(Map<String, Integer> paramMap);
+
+	/** 게시글 수정
+	 * @param board
+	 * @return
+	 */
+	int updateBoard(Board board);
+
 
 }

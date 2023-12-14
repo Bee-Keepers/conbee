@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>게시글 상세조회</title>
+  <title th:text="${boardCodeName}">게시글 상세조회</title>
   <link rel="stylesheet" href="/css/bootstrap.css">
-  <link rel="stylesheet" href="/css/board/boardDetail-style.css">
+  <link rel="stylesheet" href="/css/board/boardDetail.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <style>
 
@@ -17,8 +17,10 @@
     }
 
   </style>
+
+  <script src="/js/ckeditor51/build/ckeditor.js"></script>
 </head>
-<body class="d-flex flex-column" style="height: 100vh;">
+<body class="d-flex flex-column" style="height: 100vh;" >
 
   <th:block th:replace="~{common/header}"></th:block>
   <!-- memberList, pagination 변수 선언 -->
@@ -32,7 +34,7 @@
 
       <!-- 타이틀 -->
       <div class="d-flex justify-content-between align-items-center border-bottom">
-        <div class="fs-3 pb-3 px-3" >
+        <div class="fs-3 pb-3 px-3" th:text="${boardCodeName}">
           보드 타이틀 예정
         </div>
       </div>
@@ -43,7 +45,7 @@
         <!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ보드디테이르ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
         <section class="board-detail">  
           <!-- 제목 -->
-          <h1 class="board-title">  게시글 제목  </h1>
+          <h1 class="board-title" th:text="${board.boardTitle}">  게시글 제목  </h1>
 
           <!-- 프로필 + 닉네임 + 작성일 + 조회수 -->
           <div class="board-header">
@@ -62,10 +64,10 @@
 
 
 
-                  <span>작성자 이름</span>
+                  <span th:text="${board.memberName}">작성자 이름</span>
 
                   
-                  <!-- 좋아요 하트 -->
+                  <!-- 북마크 하트 -->
                   <span class="like-area">
                       
                       <!-- 좋아요 누른적이 있으면 fa-solid, 없으면 fa-regular 클래스 추가 -->
@@ -73,23 +75,17 @@
                           -> ${likeCheck}가 참조하는 값이 있으면 fa-solid
                              없으면 (== null) fa-regular
                       -->
-                      <i class="fa-heart" th:classappend="${likeCheck} ? fa-solid : fa-regular" id="boardLike"></i>
-
-                      <!-- 좋아요 개수 -->
-                      <span th:text="*{likeCount}">0</span>
+                      <i class="bi" id="bookMark" style="color: gold;" th:classappend="${bookMark} ? bi-star-fill : bi-star"></i>
                   </span>
 
               </div>
 
               <div class="board-info">
-                  <p> <span>작성일</span> </p>     
+                  <p> <span th:text="|작성일 &nbsp;${board.boardWriteDate}|">작성일</span> </p>     
                   <!-- <p> <span>작성일</span> [[*{boardWriteDate}]] </p>      -->
 
-                  <!-- 수정한 게시글인 경우 -->
-                  <p> <span>마지막 수정일</span> </p>   
-                  <!-- <p> <span>마지막 수정일</span> [[*{boardUpdateDate}]] </p>    -->
 
-                  <p> <span>조회수</span> </p>                    
+                  <p> <span th:text="|조회수 &nbsp;${board.boardHits}|">조회수</span> </p>                    
                   <!-- <p> <span>조회수</span> [[*{readCount}]] </p>                     -->
               </div>
           </div>
@@ -147,7 +143,7 @@
 
 
           <!-- 내용 -->
-          <div class="board-content" th:text="${boardContent}">내용</div>
+          <div class="board-content" th:text="${board.boardContent}">내용</div>
 
 
 
@@ -156,9 +152,11 @@
 
               <!-- 로그인한 회원과 게시글 작성자 번호가 같은 경우-->
               <div class="btn-group W-100" style="float: right;">
-                <button type="button" class="listBtn me-1">목록으로</button>
-                <button type="button" class="saveBtn me-1">저장</button>
-                <a href="/board/boardList" class="cancelBtn">취소</a>
+                <th:block th:if="${session.loginMember != null and session.loginMember.memberNo == board.memberNo}">
+                  <a th:href="@{/board/boardUpdate/{boardCodeNo}/{boardNo}/update(boardCodeNo=${boardCodeNo}, boardNo=*{boardNo})}"  class="updateBtn me-1">수정</a>
+                  <button type="button" class="deleteBtn me-1" id="deleteBtn">삭제</button>
+                </th:block>
+                <button id="goToListBtn" class="listBtn me-1">목록으로</button>
               </div>
           </div>
 
@@ -190,9 +188,20 @@
 
   
   <script th:inline="javascript">
-    const boardCode = /*[[${boardCodeNo}]]*/ "게시판 코드";
+    const boardCodeNo = /*[[${boardCodeNo}]]*/ "게시판 코드";
     const boardCodeName = /*[[${boardCodeName}]]*/ "게시판 이름";
     const boardNo = /*[[${boardNo}]]*/ "게시글 번호";
+    // session에 세팅된 loginMember 존재 여부 확인 
+    const loginCheck = /*[[${session.loginMember != null ? true : false}]]*/ "로그인 여부";
+
+
+    // 목록 버튼 눌렀을 때 이전 페이지로 이동
+    // document.getElementById("listBtn").addEventListener("click", function() {
+    // window.history.back();
+    // });
+
+
+    
 
   
   </script>

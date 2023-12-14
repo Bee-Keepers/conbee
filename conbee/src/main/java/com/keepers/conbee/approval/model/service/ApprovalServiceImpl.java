@@ -396,22 +396,78 @@ public class ApprovalServiceImpl implements ApprovalService{
 		paramMap.put("approvalNo", approvalNo);
 		paramMap.put("memberNo", memberNo);
 		
+		// 결재승인 mapper 호출
 		return mapper.approve(paramMap);
 	}
 	
+	
+	/** 결재문서가 모두 승인이 났는지 확인 후 문서상태 변경
+	 *
+	 */
+	@Override
+	public int approveAllCheck(int approvalNo) {
+		return mapper.approveAllCheck(approvalNo);
+	}	
+	
+	
+	/** 폐점 최종승인 확인 후 폐쇄하기
+	 *
+	 */
+	@Override
+	public int storeRunCheck(int approvalNo) {
+		return mapper.storeRunCheck(approvalNo);
+	}	
+	
+
 	
 	/** 반려버튼 클릭 시 반려
 	 *
 	 */
 	@Override
-	public int returnApprove(int approvalNo, int memberNo) {
+	public int returnApprove(int approvalNo, int memberNo, String returnReason) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("approvalNo", approvalNo);
+		paramMap.put("memberNo", memberNo);
+		paramMap.put("returnReason", returnReason);
+		
+		// 반려사유 업데이트
+		mapper.returnApproveReason(paramMap);
+		
+		// 기안서 반려문서로 업데이트
+		mapper.returnApproveCondition(paramMap);
+		
+		return mapper.returnApprove(paramMap);
+	}
+	 
+	/** 삭제버튼 클릭 시 삭제
+	 *
+	 */
+	@Override
+	public int deleteApprove(int approvalNo) {
+		return mapper.deleteApprove(approvalNo);
+	}
+	
+	/** 반려취소
+	 *
+	 */
+	@Override
+	public int cancleReturn(int memberNo, int approvalNo) {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("approvalNo", approvalNo);
 		paramMap.put("memberNo", memberNo);
 		
-		return mapper.returnApprove(paramMap);
+		mapper.cancleReturn(paramMap); // 결재권한자 반려취소
+		
+	 	return mapper.cancleReturnApp(paramMap); // 기안서 결재중으로 상태변경
 	}
 	
+	/** 반려사유 조회
+	 *
+	 */
+	@Override
+	public String selectReturnReason(int approvalNo) {
+		return mapper.selectReturnReason(approvalNo);
+	}
 	
 
 }

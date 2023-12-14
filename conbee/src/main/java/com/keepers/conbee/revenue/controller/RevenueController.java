@@ -25,7 +25,7 @@ public class RevenueController {
 	
 	@GetMapping("list")
 	public String revenueSearch(Model model, Revenue revenue, @SessionAttribute("loginMember") Member loginMember) {
-		if(revenue.getStoreNo() == 0) {
+		if(revenue.getStoreNo() == -1) {
 			revenue.setStoreNo(loginMember.getStoreList().get(0).getStoreNo());
 		}
 		
@@ -41,7 +41,7 @@ public class RevenueController {
 	@GetMapping("history")
 	public String historyPage(Model model, Revenue revenue, @SessionAttribute("loginMember") Member loginMember) {
 		
-		if(revenue.getStoreNo() == 0) {
+		if(revenue.getStoreNo() == -1) {
 			revenue.setStoreNo(loginMember.getStoreList().get(0).getStoreNo());
 		}
 			

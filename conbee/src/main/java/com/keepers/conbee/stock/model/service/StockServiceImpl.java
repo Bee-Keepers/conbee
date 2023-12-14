@@ -76,6 +76,7 @@ public class StockServiceImpl implements StockService{
 	// 등록된 상품 수정
 	@Override
 	public int goodsUpdate(Stock stock) {
+		log.info("=-=-=-=-=-=-=-= stock : " + stock);
 		return mapper.goodsUpdate(stock);
 	}
 	
@@ -265,6 +266,17 @@ public class StockServiceImpl implements StockService{
 	@Override
 	public List<Approval> orderApprovalComplete() {
 		return mapper.orderApprovalComplete();
+	}
+	
+	// 재고 현황 검색
+	@Override
+	public List<Stock> stockSearch(Stock stock) {
+		if(stock.getLcategoryName() == null && stock.getScategoryName() == null && stock.getGoodsName() == null) {
+		stock.setLcategoryName("");
+		stock.setScategoryName("");
+		stock.setGoodsName("");
+		}
+		return mapper.stockSearch(stock);
 	}
 	
 }

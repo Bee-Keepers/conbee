@@ -56,9 +56,26 @@
 		JOIN SCATEGORY USING(SCATEGORY_NO)
 		JOIN STOCK USING(GOODS_NO)
 		JOIN STORE USING(STORE_NO)
-		WHERE STORE_NO = 0
+		WHERE STORE_NO = 
+		<if test='storeNo == -1'>
+			0
+		</if>
+		<if test='storeNo != -1'>
+			#{storeNo}
+		</if>
 		ORDER BY GOODS_NO DESC
 	</select>
+	
+	<!-- 재고 등록 -->
+	<insert id="stockInsert">
+		INSERT INTO "STOCK"
+		VALUES ( #{storeNo},
+			(SELECT GOODS_NO FROM GOODS WHERE GOODS_NAME = #{goodsName}), 
+			#{stockAmount},
+			#{stockDiscount},
+			#{stockOutPrice},
+			#{stockInPrice})
+	</insert>
 	
 	<!-- 상품명 입력 시 대소분류 작성 -->
 	<select id="goodsNameSelect" resultType="Stock">
@@ -73,5 +90,21 @@
 		SELECT STORE_NAME
 		FROM STORE
 		WHERE STORE_NO = #{storeNo}
+	</select>
+	
+	<!-- 상품 검색 -->
+	<select id="goodsSearch" resultType="Stock">
+		SELECT LCATEGORY_NAME, SCATEGORY_NAME, GOODS_NAME, GOODS_NO, GOODS_STANDARD
+		FROM GOODS
+		JOIN LCATEGORY USING(LCATEGORY_NO)
+		JOIN SCATEGORY USING(SCATEGORY_NO)
+		WHERE GOODS_NAME LIKE '%${goodsName}%'
+		<if test='lcategoryName != ""'>
+			AND LCATEGORY_NAME = #{lcategoryName}
+		</if>
+		<if test='scategoryName != ""'>
+			AND SCATEGORY_NAME = #{scategoryName}
+		</if>
+		ORDER BY GOODS_NO DESC
 	</select>
 </mapper>

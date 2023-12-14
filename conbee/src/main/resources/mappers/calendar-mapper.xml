@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 연결할 인터페이스의 패키지명.인터페이스명을 작성 -->
+<mapper namespace="com.keepers.conbee.calendar.model.mapper.CalendarMapper">
+	
+	
+	<!-- 같은 팀 일정 모두 조회 -->
+	<select id="selectCalendarList" resultType="Calendar">
+		SELECT CAL_NO,CAL_ALLDAY,
+			TO_CHAR(CAL_START_TIME, 'YYYY-MM-DD"T"HH24:MI:SS') CAL_START_TIME,
+			TO_CHAR(CAL_END_TIME, 'YYYY-MM-DD"T"HH24:MI:SS') CAL_END_TIME,
+			CAL_TITLE,CAL_DETAIL,CAL_COLOR, MEMBER_NO,MEMBER_NAME
+		FROM "CALENDAR"
+		JOIN MEMBER USING(MEMBER_NO)
+		WHERE CAL_NO != 0 
+		AND TEAM_NO = #{teamNo}
+		
+		<!-- 사장 부사장 부장 팀장 대리 사원 조회-->
+		<if test="gradeNo != 6">
+			AND GRADE_NO != 6 
+		</if>
+		
+		<!-- 점주만 조회-->
+		<if test="gradeNo == 6">
+			AND GRADE_NO == 6 
+		</if>
+		
+		
+	</select>
+	
+
+	<insert id="staffcalendar">
+		INSERT INTO "CALENDAR"
+		VALUES (SEQ_CAL_NO.NEXTVAL, #{calAllDay}, 
+		 TO_DATE(#{calStartTime}, 'YYYY-MM-DD"T"HH24:MI:SS'),
+		 TO_DATE(#{calEndTime}, 'YYYY-MM-DD"T"HH24:MI:SS'),
+		#{calTitle}, #{calDetail}, #{calColor}, #{memberNo})
+	</insert>
+
+</mapper>

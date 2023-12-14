@@ -55,9 +55,23 @@ public class StockManageServiceImpl implements StockManageService{
 		return mapper.goodsUpdate(stock);
 	}
 	
+	// 재고 조회
 	@Override
 	public List<Stock> stockList(Stock stock) {
-		return mapper.stockList(stock);
+		
+		List<Stock> stockList = mapper.stockList(stock);
+		
+		for(Stock s : stockList ) {
+			double sum = s.getStockOutPrice() * (1- ((double)s.getStockDiscount() * 0.01));
+			
+			s.setPriceSum( (int)sum + "" );
+		}
+		return stockList;
+	}
+	
+	@Override
+	public int stockInsert(Stock stock) {
+		return mapper.stockInsert(stock);
 	}
 	
 	// 재고 등록 이름 검색 시 물품 조회
@@ -70,5 +84,16 @@ public class StockManageServiceImpl implements StockManageService{
 	@Override
 	public String storeName(int storeNo) {
 		return mapper.storeName(storeNo);
+	}
+	
+	// 상품 검색
+	@Override
+	public List<Stock> goodsSearch(Stock stock) {
+		if(stock.getLcategoryName() == null && stock.getScategoryName() == null && stock.getGoodsName() == null) {
+			stock.setLcategoryName("");
+			stock.setScategoryName("");
+			stock.setGoodsName("");
+		}
+		return mapper.goodsSearch(stock);
 	}
 }

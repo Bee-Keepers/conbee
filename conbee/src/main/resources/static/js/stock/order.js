@@ -227,15 +227,9 @@ deleteBtn.addEventListener("click", ()=>{
 const placeOrderForm = document.getElementById("placeOrderForm");
 const submitBtn = document.getElementById("submitBtn");
 
+const orderInputStoreNo = document.getElementById("orderInputStoreNo");
 
-// 발주 신청 폼 제출
-submitBtn.addEventListener("click", ()=>{
-  if(tableTbody.children[0] == null){
-    alert("품목을 입력해주세요");
-    return;
-  } 
-  placeOrderForm.submit();
-});
+
 
 // 지점 선택 옵션 저장
 const url = new URL(location.href);
@@ -248,3 +242,13 @@ for(let option of options){
         break;
     }
 }
+
+orderInputStoreNo.value = storeSelect.value;
+// 발주 신청 폼 제출
+submitBtn.addEventListener("click", ()=>{
+  if(tableTbody.children[0] == null){
+    alert("품목을 입력해주세요");
+    return;
+  }
+  placeOrderForm.submit();
+});

@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 연결할 인터페이스의 패키지명.인터페이스명을 작성 -->
+<mapper namespace="com.keepers.conbee.stock.model.mapper.StockMapper">
+	
+	<!-- 상품 등록 시 대분류 누르면 소분류 나오는 기능 -->
+	<select id="scategoryList" resultType="string">
+		SELECT SCATEGORY_NAME FROM SCATEGORY
+		JOIN LCATEGORY USING(LCATEGORY_NO)
+		WHERE LCATEGORY_NAME = #{lcategory}
+	</select>
+	
+	<!-- 상품 등록 -->
+	<insert id="goodsInsert">
+		INSERT INTO "GOODS"
+		VALUES (SEQ_GOODS_NO.NEXTVAL, 
+			#{goodsName},
+			<if test='goodsStandard != ""'>
+				#{goodsStandard}, 
+			</if>
+			<if test='goodsStandard == ""'>
+				DEFAULT,
+			</if>
+			(SELECT LCATEGORY_NO FROM LCATEGORY WHERE LCATEGORY_NAME = #{lcategoryName}),
+			(SELECT SCATEGORY_NO FROM SCATEGORY WHERE SCATEGORY_NAME = #{scategoryName}),
+			NULL,
+			NULL,
+			NULL)
+	</insert>
+	
+	<!-- 상품 등록 후 조회 -->
+	<select id="goodsList" resultType="Stock">
+		SELECT GOODS_NO, GOODS_NAME, GOODS_STANDARD, LCATEGORY_NAME, SCATEGORY_NAME 
+		FROM GOODS
+		JOIN LCATEGORY USING(LCATEGORY_NO)
+		JOIN SCATEGORY USING(SCATEGORY_NO)
+		ORDER BY GOODS_NO DESC
+	</select>
+	
+	<!-- 상품 삭제 -->
+	<delete id="goodsDelete">
+		DELETE FROM GOODS
+		WHERE GOODS_NO = #{goodsNo}
+	</delete>
+	
+	<!-- 상품 수정 -->
+	<update id="goodsUpdate">
+	  	UPDATE "GOODS" SET
+	    	GOODS_NAME = #{goodsName},
+	    	<if test="goodsStandard != ''">
+	      		GOODS_STANDARD = #{goodsStandard},
+	    	</if>
+	    	<if test="goodsStandard == ''">
+	      		GOODS_STANDARD = DEFAULT,
+	    	</if>
+	    	LCATEGORY_NO = (SELECT LCATEGORY_NO FROM LCATEGORY WHERE LCATEGORY_NAME = #{lcategoryName}),
+	    	SCATEGORY_NO = (SELECT SCATEGORY_NO FROM SCATEGORY WHERE SCATEGORY_NAME = #{scategoryName})
+	  	WHERE GOODS_NO = #{goodsNo}
+	</update>
+	
+	<!-- 재고 현황 리스트 전체 조회 -->
+	<select id="stockList" resultType="Stock">
+		SELECT GOODS_NO, GOODS_NAME, GOODS_STANDARD, LCATEGORY_NAME, SCATEGORY_NAME, STORE_NAME, STOCK_IN_PRICE, STOCK_OUT_PRICE, STOCK_DISCOUNT, STOCK_AMOUNT, STORE_NO
+		FROM GOODS
+		JOIN LCATEGORY USING(LCATEGORY_NO)
+		JOIN SCATEGORY USING(SCATEGORY_NO)
+		JOIN STOCK USING(GOODS_NO)
+		JOIN STORE USING(STORE_NO)
+		<if test="storeNo != 0">
+			WHERE STORE_NO = #{storeNo}
+		</if>
+		ORDER BY GOODS_NO DESC
+	</select>
+	
+	<!-- 상품 등록 -->
+	<insert id="stockInsert">
+		INSERT INTO "STOCK"
+		VALUES ( #{storeNo},
+			(SELECT GOODS_NO FROM GOODS WHERE GOODS_NAME = #{goodsName}), 
+			#{stockAmount},
+			#{stockDiscount},
+			#{stockOutPrice},
+			#{stockInPrice})
+	</insert>
+	
+	<!-- 발주 자동 완성 검색 기능-->
+	<select id="autoComplete" resultType="Stock">
+		SELECT STORE_NO, GOODS_NO, GOODS_NAME, LCATEGORY_NAME, SCATEGORY_NAME, STOCK_OUT_PRICE, STOCK_IN_PRICE, STOCK_DISCOUNT
+			,STOCK_AMOUNT
+		FROM STOCK
+		JOIN GOODS USING(GOODS_NO)
+		JOIN LCATEGORY USING(LCATEGORY_NO)
+		JOIN SCATEGORY USING(SCATEGORY_NO)
+		WHERE GOODS_NAME LIKE '%${inputQuery}%'
+		AND STORE_NO = #{storeNo}
+		<if test='lcategoryName != ""'>
+			AND LCATEGORY_NAME = #{lcategoryName}
+		</if>
+		<if test='scategoryName != ""'>
+			AND SCATEGORY_NAME = #{scategoryName}
+		</if>
+	</select>
+	
+	<!-- 상품명 입력 시 대소분류 작성 -->
+	<select id="goodsNameSelect" resultType="Stock">
+		SELECT GOODS_NAME, GOODS_NO, LCATEGORY_NAME, SCATEGORY_NAME
+		FROM GOODS
+		JOIN LCATEGORY USING(LCATEGORY_NO)
+		JOIN SCATEGORY USING(SCATEGORY_NO)
+		WHERE GOODS_NAME LIKE '%${intputGoods}%'
+	</select>
+	
+
+	<!-- 발주 신청 삽입 -->
+	<insert id="orderInsert">
+		INSERT INTO "ORDER"
+		<foreach collection="list" item="order" separator=" UNION ">
+			SELECT NEXT_ORDER_NO(), SYSDATE, #{order.orderAmount}, #{order.storeNo}, #{order.goodsNo}
+			FROM DUAL
+		</foreach>
+	</insert>
+	
+	<!-- 발주 수정 -->
+	<update id="orderUpdate">
+		UPDATE "ORDER" SET
+		ORDER_AMOUNT = #{orderAmount}
+		WHERE STORE_NO = #{storeNo}
+		AND GOODS_NO = #{goodsNo}
+		AND TO_CHAR(ORDER_DATE, 'YYYY-MM-DD HH24:MI:SS')  BETWEEN TO_CHAR(SYSDATE, 'YYYY-MM-DD "00":"00":"00"') AND TO_CHAR(SYSDATE+1, 'YYYY-MM-DD "00":"00":"00"')
+	</update>
+	
+	<!-- 발주 내역 조회 -->
+	<select id="selectOrderList" resultType="string">
+		SELECT TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') ORDER_DATE FROM "ORDER"
+		WHERE STORE_NO = #{storeNo}
+		GROUP BY TO_CHAR(ORDER_DATE, 'YYYY-MM-DD')
+		HAVING TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') BETWEEN #{startDate} AND #{endDate}
+		ORDER BY ORDER_DATE DESC
+	</select>
+	
+	<!-- 발주 스케쥴러 위한 조회 -->
+	<select id="selectOrderScheduling" resultType="Order">
+		SELECT ORDER_NO, TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') ORDER_DATE, ORDER_AMOUNT, O.STORE_NO, O.GOODS_NO, STORE_NAME, GOODS_NAME,
+			(SELECT STOCK_IN_PRICE FROM STOCK S WHERE STORE_NO = O.STORE_NO AND GOODS_NO = O.GOODS_NO) STOCK_IN_PRICE
+		FROM "ORDER" O
+		JOIN GOODS G ON(G.GOODS_NO = O.GOODS_NO)
+		JOIN STORE ST ON(ST.STORE_NO = O.STORE_NO)
+		WHERE ORDER_DATE BETWEEN SYSDATE-(1/24/60) AND SYSDATE
+		<!--WHERE ORDER_DATE BETWEEN SYSDATE-1 AND SYSDATE-->
+	</select>
+	
+	<!-- 발주 스케쥴러에 의한 입출고 내역 삽입 -->
+	<insert id="orderScheduling">
+		INSERT INTO "HISTORY"
+		<foreach collection="list" item="item" separator=" UNION ">
+			SELECT NEXT_HISTORY_NO(), '입고', #{item.orderAmount}, #{item.stockInPrice}, #{item.stockInPrice}, 
+			NULL, SYSDATE, #{item.storeName}, #{item.goodsName}, #{item.storeNo}, #{item.goodsNo} FROM DUAL
+		</foreach>
+	</insert>
+	
+	<!-- 발주 신청/수정 초기 화면 -->
+	<select id="orderInsertUpdate" resultType="Order">
+		SELECT O.GOODS_NO, GOODS_NAME, LCATEGORY_NAME, SCATEGORY_NAME, STOCK_AMOUNT, STOCK_IN_PRICE, ORDER_AMOUNT
+		FROM "STOCK" S
+		JOIN GOODS G ON G.GOODS_NO = S.GOODS_NO
+		JOIN LCATEGORY USING(LCATEGORY_NO)
+		JOIN SCATEGORY USING(SCATEGORY_NO)
+		JOIN "ORDER" O ON O.GOODS_NO = S.GOODS_NO AND O.STORE_NO = S.STORE_NO
+		WHERE O.STORE_NO = #{storeNo}
+		AND TO_CHAR(ORDER_DATE, 'YYYY-MM-DD HH24:MI:SS')  BETWEEN TO_CHAR(SYSDATE, 'YYYY-MM-DD "00":"00":"00"') AND TO_CHAR(SYSDATE+1, 'YYYY-MM-DD "00":"00":"00"')
+	</select>
+	
+	<!-- 발주 수정,삭제 위한 이미 존재하는 발주 상품번호 조회-->
+	<select id="preGoodsNo" resultType="_int">
+		SELECT GOODS_NO
+		FROM "ORDER"
+		WHERE STORE_NO = #{storeNo}
+		AND TO_CHAR(ORDER_DATE, 'YYYY-MM-DD HH24:MI:SS')  BETWEEN TO_CHAR(SYSDATE, 'YYYY-MM-DD "00":"00":"00"') AND TO_CHAR(SYSDATE+1, 'YYYY-MM-DD "00":"00":"00"')
+	</select>
+	
+	<!-- 발주 삭제 -->
+	<delete id="orderDelete">
+		DELETE FROM "ORDER"
+		WHERE GOODS_NO = #{goodsNo}
+		AND STORE_NO = #{storeNo}
+		AND TO_CHAR(ORDER_DATE, 'YYYY-MM-DD HH24:MI:SS')  BETWEEN TO_CHAR(SYSDATE, 'YYYY-MM-DD "00":"00":"00"') AND TO_CHAR(SYSDATE+1, 'YYYY-MM-DD "00":"00":"00"')
+	</delete>
+	
+	<!-- 발주 검색 -->
+	<select id="orderSelect" resultType="OrderDetail">
+		SELECT GOODS_NO, GOODS_NAME, LCATEGORY_NAME, SCATEGORY_NAME, ORDER_AMOUNT
+		FROM "ORDER"
+		JOIN GOODS USING(GOODS_NO)
+		JOIN LCATEGORY USING(LCATEGORY_NO)
+		JOIN SCATEGORY USING(SCATEGORY_NO)
+		WHERE STORE_NO = #{storeNo}
+		AND TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') = #{orderDate}
+	</select>
+	
+	<!-- 상품 삭제 -->
+	<delete id="stockDelete">
+		DELETE FROM STOCK
+		WHERE GOODS_NO IN (${goodsNoList})
+		AND STORE_NO = #{storeNo}
+	</delete>
+	
+	<update id="stockUpdate">
+		UPDATE "STOCK" SET
+		GOODS_NAME = #{goodsName},
+		STOCK_AMOUNT = #{stockAmount},
+		STOCK_DISCOUNT = #{stockDiscount},
+		STOCK_OUT_PRICE = #{stockOutPrice},
+		STOCK_IN_PRICE = #{stockInPrice}
+		WHERE GOODS_NO = #{goodsNo}
+		AND STORE_NO = #{stockNo}
+	</update>
+	
+	<!-- 상품(재고) 상세 조회 -->
+	<select id="goodsDetail" resultType="Stock">
+		SELECT GOODS_NAME, GOODS_STANDARD, GOODS_DETAIL, GOODS_IMAGE, GOODS_IMAGE_PATH
+		FROM GOODS
+		WHERE GOODS_NO = #{goodsNo}
+	</select>
+	
+	<!-- 상품 상세 조회 -->
+	<select id="goodsDetailSelect" resultType="Stock">
+		SELECT GOODS_NAME, GOODS_STANDARD, GOODS_DETAIL, GOODS_IMAGE, GOODS_IMAGE_PATH
+		FROM GOODS
+		WHERE GOODS_NO = #{goodsNo}
+	</select>
+	
+	<!-- 상품 상세 수정 -->
+	<update id="goodsDetailUpdate">
+		UPDATE "GOODS" SET
+		GOODS_DETAIL = #{goodsDetail}
+		<if test="deleteCheck >= 0 ">
+			,GOODS_IMAGE = #{goodsImage}
+			,GOODS_IMAGE_PATH = #{goodsImagePath}
+		</if>
+		WHERE GOODS_NO = #{goodsNo}
+	</update>
+	
+	<!-- 발주 승인된 것들 삽입 스케쥴러 -->
+	<insert id="orderApproval">
+		INSERT INTO "HISTORY"
+		<foreach collection="list" item="item" separator=" UNION ">
+			SELECT NEXT_HISTORY_NO(),'입고',#{item.docOrderAmount},#{item.docOrderUnitPrice},#{item.docOrderUnitPrice}, 
+			NULL,SYSDATE, '본사', #{item.docOrderGoodsName},0,#{item.goodsNo} FROM DUAL
+		</foreach>
+	</insert>
+	
+	<!-- 납기일 다 된 것중에서 승인 된 것들 받는 스케쥴러-->
+	<select id="orderApprovalComplete" resultType="Approval">
+		SELECT DOC_ORDER_AMOUNT, DOC_ORDER_UNIT_PRICE, DOC_ORDER_PRICE, GOODS_NO, DOC_ORDER_GOODS_NAME, DOC_ORDER_DATE
+		FROM DOC_ORDER
+		JOIN APPROVAL USING(APPROVAL_NO)
+		WHERE DOC_CATEGORY_NO = 5
+		AND APPROVAL_CONDITION = 4
+		AND DOC_ORDER_DATE = TO_CHAR(SYSDATE+1, 'YYYY-MM-DD')
+	</select>
+	
+</mapper>

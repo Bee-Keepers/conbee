@@ -52,18 +52,43 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	// 검색 목록 조회
+	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 작업 예정 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	@Override
 	public Map<String, Object> searchBoardList(Map<String, Object> paramMap, int cp) {
 		return null;
 	}
 	
 	
-	// 북마크
+	// 게시글 북마크 여부 확인
 	@Override
 	public int bookMark(Map<String, Object> map) {
-		
-		
 		return mapper.bookMark(map);
+	}
+	
+	// 북마크 처리
+	@Override
+	public int bookCheck(Map<String, Object> paramMap) {
+		
+		int result = 0; 
+		
+		if( (Integer)(paramMap.get("check")) == 1 ) {
+			result = mapper.deleteBookMark(paramMap);
+		} else {
+			result = mapper.insertBookMark(paramMap);
+		}
+		
+		if(result == 0) return -1;
+		
+		return mapper.countBookMark( (Integer)(paramMap.get("boardNo")));
+	}
+	
+	
+	// 조회수 증가
+	@Override
+	public int updateBoardHits(int boardNo) {
+		
+		
+		return mapper.updateBoardHits(boardNo);
 	}
 	
 	
@@ -86,11 +111,17 @@ public class BoardServiceImpl implements BoardService{
 	// 게시글 상세조회 작업중(EditBoardController)
 	@Override
 	public Board boardDetail(Map<String, Object> map) {
+		
+		
+		
 		return mapper.boardDetail(map);
 	}
 	
 	
-	
+	@Override
+	public String boardName(int boardCodeNo) {
+		return mapper.selectBoardName2(boardCodeNo);
+	}
 	
 	
 	

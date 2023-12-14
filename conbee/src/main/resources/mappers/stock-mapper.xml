@@ -25,23 +25,27 @@
 			(SELECT SCATEGORY_NO FROM SCATEGORY WHERE SCATEGORY_NAME = #{scategoryName}),
 			NULL,
 			NULL,
-			NULL)
+			NULL,
+			#{goodsPrice},
+			DEFAULT)
 	</insert>
 	
 	<!-- 상품 등록 후 조회 -->
 	<select id="goodsList" resultType="Stock">
-		SELECT GOODS_NO, GOODS_NAME, GOODS_STANDARD, LCATEGORY_NAME, SCATEGORY_NAME 
+		SELECT GOODS_NO, GOODS_NAME, GOODS_STANDARD, LCATEGORY_NAME, SCATEGORY_NAME , GOODS_PRICE
 		FROM GOODS
 		JOIN LCATEGORY USING(LCATEGORY_NO)
 		JOIN SCATEGORY USING(SCATEGORY_NO)
+		WHERE GOODS_DEL_FL = 'N'
 		ORDER BY GOODS_NO DESC
 	</select>
 	
 	<!-- 상품 삭제 -->
-	<delete id="goodsDelete">
-		DELETE FROM GOODS
+	<update id="goodsDelete">
+		UPDATE "GOODS"
+		SET GOODS_DEL_FL = 'Y'
 		WHERE GOODS_NO = #{goodsNo}
-	</delete>
+	</update>
 	
 	<!-- 상품 수정 -->
 	<update id="goodsUpdate">
@@ -53,6 +57,7 @@
 	    	<if test="goodsStandard == ''">
 	      		GOODS_STANDARD = DEFAULT,
 	    	</if>
+	    	GOODS_PRICE = #{goodsPrice},
 	    	LCATEGORY_NO = (SELECT LCATEGORY_NO FROM LCATEGORY WHERE LCATEGORY_NAME = #{lcategoryName}),
 	    	SCATEGORY_NO = (SELECT SCATEGORY_NO FROM SCATEGORY WHERE SCATEGORY_NAME = #{scategoryName})
 	  	WHERE GOODS_NO = #{goodsNo}
@@ -66,13 +71,11 @@
 		JOIN SCATEGORY USING(SCATEGORY_NO)
 		JOIN STOCK USING(GOODS_NO)
 		JOIN STORE USING(STORE_NO)
-		<if test="storeNo != 0">
-			WHERE STORE_NO = #{storeNo}
-		</if>
+		WHERE STORE_NO = #{storeNo}
 		ORDER BY GOODS_NO DESC
 	</select>
 	
-	<!-- 상품 등록 -->
+	<!-- 재고 등록 -->
 	<insert id="stockInsert">
 		INSERT INTO "STOCK"
 		VALUES ( #{storeNo},
@@ -197,7 +200,7 @@
 		AND TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') = #{orderDate}
 	</select>
 	
-	<!-- 상품 삭제 -->
+	<!-- 재고 삭제 -->
 	<delete id="stockDelete">
 		DELETE FROM STOCK
 		WHERE GOODS_NO IN (${goodsNoList})
@@ -255,6 +258,26 @@
 		WHERE DOC_CATEGORY_NO = 5
 		AND APPROVAL_CONDITION = 4
 		AND DOC_ORDER_DATE = TO_CHAR(SYSDATE+1, 'YYYY-MM-DD')
+	</select>
+	
+	<!-- 재고에서 등록할 때 검색기능 -->
+	<select id="stockSearch" resultType="Stock">
+		SELECT LCATEGORY_NAME, SCATEGORY_NAME, GOODS_NAME, GOODS_NO
+		FROM GOODS
+		JOIN STOCK USING (GOODS_NO)
+		JOIN LCATEGORY USING(LCATEGORY_NO)
+		JOIN SCATEGORY USING(SCATEGORY_NO)
+		WHERE STORE_NO = #{storeNo}
+		<if test='goodsName != ""'>
+			AND GOODS_NAME LIKE '%${goodsName}%'
+		</if>
+		<if test='lcategoryName != ""'>
+			AND LCATEGORY_NAME = #{lcategoryName}
+		</if>
+		<if test='scategoryName != ""'>
+			AND SCATEGORY_NAME = #{scategoryName}
+		</if>
+		ORDER BY GOODS_NO DESC
 	</select>
 	
 </mapper>

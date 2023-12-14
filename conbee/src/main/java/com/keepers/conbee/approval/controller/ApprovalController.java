@@ -381,8 +381,20 @@ public class ApprovalController { // 전자결재 컨트롤러
 		
 		int result = service.approve(approvalNo, loginMember.getMemberNo());
 		
-		if(result > 0) {
+		if(result > 0) { // 결재승인 완료시
+			
+			// 해당 문서의 결재자가 모두 승인을 완료했다면 결재완료 상태로 문서 컨디션 바꾸기
+			int check = service.approveAllCheck(approvalNo);
+			
+			if(check > 0) { // 모든 결재자가 결재완료가 된 경우
+				
+				// 폐점승인서가 결재완료된 경우 점포폐쇄하기
+				int storeRunCheck = service.storeRunCheck(approvalNo);
+				
+			}
+			
 			ra.addFlashAttribute("message", "결재 승인이 완료되었습니다.");
+			
 		} else {
 			ra.addFlashAttribute("message", "결재 승인이 실패하였습니다.");
 		}
@@ -391,18 +403,19 @@ public class ApprovalController { // 전자결재 컨트롤러
 	}
 	
 	
-	/** 결재 버튼 클릭 시 반려 동작 
+	/** 반려 버튼 클릭 시 반려 동작 
 	 * @author 예리나
 	 * @param approvalNo
+	 * @param returnReason : 반려사유
 	 * @param loginMember
 	 * @param ra
 	 * @return
 	 */
 	@GetMapping("returnApprove")
-	public String returnApprove(int approvalNo, @SessionAttribute("loginMember") Member loginMember,
+	public String returnApprove(int approvalNo, String returnReason, @SessionAttribute("loginMember") Member loginMember,
 			RedirectAttributes ra) {
 		
-		int result = service.returnApprove(approvalNo, loginMember.getMemberNo());
+		int result = service.returnApprove(approvalNo, loginMember.getMemberNo(), returnReason);
 		
 		if(result > 0) {
 			ra.addFlashAttribute("message", "반려처리가 완료되었습니다.");
@@ -413,6 +426,26 @@ public class ApprovalController { // 전자결재 컨트롤러
 		return "redirect:waitApproval";
 	}
 	
+	
+	/** 결재완료함에서 삭제버튼 클릭 시 기안서 삭제
+	 * @author 예리나
+	 * @param approvalNo
+	 * @param ra
+	 * @return
+	 */
+	@GetMapping("deleteApprove")
+	public String deleteApprove(int approvalNo, RedirectAttributes ra) {
+		
+		int result = service.deleteApprove(approvalNo);
+		
+		if(result > 0) {
+			ra.addFlashAttribute("message", "문서 삭제가 완료되었습니다.");
+		} else {
+			ra.addFlashAttribute("message", "문서 삭제가 실패하였습니다.");
+		}
+		
+		return "redirect:completeApproval"; // 완료문서함으로 리다이렉트
+	}
 	
 	
 	
@@ -470,7 +503,60 @@ public class ApprovalController { // 전자결재 컨트롤러
 		
 		return "approval/returnApproval";
 	}
+	
+	
+	/** 반려문서함에서 삭제버튼 클릭 시 기안서 삭제
+	 * @param approvalNo
+	 * @param ra
+	 * @return
+	 */
+	@GetMapping("deleteApproveAtReturn")
+	public String deleteApproveAtReturn(int approvalNo, RedirectAttributes ra) {
+		
+		int result = service.deleteApprove(approvalNo);
+		
+		if(result > 0) {
+			ra.addFlashAttribute("message", "문서 삭제가 완료되었습니다.");
+		} else {
+			ra.addFlashAttribute("message", "문서 삭제가 실패하였습니다.");
+		}
+		
+		return "redirect:returnApproval"; // 반려문서함으로 리다이렉트
+	}
+	
+	
+	
+	/** 반려취소
+	 * @param loginMember
+	 * @param approvalNo
+	 * @param ra
+	 * @return
+	 */
+	@GetMapping("cancleReturn")
+	public String cancleReturn(@SessionAttribute("loginMember") Member loginMember, int approvalNo, RedirectAttributes ra) {
+		
+		int result = service.cancleReturn(loginMember.getMemberNo(), approvalNo);
+		
+		if(result > 0) {
+			ra.addFlashAttribute("message", "반려 취소가 완료되었습니다.");
+			
+		} else {
+			ra.addFlashAttribute("message", "반려 취소가 실패하였습니다.");
+		}
+		
+		return "redirect:returnApproval"; // 반려문서함으로 리다이렉트
+	}
 
+	
+	/** 반려사유 조회
+	 * @param approvalNo
+	 * @return
+	 */
+	@GetMapping("selectReturnReason")
+	@ResponseBody
+	public String selectReturnReason(int approvalNo) {
+		return service.selectReturnReason(approvalNo);
+	}
 	
 	
 	// ============================== 협조 문서함 ==============================

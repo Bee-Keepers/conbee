@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>협조문서함</title>
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body class="d-flex flex-column" style="height: 100vh;">
+
+  <th:block th:replace="~{common/header}"></th:block>
+
+  <main class="d-flex flex-grow-1">
+
+    <th:block th:replace="~{approval/sidebar}"></th:block>
+
+    <div class="d-flex flex-column flex-grow-1 p-3">
+
+      <div class="fs-3 pb-3 px-3 border-bottom">
+        협조문서함
+      </div>
+
+      <div class="w-100 px-4 pt-2 flex-grow-1">
+
+        <table class="table table-striped table-hover">
+          <colgroup>
+            <col width=5%>
+            <col width=7%>
+            <col width=7%>
+            <col width=7%>
+            <col width=25%>
+            <col width=8%>
+            <col width=12%>
+            <col width=15%>
+            <col width=8%>
+            <col width=6%>
+          </colgroup>
+          <thead>
+            <tr style="text-align: center;">
+              <th><input type="checkbox" id="checkAll"></th>
+              <th>문서번호</th>
+              <th>구분</th>
+              <th>항목</th>
+              <th>제목</th>
+              <th>작성자</th>
+              <th>부서</th>
+              <th>작성일자</th>
+              <th>결재자</th>
+              <th>처리상태</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+
+            <!-- 협조요청 문서가 없을 때 -->
+            <tr th:if="${#lists.size(joinApprovalList) == 0}">
+              <th colspan="10" style="text-align: center;">협조 요청된 문서가 없습니다.</th>
+            </tr>
+
+            <!-- 결재 완료 문서가 존재할 때 -->
+            <th:block th:unless="${#lists.size(joinApprovalList) == 0}">
+              <tr th:each="approval : ${joinApprovalList}" th:object="${approval}"  style="text-align: center; cursor: pointer;" onclick="handleClick(event);">
+                <td><input type="checkbox"></td>
+
+                <td th:text="*{approvalNo}">16</td>
+                <td th:text="*{docCategoryGroup}">복무</td>
+                <td th:text="*{docCategorySort}">휴가</td>
+                <td class="approvalTitle" th:text="*{approvalTitle}" style="text-align: start; font-weight: bold; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#holidayModal" id="clickModal">연차 신청합니다.</a></td>
+                <td th:text="*{memberName}">정유진</td>
+                <td>[[*{departmentName}]]([[*{teamName}?: '']])</td>
+                <td th:text="*{approvalDate}">2023-11-30 16:24</td>
+                <td th:text="*{finalApproverName}">이예리나</td>
+
+                <td th:text="*{approvalConditionTitle}">결재완료</td>
+              </tr>
+            </th:block>
+
+          </tbody>
+        </table>
+      </div>
+      
+    </div>
+
+  </main>
+  <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">
+    <a href="#" class="btn btn-secondary" style="width: 80px;">삭제</a>
+  </div>
+
+  <!-- ==================================================템플릿들============================================================= -->
+
+    <!-- 휴가신청서 Modal -->
+    <div class="modal fade" id="holidayModal" tabindex="-1" aria-labelledby="holidayModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          
+          <!-- 휴가신청서 모달 헤더 -->
+          <div class="modal-header">
+            <div><h1 class="modal-title fs-5" id="holidayModalLabel">결재 요청문서</h1></div>
+            <div>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+          </div>
+
+          <!-- 기안서 템플릿 바디(비동기 생성) -->
+          <!-- <th:block th:replace="~{approval/approvalDoc/docHolidayFin}"></th:block> -->
+
+          <!-- 모달 푸터 -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-warning me-1"  data-bs-target="#" style="width: 80px;" onclick="approveBtn()">결재</button>
+
+            <button type="button" class="btn btn-secondary me-1" data-bs-target="#" style="width: 80px;" onclick="returnBtn()">반려</button>
+
+            <div class="btn-group dropup">
+              <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+              style="width: 80px; background-color: #f2f2f2; color: black;">
+                인쇄
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">PDF 저장</a></li>
+                <li><a class="dropdown-item" href="#">인쇄</a></li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 퇴직 신청서 Modal -->
+    <div class="modal fade" id="retirementModal" tabindex="-1" aria-labelledby="retirementModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          
+          <!-- 퇴직 모달 헤더 -->
+          <div class="modal-header">
+            <div><h1 class="modal-title fs-5" id="retirementModalLabel">결재 요청문서</h1></div>
+            <div>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+          </div>
+
+          <!-- 기안서 템플릿 바디 -->
+          <!-- <th:block th:replace="~{approval/approvalDoc/docRetirement}"></th:block> -->
+
+          <!-- 모달 푸터 -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-warning me-1" data-bs-target="#" style="width: 80px;" onclick="approveBtn()">결재</button>
+            <button type="button" class="btn btn-secondary me-1" data-bs-target="#" style="width: 80px;" onclick="returnBtn()">반려</button>
+
+            <div class="btn-group dropup">
+              <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+              style="width: 80px; background-color: #f2f2f2; color: black;">
+                인쇄
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">PDF 저장</a></li>
+                <li><a class="dropdown-item" href="#">인쇄</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 출점 신청서 Modal -->
+    <div class="modal fade" id="openStoreModal" tabindex="-1" aria-labelledby="openStoreModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          
+          <!-- 출점 모달 헤더 -->
+          <div class="modal-header">
+            <div><h1 class="modal-title fs-5" id="openStoreModalLabel">결재 요청문서</h1></div>
+            <div>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+          </div>
+
+          <!-- 기안서 템플릿 바디 -->
+          <th:block th:replace="~{approval/approvalDoc/docStore}"></th:block>
+
+          <!-- 모달 푸터 -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-warning me-1" data-bs-target="#" style="width: 80px;" onclick="approveBtn()">결재</button>
+            <button type="button" class="btn btn-secondary me-1" data-bs-target="#" style="width: 80px;" onclick="returnBtn()">반려</button>
+
+            <div class="btn-group dropup">
+              <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+              style="width: 80px; background-color: #f2f2f2; color: black;">
+                인쇄
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">PDF 저장</a></li>
+                <li><a class="dropdown-item" href="#">인쇄</a></li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 폐점 신청서 Modal -->
+    <div class="modal fade" id="closeStoreModal" tabindex="-1" aria-labelledby="closeStoreModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          
+          <!-- 폐점 모달 헤더 -->
+          <div class="modal-header">
+            <div><h1 class="modal-title fs-5" id="closeStoreModalLabel">결재 요청문서</h1></div>
+            <div>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+          </div>
+
+          <!-- 기안서 템플릿 바디 -->
+          <th:block th:replace="~{approval/approvalDoc/docStore}"></th:block>
+
+          <!-- 모달 푸터 -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-warning me-1" data-bs-target="#" style="width: 80px;" onclick="approveBtn()">결재</button>
+            <button type="button" class="btn btn-secondary me-1" data-bs-target="#" style="width: 80px;" onclick="returnBtn()">반려</button>
+
+            <div class="btn-group dropup">
+              <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+              style="width: 80px; background-color: #f2f2f2; color: black;">
+                인쇄
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">PDF 저장</a></li>
+                <li><a class="dropdown-item" href="#">인쇄</a></li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 지출결의서 Modal -->
+    <div class="modal fade" id="expenseModal" tabindex="-1" aria-labelledby="expenseModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          
+          <!-- 지출결의서 모달 헤더 -->
+          <div class="modal-header">
+            <div><h1 class="modal-title fs-5" id="expenseModalLabel">결재 요청문서</h1></div>
+            <div>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+          </div>
+
+          <!-- 기안서 템플릿 바디 --> <!-- 비동기 생성 -->
+          <!-- <th:block th:replace="~{approval/approvalDoc/docExpenseFin}"></th:block> -->
+
+          <!-- 모달 푸터 -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-warning me-1" data-bs-target="#" style="width: 80px;" onclick="approveBtn()">결재</button>
+            <button type="button" class="btn btn-secondary me-1" data-bs-target="#" style="width: 80px;" onclick="returnBtn()">반려</button>
+
+            <div class="btn-group dropup">
+              <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+              style="width: 80px; background-color: #f2f2f2; color: black;">
+                인쇄
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">PDF 저장</a></li>
+                <li><a class="dropdown-item" href="#">인쇄</a></li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 발주기안서 Modal -->
+    <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          
+          <!-- 발주기안서 모달 헤더 -->
+          <div class="modal-header">
+            <div><h1 class="modal-title fs-5" id="orderModalLabel">결재 요청문서</h1></div>
+            <div>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+          </div>
+
+          <!-- 기안서 템플릿 바디 -->
+          <th:block th:replace="~{approval/approvalDoc/docOrderFin}"></th:block>
+
+          <!-- 모달 푸터 -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-warning me-1" data-bs-target="#" style="width: 80px;" onclick="approveBtn()">결재</button>
+            <button type="button" class="btn btn-secondary me-1" data-bs-target="#" style="width: 80px;" onclick="returnBtn()">반려</button>
+
+            <div class="btn-group dropup">
+              <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+              style="width: 80px; background-color: #f2f2f2; color: black;">
+                인쇄
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">PDF 저장</a></li>
+                <li><a class="dropdown-item" href="#">인쇄</a></li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================================================================================================================== -->
+
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/approval/commonApproval.js"></script>
+</body>
+</html>

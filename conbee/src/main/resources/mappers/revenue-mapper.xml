@@ -10,8 +10,10 @@
 		JOIN GOODS USING(GOODS_NO)
 		JOIN LCATEGORY USING(LCATEGORY_NO)
 		JOIN SCATEGORY USING(SCATEGORY_NO)
-		WHERE STORE_NO = #{storeNo}
-		AND HISTORY_DIVIDE = '출고'
+		WHERE HISTORY_DIVIDE = '출고' 
+		<if test='storeNo != 0'>
+			AND STORE_NO = #{storeNo}
+		</if>
 		AND HISTORY_GOODS_NAME LIKE '%${goodsName}%'
 		AND TO_CHAR(HISTORY_DATE, 'YYYY-MM-DD')  BETWEEN #{startDate} AND #{endDate}
 		<if test='lcategoryName != ""'>

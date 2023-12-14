@@ -75,8 +75,8 @@ thead>tr>th{
 
 /* 재고 상세 조회 */
 #stockImage{
-   width: 250px;
-   height: 250px;
+   max-width: 250px;
+   max-height: 250px;
 }
 #stockImage>img{
    width: 100%;
@@ -131,3 +131,4 @@ thead>tr>th{
    max-width: 95%;
    max-height: 95%;
 }
+

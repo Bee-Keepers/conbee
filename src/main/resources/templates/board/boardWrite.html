@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko"  xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>게시판</title>
+
+
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/board/boardWrite.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!-- <script src="/js/ckeditor5/build/ckeditor.js"></script> -->  <!-- /* watchdog 방식  */ -->
+  <script src="/js/ckeditor51/build/ckeditor.js"></script>
+  <script src="/js/bootstrap.bundle.min.js"></script>
+
+  
+  <style>
+
+    tr > td {
+      height: 60px;
+      text-align: center;
+
+      vertical-align: middle;
+    }
+
+    .ck.ck-editor {
+      width: 1000px;
+    }
+
+    .ck-editor__editable{
+      min-height: 450px;
+      max-height: 450px;
+    }
+
+  </style>
+  
+</head>
+<body class="d-flex flex-column" style="height: 100vh;">
+
+  <th:block th:replace="~{common/header}"></th:block>
+
+  <main class="d-flex flex-grow-1">
+
+    <!-- 사이드바 -->
+    <th:block th:replace="~{board/sidebar}"></th:block>
+
+    <!-- 게시글 작성 -->
+    <div class="d-flex flex-column p-3 w-100">
+
+      <!-- 타이틀 -->
+      <div class="d-flex justify-content-between align-items-center border-bottom">
+        <div class="fs-3 pb-3 px-3">
+          게시글 작성
+        </div>
+      </div>
+
+      <!-- 제목 / 게시글 작성 -->
+      <div class="px-4 pt-2 flex-grow-1 align-items-center d-flex justify-content-center" >
+        <form th:action="@{{boardCode}(boardCode=${boardCode})}" method="POST">
+          <div class="d-flex align-items-center" style="width: 1000px;">
+            <input type="text" style="font-size: 1.5rem;" class="form-control mb-1" name="boardTitle" id="boardTitle" placeholder="제목을 입력해주세요" maxlength="50" required>
+          </div>
+  
+          <div>
+            <textarea name="boardContent" class="textareaSize boardContent" id="editor" th:text="${boardContent}"></textarea>
+          </div>
+          <div>
+            <div class="input-group mb-1">
+              <input type="file" name="boardAttach" class="form-control" id="inputGroupFile02">
+            </div>
+            
+            <div class="btn-group W-100" style="float: right;">
+              <button type="submit" class="saveBtn me-1">저장</button>
+              <a href="/board/boardList" class="cancelBtn">취소</a>
+            </div>
+            
+          </div>
+        </form>
+      </div>
+
+      <!-- 페이지네이션 // 게시글 있을때만 보이게 함 -->
+
+
+    </div>
+
+    </div>
+  </main>
+  
+  <script>
+
+ClassicEditor
+	.create( document.querySelector( '#editor' ), {
+		// Editor configuration.
+	} )
+	.then( editor => {
+		window.editor = editor;
+	} )
+	.catch( handleSampleError );
+
+function handleSampleError( error ) {
+	const issueUrl = 'https://github.com/ckeditor/ckeditor5/issues';
+
+	const message = [
+		'Oops, something went wrong!',
+		`Please, report the following error on ${ issueUrl } with the build id "4x1hzj93m7t7-9ag4f4jxojkm" and the error stack trace:`
+	].join( '\n' );
+
+	console.error( message );
+	console.error( error );
+}
+
+
+/* watchdog 방식  */
+    // const watchdog = new CKSource.EditorWatchdog();
+
+    // window.watchdog = watchdog;
+
+    // watchdog.setCreator( ( element, config ) => {
+    //   return CKSource.Editor
+    //     .create( element, config )
+    //     .then( editor => {
+    //       return editor;
+    //     } );
+    // } );
+
+    // watchdog.setDestructor( editor => {
+    //   return editor.destroy();
+    // } );
+    // watchdog.on( 'error', handleSampleError );
+
+    // function handleSampleError( error ) {
+    //   const issueUrl = 'https://github.com/ckeditor/ckeditor5/issues';
+
+    //   const message = [
+    //     'Oops, something went wrong!',
+    //     `Please, report the following error on ${ issueUrl } with the build id "opiv0opeyynj-djulbq21iquk" and the error stack trace:`
+    //   ].join( '\n' );
+
+    //   console.error( message );
+    //   console.error( error );
+    // }
+
+    // watchdog
+    //   .create( document.querySelector( '#editor' ), {
+    //     // toolbar: [ 'heading', '|', 'bold', 'italic', 'link', ]
+    //     language : "ko"
+    //   } )
+    //   .then( editor => {
+    //     window.editor = editor;
+    //   } )
+    //   .catch( err => {
+    //     console.error( err.stack );
+    //   } );
+
+  </script>
+  
+
+  
+  
+</body>
+</html>

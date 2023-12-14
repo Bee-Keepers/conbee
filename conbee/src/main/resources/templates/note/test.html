@@ -1,0 +1,11 @@
+@PostMapping("/send-note")
+@ResponseBody
+public ResponseEntity<?> sendNote(@RequestParam String recipient, 
+                                  @RequestParam String email, 
+                                  @RequestParam String content) {
+    // 쪽지 처리 로직
+    // ...
+
+    // 성공 시 응답
+    return ResponseEntity.ok().build();
+}

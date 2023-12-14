@@ -49,4 +49,17 @@ public interface StockManageService {
 	 */
 	String storeName(int storeNo);
 
+	/** 상품 검색
+	 * @param stock
+	 * @return
+	 */
+	List<Stock> goodsSearch(Stock stock);
+
+	/** 재고 등록
+	 * @param stock
+	 * @return
+	 */
+	int stockInsert(Stock stock);
+
+
 }
