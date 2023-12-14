@@ -1,15 +1,26 @@
 const storeNoSelect = document.getElementById("storeNoSelect");
+const storeSearch = document.getElementById("storeSearch");
+// 지점 이름으로 검색
+storeSearch.addEventListener("change", e=>{
 
-const url = new URL(location.href);
-const urlParams = url.searchParams;
-const options = document.querySelectorAll("#storeNoSelect>option");
-// 지점 선택 옵션 저장
-for(let option of options){
-  if(option.value == urlParams.get("storeNo")){
-    option.selected = true;
-    break;
-  }
-}
+    fetch("/revenueManage/storeSearch?inputStoreName=" + e.target.value)
+    .then(resp=>resp.json())
+    .then(list=>{
+        storeSelect.innerHTML = "";
+        console.log(list);
+        if(list.length == 0){
+            storeSelect.innerText = "검색된 지점이 없습니다.";
+        } else{
+            for(let opt of list){
+                const option = document.createElement("option");
+                option.value = opt.storeNo;
+                option.innerText = opt.storeName;
+                storeSelect.append(option);
+            }
+        }
+    })
+    .catch(e=>console.log(e));
+});
 
 const lcategoryName = document.getElementById("lcategoryName");
 const scategoryName = document.getElementById("scategoryName");

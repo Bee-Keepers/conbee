@@ -56,7 +56,13 @@
 		JOIN SCATEGORY USING(SCATEGORY_NO)
 		JOIN STOCK USING(GOODS_NO)
 		JOIN STORE USING(STORE_NO)
-		WHERE STORE_NO = 0
+		WHERE STORE_NO = 
+		<if test='storeNo == -1'>
+			0
+		</if>
+		<if test='storeNo != -1'>
+			#{storeNo}
+		</if>
 		ORDER BY GOODS_NO DESC
 	</select>
 	

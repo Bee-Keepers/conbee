@@ -1,5 +1,5 @@
-const storeSearch = document.getElementById("storeSearch");
 const storeSelect = document.getElementById("storeSelect");
+const storeSearch = document.getElementById("storeSearch");
 // 지점 이름으로 검색
 storeSearch.addEventListener("change", e=>{
 
