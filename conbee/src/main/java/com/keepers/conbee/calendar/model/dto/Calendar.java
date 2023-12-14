@@ -8,11 +8,15 @@ import lombok.Setter;
 public class Calendar {
 	
 	private int calNo;
-	private String calAllDay;
+	private int calAllDay;
 	private String calStartTime;
 	private String calEndTime;
 	private String calTitle;
 	private String calDetail;
-	private String calcolor;
+	private String calColor;
+	private int memberNo;
+	private String memberName;
+	
+	
 
 }
