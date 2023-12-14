@@ -12113,13 +12113,12 @@ font-family: 'NanumBarunGothic', sans-serif;
   color: var(--bs-form-invalid-color);
 }
 
-
-.print-div {
-  display: none;
-}
-
+/* 기안문 프린트 시 헤더, 푸터 출력 X */
 @media print {
-  .print-div {
-    display: block;
+  .modal-header {
+    display: none;
+  }
+  .modal-footer {
+    display: none;
   }
 }

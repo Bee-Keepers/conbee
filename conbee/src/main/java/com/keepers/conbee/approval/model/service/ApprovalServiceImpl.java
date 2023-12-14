@@ -355,6 +355,16 @@ public class ApprovalServiceImpl implements ApprovalService{
 	public int approveAllCheck(int approvalNo) {
 		return mapper.approveAllCheck(approvalNo);
 	}	
+	
+	
+	/** 폐점 최종승인 확인 후 폐쇄하기
+	 *
+	 */
+	@Override
+	public int storeRunCheck(int approvalNo) {
+		return mapper.storeRunCheck(approvalNo);
+	}	
+	
 
 	
 	/** 반려버튼 클릭 시 반려

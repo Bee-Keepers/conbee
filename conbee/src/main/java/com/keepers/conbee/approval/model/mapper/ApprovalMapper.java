@@ -314,6 +314,14 @@ public interface ApprovalMapper {
 
 
 
+	/** 폐점 최종승인 확인 후 폐쇄하기
+	 * @param approvalNo
+	 * @return
+	 */
+	int storeRunCheck(int approvalNo);
+
+
+
 
 
 

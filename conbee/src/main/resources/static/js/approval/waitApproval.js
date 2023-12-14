@@ -1777,25 +1777,36 @@ function deleteAtReturnBtn(memberNo){
 
 //======================================================================================
 
+let hiddenModalHeader = document.querySelectorAll('.modal-header');
+let hiddenModalFooter = document.querySelectorAll('.modal-footer');
+
+function beforePrint() {
+  const modal = document.querySelectorAll('.modal');
+  initBodyHtml = document.body.innerHTML;
+  document.body.innerHTML = modal[currentApprovaldocCategoryNo].innerHTML;
+
+  // hiddenModalHeader[currentApprovaldocCategoryNo].style.display = "block";
+  // hiddenModalFooter[currentApprovaldocCategoryNo].style.display = "block";
+}
+
 /* 모달창 인쇄 */
 function fnModalPrint() {
-  // const html = document.querySelector('html');
-  // const printContents = document.querySelector('.modal').innerHTML;
-  // const printDiv = document.createElement('DIV');
-
-  // printDiv.className = 'print-div';
-  // html.appendChild(printDiv);
-
-  // printDiv.innerHTML = printContents;
-  // document.body.style.display = 'none';
-
   const modal = document.querySelectorAll('.modal');
 
-  currentApprovaldocCategoryNo
-  console.log(modal);
+  console.log(currentApprovaldocCategoryNo);
+  console.log(modal[currentApprovaldocCategoryNo]);
 
-  window.print(modal);
+  // hiddenModalHeader[currentApprovaldocCategoryNo].style.display = "none";
+  // hiddenModalFooter[currentApprovaldocCategoryNo].style.display = "none";
 
-  // document.body.style.display = 'block';
-  // printDiv.style.display = 'none';
+  window.print(modal[currentApprovaldocCategoryNo].innerHTML);
 }
+
+function afterPrint() {
+  // hiddenModalHeader[currentApprovaldocCategoryNo].style.display = "block";
+  // hiddenModalFooter[currentApprovaldocCategoryNo].style.display = "block";
+  document.body.innerHTML = initBodyHtml;
+}
+
+window.onbeforeprint = beforePrint;
+window.onafterprint = afterPrint;

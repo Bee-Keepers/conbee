@@ -827,3 +827,17 @@ MEMBER_ID = 'imteamjang'
 WHERE MEMBER_NO = 61;
 
 
+-- 결재완료 된 문서가 폐점 문서인지 확인 후 맞을 경우
+-- approval no로  점포 폐쇄
+UPDATE STORE SET
+STORE_RUN_APPROVAL = 'Y'
+WHERE STORE_NO = (SELECT STORE_NO
+				FROM DOC_STORE
+				WHERE APPROVAL_NO = 122)
+AND 3 = (SELECT DOC_CATEGORY_NO
+		FROM APPROVAL
+		WHERE APPROVAL_NO = 122);
+		
+	
+	
+	
