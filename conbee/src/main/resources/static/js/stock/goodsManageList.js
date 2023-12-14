@@ -121,7 +121,7 @@ updateBtn.addEventListener("click", () => {
    document.getElementById("goodsNo").value = row.children[1].innerText;
    document.getElementById("goodsName").value = row.children[2].innerText;
    document.getElementById("goodsStandard").value = row.children[3].innerText;
-   document.getElementById("lcategorySelectUpdate").value = row.children[4].innerText;
+   document.getElementById("lcategorySelectUpdate").value = row.children[5].innerText;
    fetch( "/stockManage/scategoryList?lcategory=" + document.getElementById("lcategorySelectUpdate").value )
    .then(resp=>resp.json())
    .then(list=>{
@@ -138,7 +138,7 @@ updateBtn.addEventListener("click", () => {
          }
          const options = document.querySelectorAll("#scategorySelectUpdate>option");
          for(let option of options){
-            if(option.innerText == row.children[5].innerText){
+            if(option.innerText == row.children[6].innerText){
                option.selected = true;
             }
          }
