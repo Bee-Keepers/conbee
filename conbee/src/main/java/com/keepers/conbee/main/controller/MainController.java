@@ -1,14 +1,19 @@
 package com.keepers.conbee.main.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.keepers.conbee.approval.model.dto.Approval;
+import com.keepers.conbee.approval.model.service.ApprovalService;
+import com.keepers.conbee.board.model.service.BoardService;
 import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.revenue.model.dto.Revenue;
 import com.keepers.conbee.revenue.model.service.RevenueService;
@@ -25,6 +30,8 @@ public class MainController {
 	
 	private final StockService stockService;
 	private final RevenueService revenueService;
+	private final ApprovalService approvalService;
+	private final BoardService boardService;
 	
 	/** 메인 페이지 전환
 	 * @param loginMember
@@ -41,7 +48,10 @@ public class MainController {
 			if(loginMember.getDepartmentNo() == 5) {
 				stock.setStoreNo(loginMember.getStoreNoList().get(0));
 				revenue.setStoreNo(loginMember.getStoreNoList().get(0));
-			} 
+			} else {
+				stock.setStoreNo(0);
+				revenue.setStoreNo(0);
+			}
 			// 경영관리부인 경우
 			if(loginMember.getDepartmentNo() == 2) {
 				
@@ -52,8 +62,13 @@ public class MainController {
 			} 
 			List<Stock> stockList = stockService.stockList(stock);
 			List<Revenue> revenueList = revenueService.revenueSearch(revenue);
+			List<Approval> waitApprovalList = approvalService.selectWaitApproval(loginMember.getMemberNo());
+			Map<String, Object> map = boardService.selectBoardList(1, 1);
+			
+			model.addAttribute("waitApprovalList", waitApprovalList);
 			model.addAttribute("stockList", stockList);
 			model.addAttribute("revenueList", revenueList);
+			model.addAttribute("map", map);
 			
 			
 			// 점포 
@@ -66,7 +81,52 @@ public class MainController {
 		}
 		
 	}
+	
+	
+	/** 메인페이지 재고현황 지점 변경 시
+	 * @param loginMember
+	 * @param storeNo
+	 * @return
+	 */
+	@GetMapping(value = "/ajax/stockList", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<Stock> ajaxStockList(@SessionAttribute("loginMember") Member loginMember, int storeNo){
 
+		// 점주인 경우
+		if(loginMember.getDepartmentNo() == 5) {
+			if(!loginMember.getStoreNoList().contains(storeNo)) {
+				return null;
+			}
+			Stock stock = new Stock();
+			stock.setStoreNo(storeNo);
+			return stockService.stockList(stock);
+		}
+		
+		return null;
+	}
+	
+	/** 메인페이지 매출현황 지점 변경 시
+	 * @param loginMember
+	 * @param storeNo
+	 * @return
+	 */
+	@GetMapping(value = "/ajax/revenueList", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<Revenue> ajaxRevenueList(@SessionAttribute("loginMember") Member loginMember, int storeNo){
+		
+		// 점주인 경우
+		if(loginMember.getDepartmentNo() == 5) {
+			if(!loginMember.getStoreNoList().contains(storeNo)) {
+				return null;
+			}
+			Revenue revenue = new Revenue();
+			revenue.setStoreNo(storeNo);
+			return revenueService.revenueSearch(revenue);
+		}
+		
+		return null;
+	}
+	
 	/** 로그인하지 않고 로그인 전용 페이지 접근 시
 	 * @param ra
 	 * @return 메인페이지로 리다이렉트

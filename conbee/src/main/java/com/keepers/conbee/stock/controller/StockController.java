@@ -141,7 +141,7 @@ public class StockController {
 		} else {
 			ra.addFlashAttribute("message", "발주 신청 실패");
 		}
-		return "redirect:insert";
+		return "redirect:insert?storeNo=" + storeNo;
 	}
 	/** 발주 삭제
 	 * @return
@@ -281,8 +281,6 @@ public class StockController {
 		
 		return "stock/stockList";
 	}
-	
-	
 	
 	
 }

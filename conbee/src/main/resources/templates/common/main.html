@@ -19,46 +19,53 @@
         <div>일정</div>
         <div class="w-100 flex-grow-1" style="background-color: cadetblue;">캘린더</div>
       </div>
-      <div class="card m-2 h-25">
-        <div class="card-header fs-5 fw-bold"><a href="#">전자결재 대기함</a></div>
+
+      <!-- 공지사항 -->
+      <div class="card h-25 m-2">
+        <div class="card-header fs-5 fw-bold"><a href="/board/boardList/1">공지사항</a></div>
         <div class="card-body overflow-y-auto p-0">
           <table class="table table-striped table-hover">
             <colgroup>
-              <col width=58%>
-              <col width=14%>
-              <col width=14%>
-              <col width=14%>
+              <col width=65%>
+              <col width=8%>
+              <col width=20%>
+              <col width=7%>
             </colgroup>
             <thead>
               <tr>
                 <th>제목</th>
                 <th>작성자</th>
-                <th>부서</th>
-                <th>작성일자</th>
+                <th>날짜</th>
+                <th>조회수</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>12월 27일 휴가신청합니다</td>
-                <td>김민석</td>
-                <td>인사관리부</td>
-                <td>2023-12-13</td>
-              </tr>
-              <tr>
-                <td>2023년 12월 27일 일신상의 이유로 휴가신청합니다 </td>
-                <td>김민석</td>
-                <td>인사관리부</td>
-                <td>2023-12-13</td>
+              <tr th:each="board : ${map.boardList}" th:object="${board}">
+                <td class="text-truncate" th:text="*{boardTitle}">실험중입니다실험중입니다실험중입니다실험중입니다실험중입니다실
+                  험중입니다실험중입니다실험중입니다실험중입니다실험중입니다실험중입니다실험중입니다실험중입니다</td>
+                <td th:text="*{MemberName}">황금독수리</td>
+                <td th:text="*{boardWriteDate}">2023-12-13</td>
+                <td th:text="*{boardHits}">233</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
+      
     </div>
-    <div class="d-flex flex-column w-50">
+    <div class="d-flex flex-column w-50 h-100">
       <div class="d-flex flex-grow-1 h-50">
+
+        <!-- 재고 현황 -->
         <div class="card m-2">
-          <div class="card-header fs-5 fw-bold"><a href="#">재고현황</a></div>
+          <div class="card-header fs-5 fw-bold d-flex align-item-center justify-content-between">
+            <a class="align-middle" href="/stock/stockList">재고현황</a>
+            <div class="d-inline-block">
+              <select class="form-select" id="stockStoreNo">
+                <option th:each="store : ${session.loginMember.storeList}" th:object="${store}" th:text="*{storeName}" th:value="*{storeNo}">선택</option>
+              </select>
+            </div>
+          </div>
           <div class="card-body overflow-y-auto p-0">
             <table class="table table-striped table-hover">
               <colgroup>
@@ -73,12 +80,7 @@
                   <th>수량</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>과자</td>
-                  <td>새우깡</td>
-                  <td>45</td>
-                </tr>
+              <tbody id="stockTbody">
                 <tr th:each="stock : ${stockList}" th:object="${stock}">
                   <td th:text="*{scategoryName}">과자</td>
                   <td class="text-truncate" th:text="*{goodsName}">과자</td>
@@ -88,8 +90,17 @@
             </table>
           </div>
         </div>
+
+        <!-- 매출 현황 -->
         <div class="card m-2">
-          <div class="card-header fs-5 fw-bold"><a href="#">매출현황</a></div>
+          <div class="card-header fs-5 fw-bold d-flex justify-content-between">
+            <a href="/revenue/list">매출현황</a>
+            <div class="d-inline-block">
+              <select class="form-select" id="revenueStoreNo">
+                <option th:each="store : ${session.loginMember.storeList}" th:object="${store}" th:text="*{storeName}" th:value="*{storeNo}">선택</option>
+              </select>
+            </div>
+          </div>
           <div class="card-body overflow-y-auto p-0">
             <table class="table table-striped table-hover">
               <colgroup>
@@ -104,7 +115,10 @@
                   <th>금액</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="revenueTbody">
+                <tr th:if="${#lists.size(revenueList) == 0}">
+                  <td class="text-center" colspan="3">오늘 매출이 없습니다</td>
+                </tr>
                 <tr th:each="revenue : ${revenueList}" th:object="${revenue}">
                   <td th:text="*{scategoryName}">과자</td>
                   <td class="text-truncate" th:text="*{historyGoodsName}">새우깡</td>
@@ -113,7 +127,7 @@
               </tbody>
               <tfoot>
                 <tr>
-                  <th colspan="3" id="revenueSum">합계 : </th>
+                  <th class="text-end" colspan="3" id="revenueSum">합계 : </th>
                 </tr>
               </tfoot>
             </table>
@@ -121,36 +135,43 @@
         </div>
       </div>
         
-      <div class="card overflow-y-auto h-50 m-2">
-        <div class="card-header fs-5 fw-bold"><a href="#">자유게시판</a></div>
+      <!-- 전자결재 -->
+      <div class="card m-2 h-50 overflow-y-auto">
+        <div class="card-header fs-5 fw-bold"><a href="/approval/waitApproval">전자결재 대기함</a></div>
         <div class="card-body overflow-y-auto p-0">
           <table class="table table-striped table-hover">
             <colgroup>
-              <col width=65%>
-              <col width=14%>
-              <col width=14%>
-              <col width=7%>
+              <col width=45%>
+              <col width=10%>
+              <col width=25%>
+              <col width=20%>
             </colgroup>
             <thead>
               <tr>
                 <th>제목</th>
                 <th>작성자</th>
-                <th>날짜</th>
-                <th>조회수</th>
+                <th>부서</th>
+                <th>작성일자</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="text-truncate">실험중입니다실험중입니다실험중입니다실험중입니다실험중입니다실
-                  험중입니다실험중입니다실험중입니다실험중입니다실험중입니다실험중입니다실험중입니다실험중입니다</td>
-                <td>황금독수리</td>
-                <td>2023-12-13</td>
-                <td>233</td>
+              <!-- 결재 대기 문서가 없을 때 -->
+              <tr th:if="${#lists.size(waitApprovalList) == 0}">
+                <th class="text-center" colspan="4">결재 대기중인 문서가 없습니다.</th>
               </tr>
+              <th:block th:unless="${#lists.size(waitApprovalList) == 0}">
+                <tr th:each="approval : ${waitApprovalList}" th:object="${approval}">
+                  <td th:text="*{approvalTitle}">2023년 12월 27일 일신상의 이유로 휴가신청합니다 </td>
+                  <td th:text="*{memberName}">김민석</td>
+                  <td>[[*{departmentName}]]([[*{teamName}?: '']])</td>
+                  <td th:text="*{approvalDate}">2023-12-13</td>
+                </tr>
+              </th:block>
             </tbody>
           </table>
         </div>
       </div>
+      
     </div>
 
   </main>
@@ -158,14 +179,7 @@
   <script th:inline="javascript">
     const revenueList = /*[[${revenueList}]]*/ "revenueList";
   </script>
-  <script>
-    const revenueSum = document.getElementById("revenueSum");
-    let temp = 0;
-    for(let revenue of revenueList){
-      temp += revenue.historyAmount * revenue.historyActualPrice;
-    }
-    revenueSum.innerText = '합계 : ' + temp;
-  </script>
+  <script src="/js/common/main.js"></script>
   <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
