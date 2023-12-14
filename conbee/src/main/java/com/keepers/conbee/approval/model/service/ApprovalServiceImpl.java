@@ -343,9 +343,29 @@ public class ApprovalServiceImpl implements ApprovalService{
 		paramMap.put("approvalNo", approvalNo);
 		paramMap.put("memberNo", memberNo);
 		
+		// 결재승인 mapper 호출
 		return mapper.approve(paramMap);
 	}
 	
+	
+	/** 결재문서가 모두 승인이 났는지 확인 후 문서상태 변경
+	 *
+	 */
+	@Override
+	public int approveAllCheck(int approvalNo) {
+		return mapper.approveAllCheck(approvalNo);
+	}	
+	
+	
+	/** 폐점 최종승인 확인 후 폐쇄하기
+	 *
+	 */
+	@Override
+	public int storeRunCheck(int approvalNo) {
+		return mapper.storeRunCheck(approvalNo);
+	}	
+	
+
 	
 	/** 반려버튼 클릭 시 반려
 	 *

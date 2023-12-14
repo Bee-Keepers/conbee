@@ -4,6 +4,9 @@ let currentApprovalNo;
 // 승인/반려시 사용할 기안자 회원번호 전역변수 선언
 let currentApprovalMemberNo;
 
+// 기안문 문서타입 전역변수 선언
+let currentApprovaldocCategoryNo;
+
 // 모달 헤더 전역변수 선언
 const modalHeader = document.querySelectorAll(".modal-header");
 
@@ -46,6 +49,7 @@ function modal(approvalNo, docCategoryNo){
 
       currentApprovalNo = approval[0].approvalNo; // 기안서 문서번호 전역변수 대입
       currentApprovalMemberNo = approval[0].memberNo; // 기안자 회원번호 전역변수 대입
+      currentApprovaldocCategoryNo = approval[0].docCategoryNo;
 
       // 모달 속성 추가
       document.getElementById("clickModal").setAttribute("data-bs-toggle", "modal");
@@ -367,6 +371,7 @@ function modal(approvalNo, docCategoryNo){
 
     currentApprovalNo = approval.approvalNo;
     currentApprovalMemberNo = approval.memberNo;
+    currentApprovaldocCategoryNo = approval.docCategoryNo;
 
     console.log(approval);
 
@@ -1768,3 +1773,40 @@ function deleteAtReturnBtn(memberNo){
     location.href="deleteApproveAtReturn?approvalNo=" + currentApprovalNo;
   }
 }
+
+
+//======================================================================================
+
+let hiddenModalHeader = document.querySelectorAll('.modal-header');
+let hiddenModalFooter = document.querySelectorAll('.modal-footer');
+
+function beforePrint() {
+  const modal = document.querySelectorAll('.modal');
+  initBodyHtml = document.body.innerHTML;
+  document.body.innerHTML = modal[currentApprovaldocCategoryNo].innerHTML;
+
+  // hiddenModalHeader[currentApprovaldocCategoryNo].style.display = "block";
+  // hiddenModalFooter[currentApprovaldocCategoryNo].style.display = "block";
+}
+
+/* 모달창 인쇄 */
+function fnModalPrint() {
+  const modal = document.querySelectorAll('.modal');
+
+  console.log(currentApprovaldocCategoryNo);
+  console.log(modal[currentApprovaldocCategoryNo]);
+
+  // hiddenModalHeader[currentApprovaldocCategoryNo].style.display = "none";
+  // hiddenModalFooter[currentApprovaldocCategoryNo].style.display = "none";
+
+  window.print(modal[currentApprovaldocCategoryNo].innerHTML);
+}
+
+function afterPrint() {
+  // hiddenModalHeader[currentApprovaldocCategoryNo].style.display = "block";
+  // hiddenModalFooter[currentApprovaldocCategoryNo].style.display = "block";
+  document.body.innerHTML = initBodyHtml;
+}
+
+window.onbeforeprint = beforePrint;
+window.onafterprint = afterPrint;

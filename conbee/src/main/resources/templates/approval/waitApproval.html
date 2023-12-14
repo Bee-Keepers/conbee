@@ -61,15 +61,7 @@
                 <td th:text="*{approvalNo}">16</td>
                 <td th:text="*{docCategoryGroup}">복무</td>
                 <td th:text="*{docCategorySort}">휴가</td>
-                
-                <!-- <td th:text="*{approvalTitle}" style="text-align: start; font-weight: bold; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#holidayModal" id="clickModal">연차 신청합니다.</td> -->
-                <!-- <td th:text="*{approvalTitle}" style="text-align: start; font-weight: bold; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#expenseModal" id="clickModal">연차 신청합니다.</td> -->
-                <!-- <td th:text="*{approvalTitle}" style="text-align: start; font-weight: bold; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#retirementModal" id="clickModal">연차 신청합니다.</td> -->
-                <!-- <td th:text="*{approvalTitle}" style="text-align: start; font-weight: bold; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#openStoreModal" id="clickModal">연차 신청합니다.</td> -->
-                <!-- <td th:text="*{approvalTitle}" style="text-align: start; font-weight: bold; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#closeStoreModal" id="clickModal">연차 신청합니다.</td> -->
-                <!-- <td th:text="*{approvalTitle}" style="text-align: start; font-weight: bold; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#orderModal" id="clickModal">연차 신청합니다.</td> -->
                 <td th:text="*{approvalTitle}" style="text-align: start; font-weight: bold; cursor: pointer;" id="clickModal" th:onclick="modal([[*{approvalNo}]], [[*{docCategoryNo}]])">연차 신청합니다.</td>
-                
                 <td th:text="*{memberName}">정유진</td>
                 <td>[[*{departmentName}]]([[*{teamName}?: '']])</td>
                 <td th:text="*{approvalDate}">2023-11-30 16:24</td>
@@ -115,7 +107,7 @@
               </button>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">PDF 저장</a></li>
-                <li><a class="dropdown-item" href="#">인쇄</a></li>
+                <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
               </ul>
             </div>
           </div>
@@ -152,7 +144,7 @@
               </button>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">PDF 저장</a></li>
-                <li><a class="dropdown-item" href="#">인쇄</a></li>
+                <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
               </ul>
             </div>
           </div>
@@ -188,7 +180,7 @@
               </button>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">PDF 저장</a></li>
-                <li><a class="dropdown-item" href="#">인쇄</a></li>
+                <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
               </ul>
             </div>
           </div>
@@ -225,7 +217,7 @@
               </button>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">PDF 저장</a></li>
-                <li><a class="dropdown-item" href="#">인쇄</a></li>
+                <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
               </ul>
             </div>
           </div>
@@ -235,7 +227,7 @@
     </div>
 
     <!-- 지출결의서 Modal [4]-->
-    <div class="modal fade" id="expenseModal" tabindex="-1" aria-labelledby="expenseModalLabel" aria-hidden="true">
+    <div class="modal fade expenseModal" id="expenseModal" tabindex="-1" aria-labelledby="expenseModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
           
@@ -246,7 +238,6 @@
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
             </div>
           </div>
-
           <!-- 기안서 템플릿 바디 --> <!-- 비동기 생성 -->
           <!-- <th:block th:replace="~{approval/approvalDoc/docExpenseFin}"></th:block> -->
 
@@ -261,8 +252,8 @@
                 인쇄
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">PDF 저장</a></li>
-                <li><a class="dropdown-item" href="#">인쇄</a></li>
+                <li><a class="dropdown-item" href="#" >PDF 저장</a></li>
+                <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
               </ul>
             </div>
           </div>
@@ -299,7 +290,7 @@
               </button>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">PDF 저장</a></li>
-                <li><a class="dropdown-item" href="#">인쇄</a></li>
+                <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
               </ul>
             </div>
           </div>
@@ -314,6 +305,7 @@
 
   <script src="/js/bootstrap.bundle.min.js"></script>
   <script src="/js/approval/waitApproval.js"></script>
+  <script src="/js/approval/commonApproval.js"></script>
   
 </body>
 </html>

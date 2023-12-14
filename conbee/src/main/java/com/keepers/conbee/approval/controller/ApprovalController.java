@@ -339,8 +339,20 @@ public class ApprovalController { // 전자결재 컨트롤러
 		
 		int result = service.approve(approvalNo, loginMember.getMemberNo());
 		
-		if(result > 0) {
+		if(result > 0) { // 결재승인 완료시
+			
+			// 해당 문서의 결재자가 모두 승인을 완료했다면 결재완료 상태로 문서 컨디션 바꾸기
+			int check = service.approveAllCheck(approvalNo);
+			
+			if(check > 0) { // 모든 결재자가 결재완료가 된 경우
+				
+				// 폐점승인서가 결재완료된 경우 점포폐쇄하기
+				int storeRunCheck = service.storeRunCheck(approvalNo);
+				
+			}
+			
 			ra.addFlashAttribute("message", "결재 승인이 완료되었습니다.");
+			
 		} else {
 			ra.addFlashAttribute("message", "결재 승인이 실패하였습니다.");
 		}

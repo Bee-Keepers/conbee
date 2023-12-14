@@ -306,6 +306,25 @@ public interface ApprovalMapper {
 
 
 
+	/** 결재문서가 모두 승인이 났는지 확인 후 문서상태 변경
+	 * @param approvalNo
+	 * @return
+	 */
+	int approveAllCheck(int approvalNo);
+
+
+
+	/** 폐점 최종승인 확인 후 폐쇄하기
+	 * @param approvalNo
+	 * @return
+	 */
+	int storeRunCheck(int approvalNo);
+
+
+
+
+
+
 
 
 }
