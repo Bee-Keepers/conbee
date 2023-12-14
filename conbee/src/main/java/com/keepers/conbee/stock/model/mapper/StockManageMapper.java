@@ -59,4 +59,10 @@ public interface StockManageMapper {
 	 */
 	List<Stock> goodsSearch(Stock stock);
 
+	/** 재고 등록
+	 * @param stock
+	 * @return
+	 */
+	int stockInsert(Stock stock);
+
 }

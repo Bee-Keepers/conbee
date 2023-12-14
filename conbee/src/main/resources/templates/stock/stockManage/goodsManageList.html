@@ -118,7 +118,7 @@
 
       <!-- 버튼 모음 -->
       <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">
-        <div class="btn-group" role="group" aria-label="Basic outlined example">
+        <div role="group" aria-label="Basic outlined example">
           <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#goodsInsertModel">등록</button>
           <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="" id="updateBtn">수정</button>
           <button name="goodsDelete" id="deleteBtn" type="button" class="btn btn-warning">삭제</button>
@@ -149,7 +149,7 @@
             
             <!-- 재고 규격 -->
             <div class="form-floating mb-3">
-              <input name="goodsStandard" type="text" class="form-control" id="" placeholder="품목구분" required>
+              <input name="goodsStandard" type="text" class="form-control" id="" placeholder="품목구분">
               <label>재고규격</label>
             </div>
 
@@ -222,7 +222,7 @@
 
             <!-- 상품가격 -->
             <div class="form-floating mb-3">
-              <input name="goodsPrice" type="number" class="form-control" id="" placeholder="품목구분" min="0" required>
+              <input name="goodsPrice" type="number" class="form-control" id="goodsPrice" placeholder="품목구분" min="0" required>
               <label>상품가격</label>
             </div>
   

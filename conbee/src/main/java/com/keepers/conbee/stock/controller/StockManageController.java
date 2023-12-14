@@ -89,7 +89,7 @@ public class StockManageController {
 		return "redirect:goodsList";
 	}
 	
-	/** 물품 현황 전체 조회
+	/** 재고 전체 조회
 	 * @return
 	 */
 	@GetMapping("stockList")
@@ -110,11 +110,35 @@ public class StockManageController {
 	 */
 	@PostMapping("stockInsert")
 	public String stockInsert( Stock stock, RedirectAttributes ra) {
-		int result = stockService.stockInsert(stock);
+		int result = service.stockInsert(stock);
 		if(result <= 0) {
 			ra.addFlashAttribute("message", "등록 실패");
 		}
 		return "redirect:stockList";
+	}
+	
+	/** 재고 현황 수정
+	 * @param stock
+	 * @param ra
+	 * @return
+	 */
+	@PostMapping("stockUpdate")
+	public String stockUpdate( Stock stock, RedirectAttributes ra) {
+		int result = stockService.stockUpdate(stock);
+		if(result <= 0) {
+			ra.addFlashAttribute("message", "수정 실패");
+		}
+		return "redirect:stockList";
+	}
+	
+	/** 재고 삭제
+	 * @param dataList
+	 * @return
+	 */
+	@DeleteMapping("stockDelete")
+	@ResponseBody
+	public int stockDelete(@RequestBody Map<String, Object> paramMap) {
+		return stockService.stockDelete(paramMap);
 	}
 	
 	/** 재고 등록 이름 검색 시 물품 조회
@@ -137,6 +161,16 @@ public class StockManageController {
 	public List<String> scategoryList(String lcategory){
 		List<String> scategoryList = stockService.scategoryList(lcategory);
 		return scategoryList;
+	}
+	
+	/** 상품(재고) 상세 조회
+	 * @param goodsNo
+	 * @return
+	 */
+	@GetMapping("goodsDetail")
+	@ResponseBody
+	public Stock goodsDetail( int goodsNo ) {
+		return stockService.goodsDetail(goodsNo);
 	}
 	
 	/** 발주 페이지

@@ -75,7 +75,7 @@
 		ORDER BY GOODS_NO DESC
 	</select>
 	
-	<!-- 상품 등록 -->
+	<!-- 재고 등록 -->
 	<insert id="stockInsert">
 		INSERT INTO "STOCK"
 		VALUES ( #{storeNo},
@@ -233,8 +233,7 @@
 	<!-- 상품 상세 수정 -->
 	<update id="goodsDetailUpdate">
 		UPDATE "GOODS" SET
-		GOODS_DETAIL = #{goodsDetail},
-		GOODS_PRICE = #{goodPrice}
+		GOODS_DETAIL = #{goodsDetail}
 		<if test="deleteCheck >= 0 ">
 			,GOODS_IMAGE = #{goodsImage}
 			,GOODS_IMAGE_PATH = #{goodsImagePath}

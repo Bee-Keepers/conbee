@@ -41,7 +41,7 @@ public class StockController {
 	private final StockService service;
 	
 	
-	/** 재고 현황 리스트 전체 조회
+	/** 상품 리스트 전체 조회
 	 * @return
 	 */
 	@GetMapping("goodsList")
@@ -56,18 +56,6 @@ public class StockController {
 		return "stock/goodsList";
 	}
 	
-//	/** 상품 등록
-//	 * @return
-//	 */
-//	@PostMapping("goodsInsert")
-//	public String stockGoodsInsert(Stock stock, RedirectAttributes ra) {
-//		
-//		int result = service.goodsInsert(stock);
-//		if(result <= 0) {
-//			ra.addFlashAttribute("message", "등록 실패");
-//		}
-//		return "redirect:goodsList";
-//	}
 	
 	/** 상품 등록 시 대분류 선택하면 소분류 조회기능
 	 * @param lcategory

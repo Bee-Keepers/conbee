@@ -95,7 +95,7 @@
               <th>품목구분</th>
               <th>그룹명</th>
               <th>재고규격</th>
-              <th>입고단가</th>
+              <th>현)입고단가</th>
               <th>출고단가</th>
               <th>재고</th>
               <th>할인율</th>
@@ -128,7 +128,7 @@
       <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">
         <div class="" role="group" aria-label="Basic outlined example">
           <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="#stockInsertModel">등록</button>
-          <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="#stockUpdateModel" id="stockUpdateBtn">재고수정</button>
+          <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="" id="stockUpdateBtn">재고수정</button>
           <button name="stockDelete" id="deleteBtn" type="button" class="btn btn-warning">삭제</button>
         </div>
       </div>
@@ -148,7 +148,7 @@
         </div>
 
         <div class="modal-body">
-          <form action="/stock/stockInsert" method="post" >
+          <form action="/stock/stockInsert" method="post" id="stockInertForm" >
             <div class="mb-3">
               <select class="form-select" name="storeNo" id="storeNameClick">
                 <option th:each="store : ${session.loginMember.storeList}" th:value="${store.storeNo}" th:text="${store.storeName}"></option>
@@ -161,7 +161,7 @@
                     <!-- <li class="list-group-item">An item</li> -->
                   </ul>
                 </div>
-                <input type="text" class="form-control" name="goodsName" id="serachName" placeholder="품목명">
+                <input type="text" class="form-control" name="goodsName" id="serachName" placeholder="품목명" required>
                 <label for="serachName">상품명</label>
               </div>
               <div class="form-floating mb-3">
@@ -177,7 +177,7 @@
                 <label for="">입고단가</label>
               </div>
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="stockOutPrice"  id="stockOutPrice" placeholder="출고단가">
+                <input type="text" class="form-control" name="stockOutPrice"  id="stockOutPrice" placeholder="출고단가" required>
               <label for="">출고단가</label>
               </div>
               <div class="form-floating mb-3">
@@ -188,6 +188,7 @@
             
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+              <button type="button" class="btn btn-warning" id="stockInertReset">초기화</button>
               <button type="submit" class="btn btn-primary btn-warning">등록</button>
             </div>
             <input type="hidden" name="stockAmount" value="0">
