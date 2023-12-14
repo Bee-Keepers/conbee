@@ -62,6 +62,13 @@ const deleteBtn = document.getElementById("deleteBtn");
 
 /* 체크박스 선택 후 삭제버튼 눌렀을 때 goodsNo값 넘어옴 */
 deleteBtn.addEventListener('click', () => {
+
+   const checkbox = document.querySelector("input[type='checkbox']:checked");
+
+   if (checkbox == null) {
+      alert('삭제할 상품을 선택해주세요.');
+      return;
+   }
    
    if( confirm("삭제 하시겠습니까?") ){
       let obj = document.querySelectorAll(".checkbox");
@@ -95,6 +102,7 @@ deleteBtn.addEventListener('click', () => {
 
 const checkboxes = document.querySelectorAll(".checkbox");
 
+// 체크박스 선택 시 모달 연결
 checkboxes.forEach(checkbox => {
   checkbox.addEventListener("change", () => {
     const isChecked = checkbox.checked;
@@ -114,13 +122,14 @@ updateBtn.addEventListener("click", () => {
    const checkbox = document.querySelector("input[type='checkbox']:checked");
 
    if (checkbox == null) {
-      alert('체크박스를 선택하세요.');
+      alert('수정할 상품을 선택하세요.');
    }
 
    const row = checkbox.closest("tr");
    document.getElementById("goodsNo").value = row.children[1].innerText;
    document.getElementById("goodsName").value = row.children[2].innerText;
    document.getElementById("goodsStandard").value = row.children[3].innerText;
+   document.getElementById("goodsPrice").value = row.children[4].innerText;
    document.getElementById("lcategorySelectUpdate").value = row.children[5].innerText;
    fetch( "/stockManage/scategoryList?lcategory=" + document.getElementById("lcategorySelectUpdate").value )
    .then(resp=>resp.json())

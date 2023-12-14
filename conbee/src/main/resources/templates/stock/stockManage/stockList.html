@@ -108,7 +108,7 @@
               <th>품목구분</th>
               <th>그룹명</th>
               <th>재고규격</th>
-              <th>입고단가</th>
+              <th>현)입고단가</th>
               <th>출고단가</th>
               <th>재고</th>
               <th>할인율</th>
@@ -124,7 +124,7 @@
                 </label>
               </td>
               <td th:text="*{goodsNo}">1</td>
-              <td th:text="*{goodsName}">신라면</td>
+              <td th:text="*{goodsName}" data-bs-toggle="modal" data-bs-target="#goodsDateilModel" class="goodsDetailBtn">신라면</td>
               <td th:text="*{lcategoryName}">식품</td>
               <td th:text="*{scategoryName}">가공식사</td>
               <td th:text="*{goodsStandard}">-</td>
@@ -132,7 +132,8 @@
               <td th:text="*{stockOutPrice}">1500</td>
               <td th:text="*{stockAmount}">0</td>
               <td th:text="*{stockDiscount}">10</td>
-              <td>6750</td>
+              <td th:text="*{priceSum}">6750</td>
+              <td th:text="*{storeNo}" style="display: none;"></td>
             </tr>
           </tbody>
         </table>
@@ -140,7 +141,7 @@
       <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">
         <div class="" role="group" aria-label="Basic outlined example">
           <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="#stockInsertModel">등록</button>
-          <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="#stockUpdateModel">재고수정</button>
+          <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="" id="stockUpdateBtn">재고수정</button>
           <button name="stockDelete" id="deleteBtn" type="button" class="btn btn-warning">삭제</button>
         </div>
       </div>
@@ -160,7 +161,7 @@
         </div>
 
         <div class="modal-body">
-          <form action="/stock/stockInsert" method="post" >
+          <form action="/stockManage/stockInsert" method="post" id="stockInertForm">
             <div class="mb-3">
               <select class="form-select" name="storeNo" id="storeNameClick">
                 <option value="0">본사</option>
@@ -173,7 +174,7 @@
                     <!-- <li class="list-group-item">An item</li> -->
                   </ul>
                 </div>
-                <input type="text" class="form-control" name="goodsName" id="serachName" placeholder="품목명">
+                <input type="text" class="form-control" name="goodsName" id="serachName" placeholder="품목명" required>
                 <label for="serachName">상품명</label>
               </div>
               <div class="form-floating mb-3">
@@ -189,7 +190,7 @@
                 <label for="">입고단가</label>
               </div>
               <div class="form-floating mb-3">
-                <input type="number" class="form-control" name="stockOutPrice"  id="stockOutPrice" placeholder="출고단가">
+                <input type="number" class="form-control" name="stockOutPrice"  id="stockOutPrice" placeholder="출고단가" required>
               <label for="">출고단가</label>
               </div>
               <div class="form-floating mb-3">
@@ -200,6 +201,7 @@
             
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+              <button type="button" class="btn btn-warning" id="stockInertReset">초기화</button>
               <button type="submit" class="btn btn-primary btn-warning">등록</button>
             </div>
             <input type="hidden" name="stockAmount" value="0">
@@ -222,7 +224,7 @@
         </div>
 
         <div class="modal-body">
-          <form action="/stock/stockUpdate" method="post" >
+          <form action="/stockManage/stockUpdate" method="post" >
             <div>
               <div id="autoSerchNameContainer" class="form-floating mb-3">
                 <div  class="position-absolute w-100 start-0" style="top: 110%;">
@@ -259,7 +261,7 @@
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
               <button type="submit" class="btn btn-primary btn-warning">수정</button>
             </div>
-            <input type="hidden" id="storeNoUpdate" name="storeNo" value="">
+            <input type="hidden" id="storeNoUpdate" name="storeNo" value="0">
             <input type="hidden" id="goodsNoUpdate" name="goodsNo" value="">
           </form>
         </div>

@@ -3,6 +3,10 @@ const storeSearch = document.getElementById("storeSearch");
 // 지점 이름으로 검색
 storeSearch.addEventListener("change", e=>{
 
+const storeSearch = document.getElementById("storeSearch");
+const storeSelect = document.getElementById("storeSelect");
+// 지점 이름으로 검색
+storeSearch.addEventListener("change", e=>{
     fetch("/revenueManage/storeSearch?inputStoreName=" + e.target.value)
     .then(resp=>resp.json())
     .then(list=>{
@@ -21,6 +25,17 @@ storeSearch.addEventListener("change", e=>{
     })
     .catch(e=>console.log(e));
 });
+
+const url = new URL(location.href);
+const urlParams = url.searchParams;
+const options = document.querySelectorAll("#storeNoSelect>option");
+// 지점 선택 옵션 저장
+for(let option of options){
+  if(option.value == urlParams.get("storeNo")){
+    option.selected = true;
+    break;
+  }
+}
 
 const lcategoryName = document.getElementById("lcategoryName");
 const scategoryName = document.getElementById("scategoryName");
@@ -68,6 +83,13 @@ const deleteBtn = document.getElementById("deleteBtn");
 
 /* 체크박스 선택 후 삭제버튼 눌렀을 때 goodsNo값, storeNo값 넘어옴 */
 deleteBtn.addEventListener('click', () => {
+
+  const checkbox = document.querySelector("input[type='checkbox']:checked");
+
+  if (checkbox == null) {
+    alert('삭제할 품목을 체크하세요.');
+    return;
+  }
    
   if( confirm("삭제 하시겠습니까?") ){
     let obj = document.querySelectorAll(".checkbox");
@@ -81,11 +103,11 @@ deleteBtn.addEventListener('click', () => {
     }
     let data = {};
     data.goodsNoList = idList.join();
-    data.storeNo = storeNoSelect.value;
+    data.storeNo = 0;
 
     console.log(idList);
     console.log(data);
-    fetch( "/stock/stockDelete", {
+    fetch( "/stockManage/stockDelete", {
       method : "DELETE",
       headers : {"Content-type" : "application/json"},
       body : JSON.stringify(data)
@@ -105,4 +127,106 @@ deleteBtn.addEventListener('click', () => {
     })
     .catch( e => console.log(e));
    }
+});
+
+/* 재고 제품 상세조회 */
+const goodsDetailImage = document.getElementById("goodsDetailImage");
+const goodsDetailBtn = document.querySelectorAll(".goodsDetailBtn");
+const goodsDetailName = document.getElementById("goodsDetailName");
+const goodsDetailStandard = document.getElementById("goodsDetailStandard");
+const goodsDetail = document.getElementById("goodsDetail");
+for(let item of goodsDetailBtn){
+  
+  item.addEventListener("click", () => {
+  
+    const goodsNo = item.previousElementSibling.innerText;
+    fetch("/stockManage/goodsDetail?goodsNo=" + goodsNo)
+    .then( resp => resp.json() )
+    .then( goods => {
+      if(goods.goodsImagePath == null || goods.goodsImage == null){
+        goodsDetailImage.src = defaultImage;
+      } else {
+        goodsDetailImage.src = goods.goodsImagePath + goods.goodsImage;
+      }
+      goodsDetailName.innerText = goods.goodsName;
+      goodsDetailStandard.innerText = goods.goodsStandard;
+      goodsDetail.innerText = goods.goodsDetail;
+    } )
+    .catch(e=>console.log(e));
+  });
+};
+
+const checkboxes = document.querySelectorAll(".checkbox");
+
+// 체크박스 선택 시 모달 연결
+checkboxes.forEach(checkbox => {
+  checkbox.addEventListener("change", () => {
+    const isChecked = checkbox.checked;
+    
+    if (isChecked) {
+      stockUpdateBtn.setAttribute("data-bs-target", "#stockUpdateModel");
+    } else {
+      stockUpdateBtn.setAttribute("data-bs-target", "");
+    }
+  });
+});
+
+const stockUpdateBtn = document.getElementById("stockUpdateBtn");
+/* 재고 수정 버튼 클릭 시 데이터 조회 */
+stockUpdateBtn.addEventListener("click", () => {
+
+  const checkbox = document.querySelector("input[type='checkbox']:checked");
+
+  if (checkbox == null) {
+    alert('수정할 품목을 선택하세요.');
+  }
+
+  const row = checkbox.closest("tr");
+  document.getElementById("goodsNoUpdate").value = row.children[1].innerText;
+  document.getElementById("goodsName").value = row.children[2].innerText;
+  document.getElementById("lcategoryNameUpdate").value = row.children[3].innerText;
+  document.getElementById("scategoryNameUpdate").value = row.children[4].innerText;
+  document.getElementById("stockInPrice").value = row.children[6].innerText;
+  document.getElementById("stockOutPriceUpdate").value = row.children[7].innerText;
+  document.getElementById("stockDiscountUpdate").value = row.children[9].innerText;
+  document.getElementById("storeNoUpdate").value = row.children[11].innerText;
+});
+
+const lcategorySelect = document.getElementById("lcategorySelect");
+const scategorySelect = document.getElementById("scategorySelect");
+
+/* 검색창 내부 대,소분류 조회 */
+const lcategoryFn = (lcategorySelect, scategorySelect) => {
+  fetch(
+    "/stockManage/scategoryList?lcategory=" + lcategorySelect.value
+  )
+  .then(resp => resp.json())
+  .then(list => {
+    if (list.length != 0) {
+      for (let scategory of list) {
+        const option = document.createElement("option");
+        option.innerText = scategory;
+        scategorySelect.append(option);
+      }
+    }
+  })
+  .catch(e => console.log(e));
+};
+
+// 검색 창 모달에서 대분류 선택 시 대분류 안에있는 소분류 불러오기
+lcategorySelect.addEventListener("change", ()=>{
+  scategorySelect.innerHTML = "";
+  const option = document.createElement("option");
+  option.innerText = "선택";
+  option.setAttribute("value", "");
+  scategorySelect.append(option);
+  if(lcategorySelect.value != 0){
+    lcategoryFn(lcategorySelect, scategorySelect);
+  }
+});
+
+const stockInertReset = document.getElementById("stockInertReset");
+/* 등록 초기화 버튼 클릭 시 데이터 초기화 */
+stockInertReset.addEventListener("click", () => {
+  document.getElementById("stockInertForm").reset();
 });
