@@ -56,11 +56,11 @@ public class FileConfig implements WebMvcConfigurer{
 		
 		// 만약에 /pdf/** 요청이 오면
 		// file:///C:/workspace/project-resources/pdf/ 폴더로 연결
-		registry.addResourceHandler("/pdf/**").addResourceLocations("file:///C:/workspace/project-resources/pdf/");
+		registry.addResourceHandler("/pdf/**").addResourceLocations("file:///C:/final_workspace/project-resources/pdf/");
 		
 		
 		// 전자결재 파일
-		registry.addResourceHandler("/approvalFiles/**").addResourceLocations("file:///C:/workspace/project-resources/approvalFiles/");
+		registry.addResourceHandler("/approvalFiles/**").addResourceLocations("file:///C:/final_workspace/project-resources/approvalFiles/");
 		
 		
 	}

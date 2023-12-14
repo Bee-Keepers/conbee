@@ -4,6 +4,9 @@ let currentApprovalNo;
 // 승인/반려시 사용할 기안자 회원번호 전역변수 선언
 let currentApprovalMemberNo;
 
+// 기안문 문서타입 전역변수 선언
+let currentApprovaldocCategoryNo;
+
 // 모달 헤더 전역변수 선언
 const modalHeader = document.querySelectorAll(".modal-header");
 
@@ -46,6 +49,7 @@ function modal(approvalNo, docCategoryNo){
 
       currentApprovalNo = approval[0].approvalNo; // 기안서 문서번호 전역변수 대입
       currentApprovalMemberNo = approval[0].memberNo; // 기안자 회원번호 전역변수 대입
+      currentApprovaldocCategoryNo = approval[0].docCategoryNo;
 
       // 모달 속성 추가
       document.getElementById("clickModal").setAttribute("data-bs-toggle", "modal");
@@ -367,6 +371,7 @@ function modal(approvalNo, docCategoryNo){
 
     currentApprovalNo = approval.approvalNo;
     currentApprovalMemberNo = approval.memberNo;
+    currentApprovaldocCategoryNo = approval.docCategoryNo;
 
     console.log(approval);
 
@@ -1767,4 +1772,30 @@ function deleteAtReturnBtn(memberNo){
   if(confirm("해당 기안서를 영구삭제 하시겠습니까?")){
     location.href="deleteApproveAtReturn?approvalNo=" + currentApprovalNo;
   }
+}
+
+
+//======================================================================================
+
+/* 모달창 인쇄 */
+function fnModalPrint() {
+  // const html = document.querySelector('html');
+  // const printContents = document.querySelector('.modal').innerHTML;
+  // const printDiv = document.createElement('DIV');
+
+  // printDiv.className = 'print-div';
+  // html.appendChild(printDiv);
+
+  // printDiv.innerHTML = printContents;
+  // document.body.style.display = 'none';
+
+  const modal = document.querySelectorAll('.modal');
+
+  currentApprovaldocCategoryNo
+  console.log(modal);
+
+  window.print(modal);
+
+  // document.body.style.display = 'block';
+  // printDiv.style.display = 'none';
 }

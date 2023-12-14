@@ -12112,3 +12112,14 @@ font-family: 'NanumBarunGothic', sans-serif;
   font-size: 0.875em;
   color: var(--bs-form-invalid-color);
 }
+
+
+.print-div {
+  display: none;
+}
+
+@media print {
+  .print-div {
+    display: block;
+  }
+}

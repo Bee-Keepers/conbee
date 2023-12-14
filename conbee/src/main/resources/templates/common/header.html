@@ -52,7 +52,7 @@
             <a class="nav-link" href="#">채팅</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/approval/tempSave">전자결재</a>
+                <a class="nav-link" href="/approval/tempSave" th:unless="${session.loginMember.departmentNo == 5}">전자결재</a>
             </li>
             <li class="nav-item">
             <a class="nav-link" href="/calendar/calendar">캘린더</a>

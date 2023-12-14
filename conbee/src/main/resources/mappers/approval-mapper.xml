@@ -228,6 +228,13 @@
 		AND APPROVAL_DELETE = 0 <!--삭제되지 않은 문서-->
 		AND APPROVAL_CONDITION = 0 <!--결재중인 문서-->
 		AND AR.APPROVER_CONDITION = 0 <!--상급자(로그인멤버)가 미승인한 문서-->
+		AND AR.MEMBER_NO = (SELECT MEMBER_NO FROM ( <!-- 로그인멤버의 결재차례인 문서 -->
+		SELECT *
+		FROM APPROVER AR
+		WHERE AR.APPROVER_CONDITION = 0
+		AND AR.APPROVAL_NO = AL.APPROVAL_NO
+		ORDER BY AR.APPROVER_ORDER)
+		WHERE ROWNUM =1)
 		ORDER BY APPROVAL_DATE DESC
 	</select>
 	
@@ -429,6 +436,16 @@
 		AND APPROVAL_NO = ${approvalNo}		
 	</update>
 	
+	<!--결재문서가 모두 승인이 났는지 확인 후 문서상태 변경-->
+	<update id="approveAllCheck">
+		UPDATE APPROVAL SET
+		APPROVAL_CONDITION = 4
+		WHERE APPROVAL_NO = ${approvalNo}	
+		AND 0 = (SELECT COUNT(*) 
+				FROM APPROVER
+				WHERE APPROVAL_NO = ${approvalNo}	
+				AND APPROVER_CONDITION = 0)		
+	</update>	
 	
 	<!--반려 버튼 클릭 시 반려-->
 	<update id="returnApprove">
