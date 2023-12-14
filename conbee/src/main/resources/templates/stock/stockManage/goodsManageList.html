@@ -89,6 +89,7 @@
               <th>상품번호</th>
               <th>상품명</th>
               <th>재고 규격</th>
+              <th>상품 가격</th>
               <th>대분류</th>
               <th>소분류</th>
             </tr>
@@ -106,6 +107,7 @@
                 <td th:text="*{goodsNo}">상품번호</td>
                 <td th:text="*{goodsName}" data-bs-toggle="modal" data-bs-target="#goodsDetailSelectBtn" class="goodsDetailSelectBtn" style="cursor: pointer;">상품이름</td>
                 <td th:text="*{goodsStandard}">재고규격</td>
+                <td th:text="*{goodsPrice}">상품가격</td>
                 <td th:text="*{lcategoryName}">대분류</td>
                 <td th:text="*{scategoryName}">소분류</td>
               </tr>
@@ -149,6 +151,12 @@
             <div class="form-floating mb-3">
               <input name="goodsStandard" type="text" class="form-control" id="" placeholder="품목구분" required>
               <label>재고규격</label>
+            </div>
+
+            <!-- 상품가격 -->
+            <div class="form-floating mb-3">
+              <input name="goodsPrice" type="number" class="form-control" id="" placeholder="품목구분" min="0" required>
+              <label>상품가격</label>
             </div>
             
             <!-- 대분류 -->
@@ -210,6 +218,12 @@
             <div class="form-floating mb-3">
               <input name="goodsStandard" type="text" class="form-control" id="goodsStandard" placeholder="품목구분">
               <label for="goodsStandard">재고규격</label>
+            </div>
+
+            <!-- 상품가격 -->
+            <div class="form-floating mb-3">
+              <input name="goodsPrice" type="number" class="form-control" id="" placeholder="품목구분" min="0" required>
+              <label>상품가격</label>
             </div>
   
             <!-- 대분류 -->
