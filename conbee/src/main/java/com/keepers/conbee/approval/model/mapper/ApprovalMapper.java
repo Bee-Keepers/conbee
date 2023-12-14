@@ -22,29 +22,38 @@ public interface ApprovalMapper {
 
 	/* ============================= 유진 ================================ */
 	
+	
+	/** 임시저장함 글 개수 조회
+	 * @param memberNo
+	 * @return
+	 */
+	int searchTempSaveCount(int memberNo);
+	
 	/** 임시저장함 조회
 	 * @param memberNo
+	 * @param rowBounds 
 	 * @return approval list
 	 */
-	List<Approval> selectTempSave(int memberNo);
-	
+	List<Approval> selectTempSave(int memberNo, RowBounds rowBounds);
 	
 	
 	/** 임시저장 데이터 조회
 	 * @param approvalNo
 	 * @return
 	 */
-	Approval selectTempDocHoliday(int approvalNo);
+	Approval selectTempHoliday(int approvalNo);
 
 
-	Approval selectTempDocRetirement(int approvalNo);
+	Approval selectTempRetirement(int approvalNo);
 
 
-	Approval selectTempDocStore(int approvalNo);
+	Approval selectTempStore(int approvalNo);
 	
 
-	Approval selectTempDocExpense(int approvalNo);
+	Approval selectTempExpense(int approvalNo);
+	
 
+	List<Approver> selectTempAppover(int approvalNo);
 	
 	
 	/** 기안문 작성자 정보 조회
@@ -122,13 +131,36 @@ public interface ApprovalMapper {
 	List<Approval> selectRequestApproval(int memberNo, RowBounds rowBounds);
 	
 	
+	/** 결재요청함 데이터 조회
+	 * @param approvalNo
+	 * @return
+	 */
+	Approval selectRequestHoliday(int approvalNo);
+	
+
+	Approval selectRequestRetirement(int approvalNo);
+	
+
+	Approval selectRequestStore(int approvalNo);
+	
+
+	Approval selectRequestExpense(int approvalNo);
+	
+
+	List<Approver> selectRequestAppover(int approvalNo);
+	
+	
 	/** 회수문서함 조회
 	 * @param memberNo
 	 * @return approval list
 	 */
 	List<Approval> selectReclaimApproval(int memberNo);
 
-	
+	/** 문서 회수하기
+	 * @param approvalNo
+	 * @return result
+	 */
+	int reclaimApproval(int approvalNo);
 	
 	
 	/* ============================= 예리나 ================================ */
@@ -319,7 +351,6 @@ public interface ApprovalMapper {
 	 * @return
 	 */
 	int storeRunCheck(int approvalNo);
-
 
 
 

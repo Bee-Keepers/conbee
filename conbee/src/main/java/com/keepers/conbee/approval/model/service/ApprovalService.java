@@ -21,9 +21,10 @@ public interface ApprovalService {
 	
 	/** 임시저장함 조회
 	 * @param memberNo
+	 * @param cp 
 	 * @return approval list
 	 */
-	List<Approval> selectTempSave(int memberNo);
+	Map<String, Object> selectTempSave(int memberNo, int cp);
 	
 	
 	/** 임시저장함 데이터 받아오기
@@ -77,12 +78,27 @@ public interface ApprovalService {
 	public Map<String, Object> selectRequestApproval(int memberNo, int cp);
 	
 	
+	/** 결재요청함 데이터 조회
+	 * @param approvalNo
+	 * @param docCategoryNo
+	 * @return
+	 */
+	Map<String, Object> selectRequestData(int approvalNo, int docCategoryNo);
+	
+	
 	/** 회수문서함 조회
 	 * @param memberNo
 	 * @return approval list
 	 */
 	List<Approval> selectReclaimApproval(int memberNo);
 	
+	
+	/** 문서 회수
+	 * @param approvalNo
+	 * @param memberNo
+	 * @return
+	 */
+	int reclaimApproval(int approvalNo);
 	
 	
 	/* ============================= 예리나 ================================ */
@@ -197,14 +213,6 @@ public interface ApprovalService {
 	 * @return
 	 */
 	int storeRunCheck(int approvalNo);
-
-
-
-
-
-
-
-
 
 
 
