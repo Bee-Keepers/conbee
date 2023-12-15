@@ -26,7 +26,7 @@ public class OrderScheduling {
 	
 	// 자정마다 동작
 //	@Scheduled(cron = "0 0 0 * * *")
-	@Scheduled(cron = "0 0 0 * * *")
+	@Scheduled(cron = "0 10 * * * *")
 	public void orderScheduling() {
 		log.info("발주 마감 스케쥴러 동작");
 		service.orderScheduling();
