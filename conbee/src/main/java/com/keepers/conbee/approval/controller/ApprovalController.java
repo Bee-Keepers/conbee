@@ -480,13 +480,15 @@ public class ApprovalController { // 전자결재 컨트롤러
 	* @author 예리나
 	*/
 	@GetMapping("completeApproval")
-	public String completeApproval(@SessionAttribute("loginMember") Member loginMember, Model model) {
+	public String completeApproval(@SessionAttribute("loginMember") Member loginMember, Model model,
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		
 		// 1) 자신이 승인한 문서가 완료된 경우 조회
 		// 2) 기안자가 자신이 기안한 문서가 최종승인 된 경우 조회
-		List<Approval> completeApprovalList = service.selectCompleteApproval(loginMember.getMemberNo());
+		Map<String, Object> map = service.selectCompleteApproval(loginMember.getMemberNo(), cp);
+//		model.addAttribute("completeApprovalList", completeApprovalList);
 		
-		model.addAttribute("completeApprovalList", completeApprovalList);
+		model.addAttribute("map", map);
 		
 		return "approval/completeApproval";
 	}
