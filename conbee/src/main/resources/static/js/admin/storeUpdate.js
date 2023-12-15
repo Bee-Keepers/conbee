@@ -65,6 +65,14 @@ const checkMemberObj = {
 "memberNo" : 0
 }
 
+/* 정보 등록 유효성 검사 */
+
+const checkObj = {
+    "storeName" : false,
+    "storeTel" : false,
+    "storeAddress" : false
+  };
+
 //============================================================================
 
 /* 정보 수정 유효성 검사 */
@@ -111,6 +119,8 @@ storeName.addEventListener("input", ()=>{
                 storeName.classList.add("is-valid");
                 storeName.classList.remove("is-invalid");
 
+                checkObj.storeName = true;
+
             } else { // 중복 O
                 messageStoreName.innerText= "이미 사용중인 매장명입니다.";
                 messageStoreName.classList.add("invalid-feedback");
@@ -119,6 +129,8 @@ storeName.addEventListener("input", ()=>{
                 // 인풋 요소 변화
                 storeName.classList.add("is-invalid");
                 storeName.classList.remove("is-valid");
+
+                checkObj.storeName = false;
             }
         })
         .catch(e=> console.log(e))
@@ -132,6 +144,8 @@ storeName.addEventListener("input", ()=>{
         // 인풋 요소 변화
         storeName.classList.add("is-invalid");
         storeName.classList.remove("is-valid");
+
+        checkObj.storeName = false;
     }
 
 })
@@ -274,6 +288,7 @@ storeTel.addEventListener("input", ()=>{
         storeTel.classList.remove("is-invalid");
         storeTel.classList.remove("is-valid");
 
+
         return;
     }
 
@@ -298,6 +313,8 @@ storeTel.addEventListener("input", ()=>{
                 storeTel.classList.add("is-valid");
                 storeTel.classList.remove("is-invalid");
 
+                checkObj.storeTel = true;
+
             } else { // 중복 O
                 messageStoreTel.innerText= "이미 사용중인 점포 전화번호입니다.";
                 messageStoreTel.classList.add("invalid-feedback");
@@ -306,6 +323,8 @@ storeTel.addEventListener("input", ()=>{
                 // 인풋 요소 변화
                 storeTel.classList.add("is-invalid");
                 storeTel.classList.remove("is-valid");
+
+                checkObj.storeTel = false;
             }
         })
         .catch(e=> console.log(e))
@@ -319,6 +338,8 @@ storeTel.addEventListener("input", ()=>{
         // 인풋 요소 변화
         storeTel.classList.add("is-invalid");
         storeTel.classList.remove("is-valid");
+
+        checkObj.storeTel = false;
     }
 
 })
@@ -368,6 +389,8 @@ storeAddress.addEventListener("input", ()=>{
                 storeAddress.classList.add("is-valid");
                 storeAddress.classList.remove("is-invalid");
 
+                checkObj.storeAddress = true;
+
             } else { // 중복 O
                 messageStoreAddress.innerText= "이미 등록된 점포 주소입니다.";
                 messageStoreAddress.classList.add("NotOK-feedback");
@@ -376,6 +399,8 @@ storeAddress.addEventListener("input", ()=>{
                 // 인풋 요소 변화
                 storeAddress.classList.add("is-invalid");
                 storeAddress.classList.remove("is-valid");
+
+                checkObj.storeAddress = false;
             }
         })
         .catch(e=> console.log(e))
@@ -389,6 +414,8 @@ storeAddress.addEventListener("input", ()=>{
         // 인풋 요소 변화
         storeAddress.classList.add("is-invalid");
         storeAddress.classList.remove("is-valid");
+
+        checkObj.storeAddress = false;
     }
 
 })
@@ -429,6 +456,33 @@ submitBtn.addEventListener("click", (e)=>{
         e.preventDefault(); // form 제출 X
         return;
     }
+
+    /* checkObj의 모든 값을 검사해서
+    하나라도 false이면 가입 시도 X */
+    // 객체 전용 향상된 for문 (for .... in)
+    for(let key in checkObj){
+
+        // 객체에서 얻어온 값이 false인 경우
+        // (유효하지 않거나 작성되지 않은 값이 있을 경우)
+        if( !checkObj[key] ){
+    
+          let str;
+          switch(key){
+          case "storeName"   : str = "점포명이 유효하지 않습니다"; break;
+          case "storeTel"    : str = "점포 전화번호가 유효하지 않습니다"; break;
+          case "storeAddress": str = "점포주소가 유효하지 않습니다"; break;
+          }
+    
+          alert(str);
+    
+          // key == input id 속성 값
+          // 유효하지 않은 input 태그로 focus 맞춤
+          document.getElementById(key).focus();
+    
+          e.preventDefault(); // form 제출 X
+          return;
+        }
+      }
     
     storeUpdateFrm.submit();
 
