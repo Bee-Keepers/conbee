@@ -1,11 +1,15 @@
 package com.keepers.conbee.address.model.service;
 
-import java.util.List;
-
-import com.keepers.conbee.member.model.dto.Member;
+import java.util.Map;
 
 public interface AddressService {
 
-	List<Member> address(int grade);
+	/** 주소록
+	 * @param grade
+	 * @param query 
+	 * @param cp
+	 * @return
+	 */
+	Map<String, Object> address(int grade, String query, int cp);
 
 }
