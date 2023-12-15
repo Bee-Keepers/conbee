@@ -509,6 +509,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 	
 	
 	/** 반려문서함에서 삭제버튼 클릭 시 기안서 삭제
+	 * @author 이예리나
 	 * @param approvalNo
 	 * @param ra
 	 * @return
@@ -530,6 +531,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 	
 	
 	/** 반려취소
+	 * @author 이예리나
 	 * @param loginMember
 	 * @param approvalNo
 	 * @param ra
@@ -552,6 +554,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 
 	
 	/** 반려사유 조회
+	 * @author 이예리나
 	 * @param approvalNo
 	 * @return
 	 */

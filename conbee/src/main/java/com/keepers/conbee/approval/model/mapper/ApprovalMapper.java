@@ -353,6 +353,18 @@ public interface ApprovalMapper {
 	 * @return
 	 */
 	int storeRunCheck(int approvalNo);
+	
+
+	/** 기안 후 180일 지난 기안문리스트 불러오기
+	 * @return
+	 */
+	List<Approval> selectDateOverApproval();
+
+	/** 기안서 삭제하기(스케쥴링)
+	 * @param approvalNo
+	 * @return
+	 */
+	int approvalDeleteScheduling(int approvalNo);
 
 
 
