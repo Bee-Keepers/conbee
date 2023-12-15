@@ -47,8 +47,7 @@ serachName.addEventListener("input", e=>{
           goodsNameList.innerHTML = ""; // 자동완성 목록 초기화 또는 숨김 처리
           lcategoryName.value = item.lcategoryName;
           scategoryName.value = item.scategoryName;
-          // 선택된 항목에 대한 추가 동작 수행
-          // 예: 선택한 상품명에 대한 추가 정보 로드 등
+          goodsPrice.value = item.goodsPrice;
         });
 
         goodsNameList.appendChild(listItem);
