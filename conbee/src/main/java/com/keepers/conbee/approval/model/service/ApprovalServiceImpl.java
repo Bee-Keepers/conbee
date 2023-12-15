@@ -265,8 +265,15 @@ public class ApprovalServiceImpl implements ApprovalService{
 
 	// 문서 회수하기
 	@Override
-	public int reclaimApproval(int approvalNo) {
-		return mapper.reclaimApproval(approvalNo);
+	public int reclaimApproval(int memberNo, int approvalNo) {
+		
+		Map<String, Object> param = new HashMap<>();
+		
+		param.put("memberNo", memberNo);
+		param.put("approvalNo", approvalNo);
+		
+		
+		return mapper.reclaimApproval(param);
 	}
 	
 

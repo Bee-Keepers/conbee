@@ -1,15 +1,5 @@
-/* 문서 회수 버튼 */
-function reclaimBtn(){
-  const userConfirm = confirm("문서를 회수하시겠습니까?");
-  
-  if(!userConfirm){
-    return;
-  }
-  location.href="reclaim?approvalNo=" + currentApprovalNo;
-}
-
-
 let currentApprovalNo;
+
 
 const approvalOne = document.querySelectorAll(".approvalOne").forEach(function(one){
   
@@ -39,25 +29,32 @@ const approvalOne = document.querySelectorAll(".approvalOne").forEach(function(o
     const approvalNo = this.getAttribute('data-one-id');
     const docCategoryNo = this.getAttribute('data-one-sort');
 
-
     /* 결재 요청 데이터 가져오기 */
     fetch("/approval/requestApproval/selectRequestData?approvalNo=" + approvalNo + "&docCategoryNo=" + parseInt(docCategoryNo))
     .then(resp=>resp.json())
     .then((map)=>{
-
+      
       currentApprovalNo = approvalNo;
       console.log(currentApprovalNo);
       
       switch(parseInt(docCategoryNo)){
         case 0 :{ /* 휴가신청서 */
-          // const setButton = document.querySelectorAll(".btn-warning");
-          // setButton[4].value=approvalNo;
           document.querySelectorAll(".docApprovalNo")[4].innerText=approvalNo;
           document.querySelectorAll(".docApprovalDate")[4].innerText=map.requestApproval.approvalDate;
           document.getElementById("docHolidayTitle").innerText=map.requestApproval.approvalDocTitle;
           document.getElementById("docHolidayStart").innerText=map.requestApproval.docHolidayStart;
           document.getElementById("docHolidayEnd").innerText=map.requestApproval.docHolidayEnd;
           document.getElementById("docHolidayText").innerText=map.requestApproval.approvalContent;
+          const fileRoute = map.requestApproval.approvalFileRoute + map.requestApproval.approvalFileReName;
+          const fileId = document.getElementById("docHolidayFile");
+          fileId.setAttribute("href",fileRoute);
+          fileId.setAttribute("style","text-decoration: none;");
+          fileId.setAttribute("download",map.requestApproval.approvalFileOriginName);
+          fileId.innerHTML=map.requestApproval.approvalFileOriginName;
+
+          console.log(map.approver)
+
+
         }; break;
 
         case 1 :{ /* 사직서 */
@@ -72,8 +69,6 @@ const approvalOne = document.querySelectorAll(".approvalOne").forEach(function(o
         }; break;
 
         case 2 : { /* 출점 */
-          // const setButton = document.querySelectorAll(".btn-warning");
-          // setButton[2].value=approvalNo;
           document.querySelectorAll(".docApprovalNo")[2].innerText=approvalNo;
           document.querySelectorAll(".docApprovalDate")[2].innerText=map.requestApproval.approvalDate;
           document.getElementById("docStoreTitle").innerText=map.requestApproval.approvalDocTitle;
@@ -84,8 +79,6 @@ const approvalOne = document.querySelectorAll(".approvalOne").forEach(function(o
         }; break;
 
         case 3 : { /* 폐점 */
-          // const setButton = document.querySelectorAll(".btn-warning");
-          // setButton[2].value=approvalNo;
           document.querySelectorAll(".docApprovalNo")[2].innerText=approvalNo;
           document.querySelectorAll(".docApprovalDate")[2].innerText=map.requestApproval.approvalDate;
           document.getElementById("docStoreTitle").innerText=map.requestApproval.approvalDocTitle;
@@ -96,8 +89,6 @@ const approvalOne = document.querySelectorAll(".approvalOne").forEach(function(o
         }; break;
 
         case 4 : { /* 지출 */
-          // const setButton = document.querySelectorAll(".btn-warning");
-          // setButton[1].value=approvalNo;
           document.querySelectorAll(".docApprovalNo")[1].innerText=approvalNo;
           document.querySelectorAll(".docApprovalDate")[1].innerText=map.requestApproval.approvalDate;
           document.getElementById("docExpenseTitle").innerText=map.requestApproval.approvalDocTitle;
@@ -105,8 +96,6 @@ const approvalOne = document.querySelectorAll(".approvalOne").forEach(function(o
         }; break;
         
         case 5 : { /* 발주 */
-          // const setButton = document.querySelectorAll(".btn-warning");
-          // setButton[0].value=approvalNo;
           document.querySelectorAll(".docApprovalNo")[0].innerText=approvalNo;
           document.querySelectorAll(".docApprovalDate")[0].innerText=map.requestApproval.approvalDate;
         }; break;
@@ -117,3 +106,13 @@ const approvalOne = document.querySelectorAll(".approvalOne").forEach(function(o
     .catch(e=>console.log(e));
   })
 })
+
+/* 문서 회수 버튼 */
+function reclaimBtn(){
+  const userConfirm = confirm("문서를 회수하시겠습니까?");
+
+  if(!userConfirm){
+    return;
+  }
+  location.href="reclaim?approvalNo=" + currentApprovalNo;
+}

@@ -294,7 +294,8 @@
 	<!-- 문서 회수하기 -->
 	<update id="reclaimApproval">
 		UPDATE APPROVAL SET APPROVAL_CONDITION=2, APPROVAL_DATE=SYSDATE
-		WHERE APPROVAL_NO=${approvalNo}
+		WHERE MEMBER_NO=${memberNo}
+		AND APPROVAL_NO=${approvalNo}
 	</update>
 
 	

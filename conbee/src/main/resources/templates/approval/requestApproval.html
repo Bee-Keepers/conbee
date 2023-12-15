@@ -12,6 +12,134 @@
 
   <th:block th:replace="~{common/header}"></th:block>
 
+  
+  <main class="d-flex flex-grow-1" th:with="pagination=${map.pagination}">
+
+    <th:block th:replace="~{approval/sidebar}"></th:block>
+    
+    <div class="d-flex flex-column flex-grow-1 p-3">
+      
+      <div class="fs-3 pb-3 px-3 border-bottom">
+        결재요청함
+      </div>
+      
+      <div class="w-100 px-4 pt-2 flex-grow-1">
+        
+        <table class="table table-striped table-hover">
+          <colgroup>
+            <col width=7%>
+            <col width=7%>
+            <col width=7%>
+            <col width=25%>
+            <col width=7%>
+            <col width=15%>
+            <col width=15%>
+            <col width=7%>
+            <col width=10%>
+          </colgroup>
+          <thead>
+            <tr style="text-align: center;">
+              <th>문서번호</th>
+              <th>구분</th>
+              <th>항목</th>
+              <th>제목</th>
+              <th>작성자</th>
+              <th>부서</th>
+              <th>작성일자</th>
+              <th>결재자</th>
+              <th>처리상태</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider" >
+            
+            <!-- 결재 요청 문서가 없을 때 -->
+            <tr th:if="${#lists.size(map.requestApprovalList) == 0}">
+              <th colspan="6" style="text-align: center;">결재 요청한 문서가 없습니다.</th>
+            </tr>
+            
+            <!-- 결재 요청 문서가 존재할 때 -->
+            <th:block th:unless="${#lists.size(map.requestApprovalList) == 0}">
+              <tr style="text-align: center;" th:each="approval : ${map.requestApprovalList}" 
+              th:object="${approval}" class="approvalOne"
+              data-bs-toggle="modal" th:attr="data-one-id=${approval.approvalNo}, 
+              data-bs-target='#doc' + ${(approval.docCategoryNo == 0 ? 
+                1 : (approval.docCategoryNo == 1 ? 
+                2 : (approval.docCategoryNo == 2 || approval.docCategoryNo == 3) ? 
+                3 : (approval.docCategoryNo == 4 ? 
+                4 : (approval.docCategoryNo == 5 ? 
+                5 : approval.docCategoryNo))))}, data-one-sort=${approval.docCategoryNo}" >
+                <td th:text="*{approvalNo}">6</td>
+                <td th:text="*{docCategoryGroup}">업무</td>
+                <td th:text="*{docCategorySort}">발주</td>
+                <td style="text-align: start;" th:text="*{approvalTitle}">발주기안서</td>
+                <td th:text="*{memberName}">정유진</td>
+                <td>[[*{departmentName}]]([[*{teamName}?: '']])</td>
+                <td th:text="*{approvalDate}">2023-11-28 11:00</td>
+                <td th:text="*{finalApproverName}"></td>
+                <td>결재중</td>
+              </tr>
+            </th:block>
+            
+            
+          </tbody>
+        </table>
+        
+      </div>
+
+      <!-- 페이지네이션 -->
+      <div class="w-100 sticky-bottom fixed-bottom bg-white pagination-area" th:if="${#lists.size(map.requestApprovalList) > 0}">
+        
+        <nav class="d-flex justify-content-center" style="color: #303841;">
+          
+          <ul class="pagination" th:if="${param.query == null}">
+            <!-- 첫 페이지로 이동 -->
+            <li class="page-item">
+              <a class="page-link" th:href="@{/approval/requestApproval(cp=1)}">
+                <span>&laquo;</span>
+              </a>
+            </li>
+            
+            <!-- 이전 목록 마지막 번호로 이동 -->
+            <li class="page-item">
+              <a class="page-link" th:href="@{/approval/requestApproval(cp=${pagination.prevPage})}">
+                <span>&lt;</span>
+              </a>
+            </li>
+            
+            <!-- 특정 페이지로 이동 -->
+            <th:block th:each="i : ${#numbers.sequence(pagination.startPage, pagination.endPage, 1)}">
+              
+              <!-- 현재 보고있는 페이지 -->
+              <li th:if="${i == pagination.currentPage}" class="page-item">
+                <a class="current page-link" th:text="${i}">1</a>
+              </li>
+              
+              <!-- 보고있지 않은 페이지 -->
+              <li th:unless="${i == pagination.currentPage}" class="page-item">
+                <a class="page-link" th:href="@{/approval/requestApproval(cp=${i})}" th:text="${i}">2</a>
+              </li>
+            </th:block>
+            
+            <!-- 다음 목록 시작 번호로 이동 -->
+            <li class="page-item">
+              <a class="page-link" href="#" th:href="@{/approval/requestApproval(cp=${pagination.nextPage})}">
+                <span>&gt</span>
+              </a>
+            </li>
+            
+            <li class="page-item">
+              <a class="page-link" href="#" th:href="@{/approval/requestApproval(cp=${pagination.maxPage})}">
+                <span>&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      
+    </div>
+    
+  </main>
+  
   <!--================================================= Modal =================================================-->
   <!-- 5. 발주기안 -->
   <div class="modal fade" id="doc5" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
@@ -112,90 +240,6 @@
     </div>
   </div>
   <!--=========================================================================================================-->  
-
-  <main class="d-flex flex-grow-1">
-
-    <th:block th:replace="~{approval/sidebar}"></th:block>
-
-    <div class="d-flex flex-column flex-grow-1 p-3">
-
-      <div class="fs-3 pb-3 px-3 border-bottom">
-        결재요청함
-      </div>
-
-      <div class="w-100 px-4 pt-2 flex-grow-1">
-
-        <table class="table table-striped table-hover">
-          <colgroup>
-            <col width=7%>
-            <col width=7%>
-            <col width=7%>
-            <col width=25%>
-            <col width=7%>
-            <col width=15%>
-            <col width=15%>
-            <col width=7%>
-            <col width=10%>
-          </colgroup>
-          <thead>
-            <tr style="text-align: center;">
-              <!-- <th><input type="checkbox" id="checkAll"></th> -->
-              <th>문서번호</th>
-              <th>구분</th>
-              <th>항목</th>
-              <th>제목</th>
-              <th>작성자</th>
-              <th>부서</th>
-              <th>작성일자</th>
-              <th>결재자</th>
-              <th>처리상태</th>
-            </tr>
-          </thead>
-          <tbody class="table-group-divider" >
-
-            <!-- 결재 요청 문서가 없을 때 -->
-            <tr th:if="${#lists.size(map.requestApprovalList) == 0}">
-              <th colspan="6" style="text-align: center;">결재 요청한 문서가 없습니다.</th>
-            </tr>
-
-            <!-- 결재 요청 문서가 존재할 때 -->
-            <th:block th:unless="${#lists.size(map.requestApprovalList) == 0}">
-              <tr style="text-align: center;" th:each="approval : ${map.requestApprovalList}" 
-              th:object="${approval}" class="approvalOne"
-              data-bs-toggle="modal" th:attr="data-one-id=${approval.approvalNo}, 
-              data-bs-target='#doc' + ${(approval.docCategoryNo == 0 ? 
-              1 : (approval.docCategoryNo == 1 ? 
-              2 : (approval.docCategoryNo == 2 || approval.docCategoryNo == 3) ? 
-              3 : (approval.docCategoryNo == 4 ? 
-              4 : (approval.docCategoryNo == 5 ? 
-              5 : approval.docCategoryNo))))}, data-one-sort=${approval.docCategoryNo}" >
-                <!-- <td><input type="checkbox"></td> -->
-                <td th:text="*{approvalNo}">6</td>
-                <td th:text="*{docCategoryGroup}">업무</td>
-                <td th:text="*{docCategorySort}">발주</td>
-                <td style="text-align: start;" th:text="*{approvalTitle}">발주기안서</td>
-                <td th:text="*{memberName}">정유진</td>
-                <td>[[*{departmentName}]]([[*{teamName}?: '']])</td>
-                <td th:text="*{approvalDate}">2023-11-28 11:00</td>
-                <td th:text="*{finalApproverName}"></td>
-                <td>결재중</td>
-              </tr>
-            </th:block>
-            
-
-          </tbody>
-        </table>
-
-      </div>
-
-
-      
-    </div>
-
-  </main>
-
-  <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">
-  </div>
   <script src="/js/bootstrap.bundle.min.js"></script>
   <script src="/js/approval/commonApproval.js"></script>
   <script src="/js/approval/requestApproval.js"></script>
