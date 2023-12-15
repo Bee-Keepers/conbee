@@ -99,7 +99,6 @@ public class MainController {
 		
 	}
 	
-	
 	/** 메인페이지 재고현황 지점 변경 시
 	 * @param loginMember
 	 * @param storeNo
