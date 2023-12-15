@@ -34,6 +34,7 @@ public interface ApprovalService {
 	 */
 	Map<String, Object> selectTempData(int approvalNo, int docCategoryNo);
 	
+
 	
 	/** 기안문 작성자 정보 조회
 	 * @param memberNo
@@ -225,6 +226,9 @@ public interface ApprovalService {
 	 * @param approvalNo
 	 */
 	int approvalDeleteScheduling(int approvalNo);
+
+
+
 
 
 

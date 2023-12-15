@@ -53,7 +53,7 @@ public interface ApprovalMapper {
 	Approval selectTempExpense(int approvalNo);
 	
 
-	List<Approver> selectTempAppover(int approvalNo);
+	List<Approver> selectTempApprover(int approvalNo);
 	
 	
 	/** 기안문 작성자 정보 조회
@@ -147,7 +147,7 @@ public interface ApprovalMapper {
 	Approval selectRequestExpense(int approvalNo);
 	
 
-	List<Approver> selectRequestAppover(int approvalNo);
+	List<Approver> selectRequestApprover(int approvalNo);
 	
 	
 	/** 회수문서함 조회

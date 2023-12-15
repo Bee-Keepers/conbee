@@ -6,6 +6,7 @@
   <title>회수문서함</title>
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/css/approval/writeApproval.css">
 </head>
 <style>
   td {
@@ -57,7 +58,15 @@
 
             <!-- 회수 문서가 존재할 때 -->
             <th:block th:unless="${#lists.size(reclaimApprovalList) == 0}">
-              <tr th:each="approval : ${reclaimApprovalList}" th:object="${approval}" style="text-align: center;">
+              <tr th:each="approval : ${reclaimApprovalList}" th:object="${approval}" class="approvalOne"
+              style="text-align: center;" data-bs-toggle="modal" 
+              th:attr="data-one-id=${approval.approvalNo}, data-bs-target='#doc' + ${(approval.docCategoryNo == 0 ? 
+                1 : (approval.docCategoryNo == 1 ? 
+                2 : (approval.docCategoryNo == 2 || approval.docCategoryNo == 3) ? 
+                3 : (approval.docCategoryNo == 4 ? 
+                4 : (approval.docCategoryNo == 5 ? 
+                5 : approval.docCategoryNo))))},
+                data-one-sort=${approval.docCategoryNo}" >
                 <td th:text="*{approvalNo}">문서번호</td>
                 <td th:text="*{docCategoryGroup}">구분</td>
                 <td th:text="*{docCategorySort}">항목</td>
@@ -66,7 +75,7 @@
                 <td>
                   <button class="btn btn-outline-warning approvalOne" style="width: 90px;"
                   data-bs-toggle="modal" 
-                  th:attr="data-one-id=*{approvalNo}, data-bs-target='#doc' + ${(approval.docCategoryNo == 0 ? 
+                  th:attr="data-one-id=*{approvalNo}, data-bs-target='#writeDoc' + ${(approval.docCategoryNo == 0 ? 
                     1 : (approval.docCategoryNo == 1 ? 
                     2 : (approval.docCategoryNo == 2 || approval.docCategoryNo == 3) ? 
                     3 : (approval.docCategoryNo == 4 ? 
@@ -91,9 +100,110 @@
 
   </main>
 
-  <!-- ======================================================== 재작성 템플릿 ======================================== -->
+  <!--================================================= 문서 템플릿 =================================================-->
   <!-- 5. 발주기안 -->
   <div class="modal fade" id="doc5" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <!-- 모달 헤더 -->
+        <div class="modal-header">
+          <div><h1 class="modal-title fs-5">결재 요청 - 발주기안서</h1></div>
+        </div> 
+        <!-- 모달 바디 -->
+        <th:block th:replace="~{approval/approvalDoc/finDocOrder}"></th:block>
+        <!-- 모달 풋터 -->
+        <div class="modal-footer">
+          <button class="btn btn-warning me-1" onclick="reclaimBtn()">회수하기</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 4. 지출결의  -->
+  <div class="modal fade" id="doc4" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <!-- 모달 헤더 -->
+        <div class="modal-header">
+          <div><h1 class="modal-title fs-5">결재 요청 - 지출결의서</h1></div>
+        </div> 
+        <!-- 모달 바디 -->
+        <th:block th:replace="~{approval/approvalDoc/finDocExpense}"></th:block>
+        <!-- 모달 풋터 -->
+        <div class="modal-footer">
+          <button class="btn btn-warning me-1" onclick="reclaimBtn()">회수하기</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 3. 출점/폐점  -->
+  <div class="modal fade" id="doc3" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <!-- 모달 헤더 -->
+        <div class="modal-header">
+          <div><h1 class="modal-title fs-5">결재 요청 - 출/폐점 등록 요청서</h1></div>
+        </div>
+        <!-- 모달 바디 -->
+        <th:block th:replace="~{approval/approvalDoc/finDocStore}"></th:block>
+        <!-- 모달 풋터 -->
+        <div class="modal-footer">
+          <button class="btn btn-warning me-1" onclick="reclaimBtn()">회수하기</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 2. 사직서 -->
+  <div class="modal fade" id="doc2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <!-- 모달 헤더 -->
+        <div class="modal-header">
+          <div><h1 class="modal-title fs-5">결재 요청 - 사직서</h1></div>
+        </div>
+        <!-- 모달 바디 -->
+        <th:block th:replace="~{approval/approvalDoc/finDocRetirement}"></th:block>
+        <!-- 모달 풋터 -->
+        <div class="modal-footer">
+          <button class="btn btn-warning me-1" onclick="reclaimBtn()">회수하기</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
+        </div>        
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 1. 휴가 신청서 -->
+  <div class="modal fade" id="doc1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <!-- 모달 헤더 -->
+        <div class="modal-header">
+          <div><h1 class="modal-title fs-5">결재 요청 - 휴가신청서</h1></div>
+        </div>
+        <!-- 모달 바디 -->
+        <th:block th:replace="~{approval/approvalDoc/finDocHoliday}"></th:block>
+        <!-- 모달 풋터 -->
+        <div class="modal-footer">
+          <button class="btn btn-warning me-1" onclick="reclaimBtn()">회수하기</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ===================================================================================================================== -->  
+
+  <!-- ======================================================== 재작성 템플릿 ======================================== -->
+  <!-- 5. 발주기안 -->
+  <div class="modal fade" id="writeDoc5" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <!-- 모달 헤더 -->
@@ -118,7 +228,7 @@
 
 
   <!-- 4. 지출결의  -->
-  <div class="modal fade" id="doc4" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+  <div class="modal fade" id="writeDoc4" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <!-- 모달 헤더 -->
@@ -143,7 +253,7 @@
 
 
   <!-- 3. 출점/폐점  -->
-  <div class="modal fade" id="doc3" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+  <div class="modal fade" id="writeDoc3" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <!-- 모달 헤더 -->
@@ -171,7 +281,7 @@
 
 
   <!-- 2. 사직서 -->
-  <div class="modal fade" id="doc2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+  <div class="modal fade" id="writeDoc2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <!-- 모달 헤더 -->
@@ -196,7 +306,7 @@
 
 
   <!-- 1. 휴가 신청서 -->
-  <div class="modal fade" id="doc1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+  <div class="modal fade" id="writeDoc1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <!-- 모달 헤더 -->
@@ -223,5 +333,6 @@
 
   <script src="/js/bootstrap.bundle.min.js"></script>
   <script src="/js/approval/commonApproval.js"></script>
+  <script src="/js/approval/tempSave.js"></script>
 </body>
 </html>

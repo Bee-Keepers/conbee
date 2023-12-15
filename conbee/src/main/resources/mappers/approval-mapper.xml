@@ -64,7 +64,7 @@
 		WHERE APPROVAL_NO=#{approvalNo}
 	</select>
 	
-	<select id="selectTempAppover" resultType="Approver">
+	<select id="selectTempApprover" resultType="Approver">
 		SELECT AR.MEMBER_NO,
 				(SELECT MEMBER_NAME FROM MEMBER M WHERE AR.MEMBER_NO = M.MEMBER_NO) 
 				MEMBER_NAME,
@@ -264,7 +264,7 @@
 	</select>
 	
 	
-	<select id="selectRequestAppover" resultType="Approver">
+	<select id="selectRequestApprover" resultType="Approver">
 		SELECT AR.MEMBER_NO, TO_CHAR(AR.APPROVER_DATE, 'YYYY-MM-DD') APPROVER_DATE, AR.APPROVER_ORDER,
 				(SELECT MEMBER_NAME FROM MEMBER M WHERE AR.MEMBER_NO = M.MEMBER_NO) 
 				MEMBER_NAME,

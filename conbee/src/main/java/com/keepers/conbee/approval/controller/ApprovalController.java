@@ -75,9 +75,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 	
 	
 	@PostMapping("tempSave/{doc}")
-	public String updateApproval() {
-		
-		
+	public String updateApproval(@PathVariable("doc") String doc) {
 		
 		return null;
 	}

@@ -1,9 +1,17 @@
 let currentApprovalNo;
 
+/* 초기화 */
+const tempApprovs = document.querySelectorAll(".tempApprov");
+const initialTempApprov=[];
+tempApprovs.forEach((tempApprov)=>{initialTempApprov.push(tempApprov.innerHTML);});
 
 const approvalOne = document.querySelectorAll(".approvalOne").forEach(function(one){
   
   one.addEventListener("click",function(){
+
+
+
+    tempApprovs.forEach((tempApprov,index)=>{tempApprov.innerHTML=initialTempApprov[index]});
 
     /* 기안문 정보 가져오기 */
     fetch("/approval/writeApproval/selectInfo")
@@ -35,7 +43,6 @@ const approvalOne = document.querySelectorAll(".approvalOne").forEach(function(o
     .then((map)=>{
       
       currentApprovalNo = approvalNo;
-      console.log(currentApprovalNo);
       
       switch(parseInt(docCategoryNo)){
         case 0 :{ /* 휴가신청서 */
@@ -52,7 +59,37 @@ const approvalOne = document.querySelectorAll(".approvalOne").forEach(function(o
           fileId.setAttribute("download",map.requestApproval.approvalFileOriginName);
           fileId.innerHTML=map.requestApproval.approvalFileOriginName;
 
-          console.log(map.approver)
+          console.log(map.requestApprover);
+
+          const hTr1 = document.getElementById("hTr1");
+          const hTr2 = document.getElementById("hTr2");
+          const hTr3 = document.getElementById("hTr3");
+
+          for(let i=0; i<map.requestApprover.length;i++){
+            const th= document.createElement("th");
+            th.style.width="80px";
+            th.style.backgroundColor="#f2f2f2";
+            th.innerText="결재";
+            hTr1.append(th);
+
+            const td= document.createElement("td");
+            const div = document.createElement("div");
+            const img = document.createElement("img");
+            const div2 = document.createElement("div2");
+            div.style.width="70px";
+
+            img.setAttribute("src","/images/approval/stamp_approve.png");
+            img.style.width="38px";
+            div2.innerText=map.requestApprover[i].memberName;
+            div.append(img);
+            td.append(div,div2);
+            hTr2.append(td);
+
+            const td3 = document.createElement("td");
+            td3.innerText= map.requestApprover[i].approverDate;
+            hTr3.append(td3);
+          }
+
 
 
         }; break;
@@ -65,6 +102,14 @@ const approvalOne = document.querySelectorAll(".approvalOne").forEach(function(o
           document.getElementById("docRetireTitle").innerText=map.requestApproval.approvalDocTitle;
           document.getElementById("docRetireDate").innerText=map.requestApproval.docRetireDate;
           document.getElementById("docRetireText").innerText=map.requestApproval.approvalContent;
+          const fileRoute = map.requestApproval.approvalFileRoute + map.requestApproval.approvalFileReName;
+          const fileId = document.getElementById("docRetirementFile");
+          fileId.setAttribute("href",fileRoute);
+          fileId.setAttribute("style","text-decoration: none;");
+          fileId.setAttribute("download",map.requestApproval.approvalFileOriginName);
+          fileId.innerHTML=map.requestApproval.approvalFileOriginName;
+          
+
 
         }; break;
 
@@ -76,6 +121,12 @@ const approvalOne = document.querySelectorAll(".approvalOne").forEach(function(o
           document.getElementById("docStoreNo").innerText="-"
           document.getElementById("docStoreState").innerText="출점"
           document.getElementById("docStoreText").innerText=map.requestApproval.approvalContent;
+          const fileRoute = map.requestApproval.approvalFileRoute + map.requestApproval.approvalFileReName;
+          const fileId = document.getElementById("docStoreFile");
+          fileId.setAttribute("href",fileRoute);
+          fileId.setAttribute("style","text-decoration: none;");
+          fileId.setAttribute("download",map.requestApproval.approvalFileOriginName);
+          fileId.innerHTML=map.requestApproval.approvalFileOriginName;
         }; break;
 
         case 3 : { /* 폐점 */
@@ -86,6 +137,12 @@ const approvalOne = document.querySelectorAll(".approvalOne").forEach(function(o
           document.getElementById("docStoreNo").innerText=map.requestApproval.storeNo;
           document.getElementById("docStoreState").innerText="폐점"
           document.getElementById("docStoreText").innerText=map.requestApproval.approvalContent;
+          const fileRoute = map.requestApproval.approvalFileRoute + map.requestApproval.approvalFileReName;
+          const fileId = document.getElementById("docStoreFile");
+          fileId.setAttribute("href",fileRoute);
+          fileId.setAttribute("style","text-decoration: none;");
+          fileId.setAttribute("download",map.requestApproval.approvalFileOriginName);
+          fileId.innerHTML=map.requestApproval.approvalFileOriginName;
         }; break;
 
         case 4 : { /* 지출 */
@@ -93,6 +150,12 @@ const approvalOne = document.querySelectorAll(".approvalOne").forEach(function(o
           document.querySelectorAll(".docApprovalDate")[1].innerText=map.requestApproval.approvalDate;
           document.getElementById("docExpenseTitle").innerText=map.requestApproval.approvalDocTitle;
           document.getElementById("docExpenseText").innerText=map.requestApproval.approvalContent;
+          const fileRoute = map.requestApproval.approvalFileRoute + map.requestApproval.approvalFileReName;
+          const fileId = document.getElementById("docExpenseFile");
+          fileId.setAttribute("href",fileRoute);
+          fileId.setAttribute("style","text-decoration: none;");
+          fileId.setAttribute("download",map.requestApproval.approvalFileOriginName);
+          fileId.innerHTML=map.requestApproval.approvalFileOriginName;
         }; break;
         
         case 5 : { /* 발주 */
