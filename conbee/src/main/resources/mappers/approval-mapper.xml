@@ -64,7 +64,7 @@
 		WHERE APPROVAL_NO=#{approvalNo}
 	</select>
 	
-	<select id="selectTempAppover" resultType="Approver">
+	<select id="selectTempApprover" resultType="Approver">
 		SELECT AR.MEMBER_NO,
 				(SELECT MEMBER_NAME FROM MEMBER M WHERE AR.MEMBER_NO = M.MEMBER_NO) 
 				MEMBER_NAME,
@@ -264,7 +264,7 @@
 	</select>
 	
 	
-	<select id="selectRequestAppover" resultType="Approver">
+	<select id="selectRequestApprover" resultType="Approver">
 		SELECT AR.MEMBER_NO, TO_CHAR(AR.APPROVER_DATE, 'YYYY-MM-DD') APPROVER_DATE, AR.APPROVER_ORDER,
 				(SELECT MEMBER_NAME FROM MEMBER M WHERE AR.MEMBER_NO = M.MEMBER_NO) 
 				MEMBER_NAME,
@@ -294,7 +294,8 @@
 	<!-- 문서 회수하기 -->
 	<update id="reclaimApproval">
 		UPDATE APPROVAL SET APPROVAL_CONDITION=2, APPROVAL_DATE=SYSDATE
-		WHERE APPROVAL_NO=${approvalNo}
+		WHERE MEMBER_NO=${memberNo}
+		AND APPROVAL_NO=${approvalNo}
 	</update>
 
 	
@@ -705,14 +706,14 @@
 	</update>	
 	
 
-<!-- 발주 주문서 insert -->
-<insert id="insertOrder">
-  INSERT INTO "DOC_ORDER"
-  <foreach collection="list" item="item" separator=" UNION ">
-    SELECT NEXT_DOC_ORDER_NO(), #{item.docOrderAmount}, #{item.docOrderUnitPrice}, #{item.docOrderPrice},
-    #{item.approvalNo},#{item.goodsNo}, #{item.docOrderGoodsName}, #{item.docOrderDate}  FROM DUAL
-  </foreach>	
-</insert>
+	<!-- 발주 주문서 insert -->
+	<insert id="insertOrder">
+	  INSERT INTO "DOC_ORDER"
+	  <foreach collection="list" item="item" separator=" UNION ">
+	    SELECT NEXT_DOC_ORDER_NO(), #{item.docOrderAmount}, #{item.docOrderUnitPrice}, #{item.docOrderPrice},
+	    #{item.approvalNo},#{item.goodsNo}, #{item.docOrderGoodsName}, #{item.docOrderDate}  FROM DUAL
+	  </foreach>	
+	</insert>
 
 	
 	<!--반려취소(결재자)-->
@@ -728,6 +729,22 @@
 	  UPDATE APPROVAL SET
   	  APPROVAL_CONDITION = 0
 	  WHERE APPROVAL_NO = ${approvalNo}
+	</update>
+	
+	
+	<!-- 기안 후 180일 지난 기안문리스트 불러오기 -->
+	<select id="selectDateOverApproval" resultType="Approval">
+		SELECT APPROVAL_NO
+		FROM APPROVAL
+		WHERE SYSDATE - APPROVAL_DATE > 180
+		AND APPROVAL_DELETE = 0
+	</select>
+	
+	<!-- 기안서 삭제하기(스케쥴링) -->
+	<update id="approvalDeleteScheduling">
+		UPDATE APPROVAL SET
+		APPROVAL_DELETE = 1
+		WHERE APPROVAL_NO = ${approvalNo}
 	</update>
 	
 

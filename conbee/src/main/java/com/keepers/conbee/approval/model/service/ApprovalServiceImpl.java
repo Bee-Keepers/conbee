@@ -94,11 +94,14 @@ public class ApprovalServiceImpl implements ApprovalService{
 //		log.debug(tempApproval+"==="); // 각 컬럼이 null이면 걍 null이 되는 것 같음. 컬럼값이 있는 건 잘 받아옴
 		
 		// 2. 결재자 리스트
-		List<Approver> tempApprover = mapper.selectTempAppover(approvalNo);
+		List<Approver> tempApprover = mapper.selectTempApprover(approvalNo);
 		tempData.put("tempApprover", tempApprover);
 
 		return tempData;
 	}
+	
+	
+
 	
 	
 	// 기안문 작성자 정보 조회
@@ -248,7 +251,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 		requestData.put("requestApproval", requestApproval);
 		
 		// 2. 결재자 리스트
-		List<Approver> requestApprover = mapper.selectRequestAppover(approvalNo);
+		List<Approver> requestApprover = mapper.selectRequestApprover(approvalNo);
 		requestData.put("requestApprover", requestApprover);
 		
 		
@@ -265,8 +268,15 @@ public class ApprovalServiceImpl implements ApprovalService{
 
 	// 문서 회수하기
 	@Override
-	public int reclaimApproval(int approvalNo) {
-		return mapper.reclaimApproval(approvalNo);
+	public int reclaimApproval(int memberNo, int approvalNo) {
+		
+		Map<String, Object> param = new HashMap<>();
+		
+		param.put("memberNo", memberNo);
+		param.put("approvalNo", approvalNo);
+		
+		
+		return mapper.reclaimApproval(param);
 	}
 	
 
@@ -467,6 +477,24 @@ public class ApprovalServiceImpl implements ApprovalService{
 	@Override
 	public String selectReturnReason(int approvalNo) {
 		return mapper.selectReturnReason(approvalNo);
+	}
+	
+	
+	/** 기안 후 180일 지난 기안문리스트 불러오기
+	 *
+	 */
+	@Override
+	public List<Approval> selectDateOverApproval() {
+		return mapper.selectDateOverApproval();
+	}
+	
+	
+	/** 기안서 삭제하기(스케쥴링)
+	 *
+	 */
+	@Override
+	public int approvalDeleteScheduling(int approvalNo) {
+		return mapper.approvalDeleteScheduling(approvalNo);
 	}
 	
 

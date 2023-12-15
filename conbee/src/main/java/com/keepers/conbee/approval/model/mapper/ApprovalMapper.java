@@ -53,7 +53,7 @@ public interface ApprovalMapper {
 	Approval selectTempExpense(int approvalNo);
 	
 
-	List<Approver> selectTempAppover(int approvalNo);
+	List<Approver> selectTempApprover(int approvalNo);
 	
 	
 	/** 기안문 작성자 정보 조회
@@ -147,7 +147,7 @@ public interface ApprovalMapper {
 	Approval selectRequestExpense(int approvalNo);
 	
 
-	List<Approver> selectRequestAppover(int approvalNo);
+	List<Approver> selectRequestApprover(int approvalNo);
 	
 	
 	/** 회수문서함 조회
@@ -157,10 +157,12 @@ public interface ApprovalMapper {
 	List<Approval> selectReclaimApproval(int memberNo);
 
 	/** 문서 회수하기
+	 * @param param 
 	 * @param approvalNo
+	 * @param memberNo 
 	 * @return result
 	 */
-	int reclaimApproval(int approvalNo);
+	int reclaimApproval(Map<String, Object> param);
 	
 	
 	/* ============================= 예리나 ================================ */
@@ -351,6 +353,18 @@ public interface ApprovalMapper {
 	 * @return
 	 */
 	int storeRunCheck(int approvalNo);
+	
+
+	/** 기안 후 180일 지난 기안문리스트 불러오기
+	 * @return
+	 */
+	List<Approval> selectDateOverApproval();
+
+	/** 기안서 삭제하기(스케쥴링)
+	 * @param approvalNo
+	 * @return
+	 */
+	int approvalDeleteScheduling(int approvalNo);
 
 
 
