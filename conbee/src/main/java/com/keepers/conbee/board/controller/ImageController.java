@@ -16,6 +16,6 @@ public class ImageController {
 	public Map<String, Object> imageUpload(MultipartRequest request){
 		
 		
-		return 
+		return null; 
 	}
 }

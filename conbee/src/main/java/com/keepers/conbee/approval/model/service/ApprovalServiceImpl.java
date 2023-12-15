@@ -469,6 +469,24 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return mapper.selectReturnReason(approvalNo);
 	}
 	
+	
+	/** 기안 후 180일 지난 기안문리스트 불러오기
+	 *
+	 */
+	@Override
+	public List<Approval> selectDateOverApproval() {
+		return mapper.selectDateOverApproval();
+	}
+	
+	
+	/** 기안서 삭제하기(스케쥴링)
+	 *
+	 */
+	@Override
+	public int approvalDeleteScheduling(int approvalNo) {
+		return mapper.approvalDeleteScheduling(approvalNo);
+	}
+	
 
 }
 
