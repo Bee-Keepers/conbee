@@ -49,10 +49,11 @@ public class ApprovalController { // 전자결재 컨트롤러
 	 * @author 유진
 	 */
 	@GetMapping("tempSave")
-	public String tempSave(@SessionAttribute("loginMember") Member loginMember, Model model) {
+	public String tempSave(@SessionAttribute("loginMember") Member loginMember, Model model,
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		
-		List<Approval> tempSaveList = service.selectTempSave(loginMember.getMemberNo());
-		model.addAttribute("tempSaveList",tempSaveList);
+		Map<String, Object> map = service.selectTempSave(loginMember.getMemberNo(), cp);
+		model.addAttribute("map",map);
 		
 		return "approval/tempSave";
 			
@@ -74,9 +75,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 	
 	
 	@PostMapping("tempSave/{doc}")
-	public String updateApproval() {
-		
-		
+	public String updateApproval(@PathVariable("doc") String doc) {
 		
 		return null;
 	}
@@ -165,7 +164,8 @@ public class ApprovalController { // 전자결재 컨트롤러
 	public String insertApproval(@PathVariable("doc") String doc,
 							@RequestParam("approvalCondition") int approvalCondition,
 							@SessionAttribute("loginMember") Member loginMember, 
-							Approval approval, CommandDTO command,
+							Approval approval, 
+							CommandDTO command,
 							@RequestParam(value="approverMemNo", required=false) List<Integer> approverMemNo,
 							@RequestParam(value="approvalFile", required=false) MultipartFile approvalFile,
 							RedirectAttributes ra) throws IllegalStateException, IOException {
@@ -175,21 +175,24 @@ public class ApprovalController { // 전자결재 컨트롤러
 		int departNo;
 		int cateNo;
 		
+//		log.debug(approval.getDocStoreState()+"====storestate");
+		
 		switch(doc) {
 		case "docHoliday" 	 : departNo=0; cateNo=0; break;
 		case "docRetirement" : departNo=0; cateNo=1; break;
-		case "docStore" 	 : departNo=0;  cateNo = approval.getDocStoreState()==0?2:3; break; //출점:2 폐점:3
+		case "docStore" 	 : departNo=0; cateNo = approval.getDocStoreState()==0?2:3; break; //출점:2 폐점:3
 		case "docExpense" 	 : departNo=1; cateNo=4; break;
 		case "docOrder" 	 : departNo=1; cateNo=5; break;
 		default 			 : departNo=0; cateNo=0; 
 		}
+		
 		
 		if(approval.getApprovalTitle().equals("")) approval.setApprovalTitle("제목 없음"); // 임시저장 제목 null인경우
 		approval.setApprovalCondition(approvalCondition); // 문서 상태
 		approval.setMemberNo(loginMember.getMemberNo()); // 사원 번호
 		approval.setDepartmentNo(departNo); // 협조부서 코드
 		approval.setDocCategoryNo(cateNo); // 문서 분류 번호
-		
+
 		if(cateNo==2) { // 출점인 경우 storeNo는 NULL 
 			approval.setStoreNo(-1);
 		}
@@ -250,6 +253,22 @@ public class ApprovalController { // 전자결재 컨트롤러
 		return "approval/requestApproval";
 	}
 	
+	
+	/** 결재요청 데이터 불러오기
+	 * @param approvalNo
+	 * @return
+	 */
+	@GetMapping(value = "requestApproval/selectRequestData", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> selectRequestData(int approvalNo, int docCategoryNo) {
+		
+		Map<String, Object> map = service.selectRequestData(approvalNo,docCategoryNo);
+				
+		return map;
+	}
+	
+
+	
 	// ============================== 회수 문서함 ==============================
 	
 	/** 회수문서함 조회
@@ -259,13 +278,37 @@ public class ApprovalController { // 전자결재 컨트롤러
 	 * @author 유진
 	 */
 	@GetMapping("reclaimApproval")
-	public String reclaimApproval(@SessionAttribute("loginMember") Member loginMember, Model model) {
+	public String selectReclaimApproval(@SessionAttribute("loginMember") Member loginMember, Model model) {
 		
 		List<Approval> reclaimApprovalList = service.selectReclaimApproval(loginMember.getMemberNo());
 		
 		model.addAttribute("reclaimApprovalList",reclaimApprovalList);
 		
 		return "approval/reclaimApproval";
+	}
+	
+	
+	/** 문서 회수
+	 * @param approvalNo
+	 * @param loginMember
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("reclaim")
+	public String reclaimApproval(@SessionAttribute("loginMember") Member loginMember,@RequestParam("approvalNo") int approvalNo, RedirectAttributes ra) {
+		
+		log.debug(approvalNo + "----");
+		log.debug(loginMember.getMemberNo()+"----");
+		
+		int result = service.reclaimApproval(loginMember.getMemberNo(), approvalNo);
+		
+		if(result > 0) {
+			ra.addFlashAttribute("message", "문서가 회수되었습니다.");			
+		} else {
+			ra.addFlashAttribute("message", "문서 회수에 실패하였습니다.");	
+		}
+		
+		return "redirect:reclaimApproval";
 	}
 	
 	
@@ -276,12 +319,15 @@ public class ApprovalController { // 전자결재 컨트롤러
 	* @author 예리나
 	*/
 	@GetMapping("waitApproval")
-	public String waitApproval(@SessionAttribute("loginMember") Member loginMember, Model model) {
+	public String waitApproval(@SessionAttribute("loginMember") Member loginMember, Model model,
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		
 		// 로그인한 멤버가 승인하지 않은 모든 결재문서 얻어오기
-		List<Approval> waitApprovalList = service.selectWaitApproval(loginMember.getMemberNo());
+//		List<Approval> waitApprovalList = service.selectWaitApproval(loginMember.getMemberNo());
+//		model.addAttribute("waitApprovalList", waitApprovalList);
 		
-		model.addAttribute("waitApprovalList", waitApprovalList);
+		Map<String, Object> map = service.selectWaitApproval(loginMember.getMemberNo(), cp);
+		model.addAttribute("map", map);
 		
 		return "approval/waitApproval";
 	}
@@ -414,15 +460,18 @@ public class ApprovalController { // 전자결재 컨트롤러
 	* @author 예리나
 	*/
 	@GetMapping("progressApproval")
-	public String progressApproval(@SessionAttribute("loginMember") Member loginMember, Model model) {
+	public String progressApproval(@SessionAttribute("loginMember") Member loginMember, Model model,
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		
 		// 로그인한 멤버가 승인한 모든 결재문서 얻어오기
-		List<Approval> progressApprovalList = service.selectProgressApproval(loginMember.getMemberNo());
+		Map<String, Object> map = service.selectProgressApproval(loginMember.getMemberNo(), cp);
 		
-		model.addAttribute("progressApprovalList", progressApprovalList);
+		model.addAttribute("map", map);
 		
 		return "approval/progressApproval";
 	}
+	
+	
 	
 	// ============================== 완료 문서함 ==============================
 	
@@ -464,6 +513,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 	
 	
 	/** 반려문서함에서 삭제버튼 클릭 시 기안서 삭제
+	 * @author 이예리나
 	 * @param approvalNo
 	 * @param ra
 	 * @return
@@ -485,6 +535,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 	
 	
 	/** 반려취소
+	 * @author 이예리나
 	 * @param loginMember
 	 * @param approvalNo
 	 * @param ra
@@ -507,6 +558,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 
 	
 	/** 반려사유 조회
+	 * @author 이예리나
 	 * @param approvalNo
 	 * @return
 	 */

@@ -6,12 +6,13 @@
   
   <title>게시판</title>
 
+  <link rel="stylesheet" href="path/to/assets/content-styles.css" type="text/css">
 
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="/css/board/boardUpdate.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <!-- <script src="/js/ckeditor5/build/ckeditor.js"></script> -->  <!-- /* watchdog 방식  */ -->
-  <script src="/js/ckeditor51/build/ckeditor.js"></script>
+  <script src="/js/ckeditor54/build/ckeditor.js"></script>
   <script src="/js/bootstrap.bundle.min.js"></script>
 
   
@@ -92,7 +93,30 @@
 
 ClassicEditor
 	.create( document.querySelector( '#editor' ), {
-		// Editor configuration.
+    
+    // 에디터 한국어
+    language: "ko",
+
+    // ck에디터 업로드 구문
+    simpleUpload : {
+      uploadUrl: "/board/uploardImage",
+      withCredentials: true
+    },
+    mediaEmbed: {
+            previewsInData: true,
+            providers: [
+                {
+                    name: 'YouTube',
+                    url: /^https?:\/\/(?:www\.)?youtube\.com\/watch\?v=(.+)$/,
+                    html: match => {
+                        const videoId = match[1];
+                        return `<div><iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>`;
+                    }
+                },
+            ]
+        }
+
+
 	} )
 	.then( editor => {
 		window.editor = editor;

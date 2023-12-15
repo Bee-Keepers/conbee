@@ -22,7 +22,7 @@
 		
 		<!-- 점주만 조회-->
 		<if test="gradeNo == 6">
-			AND GRADE_NO == 6 
+			AND GRADE_NO = 6 
 		</if>
 		
 		

@@ -7,6 +7,9 @@ let currentApprovalMemberNo;
 // 기안문 문서타입 전역변수 선언
 let currentApprovaldocCategoryNo;
 
+// 기안문 문서명 전역변수 선언
+let currentApprovaldocTitle;
+
 // 모달 헤더 전역변수 선언
 const modalHeader = document.querySelectorAll(".modal-header");
 
@@ -50,6 +53,7 @@ function modal(approvalNo, docCategoryNo){
       currentApprovalNo = approval[0].approvalNo; // 기안서 문서번호 전역변수 대입
       currentApprovalMemberNo = approval[0].memberNo; // 기안자 회원번호 전역변수 대입
       currentApprovaldocCategoryNo = approval[0].docCategoryNo;
+      currentApprovaldocTitle = '발주기안서';
 
       // 모달 속성 추가
       document.getElementById("clickModal").setAttribute("data-bs-toggle", "modal");
@@ -63,8 +67,8 @@ function modal(approvalNo, docCategoryNo){
       myModal.show();
 
       // 발주기안서 템플릿 바디 생성
-      const divModalBody = createElement("div", {"style" : "width: 800px; height: 800px;"},["modal-body"]);
-      const divTemp = createElement("div", {}, ["temps", "my-2", "mx-3", "p-3"]);
+      const divModalBody = createElement("div", {"style" : "width: 800px; height: 800px;"},["modal-body", "pdfCanvas"]);
+      const divTemp = createElement("div", {}, ["my-2", "mx-3", "p-3"]);
       
       // 템플릿 제목
       const divTempTitle = createElement("div", {"style" : "font-size:30px; font-weight: bold; text-align: center;"}, ["pt-4"]);
@@ -176,7 +180,7 @@ function modal(approvalNo, docCategoryNo){
 
           switch(approver.approverCondition){
             case 0 :  // 미승인
-              const tdNonApprovContent = createElement("td", {"style":"height: 87px; vertical-align: middle;"}, []);  
+              const tdNonApprovContent = createElement("td", {"style":"height: 96px; vertical-align: middle;"}, []);  
               const divNonApprovContent = createElement("div", {}, []);
               
               divNonApprovContent.innerHTML=approver.memberName; // 결재자명
@@ -377,6 +381,8 @@ function modal(approvalNo, docCategoryNo){
 
     if(docCategoryNo == 0){  // 휴가
 
+      currentApprovaldocTitle = '휴가 신청서';
+
       // 모달 속성 추가
       document.getElementById("clickModal").setAttribute("data-bs-toggle", "modal");
       document.getElementById("clickModal").setAttribute("data-bs-target", "#holidayModal");
@@ -389,8 +395,8 @@ function modal(approvalNo, docCategoryNo){
       myModal.show();
 
       // 휴가기안서 템플릿 바디 생성
-      const divModalBody = createElement("div", {"style" : "width: 800px; height: 800px;"},["modal-body"]);
-      const divTemp = createElement("div", {}, ["temps", "my-2", "mx-3", "p-3"]);
+      const divModalBody = createElement("div", {"style" : "width: 800px; height: 800px;"},["modal-body", "pdfCanvas"]);
+      const divTemp = createElement("div", {}, ["my-2", "mx-3", "p-3"]);
       
       // 템플릿 제목
       const divTempTitle = createElement("div", {"style" : "font-size:30px; font-weight: bold; text-align: center;"}, ["pt-4"]);
@@ -502,7 +508,7 @@ function modal(approvalNo, docCategoryNo){
 
           switch(approver.approverCondition){
             case 0 :  // 미승인
-              const tdNonApprovContent = createElement("td", {"style":"height: 87px; vertical-align: middle;"}, []);  
+              const tdNonApprovContent = createElement("td", {"style":"height: 96px; vertical-align: middle;"}, []);  
               const divNonApprovContent = createElement("div", {}, []);
               
               divNonApprovContent.innerHTML=approver.memberName; // 결재자명
@@ -648,6 +654,8 @@ function modal(approvalNo, docCategoryNo){
     /* ---------------------------------------------------------- */
     else if(docCategoryNo == 1){ //퇴직
 
+      currentApprovaldocTitle = '사직서';
+
       // 모달 속성 추가
       document.getElementById("clickModal").setAttribute("data-bs-toggle", "modal");
       document.getElementById("clickModal").setAttribute("data-bs-target", "#retirementModal");
@@ -660,8 +668,8 @@ function modal(approvalNo, docCategoryNo){
       myModal.show();
 
       // 사직서 템플릿 바디 생성
-      const divModalBody = createElement("div", {"style" : "width: 800px; height: 800px;"},["modal-body"]);
-      const divTemp = createElement("div", {}, ["temps", "my-2", "mx-3", "p-3"]);
+      const divModalBody = createElement("div", {"style" : "width: 800px; height: 800px;"},["modal-body", "pdfCanvas"]);
+      const divTemp = createElement("div", {}, ["my-2", "mx-3", "p-3"]);
       
       // 템플릿 제목
       const divTempTitle = createElement("div", {"style" : "font-size:30px; font-weight: bold; text-align: center;"}, ["pt-4"]);
@@ -772,7 +780,7 @@ function modal(approvalNo, docCategoryNo){
 
           switch(approver.approverCondition){
             case 0 :  // 미승인
-              const tdNonApprovContent = createElement("td", {"style":"height: 87px; vertical-align: middle;"}, []);  
+              const tdNonApprovContent = createElement("td", {"style":"height: 96px; vertical-align: middle;"}, []);  
               const divNonApprovContent = createElement("div", {}, []);
               
               divNonApprovContent.innerHTML=approver.memberName; // 결재자명
@@ -908,6 +916,8 @@ function modal(approvalNo, docCategoryNo){
     /* ---------------------------------------------------------- */
     else if(docCategoryNo == 2){ // 출점
 
+      currentApprovaldocTitle = '업무보고서(출점)';
+
       // 모달 속성 추가
       document.getElementById("clickModal").setAttribute("data-bs-toggle", "modal");
       document.getElementById("clickModal").setAttribute("data-bs-target", "#openStoreModal");
@@ -920,8 +930,8 @@ function modal(approvalNo, docCategoryNo){
       myModal.show();
 
       // 출점 요청서 템플릿 바디 생성
-      const divModalBody = createElement("div", {"style" : "width: 800px; height: 800px;"},["modal-body"]);
-      const divTemp = createElement("div", {}, ["temps", "my-2", "mx-3", "p-3"]);
+      const divModalBody = createElement("div", {"style" : "width: 800px; height: 800px;"},["modal-body", "pdfCanvas"]);
+      const divTemp = createElement("div", {}, ["my-2", "mx-3", "p-3"]);
       
       // 템플릿 제목
       const divTempTitle = createElement("div", {"style" : "font-size:30px; font-weight: bold; text-align: center;"}, ["pt-4"]);
@@ -1033,7 +1043,7 @@ function modal(approvalNo, docCategoryNo){
 
           switch(approver.approverCondition){
             case 0 :  // 미승인
-              const tdNonApprovContent = createElement("td", {"style":"height: 87px; vertical-align: middle;"}, []);  
+              const tdNonApprovContent = createElement("td", {"style":"height: 96px; vertical-align: middle;"}, []);  
               const divNonApprovContent = createElement("div", {}, []);
               
               divNonApprovContent.innerHTML=approver.memberName; // 결재자명
@@ -1177,6 +1187,8 @@ function modal(approvalNo, docCategoryNo){
     /* ---------------------------------------------------------- */
     else if(docCategoryNo == 3){ // 폐점
 
+      currentApprovaldocTitle = '업무보고서(폐점)';
+
       // 모달 속성 추가
       document.getElementById("clickModal").setAttribute("data-bs-toggle", "modal");
       document.getElementById("clickModal").setAttribute("data-bs-target", "#closeStoreModal");
@@ -1189,8 +1201,8 @@ function modal(approvalNo, docCategoryNo){
       myModal.show();
 
       // 폐점 요청서 템플릿 바디 생성
-      const divModalBody = createElement("div", {"style" : "width: 800px; height: 800px;"},["modal-body"]);
-      const divTemp = createElement("div", {}, ["temps", "my-2", "mx-3", "p-3"]);
+      const divModalBody = createElement("div", {"style" : "width: 800px; height: 800px;"},["modal-body", "pdfCanvas"]);
+      const divTemp = createElement("div", {}, ["my-2", "mx-3", "p-3"]);
       
       // 템플릿 제목
       const divTempTitle = createElement("div", {"style" : "font-size:30px; font-weight: bold; text-align: center;"}, ["pt-4"]);
@@ -1302,7 +1314,7 @@ function modal(approvalNo, docCategoryNo){
 
           switch(approver.approverCondition){
             case 0 :  // 미승인
-              const tdNonApprovContent = createElement("td", {"style":"height: 87px; vertical-align: middle;"}, []);  
+              const tdNonApprovContent = createElement("td", {"style":"height: 96px; vertical-align: middle;"}, []);  
               const divNonApprovContent = createElement("div", {}, []);
               
               divNonApprovContent.innerHTML=approver.memberName; // 결재자명
@@ -1456,6 +1468,8 @@ function modal(approvalNo, docCategoryNo){
     /* ---------------------------------------------------------- */
     else if(docCategoryNo == 4){ // 지출
 
+      currentApprovaldocTitle = '지출결의서';
+
       // 모달 속성 추가
       document.getElementById("clickModal").setAttribute("data-bs-toggle", "modal");
       document.getElementById("clickModal").setAttribute("data-bs-target", "#expenseModal");
@@ -1468,8 +1482,8 @@ function modal(approvalNo, docCategoryNo){
       myModal.show();
 
       // 템플릿 바디 생성
-      const divModalBody = createElement("div", {"style" : "width: 800px; height: 800px;"},["modal-body", "d-flex", "flex-column"]);
-      const divTemp = createElement("div", {}, ["temps", "my-2", "mx-3", "p-3"]);
+      const divModalBody = createElement("div", {"style" : "width: 800px; height: 800px;"},["modal-body", "d-flex", "flex-column", "pdfCanvas"]);
+      const divTemp = createElement("div", {}, ["my-2", "mx-3", "p-3"]);
       
       // 템플릿 제목
       const divTempTitle = createElement("div", {"style" : "font-size:30px; font-weight: bold; text-align: center;"}, ["pt-4"]);
@@ -1580,7 +1594,7 @@ function modal(approvalNo, docCategoryNo){
 
           switch(approver.approverCondition){
             case 0 :  // 미승인
-              const tdNonApprovContent = createElement("td", {"style":"height: 87px; vertical-align: middle;"}, []);  
+              const tdNonApprovContent = createElement("td", {"style":"height: 96px; vertical-align: middle;"}, []);  
               const divNonApprovContent = createElement("div", {}, []);
               
               divNonApprovContent.innerHTML=approver.memberName; // 결재자명
@@ -1711,7 +1725,7 @@ function modal(approvalNo, docCategoryNo){
 //======================================================================================
 
 
-// 결재 버튼 클릭 시 작동함수
+/* 결재 버튼 클릭 시 작동함수 */
 function approveBtn(){
   if(currentApprovalNo == undefined) return;
   location.href="approve?approvalNo=" + currentApprovalNo;
@@ -1731,7 +1745,7 @@ function returnBtn(){
   }
 }
  
-// 완료문서함에서 삭제 버튼 클릭 시 작동함수
+/* 완료문서함에서 삭제 버튼 클릭 시 작동함수 */
 function deleteBtn(memberNo){
 
   // console.log(currentApprovalMemberNo);
@@ -1748,7 +1762,7 @@ function deleteBtn(memberNo){
   }
 }
 
-// 반려사유 버튼 클릭 시 작동함수
+/* 반려사유 버튼 클릭 시 작동함수 */
 function returnReasonBtn(){
 
   // 해당 문서의 반려사유를 불러와서 alert로 띄움
@@ -1759,7 +1773,7 @@ function returnReasonBtn(){
   })
 }
 
-// 반려문서함에서 삭제버튼 클릭 시 작동함수
+/* 반려문서함에서 삭제버튼 클릭 시 작동함수 */
 function deleteAtReturnBtn(memberNo){
   if(currentApprovalNo == undefined) return;
 
@@ -1777,9 +1791,13 @@ function deleteAtReturnBtn(memberNo){
 
 //======================================================================================
 
+/* 모달창 인쇄 JS */
 let hiddenModalHeader = document.querySelectorAll('.modal-header');
 let hiddenModalFooter = document.querySelectorAll('.modal-footer');
 
+console.log(currentApprovaldocCategoryNo);
+
+// 인쇄 하기 전
 function beforePrint() {
   const modal = document.querySelectorAll('.modal');
   initBodyHtml = document.body.innerHTML;
@@ -1802,6 +1820,7 @@ function fnModalPrint() {
   window.print(modal[currentApprovaldocCategoryNo].innerHTML);
 }
 
+// 인쇄 하고난 후
 function afterPrint() {
   // hiddenModalHeader[currentApprovaldocCategoryNo].style.display = "block";
   // hiddenModalFooter[currentApprovaldocCategoryNo].style.display = "block";
@@ -1810,3 +1829,25 @@ function afterPrint() {
 
 window.onbeforeprint = beforePrint;
 window.onafterprint = afterPrint;
+
+
+//======================================================================================
+
+/* PDF로 저장하기 */
+function downloadPdf(){
+
+  const divToPrint = document.querySelector(".pdfCanvas");
+
+	html2canvas(divToPrint, { scale: 1 }).then(canvas => {
+		const imgData = canvas.toDataURL('image/png');
+		const doc = new jsPDF('p', 'mm', 'a4');
+		doc.addImage(imgData, 'PNG', 8, 0, 198, 198);
+		const fileName = currentApprovaldocTitle + '.pdf';
+		const options = {
+			orientation: 'portrait',
+			unit: 'mm',
+			format: 'a4',
+		};
+		doc.save(fileName, options);
+	});
+}

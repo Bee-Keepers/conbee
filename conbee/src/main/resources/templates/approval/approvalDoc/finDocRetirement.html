@@ -1,0 +1,76 @@
+<!-- 2. 사직서 문서 -->
+<div class="modal-body" style="width: 800px; height: 800px; ">
+  <!-- 템플릿 -->
+  <div class="temps my-2 mx-3 p-3">
+
+    <!-- 템플릿 제목 -->
+    <div class="pt-4" style="font-size:30px; font-weight: bold; text-align: center;">사직서</div>
+
+    <!-- 템플릿 정보/승인 -->
+    <div class="d-flex justify-content-between">
+      <!-- 정보 -->
+      <div class="tempInfo my-2 mx-3 px-2">
+        <table class="table table-bordered" style="width: 250px; border: black;">
+          <tr>
+            <th>문서번호</th>
+            <td class="docApprovalNo"></td>
+          </tr>
+          <tr>
+            <th>부 서</th>
+            <td class="infoTeam"></td>
+          </tr>
+          <tr>
+            <th>기안자</th>
+            <td th:text="${session.loginMember.memberName}"></td>
+          </tr>
+          <tr>
+            <th>구분(항목)</th>
+            <td>복무(휴가)</td>
+          </tr>
+          <tr>
+            <th>협조 부서</th>
+            <td>인사관리부</td>
+          </tr>
+          <tr>
+            <th>기안일</th>
+            <td class="docApprovalDate"></td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- 승인 -->
+
+
+    </div>
+
+    <!-- 본문 -->
+    <div class="tempContents my-2 mx-3 px-2">
+      <table class="table table-bordered" style="width: 100%; border: black;">
+
+        <colgroup>
+          <col width=20%>
+          <col width=80%>
+        </colgroup>
+
+        <tbody>
+          <tr>
+            <th>제 목</th>
+            <td id="docRetireTitle"></td>
+          </tr>
+          <tr>
+            <th>퇴직 예정일</th>
+            <td id="docRetireDate"></td>
+          </tr>
+          <tr>
+            <th>상세 내용</th>
+            <td id="docRetireText"></td>
+          </tr>
+          <tr>
+            <th>첨부파일</th>
+            <td><a id="docRetirementFile"></a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

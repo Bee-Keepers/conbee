@@ -1,35 +1,16 @@
-import React, { useState } from 'react';
+const addressName = document.getElementById("addressName");
+const addressNameBtn = document.getElementById("addressNameBtn");
 
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+const url = new URL(location.href);
+const urlParams = url.searchParams;
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 
-import './address.css';
-
-function address() {
-
-    const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
-    return(
-        <div>
-            <Button className="btn" variant="outline-primary" onClick={handleShow}>outline-primary</Button>
-
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header>
-                    <Modal.Title>버튼</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>데이터</Modal.Body>
-                <Modal.Footer>
-                    <Button className="btn_close" variant="secondary" onClick={handleClose}>
-                        닫기
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </div>
-    )
-}
-export default address;
+addressNameBtn.addEventListener("click", ()=>{
+    const url = new URL(location.href);
+    const urlParams = url.searchParams;
+    let grade = urlParams.get("grade");
+    if(urlParams.get("grade") == null){
+        grade = 0;
+    }
+    location.href = "/address?grade=" + grade + "&query=" + addressName.value;
+});

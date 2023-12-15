@@ -178,29 +178,63 @@
 
     <!-- 모달 -->
     <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">일정을 입력하세요.</h5>              
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="taskId" class="col-form-label">일정 내용</label>
-                        <input type="text" class="form-control" id="calendar_content" name="calendar_content">
-                        <label for="taskId" class="col-form-label">시작 날짜</label>
-                        <input type="date" class="form-control" id="calendar_start_date" name="calendar_start_date">
-                        <label for="taskId" class="col-form-label">종료 날짜</label>
-                        <input type="date" class="form-control" id="calendar_end_date" name="calendar_end_date">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="sprintSettingModalClose" >확인</button>
-                </div>
-
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="text" class="form-control" id="calendar_title" name="calendar_title" placeholder="제목"
+                    style="font-weight: bold; font-size:1.3em;">
+                <input type="color" class="form-control form-control-color" id="calendar_color" value="#563d7c">
             </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="calendar_content" class="col-form-label">일정 내용</label>
+                    <textarea class="form-control" id="calendar_content" name="calendar_content"
+                        style="resize:none"></textarea>
+                    <!-- <input type="text" class="form-control" id="calendar_content" name="calendar_content"> -->
+
+                    <label for="calendar_allday" class="col-form-label">하루 종일</label>
+                    <input type="checkbox" id="calendar_allday" name="calendar_allday">
+
+                    <hr>
+
+                    <div class="d-flex justify-content-evenly">
+                        <div class="start-container">
+                            <div>
+                                <label for="calendar_start_date" class="col-form-label">시작 날짜</label>
+                                <input type="date" class="form-control" id="calendar_start_date"  name="calendar_start_date">
+                            </div>
+
+                            <div class="calendar-time-container">
+                                <label for="calendar_start_time" class="col-form-label">시작 시간</label>
+                                <input type="time" class="form-control" id="calendar_start_time" name="calendar_start_time">
+                            </div>
+                        </div>
+
+                        <div class="end-container">
+                            <div>
+                                <label for="calendar_end_date" class="col-form-label">종료 날짜</label>
+                                <input type="date" class="form-control" id="calendar_end_date" name="calendar_end_date">
+                            </div>
+                            
+                            <div class="calendar-time-container">
+                                <label for="calendar_end_time" class="col-form-label">종료 시간</label>
+                                <input type="time" class="form-control" id="calendar_end_time" name="calendar_end_time">
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="calender-confirm">확인</button>
+            </div>
+
         </div>
     </div>
+</div>
 
     <div class="modal-footer">
 

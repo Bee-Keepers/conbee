@@ -30,7 +30,7 @@ public class CalendarController {
         
     }
 	
-	/** 비동기로 현재 회원과 같은 팀의 일정 모두 조회
+	 /** 비동기로 현재 회원과 같은 팀의 일정 모두 조회
 	 * @param loginMember
 	 * @return calendarList
 	 */

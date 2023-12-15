@@ -1,0 +1,84 @@
+<!-- 3 . 출점/폐점 문서 -->
+<div class="modal-body" style="width: 800px; height: 800px; ">
+  <!-- 템플릿 -->
+  <div class="temps my-2 mx-3 p-3">
+
+    <!-- 템플릿 제목 -->
+    <div class="pt-4" style="font-size:30px; font-weight: bold; text-align: center;">업무 보고</div>
+
+    <!-- 템플릿 정보/승인 -->
+    <div class="d-flex justify-content-between">
+      <!-- 정보 -->
+      <div class="tempInfo my-2 mx-3 px-2">
+        <table class="table table-bordered" style="width: 250px; border: black;">
+          <tr>
+            <th>문서번호</th>
+            <td class="docApprovalNo"></td>
+          </tr>
+          <tr>
+            <th>부 서</th>
+            <td class="infoTeam"></td>
+          </tr>
+          <tr>
+            <th>기안자</th>
+            <td th:text="${session.loginMember.memberName}"></td>
+          </tr>
+          <tr>
+            <th>구분(항목)</th>
+            <td>업무(출점)</td><!-- 출점/폐점 -->
+          </tr>
+          <tr>
+            <th>협조 부서</th>
+            <td>인사관리부</td>
+          </tr>
+          <tr>
+            <th>기안일</th>
+            <td class="docApprovalDate"></td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- 승인 -->
+
+    </div>
+
+    <!-- 본문 -->
+    <div class="tempContents my-2 mx-3 px-2">
+      <table class="table table-bordered" style="width: 100%; border: black;">
+
+        <colgroup>
+          <col width=20%>
+          <col width=80%>
+        </colgroup>
+        
+        <tbody>
+          <tr>
+            <th>제 목</th>
+            <td id="docStoreTitle"></td>
+          </tr>
+          <tr>
+            <th>매 장 명</th>
+            <td id="docStoreName"></td>
+          </tr>
+          <tr>
+            <th>매 장 번 호</th>
+            <td id="docStoreNo"></td>
+          </tr>
+          <tr>
+            <th>출/폐 여부</th>
+            <td id="docStoreState"></td>
+          </tr>
+          <tr>
+            <th>상세 내용</th>
+            <td id="docStoreText"></td>
+          </tr>
+          <tr>
+            <th>첨부파일</th>
+            <td><a id="docStoreFile"></a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+</div>

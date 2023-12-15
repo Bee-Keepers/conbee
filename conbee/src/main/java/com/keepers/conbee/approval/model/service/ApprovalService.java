@@ -21,9 +21,10 @@ public interface ApprovalService {
 	
 	/** 임시저장함 조회
 	 * @param memberNo
+	 * @param cp 
 	 * @return approval list
 	 */
-	List<Approval> selectTempSave(int memberNo);
+	Map<String, Object> selectTempSave(int memberNo, int cp);
 	
 	
 	/** 임시저장함 데이터 받아오기
@@ -33,6 +34,7 @@ public interface ApprovalService {
 	 */
 	Map<String, Object> selectTempData(int approvalNo, int docCategoryNo);
 	
+
 	
 	/** 기안문 작성자 정보 조회
 	 * @param memberNo
@@ -77,12 +79,27 @@ public interface ApprovalService {
 	public Map<String, Object> selectRequestApproval(int memberNo, int cp);
 	
 	
+	/** 결재요청함 데이터 조회
+	 * @param approvalNo
+	 * @param docCategoryNo
+	 * @return
+	 */
+	Map<String, Object> selectRequestData(int approvalNo, int docCategoryNo);
+	
+	
 	/** 회수문서함 조회
 	 * @param memberNo
 	 * @return approval list
 	 */
 	List<Approval> selectReclaimApproval(int memberNo);
 	
+	
+	/** 문서 회수
+	 * @param approvalNo
+	 * @param memberNo 
+	 * @return
+	 */
+	int reclaimApproval(int memberNo, int approvalNo);
 	
 	
 	/* ============================= 예리나 ================================ */
@@ -91,13 +108,14 @@ public interface ApprovalService {
 	 * @param memberNo
 	 * @return
 	 */
-	List<Approval> selectWaitApproval(int memberNo);
+	Map<String, Object> selectWaitApproval(int memberNo, int cp);
 
 	/** 결재진행함 조회
 	 * @param memberNo
+	 * @param cp 
 	 * @return
 	 */
-	List<Approval> selectProgressApproval(int memberNo);
+	Map<String, Object> selectProgressApproval(int memberNo, int cp);
 
 	/** 완료문서함 조회
 	 * @param memberNo
@@ -199,9 +217,16 @@ public interface ApprovalService {
 	int storeRunCheck(int approvalNo);
 
 
+	/** 기안 후 180일 지난 기안문리스트 불러오기
+	 * @return
+	 */
+	List<Approval> selectDateOverApproval();
 
 
-
+	/** 기안서 삭제하기(스케쥴링)
+	 * @param approvalNo
+	 */
+	int approvalDeleteScheduling(int approvalNo);
 
 
 

@@ -47,8 +47,7 @@ serachName.addEventListener("input", e=>{
           goodsNameList.innerHTML = ""; // 자동완성 목록 초기화 또는 숨김 처리
           lcategoryName.value = item.lcategoryName;
           scategoryName.value = item.scategoryName;
-          // 선택된 항목에 대한 추가 동작 수행
-          // 예: 선택한 상품명에 대한 추가 정보 로드 등
+          goodsPrice.value = item.goodsPrice;
         });
 
         goodsNameList.appendChild(listItem);
@@ -174,12 +173,10 @@ stockUpdateBtn.addEventListener("click", () => {
   document.getElementById("goodsName").value = row.children[2].innerText;
   document.getElementById("lcategoryNameUpdate").value = row.children[3].innerText;
   document.getElementById("scategoryNameUpdate").value = row.children[4].innerText;
-  document.getElementById("stockInPrice").value = row.children[6].innerText;
+  document.getElementById("stockInPriceUpdate").value = row.children[6].innerText;
   document.getElementById("stockOutPriceUpdate").value = row.children[7].innerText;
   document.getElementById("stockDiscountUpdate").value = row.children[9].innerText;
   document.getElementById("storeNoUpdate").value = row.children[11].innerText;
-  console.log(row.children[6].innerText);
-  console.log(document.getElementById("stockInPrice"));
 });
 
 const lcategorySelect = document.getElementById("lcategorySelect");

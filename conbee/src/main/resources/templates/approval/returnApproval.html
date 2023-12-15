@@ -134,7 +134,7 @@
                 인쇄
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">PDF 저장</a></li>
+                <li><div class="dropdown-item" onclick="downloadPdf();">PDF 저장</div></li>
                 <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
               </ul>
             </div>
@@ -171,7 +171,7 @@
                 인쇄
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">PDF 저장</a></li>
+                <li><div class="dropdown-item" onclick="downloadPdf();">PDF 저장</div></li>
                 <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
               </ul>
             </div>
@@ -207,7 +207,7 @@
                 인쇄
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">PDF 저장</a></li>
+                <li><div class="dropdown-item" onclick="downloadPdf();">PDF 저장</div></li>
                 <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
               </ul>
             </div>
@@ -244,7 +244,7 @@
                 인쇄
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">PDF 저장</a></li>
+                <li><div class="dropdown-item" onclick="downloadPdf();">PDF 저장</div></li>
                 <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
               </ul>
             </div>
@@ -281,7 +281,7 @@
                 인쇄
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">PDF 저장</a></li>
+                <li><div class="dropdown-item" onclick="downloadPdf();">PDF 저장</div></li>
                 <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
               </ul>
             </div>
@@ -318,7 +318,7 @@
                 인쇄
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">PDF 저장</a></li>
+                <li><div class="dropdown-item" onclick="downloadPdf();">PDF 저장</div></li>
                 <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
               </ul>
             </div>
@@ -464,5 +464,8 @@
   <script src="/js/approval/commonApproval.js"></script>
   <script src="/js/approval/waitApproval.js"></script>
   <script src="/js/approval/tempSave.js"></script>
+  <script src="/js/approval/html2canvas.js"></script>
+  <script src="/js/approval/jspdf.min.js"></script>
+
 </body>
 </html>

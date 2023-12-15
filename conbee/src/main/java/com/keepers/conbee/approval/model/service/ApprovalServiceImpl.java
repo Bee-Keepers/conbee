@@ -3,6 +3,7 @@ package com.keepers.conbee.approval.model.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import com.keepers.conbee.approval.model.dto.ApprovalFile;
 import com.keepers.conbee.approval.model.dto.Approver;
 import com.keepers.conbee.approval.model.dto.CommandDTO;
 import com.keepers.conbee.approval.model.dto.Pagination;
+import com.keepers.conbee.approval.model.dto.Pagination10;
 import com.keepers.conbee.approval.model.mapper.ApprovalMapper;
 import com.keepers.conbee.common.utility.Util;
 import com.keepers.conbee.member.model.dto.Member;
@@ -48,8 +50,26 @@ public class ApprovalServiceImpl implements ApprovalService{
 
 	// 임시저장함 조회
 	@Override
-	public List<Approval> selectTempSave(int memberNo) {
-		return mapper.selectTempSave(memberNo);
+	public Map<String, Object> selectTempSave(int memberNo, int cp) {
+		
+		int listCount = mapper.searchTempSaveCount(memberNo);
+		
+		Pagination pagination = new Pagination(cp, listCount);
+		
+		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
+		int limit = pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset,limit);
+		
+		List<Approval> tempSaveList = mapper.selectTempSave(memberNo,rowBounds);
+		
+		log.debug(tempSaveList+"======");
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("tempSaveList", tempSaveList);
+	
+		return map;
 	}
 	
 	
@@ -60,28 +80,29 @@ public class ApprovalServiceImpl implements ApprovalService{
 		Map<String, Object> tempData = new HashMap<>();
 		
 		Approval tempApproval = new Approval();
+		tempApproval.setDocCategoryNo(docCategoryNo); // 필요?
 		
-		// 1. 기안문 데이터 + 파일 데이터 + DOC 데이터
+		// 1. 기안문 데이터 + 파일 데이터 + DOC 데이터 
 		switch(docCategoryNo) {
-		case 0 : tempApproval = mapper.selectTempDocHoliday(approvalNo); break; // 휴가
-		case 1 : tempApproval = mapper.selectTempDocRetirement(approvalNo); break; // 퇴직
-		case 2,3 : tempApproval = mapper.selectTempDocStore(approvalNo); break; // 점포
-		case 4 : tempApproval = mapper.selectTempDocExpense(approvalNo); break; // 점포
+		case 0 : tempApproval = mapper.selectTempHoliday(approvalNo); break; // 휴가
+		case 1 : tempApproval = mapper.selectTempRetirement(approvalNo); break; // 퇴직
+		case 2,3 : tempApproval = mapper.selectTempStore(approvalNo); break; // 점포
+		case 4 : tempApproval = mapper.selectTempExpense(approvalNo); break; // 점포
 		// case 5 : 발주 추가
 		}
-		
-
 		tempData.put("tempApproval", tempApproval);
 		
-		log.debug(tempApproval+"==="); // 각 컬럼이 null이면 걍 null이 되는 것 같음. 컬럼값이 있는 건 잘 받아옴
+//		log.debug(tempApproval+"==="); // 각 컬럼이 null이면 걍 null이 되는 것 같음. 컬럼값이 있는 건 잘 받아옴
 		
-		// 4. 결재자
-		
-		
-		
-		
+		// 2. 결재자 리스트
+		List<Approver> tempApprover = mapper.selectTempApprover(approvalNo);
+		tempData.put("tempApprover", tempApprover);
+
 		return tempData;
 	}
+	
+	
+
 	
 	
 	// 기안문 작성자 정보 조회
@@ -111,7 +132,8 @@ public class ApprovalServiceImpl implements ApprovalService{
 
 	// 기안문 insert
 	@Override
-	public int insertApproval(Approval approval, List<Approver> approverList, MultipartFile approvalFile, CommandDTO command) throws IllegalStateException, IOException {
+	public int insertApproval(Approval approval, List<Approver> approverList, MultipartFile approvalFile, CommandDTO command) 
+			throws IllegalStateException, IOException {
 	
 		int result;
 		
@@ -210,10 +232,52 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return map;
 	}
 	
+
+	// 결재요청함 데이터 조회
+	@Override
+	public Map<String, Object> selectRequestData(int approvalNo, int docCategoryNo) {
+		
+		Map<String, Object> requestData = new HashMap<>();
+		
+		Approval requestApproval = new Approval();
+		
+		// 1. 기안문 데이터 + 파일 데이터 + DOC 데이터 
+		switch(docCategoryNo) {
+		case 0 : requestApproval = mapper.selectRequestHoliday(approvalNo); break; // 휴가
+		case 1 : requestApproval = mapper.selectRequestRetirement(approvalNo); break; // 퇴직
+		case 2,3 : requestApproval = mapper.selectRequestStore(approvalNo); break; // 점포
+		case 4 : requestApproval = mapper.selectRequestExpense(approvalNo); break; // 점포
+		// case 5 : 발주 추가
+		}
+		requestData.put("requestApproval", requestApproval);
+		
+		// 2. 결재자 리스트
+		List<Approver> requestApprover = mapper.selectRequestApprover(approvalNo);
+		requestData.put("requestApprover", requestApprover);
+		
+		
+		return requestData;
+	}
+	
+	
+	
 	// 회수문서함 조회
 	@Override
 	public List<Approval> selectReclaimApproval(int memberNo) {
 		return mapper.selectReclaimApproval(memberNo);
+	}
+
+	// 문서 회수하기
+	@Override
+	public int reclaimApproval(int memberNo, int approvalNo) {
+		
+		Map<String, Object> param = new HashMap<>();
+		
+		param.put("memberNo", memberNo);
+		param.put("approvalNo", approvalNo);
+		
+		
+		return mapper.reclaimApproval(param);
 	}
 	
 
@@ -223,8 +287,30 @@ public class ApprovalServiceImpl implements ApprovalService{
 	 *
 	 */
 	@Override
-	public List<Approval> selectWaitApproval(int memberNo) {
-		return mapper.selectWaitApproval(memberNo);
+	public Map<String, Object> selectWaitApproval(int memberNo, int cp) {
+		 
+		// 결재대기함에 있는 모든 기안서의 갯수 조회
+		int listCount = mapper.getWaitApprovalListCount(memberNo);
+		
+		/* cp, listCount를 이용해 Pagination 객체 생성*/
+		Pagination10 pagination = new Pagination10(cp, listCount);
+		
+		// RowBounds 객체 생성
+		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
+		
+		int limit = pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		// 마이바티스 호출
+		List<Approval> waitApprovalList = mapper.selectWaitApproval(memberNo, rowBounds);
+		
+		// Map에 담아 반환
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("waitApprovalList", waitApprovalList);
+		
+		return map;
 	}
 
 	
@@ -232,8 +318,30 @@ public class ApprovalServiceImpl implements ApprovalService{
 	 *
 	 */
 	@Override
-	public List<Approval> selectProgressApproval(int memberNo) {
-		return mapper.selectProgressApproval(memberNo);
+	public Map<String, Object> selectProgressApproval(int memberNo, int cp) {
+		
+		// 결재진행함에 있는 모든 기안서의 갯수 조회
+		int listCount = mapper.getProgressApprovalListCount(memberNo);
+		
+		/* cp, listCount를 이용해 Pagination 객체 생성*/
+		Pagination10 pagination = new Pagination10(cp, listCount);
+		
+		// RowBounds 객체 생성
+		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
+		
+		int limit = pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		// 마이바티스 호출
+		List<Approval> progressApprovalList = mapper.selectProgressApproval(memberNo, rowBounds);
+		
+		// Map에 담아 반환
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("progressApprovalList", progressApprovalList);
+		
+		return map;
 	}
 	
 	/** 완료문서함 조회
@@ -414,6 +522,24 @@ public class ApprovalServiceImpl implements ApprovalService{
 	@Override
 	public String selectReturnReason(int approvalNo) {
 		return mapper.selectReturnReason(approvalNo);
+	}
+	
+	
+	/** 기안 후 180일 지난 기안문리스트 불러오기
+	 *
+	 */
+	@Override
+	public List<Approval> selectDateOverApproval() {
+		return mapper.selectDateOverApproval();
+	}
+	
+	
+	/** 기안서 삭제하기(스케쥴링)
+	 *
+	 */
+	@Override
+	public int approvalDeleteScheduling(int approvalNo) {
+		return mapper.approvalDeleteScheduling(approvalNo);
 	}
 	
 

@@ -66,6 +66,11 @@ public interface StockManageService {
 	 * @return
 	 */
 	int stockInPriceUpdate(Stock stock);
+	/** 본사 재고 검색
+	 * @param stock
+	 * @return
+	 */
+	List<Stock> stockListSearch(Stock stock);
 
 
 }
