@@ -19,7 +19,6 @@ function sample6_execDaumPostcode() {
           // 우편번호와 주소 정보를 해당 필드에 넣는다.
           document.getElementById("storeAddress").value = addr;
 
-          // 중복검사 코드 넣기!
 
           /* ===================== 점포주소 중복 검사 ======================= */
           fetch("/admin/storeManage/checkStoreAddress?storeAddress=" + storeAddress.value)
@@ -35,6 +34,8 @@ function sample6_execDaumPostcode() {
               storeAddress.classList.add("is-valid");
               storeAddress.classList.remove("is-invalid");
 
+              checkObj.storeAddress= true;
+
             } else { // 중복 O
               messageStoreAddress.innerText= "이미 등록된 점포 주소입니다.";
               messageStoreAddress.classList.add("NotOK-feedback");
@@ -46,6 +47,9 @@ function sample6_execDaumPostcode() {
             }
           })
           .catch(e=> console.log(e))
+
+          
+
         }
     }).open();
 }
