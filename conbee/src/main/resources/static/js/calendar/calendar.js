@@ -130,7 +130,6 @@ document.getElementById('calender-confirm').addEventListener('click',() => {
   }
   
 
-
   fetch('/calendar/staffcalendar', {
     method : "POST",
     headers : {"Content-Type" : "application/json"},
@@ -153,8 +152,6 @@ document.getElementById('calender-confirm').addEventListener('click',() => {
   })
   .catch(e => console.log(e))
 })
-
-
 
 
 /* 하루 종일 체크 변경 시 마다 수행 */

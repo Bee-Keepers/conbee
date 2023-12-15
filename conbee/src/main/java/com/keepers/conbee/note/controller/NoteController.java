@@ -80,7 +80,6 @@ public class NoteController {
 		}
 		
 		
-	
  
         return "redirect:note-sent";
     }
