@@ -235,9 +235,6 @@ public class StockServiceImpl implements StockService{
 	@Override
 	public int goodsDetailUpdate(Stock stock, MultipartFile uploadGoodsImage) throws IllegalStateException, IOException {
 		
-		String backupImage = stock.getGoodsImage();
-		String backupPath = stock.getGoodsImagePath();
-		
 		String rename = null;
 		
 		if(uploadGoodsImage.getSize() > 0) {
