@@ -58,7 +58,7 @@
             <a class="nav-link" href="/calendar/staffcalendar">캘린더</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/stock/stockList" th:if="${session.loginMember.teamNo == 11}">재고</a>
+                <a class="nav-link" href="/stock/stockList" th:if="${session.loginMember.teamNo == 11}">재고/발주</a>
                 <a class="nav-link" href="/stockManage/goodsList" th:unless="${session.loginMember.teamNo == 11}">재고 관리</a>
             </li>
             <li class="nav-item">

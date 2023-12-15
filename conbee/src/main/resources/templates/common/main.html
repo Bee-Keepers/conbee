@@ -41,8 +41,7 @@
             </thead>
             <tbody>
               <tr th:each="board : ${map.boardList}" th:object="${board}">
-                <td class="text-truncate" th:text="*{boardTitle}">실험중입니다실험중입니다실험중입니다실험중입니다실험중입니다실
-                  험중입니다실험중입니다실험중입니다실험중입니다실험중입니다실험중입니다실험중입니다실험중입니다</td>
+                <td class="text-truncate"><a style="color: black; text-decoration: none;"  th:href="@{/board/boardDetail/{boardCodeNo}/{boardNo}(boardCodeNo=1, boardNo=*{boardNo}) }"  th:text="*{boardTitle}" > </a></td>
                 <td th:text="*{MemberName}">황금독수리</td>
                 <td th:text="*{boardWriteDate}">2023-12-13</td>
                 <td th:text="*{boardHits}">233</td>
@@ -54,17 +53,25 @@
       
     </div>
     <div class="d-flex flex-column w-50 h-100">
-      <div class="d-flex flex-grow-1 h-50">
+      <div class="d-flex h-50">
 
         <!-- 재고 현황 -->
         <div class="card m-2">
           <div class="card-header fs-5 fw-bold d-flex align-item-center justify-content-between">
-            <a class="align-middle" href="/stock/stockList">재고현황</a>
-            <div class="d-inline-block">
-              <select class="form-select" id="stockStoreNo">
-                <option th:each="store : ${session.loginMember.storeList}" th:object="${store}" th:text="*{storeName}" th:value="*{storeNo}">선택</option>
-              </select>
-            </div>
+            <a th:if="${session.loginMember.gradeNo == 6}" class="align-middle" href="/stock/stockList">재고현황</a>
+            <a th:unless="${session.loginMember.gradeNo == 6}" class="align-middle" href="/stockManage/stockList">재고현황</a>
+
+            <th:block th:if="${session.loginMember.gradeNo == 6}">
+              <div class="d-inline-block">
+                <select class="form-select" id="stockStoreNo">
+                  <option th:each="store : ${session.loginMember.storeList}" th:object="${store}" th:text="*{storeName}" th:value="*{storeNo}">선택</option>
+                </select>
+              </div>
+            </th:block>
+            
+            <th:block th:unless="${session.loginMember.gradeNo == 6}">
+              <span class="vertical-align fs-6 fw-normal">본사 창고</span>
+            </th:block>
           </div>
           <div class="card-body overflow-y-auto p-0">
             <table class="table table-striped table-hover">
@@ -81,6 +88,9 @@
                 </tr>
               </thead>
               <tbody id="stockTbody">
+                <tr th:if="${#lists.size(stockList) == 0}">
+                  <td class="text-center fw-bold" colspan="3">재고가 없습니다</td>
+                </tr>
                 <tr th:each="stock : ${stockList}" th:object="${stock}">
                   <td th:text="*{scategoryName}">과자</td>
                   <td class="text-truncate" th:text="*{goodsName}">과자</td>
@@ -94,12 +104,20 @@
         <!-- 매출 현황 -->
         <div class="card m-2">
           <div class="card-header fs-5 fw-bold d-flex justify-content-between">
-            <a href="/revenue/list">매출현황</a>
-            <div class="d-inline-block">
-              <select class="form-select" id="revenueStoreNo">
-                <option th:each="store : ${session.loginMember.storeList}" th:object="${store}" th:text="*{storeName}" th:value="*{storeNo}">선택</option>
-              </select>
-            </div>
+            <a th:if="${session.loginMember.gradeNo == 6}" href="/revenue/list">매출현황</a>
+            <a th:unless="${session.loginMember.gradeNo == 6}" href="/revenueManage/revenueList">매출현황</a>
+
+            <th:block th:if="${session.loginMember.gradeNo == 6}">
+              <div class="d-inline-block">
+                <select class="form-select" id="revenueStoreNo">
+                  <option th:each="store : ${session.loginMember.storeList}" th:object="${store}" th:text="*{storeName}" th:value="*{storeNo}">선택</option>
+                </select>
+              </div>
+            </th:block>
+
+            <th:block th:unless="${session.loginMember.gradeNo == 6}">
+              <div class="vertical-align fs-6 fw-normal">전체 일일 매출</div>
+            </th:block>
           </div>
           <div class="card-body overflow-y-auto p-0">
             <table class="table table-striped table-hover">
@@ -117,7 +135,7 @@
               </thead>
               <tbody id="revenueTbody">
                 <tr th:if="${#lists.size(revenueList) == 0}">
-                  <td class="text-center" colspan="3">오늘 매출이 없습니다</td>
+                  <td class="text-center fw-bold" colspan="3">금일 매출이 없습니다</td>
                 </tr>
                 <tr th:each="revenue : ${revenueList}" th:object="${revenue}">
                   <td th:text="*{scategoryName}">과자</td>
@@ -136,41 +154,121 @@
       </div>
         
       <!-- 전자결재 -->
-      <div class="card m-2 h-50 overflow-y-auto">
-        <div class="card-header fs-5 fw-bold"><a href="/approval/waitApproval">전자결재 대기함</a></div>
-        <div class="card-body overflow-y-auto p-0">
-          <table class="table table-striped table-hover">
-            <colgroup>
-              <col width=45%>
-              <col width=10%>
-              <col width=25%>
-              <col width=20%>
-            </colgroup>
-            <thead>
-              <tr>
-                <th>제목</th>
-                <th>작성자</th>
-                <th>부서</th>
-                <th>작성일자</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- 결재 대기 문서가 없을 때 -->
-              <tr th:if="${#lists.size(waitApprovalList) == 0}">
-                <th class="text-center" colspan="4">결재 대기중인 문서가 없습니다.</th>
-              </tr>
-              <th:block th:unless="${#lists.size(waitApprovalList) == 0}">
-                <tr th:each="approval : ${waitApprovalList}" th:object="${approval}">
-                  <td th:text="*{approvalTitle}">2023년 12월 27일 일신상의 이유로 휴가신청합니다 </td>
-                  <td th:text="*{memberName}">김민석</td>
-                  <td>[[*{departmentName}]]([[*{teamName}?: '']])</td>
-                  <td th:text="*{approvalDate}">2023-12-13</td>
+      <th:block th:if="${session.loginMember.gradeNo != 6}">
+        <div class="card m-2 h-50 overflow-y-auto">
+          <div class="card-header fs-5 fw-bold"><a href="/approval/waitApproval">전자결재 대기함</a></div>
+          <div class="card-body overflow-y-auto p-0">
+            <table class="table table-striped table-hover">
+              <colgroup>
+                <col width=45%>
+                <col width=10%>
+                <col width=25%>
+                <col width=20%>
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>제목</th>
+                  <th>작성자</th>
+                  <th>부서</th>
+                  <th>작성일자</th>
                 </tr>
-              </th:block>
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                <!-- 결재 대기 문서가 없을 때 -->
+                <tr th:if="${#lists.size(waitApprovalList) == 0}">
+                  <th class="text-center" colspan="4">결재 대기중인 문서가 없습니다.</th>
+                </tr>
+                <th:block th:unless="${#lists.size(waitApprovalList) == 0}">
+                  <tr th:each="approval : ${waitApprovalList}" th:object="${approval}">
+                    <td><a href="/approval/waitApproval" th:text="*{approvalTitle}">2023년 12월 27일 일신상의 이유로 휴가신청합니다 </a></td>
+                    <td th:text="*{memberName}">김민석</td>
+                    <td>[[*{departmentName}]]([[*{teamName}?: '']])</td>
+                    <td th:text="*{approvalDate}">2023-12-13</td>
+                  </tr>
+                </th:block>
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      </th:block>
+      <!-- <th:block th:if="${session.loginMember.gradeNo == 6}">
+        <div class="h-50 m-2 card">
+          <div class="card-header fs-5 fw-bold">신상품</div>
+          <div class="card-body row">
+            <div th:each="goods : ${goodsList}" th:object="${goods}" class="card col">
+              <div class="card-body mx-1">
+                <img class="goodsImage card-img-top" th:if="*{goodsImagePath != null}" th:src="|*{goodsImagePath}*{goodsImage}|">
+                <img class="goodsImage card-img-top" th:if="*{goodsImagePath == null}" th:src="#{logo.default.image}">
+                <h5 class="card-title" th:text="*{goodsName}">농심)신라면</h5>
+                <p class="card-text text-truncate" th:text="*{goodsDetail}">깊고 진하게 우러난 소고기 국물맛에 얼큰함을 더한 국민 라면</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </th:block> -->
+      <th:block th:if="${session.loginMember.gradeNo == 6}">
+        <div class="w-100 d-flex h-50">
+          <div class="w-75 card m-2">
+            <div class="card-header fs-5 fw-bold d-flex justify-content-between">
+              <a href="/stock/order/insert">일일발주</a>
+              <div class="d-inline-block">
+                <select class="form-select" id="orderStoreNo">
+                  <option th:each="store : ${session.loginMember.storeList}" th:object="${store}" th:text="*{storeName}" th:value="*{storeNo}">선택</option>
+                </select>
+              </div>
+            </div>
+            <div class="card-body overflow-y-auto p-0">
+              <table class="table table-striped table-hover">
+                <colgroup>
+                  <col width=20%>
+                  <col width=50%>
+                  <col width=15%>
+                  <col width=15%>
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>분류</th>
+                    <th>이름</th>
+                    <th>현재재고</th>
+                    <th>발주수량</th>
+                  </tr>
+                </thead>
+                <tbody id="orderTbody">
+                  <tr th:if="${#lists.size(orderList) == 0}">
+                    <td class="text-center fw-bold" colspan="4">금일 발주가 없습니다</td>
+                  </tr>
+                  <tr th:each="order : ${orderList}" th:object="${order}">
+                    <td th:text="*{scategoryName}">과자</td>
+                    <td class="text-truncate" th:text="*{goodsName}">과자</td>
+                    <td th:text="*{stockAmount}">과자</td>
+                    <td th:text="*{orderAmount}">과자</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="w-25 card m-2">
+            <div class="card-header fs-5 fw-bold">신상품</div>
+            <div class="card-body">
+              <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  <div th:each="goods : ${goodsList}" th:object="${goods}" class="carousel-item" data-bs-interval="2000">
+                      <div class="imageContainer w-100">
+                        <img class="goodsImage card-img-top" th:if="*{goodsImagePath != null}" th:src="|*{goodsImagePath}*{goodsImage}|">
+                        <img class="goodsImage card-img-top" th:if="*{goodsImagePath == null}" th:src="#{logo.default.image}">
+                      </div>
+                      <div class="fs-4 text-truncate fw-bold" th:text="*{goodsName}">농심)신라면</div>
+                      <div class="goodsDetail" th:text="*{goodsDetail}">깊고 진하게 우러난 소고기 국물맛에 얼큰함을 더한 국민 라면</div>
+                  </div>
+                  <div class="carousel-item active" data-bs-interval="10">
+                    <img class="d-block w-100" th:src="#{logo.default.image}">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </th:block>
       
     </div>
 

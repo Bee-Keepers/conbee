@@ -270,8 +270,28 @@ public class StockManageController {
 	@GetMapping("stockSearch")
 	public String stockSearch(Stock stock, Model model) {
 		List<Stock> stockListSelect = service.stockList(stock);
+		String storeName = service.storeName(stock.getStoreNo());
+		
 		model.addAttribute("stockListSelect", stockListSelect);
+		model.addAttribute("storeName", storeName);
 		return "stock/stockManage/updatePrice";
+	}
+	
+	/** 입고가 수정
+	 * @param stock
+	 * @return
+	 */
+	@PostMapping("stockInPriceUpdate")
+	public String stockInPriceUpdate(Stock stock, RedirectAttributes ra) {
+		
+		int result = service.stockInPriceUpdate(stock);
+		if(result == 0) {
+			ra.addAttribute("message", "수정 실패");
+		}
+		if(stock.getLcategoryName() == null) stock.setLcategoryName("");
+		if(stock.getScategoryName() == null) stock.setScategoryName("");
+		if(stock.getGoodsName() == null) stock.setGoodsName("");
+		return "redirect:stockSearch?storeNo="+stock.getStoreNo()+"&lcategoryName="+stock.getLcategoryName()+"&scategoryName="+stock.getScategoryName()+"&goodsName="+ stock.getGoodsName();
 	}
 	
 }

@@ -65,4 +65,10 @@ public interface StockManageMapper {
 	 */
 	int stockInsert(Stock stock);
 
+	/** 입고가 수정
+	 * @param stock
+	 * @return
+	 */
+	int stockInPriceUpdate(Stock stock);
+
 }

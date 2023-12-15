@@ -150,6 +150,9 @@
           </thead>
           <!-- 테이블 내용 -->
           <tbody class="text-center">
+            <tr th:if="${#lists.size(historyList) == 0}">
+              <td colspan="11">지정된 기간 내의 입출고 내역이 없습니다</td>
+            </tr>
             <tr th:each="revenue : ${historyList}" th:object="${revenue}">
               <td th:text="*{historyNo}">1</td>
               <td th:text="*{historyDivide}">출고/입고</td>

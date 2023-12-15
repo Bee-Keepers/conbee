@@ -96,4 +96,10 @@ public class StockManageServiceImpl implements StockManageService{
 		}
 		return mapper.goodsSearch(stock);
 	}
+	
+	// 입고가 수정
+	@Override
+	public int stockInPriceUpdate(Stock stock) {
+		return mapper.stockInPriceUpdate(stock);
+	}
 }

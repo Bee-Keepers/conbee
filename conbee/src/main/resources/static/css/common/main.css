@@ -6,3 +6,24 @@ a{
   text-decoration: none;
   color: black;
 }
+
+.goodsImage{
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.imageContainer{
+  display: flex;
+  height: 200px;
+}
+
+.imageContainer>img{
+  margin: auto;
+}
+
+.goodsDetail{
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* 표시할 줄 수 지정 */
+  -webkit-box-orient: vertical;
+}

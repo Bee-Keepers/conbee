@@ -160,6 +160,11 @@ public interface StockService {
 	 */
 	List<Stock> stockSearch(Stock stock);
 
+	/** 신상품 세 개 조회
+	 * @return
+	 */
+	List<Stock> newGoodsThree();
+
 
 
 }

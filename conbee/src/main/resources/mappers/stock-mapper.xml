@@ -280,4 +280,11 @@
 		ORDER BY GOODS_NO DESC
 	</select>
 	
+	<select id="newGoodsThree" resultType="Stock">
+		SELECT GOODS_NAME, GOODS_STANDARD, GOODS_DETAIL, GOODS_IMAGE, GOODS_IMAGE_PATH
+		FROM GOODS
+		WHERE <![CDATA[ ROWNUM <= 3 ]]>
+		ORDER BY GOODS_NO DESC
+	</select>
+	
 </mapper>

@@ -63,6 +63,13 @@
 		<if test='storeNo != -1'>
 			#{storeNo}
 		</if>
+		<if test='lcategoryName != ""'>
+			AND LCATEGORY_NAME = #{lcategoryName}
+		</if>
+		<if test='scategoryName != ""'>
+			AND SCATEGORY_NAME = #{scategoryName}
+		</if>
+		AND GOODS_NAME LIKE '%${goodsName}%'
 		ORDER BY GOODS_NO DESC
 	</select>
 	
@@ -107,4 +114,12 @@
 		</if>
 		ORDER BY GOODS_NO DESC
 	</select>
+	
+	<!-- 입고가 조정 -->
+	<update id="stockInPriceUpdate">
+		UPDATE "STOCK" SET
+		STOCK_IN_PRICE = #{stockInPrice}
+		WHERE STORE_NO = #{storeNo}
+		AND GOODS_NO = #{goodsNo}
+	</update>
 </mapper>

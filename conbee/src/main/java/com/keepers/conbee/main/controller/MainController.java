@@ -17,6 +17,7 @@ import com.keepers.conbee.board.model.service.BoardService;
 import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.revenue.model.dto.Revenue;
 import com.keepers.conbee.revenue.model.service.RevenueService;
+import com.keepers.conbee.stock.model.dto.Order;
 import com.keepers.conbee.stock.model.dto.Stock;
 import com.keepers.conbee.stock.model.service.StockService;
 
@@ -48,31 +49,45 @@ public class MainController {
 			if(loginMember.getDepartmentNo() == 5) {
 				stock.setStoreNo(loginMember.getStoreNoList().get(0));
 				revenue.setStoreNo(loginMember.getStoreNoList().get(0));
+				
+				// 메인 페이지 신상품 3개
+				List<Stock> goodsList = stockService.newGoodsThree();
+				model.addAttribute("goodsList", goodsList);
+				
+				// 메인 페이지 일일 발주
+				List<Order> orderList = stockService.orderInsertUpdate(1);
+				model.addAttribute("orderList",orderList);
+				
 			} else {
+				
+				// 임직원 공통
 				stock.setStoreNo(0);
 				revenue.setStoreNo(0);
+
+				// 전자결재 대기함
+				List<Approval> waitApprovalList = approvalService.selectWaitApproval(loginMember.getMemberNo());
+				model.addAttribute("waitApprovalList", waitApprovalList);
+				
+				// 경영관리부인 경우
+				if(loginMember.getDepartmentNo() == 2) {
+					
+				}
+				
+				// 임원인 경우
+				if(loginMember.getDepartmentNo() == 0) {
+					
+				}
 			}
-			// 경영관리부인 경우
-			if(loginMember.getDepartmentNo() == 2) {
-				
-			} 
-			// 임원인 경우
-			if(loginMember.getDepartmentNo() == 0) {
-				
-			} 
+			
 			List<Stock> stockList = stockService.stockList(stock);
 			List<Revenue> revenueList = revenueService.revenueSearch(revenue);
-			List<Approval> waitApprovalList = approvalService.selectWaitApproval(loginMember.getMemberNo());
+			
+			// 공지사항
 			Map<String, Object> map = boardService.selectBoardList(1, 1);
 			
-			model.addAttribute("waitApprovalList", waitApprovalList);
 			model.addAttribute("stockList", stockList);
 			model.addAttribute("revenueList", revenueList);
 			model.addAttribute("map", map);
-			
-			
-			// 점포 
-			
 			
 			return "common/main";
 			
@@ -110,7 +125,7 @@ public class MainController {
 	 * @param storeNo
 	 * @return
 	 */
-	@GetMapping(value = "/ajax/revenueList", produces = "application/json; charset=UTF-8")
+	@GetMapping(value = "ajax/revenueList", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public List<Revenue> ajaxRevenueList(@SessionAttribute("loginMember") Member loginMember, int storeNo){
 		
@@ -126,6 +141,28 @@ public class MainController {
 		
 		return null;
 	}
+	
+	/** 메인페이지 매출현황 지점 변경 시
+	 * @param loginMember
+	 * @param storeNo
+	 * @return
+	 */
+	@GetMapping(value = "ajax/orderList", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<Order> ajaxOrderList(@SessionAttribute("loginMember") Member loginMember, int storeNo){
+		
+		// 점주인 경우
+		if(loginMember.getDepartmentNo() == 5) {
+			if(!loginMember.getStoreNoList().contains(storeNo)) {
+				return null;
+			}
+			return stockService.orderInsertUpdate(storeNo);
+		}
+		
+		return null;
+	}
+	
+	
 	
 	/** 로그인하지 않고 로그인 전용 페이지 접근 시
 	 * @param ra
