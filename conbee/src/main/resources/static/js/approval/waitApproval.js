@@ -180,7 +180,7 @@ function modal(approvalNo, docCategoryNo){
 
           switch(approver.approverCondition){
             case 0 :  // 미승인
-              const tdNonApprovContent = createElement("td", {"style":"height: 87px; vertical-align: middle;"}, []);  
+              const tdNonApprovContent = createElement("td", {"style":"height: 96px; vertical-align: middle;"}, []);  
               const divNonApprovContent = createElement("div", {}, []);
               
               divNonApprovContent.innerHTML=approver.memberName; // 결재자명
@@ -508,7 +508,7 @@ function modal(approvalNo, docCategoryNo){
 
           switch(approver.approverCondition){
             case 0 :  // 미승인
-              const tdNonApprovContent = createElement("td", {"style":"height: 87px; vertical-align: middle;"}, []);  
+              const tdNonApprovContent = createElement("td", {"style":"height: 96px; vertical-align: middle;"}, []);  
               const divNonApprovContent = createElement("div", {}, []);
               
               divNonApprovContent.innerHTML=approver.memberName; // 결재자명
@@ -780,7 +780,7 @@ function modal(approvalNo, docCategoryNo){
 
           switch(approver.approverCondition){
             case 0 :  // 미승인
-              const tdNonApprovContent = createElement("td", {"style":"height: 87px; vertical-align: middle;"}, []);  
+              const tdNonApprovContent = createElement("td", {"style":"height: 96px; vertical-align: middle;"}, []);  
               const divNonApprovContent = createElement("div", {}, []);
               
               divNonApprovContent.innerHTML=approver.memberName; // 결재자명
@@ -1043,7 +1043,7 @@ function modal(approvalNo, docCategoryNo){
 
           switch(approver.approverCondition){
             case 0 :  // 미승인
-              const tdNonApprovContent = createElement("td", {"style":"height: 87px; vertical-align: middle;"}, []);  
+              const tdNonApprovContent = createElement("td", {"style":"height: 96px; vertical-align: middle;"}, []);  
               const divNonApprovContent = createElement("div", {}, []);
               
               divNonApprovContent.innerHTML=approver.memberName; // 결재자명
@@ -1314,7 +1314,7 @@ function modal(approvalNo, docCategoryNo){
 
           switch(approver.approverCondition){
             case 0 :  // 미승인
-              const tdNonApprovContent = createElement("td", {"style":"height: 87px; vertical-align: middle;"}, []);  
+              const tdNonApprovContent = createElement("td", {"style":"height: 96px; vertical-align: middle;"}, []);  
               const divNonApprovContent = createElement("div", {}, []);
               
               divNonApprovContent.innerHTML=approver.memberName; // 결재자명
@@ -1594,7 +1594,7 @@ function modal(approvalNo, docCategoryNo){
 
           switch(approver.approverCondition){
             case 0 :  // 미승인
-              const tdNonApprovContent = createElement("td", {"style":"height: 87px; vertical-align: middle;"}, []);  
+              const tdNonApprovContent = createElement("td", {"style":"height: 96px; vertical-align: middle;"}, []);  
               const divNonApprovContent = createElement("div", {}, []);
               
               divNonApprovContent.innerHTML=approver.memberName; // 결재자명
@@ -1725,7 +1725,7 @@ function modal(approvalNo, docCategoryNo){
 //======================================================================================
 
 
-// 결재 버튼 클릭 시 작동함수
+/* 결재 버튼 클릭 시 작동함수 */
 function approveBtn(){
   if(currentApprovalNo == undefined) return;
   location.href="approve?approvalNo=" + currentApprovalNo;
@@ -1745,7 +1745,7 @@ function returnBtn(){
   }
 }
  
-// 완료문서함에서 삭제 버튼 클릭 시 작동함수
+/* 완료문서함에서 삭제 버튼 클릭 시 작동함수 */
 function deleteBtn(memberNo){
 
   // console.log(currentApprovalMemberNo);
@@ -1762,7 +1762,7 @@ function deleteBtn(memberNo){
   }
 }
 
-// 반려사유 버튼 클릭 시 작동함수
+/* 반려사유 버튼 클릭 시 작동함수 */
 function returnReasonBtn(){
 
   // 해당 문서의 반려사유를 불러와서 alert로 띄움
@@ -1773,7 +1773,7 @@ function returnReasonBtn(){
   })
 }
 
-// 반려문서함에서 삭제버튼 클릭 시 작동함수
+/* 반려문서함에서 삭제버튼 클릭 시 작동함수 */
 function deleteAtReturnBtn(memberNo){
   if(currentApprovalNo == undefined) return;
 

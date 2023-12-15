@@ -108,13 +108,14 @@ public interface ApprovalService {
 	 * @param memberNo
 	 * @return
 	 */
-	List<Approval> selectWaitApproval(int memberNo);
+	Map<String, Object> selectWaitApproval(int memberNo, int cp);
 
 	/** 결재진행함 조회
 	 * @param memberNo
+	 * @param cp 
 	 * @return
 	 */
-	List<Approval> selectProgressApproval(int memberNo);
+	Map<String, Object> selectProgressApproval(int memberNo, int cp);
 
 	/** 완료문서함 조회
 	 * @param memberNo

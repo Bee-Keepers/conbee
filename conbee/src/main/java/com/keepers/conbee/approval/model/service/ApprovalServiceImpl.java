@@ -20,6 +20,7 @@ import com.keepers.conbee.approval.model.dto.ApprovalFile;
 import com.keepers.conbee.approval.model.dto.Approver;
 import com.keepers.conbee.approval.model.dto.CommandDTO;
 import com.keepers.conbee.approval.model.dto.Pagination;
+import com.keepers.conbee.approval.model.dto.Pagination10;
 import com.keepers.conbee.approval.model.mapper.ApprovalMapper;
 import com.keepers.conbee.common.utility.Util;
 import com.keepers.conbee.member.model.dto.Member;
@@ -286,8 +287,30 @@ public class ApprovalServiceImpl implements ApprovalService{
 	 *
 	 */
 	@Override
-	public List<Approval> selectWaitApproval(int memberNo) {
-		return mapper.selectWaitApproval(memberNo);
+	public Map<String, Object> selectWaitApproval(int memberNo, int cp) {
+		 
+		// 결재대기함에 있는 모든 기안서의 갯수 조회
+		int listCount = mapper.getWaitApprovalListCount(memberNo);
+		
+		/* cp, listCount를 이용해 Pagination 객체 생성*/
+		Pagination10 pagination = new Pagination10(cp, listCount);
+		
+		// RowBounds 객체 생성
+		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
+		
+		int limit = pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		// 마이바티스 호출
+		List<Approval> waitApprovalList = mapper.selectWaitApproval(memberNo, rowBounds);
+		
+		// Map에 담아 반환
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("waitApprovalList", waitApprovalList);
+		
+		return map;
 	}
 
 	
@@ -295,8 +318,30 @@ public class ApprovalServiceImpl implements ApprovalService{
 	 *
 	 */
 	@Override
-	public List<Approval> selectProgressApproval(int memberNo) {
-		return mapper.selectProgressApproval(memberNo);
+	public Map<String, Object> selectProgressApproval(int memberNo, int cp) {
+		
+		// 결재진행함에 있는 모든 기안서의 갯수 조회
+		int listCount = mapper.getProgressApprovalListCount(memberNo);
+		
+		/* cp, listCount를 이용해 Pagination 객체 생성*/
+		Pagination10 pagination = new Pagination10(cp, listCount);
+		
+		// RowBounds 객체 생성
+		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
+		
+		int limit = pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		// 마이바티스 호출
+		List<Approval> progressApprovalList = mapper.selectProgressApproval(memberNo, rowBounds);
+		
+		// Map에 담아 반환
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("progressApprovalList", progressApprovalList);
+		
+		return map;
 	}
 	
 	/** 완료문서함 조회
