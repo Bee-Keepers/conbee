@@ -101,6 +101,7 @@ public class StockManageServiceImpl implements StockManageService{
 	@Override
 	public int stockInPriceUpdate(Stock stock) {
 		return mapper.stockInPriceUpdate(stock);
+	}
 	// 본사 재고 검색
 	@Override
 	public List<Stock> stockListSearch(Stock stock) {

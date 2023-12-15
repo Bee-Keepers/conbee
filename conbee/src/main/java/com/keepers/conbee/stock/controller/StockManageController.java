@@ -292,6 +292,7 @@ public class StockManageController {
 		if(stock.getScategoryName() == null) stock.setScategoryName("");
 		if(stock.getGoodsName() == null) stock.setGoodsName("");
 		return "redirect:stockSearch?storeNo="+stock.getStoreNo()+"&lcategoryName="+stock.getLcategoryName()+"&scategoryName="+stock.getScategoryName()+"&goodsName="+ stock.getGoodsName();
+	}
 	/** 본사 재고 검색
 	 * @param stock
 	 * @param model
