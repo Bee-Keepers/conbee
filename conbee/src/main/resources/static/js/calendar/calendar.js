@@ -66,6 +66,26 @@ const selectCalendar = () => {
 
         document.getElementById("calendar_start_time").value = '09:00';
         document.getElementById("calendar_end_time").value = '10:00';
+      },
+
+      eventClick : (info) => {
+        console.log(info.event); //  클릭된 일정 이벤트 정보
+        console.log(info.event.title); // 클릭된 일정 제목
+
+        console.log(info.event.start); // Sat Dec 16 2023 00:00:00 GMT+0900 (한국 표준시)  (DATE)
+        console.log(info.event.startStr);  // 2023-12-16
+
+        console.log(info.event.end);  // 하루 종일 중 1일 짜리는  end == null
+        console.log(info.event.endStr); // 하루 종일은 1일 짜리는 endStr == ''
+
+        console.log(info.event.allDay);  // true/ false
+        console.log(info.event.backgroundColor);  // #e90707
+
+        console.log(info.event.extendedProps); // 추가된 속성들 (사용자 정의 속성 / calNo, carDetail, memberNo, memberName)
+
+
+
+        
       }
     });
 
@@ -111,8 +131,21 @@ document.getElementById('calender-confirm').addEventListener('click',() => {
 
   // 하루 종일이 체크되어 있는 경우 (2023-12-14/00:00)
   if(calendarAllday){
-    calStartTime = calendarStartDate + "T00:00:00" ;
-    calEndTime = calendarEndDate+ "T00:00:00";
+    if(calendarStartDate == calendarEndDate){
+      calStartTime = calendarStartDate + "T00:00:00" ;
+      calEndTime = calendarEndDate+ "T00:00:00";
+   
+    }else{
+      calStartTime = calendarStartDate + "T00:00:00" ;
+
+      const temp = new Date(calendarEndDate);
+      const year = temp.getFullYear();
+      const month = temp.getMonth() + 1; // month (0~11) + 1 --> 1월 ~ 12월
+      const date = temp.getDate() + 1; // 끝나는 날짜를 하루 증가해야 캘린더에서 종료일 까지 색이 꽉 참
+
+      calEndTime = `${year}-${month}-${date}T00:00:00`;
+    }
+    
   
     // 하루 종일이 체크되어 있지 않은 경우 (2023-12-14/16:20)
   } else{
@@ -145,6 +178,10 @@ document.getElementById('calender-confirm').addEventListener('click',() => {
     document.getElementById('calendar_title').value = '';
     document.getElementById('calendar_content').value = '';
     document.getElementById('calendar_allday').checked = false;
+    document.getElementById('calendar_start_date').value = '';
+    document.getElementById('calendar_end_date').value = '';
+
+    document.querySelectorAll(".calendar-time-container").forEach( item => item.style.display = "block" );
 
     // 모달 닫기
     $('#calendarModal').modal('hide');
