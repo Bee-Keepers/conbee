@@ -104,7 +104,7 @@
     clear: both;
     padding: 30px 0;
     margin: 10px 0;
-    border-top : 3px solid #ccc;
+    /* border-top : 3px solid #ccc; */
     border-bottom : 3px solid #ccc;
 
     font-size: 18px;

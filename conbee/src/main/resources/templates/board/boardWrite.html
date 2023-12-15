@@ -17,7 +17,7 @@
    -->
 
   <!-- 초기 버전 에디터 js(파일 추가 버전) -->
-  <script src="/js/ckeditor52/build/ckeditor.js"></script>
+  <script src="/js/ckeditor54/build/ckeditor.js"></script>
   <script src="/js/bootstrap.bundle.min.js"></script>
 
   
@@ -124,10 +124,19 @@ function handleSampleError( error ) {
 ClassicEditor
 	.create( document.querySelector( '#editor' ), {
     language: "ko",
-    ckfinder : {
-      uploadUrl: "/images/board",
+    simpleUpload : {
+      uploadUrl: "/board/uploardImage",
       withCredentials: true
-    }
+    },
+    mediaEmbed: {
+    extraProviders: [
+        {
+            name: 'ckeditor',
+            url: /^ckeditor\.com/
+        }
+    ]
+}
+
 	} )
 	.then( editor => {
 		window.editor = editor;

@@ -5,9 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title th:text="${boardCodeName}">게시글 상세조회</title>
   <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/js/ckeditor54/sample/styles.css">
   <link rel="stylesheet" href="/css/board/boardDetail.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <style>
+    
+    
 
     tr > td {
       height: 30px;
@@ -16,9 +19,35 @@
       vertical-align: middle;
     }
 
+    /* ck에디터 입력 값 폰트 사이즈/컬러 등 css */
+    .ck-content .text-tiny {
+        font-size: 0.7em;
+    }
+
+    .ck-content .text-small {
+        font-size: 0.85em;
+    }
+
+    .ck-content .text-big {
+        font-size: 1.4em;
+    }
+
+    .ck-content .text-huge {
+        font-size: 1.8em;
+    }
+
+    .ck-media__wrapper[data-oembed-url*="ckeditor.com"] .ck-media__placeholder__url .ck-media__placeholder__url__text {
+    color: hsl(282, 100%, 93%);
+    }
+
+    .ck-media__wrapper[data-oembed-url*="ckeditor.com"] .ck-media__placeholder__url .ck-media__placeholder__url__text:hover {
+        color: hsl(0, 100%, 100%);
+    }
+
+
   </style>
 
-  <script src="/js/ckeditor51/build/ckeditor.js"></script>
+  <script src="/js/ckeditor52/build/ckeditor.js"></script>
 </head>
 <body class="d-flex flex-column" style="height: 100vh;" >
 
@@ -67,7 +96,7 @@
                   <span th:text="${board.memberName}">작성자 이름</span>
 
                   
-                  <!-- 북마크 하트 -->
+                  <!-- 북마크 별 -->
                   <span class="like-area">
                       
                       <!-- 좋아요 누른적이 있으면 fa-solid, 없으면 fa-regular 클래스 추가 -->
@@ -95,57 +124,10 @@
 
 
 
-          <!-- 이미지가 있을 경우 -->
-          <th:block >
-              
-          <!-- 썸네일 영역(썸네일이 있을 경우) -->
-          <!--  
-              - 이미지는 IMG_ORDER 오름차순을 정렬된다
-              - IMG_ORDER의 값이 0인 이미지가 썸네일이다
-              -> imageList에 썸네일이 있다면
-                  조회 되었을 때 IMG_ORDER가 0인 이미지가
-                  imageList [0]에 저장 되었을 것이다
-          -->
-          <th:bloack >
-              <h5>썸네일</h5>
-              <div class="img-box">
-                  <div class="boardImg thumbnail">
-                      <img>                     
-                      <a>다운로드</a>         
-                  </div>
-              </div>
-          </th:bloack>
-
-
-
-          <!-- 일반 이미지가 있을 경우 -->
-          <th:block>
-
-              <!-- 업로드 이미지 영역 -->
-              <h5>업로드 이미지</h5>
-              <div class="img-box">
-
-                  <div >
-
-                      <img>   
-
-                      <a >다운로드</a>                
-                  </div>
-
-              </div>
-          </th:block>
-      
-          </th:block>
-          
-
-
-
 
 
           <!-- 내용 -->
-          <div class="board-content" th:text="${board.boardContent}">내용</div>
-
-
+          <div class="board-content ck-content media" th:utext="${board.boardContent}">내용</div>
 
           <!-- 버튼 영역-->
           <div class="board-btn-area">
