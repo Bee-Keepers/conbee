@@ -13,6 +13,7 @@ const lcategoryName = document.getElementById("lcategoryName");
 const scategoryName = document.getElementById("scategoryName");
 const serachName = document.getElementById("serachName");
 const goodsNameList = document.getElementById("goodsNameList");
+const goodsPrice = document.getElementById("goodsPrice");
 // 등록 시 상품명 입력하면 대분류, 소분류 자동입력
 serachName.addEventListener("input", e=>{
   const inputValue = e.target.value.trim();
@@ -41,6 +42,7 @@ serachName.addEventListener("input", e=>{
           goodsNameList.innerHTML = ""; // 자동완성 목록 초기화 또는 숨김 처리
           lcategoryName.value = item.lcategoryName;
           scategoryName.value = item.scategoryName;
+          goodsPrice.value = item.goodsPrice;
           // 선택된 항목에 대한 추가 동작 수행
           // 예: 선택한 상품명에 대한 추가 정보 로드 등
         });
