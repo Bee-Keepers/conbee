@@ -157,10 +157,12 @@ public interface ApprovalMapper {
 	List<Approval> selectReclaimApproval(int memberNo);
 
 	/** 문서 회수하기
+	 * @param param 
 	 * @param approvalNo
+	 * @param memberNo 
 	 * @return result
 	 */
-	int reclaimApproval(int approvalNo);
+	int reclaimApproval(Map<String, Object> param);
 	
 	
 	/* ============================= 예리나 ================================ */

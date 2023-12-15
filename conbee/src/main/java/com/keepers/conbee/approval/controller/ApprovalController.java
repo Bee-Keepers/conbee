@@ -166,7 +166,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 	public String insertApproval(@PathVariable("doc") String doc,
 							@RequestParam("approvalCondition") int approvalCondition,
 							@SessionAttribute("loginMember") Member loginMember, 
-							@RequestParam(value="approval", required=false) Approval approval, 
+							Approval approval, 
 							CommandDTO command,
 							@RequestParam(value="approverMemNo", required=false) List<Integer> approverMemNo,
 							@RequestParam(value="approvalFile", required=false) MultipartFile approvalFile,
@@ -297,9 +297,12 @@ public class ApprovalController { // 전자결재 컨트롤러
 	 * @return
 	 */
 	@GetMapping("reclaim")
-	public String reclaimApproval(int approvalNo, RedirectAttributes ra) {
+	public String reclaimApproval(@SessionAttribute("loginMember") Member loginMember,@RequestParam("approvalNo") int approvalNo, RedirectAttributes ra) {
 		
-		int result = service.reclaimApproval(approvalNo);
+		log.debug(approvalNo + "----");
+		log.debug(loginMember.getMemberNo()+"----");
+		
+		int result = service.reclaimApproval(loginMember.getMemberNo(), approvalNo);
 		
 		if(result > 0) {
 			ra.addFlashAttribute("message", "문서가 회수되었습니다.");			
