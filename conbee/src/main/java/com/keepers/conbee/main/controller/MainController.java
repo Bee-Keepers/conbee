@@ -65,8 +65,9 @@ public class MainController {
 				revenue.setStoreNo(0);
 
 				// 전자결재 대기함
-				List<Approval> waitApprovalList = approvalService.selectWaitApproval(loginMember.getMemberNo());
-				model.addAttribute("waitApprovalList", waitApprovalList);
+				int cp = 1; // 결재대기함 조회 용 cp
+				Map<String, Object> waitApprovalList = approvalService.selectWaitApproval(loginMember.getMemberNo(), cp);
+				model.addAttribute("waitApprovalList", waitApprovalList.get("waitApprovalList"));
 				
 				// 경영관리부인 경우
 				if(loginMember.getDepartmentNo() == 2) {
@@ -82,11 +83,10 @@ public class MainController {
 			List<Stock> stockList = stockService.stockList(stock);
 			List<Revenue> revenueList = revenueService.revenueSearch(revenue);
 			
-			int cp = 1; // 결재대기함 조회 용 cp
-			Map<String, Object> waitApprovalList = approvalService.selectWaitApproval(loginMember.getMemberNo(), cp);
+			
 			Map<String, Object> map = boardService.selectBoardList(1, 1);
 			
-			model.addAttribute("waitApprovalList", waitApprovalList.get("waitApprovalList"));
+			
 			model.addAttribute("stockList", stockList);
 			model.addAttribute("revenueList", revenueList);
 			model.addAttribute("map", map);
