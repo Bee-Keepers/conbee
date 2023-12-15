@@ -276,4 +276,10 @@ public class StockServiceImpl implements StockService{
 		return mapper.stockSearch(stock);
 	}
 	
+	// 새 상품 세 개 조회
+	@Override
+	public List<Stock> newGoodsThree() {
+		return mapper.newGoodsThree();
+	}
+	
 }

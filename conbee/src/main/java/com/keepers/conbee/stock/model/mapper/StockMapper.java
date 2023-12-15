@@ -170,4 +170,10 @@ public interface StockMapper {
 	 */
 	List<Stock> stockSearch(Stock stock);
 
+	
+	/** 새 상품 세 개 조회
+	 * @return
+	 */
+	List<Stock> newGoodsThree();
+
 }

@@ -123,6 +123,9 @@
           </thead>
           <!-- 테이블 내용 -->
           <tbody id="tableTbody" class="text-center">
+            <tr th:if="${#lists.size(orderList) == 0}">
+              <td colspan="2">지정된 기간 내의 발주가 없습니다</td>
+            </tr>
             <tr th:each="order : ${orderList}">
               <td th:text="${order}">발주 날짜</td>
               <td><button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="detailOrderFn(this)">상세 조회</button></td>

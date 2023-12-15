@@ -23,7 +23,7 @@
         <div class="d-flex align-items-center">
           <div>
             <div class="input-group">
-              <span class="input-group-text" th:if="${storeName == null}">본사</span>
+              <span class="input-group-text" th:if="${storeName == null}">검색된 지점이 없습니다</span>
               <span class="input-group-text" th:if="${storeName != null}" th:text="${storeName}">검색된 지점이 없습니다</span>
               <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 상세 검색
@@ -53,6 +53,9 @@
           </thead>
           <!-- 테이블 내용 -->
           <tbody class="text-center">
+              <tr th:if="${stockListSelect == null or #lists.size(stockListSelect) == 0}">
+                <td colspan="11">결과가 없습니다 상세 검색 후 이용해주세요</td>
+              </tr>
             <tr th:each="stock : ${stockListSelect}" th:object="${stock}">
               <td>
                 <label class="w-100">
@@ -60,7 +63,7 @@
                 </label>
               </td>
               <td th:text="*{goodsNo}">1</td>
-              <td th:text="*{goodsName}">신라면</td>
+              <td th:text="*{goodsName}" data-bs-toggle="modal" data-bs-target="#goodsDateilModel" class="goodsDetailBtn">신라면</td>
               <td th:text="*{lcategoryName}">식품</td>
               <td th:text="*{scategoryName}">가공식사</td>
               <td th:text="*{goodsStandard}">-</td>
@@ -68,14 +71,15 @@
               <td th:text="*{stockOutPrice}">1500</td>
               <td th:text="*{stockAmount}">0</td>
               <td th:text="*{stockDiscount}">10</td>
-              <td>6750</td>
+              <td th:text="*{stockOutPrice -(stockDiscount*stockOutPrice/100)}">6750</td>
+              <td th:text="*{storeNo}" style="display: none;"></td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">
         <div class="" role="group" aria-label="Basic outlined example">
-          <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="#stockUpdateModel">입고 단가 수정</button>
+          <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="#stockUpdateModel" id="stockUpdateBtn">입고 단가 수정</button>
         </div>
       </div>
     </div>    
@@ -95,7 +99,7 @@
               <label class="input-group-text" for="storeSelect">지점</label>
               <input type="text" class="form-control" placeholder="지점을 검색해주세요" id="storeSearch">
               <select class="form-select" name="storeNo" id="storeSelect">
-                  <option value="">선택</option>
+                  <option value="-1">선택</option>
               </select>
             </div>
             <!-- 대분류 -->
@@ -135,67 +139,6 @@
     </div>
   </div>
 
-  <!-- 재고 등록 Modal -->
-  <div class="modal fade" id="stockInsertModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-
-
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">재고 품목 등록</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-
-        <div class="modal-body">
-          <form action="/stock/stockInsert" method="post" >
-            <div class="mb-3">
-              <select class="form-select" name="storeNo" id="storeNameClick">
-                <option value="0">본사</option>
-              </select>
-            </div>
-            <div>
-              <div id="autoSerchNameContainer" class="form-floating mb-3">
-                <div  class="position-absolute w-100 start-0" style="top: 110%;">
-                  <ul id="goodsNameList" class="list-group">
-                    <!-- <li class="list-group-item">An item</li> -->
-                  </ul>
-                </div>
-                <input type="text" class="form-control" name="goodsName" id="serachName" placeholder="품목명">
-                <label for="serachName">상품명</label>
-              </div>
-              <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="lcategoryName" placeholder="대분류" disabled>
-                <label for="">대분류</label>
-              </div>
-              <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="scategoryName" placeholder="소분류" disabled>
-                <label for="">소분류</label>
-              </div>
-              <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="stockInPrice" id="stockInPrice" placeholder="입고단가" value="0" disabled>
-                <label for="">입고단가</label>
-              </div>
-              <div class="form-floating mb-3">
-                <input type="number" class="form-control" name="stockOutPrice"  id="stockOutPrice" placeholder="출고단가">
-              <label for="">출고단가</label>
-              </div>
-              <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="stockDiscount" id="stockDiscount" placeholder="할인율" value="0">
-                <label for="">할인율</label>
-              </div>
-            </div>
-            
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-              <button type="submit" class="btn btn-primary btn-warning">등록</button>
-            </div>
-            <input type="hidden" name="stockAmount" value="0">
-          </form>
-        </div>
-
-      </div>
-    </div>
-  </div>
 
   <!-- 재고 수정 Modal -->
   <div class="modal fade" id="stockUpdateModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -209,7 +152,7 @@
         </div>
 
         <div class="modal-body">
-          <form action="/stock/stockUpdate" method="post" >
+          <form action="/stockManage/stockInPriceUpdate" method="post" >
             <div>
               <div id="autoSerchNameContainer" class="form-floating mb-3">
                 <div  class="position-absolute w-100 start-0" style="top: 110%;">
