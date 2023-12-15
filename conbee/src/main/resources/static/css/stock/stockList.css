@@ -79,8 +79,8 @@ thead>tr>th{
    max-height: 250px;
 }
 #stockImage>img{
-   width: 100%;
-   height: 100%;
+   max-width: 250px;
+   max-height: 250px;
 }
 #stockListBox{
    width: 400px;
@@ -132,3 +132,6 @@ thead>tr>th{
    max-height: 95%;
 }
 
+.goodsDetailBtn{
+   cursor: pointer;
+}

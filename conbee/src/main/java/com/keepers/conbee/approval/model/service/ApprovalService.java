@@ -95,10 +95,10 @@ public interface ApprovalService {
 	
 	/** 문서 회수
 	 * @param approvalNo
-	 * @param memberNo
+	 * @param memberNo 
 	 * @return
 	 */
-	int reclaimApproval(int approvalNo);
+	int reclaimApproval(int memberNo, int approvalNo);
 	
 	
 	/* ============================= 예리나 ================================ */

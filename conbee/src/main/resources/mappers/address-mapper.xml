@@ -7,7 +7,7 @@
 		SELECT MEMBER_NO, MEMBER_ID, MEMBER_NAME, MEMBER_TEL, MEMBER_PROFILE,
 		TEAM_NAME, DEPARTMENT_NAME, GRADE_NAME
 		FROM MEMBER M
-		JOIN TEAM USING (TEAM_NO)
+		LEFT JOIN TEAM USING (TEAM_NO)
 		JOIN DEPARTMENT D ON (D.DEPARTMENT_NO = M.DEPARTMENT_NO)
 		JOIN GRADE USING (GRADE_NO)
 		WHERE MEMBER_DEL_FL = 'N'
@@ -17,6 +17,24 @@
 		<if test='grade == 2'>
 			AND GRADE_NO = 6 
 		</if>
+		<if test='query != null'>
+			AND MEMBER_NAME LIKE '%${query}%'
+		</if>
+		ORDER BY GRADE_NO
 	</select>
 
+	<select id="getListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM "MEMBER"
+		WHERE MEMBER_DEL_FL = 'N'
+		<if test='grade == 1'>
+			<![CDATA[ AND GRADE_NO < 6 ]]>
+		</if>
+		<if test='grade == 2'>
+			AND GRADE_NO = 6 
+		</if>
+		<if test='query != null'>
+			AND MEMBER_NAME LIKE '%${query}%'
+		</if>
+	</select>
 </mapper>

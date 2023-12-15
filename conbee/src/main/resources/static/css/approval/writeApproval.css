@@ -222,8 +222,9 @@
 
 /* ======================= doc_order ======================== */
 .orderRow>td{
-  padding: 0;
+  padding: 4px;
   position: relative;
+  height: 33px;
 }
 .orderRow>td>input{
   width: 100%;
@@ -237,4 +238,19 @@
 }
 .zindex2000{
   z-index: 2000;
+}
+
+td{
+  vertical-align: middle;
+}
+
+
+
+/* ======================================= */
+.fileLabel:hover{
+  background-color: #6c757d;
+  cursor: pointer;
+}
+#fildTd > *{
+  cursor: pointer;
 }
