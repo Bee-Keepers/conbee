@@ -169,16 +169,18 @@ public interface ApprovalMapper {
 
 	/** 결재대기함
 	 * @param memberNo
+	 * @param rowBounds 
 	 * @return
 	 */
-	List<Approval> selectWaitApproval(int memberNo);
+	List<Approval> selectWaitApproval(int memberNo, RowBounds rowBounds);
 
 
 	/** 결재진행함 조회
 	 * @param memberNo
+	 * @param rowBounds 
 	 * @return
 	 */
-	List<Approval> selectProgressApproval(int memberNo);
+	List<Approval> selectProgressApproval(int memberNo, RowBounds rowBounds);
 
 
 	/** 완료문서함 조회(승인자 기준)
@@ -365,6 +367,16 @@ public interface ApprovalMapper {
 	 * @return
 	 */
 	int approvalDeleteScheduling(int approvalNo);
+
+	/** 결재대기함에 있는 모든 기안서의 갯수 조회
+	 * @return
+	 */
+	int getWaitApprovalListCount(int memberNo);
+
+	/** 결재진행함에 있는 모든 기안서의 갯수 조회
+	 * @return
+	 */
+	int getProgressApprovalListCount(int memberNo);
 
 
 

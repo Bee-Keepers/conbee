@@ -321,12 +321,15 @@ public class ApprovalController { // 전자결재 컨트롤러
 	* @author 예리나
 	*/
 	@GetMapping("waitApproval")
-	public String waitApproval(@SessionAttribute("loginMember") Member loginMember, Model model) {
+	public String waitApproval(@SessionAttribute("loginMember") Member loginMember, Model model,
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		
 		// 로그인한 멤버가 승인하지 않은 모든 결재문서 얻어오기
-		List<Approval> waitApprovalList = service.selectWaitApproval(loginMember.getMemberNo());
+//		List<Approval> waitApprovalList = service.selectWaitApproval(loginMember.getMemberNo());
+//		model.addAttribute("waitApprovalList", waitApprovalList);
 		
-		model.addAttribute("waitApprovalList", waitApprovalList);
+		Map<String, Object> map = service.selectWaitApproval(loginMember.getMemberNo(), cp);
+		model.addAttribute("map", map);
 		
 		return "approval/waitApproval";
 	}
@@ -459,15 +462,18 @@ public class ApprovalController { // 전자결재 컨트롤러
 	* @author 예리나
 	*/
 	@GetMapping("progressApproval")
-	public String progressApproval(@SessionAttribute("loginMember") Member loginMember, Model model) {
+	public String progressApproval(@SessionAttribute("loginMember") Member loginMember, Model model,
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		
 		// 로그인한 멤버가 승인한 모든 결재문서 얻어오기
-		List<Approval> progressApprovalList = service.selectProgressApproval(loginMember.getMemberNo());
+		Map<String, Object> map = service.selectProgressApproval(loginMember.getMemberNo(), cp);
 		
-		model.addAttribute("progressApprovalList", progressApprovalList);
+		model.addAttribute("map", map);
 		
 		return "approval/progressApproval";
 	}
+	
+	
 	
 	// ============================== 완료 문서함 ==============================
 	

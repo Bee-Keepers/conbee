@@ -62,10 +62,12 @@ public class MainController {
 			} 
 			List<Stock> stockList = stockService.stockList(stock);
 			List<Revenue> revenueList = revenueService.revenueSearch(revenue);
-			List<Approval> waitApprovalList = approvalService.selectWaitApproval(loginMember.getMemberNo());
+			
+			int cp = 1; // 결재대기함 조회 용 cp
+			Map<String, Object> waitApprovalList = approvalService.selectWaitApproval(loginMember.getMemberNo(), cp);
 			Map<String, Object> map = boardService.selectBoardList(1, 1);
 			
-			model.addAttribute("waitApprovalList", waitApprovalList);
+			model.addAttribute("waitApprovalList", waitApprovalList.get("waitApprovalList"));
 			model.addAttribute("stockList", stockList);
 			model.addAttribute("revenueList", revenueList);
 			model.addAttribute("map", map);

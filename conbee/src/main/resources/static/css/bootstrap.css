@@ -12122,3 +12122,8 @@ font-family: 'NanumBarunGothic', sans-serif;
     display: none;
   }
 }
+
+/* 인쇄시 머릿말, 꼬릿말 삭제 */
+@page{
+  margin: 0;
+}

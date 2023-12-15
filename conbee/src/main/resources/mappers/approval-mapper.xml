@@ -747,6 +747,39 @@
 		WHERE APPROVAL_NO = ${approvalNo}
 	</update>
 	
+	<!--결재대기함에 있는 모든 기안서의 갯수 조회-->
+	<select id="getWaitApprovalListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM APPROVAL AL
+		JOIN APPROVER AR ON (AL.APPROVAL_NO = AR.APPROVAL_NO)
+		JOIN DOC_CATEGORY D ON (AL.DOC_CATEGORY_NO = D.DOC_CATEGORY_NO)
+		WHERE AR.MEMBER_NO = ${memberNo}
+		AND APPROVAL_DELETE = 0 <!--삭제되지 않은 문서-->
+		AND APPROVAL_CONDITION = 0 <!--결재중인 문서-->
+		AND AR.APPROVER_CONDITION = 0 <!--상급자(로그인멤버)가 미승인한 문서-->
+		AND AR.MEMBER_NO = (SELECT MEMBER_NO FROM ( <!-- 로그인멤버의 결재차례인 문서 -->
+		SELECT *
+		FROM APPROVER AR
+		WHERE AR.APPROVER_CONDITION = 0
+		AND AR.APPROVAL_NO = AL.APPROVAL_NO
+		ORDER BY AR.APPROVER_ORDER)
+		WHERE ROWNUM =1)
+	</select>
+	
+	<!--결재진행함에 있는 모든 기안서의 갯수 조회-->
+	<select id="getProgressApprovalListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM APPROVAL AL
+		JOIN APPROVER AR ON (AL.APPROVAL_NO = AR.APPROVAL_NO)
+		JOIN DOC_CATEGORY D ON (AL.DOC_CATEGORY_NO = D.DOC_CATEGORY_NO)
+		WHERE AR.MEMBER_NO = ${memberNo} <!--상급자(로그인멤버)의 회원번호-->
+		AND APPROVAL_DELETE = 0 <!--삭제되지 않은 문서-->
+		AND APPROVAL_CONDITION = 0 <!--결재중인 문서-->
+		AND AR.APPROVER_CONDITION = 1 <!--상급자(로그인멤버)가 승인한 문서-->
+		ORDER BY APPROVAL_DATE DESC
+	</select>
+	
+	
 
 </mapper>
 
