@@ -6,19 +6,22 @@ const approvalOne = document.querySelectorAll(".approvalOne").forEach(function(o
   one.addEventListener("click",function(){
 
     /* 폼 내용 초기화, 결재라인 초기화 */
-    const docHolidayForm = document.getElementById("docHoliday");
-    const docRetirementForm = document.getElementById("docRetirement");
-    const docStoreForm = document.getElementById("docStore");
-    const docExpenseForm = document.getElementById("docExpense");
-    const docOrderForm = document.getElementById("docOrder");
+    const formIds = ["docHoliday", "docRetirement", "docStore", "docExpense", "docOrder"];
 
-    docHolidayForm.reset();
-    docRetirementForm.reset();
-    docStoreForm.reset();
-    docExpenseForm.reset();
-    docOrderForm.reset();
+    formIds.forEach(formId => {
+      const form = document.getElementById(formId);
+      form.reset();
+    });
+
     block3s.forEach((block3) => {block3.innerHTML = ""});
 
+    /* 파일 td 초기화 */
+    // const fileTds=["docHolidayFileTd", "docRetirementFileTd", "docStoreFileTd", "docExpenseFileTd"];
+    // fileTds.forEach(fileTd =>{
+    //   const file = document.getElementById(fileTd);
+    //   file.innerHTML='';
+
+    // // });
 
     /* 기안문 정보 가져오기 */
     fetch("/approval/writeApproval/selectInfo")
@@ -61,11 +64,25 @@ const approvalOne = document.querySelectorAll(".approvalOne").forEach(function(o
           document.getElementById("docHolidayText").value=map.tempApproval.approvalContent;
           addTempCount("docHolidayText");
 
-          // 파일
-          if(map.tempApproval.approvalFileOriginName!=null){
-            const fileRoute = map.tempApproval.approvalFileRoute + map.tempApproval.approvalFileReName;
-            document.getElementById("docHolidayFile").setAttribute("src",map.tempApproval.approvalFileRename);
-          }
+          // // 파일
+          // const fileTd = document.getElementById("docHolidayFileTd");
+          // document.getElementById("docHolidayFile").setAttribute("style","display:none;");
+          // const fileLabel = document.createElement("label");
+          // const fileSpan = document.createElement("span");
+          // if(map.tempApproval.approvalFileOriginName!=null){
+          //   fileSpan.innerText=map.tempApproval.approvalFileOriginName;
+          // }
+
+          // fileLabel.classList.add("fileLabel");
+          // fileLabel.innerText="파일 선택";
+          // fileLabel.style.backgroundColor='#efefef';
+          // fileLabel.style.border='1px solid #767676';
+          // fileLabel.style.padding='3px 5px';
+          // fileLabel.style.borderRadius='3px';
+          // fileLabel.setAttribute("for","docHolidayFile");
+          // fileSpan.style.padding='3px 5px';
+          // fileTd.append(fileLabel,fileSpan);
+
 
           // 휴가시작일, 휴가종료일
           if(map.tempApproval.docHolidayStart!=null){

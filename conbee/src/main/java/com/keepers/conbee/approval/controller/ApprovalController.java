@@ -75,9 +75,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 	
 	
 	@PostMapping("tempSave/{doc}")
-	public String updateApproval() {
-		
-		
+	public String updateApproval(@PathVariable("doc") String doc) {
 		
 		return null;
 	}
@@ -166,7 +164,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 	public String insertApproval(@PathVariable("doc") String doc,
 							@RequestParam("approvalCondition") int approvalCondition,
 							@SessionAttribute("loginMember") Member loginMember, 
-							@RequestParam(value="approval", required=false) Approval approval, 
+							Approval approval, 
 							CommandDTO command,
 							@RequestParam(value="approverMemNo", required=false) List<Integer> approverMemNo,
 							@RequestParam(value="approvalFile", required=false) MultipartFile approvalFile,
@@ -297,9 +295,12 @@ public class ApprovalController { // 전자결재 컨트롤러
 	 * @return
 	 */
 	@GetMapping("reclaim")
-	public String reclaimApproval(int approvalNo, RedirectAttributes ra) {
+	public String reclaimApproval(@SessionAttribute("loginMember") Member loginMember,@RequestParam("approvalNo") int approvalNo, RedirectAttributes ra) {
 		
-		int result = service.reclaimApproval(approvalNo);
+		log.debug(approvalNo + "----");
+		log.debug(loginMember.getMemberNo()+"----");
+		
+		int result = service.reclaimApproval(loginMember.getMemberNo(), approvalNo);
 		
 		if(result > 0) {
 			ra.addFlashAttribute("message", "문서가 회수되었습니다.");			
@@ -318,12 +319,15 @@ public class ApprovalController { // 전자결재 컨트롤러
 	* @author 예리나
 	*/
 	@GetMapping("waitApproval")
-	public String waitApproval(@SessionAttribute("loginMember") Member loginMember, Model model) {
+	public String waitApproval(@SessionAttribute("loginMember") Member loginMember, Model model,
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		
 		// 로그인한 멤버가 승인하지 않은 모든 결재문서 얻어오기
-		List<Approval> waitApprovalList = service.selectWaitApproval(loginMember.getMemberNo());
+//		List<Approval> waitApprovalList = service.selectWaitApproval(loginMember.getMemberNo());
+//		model.addAttribute("waitApprovalList", waitApprovalList);
 		
-		model.addAttribute("waitApprovalList", waitApprovalList);
+		Map<String, Object> map = service.selectWaitApproval(loginMember.getMemberNo(), cp);
+		model.addAttribute("map", map);
 		
 		return "approval/waitApproval";
 	}
@@ -456,15 +460,18 @@ public class ApprovalController { // 전자결재 컨트롤러
 	* @author 예리나
 	*/
 	@GetMapping("progressApproval")
-	public String progressApproval(@SessionAttribute("loginMember") Member loginMember, Model model) {
+	public String progressApproval(@SessionAttribute("loginMember") Member loginMember, Model model,
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		
 		// 로그인한 멤버가 승인한 모든 결재문서 얻어오기
-		List<Approval> progressApprovalList = service.selectProgressApproval(loginMember.getMemberNo());
+		Map<String, Object> map = service.selectProgressApproval(loginMember.getMemberNo(), cp);
 		
-		model.addAttribute("progressApprovalList", progressApprovalList);
+		model.addAttribute("map", map);
 		
 		return "approval/progressApproval";
 	}
+	
+	
 	
 	// ============================== 완료 문서함 ==============================
 	
@@ -506,6 +513,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 	
 	
 	/** 반려문서함에서 삭제버튼 클릭 시 기안서 삭제
+	 * @author 이예리나
 	 * @param approvalNo
 	 * @param ra
 	 * @return
@@ -527,6 +535,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 	
 	
 	/** 반려취소
+	 * @author 이예리나
 	 * @param loginMember
 	 * @param approvalNo
 	 * @param ra
@@ -549,6 +558,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 
 	
 	/** 반려사유 조회
+	 * @author 이예리나
 	 * @param approvalNo
 	 * @return
 	 */

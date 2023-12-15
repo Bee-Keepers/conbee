@@ -1,31 +1,3 @@
-const storeNoSelect = document.getElementById("storeNoSelect");
-const storeSearch = document.getElementById("storeSearch");
-// 지점 이름으로 검색
-storeSearch.addEventListener("change", e=>{
-
-const storeSearch = document.getElementById("storeSearch");
-const storeSelect = document.getElementById("storeSelect");
-// 지점 이름으로 검색
-storeSearch.addEventListener("change", e=>{
-    fetch("/revenueManage/storeSearch?inputStoreName=" + e.target.value)
-    .then(resp=>resp.json())
-    .then(list=>{
-        storeSelect.innerHTML = "";
-        console.log(list);
-        if(list.length == 0){
-            storeSelect.innerText = "검색된 지점이 없습니다.";
-        } else{
-            for(let opt of list){
-                const option = document.createElement("option");
-                option.value = opt.storeNo;
-                option.innerText = opt.storeName;
-                storeSelect.append(option);
-            }
-        }
-    })
-    .catch(e=>console.log(e));
-});
-
 const url = new URL(location.href);
 const urlParams = url.searchParams;
 const options = document.querySelectorAll("#storeNoSelect>option");
@@ -41,6 +13,7 @@ const lcategoryName = document.getElementById("lcategoryName");
 const scategoryName = document.getElementById("scategoryName");
 const serachName = document.getElementById("serachName");
 const goodsNameList = document.getElementById("goodsNameList");
+const goodsPrice = document.getElementById("goodsPrice");
 // 등록 시 상품명 입력하면 대분류, 소분류 자동입력
 serachName.addEventListener("input", e=>{
   const inputValue = e.target.value.trim();
@@ -69,6 +42,7 @@ serachName.addEventListener("input", e=>{
           goodsNameList.innerHTML = ""; // 자동완성 목록 초기화 또는 숨김 처리
           lcategoryName.value = item.lcategoryName;
           scategoryName.value = item.scategoryName;
+          goodsPrice.value = item.goodsPrice;
           // 선택된 항목에 대한 추가 동작 수행
           // 예: 선택한 상품명에 대한 추가 정보 로드 등
         });
@@ -186,7 +160,7 @@ stockUpdateBtn.addEventListener("click", () => {
   document.getElementById("goodsName").value = row.children[2].innerText;
   document.getElementById("lcategoryNameUpdate").value = row.children[3].innerText;
   document.getElementById("scategoryNameUpdate").value = row.children[4].innerText;
-  document.getElementById("stockInPrice").value = row.children[6].innerText;
+  document.getElementById("stockInPriceUpdate").value = row.children[6].innerText;
   document.getElementById("stockOutPriceUpdate").value = row.children[7].innerText;
   document.getElementById("stockDiscountUpdate").value = row.children[9].innerText;
   document.getElementById("storeNoUpdate").value = row.children[11].innerText;
@@ -229,4 +203,10 @@ const stockInertReset = document.getElementById("stockInertReset");
 /* 등록 초기화 버튼 클릭 시 데이터 초기화 */
 stockInertReset.addEventListener("click", () => {
   document.getElementById("stockInertForm").reset();
+});
+
+const stockSearchReset = document.getElementById("stockSearchReset");
+/* 등록 초기화 버튼 클릭 시 데이터 초기화 */
+stockSearchReset.addEventListener("click", ()=>{
+  document.getElementById("stockSearchForm").reset();
 });

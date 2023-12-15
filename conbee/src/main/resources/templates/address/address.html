@@ -8,8 +8,15 @@
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
+<style>
+  .form-control {
+      width: 70%;
+      margin: 5px; /* 입력란의 폭을 50%로 설정 */
+  }
+</style>
 
-<body class="d-flex flex-column" style="height: 100vh;">
+
+<body class="d-flex flex-column" style="height: 100vh;" th:with="pagination = ${map.pagination}, memberList = ${map.memberList}">
 
   <th:block th:replace="~{common/header}"></th:block>
 
@@ -20,51 +27,96 @@
     <div class="d-flex flex-column flex-grow-1 align-items-center p-3 overflow-y-auto">
       <div class="d-flex justify-content-between align-items-center w-100 border-bottom">
         <div class="fs-2 pb-3 px-3">주소록</div>
-        
+
         <!-- 검색창 -->
-        <div class="fs-4 w-25 pb-3 px-3 input-group">
-          <input type="text" class="form-control" placeholder="검색어를 입력해주세요" 
-                aria-label="Recipient's username" aria-describedby="button-addon2">
-          <button class="btn btn-outline-secondary" type="button" id="button-addon2">검색</button>
+        <div class="w-25 input-group">
+          <input type="text" class="form-control" id="addressName" placeholder="이름을 입력해주세요">
+          <button class="btn btn-warning" type="button" id="addressNameBtn">검색</button>
+        </div>
+        
+      </div>
+
+ 
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">상세조회</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+            <!-- 주소록 상세조회 -->
+              <form action="address" method="POST" name="addressFrm" id="addressFrm" enctype="multipart/form-data" th:object="${session.loginMember}">
+                <div class="mb-3 mt-3">
+                  <label for="memberNo" class="form-label p-2">회원번호</label>
+                   <input type="text" class="form-control" id="memberNo" name="memberNo" th:placeholder="*{memberNo}"
+                    disabled>
+                </div>
+
+                <div class="mb-3 mt-3">
+                  <label for="profile" class="form-label p-2">프로필</label>
+                  <input type="profile" class="form-control" id="profile" name="profile" th:placeholder="*{memberProfile}"
+                  disabled>
+                </div>
+
+
+                <div class="mb-3 mt-3">
+                  <label for="name" class="form-label p-2">이름</label> 
+                  <input type="text" class="form-control" id="name" name="name" th:placeholder="*{memberName}"
+                  disabled>
+                </div>
+
+                
+                <div class="mb-3 mt-3">
+                  <label for="department" class="form-label p-2">부서</label>
+                  <input type="text" class="form-control" id="department" name="department" th:placeholder="*{departmentNo}"
+                  disabled>
+                </div>
+
+
+                <div class="mb-3 mt-3">
+                  <label for="team" class="form-label p-2">팀</label>
+                  <input type="text" class="form-control" id="team" name="team" th:placeholder="*{teamNo}"
+                  disabled>
+                </div>
+
+
+                <div class="mb-3 mt-3">
+                  <label for="grade" class="form-label p-2">직급</label> 
+                  <input type="text" class="form-control" id="grade" name="grade" th:placeholder="*{gradeNo}"
+                    disabled>
+                </div>
+
+                <div class="mb-3 mt-3">
+                  <label for="tel" class="form-label p-3">전화번호</label>
+                  <input type="text" class="form-control" id="tel" name="tel" th:placeholder="*{memberTel}"
+                  disabled>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
         </div>
       </div>
 
-    
-
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">상세조회</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            
-            
-
-
-
-
-
-
-
-
-
-
-
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- <div class="d-flex flex-column flex-grow-1   p-3"> -->
-
-     
-
-      
+      <!-- <div class="d-flex flex-column flex-grow-1   p-3"> -->
 
 
       <!-- <div class="d-flex w-100 px-5 pt-3 flex-grow-1 overflow-y-auto"> -->
@@ -92,7 +144,7 @@
               <th>팀</th>
               <th>직급</th>
               <th>전화번호</th>
-                <th>조회</th>
+              <th>조회</th>
             </tr>
           </thead>
           <tbody class="table-group-divider">
@@ -115,19 +167,107 @@
                 </button></td>
             </tr>
 
-            
+
 
           </tbody>
         </table>
       </div>
 
-    <!-- </div> -->
+      <!-- ======== 페이지네이션 : 일반 조회 =========== -->
+      <ul class="pagination" th:if="${query == null}">
+        <!-- 첫 페이지로 이동 -->
+        <li class="page-item">
+          <a class="page-link" aria-label="First" th:href="@{/address(grade=${grade}, cp=1)}">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+
+        <!-- 이전 목록 마지막 번호로 이동 -->
+        <li class="page-item">
+          <a class="page-link" aria-label="Previous" th:href="@{/address(grade=${grade}, cp=${pagination.prevPage})}">
+            <span aria-hidden="true">&lt;</span>
+          </a>
+        </li>
+
+        <!-- 특정 페이지로 이동 -->
+        <th:block th:each="i : ${#numbers.sequence(pagination.startPage, pagination.endPage, 1)}" th:object="${member}">
+
+          <!-- 현재 보고있는 페이지 -->
+          <li th:if="${i == pagination.currentPage}" class="page-item">
+            <a class="current page-link" th:text="${i}">1</a>
+          </li>
+
+          <!-- 보고있지 않은 페이지 -->
+          <li th:unless="${i == pagination.currentPage}" class="page-item">
+            <a class="page-link" th:href="@{/address(grade=${grade}, cp=${i})}" th:text="${i}">2</a>
+          </li>
+        </th:block>
+
+        <!-- 다음 목록 시작 번호로 이동 -->
+        <li class="page-item">
+          <a class="page-link" aria-label="Next" th:href="@{/address(grade=${grade}, cp=${pagination.nextPage})}">
+            <span aria-hidden="true">&gt</span>
+          </a>
+        </li>
+
+        <li class="page-item">
+          <a class="page-link" aria-label="End" th:href="@{/address(grade=${grade}, cp=${pagination.maxPage})}">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- ======== 페이지네이션 : 검색 조회 =========== -->
+      <ul class="pagination" th:unless="${query == null}">
+        <!-- 첫 페이지로 이동 -->
+        <li class="page-item">
+          <a class="page-link" aria-label="First" th:href="@{/address(query=${query}, grade=${grade}, cp=1)}">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+
+        <!-- 이전 목록 마지막 번호로 이동 -->
+        <li class="page-item">
+          <a class="page-link" aria-label="Previous" th:href="@{/address(query=${query}, grade=${grade}, cp=${pagination.prevPage})}">
+            <span aria-hidden="true">&lt;</span>
+          </a>
+        </li>
+
+        <!-- 특정 페이지로 이동 -->
+        <th:block th:each="i : ${#numbers.sequence(pagination.startPage, pagination.endPage, 1)}" th:object="${member}">
+
+          <!-- 현재 보고있는 페이지 -->
+          <li th:if="${i == pagination.currentPage}" class="page-item">
+            <a class="current page-link" th:text="${i}">1</a>
+          </li>
+
+          <!-- 보고있지 않은 페이지 -->
+          <li th:unless="${i == pagination.currentPage}" class="page-item">
+            <a class="page-link" th:href="@{/address(query=${query}, grade=${grade}, cp=${i})}" th:text="${i}">2</a>
+          </li>
+        </th:block>
+
+        <!-- 다음 목록 시작 번호로 이동 -->
+        <li class="page-item">
+          <a class="page-link" aria-label="Next" th:href="@{/address(query=${query}, grade=${grade}, cp=${pagination.nextPage})}">
+            <span aria-hidden="true">&gt</span>
+          </a>
+        </li>
+
+        <li class="page-item">
+          <a class="page-link" aria-label="End" th:href="@{/address(query=${query}, grade=${grade}, cp=${pagination.maxPage})}">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- </div> -->
 
   </main>
 
 
   <script src="/js/bootstrap.bundle.min.js"></script>
-  <script src="/js/address.js"></script>
+  <script src="/js/address/address.js"></script>
 </body>
 
 </html>

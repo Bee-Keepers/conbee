@@ -274,4 +274,16 @@ public class StockManageController {
 		return "stock/stockManage/updatePrice";
 	}
 	
+	/** 본사 재고 검색
+	 * @param stock
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("stockListSearch")
+	public String stockListSearch( Stock stock, Model model) {
+		List<Stock> stockList = service.stockListSearch(stock);
+		model.addAttribute("stockListSelect", stockList);
+		return "stock/stockManage/stockList";
+	}
+	
 }
