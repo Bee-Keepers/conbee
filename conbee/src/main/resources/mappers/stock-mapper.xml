@@ -83,7 +83,7 @@
 			#{stockAmount},
 			#{stockDiscount},
 			#{stockOutPrice},
-			#{stockInPrice})
+			#{goodsPrice})
 	</insert>
 	
 	<!-- 발주 자동 완성 검색 기능-->
