@@ -94,11 +94,14 @@ public class ApprovalServiceImpl implements ApprovalService{
 //		log.debug(tempApproval+"==="); // 각 컬럼이 null이면 걍 null이 되는 것 같음. 컬럼값이 있는 건 잘 받아옴
 		
 		// 2. 결재자 리스트
-		List<Approver> tempApprover = mapper.selectTempAppover(approvalNo);
+		List<Approver> tempApprover = mapper.selectTempApprover(approvalNo);
 		tempData.put("tempApprover", tempApprover);
 
 		return tempData;
 	}
+	
+	
+
 	
 	
 	// 기안문 작성자 정보 조회
@@ -248,7 +251,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 		requestData.put("requestApproval", requestApproval);
 		
 		// 2. 결재자 리스트
-		List<Approver> requestApprover = mapper.selectRequestAppover(approvalNo);
+		List<Approver> requestApprover = mapper.selectRequestApprover(approvalNo);
 		requestData.put("requestApprover", requestApprover);
 		
 		
