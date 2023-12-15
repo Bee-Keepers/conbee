@@ -1,25 +1,29 @@
 package com.keepers.conbee.board.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.multipart.MultipartRequest;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.board.model.dto.Board;
 import com.keepers.conbee.board.model.service.BoardService;
 import com.keepers.conbee.board.model.service.EditBoardService;
+import com.keepers.conbee.common.utility.Util;
 import com.keepers.conbee.member.model.dto.Member;
 
 import lombok.RequiredArgsConstructor;
@@ -30,12 +34,18 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("board")
 @SessionAttributes({"loginMember"})
 @RequiredArgsConstructor
+@PropertySource("classpath:./config.properties")
 public class EditBoardController {
 	
 	private final EditBoardService service;
-	
 	private final BoardService boardService; // 게시글 수정 시 상세조회 호출용
+
 	
+	@Value("${my.board.location}")
+	private String folderPath;
+	
+	@Value("${my.board.webpath}")
+	private String webpath;
 
 	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
 	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡ 1. 게시글 작성 ㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/	
@@ -61,11 +71,9 @@ public class EditBoardController {
 	public String boardWrite( Board board, 
 		@PathVariable("boardCodeNo") int boardCodeNo,
 		@SessionAttribute("loginMember") Member loginMember,
-		RedirectAttributes ra
-		) {
+		RedirectAttributes ra) {
 		board.setMemberNo(loginMember.getMemberNo());
 		board.setBoardCodeNo(boardCodeNo);
-		
 		
 		int result = service.boardWrite(board);
 		
@@ -75,7 +83,27 @@ public class EditBoardController {
 	}
 	
 	
-	
+	/** ck에디터 사진 추가 구문
+	 * @param file
+	 * @return
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 */
+	@PostMapping(value="uploardImage", produces = "application/json")
+	@ResponseBody
+	public Map<String, Object> uploardImage(@RequestParam("upload") MultipartFile file) throws IllegalStateException, IOException{
+		
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		String rename = Util.fileRename(file.getOriginalFilename());
+		
+		file.transferTo(new File(folderPath + rename));
+		
+		map.put("url", webpath + rename);
+		
+		return map;
+	}
 	
 	
 	

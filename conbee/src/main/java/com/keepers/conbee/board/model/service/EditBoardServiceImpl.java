@@ -1,20 +1,20 @@
 package com.keepers.conbee.board.model.service;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.keepers.conbee.board.model.dto.Board;
 import com.keepers.conbee.board.model.mapper.BoardMapper;
 import com.keepers.conbee.board.model.mapper.EditBoardMapper;
 
+//import edu.kh.project.board.model.exception.BoardWriteException;
+//import edu.kh.project.common.utility.Util;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -25,7 +25,6 @@ public class EditBoardServiceImpl implements EditBoardService{
 	private final EditBoardMapper mapper;
 	private final BoardMapper boardMapper;
 	
-	// 게시글 작성
 	@Override
 	public int boardWrite(Board board)  {
 		return mapper.boardWrite(board);
@@ -44,6 +43,7 @@ public class EditBoardServiceImpl implements EditBoardService{
 	}
 	
 	
+	// 게시글 수정
 	@Override
 	public int updateBoard(Board board) throws IllegalStateException, IOException {
 		
