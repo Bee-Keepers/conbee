@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Value;
@@ -348,18 +350,58 @@ public class ApprovalServiceImpl implements ApprovalService{
 	 *
 	 */
 	@Override
-	public List<Approval> selectCompleteApproval(int memberNo) {
+	public Map<String, Object> selectCompleteApproval(int memberNo, int cp) {
 		
 		// 1) 결재승인권한자가 조회하는 완료문서 리스트
-		List<Approval> completeApprovalListByApprover = mapper.selectCompleteApprovalApprover(memberNo);
+//		List<Approval> completeApprovalListByApprover = mapper.selectCompleteApprovalApprover(memberNo);
 		
 		// 2) 기안자가 조회하는 결재완료문서 리스트
-		List<Approval> completeApprovalListByDrafter = mapper.selectCompleteApprovalDrafter(memberNo);
+//		List<Approval> completeApprovalListByDrafter = mapper.selectCompleteApprovalDrafter(memberNo);
+		
+		// 리스트 합치기
+//		completeApprovalListByApprover.addAll(completeApprovalListByDrafter);
+
+
+		// 1) 결재승인권한자가 조회하는 완료문서 리스트 갯수 조회
+		int listCount = mapper.getCompleteApprovalApproverListCount(memberNo);
+		
+		// 2) 기안자가 조회하는 결재완료문서 리스트 갯수 조회
+		int listCount2 = mapper.getCompleteApprovalDrafterListCount(memberNo);
+		
+		listCount += listCount2; // 총 결재완료 문서 갯수
+		
+		/* cp, listCount를 이용해 Pagination 객체 생성*/
+		Pagination10 pagination = new Pagination10(cp, listCount);
+		
+		// RowBounds 객체 생성
+		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
+		
+		int limit = pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		
+		// 마이바티스 호출
+		
+		// 1) 결재승인권한자가 조회하는 완료문서 리스트
+		List<Approval> completeApprovalListByApprover = mapper.selectCompleteApprovalApprover(memberNo, rowBounds);
+		
+		// 2) 기안자가 조회하는 결재완료문서 리스트
+		List<Approval> completeApprovalListByDrafter = mapper.selectCompleteApprovalDrafter(memberNo, rowBounds);
 		
 		// 리스트 합치기
 		completeApprovalListByApprover.addAll(completeApprovalListByDrafter);
 		
-		return completeApprovalListByApprover;
+		// 중복 제거하기
+		Set<Approval> set = new HashSet<>(completeApprovalListByApprover);
+		List<Approval> completeApprovalList = new ArrayList<Approval>(set);
+		
+		// Map에 담아 반환
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("completeApprovalList", completeApprovalList);
+		
+		return map;
 	}
 	
 	

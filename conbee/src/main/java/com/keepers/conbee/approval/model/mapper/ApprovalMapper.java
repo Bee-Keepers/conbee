@@ -185,16 +185,18 @@ public interface ApprovalMapper {
 
 	/** 완료문서함 조회(승인자 기준)
 	 * @param memberNo
+	 * @param rowBounds 
 	 * @return
 	 */
-	List<Approval> selectCompleteApprovalApprover(int memberNo);
+	List<Approval> selectCompleteApprovalApprover(int memberNo, RowBounds rowBounds);
 
 
 	/** 완료문서함 조회(기안자 기준)
 	 * @param memberNo
+	 * @param rowBounds 
 	 * @return
 	 */
-	List<Approval> selectCompleteApprovalDrafter(int memberNo);
+	List<Approval> selectCompleteApprovalDrafter(int memberNo, RowBounds rowBounds);
 
 
 	/** 반려문서함 조회(승인자 기준)
@@ -377,6 +379,18 @@ public interface ApprovalMapper {
 	 * @return
 	 */
 	int getProgressApprovalListCount(int memberNo);
+
+	/** 결재승인권한자가 조회하는 완료문서 리스트 갯수 조회
+	 * @param memberNo
+	 * @return
+	 */
+	int getCompleteApprovalApproverListCount(int memberNo);
+
+	/** 기안자가 조회하는 결재완료문서 리스트 갯수 조회
+	 * @param memberNo
+	 * @return
+	 */
+	int getCompleteApprovalDrafterListCount(int memberNo);
 
 
 

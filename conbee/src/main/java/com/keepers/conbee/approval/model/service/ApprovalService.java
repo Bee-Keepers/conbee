@@ -119,9 +119,10 @@ public interface ApprovalService {
 
 	/** 완료문서함 조회
 	 * @param memberNo
+	 * @param cp 
 	 * @return
 	 */
-	List<Approval> selectCompleteApproval(int memberNo);
+	Map<String, Object> selectCompleteApproval(int memberNo, int cp);
 
 	/** 반려문서함 조회
 	 * @param memberNo
