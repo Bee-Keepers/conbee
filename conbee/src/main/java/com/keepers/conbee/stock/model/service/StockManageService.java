@@ -20,10 +20,9 @@ public interface StockManageService {
 	int goodsUpdate(Stock stock);
 
 	/** 상품 조회
-	 * @param paramMap
 	 * @return
 	 */
-	Map<String, Object> goodsList(Map<String, Object> paramMap);
+	List<Stock> goodsList(int cp);
 
 	/** 상품 등록
 	 * @param stock

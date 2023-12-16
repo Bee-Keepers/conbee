@@ -127,7 +127,7 @@
           <!-- 테이블 내용 -->
           <tbody id="tableTbody" class="text-center">
             <tr th:if="${#lists.size(orderList) == 0}">
-              <td colspan="2">결과가 없습니다</td>
+              <td colspan="2">결과가 없습니다 상세 검색을 이용해주세요</td>
             </tr>
             <tr th:each="order : ${orderList}">
               <td th:text="${order}">발주 날짜</td>

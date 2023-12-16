@@ -37,9 +37,9 @@ public class RevenueManageController {
 	
 	@GetMapping("history")
 	public String historyPage(Model model, Revenue revenue) {
-		
+		String storeName = service.storeName(revenue.getStoreNo());
 		List<Revenue> historyList = service.historySearch(revenue);
-		
+		model.addAttribute("storeName", storeName);
 		model.addAttribute("startDate", revenue.getStartDate());
 		model.addAttribute("endDate", revenue.getEndDate());
 		model.addAttribute("historyList", historyList);

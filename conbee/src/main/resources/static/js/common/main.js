@@ -9,7 +9,7 @@ function revenueSumFn(revenueList){
     }
   }
   
-  revenueSum.innerText = '합계 : ' + temp;
+  revenueSum.innerText = '합계 : ' + temp.toLocaleString("ko-KR");
 };
 
 revenueSumFn(revenueList);

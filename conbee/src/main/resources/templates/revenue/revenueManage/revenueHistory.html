@@ -149,11 +149,11 @@
                 <td th:text="*{historyGoodsName}">울트라 스킨</td>
                 <td th:text="*{lcategoryName}">신변잡화</td>
                 <td th:text="*{scategoryName}">화장품</td>
-                <td th:text="*{historyUnitPrice}">20000</td>
+                <td th:text="*{#numbers.formatInteger(historyUnitPrice, 0, 'COMMA')}">20000</td>
                 <td th:text="*{historyDiscount}">10</td>
-                <td th:text="*{historyActualPrice}">30000</td>
+                <td th:text="*{#numbers.formatInteger(historyActualPrice, 0, 'COMMA')}">30000</td>
                 <td th:text="*{historyAmount}">30000</td>
-                <td th:text="*{totalPrice}">30000</td>
+                <td th:text="*{#numbers.formatInteger(totalPrice, 0, 'COMMA')}">30000</td>
                 <td th:text="*{historyDate}">2023-12-02 15:48:23</td>
               </tr>
             </th:block>

@@ -96,19 +96,6 @@
     <div class="d-flex flex-column flex-grow-1 align-items-center p-3">
       <div class="d-flex justify-content-between align-items-center w-100 border-bottom">
         <div class="fs-3 pb-3 px-3">입출고 내역</div>
-        <!-- 검색창 -->
-        <!-- <div class="d-flex h-50" id="sandbox-container">
-          <div class="input-group input-daterange d-flex align-items-center">
-            <div class="input-group-addon">시작</div>
-            <input type="text" class="form-control rounded">
-            <div class="input-group-addon">종료</div>
-            <input type="text" class="form-control rounded">
-          </div>
-          <div class="d-flex">
-            <input type="text" class="form-control" placeholder="검색어를 입력해주세요">
-            <button class="btn btn-warning" type="button">검색</button>
-          </div>
-        </div> -->
         <div class="d-flex align-items-center">
           <div class="me-3">
             <span id="startDate" th:text="${startDate}"></span>
@@ -159,11 +146,11 @@
               <td th:text="*{historyGoodsName}">울트라 스킨</td>
               <td th:text="*{lcategoryName}">신변잡화</td>
               <td th:text="*{scategoryName}">화장품</td>
-              <td th:text="*{historyUnitPrice}">20000</td>
+              <td th:text="*{#numbers.formatInteger(historyUnitPrice , 0, 'COMMA')}">20000</td>
               <td th:text="*{historyDiscount}">10</td>
-              <td th:text="*{historyActualPrice}">30000</td>
+              <td th:text="*{#numbers.formatInteger(historyActualPrice , 0, 'COMMA')}">30000</td>
               <td th:text="*{historyAmount}">30000</td>
-              <td th:text="*{totalPrice}">30000</td>
+              <td th:text="*{#numbers.formatInteger(totalPrice , 0, 'COMMA')}">30000</td>
               <td th:text="*{historyDate}">2023-12-02 15:48:23</td>
             </tr>
           </tbody>

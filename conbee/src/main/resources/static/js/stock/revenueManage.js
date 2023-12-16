@@ -99,7 +99,10 @@ let temp = 0;
 for(let totalPrices of totalPriceList){
    temp += parseInt(totalPrices.innerText);
 }
-totalPrice.innerText = temp;
+if(totalPrice != null){
+    totalPrice.innerText = temp;
+};
+
 
 // 검색한 날짜 저장
 const startDate = document.querySelector("input[name='startDate']");

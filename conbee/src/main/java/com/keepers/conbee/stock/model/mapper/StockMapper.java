@@ -176,4 +176,5 @@ public interface StockMapper {
 	 */
 	List<Stock> newGoodsThree();
 
+
 }
