@@ -17,7 +17,7 @@
 
   <th:block th:replace="~{common/header}"></th:block>
 
-  <main class="d-flex flex-grow-1">
+  <main class="d-flex flex-grow-1" th:with="pagination=${map.pagination}">
 
     <th:block th:replace="~{approval/sidebar}"></th:block>
 
@@ -52,13 +52,13 @@
           <tbody class="table-group-divider">
 
             <!-- 회수 문서가 없을 때 -->
-            <tr th:if="${#lists.size(reclaimApprovalList) == 0}">
+            <tr th:if="${#lists.size(map.reclaimApprovalList) == 0}">
               <th colspan="6" style="text-align: center;">회수한 문서가 없습니다.</th>
             </tr>
 
             <!-- 회수 문서가 존재할 때 -->
-            <th:block th:unless="${#lists.size(reclaimApprovalList) == 0}">
-              <tr th:each="approval : ${reclaimApprovalList}" th:object="${approval}" class="approvalOne"
+            <th:block th:unless="${#lists.size(map.reclaimApprovalList) == 0}">
+              <tr th:each="approval : ${map.reclaimApprovalList}" th:object="${approval}" class="approvalDoc"
               style="text-align: center;" data-bs-toggle="modal" 
               th:attr="data-one-id=${approval.approvalNo}, data-bs-target='#doc' + ${(approval.docCategoryNo == 0 ? 
                 1 : (approval.docCategoryNo == 1 ? 
@@ -73,9 +73,10 @@
                 <td th:text="*{approvalTitle}" style="text-align: start;">제목</td>
                 <td th:text="*{approvalDate}">회수 날짜</td>
                 <td>
-                  <button class="btn btn-outline-warning approvalOne" style="width: 90px;"
+                  <!-- 재작성 버튼 -->
+                  <button class="btn btn-outline-warning rewriteApproval" style="width: 90px;"
                   data-bs-toggle="modal" 
-                  th:attr="data-one-id=*{approvalNo}, data-bs-target='#writeDoc' + ${(approval.docCategoryNo == 0 ? 
+                  th:attr="data-one-id=*{approvalNo}, data-bs-target='#rewriteDoc' + ${(approval.docCategoryNo == 0 ? 
                     1 : (approval.docCategoryNo == 1 ? 
                     2 : (approval.docCategoryNo == 2 || approval.docCategoryNo == 3) ? 
                     3 : (approval.docCategoryNo == 4 ? 
@@ -92,12 +93,57 @@
         </table>
       </div>
 
-      
+      <!-- 페이지네이션 -->
+      <div class="w-100 sticky-bottom fixed-bottom bg-white pagination-area" th:if="${#lists.size(map.reclaimApprovalList) > 0}">
+        
+        <nav class="d-flex justify-content-center" style="color: #303841;">
+          
+          <ul class="pagination">
+            <!-- 첫 페이지로 이동 -->
+            <li class="page-item">
+              <a class="page-link" th:href="@{/approval/reclaimApproval(cp=1)}">
+                <span>&laquo;</span>
+              </a>
+            </li>
+            
+            <!-- 이전 목록 마지막 번호로 이동 -->
+            <li class="page-item">
+              <a class="page-link" th:href="@{/approval/reclaimApproval(cp=${pagination.prevPage})}">
+                <span>&lt;</span>
+              </a>
+            </li>
+            
+            <!-- 특정 페이지로 이동 -->
+            <th:block th:each="i : ${#numbers.sequence(pagination.startPage, pagination.endPage, 1)}">
+              
+              <!-- 현재 보고있는 페이지 -->
+              <li th:if="${i == pagination.currentPage}" class="page-item">
+                <a class="current page-link" th:text="${i}">1</a>
+              </li>
+              
+              <!-- 보고있지 않은 페이지 -->
+              <li th:unless="${i == pagination.currentPage}" class="page-item">
+                <a class="page-link" th:href="@{/approval/reclaimApproval(cp=${i})}" th:text="${i}">2</a>
+              </li>
+            </th:block>
+            
+            <!-- 다음 목록 시작 번호로 이동 -->
+            <li class="page-item">
+              <a class="page-link" href="#" th:href="@{/approval/reclaimApproval(cp=${pagination.nextPage})}">
+                <span>&gt</span>
+              </a>
+            </li>
+            
+            <li class="page-item">
+              <a class="page-link" href="#" th:href="@{/approval/reclaimApproval(cp=${pagination.maxPage})}">
+                <span>&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
     </div>
-
-
-
-
   </main>
 
   <!--================================================= 문서 템플릿 =================================================-->
@@ -201,9 +247,9 @@
   </div>
   <!-- ===================================================================================================================== -->  
 
-  <!-- ======================================================== 재작성 템플릿 ======================================== -->
+  <!--==================================================== 재작성 템플릿 ====================================================-->
   <!-- 5. 발주기안 -->
-  <div class="modal fade" id="writeDoc5" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+  <div class="modal fade" id="rewriteDoc5" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <!-- 모달 헤더 -->
@@ -218,17 +264,17 @@
         </div> 
         <!-- 모달 바디 -->
         <div class="modal-body" style="width: 1300px; overflow: hidden;">
-          <form class="d-flex flex-row" action="tempSave/docOrder" id="docOrder" method="POST" enctype="multipart/form-data">
+          <form class="d-flex flex-row" action="rewriteApproval/docOrder" id="docOrder" method="POST" enctype="multipart/form-data">
             <th:block th:replace="~{approval/approvalDoc/docOrder}"></th:block>
           </form>
         </div>
       </div>
     </div>
   </div>
-
-
+  
+  
   <!-- 4. 지출결의  -->
-  <div class="modal fade" id="writeDoc4" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+  <div class="modal fade" id="rewriteDoc4" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <!-- 모달 헤더 -->
@@ -243,17 +289,17 @@
         </div> 
         <!-- 모달 바디 -->
         <div class="modal-body" style="width: 1300px; overflow: hidden;">
-          <form class="d-flex flex-row" action="tempSave/docExpense" id="docExpense" method="POST" enctype="multipart/form-data">
+          <form class="d-flex flex-row" action="rewriteApproval/docExpense" id="docExpense" method="POST" enctype="multipart/form-data">
             <th:block th:replace="~{approval/approvalDoc/docExpense}"></th:block>
           </form>
         </div>
       </div>
     </div>
   </div>
-
-
+  
+  
   <!-- 3. 출점/폐점  -->
-  <div class="modal fade" id="writeDoc3" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+  <div class="modal fade" id="rewriteDoc3" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <!-- 모달 헤더 -->
@@ -271,17 +317,17 @@
         </div>
         <!-- 모달 바디 -->
         <div class="modal-body" style="width: 1300px; overflow: hidden;">
-          <form class="d-flex flex-row" action="tempSave/docStore" id="docStore" method="POST" enctype="multipart/form-data">
+          <form class="d-flex flex-row" action="rewriteApproval/docStore" id="docStore" method="POST" enctype="multipart/form-data">
             <th:block th:replace="~{approval/approvalDoc/docStore}"></th:block>
           </form>
         </div>
       </div>
     </div>
   </div>
-
-
+  
+  
   <!-- 2. 사직서 -->
-  <div class="modal fade" id="writeDoc2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+  <div class="modal fade" id="rewriteDoc2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <!-- 모달 헤더 -->
@@ -296,17 +342,17 @@
         </div>
         <!-- 모달 바디 -->
         <div class="modal-body" style="width: 1300px; overflow: hidden;">
-          <form class="d-flex flex-row" action="tempSave/docRetirement" id="docRetirement" method="POST" enctype="multipart/form-data">
+          <form class="d-flex flex-row" action="rewriteApproval/docRetirement" id="docRetirement" method="POST" enctype="multipart/form-data">
             <th:block th:replace="~{approval/approvalDoc/docRetirement}"></th:block>
           </form>
         </div>
       </div>
     </div>
   </div>
-
-
+  
+  
   <!-- 1. 휴가 신청서 -->
-  <div class="modal fade" id="writeDoc1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+  <div class="modal fade" id="rewriteDoc1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <!-- 모달 헤더 -->
@@ -321,14 +367,13 @@
         </div>
         <!-- 모달 바디 -->
         <div class="modal-body" style="width: 1300px; overflow: hidden;">
-          <form class="d-flex flex-row" action="tempSave/docHoliday" id="docHoliday" method="POST" enctype="multipart/form-data">
+          <form class="d-flex flex-row" action="rewriteApproval/docHoliday" id="docHoliday" method="POST" enctype="multipart/form-data">
             <th:block th:replace="~{approval/approvalDoc/docHoliday}"></th:block>
           </form>
         </div>
       </div>
     </div>
   </div>
-
   <!-- ===================================================================================================================== -->  
 
   <script src="/js/bootstrap.bundle.min.js"></script>

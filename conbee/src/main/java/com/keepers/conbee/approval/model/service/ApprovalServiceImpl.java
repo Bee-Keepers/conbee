@@ -56,7 +56,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		int listCount = mapper.searchTempSaveCount(memberNo);
 		
-		Pagination pagination = new Pagination(cp, listCount);
+		Pagination10 pagination = new Pagination10(cp, listCount);
 		
 		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
 		int limit = pagination.getLimit();
@@ -216,7 +216,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 		int listCount = mapper.searchRequestApprovalCount(memberNo);
 		
 		/* cp, listCount를 이용해 Pagination 객체 생성*/
-		Pagination pagination = new Pagination(cp, listCount);
+		Pagination10 pagination = new Pagination10(cp, listCount);
 		
 		// RowBounds 객체 생성
 		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
@@ -248,12 +248,19 @@ public class ApprovalServiceImpl implements ApprovalService{
 		case 0 : requestApproval = mapper.selectRequestHoliday(approvalNo); break; // 휴가
 		case 1 : requestApproval = mapper.selectRequestRetirement(approvalNo); break; // 퇴직
 		case 2,3 : requestApproval = mapper.selectRequestStore(approvalNo); break; // 점포
-		case 4 : requestApproval = mapper.selectRequestExpense(approvalNo); break; // 점포
-		// case 5 : 발주 추가
+		case 4 : requestApproval = mapper.selectRequestExpense(approvalNo); break; // 지출
+		case 5 : requestApproval = mapper.selectRequestOrder(approvalNo); break; // 발주
 		}
 		requestData.put("requestApproval", requestApproval);
 		
-		// 2. 결재자 리스트
+		// 2. 발주 데이터 넣기
+		List<Approval> orderList = new ArrayList<>();
+		if(docCategoryNo==5) {
+			orderList = mapper.selectRequestOrderList(approvalNo);
+		}
+		requestData.put("orderList", orderList);
+		
+		// 3. 결재자 리스트
 		List<Approver> requestApprover = mapper.selectRequestApprover(approvalNo);
 		requestData.put("requestApprover", requestApprover);
 		
@@ -265,8 +272,28 @@ public class ApprovalServiceImpl implements ApprovalService{
 	
 	// 회수문서함 조회
 	@Override
-	public List<Approval> selectReclaimApproval(int memberNo) {
-		return mapper.selectReclaimApproval(memberNo);
+	public Map<String, Object> selectReclaimApproval(int memberNo, int cp) {
+		
+	
+		int listCount = mapper.searchReclaimApprovalCount(memberNo);
+		
+		/* cp, listCount를 이용해 Pagination 객체 생성*/
+		Pagination pagination = new Pagination(cp, listCount);
+		
+		// RowBounds 객체 생성
+		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
+		
+		int limit = pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		List<Approval> reclaimApprovalList = mapper.selectReclaimApproval(memberNo, rowBounds);
+		
+		Map<String , Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("reclaimApprovalList",reclaimApprovalList);
+		
+		return map;
 	}
 
 	// 문서 회수하기

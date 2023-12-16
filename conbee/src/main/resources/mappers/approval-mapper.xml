@@ -264,8 +264,22 @@
 	</select>
 	
 	
+	<select id="selectRequestOrder" resultType="Approval">
+		SELECT APPROVAL_DOC_TITLE, TO_CHAR(APPROVAL_DATE, 'YYYY-MM-DD') APPROVAL_DATE
+		FROM "APPROVAL"
+		WHERE APPROVAL_NO=#{approvalNo}
+	</select>
+	
+	<select id="selectRequestOrderList" resultType="Approval">
+		SELECT GOODS_NO, DOC_ORDER_DATE, DOC_ORDER_GOODS_NAME, DOC_ORDER_AMOUNT, 
+				DOC_ORDER_UNIT_PRICE, DOC_ORDER_PRICE
+		FROM "DOC_ORDER"
+		WHERE APPROVAL_NO=#{approvalNo}
+		
+	</select>
+	
 	<select id="selectRequestApprover" resultType="Approver">
-		SELECT AR.MEMBER_NO, TO_CHAR(AR.APPROVER_DATE, 'YYYY-MM-DD') APPROVER_DATE, AR.APPROVER_ORDER,
+		SELECT AR.MEMBER_NO, TO_CHAR(AR.APPROVER_DATE, 'YYYY-MM-DD') APPROVER_DATE, AR.APPROVER_ORDER, AR.APPROVER_CONDITION,
 				(SELECT MEMBER_NAME FROM MEMBER M WHERE AR.MEMBER_NO = M.MEMBER_NO) 
 				MEMBER_NAME,
 				(SELECT GRADE_NAME FROM MEMBER M JOIN GRADE USING(GRADE_NO)
@@ -279,6 +293,15 @@
 		ORDER BY APPROVER_ORDER		
 	</select>
 	
+
+	<!-- 회수문서함 글 개수 조회 -->
+	<select id="searchReclaimApprovalCount">
+		SELECT COUNT(*)
+		FROM APPROVAL
+		WHERE MEMBER_NO=#{memberNo}
+		AND APPROVAL_DELETE=0
+		AND APPROVAL_CONDITION=2
+	</select>
 
 
 	<!-- 회수문서함 조회 -->

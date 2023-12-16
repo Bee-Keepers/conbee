@@ -135,26 +135,35 @@ public interface ApprovalMapper {
 	 * @param approvalNo
 	 * @return
 	 */
-	Approval selectRequestHoliday(int approvalNo);
+	Approval selectRequestHoliday(int approvalNo); // 휴가
 	
-
-	Approval selectRequestRetirement(int approvalNo);
+	Approval selectRequestRetirement(int approvalNo); // 사직
 	
-
-	Approval selectRequestStore(int approvalNo);
+	Approval selectRequestStore(int approvalNo); // 점포
 	
-
-	Approval selectRequestExpense(int approvalNo);
+	Approval selectRequestExpense(int approvalNo); // 지출
 	
-
-	List<Approver> selectRequestApprover(int approvalNo);
+	Approval selectRequestOrder(int approvalNo); // 발주
+	
+	List<Approval> selectRequestOrderList(int approvalNo); // 발주 목록
+	
+	List<Approver> selectRequestApprover(int approvalNo); // 결재자
+	
+	
+	
+	/** 회수문서함 글 개수 조회
+	 * @param memberNo
+	 * @return
+	 */
+	int searchReclaimApprovalCount(int memberNo);
 	
 	
 	/** 회수문서함 조회
 	 * @param memberNo
+	 * @param rowBounds 
 	 * @return approval list
 	 */
-	List<Approval> selectReclaimApproval(int memberNo);
+	List<Approval> selectReclaimApproval(int memberNo, RowBounds rowBounds);
 
 	/** 문서 회수하기
 	 * @param param 
@@ -391,6 +400,7 @@ public interface ApprovalMapper {
 	 * @return
 	 */
 	int getCompleteApprovalDrafterListCount(int memberNo);
+
 
 
 
