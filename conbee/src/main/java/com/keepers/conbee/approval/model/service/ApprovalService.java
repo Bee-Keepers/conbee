@@ -89,9 +89,10 @@ public interface ApprovalService {
 	
 	/** 회수문서함 조회
 	 * @param memberNo
+	 * @param cp 
 	 * @return approval list
 	 */
-	List<Approval> selectReclaimApproval(int memberNo);
+	Map<String, Object> selectReclaimApproval(int memberNo, int cp);
 	
 	
 	/** 문서 회수

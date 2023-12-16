@@ -278,11 +278,12 @@ public class ApprovalController { // 전자결재 컨트롤러
 	 * @author 유진
 	 */
 	@GetMapping("reclaimApproval")
-	public String selectReclaimApproval(@SessionAttribute("loginMember") Member loginMember, Model model) {
+	public String selectReclaimApproval(@SessionAttribute("loginMember") Member loginMember, Model model,
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		
-		List<Approval> reclaimApprovalList = service.selectReclaimApproval(loginMember.getMemberNo());
-		
-		model.addAttribute("reclaimApprovalList",reclaimApprovalList);
+		Map<String, Object> map = service.selectReclaimApproval(loginMember.getMemberNo(), cp);
+				
+		model.addAttribute("map",map);
 		
 		return "approval/reclaimApproval";
 	}

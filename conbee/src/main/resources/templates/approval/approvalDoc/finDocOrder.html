@@ -39,35 +39,58 @@
       </div>
 
       <!-- 승인 -->
+      <div class="tempApprov my-2 mx-3 px-2 d-flex">
+        <table class="table table-bordered" style="height:160px; border: black; text-align: center;">
+          <tr class="hTr1"></tr>
+          <tr class="hTr2"></tr>
+          <tr class="hTr3" style="font-size:10px;"></tr>
+        </table>
+      </div>
       
     </div>
 
+
     <!-- 본문 -->
-    <div class="tempContents my-2 mx-3 px-2">
+    <div class="tempContent my-2 mx-3 px-2">
       <table class="table table-bordered" style="width: 100%; border: black;">
+ 
+        <thead>
+          <colgroup>
+            <col width=15%>
+            <col width=30%>
+            <col width=10%>
+            <col width=15%>
+            <col width=15%>
+          </colgroup>
 
-        <tr>
-          <th>No.</th>
-          <th>품목명</th>
-          <th>규격</th>
-          <th>수량</th>
-          <th>단가</th>
-          <th>금액</th>
-        </tr>
+          <tr>
+            <th>제 목</th>
+            <td colspan="4" id="docOrderTitle"></td>
+          </tr>
 
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
+          <tr>
+            <th>납기일</th>
+            <td colspan="4" id="docOrderDate"></td>
+          </tr>
+  
+          <tr>
+            <th>No.</th>
+            <th>품목명</th>
+            <th>수량</th>
+            <th>단가</th>
+            <th>금액</th>
+          </tr>
+        </thead>
 
-        <tr>
-          <td colspan="5">합계</td>
-          <td></td>
-        </tr>
+        <tbody id="docOrderTbody"></tbody>
+
+        <tfoot>
+          <tr>
+            <th colspan="4">합계</th>
+            <td id="docOrderSum"></td>
+          </tr>
+        </tfoot>
+
 
       </table>
     </div>
