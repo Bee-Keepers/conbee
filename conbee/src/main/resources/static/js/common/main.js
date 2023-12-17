@@ -130,7 +130,7 @@ if(orderStoreNo != null){
         const tr = document.createElement("tr");
         const td = document.createElement("td");
         td.classList.add("text-center", "fw-bold");
-        td.innerText = '금일 발주 없습니다';
+        td.innerText = '금일 발주가 없습니다';
         td.setAttribute("colspan", "4");
         tr.append(td);
         orderTbody.append(tr);

@@ -105,3 +105,5 @@ floatingPrice.addEventListener("input", e=>{
       e.target.value = 0;
    }
 });
+
+

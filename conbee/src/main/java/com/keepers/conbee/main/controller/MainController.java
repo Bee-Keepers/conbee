@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -39,7 +40,8 @@ public class MainController {
 	 * @return
 	 */
 	@RequestMapping("/")
-	public String mainPage(@SessionAttribute(value="loginMember", required = false) Member loginMember, Model model) {
+	public String mainPage(@SessionAttribute(value="loginMember", required = false) Member loginMember, Model model,
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		Stock stock = new Stock();
 		Revenue revenue = new Revenue();
 		// 로그인 한 경우
@@ -65,8 +67,8 @@ public class MainController {
 				revenue.setStoreNo(0);
 
 				// 전자결재 대기함
-				int cp = 1; // 결재대기함 조회 용 cp
-				Map<String, Object> waitApprovalList = approvalService.selectWaitApproval(loginMember.getMemberNo(), cp);
+				int approvalCp = 1; // 결재대기함 조회 용 cp
+				Map<String, Object> waitApprovalList = approvalService.selectWaitApproval(loginMember.getMemberNo(), approvalCp);
 				model.addAttribute("waitApprovalList", waitApprovalList.get("waitApprovalList"));
 				
 				// 경영관리부인 경우
@@ -81,7 +83,7 @@ public class MainController {
 			}
 			
 			List<Stock> stockList = stockService.stockList(stock);
-			List<Revenue> revenueList = revenueService.revenueSearch(revenue);
+			List<Revenue> revenueList = revenueService.revenueSearch(revenue, cp);
 			
 			
 			Map<String, Object> map = boardService.selectBoardList(1, 1);
@@ -128,7 +130,8 @@ public class MainController {
 	 */
 	@GetMapping(value = "ajax/revenueList", produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public List<Revenue> ajaxRevenueList(@SessionAttribute("loginMember") Member loginMember, int storeNo){
+	public List<Revenue> ajaxRevenueList(@SessionAttribute("loginMember") Member loginMember, int storeNo,
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp){
 		
 		// 점주인 경우
 		if(loginMember.getDepartmentNo() == 5) {
@@ -137,7 +140,7 @@ public class MainController {
 			}
 			Revenue revenue = new Revenue();
 			revenue.setStoreNo(storeNo);
-			return revenueService.revenueSearch(revenue);
+			return revenueService.revenueSearch(revenue, cp);
 		}
 		
 		return null;

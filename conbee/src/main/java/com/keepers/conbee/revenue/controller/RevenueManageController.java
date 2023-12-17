@@ -14,6 +14,7 @@ import com.keepers.conbee.admin.store.model.dto.Store;
 import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.revenue.model.dto.Revenue;
 import com.keepers.conbee.revenue.model.service.RevenueManageService;
+import com.keepers.conbee.revenue.model.service.RevenueService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,9 +37,9 @@ public class RevenueManageController {
 	}
 	
 	@GetMapping("history")
-	public String historyPage(Model model, Revenue revenue) {
+	public String historyPage(Model model, Revenue revenue, @RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		String storeName = service.storeName(revenue.getStoreNo());
-		List<Revenue> historyList = service.historySearch(revenue);
+		List<Revenue> historyList = service.historySearch(revenue, cp);
 		model.addAttribute("storeName", storeName);
 		model.addAttribute("startDate", revenue.getStartDate());
 		model.addAttribute("endDate", revenue.getEndDate());
@@ -56,4 +57,12 @@ public class RevenueManageController {
 		return storeList;
 	}
 
+	@GetMapping(value = "historyListAjax", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<Revenue> historyListAjax(Revenue revenue, 
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp){
+		
+		return service.historySearch(revenue, cp);
+	}
+	
 }

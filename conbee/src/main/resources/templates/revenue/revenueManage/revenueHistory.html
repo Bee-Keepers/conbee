@@ -141,7 +141,7 @@
             </tr>
           </thead>
           <!-- 테이블 내용 -->
-          <tbody class="text-center">
+          <tbody class="text-center" id="tableTbody">
             <th:block th:if="${#lists.size(historyList) != 0}">
               <tr th:each="revenue : ${historyList}" th:object="${revenue}">
                 <td th:text="*{historyNo}">1</td>
@@ -163,6 +163,11 @@
                 </tr>
             </th:block>
           </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="11" id="observedTag"></td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>    

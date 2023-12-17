@@ -161,6 +161,15 @@
 		</foreach>
 	</insert>
 	
+	<!-- 발주 스케쥴러에 의한 입출고 내역 삽입 시 본사 재고 감소 -->
+	<insert id="">
+		INSERT INTO "HISTORY"
+		<foreach collection="list" item="item" separator=" UNION ">
+			SELECT NEXT_HISTORY_NO(), '출고', #{item.orderAmount}, #{item.stockInPrice}, #{item.stockInPrice}, 
+			NULL, SYSDATE, '본사', #{item.goodsName}, 0, #{item.goodsNo} FROM DUAL
+		</foreach>
+	</insert>
+	
 	<!-- 발주 신청/수정 초기 화면 -->
 	<select id="orderInsertUpdate" resultType="Order">
 		SELECT O.GOODS_NO, GOODS_NAME, LCATEGORY_NAME, SCATEGORY_NAME, STOCK_AMOUNT, STOCK_IN_PRICE, ORDER_AMOUNT

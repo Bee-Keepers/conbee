@@ -136,7 +136,7 @@
             </tr>
           </thead>
           <!-- 테이블 내용 -->
-          <tbody class="text-center">
+          <tbody class="text-center" id="tableTbody">
             <tr th:if="${#lists.size(historyList) == 0}">
               <td colspan="11">지정된 기간 내의 입출고 내역이 없습니다</td>
             </tr>
@@ -154,6 +154,11 @@
               <td th:text="*{historyDate}">2023-12-02 15:48:23</td>
             </tr>
           </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="11" id="observedTag"></td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>    

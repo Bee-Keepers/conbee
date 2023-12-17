@@ -205,7 +205,7 @@ const goodsImage = document.querySelector(".goodsImage");
 
 
 /* 상품 상세 조회 및 수정 */
-for(let goodsItem of goodsDetailSelectBtn){
+function goodsDetailFn(goodsItem){
    goodsItem.addEventListener("click", () => {
       const goodsNo = goodsItem.previousElementSibling.innerText;
       fetch("/stockManage/goodsDetailSelect?goodsNo=" + goodsNo)
@@ -225,7 +225,9 @@ for(let goodsItem of goodsDetailSelectBtn){
       } )
       .catch(e=>console.log(e));
    });
-
+}
+for(let goodsItem of goodsDetailSelectBtn){
+   goodsDetailFn(goodsItem);
 }
 
 const deleteImage = document.querySelector(".delete-image");
@@ -283,6 +285,7 @@ let callback = (entries, observer) => {
 
          const td3 = createElement("td",{"data-bs-toggle":"modal", "data-bs-target":"#goodsDetailSelectBtn"},["goodsDetailSelectBtn"]);
          td3.innerText = goods.goodsName;
+         goodsDetailFn(td3);
 
          const td4 = createElement("td",null,[]);
          td4.innerText = goods.goodsStandard;

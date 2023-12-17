@@ -95,13 +95,13 @@ lcategorySelect.addEventListener("change", ()=>{
 // 합계 계산
 const totalPrice = document.getElementById("totalPrice");
 const totalPriceList = document.querySelectorAll("#tableTbody>tr>td:last-of-type");
-let temp = 0;
-for(let totalPrices of totalPriceList){
-   temp += parseInt(totalPrices.innerText);
-}
 if(totalPrice != null){
-    totalPrice.innerText = temp;
-};
+    let temp = 0;
+    for(let totalPrices of totalPriceList){
+       temp += parseInt(totalPrices.innerText.replace(",",""));
+    }
+    totalPrice.innerText = temp.toLocaleString("ko-KR");
+ }
 
 
 // 검색한 날짜 저장

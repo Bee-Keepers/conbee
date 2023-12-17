@@ -3,6 +3,7 @@ package com.keepers.conbee.revenue.model.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
 import com.keepers.conbee.admin.store.model.dto.Store;
 import com.keepers.conbee.revenue.model.dto.Revenue;
@@ -30,8 +31,9 @@ public interface RevenueManageMapper {
 
 	/** 입출고 내역 검색
 	 * @param revenue
+	 * @param rowBounds 
 	 * @return
 	 */
-	List<Revenue> historySearch(Revenue revenue);
+	List<Revenue> historySearch(Revenue revenue, RowBounds rowBounds);
 
 }
