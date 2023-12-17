@@ -5,9 +5,10 @@ let currentApprovalNo;
 
 
 // 본문 내용 초기값 세팅
-const tempContents = document.querySelectorAll(".tempContent");
+const docTempContents = document.querySelectorAll(".docTempContent");
+console.log(docTempContents);
 const initialTempContent=[];
-tempContents.forEach((tempContent)=>{initialTempContent.push(tempContent.innerHTML)});
+docTempContents.forEach((docTempContent)=>{initialTempContent.push(docTempContent.innerHTML)});
 
 // 승인부분 초기값 세팅
 const tempApprovs = document.querySelectorAll(".tempApprov");
@@ -23,7 +24,7 @@ const approvalDoc = document.querySelectorAll(".approvalDoc").forEach(function(o
 
 
     // 본문 내용 리셋
-    tempContents.forEach((tempContent,index)=>{tempContent.innerHTML=initialTempContent[index];});
+    docTempContents.forEach((docTempContent,index)=>{docTempContent.innerHTML=initialTempContent[index];});
 
     // 승인부분 리셋
     tempApprovs.forEach((tempApprov,index)=>{tempApprov.innerHTML=initialTempApprov[index];});
@@ -63,12 +64,13 @@ const approvalDoc = document.querySelectorAll(".approvalDoc").forEach(function(o
       switch(parseInt(docCategoryNo)){
         case 0 :{ /* 휴가신청서 */
           // 제목, 내용
+          console.log(map);
           document.querySelectorAll(".docApprovalNo")[4].innerText=approvalNo;
           document.querySelectorAll(".docApprovalDate")[4].innerText=map.requestApproval.approvalDate;
-          document.getElementById("docHolidayTitle").innerText=map.requestApproval.approvalDocTitle;
-          document.getElementById("docHolidayStart").innerText=map.requestApproval.docHolidayStart;
-          document.getElementById("docHolidayEnd").innerText=map.requestApproval.docHolidayEnd;
-          document.getElementById("docHolidayText").innerText=map.requestApproval.approvalContent;
+          document.getElementById("finDocHolidayTitle").innerText=map.requestApproval.approvalDocTitle;
+          document.getElementById("finDocHolidayStart").innerText=map.requestApproval.docHolidayStart;
+          document.getElementById("finDocHolidayEnd").innerText=map.requestApproval.docHolidayEnd;
+          document.getElementById("finDocHolidayText").innerText=map.requestApproval.approvalContent;
  
           // 파일
           if(map.requestApproval.approvalFileOriginName!=null){

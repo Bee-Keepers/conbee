@@ -65,13 +65,27 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		List<Approval> tempSaveList = mapper.selectTempSave(memberNo,rowBounds);
 		
-		log.debug(tempSaveList+"======");
+//		log.debug(tempSaveList+"======");
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("pagination", pagination);
 		map.put("tempSaveList", tempSaveList);
 	
 		return map;
+	}
+	
+
+	// 임시저장 문서 삭제
+	@Override
+	public int deleteTempApproval(int memberNo, int approvalNo) {
+		
+		Map<String, Object> param = new HashMap<>();
+		
+		param.put("memberNo", memberNo);
+		param.put("approvalNo", approvalNo);
+		
+		
+		return mapper.deleteTempApproval(param);
 	}
 	
 	
@@ -82,21 +96,24 @@ public class ApprovalServiceImpl implements ApprovalService{
 		Map<String, Object> tempData = new HashMap<>();
 		
 		Approval tempApproval = new Approval();
-		tempApproval.setDocCategoryNo(docCategoryNo); // 필요?
 		
 		// 1. 기안문 데이터 + 파일 데이터 + DOC 데이터 
 		switch(docCategoryNo) {
 		case 0 : tempApproval = mapper.selectTempHoliday(approvalNo); break; // 휴가
 		case 1 : tempApproval = mapper.selectTempRetirement(approvalNo); break; // 퇴직
-		case 2,3 : tempApproval = mapper.selectTempStore(approvalNo); break; // 점포
-		case 4 : tempApproval = mapper.selectTempExpense(approvalNo); break; // 점포
-		// case 5 : 발주 추가
+		case 2,3,6 : tempApproval = mapper.selectTempStore(approvalNo); break; // 점포
+		case 4 : tempApproval = mapper.selectTempExpense(approvalNo); break; // 지출
+		case 5 : tempApproval = mapper.selectTempOrder(approvalNo); break; // 발주
 		}
 		tempData.put("tempApproval", tempApproval);
 		
-//		log.debug(tempApproval+"==="); // 각 컬럼이 null이면 걍 null이 되는 것 같음. 컬럼값이 있는 건 잘 받아옴
+		// 2. 발주 리스트
+		if(docCategoryNo==5) {
+			List<Approval> tempOrderList = mapper.selectTempOrderList(approvalNo);
+			tempData.put("tempOrderList", tempOrderList);
+		}
 		
-		// 2. 결재자 리스트
+		// 3. 결재자 리스트
 		List<Approver> tempApprover = mapper.selectTempApprover(approvalNo);
 		tempData.put("tempApprover", tempApprover);
 
@@ -104,9 +121,101 @@ public class ApprovalServiceImpl implements ApprovalService{
 	}
 	
 	
+	// 재작성
+	@Override
+	public int updateApproval(Approval approval, List<Approver> approverList, MultipartFile approvalFile,
+			CommandDTO command) throws IllegalStateException, IOException {
+		
+		
+		int result;
+		
+		// 1) 전자결재 테이블 업데이트
+		int resultApproval = mapper.updateApproval(approval);
+		if(resultApproval==0) return 0;
+		
+		
+		// 2) 파일 테이블 삽입
+		// 문서번호에 해당하는 파일 있는지 검색 후 삭제
+		int searchFile = mapper.selectSearchFile(approval.getApprovalNo());
+		
+		if(searchFile>0) {
+			int deleteFile = mapper.deleteLastFile(approval.getApprovalNo());
+			if(deleteFile==0) return 0;
+		}
+		
+		// 파일 다시 추가
+		ApprovalFile uploadFile = new ApprovalFile();
+		int resultApprovalFile;
+		
+		if(approval.getDocCategoryNo()!=5) {			
+			if(!approvalFile.isEmpty()) {
+				
+				uploadFile.setApprovalNo(approval.getApprovalNo());
+				uploadFile.setApprovalFileRoute(webPath);
+				uploadFile.setApprovalFileOriginName(approvalFile.getOriginalFilename());
+				uploadFile.setApprovalFileRename(Util.fileRename(approvalFile.getOriginalFilename()));
+				
+				uploadFile.setUploadFile(approvalFile);
+				
+				resultApprovalFile = mapper.insertApprovalFile(uploadFile);
+				if(resultApprovalFile>0) {
+					uploadFile.getUploadFile().transferTo(new File(folderPath + uploadFile.getApprovalFileRename()));
+				}
+			}
+		}
+		
+		// 3) 휴가/퇴직/출폐점 결재문서 테이블 삽입	
+		if(approval.getDocCategoryNo()!=4 && approval.getDocCategoryNo()!=5) {			
+			resultApproval = mapper.updateApprovalDoc(approval);
+			if(resultApproval==0) return 0;
+		}
+		
+		
+		// 4) 발주 리스트 삽입
+		int searchOrderList = mapper.searchOrderList(approval.getApprovalNo());
+		
+		if(searchOrderList>0) {
+			int deleteOrderList = mapper.deleteLastOrderList(approval.getApprovalNo());
+			if(deleteOrderList==0) return 0;
+		}
+		
+		List<Approval> approvalList = command.getApprovalList();
+		if(approval.getDocCategoryNo()==5 && approvalList!=null) {
+			
+			for(Approval app : approvalList) {
+				app.setApprovalNo(approval.getApprovalNo());
+				app.setDocOrderDate(approval.getDocOrderDate());
+			}
+			resultApproval = mapper.insertOrder(approvalList);
+			if(resultApproval>0) resultApproval=1;
+		}
+		
+		
+		// 5) 결재자 리스트 테이블 삽입
+		int searchApproverList = mapper.searchApproverList(approval.getApprovalNo());
+		
+		if(searchApproverList>0) {
+			int deleteApproverList = mapper.deleteLastApproverList(approval.getApprovalNo());
+			if(deleteApproverList==0) return 0;
+		}
+		
+		if(!approverList.isEmpty()) {			
+			for(Approver approver:approverList) {
+				approver.setApprovalNo(approval.getApprovalNo()); //문서번호
+			}
+			
+			resultApproval = mapper.insertApproverList(approverList);
+			if(resultApproval>0) resultApproval=1;
+		}
+		
+	
+		if(resultApproval==1) result = 1;
+		else result =0;
+	
+	    return result;
+	}
+	
 
-	
-	
 	// 기안문 작성자 정보 조회
 	@Override
 	public Member selectInfo(int memberNo) {
@@ -152,24 +261,26 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		log.debug(approvalFile +"===================");
 
-		if(!approvalFile.isEmpty()) {
-		
-			uploadFile.setApprovalNo(approval.getApprovalNo());
-			uploadFile.setApprovalFileRoute(webPath);
-			uploadFile.setApprovalFileOriginName(approvalFile.getOriginalFilename());
-			uploadFile.setApprovalFileRename(Util.fileRename(approvalFile.getOriginalFilename()));
-			
-			uploadFile.setUploadFile(approvalFile);
-			
-			resultApprovalFile = mapper.insertApprovalFile(uploadFile);
-			if(resultApprovalFile>0) {
-				uploadFile.getUploadFile().transferTo(new File(folderPath + uploadFile.getApprovalFileRename()));
+		if(approval.getDocCategoryNo()!=5) {			
+			if(!approvalFile.isEmpty()) {
+				
+				uploadFile.setApprovalNo(approval.getApprovalNo());
+				uploadFile.setApprovalFileRoute(webPath);
+				uploadFile.setApprovalFileOriginName(approvalFile.getOriginalFilename());
+				uploadFile.setApprovalFileRename(Util.fileRename(approvalFile.getOriginalFilename()));
+				
+				uploadFile.setUploadFile(approvalFile);
+				
+				resultApprovalFile = mapper.insertApprovalFile(uploadFile);
+				if(resultApprovalFile>0) {
+					uploadFile.getUploadFile().transferTo(new File(folderPath + uploadFile.getApprovalFileRename()));
+				}
 			}
 		}
 
 		
 		
-		// 3) 휴가/퇴직/출폐점/발주 결재문서 테이블 삽입	
+		// 3) 휴가/퇴직/출폐점 결재문서 테이블 삽입	
 		// => 임시 저장시 삽입됨 임시저장 문서 재작성시 insert or update 에 따라 수정하기
 		if(approval.getDocCategoryNo()!=4 && approval.getDocCategoryNo()!=5) {			
 			resultApproval = mapper.insertApprovalDoc(approval);

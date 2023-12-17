@@ -91,7 +91,12 @@
         </tr>
         <tr>
           <th>첨부파일</th>
-          <td id="docHolidayFileTd"><input type="file" name="approvalFile" id="docHolidayFile"></td>
+          <td class="docFileTd">
+            <label class="fileLabel" for="docHolidayFile">파일 선택</label>
+            <input class="docFile" type="file" name="approvalFile" id="docHolidayFile" style="display: none;">
+            <span class="fileName">선택된 파일 없음</span>
+            <span class="fileReset"><i class="bi bi-x-circle-fill" style="color: #858585;"></i></span>
+          </td>
         </tr>
       </table>
     </div>

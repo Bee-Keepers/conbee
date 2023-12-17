@@ -59,6 +59,29 @@ public class ApprovalController { // 전자결재 컨트롤러
 			
 	}
 	
+	/** 임시저장 문서 삭제
+	 * @param loginMember
+	 * @param approvalNo
+	 * @param ra
+	 * @return
+	 */
+	@GetMapping("deleteTempApproval")
+	public String deleteTempApproval(@SessionAttribute("loginMember") Member loginMember,
+			@RequestParam("approvalNo") int approvalNo, @RequestParam("currentUrl") String currentUrl, RedirectAttributes ra) {
+		
+		log.debug(approvalNo + "----");
+		
+		int result = service.deleteTempApproval(loginMember.getMemberNo(), approvalNo);
+		
+		if(result > 0) {
+			ra.addFlashAttribute("message", "문서가 삭제되었습니다.");			
+		} else {
+			ra.addFlashAttribute("message", "문서 삭제 실패");	
+		}
+		
+		return "redirect:" + currentUrl;
+	}
+	
 	/** 임시저장 데이터 불러오기
 	 * @param approvalNo
 	 * @return
@@ -74,16 +97,97 @@ public class ApprovalController { // 전자결재 컨트롤러
 	}
 	
 	
-	@PostMapping("tempSave/{doc}")
-	public String updateApproval(@PathVariable("doc") String doc) {
+	/** 재작성
+	 * @param doc
+	 * @param approvalCondition
+	 * @param loginMember
+	 * @param approval
+	 * @param command
+	 * @param approverMemNo
+	 * @param approvalFile
+	 * @param ra
+	 * @return
+	 * @throws IOException 
+	 * @throws IllegalStateException 
+	 */
+	@PostMapping("updateApproval/{doc}")
+	public String updateApproval(@PathVariable("doc") String doc,
+							@RequestParam("approvalCondition") int approvalCondition,
+							@SessionAttribute("loginMember") Member loginMember,
+							Approval approval,
+							CommandDTO command,
+							@RequestParam(value="approverMemNo", required=false) List<Integer> approverMemNo,
+							@RequestParam(value="approvalFile", required=false) MultipartFile approvalFile,
+							RedirectAttributes ra) throws IllegalStateException, IOException {
 		
-		return null;
+		
+		log.debug(approval +"====================");
+		
+		/* 문서 정보 셋팅 */
+		int departNo;
+		int cateNo;
+		
+		log.debug(approval.getDocStoreState()+"===");
+		
+		switch(doc) {
+		case "docHoliday" 	 : departNo=0; cateNo=0; break;
+		case "docRetirement" : departNo=0; cateNo=1; break;
+		case "docStore" 	 : {departNo=0; 
+								if(approval.getStoreNo()==200) {cateNo=6;}
+								else {cateNo = approval.getDocStoreState()==0?2:3;}
+								break; //출점:2 폐점:3 미선택:6}
+								}
+		case "docExpense" 	 : departNo=1; cateNo=4; break;
+		case "docOrder" 	 : departNo=1; cateNo=5; break;
+		default 			 : departNo=0; cateNo=0; 
+		}	
+		
+		if(approval.getApprovalTitle().equals("")) approval.setApprovalTitle("제목 없음"); // 임시저장 제목 null인경우
+		approval.setApprovalCondition(approvalCondition); // 문서 상태
+		approval.setMemberNo(loginMember.getMemberNo()); // 사원 번호
+		approval.setDepartmentNo(departNo); // 협조부서 코드
+		approval.setDocCategoryNo(cateNo); // 문서 분류 번호
+
+		if(cateNo==2 || cateNo==6) { // 출점인 경우 storeNo는 NULL 
+			approval.setStoreNo(-1);
+		}
+		
+		log.debug(approval.getStoreNo()+"--");
+		
+		/* 결재자 정보 셋팅 */
+		List<Approver> approverList = new ArrayList<>();
+		
+		if(approverMemNo!=null) {			
+			
+			for(int i=0; i<approverMemNo.size(); i++) {
+				Approver approver = new Approver();
+				
+				approver.setMemberNo(approverMemNo.get(i)); // 결재자 회원번호
+				approver.setApproverCondition(0);// 결재상태 미승인=0
+				approver.setApproverOrder(i);// 결재순서
+				
+				approverList.add(approver);
+			}
+		}
+		
+		int result = service.updateApproval(approval, approverList, approvalFile, command);
+		
+		if(result > 0 && approval.getApprovalCondition()==0) {
+		  ra.addFlashAttribute("message", "결재 요청이 완료되었습니다.");
+		  return "redirect:/approval/requestApproval";
+		}
+		
+		if(result > 0 && approval.getApprovalCondition()==1) {
+		  ra.addFlashAttribute("message", "임시저장이 완료되었습니다.");
+		  return "redirect:/approval/tempSave";
+		}
+		
+		// 실패 시 
+		ra.addFlashAttribute("message", "오류");
+		return "redirect:/approval/writeApproval";
+		
 	}
 	
-	
-	
-	
-
 
 	// ============================== 기안문 작성 ==============================
 	
@@ -95,7 +199,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 	public String writeApproval() {
 		return "approval/writeApproval";
 	}
-
+	
 	
 	/** 기안문 작성자 정보 조회
 	* @param loginMember
@@ -175,30 +279,32 @@ public class ApprovalController { // 전자결재 컨트롤러
 		int departNo;
 		int cateNo;
 		
-//		log.debug(approval.getDocStoreState()+"====storestate");
+		log.debug(approval.getDocStoreState()+"===");
 		
 		switch(doc) {
 		case "docHoliday" 	 : departNo=0; cateNo=0; break;
 		case "docRetirement" : departNo=0; cateNo=1; break;
-		case "docStore" 	 : departNo=0; cateNo = approval.getDocStoreState()==0?2:3; break; //출점:2 폐점:3
+		case "docStore" 	 : {departNo=0; 
+								if(approval.getDocStoreState()==200) {cateNo=6;}
+								else {cateNo = approval.getDocStoreState()==0?2:3;}
+								break; //출점:2 폐점:3 미선택:6}
+								}
 		case "docExpense" 	 : departNo=1; cateNo=4; break;
 		case "docOrder" 	 : departNo=1; cateNo=5; break;
 		default 			 : departNo=0; cateNo=0; 
 		}
-		
-		
+				
 		if(approval.getApprovalTitle().equals("")) approval.setApprovalTitle("제목 없음"); // 임시저장 제목 null인경우
 		approval.setApprovalCondition(approvalCondition); // 문서 상태
 		approval.setMemberNo(loginMember.getMemberNo()); // 사원 번호
 		approval.setDepartmentNo(departNo); // 협조부서 코드
 		approval.setDocCategoryNo(cateNo); // 문서 분류 번호
 
-		if(cateNo==2) { // 출점인 경우 storeNo는 NULL 
+		if(cateNo==2 || cateNo==6) { // 출점인 경우 storeNo는 NULL 
 			approval.setStoreNo(-1);
 		}
 		
 		
-				
 		/* 결재자 정보 셋팅 */
 		List<Approver> approverList = new ArrayList<>();
 		
@@ -310,6 +416,21 @@ public class ApprovalController { // 전자결재 컨트롤러
 		}
 		
 		return "redirect:reclaimApproval";
+	}
+	
+	
+	/** 문서 재작성 데이터 불러오기
+	 * @param approvalNo
+	 * @return
+	 */
+	@GetMapping(value = "rewriteApproval/selectRewriteData", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> selectRewriteData(int approvalNo, int docCategoryNo) {
+		
+		Map<String, Object> map = service.selectTempData(approvalNo,docCategoryNo);
+				
+
+		return map;
 	}
 	
 	

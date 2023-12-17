@@ -1,23 +1,23 @@
 /* 문서함에서 가장 위에 있는 체크박스 선택 시 같은 페이지에 있는 모든 체크박스 선택되도록 */
-const checkAll = document.getElementById("checkAll"); // 제일 위 체크박스
-const checkboxes = document.querySelectorAll('input[type="checkbox"]'); // 전체 체크박스들
+// const checkAll = document.getElementById("checkAll"); // 제일 위 체크박스
+// const checkboxes = document.querySelectorAll('input[type="checkbox"]'); // 전체 체크박스들
 
-checkAll.addEventListener("change", ()=>{
+// checkAll.addEventListener("change", ()=>{
 
-  // 전체 체크박스가 체크된 경우
-  if(checkAll.checked){
-    for(let check of checkboxes){
-      check.checked = true;
-    }
-    return;
+//   // 전체 체크박스가 체크된 경우
+//   if(checkAll.checked){
+//     for(let check of checkboxes){
+//       check.checked = true;
+//     }
+//     return;
 
-  // 전체 체크박스가 해제된 경우
-  } else {
-    for(let check of checkboxes){
-      check.checked = false;
-    }
-  }
-})
+//   // 전체 체크박스가 해제된 경우
+//   } else {
+//     for(let check of checkboxes){
+//       check.checked = false;
+//     }
+//   }
+// })
 
 
 //클릭시 체크박스 체크기능 함수
