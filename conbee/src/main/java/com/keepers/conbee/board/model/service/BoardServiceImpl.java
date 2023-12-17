@@ -108,7 +108,7 @@ public class BoardServiceImpl implements BoardService{
 	
 	
 	
-	// 게시글 상세조회 작업중(EditBoardController)
+	// 게시글 상세조회 
 	@Override
 	public Board boardDetail(Map<String, Object> map) {
 		
@@ -118,6 +118,7 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	
+	// 게시글 이름 조회
 	@Override
 	public String boardName(int boardCodeNo) {
 		return mapper.selectBoardName2(boardCodeNo);

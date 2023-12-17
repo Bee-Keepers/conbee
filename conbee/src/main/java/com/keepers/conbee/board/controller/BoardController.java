@@ -260,12 +260,12 @@ public class BoardController {
 		
 		return path;
 	}
-	
-//	@GetMapping("boardDetail")
-//	public String boardDetail() {
-//		return "board/boardDetail";
+//	
+//	@GetMapping("boardReport")
+//	public String report() {
+//		return "boardReport";
 //	}
-
+//
 	
 	
 	/** 북마크 처리

@@ -1,11 +1,7 @@
 package com.keepers.conbee.board.model.service;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
-
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
 
 import com.keepers.conbee.board.model.dto.Board;
 
@@ -36,17 +32,6 @@ public interface EditBoardService {
 	 * @return
 	 */
 	int updateBoard(Board board) throws IllegalStateException, IOException;
-//
-//	/** 이미지 가져오기
-//	 * @param request
-//	 * @return
-//	 */
-//	Map<String, Object> imageUpload(MultipartRequest request);
-//
-//
-//	
-//	
-//	
 	
 	
 }

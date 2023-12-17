@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>신고</title>
+  <link rel="stylesheet" href="/css/board/boardReport.css">
+</head>
+<body>
+  <th:block th:replace="~{common/header}"></th:block>
+  <main>
+    <div class="main-container">
+      <div class="cs-title">  
+        <a>신고</a>
+      </div>
+      <form action="" method="" class="reportForm">
+        <div class="category">
+          <select name="" id="" class="select-report">
+            <option value="">레시피</option>
+            <option value="">쿠킹 클래스</option>
+            <option value="">커뮤니티</option>
+          </select>
+        </div>
+        <input type="text" class="report-title" placeholder="제목을 입력해주세요">
+        <textarea name="" id="" cols="30" rows="10" class="report-textarea"></textarea>
+        <input type="file" multiple class="report-file">
+        <button class="report-btn">제출</button>
+      </form>
+    </div>
+  </main>
+  
