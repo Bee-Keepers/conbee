@@ -1,86 +1,58 @@
-/* =========================================================== */
-/* 기안문 정보 받아오기 */
-
-(()=>{
-
-  // 기안문 정보 가져오기
-  fetch("/approval/writeApproval/selectInfo")
-  .then((resp) => {return resp.json(); })
-  .then((writeInfo) => {
-
-    // 팀이름(부장일 경우 부서이름)
-    const infoTeams = document.querySelectorAll(".infoTeam");
-    infoTeams.forEach((infoTeam)=>{
-
-      if(writeInfo.teamName==null){
-        infoTeam.innerText = writeInfo.departmentName;
-      }
-      else{
-        infoTeam.innerText = writeInfo.departmentName + "(" + writeInfo.teamName + ")";
-      }
-
-    })
-
-    // 이름
-    const infoNames = document.querySelectorAll(".infoName");
-    infoNames.forEach((infoName)=>{
-      infoName.innerText = writeInfo.memberName;
-    })
-
-    const docWriteInfos = document.querySelectorAll(".docWriteInfo");
-    docWriteInfos.forEach((docWriteInfo)=>{
-      docWriteInfo.innerText = writeInfo.memberName + "(" + writeInfo.departmentName + ")";
-    })
-
-  })
-  .catch(e => console.log(e));
-
-})();
-
-
-/* =========================================================== */
+/* ========================================================================================================= */
 /* 초기화 */
-const openDocOne = document.getElementById("docOne") // 휴가
-const openDocTwo = document.getElementById("docTwo") // 퇴직
-const openDocThree = document.getElementById("docThree") // 점포
-const openDocFour = document.getElementById("docFour") // 지출
-const openDocFive = document.getElementById("docFive") // 발주
-const openDoc = document.querySelectorAll('#docOne, #docTwo, #docThree, #docFour, #docFive');
-
-const inputs = document.querySelectorAll('input');
+const approverFulls = document.querySelectorAll(".approverFull");
+const initialApproverSection = [];
+initialApproverSection.push(approverFulls[0].innerHTML);
+let members=[];
 const textareas = document.querySelectorAll('textarea');
-const block1s = document.querySelectorAll(".block1");
-const initialBlock1State = [];
-block1s.forEach((block1)=>{initialBlock1State.push(block1.innerHTML);});
-const block2s = document.querySelectorAll(".block2");
-const block3s = document.querySelectorAll(".block3"); 
+const block3s = document.querySelectorAll(".block3");
+const docFiles = document.querySelectorAll(".docFile");
+
+const openDoc = document.querySelectorAll('#docOne, #docTwo, #docThree, #docFour, #docFive');
 
 
 openDoc.forEach((doc)=>{
   doc.addEventListener("click",(element)=>{
-    inputs.forEach((input) => {input.value = ""});
-    textareas.forEach((textarea) => {
-      textarea.value = "";
-      docTextCount(textarea.id);
-    });
-    block1s.forEach((block1, index) => {block1.innerHTML = initialBlock1State[index];});
-    block2s.forEach((block2) => {block2.innerHTML = ""});
-    block3s.forEach((block3) => {block3.innerHTML = ""});
+
+    switch(doc.id){
+      case 'docFive' : document.getElementById("docOrder").reset();
+      case 'docFour' : document.getElementById("docExpense").reset();
+      case 'docThree' : document.getElementById("docStore").reset();
+      case 'docTwo' : document.getElementById("docRetirement").reset();
+      case 'docOne' : document.getElementById("docHoliday").reset();
+    }
+
+    approverFulls.forEach((approverFull)=>{approverFull.innerHTML=initialApproverSection[0];});
     members=[];
-    openStore.value="0";
-    closeStore.value="1";
+    textareas.forEach((textarea) => {docTextCount(textarea.id);});
+    block3s.forEach((block3) => {block3.innerHTML = ""});
+    docFiles.forEach((docFile)=>{docFile.value=""});
+
+    // 기안문 정보 가져오기
+    fetch("/approval/writeApproval/selectInfo")
+    .then((resp) => {return resp.json(); })
+    .then((writeInfo) => {
+
+      // 팀이름(부장일 경우 부서이름)
+      const infoTeams = document.querySelectorAll(".infoTeam");
+      infoTeams.forEach((infoTeam)=>{
+        if(writeInfo.teamName==null){infoTeam.innerText = writeInfo.departmentName;}
+        else{infoTeam.innerText = writeInfo.departmentName + "(" + writeInfo.teamName + ")";}
+      })
+
+      // 이름
+      const infoNames = document.querySelectorAll(".infoName");
+      infoNames.forEach((infoName)=>{infoName.innerText = writeInfo.memberName;});
+
+      const docWriteInfos = document.querySelectorAll(".docWriteInfo");
+      docWriteInfos.forEach((docWriteInfo)=>{
+        docWriteInfo.innerText = writeInfo.memberName + "(" + writeInfo.departmentName + ")";
+      })
+
+    })
+    .catch(e => console.log(e));
   })
 });
-
-// openDocOne.addEventListener("click",()=>{ history.pushState(null, null, 'writeApproval/docHoliday');})
-// openDocTwo.addEventListener("click",()=>{ history.pushState(null, null, 'writeApproval/docRetirement');})
-openDocThree.addEventListener("click",()=>{ /* history.pushState(null, null, 'writeApproval/docStore'); */
-openStore.checked=false;
-closeStore.checked=false;
-})
-// openDocFour.addEventListener("click",()=>{ history.pushState(null, null, 'writeApproval/docExpense');})
-// openDocFive.addEventListener("click",()=>{history.pushState(null, null, 'writeApproval/docOrder');})
-
 
 
 /* 글자수 */
@@ -103,8 +75,6 @@ function docTextCount(docTextId){
   else{textCountArea.style.color = 'black';}
 }
 
-
-
 /* 제목 입력 함수 */
 function inputToInput(title1, title2){
   title1.addEventListener("input", (e) => {
@@ -113,30 +83,48 @@ function inputToInput(title1, title2){
   });
 }
 
+/* 파일 */
+docFiles.forEach(function(docFile){
+  docFile.addEventListener("change", function(){
+    this.nextElementSibling.innerText=this.files[0].name;
+  });
+});
 
-/* 임시저장 confirm */
-const saveDoc = document.querySelectorAll('#saveHoliday, #saveRetirement, #saveStore, #saveExpense, #saveOrder');
+const fileResets = document.querySelectorAll(".fileReset");
+fileResets.forEach(fileReset=>{
+  fileReset.addEventListener("click", e=>{
+    e.target.parentElement.previousElementSibling.previousElementSibling.value="";
+    e.target.parentElement.previousElementSibling.innerText="선택된 파일 없음";
+  });
+});
 
-saveDoc.forEach((doc)=>{
-  doc.addEventListener("click",e=>{    
+
+/* =========================================================== */
+/* 임시저장 */
+
+function addSaveListener(saveId, extraAction = () => {}) {
+  document.getElementById(saveId).addEventListener("click", e => {
+    extraAction();
+
     const userConfirm = confirm("작성한 문서를 임시저장하시겠습니까?");
-
-    if(!userConfirm){
+    if (!userConfirm) {
       e.preventDefault();
-      return;
     }
-  })
-})
+  });
+}
 
-/* 닫기 -> 주소 복원 */
-// 닫기 버튼 클릭 
-const closeDocs = document.querySelectorAll('button[name="closeDoc"]');
+addSaveListener("saveHoliday");
+addSaveListener("saveRetirement");
+addSaveListener("saveStore", () => {
+  const storeNo = document.getElementById("storeNo");
+  if (storeNo.value == "") {
+    storeNo.value = 200;
+  }
+});
+addSaveListener("saveExpense");
+addSaveListener("saveOrder");
 
-closeDocs.forEach(closeDoc=>{
-  closeDoc.addEventListener("click",e=>{
-    history.pushState(null, null, '/approval/writeApproval');
-  })
-})
+
 
 /* =========================================================== */
 /* 휴가 신청서 */
@@ -147,8 +135,6 @@ const inputHoliday2 = document.getElementById("inputHoliday2");
 const docHolidayStart = document.getElementById("docHolidayStart");
 const docHolidayEnd = document.getElementById("docHolidayEnd");
 const docHolidayText = document.getElementById("docHolidayText");
-
-console.log(block3s);
 
 // 제목 입력 시 -> 템플릿 안 제목 같이 입력되기
 inputToInput(inputHoliday, inputHoliday2);
@@ -197,7 +183,6 @@ submitHoliday.addEventListener("click", e =>{
     e.preventDefault();
     return;
   }
-
   if(block3s[4].innerHTML===''){
     alert("결재선을 추가해주세요");
     e.preventDefault();
@@ -256,7 +241,6 @@ submitRetirement.addEventListener("click", e =>{
     e.preventDefault();
     return;
   }
-
   if(block3s[3].innerHTML===''){
     alert("결재선을 추가해주세요");
     e.preventDefault();
@@ -274,12 +258,13 @@ submitRetirement.addEventListener("click", e =>{
 /* =========================================================== */
 /* 출/폐점 등록 요청서 */
 const submitStore = document.getElementById("submitStore");
-const saveStore = document.getElementById("saveStore");
+// const saveStore = document.getElementById("saveStore");
 const inputStore = document.getElementById("inputStore");
 const inputStore2 = document.getElementById("inputStore2");
 const storeName = document.getElementById("storeName");
 const openStore = document.getElementById("openStore");
 const closeStore = document.getElementById("closeStore");
+const defaultStore = document.getElementById("defaultStore");
 const storeNo = document.getElementById("storeNo");
 const docStoreText = document.getElementById("docStoreText");
 
@@ -304,10 +289,16 @@ submitStore.addEventListener("click", e =>{
     return;
   }
 
-  // storeName = storeName.value.trim();
   if(storeName.length == 0){
     alert("매장명을 입력해주세요");
     storeName.focus();
+    e.preventDefault();
+    return;
+  }
+
+  if(storeNo.length == 0){ // 폐점일때로 제한
+    alert("매장번호를 입력해주세요");
+    storeNo.focus();
     e.preventDefault();
     return;
   }
@@ -429,8 +420,12 @@ submitOrder.addEventListener("click", e =>{
     e.preventDefault();
     return;
   }
-
-  // 품목리스트 추가예정
+  const tbody = document.getElementById("orderTbody");
+  if(tbody.firstElementChild.firstElementChild.firstElementChild.value===''){
+      alert("발주 품목을 추가해주세요");
+      e.preventDefault();
+      return;
+  }
 
   if(block3s[0].innerHTML===''){
     alert("결재선을 추가해주세요");
@@ -541,9 +536,6 @@ function selectTeamMember(e){
 
 
 /* 팀원 더블클릭 시 결재라인에 추가 */
-
-let members=[];
-
 function addLine(e){
 
   const block3 = e.parentElement.parentElement.parentElement.nextElementSibling.lastElementChild;
@@ -633,7 +625,6 @@ function remove(e){
 
   e.parentElement.parentElement.remove();
 }
-
 
 
 

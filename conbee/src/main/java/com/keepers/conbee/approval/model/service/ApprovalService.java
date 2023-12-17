@@ -27,12 +27,30 @@ public interface ApprovalService {
 	Map<String, Object> selectTempSave(int memberNo, int cp);
 	
 	
+	/** 임시저장 문서 삭제
+	 * @param memberNo
+	 * @param approvalNo
+	 * @return
+	 */
+	int deleteTempApproval(int memberNo, int approvalNo);
+	
+	
 	/** 임시저장함 데이터 받아오기
 	 * @param approvalNo
 	 * @param docCategoryNo 
 	 * @return
 	 */
 	Map<String, Object> selectTempData(int approvalNo, int docCategoryNo);
+	
+	
+	/** 재작성
+	 * @param approval
+	 * @param approverList
+	 * @param approvalFile
+	 * @param command
+	 * @return
+	 */
+	int updateApproval(Approval approval, List<Approver> approverList, MultipartFile approvalFile, CommandDTO command) throws IllegalStateException, IOException;
 	
 
 	
@@ -229,10 +247,6 @@ public interface ApprovalService {
 	 * @param approvalNo
 	 */
 	int approvalDeleteScheduling(int approvalNo);
-
-
-
-
 
 
 

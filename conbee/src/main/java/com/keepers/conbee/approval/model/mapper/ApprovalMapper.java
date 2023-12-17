@@ -16,6 +16,12 @@ import com.keepers.conbee.stock.model.dto.Stock;
 /**
  * 
  */
+/**
+ * 
+ */
+/**
+ * 
+ */
 @Mapper
 public interface ApprovalMapper {
 
@@ -28,6 +34,13 @@ public interface ApprovalMapper {
 	 * @return
 	 */
 	int searchTempSaveCount(int memberNo);
+	
+	
+	/** 임시저장 문서 삭제
+	 * @param param
+	 * @return
+	 */
+	int deleteTempApproval(Map<String, Object> param);
 	
 	/** 임시저장함 조회
 	 * @param memberNo
@@ -43,17 +56,59 @@ public interface ApprovalMapper {
 	 */
 	Approval selectTempHoliday(int approvalNo);
 
-
 	Approval selectTempRetirement(int approvalNo);
-
 
 	Approval selectTempStore(int approvalNo);
 	
-
 	Approval selectTempExpense(int approvalNo);
 	
-
+	Approval selectTempOrder(int approvalNo);
+	
+	List<Approval> selectTempOrderList(int approvalNo);
+	
 	List<Approver> selectTempApprover(int approvalNo);
+	
+	
+	
+	/** 재작성 - 기안문 update
+	 * @param approval
+	 * @return
+	 */
+	int updateApproval(Approval approval);
+	
+	
+	/** 문서번호에 해당하는 파일 확인 + 삭제
+	 * @param approvalNo
+	 * @return
+	 */
+	int selectSearchFile(int approvalNo);
+
+	int deleteLastFile(int approvalNo);
+	
+	
+	/** doc 업데이트
+	 * @param approval
+	 * @return
+	 */
+	int updateApprovalDoc(Approval approval);
+	
+	
+	/** 발주 리스트 확인 + 삭제
+	 * @param approvalNo
+	 * @return
+	 */
+	int searchOrderList(int approvalNo);
+	
+	int deleteLastOrderList(int approvalNo);
+	
+	
+	/** 결재자 리스트 확인 + 삭제
+	 * @param approvalNo
+	 * @return
+	 */
+	int searchApproverList(int approvalNo);
+
+	int deleteLastApproverList(int approvalNo);
 	
 	
 	/** 기안문 작성자 정보 조회
@@ -400,10 +455,6 @@ public interface ApprovalMapper {
 	 * @return
 	 */
 	int getCompleteApprovalDrafterListCount(int memberNo);
-
-
-
-
 
 
 

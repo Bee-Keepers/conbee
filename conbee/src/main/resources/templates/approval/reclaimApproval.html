@@ -49,7 +49,7 @@
               <th></th>
             </tr>
           </thead>
-          <tbody class="table-group-divider">
+          <tbody class="tbg table-group-divider">
 
             <!-- 회수 문서가 없을 때 -->
             <tr th:if="${#lists.size(map.reclaimApprovalList) == 0}">
@@ -78,7 +78,7 @@
                   data-bs-toggle="modal" 
                   th:attr="data-one-id=*{approvalNo}, data-bs-target='#rewriteDoc' + ${(approval.docCategoryNo == 0 ? 
                     1 : (approval.docCategoryNo == 1 ? 
-                    2 : (approval.docCategoryNo == 2 || approval.docCategoryNo == 3) ? 
+                    2 : (approval.docCategoryNo == 2 || approval.docCategoryNo == 3 || approval.docCategoryNo == 6) ? 
                     3 : (approval.docCategoryNo == 4 ? 
                     4 : (approval.docCategoryNo == 5 ? 
                     5 : approval.docCategoryNo))))},
@@ -159,7 +159,6 @@
         <th:block th:replace="~{approval/approvalDoc/finDocOrder}"></th:block>
         <!-- 모달 풋터 -->
         <div class="modal-footer">
-          <button class="btn btn-warning me-1" onclick="reclaimBtn()">회수하기</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
         </div>
       </div>
@@ -179,7 +178,6 @@
         <th:block th:replace="~{approval/approvalDoc/finDocExpense}"></th:block>
         <!-- 모달 풋터 -->
         <div class="modal-footer">
-          <button class="btn btn-warning me-1" onclick="reclaimBtn()">회수하기</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
         </div>
       </div>
@@ -199,7 +197,6 @@
         <th:block th:replace="~{approval/approvalDoc/finDocStore}"></th:block>
         <!-- 모달 풋터 -->
         <div class="modal-footer">
-          <button class="btn btn-warning me-1" onclick="reclaimBtn()">회수하기</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
         </div>
       </div>
@@ -219,7 +216,6 @@
         <th:block th:replace="~{approval/approvalDoc/finDocRetirement}"></th:block>
         <!-- 모달 풋터 -->
         <div class="modal-footer">
-          <button class="btn btn-warning me-1" onclick="reclaimBtn()">회수하기</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
         </div>        
       </div>
@@ -239,7 +235,6 @@
         <th:block th:replace="~{approval/approvalDoc/finDocHoliday}"></th:block>
         <!-- 모달 풋터 -->
         <div class="modal-footer">
-          <button class="btn btn-warning me-1" onclick="reclaimBtn()">회수하기</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
         </div>
       </div>
@@ -264,9 +259,13 @@
         </div> 
         <!-- 모달 바디 -->
         <div class="modal-body" style="width: 1300px; overflow: hidden;">
-          <form class="d-flex flex-row" action="rewriteApproval/docOrder" id="docOrder" method="POST" enctype="multipart/form-data">
+          <form class="d-flex flex-row" action="updateApproval/docOrder" id="docOrder" method="POST" enctype="multipart/form-data">
             <th:block th:replace="~{approval/approvalDoc/docOrder}"></th:block>
           </form>
+        </div>
+        <!-- 모달 풋터 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary me-1" onclick="deleteBtn()">삭제하기</button>
         </div>
       </div>
     </div>
@@ -289,9 +288,13 @@
         </div> 
         <!-- 모달 바디 -->
         <div class="modal-body" style="width: 1300px; overflow: hidden;">
-          <form class="d-flex flex-row" action="rewriteApproval/docExpense" id="docExpense" method="POST" enctype="multipart/form-data">
+          <form class="d-flex flex-row" action="updateApproval/docExpense" id="docExpense" method="POST" enctype="multipart/form-data">
             <th:block th:replace="~{approval/approvalDoc/docExpense}"></th:block>
           </form>
+        </div>
+        <!-- 모달 풋터 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary me-1" onclick="deleteBtn()">삭제하기</button>
         </div>
       </div>
     </div>
@@ -317,9 +320,13 @@
         </div>
         <!-- 모달 바디 -->
         <div class="modal-body" style="width: 1300px; overflow: hidden;">
-          <form class="d-flex flex-row" action="rewriteApproval/docStore" id="docStore" method="POST" enctype="multipart/form-data">
+          <form class="d-flex flex-row" action="updateApproval/docStore" id="docStore" method="POST" enctype="multipart/form-data">
             <th:block th:replace="~{approval/approvalDoc/docStore}"></th:block>
           </form>
+        </div>
+        <!-- 모달 풋터 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary me-1" onclick="deleteBtn()">삭제하기</button>
         </div>
       </div>
     </div>
@@ -342,9 +349,13 @@
         </div>
         <!-- 모달 바디 -->
         <div class="modal-body" style="width: 1300px; overflow: hidden;">
-          <form class="d-flex flex-row" action="rewriteApproval/docRetirement" id="docRetirement" method="POST" enctype="multipart/form-data">
+          <form class="d-flex flex-row" action="updateApproval/docRetirement" id="docRetirement" method="POST" enctype="multipart/form-data">
             <th:block th:replace="~{approval/approvalDoc/docRetirement}"></th:block>
           </form>
+        </div>
+        <!-- 모달 풋터 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary me-1" onclick="deleteBtn()">삭제하기</button>
         </div>
       </div>
     </div>
@@ -367,10 +378,14 @@
         </div>
         <!-- 모달 바디 -->
         <div class="modal-body" style="width: 1300px; overflow: hidden;">
-          <form class="d-flex flex-row" action="rewriteApproval/docHoliday" id="docHoliday" method="POST" enctype="multipart/form-data">
+          <form class="d-flex flex-row" action="updateApproval/docHoliday" id="docHoliday" method="POST" enctype="multipart/form-data">
             <th:block th:replace="~{approval/approvalDoc/docHoliday}"></th:block>
           </form>
         </div>
+        <!-- 모달 풋터 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary me-1" onclick="deleteBtn()">삭제하기</button>
+        </div>        
       </div>
     </div>
   </div>
@@ -378,6 +393,6 @@
 
   <script src="/js/bootstrap.bundle.min.js"></script>
   <script src="/js/approval/commonApproval.js"></script>
-  <script src="/js/approval/tempSave.js"></script>
+  <script src="/js/approval/reclaimApproval.js"></script>
 </body>
 </html>

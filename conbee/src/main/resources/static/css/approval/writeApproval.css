@@ -1,7 +1,7 @@
 
 /* ======================== 기안문 작성 목록 ======================== */
 
-.table-group-divider tr{
+.tbg tr{
   cursor: pointer;
 }
 
@@ -34,9 +34,9 @@
 }
 
 /* 템플릿 박스 */
-/* .temps{
+.temps{
   border: 1px solid black;
-} */
+}
 
 /* 템플릿 정보/승인 */
 .tempInfo, .tempApprov{
@@ -62,13 +62,13 @@
 }
 
 /* 템플릿 내용 */
-.tempContent th{
+.docTempContent th, .tempContent th{
   /* width: 18%; */
   text-align: center;
   background-color: #f2f2f2;
   padding: 4px;
 }
-.tempContent td{
+.docTempContent td, .tempContent td{
   padding: 4px 6px;
   height: 33px;
 }
@@ -245,18 +245,6 @@ td{
 }
 
 
-
-/* ======================================= */
-.fileLabel:hover{
-  background-color: #6c757d;
-  cursor: pointer;
-}
-#fildTd > *{
-  cursor: pointer;
-}
-
-
-
 /* =========================== */
 /* 결재요청함 발주 */
 #docOrderTbody td{
@@ -266,4 +254,16 @@ td{
 .tempApprov th{
   text-align: center;
   background-color: #f2f2f2;
+}
+
+
+/* 임시저장 파일부분 */
+.fileLabel{
+  background-color: #efefef;
+  border: 1px solid #858585;
+  padding: 3px 5px;
+  border-radius: 3px;
+}
+.fileLabel:hover{
+  background-color:#dfdfdf;
 }
