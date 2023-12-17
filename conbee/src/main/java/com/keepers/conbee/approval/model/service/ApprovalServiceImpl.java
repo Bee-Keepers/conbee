@@ -23,6 +23,7 @@ import com.keepers.conbee.approval.model.dto.Approver;
 import com.keepers.conbee.approval.model.dto.CommandDTO;
 import com.keepers.conbee.approval.model.dto.Pagination;
 import com.keepers.conbee.approval.model.dto.Pagination10;
+import com.keepers.conbee.approval.model.dto.PaginationAdmin;
 import com.keepers.conbee.approval.model.mapper.ApprovalMapper;
 import com.keepers.conbee.common.utility.Util;
 import com.keepers.conbee.member.model.dto.Member;
@@ -437,27 +438,88 @@ public class ApprovalServiceImpl implements ApprovalService{
 	 *
 	 */
 	@Override
-	public List<Approval> selectReturnApprovalList(int memberNo) {
+	public Map<String, Object> selectReturnApprovalList(int memberNo, int cp) {
 		
 		// 1) 자신이 반려한 문서 리스트 조회
-		List<Approval> returnApprovalListByApprover = mapper.selectReturnApprovalApprover(memberNo);
+		// List<Approval> returnApprovalListByApprover = mapper.selectReturnApprovalApprover(memberNo);
 		
 		// 2) 기안자가 자신이 기안한 문서가 반려된 경우 리스트 조회
-		List<Approval> returnApprovalListByDrafter = mapper.selectReturnApprovalDrafter(memberNo);
+		// List<Approval> returnApprovalListByDrafter = mapper.selectReturnApprovalDrafter(memberNo);
 
+		// 리스트 합치기
+		// returnApprovalListByApprover.addAll(returnApprovalListByDrafter);
+		
+		// return returnApprovalListByApprover;
+		
+		
+		// 1) 자신이 반려한 문서 리스트 갯수 조회
+		int listCount = mapper.getReturnApprovalApproverListCount(memberNo);
+		
+		// 2) 기안자가 자신이 기안한 문서가 반려된 경우 리스트 갯수 조회
+		int listCount2 = mapper.getReturnApprovalDrafterListCount(memberNo);
+		
+		listCount += listCount2; // 총 반려문서 갯수
+		
+		/* cp, listCount를 이용해 Pagination 객체 생성(10개짜리)*/
+		PaginationAdmin pagination = new PaginationAdmin(cp, listCount);
+		
+		// RowBounds 객체 생성
+		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
+		int limit = pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		
+		// 마이바티스 호출
+		// 1) 자신이 반려한 문서 리스트 조회
+		List<Approval> returnApprovalListByApprover = mapper.selectReturnApprovalApprover(memberNo, rowBounds);
+		
+		// 2) 기안자가 자신이 기안한 문서가 반려된 경우 리스트 조회
+		List<Approval> returnApprovalListByDrafter = mapper.selectReturnApprovalDrafter(memberNo, rowBounds);
+		
 		// 리스트 합치기
 		returnApprovalListByApprover.addAll(returnApprovalListByDrafter);
 		
+		// 중복 제거하기
+		Set<Approval> set = new HashSet<>(returnApprovalListByApprover);
+		List<Approval> returnApprovalList = new ArrayList<Approval>(set);
 		
-		return returnApprovalListByApprover;
+		// Map에 담아 반환
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("returnApprovalList", returnApprovalList);
+		
+		return map;
+		
+		
+		
 	}
 	
 	/** 협조문서함 조회
 	 *
 	 */
 	@Override
-	public List<Approval> selectJoinApprovalList(int departmentNo) {
-		return mapper.selectJoinApprovalList(departmentNo);
+	public Map<String, Object> selectJoinApprovalList(int departmentNo, int cp) {
+		
+		// 협조문서리스트 갯수 조회
+		int listCount = mapper.getJoinApprovalListCount(departmentNo);
+		
+		/* cp, listCount를 이용해 Pagination 객체 생성(12개짜리)*/
+		Pagination10 pagination = new Pagination10(cp, listCount);
+		
+		// RowBounds 객체 생성
+		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
+		int limit = pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		// 마이바티스 호출
+		List<Approval> joinApprovalList = mapper.selectJoinApprovalList(departmentNo, rowBounds);
+		
+		// Map에 담아 반환
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("joinApprovalList", joinApprovalList);
+		
+		return map;
 	}
 	
 	

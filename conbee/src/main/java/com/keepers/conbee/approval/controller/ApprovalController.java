@@ -487,7 +487,6 @@ public class ApprovalController { // 전자결재 컨트롤러
 		// 1) 자신이 승인한 문서가 완료된 경우 조회
 		// 2) 기안자가 자신이 기안한 문서가 최종승인 된 경우 조회
 		Map<String, Object> map = service.selectCompleteApproval(loginMember.getMemberNo(), cp);
-//		model.addAttribute("completeApprovalList", completeApprovalList);
 		
 		model.addAttribute("map", map);
 		
@@ -503,13 +502,14 @@ public class ApprovalController { // 전자결재 컨트롤러
 	* @author 예리나
 	*/
 	@GetMapping("returnApproval")
-	public String returnApproval(@SessionAttribute("loginMember") Member loginMember, Model model) {
+	public String returnApproval(@SessionAttribute("loginMember") Member loginMember, Model model,
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		
 		// 1) 자신이 반려한 문서 조회
 		// 2) 기안자가 자신이 기안한 문서가 반려된 경우 조회
-		List<Approval> returnApprovalList = service.selectReturnApprovalList(loginMember.getMemberNo());
+		Map<String, Object> map = service.selectReturnApprovalList(loginMember.getMemberNo(), cp);
 		
-		model.addAttribute("returnApprovalList", returnApprovalList);
+		model.addAttribute("map", map);
 		
 		return "approval/returnApproval";
 	}
@@ -579,12 +579,13 @@ public class ApprovalController { // 전자결재 컨트롤러
 	* @author 예리나
 	*/
 	@GetMapping("joinApproval")
-	public String joinApproval(@SessionAttribute("loginMember") Member loginMember, Model model) {
+	public String joinApproval(@SessionAttribute("loginMember") Member loginMember, Model model,
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		
 		// 로그인멤버가 속한 부서를 협조부터코드로 작성한 기안문만 불러오기
-		List<Approval> joinApprovalList = service.selectJoinApprovalList(loginMember.getDepartmentNo());
+		Map<String, Object> map = service.selectJoinApprovalList(loginMember.getDepartmentNo(), cp);
 		
-		model.addAttribute("joinApprovalList", joinApprovalList);
+		model.addAttribute("map", map);
 		
 		return "approval/joinApproval";
 	}

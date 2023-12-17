@@ -127,15 +127,17 @@ public interface ApprovalService {
 
 	/** 반려문서함 조회
 	 * @param memberNo
+	 * @param cp 
 	 * @return
 	 */
-	List<Approval> selectReturnApprovalList(int memberNo);
+	Map<String, Object> selectReturnApprovalList(int memberNo, int cp);
 
 	/** 협조문서함 조회
 	 * @param departmentNo
+	 * @param cp 
 	 * @return
 	 */
-	List<Approval> selectJoinApprovalList(int departmentNo);
+	Map<String, Object> selectJoinApprovalList(int departmentNo, int cp);
 
 	/** 기안서 상세조회(비동기)
 	 * @param approvalNo

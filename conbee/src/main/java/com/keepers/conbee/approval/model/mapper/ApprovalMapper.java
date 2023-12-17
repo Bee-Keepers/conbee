@@ -210,24 +210,27 @@ public interface ApprovalMapper {
 
 	/** 반려문서함 조회(승인자 기준)
 	 * @param memberNo
+	 * @param rowBounds 
 	 * @return
 	 */
-	List<Approval> selectReturnApprovalApprover(int memberNo);
+	List<Approval> selectReturnApprovalApprover(int memberNo, RowBounds rowBounds);
 
 
 	/** 반려문서함 조회(기안자 기준)
 	 * @param memberNo
+	 * @param rowBounds 
 	 * @return
 	 */
-	List<Approval> selectReturnApprovalDrafter(int memberNo);
+	List<Approval> selectReturnApprovalDrafter(int memberNo, RowBounds rowBounds);
 
 
 
 	/** 협조문서함 조회
 	 * @param departmentNo
+	 * @param rowBounds 
 	 * @return
 	 */
-	List<Approval> selectJoinApprovalList(int departmentNo);
+	List<Approval> selectJoinApprovalList(int departmentNo, RowBounds rowBounds);
 
 
 	/** 기안서 상세조회(휴가)
@@ -400,6 +403,24 @@ public interface ApprovalMapper {
 	 * @return
 	 */
 	int getCompleteApprovalDrafterListCount(int memberNo);
+
+	/** 자신이 반려한 문서 리스트 갯수 조회
+	 * @param memberNo
+	 * @return
+	 */
+	int getReturnApprovalApproverListCount(int memberNo);
+
+	/** 기안자가 자신이 기안한 문서가 반려된 경우 리스트 갯수 조회
+	 * @param memberNo
+	 * @return
+	 */
+	int getReturnApprovalDrafterListCount(int memberNo);
+
+	/** 협조문서리스트 갯수 조회
+	 * @param departmentNo
+	 * @return
+	 */
+	int getJoinApprovalListCount(int departmentNo);
 
 
 
