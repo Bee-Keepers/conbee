@@ -1,5 +1,8 @@
 package com.keepers.conbee.board.model.dto;
 
+import java.util.List;
+
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,6 +23,7 @@ public class Board {
 	private int memberNo; // 작성자
 	private int boardCodeNo; // 게시판 번호
 	private String boardWriteDate; // 작성일
+	private String memberProfile; 
 	
 	// 신고
 	private int reportNo;
@@ -39,13 +43,13 @@ public class Board {
 	private String boardCommentContent; // 댓글 내용
 	private String boardCommentDelFl; // 댓글 삭제 여부
 	private int boardCommentParent; // 부모 댓글?
+	private int commentCount; // 댓글 수
 	
 	// 게시판 사진
 	private int boardImageNo; // 사진 번호
 	private String boardImageRename; // 사진 등록 이름 변경
 	
-	// 즐겨찾기
-	
+	private List<Comment> commentList;
 	
 	
 	

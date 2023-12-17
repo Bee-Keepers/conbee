@@ -210,22 +210,6 @@ public class EditBoardController {
 	
 	
 	
-//	/** 이미지 불러오기
-//	 * @param request
-//	 * @return
-//	 */
-//	@PostMapping("/images/board")
-//	@ResponseBody
-//	public Map<String, Object> imageUpload(MultipartRequest request){
-//		
-//		return service.imageUpload(request);
-//	}
-//	
-//	
-//	
-//	
-	
-	
 	
 	
 	
