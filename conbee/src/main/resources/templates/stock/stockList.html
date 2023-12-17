@@ -115,11 +115,11 @@
               <td th:text="*{lcategoryName}">식품</td>
               <td th:text="*{scategoryName}">가공식사</td>
               <td th:text="*{goodsStandard}">-</td>
-              <td th:text="*{stockInPrice}">800</td>
-              <td th:text="*{stockOutPrice}">1500</td>
+              <td th:text="*{#numbers.formatInteger(stockInPrice , 0, 'COMMA')}">800</td>
+              <td th:text="*{#numbers.formatInteger(stockOutPrice , 0, 'COMMA')}">1500</td>
               <td th:text="*{stockAmount}">0</td>
               <td th:text="*{stockDiscount}">10</td>
-              <td th:text="*{priceSum}">6750</td>
+              <td th:text="*{#numbers.formatInteger(priceSum , 0, 'COMMA')}">6750</td>
               <td th:text="*{storeNo}" style="display: none;"></td>
             </tr>
           </tbody>

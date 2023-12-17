@@ -2,6 +2,7 @@ package com.keepers.conbee.revenue.model.service;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,8 +34,9 @@ public class RevenueManageServiceImpl implements RevenueManageService{
 	}
 	
 	@Override
-	public List<Revenue> historySearch(Revenue revenue) {
-		return mapper.historySearch(revenue);
+	public List<Revenue> historySearch(Revenue revenue, int cp) {
+		RowBounds rowBounds = new RowBounds((cp-1)*20, 20);
+		return mapper.historySearch(revenue, rowBounds);
 	}
 	
 }

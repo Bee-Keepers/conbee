@@ -8,14 +8,16 @@ public interface RevenueService {
 
 	/** 매출 상세 검색
 	 * @param revenue
+	 * @param cp 
 	 * @return
 	 */
-	List<Revenue> revenueSearch(Revenue revenue);
+	List<Revenue> revenueSearch(Revenue revenue, int cp);
 
 	/** 입출고 내역 검색
 	 * @param revenue
+	 * @param cp 
 	 * @return
 	 */
-	List<Revenue> historySearch(Revenue revenue);
+	List<Revenue> historySearch(Revenue revenue, int cp);
 
 }

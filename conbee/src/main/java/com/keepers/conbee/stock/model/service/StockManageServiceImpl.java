@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.keepers.conbee.approval.model.dto.Pagination;
 import com.keepers.conbee.stock.model.dto.Stock;
 import com.keepers.conbee.stock.model.mapper.StockManageMapper;
 
@@ -27,11 +29,11 @@ public class StockManageServiceImpl implements StockManageService{
 
 	// 상품등록 전체 조회
 	@Override
-	public Map<String, Object> goodsList(Map<String, Object> paramMap) {
-		List<Stock> goodsListSelect = mapper.goodsList(paramMap);
-		Map<String, Object> map = new HashMap<>();
-		map.put("goodsListSelect", goodsListSelect);
-		return map;
+	public List<Stock> goodsList(int cp) {
+
+		// 페이지 네이션
+		RowBounds rowBounds = new RowBounds((cp-1)*20, 20);
+		return mapper.goodsList(rowBounds);
 	}
 
 	// 등록된 상품 삭제

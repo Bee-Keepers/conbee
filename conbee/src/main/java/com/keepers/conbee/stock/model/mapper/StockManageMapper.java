@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
 import com.keepers.conbee.stock.model.dto.Stock;
 
@@ -24,10 +25,10 @@ public interface StockManageMapper {
 	int goodsDelete(int goodsNo);
 
 	/** 상품 조회
-	 * @param paramMap
+	 * @param rowBounds 
 	 * @return
 	 */
-	List<Stock> goodsList(Map<String, Object> paramMap);
+	List<Stock> goodsList(RowBounds rowBounds);
 
 	/** 상품 등록
 	 * @param stock
@@ -75,5 +76,10 @@ public interface StockManageMapper {
 	 * @return
 	 */
 	List<Stock> stockListSearch(Stock stock);
+
+	/** 상품 총 수 조회
+	 * @return
+	 */
+	int goodsListCount();
 
 }
