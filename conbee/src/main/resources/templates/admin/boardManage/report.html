@@ -71,8 +71,7 @@
             <th:block th:unless="${#lists.size(reportList) == 0}">
               <tr th:each="report : ${reportList}" th:object="${report}">
                 <td th:text="*{boardNo}">123021</td>
-                <td th:text="*{boardCommentNo}">386</td>
-                <td th:text="*{boardCommentNo}">점포관리팀점포관리팀점포관리팀점포관리팀점포관리팀점포관리팀점포관리팀점포관리팀</td>
+                <td th:text="*{boardTitle}">386</td>
                 <td th:text="*{writerName}">작성자</td>
                 <td th:text="*{memberName}">신고자</td>
                 <td th:text="*{reportCount}">8</td>

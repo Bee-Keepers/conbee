@@ -16,6 +16,8 @@ public class Report {
 	private int boardNo; // 신고된 게시글 번호
 	private int boardCommentNo; // 신고된 댓글 번호
 	
+	private String boardTitle; // 신고된 게시글 번호
+	
 	private String writerName; // 신고된 게시글/댓글 작성자 이름
 	private String memberName; // 신고자 이름
 	private int reportCount; // 신고횟수
