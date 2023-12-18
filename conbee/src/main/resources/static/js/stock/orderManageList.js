@@ -67,8 +67,13 @@ $('.input-daterange input').datepicker('setDate', new Date());
 const stockSearchBtn = document.getElementById("stockSearchBtn");
 const stockSearchForm = document.getElementById("stockSearchForm");
 const storeNo = document.getElementById("storeNo");
+const storeSelect = document.getElementById("storeSelect");
 
 stockSearchBtn.addEventListener("click", ()=>{
+  if(storeSelect.value == -1){
+    alert("지점을 선택해주세요");
+    return;
+  }
   stockSearchForm.submit();
 });
 // 검색한 날짜 저장
@@ -79,7 +84,6 @@ startDate.value = document.getElementById("startDate").innerText;
 endDate.value = document.getElementById("endDate").innerText;
 
 const storeSearch = document.getElementById("storeSearch");
-const storeSelect = document.getElementById("storeSelect");
 // 지점 이름으로 검색
 storeSearch.addEventListener("change", e=>{
 

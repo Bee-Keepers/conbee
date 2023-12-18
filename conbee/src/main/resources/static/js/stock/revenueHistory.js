@@ -68,6 +68,11 @@ const revenueSearchForm = document.getElementById("revenueSearchForm");
 const storeNoSelect = document.getElementById("storeNoSelect");
 
 revenueSearchBtn.addEventListener("click", ()=>{
+   console.log(storeSelect.value);
+   if(storeSelect.value == -1){
+      alert("지점을 선택해주세요");
+      return;
+   }
     revenueSearchForm.submit();
 });
 

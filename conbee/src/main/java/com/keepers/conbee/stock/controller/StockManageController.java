@@ -111,6 +111,7 @@ public class StockManageController {
 	public String stockList(Model model,
 			Stock stock
 			) {
+		stock.setStoreNo(0);
 		List<Stock> stockListSelect = service.stockList(stock);
 		
 		model.addAttribute("stockListSelect", stockListSelect);
