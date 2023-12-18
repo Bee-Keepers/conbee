@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko"  xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원정보조회</title>
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/chatting/chatting.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <style>
+
+
+
+  </style>
+</head>
+<body class="d-flex flex-column" style="height: 100vh;">
+
+  <th:block th:replace="~{common/header}"></th:block>
+
+  <main class="d-flex flex-grow-1 overflow-y-auto">
+
+    <!-- 사이드바 -->
+    <th:block th:replace="~{chatting/sidebar}"></th:block>
+
+
+
+
+    
+    <!-- 채팅 -->
+    <div class="d-flex flex-column flex-grow-1 p-3">
+       <!-- 타이틀 -->
+      <div class="w-100 px-4 pt-2 flex-grow-1 overflow-y-auto">
+
+      
+        <div class="chatting-area">
+          <ul class="chatting-list">
+
+            <!-- 검색 / + 버튼 -->
+            <div class="mt-3" style="display: flex;">
+              <input type="text" name="query" id="searchQuery" class="form-control me-2 ms-2" placeholder="검색 입력" size="40">
+              <button id="addTarget">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                </svg>
+              </button>
+            </div>
+
+            <hr class="me-4">
+            <div class="btn-group W-100">
+              <button class="soloBtn selectChatBtn ms-3">1:1 채팅</button>
+              <button  class="teamBtn selectChatBtn">팀 채팅</button>
+            </div>
+
+            <!-- +버튼 클릭 시 -->
+            <div id="addTargetPopupLayer" class="popup-layer-close">  
+              <span id="closeBtn">&times</span>
+        
+              <div class="target-input-area">
+                <input type="search" id="targetInput" placeholder="채팅하려는 사람의 이름을 입력하세요." autocomplete="off">
+              </div>
+        
+              <ul id="resultArea">
+                <!-- <li class="result-row" data-id="1">
+                  <img class="result-row-img" src="/images/user.png">
+                  <span> <mark>유저</mark>일</span>
+                </li>
+                <li class="result-row"  data-id="2">
+                  <img class="result-row-img" src="/images/user.png">
+                  <span><mark>유저</mark>이</span>
+                </li>
+        
+                <li class="result-row">일치하는 회원이 없습니다</li> -->
+              </ul>
+            </div>
+            <th:block th:each="room : ${roomList}">
+    
+              <!-- th:chat-no : li 태그에 임의의 속성 chat-no를 추가하는데
+                타임리프를 이용해 출력된 값을 chat-no 속성 값으로 대입 -->
+              <li class="chatting-item" th:chat-no="${room.chattingNo}" th:target-no="${room.targetNo}">
+                <div class="item-header">
+    
+                  <img th:if="${room.targetProfile}" class="list-profile" th:src="${room.targetProfile}">
+    
+                  <img th:unless="${room.targetProfile}" class="list-profile" th:src="#{user.default.image}">
+                  
+                </div>
+                <div class="item-body">
+                  <p>
+                    <span class="target-name" th:text="${room.targetNickname}">상대방 이름</span>
+                    <span class="recent-send-time" th:text="${room.sendTime}">메세지 보낸 시간</span>
+                  </p>
+                  <div>
+                    <p class="recent-message" th:text="${room.lastMessage}">메세지 내용</p>
+    
+                    <p th:if="${room.notReadCount > 0}" class="not-read-count" th:text="${room.notReadCount}"></p>
+                  </div>
+                </div>
+              </li>
+    
+            </th:block>
+    
+          </ul>
+    
+          <div class="chatting-content">
+            <ul class="display-chatting">
+              <!-- <li class="my-chat">
+                <span class="chatDate">14:01</span>
+                <p class="chat">가나다라마바사</p>
+              </li>
+    
+              <li class="target-chat">
+                <img src="/images/user.png">
+    
+                <div>
+                  <b>이번유저</b>	<br>
+                  <p class="chat">
+                    안녕하세요?? 반갑습니다.<br>
+                    ㅎㅎㅎㅎㅎ
+                  </p>
+                  <span class="chatDate">14:05</span>
+                </div>
+              </li> -->
+            </ul>	
+          
+            <div class="input-area">
+              
+              <div class="form-floating">
+                <textarea style="width: 890px; height: 80px; font-size: 17px;" rows="3" class="form-control inputChatting me-1" placeholder="" id="floatingTextarea"></textarea>
+                <label for="floatingTextarea">&nbsp;&nbsp;&nbsp;Comment</label>
+              </div>
+              
+              <button class="sendBtn" id="send">보내기</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    </div>
+  </main>
+
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <!-- https://github.com/sockjs/sockjs-client -->
+	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+	<script th:inline="javascript">
+		// 로그인한 회원 번호
+		const loginMemberNo = /*[[${session.loginMember?.memberNo}]]*/ '로그인회원번호';
+
+		const userDefaultImage = /*[[#{user.default.image}]]*/ '기본 이미지' ;
+	</script>
+
+	<script src="/js/chatting//chatting.js"></script>
+</body>
+</html>

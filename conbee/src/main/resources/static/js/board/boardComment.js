@@ -62,9 +62,9 @@ const selectCommentList = () => {
                 memberName.innerText = comment.memberName;
                 
                 // 작성일
-                const commentDate = document.createElement("span");
-                commentDate.classList.add("comment-date");
-                commentDate.innerText =   comment.boardCommentDate;
+                const boardCommentDate = document.createElement("span");
+                boardCommentDate.classList.add("comment-date");
+                boardCommentDate.innerText =   comment.boardCommentDate;
 
                 // 작성자 영역(p)에 프로필,닉네임,작성일 마지막 자식으로(append) 추가
                 commentWriter.append(memberProfile , memberName , boardCommentDate);
