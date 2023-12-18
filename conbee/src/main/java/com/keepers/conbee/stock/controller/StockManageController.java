@@ -109,10 +109,10 @@ public class StockManageController {
 	 */
 	@GetMapping("stockList")
 	public String stockList(Model model,
-			Stock stock
+			Stock stock, @RequestParam(value = "cp", required = false, defaultValue = "1") int cp
 			) {
 		stock.setStoreNo(0);
-		List<Stock> stockListSelect = service.stockList(stock);
+		List<Stock> stockListSelect = service.stockList(stock, cp);
 		
 		model.addAttribute("stockListSelect", stockListSelect);
 		
@@ -284,8 +284,8 @@ public class StockManageController {
 	 * @return
 	 */
 	@GetMapping("stockSearch")
-	public String stockSearch(Stock stock, Model model) {
-		List<Stock> stockListSelect = service.stockList(stock);
+	public String stockSearch(Stock stock, Model model, @RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
+		List<Stock> stockListSelect = service.stockList(stock, cp);
 		String storeName = service.storeName(stock.getStoreNo());
 		
 		model.addAttribute("stockListSelect", stockListSelect);
@@ -319,6 +319,19 @@ public class StockManageController {
 		List<Stock> stockList = service.stockListSearch(stock);
 		model.addAttribute("stockListSelect", stockList);
 		return "stock/stockManage/stockList";
+	}
+	
+	
+	/** 무한 스크롤 본사 재고 조회
+	 * @param stock
+	 * @param cp
+	 * @return
+	 */
+	@GetMapping("stockListAjax")
+	@ResponseBody
+	public List<Stock> stockListAjax(Stock stock, @RequestParam(value = "cp", required = false, defaultValue = "1") int cp){
+		List<Stock> stockListSelect = service.stockList(stock, cp);
+		return stockListSelect;
 	}
 	
 }

@@ -84,7 +84,7 @@
         </div>
       </div>
       
-      <div class="w-100 px-4 pt-2 flex-grow-1">
+      <div class="w-100 px-4 mt-2 flex-grow-1 overflow-y-auto">
         <!-- 테이블 제목 -->
         <table class="table table-striped table-hover m-0">
           <thead class="sticky-top text-center">
@@ -103,7 +103,7 @@
             </tr>
           </thead>
           <!-- 테이블 내용 -->
-          <tbody class="text-center">
+          <tbody class="text-center" id="tableTbody">
             <tr th:each="stock : ${stockListSelect}" th:object="${stock}">
               <td>
                 <label class="w-100">
@@ -123,6 +123,11 @@
               <td th:text="*{storeNo}" style="display: none;"></td>
             </tr>
           </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="11" id="observedTag"></td>
+            </tr>
+          </tfoot>
         </table>
       </div>
       <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">

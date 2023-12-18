@@ -32,9 +32,10 @@ public interface StockManageService {
 
 	/** 재고 전체 조회
 	 * @param stock
+	 * @param cp 
 	 * @return
 	 */
-	List<Stock> stockList(Stock stock);
+	List<Stock> stockList(Stock stock, int cp);
 
 	/** 재고 등록 이름 검색 시 물품 조회
 	 * @param intputGoods

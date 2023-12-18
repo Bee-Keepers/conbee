@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,9 +83,9 @@ public class StockServiceImpl implements StockService{
 	
 	// 재고 현황 전체 조회
 	@Override
-	public List<Stock> stockList(Stock stock) {
-		
-		List<Stock> stockList = mapper.stockList(stock);
+	public List<Stock> stockList(Stock stock, int cp) {
+		RowBounds rowBounds = new RowBounds((cp-1)*20, 20);
+		List<Stock> stockList = mapper.stockList(stock, rowBounds);
 		
 		for(Stock s : stockList ) {
 			double sum = s.getStockOutPrice() * (1- ((double)s.getStockDiscount() * 0.01));
@@ -116,7 +117,17 @@ public class StockServiceImpl implements StockService{
 		map.put("lcategoryName", lcategoryName);
 		map.put("scategoryName", scategoryName);
 		
-		return mapper.autoComplete(map);
+		// 본사에 재고가 등록이 안되어있으면 검색 안 되게 막는 코드
+		List<Integer> goodsNoList = mapper.goodsNoList();
+		List<Stock> orderList = mapper.autoComplete(map);
+		
+		for(int i=0; i<orderList.size(); i++) {
+			if(!goodsNoList.contains(orderList.get(i).getGoodsNo())) {
+				orderList.remove(i);
+			}
+		}
+		
+		return orderList;
 	}
 	
 	// 재고 등록 이름 검색 시 물품 조회
@@ -182,7 +193,6 @@ public class StockServiceImpl implements StockService{
 	// 재고 삭제
 	@Override
 	public int stockDelete(Map<String, Object> paramMap) {
-		
 		return mapper.stockDelete(paramMap);
 	}
 	

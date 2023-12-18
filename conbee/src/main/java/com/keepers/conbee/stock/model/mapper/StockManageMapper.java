@@ -38,9 +38,10 @@ public interface StockManageMapper {
 
 	/** 재고 전체 조회  
 	 * @param stock
+	 * @param rowBounds 
 	 * @return
 	 */
-	List<Stock> stockList(Stock stock);
+	List<Stock> stockList(Stock stock, RowBounds rowBounds);
 
 	/** 재고 등록 이름 검색 시 물품 조회
 	 * @param intputGoods
