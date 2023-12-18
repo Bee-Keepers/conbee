@@ -82,4 +82,5 @@ public interface StockManageMapper {
 	 */
 	int goodsListCount();
 
+
 }
