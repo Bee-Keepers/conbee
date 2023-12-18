@@ -10,7 +10,7 @@ function createElement(tag, obj, classList){
      element.classList.add(clas);
    }
    return element;
- }
+}
 
 
 const lcategorySelect = document.getElementById("lcategorySelect");
@@ -130,47 +130,6 @@ checkboxes.forEach(checkbox => {
   });
 });
 
-/* 상품 목록 수정 데이터 가져오기 */
-const updateBtn = document.getElementById("updateBtn");
-
-updateBtn.addEventListener("click", () => {
-   const checkbox = document.querySelector("input[type='checkbox']:checked");
-
-   if (checkbox == null) {
-      alert('수정할 상품을 선택하세요.');
-   }
-
-   const row = checkbox.closest("tr");
-   document.getElementById("goodsNo").value = row.children[1].innerText;
-   document.getElementById("goodsName").value = row.children[2].innerText;
-   document.getElementById("goodsStandard").value = row.children[3].innerText;
-   document.getElementById("goodsPrice").value = row.children[4].innerText;
-   document.getElementById("lcategorySelectUpdate").value = row.children[5].innerText;
-   fetch( "/stockManage/scategoryList?lcategory=" + document.getElementById("lcategorySelectUpdate").value )
-   .then(resp=>resp.json())
-   .then(list=>{
-      if(list.length != 0){
-         scategorySelectUpdate.innerHTML = "";
-         const option = document.createElement("option");
-         option.innerText = "선택";
-         option.setAttribute("value", "");
-         scategorySelectUpdate.append(option);
-         for(let scategory of list){
-            const option = document.createElement("option");
-            option.innerText = scategory;
-            scategorySelectUpdate.append(option);
-         }
-         const options = document.querySelectorAll("#scategorySelectUpdate>option");
-         for(let option of options){
-            if(option.innerText == row.children[6].innerText){
-               option.selected = true;
-            }
-         }
-      }
-   })
-   .catch(e=>console.log(e));
-
-});
 
 const goodsDetailBtn = document.querySelectorAll(".goodsDetailBtn");
 const goodsDetailName = document.getElementById("goodsDetailName");
@@ -201,8 +160,7 @@ const goodsDetailStandardUpdate = document.getElementById("goodsDetailStandardUp
 const goodsDetailUpdate = document.getElementById("goodsDetailUpdate");
 const goodsDetailImageUpdate = document.getElementById("goodsDetailImageUpdate");
 const goodsImage = document.querySelector(".goodsImage");
-
-
+const goodsDetailPriceUpdate = document.getElementById("goodsDetailPriceUpdate");
 
 /* 상품 상세 조회 및 수정 */
 function goodsDetailFn(goodsItem){
@@ -213,19 +171,45 @@ function goodsDetailFn(goodsItem){
       .then( goodsSelect => {
          if(goodsSelect.goodsImagePath == null || goodsSelect.goodsImage == null){
             goodsDetailImageUpdate.src = defaultImage;
-          } else {
+         } else {
             goodsDetailImageUpdate.src = goodsSelect.goodsImagePath + goodsSelect.goodsImage;
-          }
-
+         }
          goodsDetailNameUpdate.value = goodsSelect.goodsName;
          goodsDetailStandardUpdate.value = goodsSelect.goodsStandard;
+         goodsDetailPriceUpdate.value = goodsSelect.goodsPrice;
          goodsDetailUpdate.value = goodsSelect.goodsDetail;
+         lcategorySelectUpdate.value = goodsSelect.lcategoryName;
+         console.log(lcategorySelectUpdate.value);
+         fetch( "/stockManage/scategoryList?lcategory=" + lcategorySelectUpdate.value )
+         .then(resp=>resp.json())
+         .then(list=>{
+            if(list.length != 0){
+               scategorySelectUpdate.innerHTML = "";
+               const option = document.createElement("option");
+               option.innerText = "선택";
+               option.setAttribute("value", "");
+               scategorySelectUpdate.append(option);
+               for(let scategory of list){
+                  const option = document.createElement("option");
+                  option.innerText = scategory;
+                  scategorySelectUpdate.append(option);
+               }
+               const options = document.querySelectorAll("#scategorySelectUpdate>option");
+               for(let option of options){
+                  if(option.innerText == goodsSelect.scategoryName){
+                     option.selected = true;
+                  }
+               }
+            }
+         })
+         .catch(e=>console.log(e));
          document.getElementById("goodsNoUpdate").value = goodsNo;
          document.getElementById("deleteCheckUpdate").value = -1;
       } )
       .catch(e=>console.log(e));
    });
 }
+
 for(let goodsItem of goodsDetailSelectBtn){
    goodsDetailFn(goodsItem);
 }
