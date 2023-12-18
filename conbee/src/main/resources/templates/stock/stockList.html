@@ -64,7 +64,7 @@
 
     <th:block th:replace="~{stock/sidebar}"></th:block>
 
-    <div class="d-flex flex-column flex-grow-1 align-items-center overflow-y-auto p-3">
+    <div class="d-flex flex-column flex-grow-1 align-items-center p-3">
 
       <div class="d-flex justify-content-between align-items-center w-100 border-bottom">
         <div class="fs-3 pb-3 px-3">재고 현황</div>
@@ -84,7 +84,7 @@
         </div>
       </div>
       
-      <div class="w-100 px-4 pt-2 flex-grow-1">
+      <div class="w-100 px-4 mt-2 flex-grow-1 overflow-y-auto">
         <!-- 테이블 제목 -->
         <table class="table table-striped table-hover m-0">
           <thead class="sticky-top text-center">
@@ -125,7 +125,7 @@
           </tbody>
         </table>
       </div>
-      <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">
+      <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-2 mt-2">
         <div class="" role="group" aria-label="Basic outlined example">
           <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="#stockInsertModel">등록</button>
           <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="" id="stockUpdateBtn">재고수정</button>
@@ -189,7 +189,7 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
               <button type="button" class="btn btn-warning" id="stockInertReset">초기화</button>
-              <button type="submit" class="btn btn-primary btn-warning">등록</button>
+              <button type="submit" class="btn btn-primary btn-warning" id="stockInsertBtn">등록</button>
             </div>
             <input type="hidden" name="stockAmount" value="0">
           </form>

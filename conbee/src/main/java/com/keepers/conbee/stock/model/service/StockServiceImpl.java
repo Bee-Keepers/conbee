@@ -74,11 +74,10 @@ public class StockServiceImpl implements StockService{
 	}
 	
 	// 등록된 상품 수정
-	@Override
-	public int goodsUpdate(Stock stock) {
-		log.info("=-=-=-=-=-=-=-= stock : " + stock);
-		return mapper.goodsUpdate(stock);
-	}
+//	@Override
+//	public int goodsUpdate(Stock stock) {
+//		return mapper.goodsUpdate(stock);
+//	}
 	
 	// 재고 현황 전체 조회
 	@Override
@@ -234,23 +233,22 @@ public class StockServiceImpl implements StockService{
 	// 상품 상세 수정
 	@Override
 	public int goodsDetailUpdate(Stock stock, MultipartFile uploadGoodsImage) throws IllegalStateException, IOException {
-		
 		String rename = null;
-		
 		if(uploadGoodsImage.getSize() > 0) {
 			rename = Util.fileRename(uploadGoodsImage.getOriginalFilename());
 			stock.setGoodsImage(rename);
 			stock.setGoodsImagePath(webPath);
 		} 
 		
-		int result = mapper.goodsDetailUpdate(stock);
+		int result2 = mapper.goodsUpdate(stock);
+		int result1 = mapper.goodsDetailUpdate(stock);
 		
-		if(result > 0) {
+		if(result1 > 0) {
 			if(rename != null) {
 				uploadGoodsImage.transferTo( new File( folderPath + rename ) );
 			}
 		}
-		return result;
+		return result1 + result2;
 	}
 	
 	// 승인된 발주 입출고 내역에 삽입

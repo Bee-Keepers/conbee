@@ -80,6 +80,7 @@
 		JOIN LCATEGORY USING(LCATEGORY_NO)
 		JOIN SCATEGORY USING(SCATEGORY_NO)
 		WHERE GOODS_NAME LIKE '%${intputGoods}%'
+		AND GOODS_DEL_FL = 'N'
 	</select>
 	
 	<select id="storeName" resultType="string">
