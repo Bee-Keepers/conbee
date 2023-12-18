@@ -31,7 +31,7 @@
                     <div class="comment-btn-area">
                         
                         <th:block th:if="${session.loginMember != null and session.loginMember.memberNo != comment.memberNo}">
-                            <button class="reportBtn2" type="button">신고</button>     
+                            <button class="reportBtn2" type="button" data-bs-toggle="modal" data-bs-target="#reportBtn" th:value="${comment.boardCommentNo}" onclick="reportFn(this)">신고</button>     
                         </th:block>
                         
                         <button class="addBtn" th:onclick="|showInsertComment(*{boardCommentNo}, this)|">답글</button>   

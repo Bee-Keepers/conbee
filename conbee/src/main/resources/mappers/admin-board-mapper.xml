@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 연결할 인터페이스의 패키지명.인터페이스명을 작성 -->
+<mapper namespace="com.keepers.conbee.admin.board.model.mapper.AdminBoardMapper">
+	
+	<!--신고된 게시글 수 불러오기-->
+	<select id="getReportListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM REPORT
+	</select>
+	
+	<!--신고된 댓글 수 불러오기-->
+	<select id="getReportCommnetListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM REPORT_COMMENT
+	</select>
+
+	<!--신고된 게시글 목록 불러오기-->
+	<select id="readAllReportList" resultType="Report">
+		SELECT REPORT_NO , REPORT_TITLE , REPORT_KIND ,
+		REPORT_ANSWER , BOARD_NO , MEMBER_NAME,
+		(SELECT MEMBER_NAME FROM BOARD B JOIN MEMBER M ON (B.MEMBER_NO= M.MEMBER_NO) WHERE R.BOARD_NO = B.BOARD_NO) WRITER_NAME <!--게시글 작성자 이름-->
+		FROM REPORT R
+		JOIN MEMBER M USING (MEMBER_NO)
+	</select>
+	
+	<!--신고된 댓글 목록 불러오기-->
+	<select id="readAllReportCommentList">
+		SELECT REPORT_COMMENT_NO , REPORT_COMMENT_TITLE , REPORT_COMMENT_KIND ,
+		REPORT_COMMENT_ANSWER , BOARD_NO , MEMBER_NAME, BOARD_COMMENT_NO,
+		(SELECT MEMBER_NAME FROM BOARD_COMMENT B JOIN MEMBER M ON (B.MEMBER_NO= M.MEMBER_NO) WHERE R.BOARD_COMMENT_NO = B.BOARD_COMMENT_NO) WRITER_NAME  <!--댓글 작성자 이름-->
+		FROM REPORT_COMMENT R
+		JOIN MEMBER M USING (MEMBER_NO)
+	</select>
+	
+	
+</mapper>

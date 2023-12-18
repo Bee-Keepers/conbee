@@ -94,20 +94,6 @@ public class BoardServiceImpl implements BoardService{
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	// 게시글 상세조회 
 	@Override
 	public Board boardDetail(Map<String, Object> map) {
@@ -124,6 +110,41 @@ public class BoardServiceImpl implements BoardService{
 		return mapper.selectBoardName2(boardCodeNo);
 	}
 	
+	
+	/* ================================= 예리나 ========================================== */
+	
+	/** 게시글 신고 기능
+	 *
+	 */
+	@Override
+	public int boardReport(Map<String, Object> paramMap) {
+		
+		String reportTitle = null;
+		
+		String reportContentNum = (String) paramMap.get("reportContent");
+		
+		// REPORT_TITLE 넣기
+		switch(reportContentNum){
+		case "1" : reportTitle = "스팸홍보/도배글";				   break;
+		case "2" : reportTitle = "음란물";						   break;
+		case "3" : reportTitle = "불법정보 포함"; 				   break;
+		case "4" : reportTitle = "욕설/생명경시/혐오/차별적 표현"; break;
+		case "5" : reportTitle = "개인정보 노출"; 				   break;
+		case "6" : reportTitle = "불쾌한 표현"; 				   break;
+		case "7" : reportTitle = "명예훼손/저작권 침해"; 		   break;
+		case "8" : reportTitle = "불법촬영물 포함";				   break;
+		}
+		
+		paramMap.put("reportTitle", reportTitle);
+		
+		// 댓글 신고인 경우
+		if( !paramMap.get("boardCommentNo").equals("")) {
+			int result = mapper.commentReport(paramMap);
+			return 100;
+		}
+		
+		return mapper.boardReport(paramMap);
+	}
 	
 	
 
