@@ -83,7 +83,16 @@ const selectCalendar = () => {
 
         console.log(info.event.extendedProps); // 추가된 속성들 (사용자 정의 속성 / calNo, carDetail, memberNo, memberName)
 
-
+        /* 읽기 모달 열기 */
+        $("#readModal").modal("show");
+        document.querySelector("#readModalTitle").innerText = info.event.title;
+        document.querySelector("#readModalContent").innerText = info.event.extendedProps.calDetail;
+        document.querySelector("#startModal").innerText = info.event.start;
+        document.querySelector("#startStrModal").innerText = info.event.startStr;
+        document.querySelector("#endModal").innerText = info.event.end;
+        document.querySelector("#endStrModal").innerText = info.event.endStr;
+        document.querySelector("#nameModal").innerText = info.event.extendedProps.memberName;
+        
 
         
       }

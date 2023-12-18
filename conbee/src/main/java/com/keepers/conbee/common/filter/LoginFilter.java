@@ -31,7 +31,6 @@ public class LoginFilter implements Filter{
 			// /loginError 리다이렉트
 			resp.sendRedirect("/loginError");
 		}
-
 		else { // 로그인 되어 있음
 
 			// 다음 필터 또는 Dispatcher Servlet으로 연결
