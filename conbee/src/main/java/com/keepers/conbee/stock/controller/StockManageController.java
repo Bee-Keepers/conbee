@@ -62,7 +62,6 @@ public class StockManageController {
 			) {
 		
 		List<Stock> goodsList = service.goodsList(cp);
-		log.info("goodsList : " + goodsList);
 		return goodsList;
 	}
 	
@@ -320,5 +319,6 @@ public class StockManageController {
 		model.addAttribute("stockListSelect", stockList);
 		return "stock/stockManage/stockList";
 	}
+	
 	
 }

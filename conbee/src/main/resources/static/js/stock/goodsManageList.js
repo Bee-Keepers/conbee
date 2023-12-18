@@ -298,3 +298,20 @@ const observer = new IntersectionObserver( callback ,{
 
 
 observer.observe(document.querySelector("#observedTag"));
+
+const goodsInsertBtn = document.getElementById("goodsInsertBtn");
+const goodsNameInsert = document.getElementById("goodsNameInsert");
+
+goodsInsertBtn.addEventListener("click", () => {
+
+   const goodsDetailSelect = document.querySelectorAll(".goodsDetailSelectBtn");
+
+   goodsDetailSelect.forEach(btn => {
+
+      if(btn.textContent === goodsNameInsert.value){
+         console.log("dasdasd");
+      }
+
+   });
+
+});

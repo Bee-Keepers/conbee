@@ -72,4 +72,6 @@ public interface StockManageService {
 	List<Stock> stockListSearch(Stock stock);
 
 
+
+
 }
