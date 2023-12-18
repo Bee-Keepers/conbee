@@ -133,7 +133,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 		case "docHoliday" 	 : departNo=0; cateNo=0; break;
 		case "docRetirement" : departNo=0; cateNo=1; break;
 		case "docStore" 	 : {departNo=0; 
-								if(approval.getStoreNo()==200) {cateNo=6;}
+								if(approval.getStoreNo()==200|| approval.getDocStoreState()==200) {cateNo=6;}
 								else {cateNo = approval.getDocStoreState()==0?2:3;}
 								break; //출점:2 폐점:3 미선택:6}
 								}
@@ -285,7 +285,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 		case "docHoliday" 	 : departNo=0; cateNo=0; break;
 		case "docRetirement" : departNo=0; cateNo=1; break;
 		case "docStore" 	 : {departNo=0; 
-								if(approval.getDocStoreState()==200) {cateNo=6;}
+								if(approval.getStoreNo()==200 || approval.getDocStoreState()==200) {cateNo=6;}
 								else {cateNo = approval.getDocStoreState()==0?2:3;}
 								break; //출점:2 폐점:3 미선택:6}
 								}
