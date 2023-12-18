@@ -83,6 +83,15 @@
 
         <!-- 테이블 제목 -->
         <table class="table table-striped table-hover m-0">
+          <colgroup>
+            <col width=5%>
+            <col width=10%>
+            <col width=35%>
+            <col width=10%>
+            <col width=15%>
+            <col width=10%>
+            <col width=15%>
+          </colgroup>
           <thead class="sticky-top text-center">
             <tr>
               <th>#</th>
@@ -98,7 +107,7 @@
           <!-- 테이블 내용 -->
 
           <tbody id="goodsTable" class="text-center">
-              <tr id="checkbox" th:each="stock : ${goodsListSelect}" th:object="${stock}">
+              <tr th:each="stock : ${goodsListSelect}" th:object="${stock}">
                 <td>
                   <label class="w-100">
                     <input type="checkbox" class="checkbox" th:name="*{goodsNo}">
