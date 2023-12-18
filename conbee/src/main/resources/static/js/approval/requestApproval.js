@@ -1,12 +1,11 @@
-
 /* ========================================================================================================= */
 /* 초기화 */
-let currentApprovalNo;
+let currentDocApprovalNo;
 
 
 // 본문 내용 초기값 세팅
 const docTempContents = document.querySelectorAll(".docTempContent");
-console.log(docTempContents);
+// console.log(docTempContents);
 const initialTempContent=[];
 docTempContents.forEach((docTempContent)=>{initialTempContent.push(docTempContent.innerHTML)});
 
@@ -59,14 +58,14 @@ const approvalDoc = document.querySelectorAll(".approvalDoc").forEach(function(o
     .then(resp=>resp.json())
     .then((map)=>{
       
-      currentApprovalNo = approvalNo;
+      currentDocApprovalNo = approvalNo;
       
       switch(parseInt(docCategoryNo)){
         case 0 :{ /* 휴가신청서 */
           // 제목, 내용
           console.log(map);
-          document.querySelectorAll(".docApprovalNo")[4].innerText=approvalNo;
-          document.querySelectorAll(".docApprovalDate")[4].innerText=map.requestApproval.approvalDate;
+          document.querySelectorAll(".finDocApprovalNo")[4].innerText=approvalNo;
+          document.querySelectorAll(".finDocApprovalDate")[4].innerText=map.requestApproval.approvalDate;
           document.getElementById("finDocHolidayTitle").innerText=map.requestApproval.approvalDocTitle;
           document.getElementById("finDocHolidayStart").innerText=map.requestApproval.docHolidayStart;
           document.getElementById("finDocHolidayEnd").innerText=map.requestApproval.docHolidayEnd;
@@ -82,11 +81,11 @@ const approvalDoc = document.querySelectorAll(".approvalDoc").forEach(function(o
         }; break;
 
         case 1 :{ /* 사직서 */
-          document.querySelectorAll(".docApprovalNo")[3].innerText=approvalNo;
-          document.querySelectorAll(".docApprovalDate")[3].innerText=map.requestApproval.approvalDate;
-          document.getElementById("docRetireTitle").innerText=map.requestApproval.approvalDocTitle;
-          document.getElementById("docRetireDate").innerText=map.requestApproval.docRetireDate;
-          document.getElementById("docRetireText").innerText=map.requestApproval.approvalContent;
+          document.querySelectorAll(".finDocApprovalNo")[3].innerText=approvalNo;
+          document.querySelectorAll(".finDocApprovalDate")[3].innerText=map.requestApproval.approvalDate;
+          document.getElementById("finDocRetireTitle").innerText=map.requestApproval.approvalDocTitle;
+          document.getElementById("finDocRetireDate").innerText=map.requestApproval.docRetireDate;
+          document.getElementById("finDocRetirementText").innerText=map.requestApproval.approvalContent;
           if(map.requestApproval.approvalFileOriginName!=null){
             docFileSection(map, 2);
           }
@@ -95,13 +94,13 @@ const approvalDoc = document.querySelectorAll(".approvalDoc").forEach(function(o
 
         case 2 : { /* 출점 */
           document.getElementById("openOrClose").innerText="업무(출점)";
-          document.querySelectorAll(".docApprovalNo")[2].innerText=approvalNo;
-          document.querySelectorAll(".docApprovalDate")[2].innerText=map.requestApproval.approvalDate;
-          document.getElementById("docStoreTitle").innerText=map.requestApproval.approvalDocTitle;
-          document.getElementById("docStoreName").innerText=map.requestApproval.storeName;
-          document.getElementById("docStoreNo").innerText="-"
-          document.getElementById("docStoreState").innerText="출점"
-          document.getElementById("docStoreText").innerText=map.requestApproval.approvalContent;
+          document.querySelectorAll(".finDocApprovalNo")[2].innerText=approvalNo;
+          document.querySelectorAll(".finDocApprovalDate")[2].innerText=map.requestApproval.approvalDate;
+          document.getElementById("finDocStoreTitle").innerText=map.requestApproval.approvalDocTitle;
+          document.getElementById("finDocStoreName").innerText=map.requestApproval.storeName;
+          document.getElementById("finDocStoreNo").innerText="-"
+          document.getElementById("finDocStoreState").innerText="출점"
+          document.getElementById("finDocStoreText").innerText=map.requestApproval.approvalContent;
           if(map.requestApproval.approvalFileOriginName!=null){
             docFileSection(map, 1);
           }
@@ -109,14 +108,14 @@ const approvalDoc = document.querySelectorAll(".approvalDoc").forEach(function(o
         }; break;
 
         case 3 : { /* 폐점 */
-        document.getElementById("openOrClose").innerText="업무(폐점)";
-          document.querySelectorAll(".docApprovalNo")[2].innerText=approvalNo;
-          document.querySelectorAll(".docApprovalDate")[2].innerText=map.requestApproval.approvalDate;
-          document.getElementById("docStoreTitle").innerText=map.requestApproval.approvalDocTitle;
-          document.getElementById("docStoreName").innerText=map.requestApproval.storeName;
-          document.getElementById("docStoreNo").innerText=map.requestApproval.storeNo;
-          document.getElementById("docStoreState").innerText="폐점"
-          document.getElementById("docStoreText").innerText=map.requestApproval.approvalContent;
+          document.getElementById("openOrClose").innerText="업무(폐점)";
+          document.querySelectorAll(".finDocApprovalNo")[2].innerText=approvalNo;
+          document.querySelectorAll(".finDocApprovalDate")[2].innerText=map.requestApproval.approvalDate;
+          document.getElementById("finDocStoreTitle").innerText=map.requestApproval.approvalDocTitle;
+          document.getElementById("finDocStoreName").innerText=map.requestApproval.storeName;
+          document.getElementById("finDocStoreNo").innerText=map.requestApproval.storeNo;
+          document.getElementById("finDocStoreState").innerText="폐점"
+          document.getElementById("finDocStoreText").innerText=map.requestApproval.approvalContent;
           if(map.requestApproval.approvalFileOriginName!=null){
             docFileSection(map, 1);
           }
@@ -126,10 +125,10 @@ const approvalDoc = document.querySelectorAll(".approvalDoc").forEach(function(o
         case 4 : { /* 지출 */
 
           console.log(map.requestApproval);
-          document.querySelectorAll(".docApprovalNo")[1].innerText=approvalNo;
-          document.querySelectorAll(".docApprovalDate")[1].innerText=map.requestApproval.approvalDate;
-          document.getElementById("docExpenseTitle").innerText=map.requestApproval.approvalDocTitle;
-          document.getElementById("docExpenseText").innerText=map.requestApproval.approvalContent;
+          document.querySelectorAll(".finDocApprovalNo")[1].innerText=approvalNo;
+          document.querySelectorAll(".finDocApprovalDate")[1].innerText=map.requestApproval.approvalDate;
+          document.getElementById("finDocExpenseTitle").innerText=map.requestApproval.approvalDocTitle;
+          document.getElementById("finDocExpenseText").innerText=map.requestApproval.approvalContent;
           docFileSection(map, 0); // 지출은 파일 필수
           createApproverSection(map, 1);
         }; break;
@@ -138,12 +137,13 @@ const approvalDoc = document.querySelectorAll(".approvalDoc").forEach(function(o
 
           console.log(map.requestApproval);
           console.log(map.orderList);
-          document.querySelectorAll(".docApprovalNo")[0].innerText=approvalNo;
-          document.querySelectorAll(".docApprovalDate")[0].innerText=map.requestApproval.approvalDate;
-          document.getElementById("docOrderTitle").innerText=map.requestApproval.approvalDocTitle;
-          document.getElementById("docOrderDate").innerText=map.orderList[0].docOrderDate;
+          document.querySelectorAll(".finDocApprovalNo")[0].innerText=approvalNo;
+          document.querySelectorAll(".finDocApprovalDate")[0].innerText=map.requestApproval.approvalDate;
+          document.getElementById("finDocOrderTitle").innerText=map.requestApproval.approvalDocTitle;
+          document.getElementById("finDocOrderDate").innerText=map.orderList[0].docOrderDate;
+          console.log(map.orderList);
 
-          const docOrderTbody = document.getElementById("docOrderTbody");
+          const docOrderTbody = document.getElementById("finDocOrderTbody");
           let sum =0;
           for(let i=0; i<map.orderList.length;i++){
             const tr = document.createElement("tr");
@@ -157,17 +157,17 @@ const approvalDoc = document.querySelectorAll(".approvalDoc").forEach(function(o
             td2.innerText=map.orderList[i].docOrderGoodsName;
             td2.style.textAlign="start";
             td3.innerText=map.orderList[i].docOrderAmount;
-            td4.innerText=map.orderList[i].docOrderUnitPrice;
-            td5.innerText=map.orderList[i].docOrderPrice;
+            td4.innerText=numberWithCommas(map.orderList[i].docOrderUnitPrice);
+            td5.innerText=numberWithCommas(map.orderList[i].docOrderPrice);
 
-            sum+= map.orderList[i].docOrderPrice;
+            sum+=map.orderList[i].docOrderPrice;
 
             tr.append(td1, td2, td3, td4, td5);
             docOrderTbody.append(tr);
           }
 
-          document.getElementById("docOrderSum").innerText=sum;
-          document.getElementById("docOrderSum").style.textAlign="center";
+          document.getElementById("finDocOrderSum").innerText=numberWithCommas(sum);
+          document.getElementById("finDocOrderSum").style.textAlign="center";
 
           createApproverSection(map, 0);
 
@@ -184,6 +184,10 @@ const approvalDoc = document.querySelectorAll(".approvalDoc").forEach(function(o
 /* ========================================================================================================= */
 /* 공용 함수 */
 
+// 1,000
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 // 문서 회수 버튼
 function reclaimBtn(){
@@ -192,14 +196,14 @@ function reclaimBtn(){
   if(!userConfirm){
     return;
   }
-  location.href="reclaim?approvalNo=" + currentApprovalNo;
+  location.href="reclaim?approvalNo=" + currentDocApprovalNo;
 }
 
 
 // 파일 함수
 function docFileSection(map, docNo){
   const fileRoute = map.requestApproval.approvalFileRoute + map.requestApproval.approvalFileReName;
-  const fileId = document.querySelectorAll(".docFile")[docNo];
+  const fileId = document.querySelectorAll(".finDocFile")[docNo];
   fileId.setAttribute("href",fileRoute);
   fileId.setAttribute("style","text-decoration: none;");
   fileId.setAttribute("download",map.requestApproval.approvalFileOriginName);

@@ -1,9 +1,9 @@
 /* ========================================================================================================= */
 /* 초기화 */
+let members=[];
 const approverFulls = document.querySelectorAll(".approverFull");
 const initialApproverSection = [];
 initialApproverSection.push(approverFulls[0].innerHTML);
-let members=[];
 const textareas = document.querySelectorAll('textarea');
 const block3s = document.querySelectorAll(".block3");
 const docFiles = document.querySelectorAll(".docFile");
@@ -25,7 +25,7 @@ openDoc.forEach((doc)=>{
     approverFulls.forEach((approverFull)=>{approverFull.innerHTML=initialApproverSection[0];});
     members=[];
     textareas.forEach((textarea) => {docTextCount(textarea.id);});
-    block3s.forEach((block3) => {block3.innerHTML = ""});
+    // block3s.forEach((block3) => {block3.innerHTML = ""});
     docFiles.forEach((docFile)=>{docFile.value=""});
 
     // 기안문 정보 가져오기
@@ -183,7 +183,8 @@ submitHoliday.addEventListener("click", e =>{
     e.preventDefault();
     return;
   }
-  if(block3s[4].innerHTML===''){
+  if(members.length==0){
+    // console.log(members);
     alert("결재선을 추가해주세요");
     e.preventDefault();
     return;
@@ -203,7 +204,7 @@ const submitRetirement = document.getElementById("submitRetirement");
 const saveRetirement = document.getElementById("saveRetirement");
 const inputRetire = document.getElementById("inputRetire");
 const inputRetire2 = document.getElementById("inputRetire2");
-const retirementDate = document.getElementById("retirementDate");
+const docRetireDate = document.getElementById("docRetireDate");
 const docRetirementText = document.getElementById("docRetirementText")
 
 inputToInput(inputRetire, inputRetire2);
@@ -227,9 +228,9 @@ submitRetirement.addEventListener("click", e =>{
   }
 
   // 날짜
-  if(retirementDate.value===''){
+  if(docRetireDate.value===''){
     alert("퇴직 예정일을 입력해주세요");
-    retirementDate.focus();
+    docRetireDate.focus();
     e.preventDefault();
     return;
   }
@@ -241,7 +242,7 @@ submitRetirement.addEventListener("click", e =>{
     e.preventDefault();
     return;
   }
-  if(block3s[3].innerHTML===''){
+  if(members.length==0){
     alert("결재선을 추가해주세요");
     e.preventDefault();
     return;
@@ -316,7 +317,7 @@ submitStore.addEventListener("click", e =>{
     return;
   }
 
-  if(block3s[2].innerHTML===''){
+  if(members.length==0){
     alert("결재선을 추가해주세요");
     e.preventDefault();
     return;
@@ -371,7 +372,7 @@ submitExpense.addEventListener("click", e =>{
     return;
   }
 
-  if(block3s[1].innerHTML===''){
+  if(members.length==0){
     alert("결재선을 추가해주세요");
     e.preventDefault();
     return;
@@ -427,7 +428,7 @@ submitOrder.addEventListener("click", e =>{
       return;
   }
 
-  if(block3s[0].innerHTML===''){
+  if(members.length==0){
     alert("결재선을 추가해주세요");
     e.preventDefault();
     return;
@@ -542,6 +543,8 @@ function addLine(e){
   const innerBoxes = block3.querySelectorAll(".lineContainer");
 
 
+  console.log(innerBoxes);
+  console.log(innerBoxes.length);
   if(innerBoxes.length<4){
     
     fetch("/approval/writeApproval/selectMember?memberNo=" + e.value)
@@ -584,6 +587,7 @@ function addLine(e){
 
 
       members.push(member.memberNo);
+      console.log(members);
 
 
       departmentInfo.innerText=member.departmentName;
@@ -849,7 +853,7 @@ for(let i = 0; i<10 ; i++){
         tr.children[0].children[0].value = goods.goodsNo;
         tr.children[2].children[0].value = 0;
         tr.children[2].children[0].disabled = false;
-        tr.children[3].children[0].value = goods.stockInPrice;
+        // tr.children[3].children[0].value = goods.stockInPrice;
 
         div.innerHTML = "";
       })
@@ -879,7 +883,7 @@ for(let i = 0; i<10 ; i++){
   // 단가 컬럼 생성
   const td4 = document.createElement("td");
   const input4 = createElement("input", {"type":"number","name":"approvalList["+i+"].docOrderUnitPrice"},[]);
-  input4.readOnly = true;
+  // input4.readOnly = true;
   td4.append(input4);
 
   // 금액 컬럼 생성

@@ -3,8 +3,8 @@
 
 const block3s = document.querySelectorAll(".block3"); 
 const docFileTds = document.querySelectorAll(".docFileTd");
-const initialTempContent=[];
-docFileTds.forEach((docFileTd)=>{initialTempContent.push(docFileTd.innerHTML)});
+const initialFileTds=[];
+docFileTds.forEach((docFileTd)=>{initialFileTds.push(docFileTd.innerHTML)});
 let currentApprovalNo;
 
 
@@ -20,10 +20,13 @@ const rewriteApproval = document.querySelectorAll(".rewriteApproval").forEach(fu
       form.reset();
     });
 
+    const orderTbody = document.getElementById("orderTbody");
+    orderTbody.innerHTML="";
+
     block3s.forEach((block3) => {block3.innerHTML = ""});
 
     /* 파일 td 초기화 */
-    docFileTds.forEach((docFileTd,index)=>{docFileTd.innerHTML=initialTempContent[index];});
+    docFileTds.forEach((docFileTd,index)=>{docFileTd.innerHTML=initialFileTds[index];});
 
 
     /* 기안문 정보 가져오기 */
@@ -85,13 +88,6 @@ const rewriteApproval = document.querySelectorAll(".rewriteApproval").forEach(fu
 
           // 결재자
           addTempApprovers(map.tempApprover, 4);
-
-          // 유효성 검사
-          const submitUpdateHoliday = document.getElementById("submitHoliday");
-          submitUpdateHoliday.addEventListener("click",(e)=>{
-            checkSubmitHoliday(e);
-          });
-
         }; break;
 
         case 1 :{ /* 사직서 */
@@ -100,18 +96,13 @@ const rewriteApproval = document.querySelectorAll(".rewriteApproval").forEach(fu
           document.getElementById("inputRetire2").value=map.tempApproval.approvalDocTitle;
           inputToInput(document.getElementById("inputRetire"), document.getElementById("inputRetire2"));
           if(map.tempApproval.docRetireDate!=null){
-            document.getElementById("retirementDate").value=map.tempApproval.docRetireDate;
+            document.getElementById("docRetireDate").value=map.tempApproval.docRetireDate;
           }
           document.getElementById("docRetirementText").value=map.tempApproval.approvalContent;
           addTempCount("docRetirementText");
 
           fileSection(map, 2, 'docRetirementFile');
           addTempApprovers(map.tempApprover, 3);
-          const submitRetirement = document.getElementById("submitRetirement");
-          submitRetirement.addEventListener("click", (e) =>{
-            checkSubmitRetirement(e);
-          })
-
         }; break;
 
         case 2 : { /* 출점 */
@@ -125,10 +116,6 @@ const rewriteApproval = document.querySelectorAll(".rewriteApproval").forEach(fu
           addTempCount("docStoreText");
           fileSection(map, 1, 'docStoreFile');
           addTempApprovers(map.tempApprover, 2);
-          const submitStore = document.getElementById("submitStore");
-          submitStore.addEventListener("click", e =>{
-            checkSubmitStore(e);
-          })
         }; break;
 
         case 3 : { /* 폐점 */
@@ -143,10 +130,6 @@ const rewriteApproval = document.querySelectorAll(".rewriteApproval").forEach(fu
           addTempCount("docStoreText");
           fileSection(map, 1, 'docStoreFile');
           addTempApprovers(map.tempApprover, 2);
-          const submitStore = document.getElementById("submitStore");
-          submitStore.addEventListener("click", e =>{
-            checkSubmitStore(e);
-          })
         }; break;
 
         case 6 : { /* 임시저장 시 출폐점을 선택하지 않은 경우 */
@@ -160,10 +143,6 @@ const rewriteApproval = document.querySelectorAll(".rewriteApproval").forEach(fu
           addTempCount("docStoreText");
           fileSection(map, 1, 'docStoreFile');
           addTempApprovers(map.tempApprover, 2);
-          const submitStore = document.getElementById("submitStore");
-          submitStore.addEventListener("click", e =>{
-            checkSubmitStore(e);
-          })
         }
 
         case 4 : { /* 지출 */
@@ -175,10 +154,6 @@ const rewriteApproval = document.querySelectorAll(".rewriteApproval").forEach(fu
           addTempCount("docExpenseText");
           fileSection(map, 0, 'docExpenseFile');
           addTempApprovers(map.tempApprover, 1);
-          const submitExpense = document.getElementById("submitExpense");
-          submitExpense.addEventListener("click", e =>{
-            checkSubmitExpense(e);
-          })
         }; break;
         
         case 5 : { /* 발주 */
@@ -186,19 +161,22 @@ const rewriteApproval = document.querySelectorAll(".rewriteApproval").forEach(fu
           document.getElementById("inputOrder").value=map.tempApproval.approvalTitle;
           document.getElementById("inputOrder2").value=map.tempApproval.approvalDocTitle;
           inputToInput(document.getElementById("inputOrder"), document.getElementById("inputOrder2"));
-          console.log(map.tempOrderList);
-          document.getElementById("orderDate").value=map.tempOrderList[0].docOrderDate;
+          // console.log(map.tempOrderList);
 
           createOrder();
-          for(let i=0; i<map.tempOrderList.length;i++){
-            // 추가
+          if(map.tempOrderList.length>0){
+            document.getElementById("orderDate").value=map.tempOrderList[0].docOrderDate;
+            for(let i=0; i<map.tempOrderList.length;i++){
+              document.querySelectorAll(".ListGoodsNo")[i].value=map.tempOrderList[i].goodsNo;
+              document.querySelectorAll(".ListGoodsName")[i].value=map.tempOrderList[i].docOrderGoodsName;
+              document.querySelectorAll(".ListOrderAmount")[i].value=map.tempOrderList[i].docOrderAmount;
+              document.querySelectorAll(".ListOrderUnitPrice")[i].value=map.tempOrderList[i].docOrderUnitPrice;
+              document.querySelectorAll(".orderPrice")[i].value=map.tempOrderList[i].docOrderPrice;
+              orderPriceFn();
+            }
           }
-          
+
           addTempApprovers(map.tempApprover, 0);
-          const submitOrder = document.getElementById("submitOrder");
-          submitOrder.addEventListener("click", e =>{
-            checkSubmitOrder(e);
-          })
         }; break;
         default : console.log("오류"); break;
 
@@ -558,8 +536,11 @@ addSaveListener("saveOrder");
 /* 유효성 검사 내부 코드 */
 
 /* 휴가 신청서 */
-function checkSubmitHoliday(e){
+const submitUpdateHoliday = document.getElementById("submitHoliday");
+submitUpdateHoliday.addEventListener("click",(e)=>{
+  console.log("확인확인");
   if(document.getElementById("inputHoliday").value.trim().length==0){
+    console.log("확인");
     alert("제목을 입력해주세요");
     document.getElementById("inputHoliday").focus();
     e.preventDefault();
@@ -605,11 +586,10 @@ function checkSubmitHoliday(e){
     e.preventDefault();
     return;
   }
-}
-
-
+});
 /* 사직서  */
-function checkSubmitRetirement(e){
+const submitRetirement = document.getElementById("submitRetirement");
+submitRetirement.addEventListener("click", (e) =>{
   if(document.getElementById("inputRetire").value.trim().length == 0){
     alert("제목을 입력해주세요");
     document.getElementById("inputRetire").focus();
@@ -644,10 +624,10 @@ function checkSubmitRetirement(e){
     e.preventDefault();
     return;
   }
-}
-
+})
 /* 출/폐점 등록 요청서 */
-function checkSubmitStore(e){
+const submitStore = document.getElementById("submitStore");
+submitStore.addEventListener("click", e =>{
   if(inputStore = document.getElementById("inputStore").value.trim().length == 0){
     alert("제목을 입력해주세요");
     inputStore = document.getElementById("inputStore").focus();
@@ -694,10 +674,10 @@ function checkSubmitStore(e){
     return;
   }  
 
-}
-
+})
 /* 지출결의서 */
-function checkSubmitExpense(e){
+const submitExpense = document.getElementById("submitExpense");
+submitExpense.addEventListener("click", e =>{
   if(document.getElementById("inputExpense").value.trim().length == 0){
     alert("제목을 입력해주세요");
     document.getElementById("inputExpense").focus();
@@ -731,10 +711,10 @@ function checkSubmitExpense(e){
     e.preventDefault();
     return;
   }  
-}
-
+})
 /* 발주기안서 */
-function checkSubmitOrder(e){  
+const submitOrder = document.getElementById("submitOrder");
+submitOrder.addEventListener("click", e =>{
   if(document.getElementById("inputOrder").value.trim().length == 0){
     alert("제목을 입력해주세요");
     document.getElementById("inputOrder").focus();
@@ -769,7 +749,7 @@ function checkSubmitOrder(e){
     e.preventDefault();
     return;
   }
-}
+})
 
 
 
@@ -802,13 +782,13 @@ function createOrder(){
   
     // 상품번호 컬럼 생성
     const td1 = document.createElement("td");
-    const input1 = createElement("input", {"type":"number","name":"approvalList["+i+"].goodsNo"},[]);
+    const input1 = createElement("input", {"type":"number","name":"approvalList["+i+"].goodsNo","class":"ListGoodsNo"},[]);
     input1.readOnly = true;
     td1.append(input1);
   
     // 품목이름 컬럼 생성
     const td2 = document.createElement("td");
-    const input2 = createElement("input", {"type":"text","name":"approvalList["+i+"].docOrderGoodsName"},[]);
+    const input2 = createElement("input", {"type":"text","name":"approvalList["+i+"].docOrderGoodsName","class":"ListGoodsName"},[]);
     const div = createElement("div", null, ["list-group", "position-absolute", "zindex2000"]);
   
     // 품목이름 자동완성
@@ -858,7 +838,7 @@ function createOrder(){
           tr.children[0].children[0].value = goods.goodsNo;
           tr.children[2].children[0].value = 0;
           tr.children[2].children[0].disabled = false;
-          tr.children[3].children[0].value = goods.stockInPrice;
+          // tr.children[3].children[0].value = goods.stockInPrice;
   
           div.innerHTML = "";
         })
@@ -874,8 +854,8 @@ function createOrder(){
     
     // 수량 컬럼 생성
     const td3 = document.createElement("td");
-    const input3 = createElement("input", {"type":"number","name":"approvalList["+i+"].docOrderAmount"},[]);
-    input3.disabled = true;
+    const input3 = createElement("input", {"type":"number","name":"approvalList["+i+"].docOrderAmount", "class":"ListOrderAmount"},[]);
+    // input3.disabled = true;
     input3.addEventListener("input", e=>{
       if(e.target.value < 0){
         e.target.value = 0;
@@ -887,8 +867,8 @@ function createOrder(){
     
     // 단가 컬럼 생성
     const td4 = document.createElement("td");
-    const input4 = createElement("input", {"type":"number","name":"approvalList["+i+"].docOrderUnitPrice"},[]);
-    input4.readOnly = true;
+    const input4 = createElement("input", {"type":"number","name":"approvalList["+i+"].docOrderUnitPrice", "class":"ListOrderUnitPrice"},[]);
+    // input4.readOnly = true;
     td4.append(input4);
   
     // 금액 컬럼 생성
@@ -916,6 +896,17 @@ function createOrder(){
   }
 }
 
+function orderPriceFn(){
+  const orderPrice = document.getElementsByClassName("orderPrice");
+  let temp = 0;
+  for(let price of orderPrice){
+    if(price.value != ""){
+      temp += Number(price.value);
+    }
+    console.log(temp);
+  }
+  orderSum.value = temp;
+}
 
 docOrder.addEventListener("submit", ()=>{
   const docOrder = document.querySelectorAll("#orderTbody>tr>td>input");
