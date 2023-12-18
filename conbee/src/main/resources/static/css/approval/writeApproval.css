@@ -1,11 +1,11 @@
 
 /* ======================== 기안문 작성 목록 ======================== */
 
-#tblBody tr{
+.tbg tr{
   cursor: pointer;
 }
 
-#tblBody *{
+.table *{
   vertical-align: middle;
 }
 
@@ -62,15 +62,15 @@
 }
 
 /* 템플릿 내용 */
-.tempContents th{
+.docTempContent th, .tempContent th{
   /* width: 18%; */
   text-align: center;
   background-color: #f2f2f2;
   padding: 4px;
 }
-.tempContents td{
+.docTempContent td, .tempContent td{
   padding: 4px 6px;
-  height: 26px;
+  height: 33px;
 }
 /* textarea */
 .docText{
@@ -245,12 +245,25 @@ td{
 }
 
 
-
-/* ======================================= */
-.fileLabel:hover{
-  background-color: #6c757d;
-  cursor: pointer;
+/* =========================== */
+/* 결재요청함 발주 */
+#docOrderTbody td{
+  text-align: center;
 }
-#fildTd > *{
-  cursor: pointer;
+
+.tempApprov th{
+  text-align: center;
+  background-color: #f2f2f2;
+}
+
+
+/* 임시저장 파일부분 */
+.fileLabel{
+  background-color: #efefef;
+  border: 1px solid #858585;
+  padding: 3px 5px;
+  border-radius: 3px;
+}
+.fileLabel:hover{
+  background-color:#dfdfdf;
 }

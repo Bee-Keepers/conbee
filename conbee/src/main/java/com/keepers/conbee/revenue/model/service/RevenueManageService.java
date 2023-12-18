@@ -27,8 +27,9 @@ public interface RevenueManageService {
 
 	/** 입출고 내역 조회
 	 * @param revenue
+	 * @param cp 
 	 * @return
 	 */
-	List<Revenue> historySearch(Revenue revenue);
+	List<Revenue> historySearch(Revenue revenue, int cp);
 
 }

@@ -16,6 +16,12 @@ import com.keepers.conbee.stock.model.dto.Stock;
 /**
  * 
  */
+/**
+ * 
+ */
+/**
+ * 
+ */
 @Mapper
 public interface ApprovalMapper {
 
@@ -28,6 +34,13 @@ public interface ApprovalMapper {
 	 * @return
 	 */
 	int searchTempSaveCount(int memberNo);
+	
+	
+	/** 임시저장 문서 삭제
+	 * @param param
+	 * @return
+	 */
+	int deleteTempApproval(Map<String, Object> param);
 	
 	/** 임시저장함 조회
 	 * @param memberNo
@@ -43,17 +56,59 @@ public interface ApprovalMapper {
 	 */
 	Approval selectTempHoliday(int approvalNo);
 
-
 	Approval selectTempRetirement(int approvalNo);
-
 
 	Approval selectTempStore(int approvalNo);
 	
-
 	Approval selectTempExpense(int approvalNo);
 	
-
+	Approval selectTempOrder(int approvalNo);
+	
+	List<Approval> selectTempOrderList(int approvalNo);
+	
 	List<Approver> selectTempApprover(int approvalNo);
+	
+	
+	
+	/** 재작성 - 기안문 update
+	 * @param approval
+	 * @return
+	 */
+	int updateApproval(Approval approval);
+	
+	
+	/** 문서번호에 해당하는 파일 확인 + 삭제
+	 * @param approvalNo
+	 * @return
+	 */
+	int selectSearchFile(int approvalNo);
+
+	int deleteLastFile(int approvalNo);
+	
+	
+	/** doc 업데이트
+	 * @param approval
+	 * @return
+	 */
+	int updateApprovalDoc(Approval approval);
+	
+	
+	/** 발주 리스트 확인 + 삭제
+	 * @param approvalNo
+	 * @return
+	 */
+	int searchOrderList(int approvalNo);
+	
+	int deleteLastOrderList(int approvalNo);
+	
+	
+	/** 결재자 리스트 확인 + 삭제
+	 * @param approvalNo
+	 * @return
+	 */
+	int searchApproverList(int approvalNo);
+
+	int deleteLastApproverList(int approvalNo);
 	
 	
 	/** 기안문 작성자 정보 조회
@@ -135,26 +190,35 @@ public interface ApprovalMapper {
 	 * @param approvalNo
 	 * @return
 	 */
-	Approval selectRequestHoliday(int approvalNo);
+	Approval selectRequestHoliday(int approvalNo); // 휴가
 	
-
-	Approval selectRequestRetirement(int approvalNo);
+	Approval selectRequestRetirement(int approvalNo); // 사직
 	
-
-	Approval selectRequestStore(int approvalNo);
+	Approval selectRequestStore(int approvalNo); // 점포
 	
-
-	Approval selectRequestExpense(int approvalNo);
+	Approval selectRequestExpense(int approvalNo); // 지출
 	
-
-	List<Approver> selectRequestApprover(int approvalNo);
+	Approval selectRequestOrder(int approvalNo); // 발주
+	
+	List<Approval> selectRequestOrderList(int approvalNo); // 발주 목록
+	
+	List<Approver> selectRequestApprover(int approvalNo); // 결재자
+	
+	
+	
+	/** 회수문서함 글 개수 조회
+	 * @param memberNo
+	 * @return
+	 */
+	int searchReclaimApprovalCount(int memberNo);
 	
 	
 	/** 회수문서함 조회
 	 * @param memberNo
+	 * @param rowBounds 
 	 * @return approval list
 	 */
-	List<Approval> selectReclaimApproval(int memberNo);
+	List<Approval> selectReclaimApproval(int memberNo, RowBounds rowBounds);
 
 	/** 문서 회수하기
 	 * @param param 
@@ -185,38 +249,43 @@ public interface ApprovalMapper {
 
 	/** 완료문서함 조회(승인자 기준)
 	 * @param memberNo
+	 * @param rowBounds 
 	 * @return
 	 */
-	List<Approval> selectCompleteApprovalApprover(int memberNo);
+	List<Approval> selectCompleteApprovalApprover(int memberNo, RowBounds rowBounds);
 
 
 	/** 완료문서함 조회(기안자 기준)
 	 * @param memberNo
+	 * @param rowBounds 
 	 * @return
 	 */
-	List<Approval> selectCompleteApprovalDrafter(int memberNo);
+	List<Approval> selectCompleteApprovalDrafter(int memberNo, RowBounds rowBounds);
 
 
 	/** 반려문서함 조회(승인자 기준)
 	 * @param memberNo
+	 * @param rowBounds 
 	 * @return
 	 */
-	List<Approval> selectReturnApprovalApprover(int memberNo);
+	List<Approval> selectReturnApprovalApprover(int memberNo, RowBounds rowBounds);
 
 
 	/** 반려문서함 조회(기안자 기준)
 	 * @param memberNo
+	 * @param rowBounds 
 	 * @return
 	 */
-	List<Approval> selectReturnApprovalDrafter(int memberNo);
+	List<Approval> selectReturnApprovalDrafter(int memberNo, RowBounds rowBounds);
 
 
 
 	/** 협조문서함 조회
 	 * @param departmentNo
+	 * @param rowBounds 
 	 * @return
 	 */
-	List<Approval> selectJoinApprovalList(int departmentNo);
+	List<Approval> selectJoinApprovalList(int departmentNo, RowBounds rowBounds);
 
 
 	/** 기안서 상세조회(휴가)
@@ -378,8 +447,35 @@ public interface ApprovalMapper {
 	 */
 	int getProgressApprovalListCount(int memberNo);
 
+	/** 결재승인권한자가 조회하는 완료문서 리스트 갯수 조회
+	 * @param memberNo
+	 * @return
+	 */
+	int getCompleteApprovalApproverListCount(int memberNo);
 
+	/** 기안자가 조회하는 결재완료문서 리스트 갯수 조회
+	 * @param memberNo
+	 * @return
+	 */
+	int getCompleteApprovalDrafterListCount(int memberNo);
 
+	/** 자신이 반려한 문서 리스트 갯수 조회
+	 * @param memberNo
+	 * @return
+	 */
+	int getReturnApprovalApproverListCount(int memberNo);
+
+	/** 기안자가 자신이 기안한 문서가 반려된 경우 리스트 갯수 조회
+	 * @param memberNo
+	 * @return
+	 */
+	int getReturnApprovalDrafterListCount(int memberNo);
+
+	/** 협조문서리스트 갯수 조회
+	 * @param departmentNo
+	 * @return
+	 */
+	int getJoinApprovalListCount(int departmentNo);
 
 
 

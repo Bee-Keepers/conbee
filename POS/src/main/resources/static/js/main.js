@@ -65,13 +65,19 @@ plusRowBtn.addEventListener("click", ()=>{
                     case 2 : input.setAttribute("name", "lcategoryName"); break;
                     case 3 : input.setAttribute("name", "scategoryName"); break;
                     case 4 : input.setAttribute("name", "historyGoodsName"); break;
-                    // case 5 : input.setAttribute("name", "historyGoodsName"); break;
+                    case 5 : input.classList.add("stockAmount"); break;
                     case 6 : input.setAttribute("name", "historyDiscount"); break;
                     case 7 : input.setAttribute("name", "historyUnitPrice"); break;
                     case 8 : input.setAttribute("name", "historyActualPrice"); break;
                     default : break;
                 }
-                td.innerText = parent.children[i].innerText;
+                if(i == 7 || i == 8){
+                    td.innerText = parent.children[i].innerText;
+                    console.log(parent.children[i].innerText.toLocaleString("ko-KR"));
+                    
+                } else{
+                    td.innerText = parent.children[i].innerText;
+                }
                 td.append(input);
                 tr.append(td);
             }
@@ -277,6 +283,15 @@ formSubmitBtn.addEventListener("click", ()=>{
             return;
         }
     }
+
+    const stockAmount = document.querySelectorAll(".stockAmount");
+    for(let stockAm of stockAmount){
+        if(stockAm.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.children[0].value > stockAm.value){
+            alert("재고를 초과합니다");
+            return;
+        }
+    }
+
     posForm.submit();
 });
 

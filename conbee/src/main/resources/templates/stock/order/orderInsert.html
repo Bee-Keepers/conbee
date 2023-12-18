@@ -119,7 +119,7 @@
               <td>[[*{lcategoryName}]]</td>
               <td>[[*{scategoryName}]]</td>
               <td>[[*{stockAmount}]]</td>
-              <td>[[*{stockInPrice}]]</td>
+              <td th:text="*{#numbers.formatInteger(stockInPrice, 0, 'COMMA')}"></td>
               <td><input type="number" name="orderAmount" class="form-control" th:value="*{orderAmount}"></td>
             </tr>
           </tbody>

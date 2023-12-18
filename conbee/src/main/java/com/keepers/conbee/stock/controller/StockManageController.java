@@ -27,7 +27,9 @@ import com.keepers.conbee.stock.model.service.StockManageService;
 import com.keepers.conbee.stock.model.service.StockService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("stockManage")
@@ -41,14 +43,27 @@ public class StockManageController {
 	 */
 	@GetMapping("goodsList")
 	public String stockGoodsList( Model model,
-			@RequestParam Map<String, Object> paramMap
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp
 			) {
 		
-		Map<String, Object> map = stockService.goodsList(paramMap);
+		List<Stock> goodsListSelect = service.goodsList(cp);
 			
-		model.addAttribute("map", map);
+		model.addAttribute("goodsListSelect", goodsListSelect);
 			
 		return "stock/stockManage/goodsManageList";
+	}
+	
+	/** 상품 리스트 전체 조회
+	 * @return
+	 */
+	@GetMapping(value="goodsListAjax", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<Stock> stockGoodsListAjax(@RequestParam(value = "cp", required = false, defaultValue = "1") int cp
+			) {
+		
+		List<Stock> goodsList = service.goodsList(cp);
+		log.info("goodsList : " + goodsList);
+		return goodsList;
 	}
 	
 	/** 상품 등록

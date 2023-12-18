@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 연결할 인터페이스의 패키지명.인터페이스명을 작성 -->
+<mapper namespace="com.keepers.conbee.board.model.mapper.CommentMapper">
+	
+	<select id="select" resultType="Comment">
+		SELECT LEVEL, C.* FROM
+			(SELECT BOARD_COMMENT_NO, BOARD_COMMENT_CONTENT,
+		    TO_CHAR(BOARD_COMMENT_DATE, 'YYYY"년" MM"월" DD"일" HH24"시" MI"분" SS"초"') BOARD_COMMENT_DATE,
+		    BOARD_NO, MEMBER_NO, MEMBER_NAME, MEMBER_PROFILE, BOARD_COMMENT_PARENT, BOARD_COMMENT_DEL_FL
+			FROM "BOARD_COMMENT"
+			JOIN MEMBER USING(MEMBER_NO)
+			WHERE BOARD_NO = #{boardNo}) C
+		WHERE BOARD_COMMENT_DEL_FL = 'N'
+		OR 0 != (SELECT COUNT(*) FROM "BOARD_COMMENT" SUB
+			WHERE SUB.BOARD_COMMENT_PARENT = C.BOARD_COMMENT_NO
+			AND BOARD_COMMENT_DEL_FL = 'N')
+		START WITH BOARD_COMMENT_PARENT IS NULL
+		CONNECT BY PRIOR BOARD_COMMENT_NO = BOARD_COMMENT_PARENT
+		ORDER SIBLINGS BY BOARD_COMMENT_NO
+	</select>
+	
+	<!-- 댓글 등록 -->
+	<insert id="insert">
+		INSERT INTO "BOARD_COMMENT"
+		(BOARD_COMMENT_NO, BOARD_COMMENT_CONTENT, MEMBER_NO, BOARD_NO, BOARD_COMMENT_PARENT)
+		VALUES 
+		(SEQ_BOARD_COMMENT_NO.NEXTVAL, 
+		#{boardCommentContent}, #{memberNo}, #{boardNo}, 
+		
+		<!-- if문 (동적 SQL) -->
+		<if test="boardCommentParent == 0">	<!-- 일반 댓글 등록 -->
+			NULL
+		</if>
+		
+		<if test="boardCommentParent != 0">	<!-- 답글(대댓글) 등록 -->
+			#{boardCommentParent}
+		</if>
+		)
+	</insert>
+	
+	
+	
+	<!-- 댓글 수정 -->
+	<update id="update">
+		UPDATE "BOARD_COMMENT" SET
+		BOARD_COMMENT_CONTENT = #{boardCommentContent}
+		WHERE BOARD_COMMENT_NO = #{boardCommentNo}
+	</update>
+	
+	
+	
+	<!-- 댓글 삭제 -->
+	<update id="delete">
+		UPDATE "BOARD_COMMENT" SET
+		BOARD_COMMENT_DEL_FL = 'Y'
+		WHERE BOARD_COMMENT_NO = #{boardCommentNo}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+</mapper>

@@ -27,12 +27,30 @@ public interface ApprovalService {
 	Map<String, Object> selectTempSave(int memberNo, int cp);
 	
 	
+	/** 임시저장 문서 삭제
+	 * @param memberNo
+	 * @param approvalNo
+	 * @return
+	 */
+	int deleteTempApproval(int memberNo, int approvalNo);
+	
+	
 	/** 임시저장함 데이터 받아오기
 	 * @param approvalNo
 	 * @param docCategoryNo 
 	 * @return
 	 */
 	Map<String, Object> selectTempData(int approvalNo, int docCategoryNo);
+	
+	
+	/** 재작성
+	 * @param approval
+	 * @param approverList
+	 * @param approvalFile
+	 * @param command
+	 * @return
+	 */
+	int updateApproval(Approval approval, List<Approver> approverList, MultipartFile approvalFile, CommandDTO command) throws IllegalStateException, IOException;
 	
 
 	
@@ -89,9 +107,10 @@ public interface ApprovalService {
 	
 	/** 회수문서함 조회
 	 * @param memberNo
+	 * @param cp 
 	 * @return approval list
 	 */
-	List<Approval> selectReclaimApproval(int memberNo);
+	Map<String, Object> selectReclaimApproval(int memberNo, int cp);
 	
 	
 	/** 문서 회수
@@ -119,21 +138,24 @@ public interface ApprovalService {
 
 	/** 완료문서함 조회
 	 * @param memberNo
+	 * @param cp 
 	 * @return
 	 */
-	List<Approval> selectCompleteApproval(int memberNo);
+	Map<String, Object> selectCompleteApproval(int memberNo, int cp);
 
 	/** 반려문서함 조회
 	 * @param memberNo
+	 * @param cp 
 	 * @return
 	 */
-	List<Approval> selectReturnApprovalList(int memberNo);
+	Map<String, Object> selectReturnApprovalList(int memberNo, int cp);
 
 	/** 협조문서함 조회
 	 * @param departmentNo
+	 * @param cp 
 	 * @return
 	 */
-	List<Approval> selectJoinApprovalList(int departmentNo);
+	Map<String, Object> selectJoinApprovalList(int departmentNo, int cp);
 
 	/** 기안서 상세조회(비동기)
 	 * @param approvalNo
@@ -227,10 +249,6 @@ public interface ApprovalService {
 	 * @param approvalNo
 	 */
 	int approvalDeleteScheduling(int approvalNo);
-
-
-
-
 
 
 

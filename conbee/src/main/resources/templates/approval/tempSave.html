@@ -43,7 +43,7 @@
               <th>임시저장일자</th>
             </tr>
           </thead>
-          <tbody class="table-group-divider">
+          <tbody class="tbg table-group-divider">
             
             <!-- 임시 저장 문서가 없을 때 -->
             <tr th:if="${#lists.size(map.tempSaveList) == 0}">
@@ -52,11 +52,11 @@
             
             <!-- 임시 저장 문서가 존재할 때 -->
             <th:block th:unless="${#lists.size(map.tempSaveList) == 0}">
-              <tr th:each="approval : ${map.tempSaveList}" th:object="${approval}" class="approvalOne"
+              <tr th:each="approval : ${map.tempSaveList}" th:object="${approval}" class="rewriteApproval"
               style="text-align: center;" data-bs-toggle="modal" 
-              th:attr="data-one-id=${approval.approvalNo}, data-bs-target='#doc' + ${(approval.docCategoryNo == 0 ? 
+              th:attr="data-one-id=${approval.approvalNo}, data-bs-target='#rewriteDoc' + ${(approval.docCategoryNo == 0 ? 
                 1 : (approval.docCategoryNo == 1 ? 
-                2 : (approval.docCategoryNo == 2 || approval.docCategoryNo == 3) ? 
+                2 : (approval.docCategoryNo == 2 || approval.docCategoryNo == 3 || approval.docCategoryNo == 6) ? 
                 3 : (approval.docCategoryNo == 4 ? 
                 4 : (approval.docCategoryNo == 5 ? 
                 5 : approval.docCategoryNo))))},
@@ -127,7 +127,7 @@
   </main>
   <!--================================================= Modal =================================================-->
   <!-- 5. 발주기안 -->
-  <div class="modal fade" id="doc5" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+  <div class="modal fade" id="rewriteDoc5" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <!-- 모달 헤더 -->
@@ -142,9 +142,13 @@
         </div> 
         <!-- 모달 바디 -->
         <div class="modal-body" style="width: 1300px; overflow: hidden;">
-          <form class="d-flex flex-row" action="tempSave/docOrder" id="docOrder" method="POST" enctype="multipart/form-data">
+          <form class="d-flex flex-row" action="updateApproval/docOrder" id="docOrder" method="POST" enctype="multipart/form-data">
             <th:block th:replace="~{approval/approvalDoc/docOrder}"></th:block>
           </form>
+        </div>
+        <!-- 모달 풋터 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary me-1" onclick="deleteBtn()">삭제하기</button>
         </div>
       </div>
     </div>
@@ -152,7 +156,7 @@
   
   
   <!-- 4. 지출결의  -->
-  <div class="modal fade" id="doc4" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+  <div class="modal fade" id="rewriteDoc4" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <!-- 모달 헤더 -->
@@ -167,9 +171,13 @@
         </div> 
         <!-- 모달 바디 -->
         <div class="modal-body" style="width: 1300px; overflow: hidden;">
-          <form class="d-flex flex-row" action="tempSave/docExpense" id="docExpense" method="POST" enctype="multipart/form-data">
+          <form class="d-flex flex-row" action="updateApproval/docExpense" id="docExpense" method="POST" enctype="multipart/form-data">
             <th:block th:replace="~{approval/approvalDoc/docExpense}"></th:block>
           </form>
+        </div>
+        <!-- 모달 풋터 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary me-1" onclick="deleteBtn()">삭제하기</button>
         </div>
       </div>
     </div>
@@ -177,7 +185,7 @@
   
   
   <!-- 3. 출점/폐점  -->
-  <div class="modal fade" id="doc3" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+  <div class="modal fade" id="rewriteDoc3" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <!-- 모달 헤더 -->
@@ -195,9 +203,13 @@
         </div>
         <!-- 모달 바디 -->
         <div class="modal-body" style="width: 1300px; overflow: hidden;">
-          <form class="d-flex flex-row" action="tempSave/docStore" id="docStore" method="POST" enctype="multipart/form-data">
+          <form class="d-flex flex-row" action="updateApproval/docStore" id="docStore" method="POST" enctype="multipart/form-data">
             <th:block th:replace="~{approval/approvalDoc/docStore}"></th:block>
           </form>
+        </div>
+        <!-- 모달 풋터 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary me-1" onclick="deleteBtn()">삭제하기</button>
         </div>
       </div>
     </div>
@@ -205,7 +217,7 @@
   
   
   <!-- 2. 사직서 -->
-  <div class="modal fade" id="doc2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+  <div class="modal fade" id="rewriteDoc2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <!-- 모달 헤더 -->
@@ -220,9 +232,13 @@
         </div>
         <!-- 모달 바디 -->
         <div class="modal-body" style="width: 1300px; overflow: hidden;">
-          <form class="d-flex flex-row" action="tempSave/docRetirement" id="docRetirement" method="POST" enctype="multipart/form-data">
+          <form class="d-flex flex-row" action="updateApproval/docRetirement" id="docRetirement" method="POST" enctype="multipart/form-data">
             <th:block th:replace="~{approval/approvalDoc/docRetirement}"></th:block>
           </form>
+        </div>
+        <!-- 모달 풋터 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary me-1" onclick="deleteBtn()">삭제하기</button>
         </div>
       </div>
     </div>
@@ -230,7 +246,7 @@
   
   
   <!-- 1. 휴가 신청서 -->
-  <div class="modal fade" id="doc1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+  <div class="modal fade" id="rewriteDoc1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <!-- 모달 헤더 -->
@@ -245,10 +261,14 @@
         </div>
         <!-- 모달 바디 -->
         <div class="modal-body" style="width: 1300px; overflow: hidden;">
-          <form class="d-flex flex-row" action="tempSave/docHoliday" id="docHoliday" method="POST" enctype="multipart/form-data">
+          <form class="d-flex flex-row" action="updateApproval/docHoliday" id="docHoliday" method="POST" enctype="multipart/form-data">
             <th:block th:replace="~{approval/approvalDoc/docHoliday}"></th:block>
           </form>
         </div>
+        <!-- 모달 풋터 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary me-1" onclick="deleteBtn()">삭제하기</button>
+        </div>        
       </div>
     </div>
   </div>

@@ -140,7 +140,7 @@
                 <tr th:each="revenue : ${revenueList}" th:object="${revenue}">
                   <td th:text="*{scategoryName}">과자</td>
                   <td class="text-truncate" th:text="*{historyGoodsName}">새우깡</td>
-                  <td th:text="*{historyAmount * historyActualPrice}">45</td>
+                  <td th:text="*{#numbers.formatInteger(historyAmount * historyActualPrice, 0, 'COMMA')}">45</td>
                 </tr>
               </tbody>
               <tfoot>
@@ -191,21 +191,8 @@
           </div>
         </div>
       </th:block>
-      <!-- <th:block th:if="${session.loginMember.gradeNo == 6}">
-        <div class="h-50 m-2 card">
-          <div class="card-header fs-5 fw-bold">신상품</div>
-          <div class="card-body row">
-            <div th:each="goods : ${goodsList}" th:object="${goods}" class="card col">
-              <div class="card-body mx-1">
-                <img class="goodsImage card-img-top" th:if="*{goodsImagePath != null}" th:src="|*{goodsImagePath}*{goodsImage}|">
-                <img class="goodsImage card-img-top" th:if="*{goodsImagePath == null}" th:src="#{logo.default.image}">
-                <h5 class="card-title" th:text="*{goodsName}">농심)신라면</h5>
-                <p class="card-text text-truncate" th:text="*{goodsDetail}">깊고 진하게 우러난 소고기 국물맛에 얼큰함을 더한 국민 라면</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </th:block> -->
+
+      <!-- 발주 -->
       <th:block th:if="${session.loginMember.gradeNo == 6}">
         <div class="w-100 d-flex h-50">
           <div class="w-75 card m-2">
@@ -260,8 +247,10 @@
                       <div class="fs-4 text-truncate fw-bold" th:text="*{goodsName}">농심)신라면</div>
                       <div class="goodsDetail" th:text="*{goodsDetail}">깊고 진하게 우러난 소고기 국물맛에 얼큰함을 더한 국민 라면</div>
                   </div>
-                  <div class="carousel-item active" data-bs-interval="10">
-                    <img class="d-block w-100" th:src="#{logo.default.image}">
+                  <div class="carousel-item active" data-bs-interval="2000">
+                    <div class="imageContainer w-100">
+                      <img class="goodsImage" th:src="#{logo.default.image}">
+                    </div>
                   </div>
                 </div>
               </div>

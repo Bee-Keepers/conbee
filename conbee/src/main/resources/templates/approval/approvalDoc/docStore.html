@@ -68,7 +68,7 @@
     </div>
 
     <!-- 본문 -->
-    <div class="tempContents my-2 mx-3 px-2">
+    <div class="tempContent my-2 mx-3 px-2">
       <table class="table table-bordered" style="width: 100%; border: black;">
         <tr>
           <th>제 목</th>
@@ -87,6 +87,7 @@
 
           <th>출/폐 여부</th>
           <td>
+            <input type="radio" name="docStoreState" id="defaultStore" value="200" style="display: none;" checked>
             <input type="radio" name="docStoreState" id="openStore" value="0"><label for="openStore">출점</label>
             <input type="radio" name="docStoreState" id="closeStore" value="1"><label for="closeStore">폐점</label>
           </td>
@@ -102,7 +103,12 @@
         <tr>
 
           <th>첨부파일</th>
-          <td id="docStoreFileTd"><input type="file" name="approvalFile"></td>
+          <td class="docFileTd">
+            <label class="fileLabel" for="docStoreFile">파일 선택</label>
+            <input class="docFile" type="file" name="approvalFile" id="docStoreFile" style="display: none;">
+            <span class="fileName">선택된 파일 없음</span>
+            <span class="fileReset"><i class="bi bi-x-circle-fill" style="color: #858585;"></i></span>
+          </td>
 
         </tr>
       </table>

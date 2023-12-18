@@ -260,12 +260,12 @@ public class BoardController {
 		
 		return path;
 	}
-	
-//	@GetMapping("boardDetail")
-//	public String boardDetail() {
-//		return "board/boardDetail";
+//	
+//	@GetMapping("boardReport")
+//	public String report() {
+//		return "boardReport";
 //	}
-
+//
 	
 	
 	/** 북마크 처리
@@ -287,6 +287,29 @@ public class BoardController {
 	
 	
 	
+	/* ================================= 예리나 ========================================== */
+	
+	
+	/** 게시글 신고
+	 * @author 예리나
+	 * @return
+	 */
+	@GetMapping("boardReport")
+	public String boardReport(@RequestParam Map<String, Object> paramMap, RedirectAttributes ra) {
+		
+		// 신고 서비스 호출
+		int result = service.boardReport(paramMap);
+		
+		// 댓글 신고인 경우
+		if(result == 100) {
+			ra.addFlashAttribute("message", "댓글 신고가 완료되었습니다.");
+
+		} else {
+			ra.addFlashAttribute("message", "게시글 신고가 완료되었습니다.");
+		}
+		
+		return "redirect:/board/boardDetail/"+ paramMap.get("boardCodeNo") + "/" + paramMap.get("boardNo"); // 보드디테일 화면으로 가기
+	}
 	
 	
 	

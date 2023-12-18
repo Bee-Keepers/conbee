@@ -1,7 +1,14 @@
-/* 비동기로 임시저장 데이터 가져오기 */
-const block3s = document.querySelectorAll(".block3"); 
+/* ========================================================================================================= */
+/* 초기화 */
 
-const approvalOne = document.querySelectorAll(".approvalOne").forEach(function(one){
+const block3s = document.querySelectorAll(".block3"); 
+const docFileTds = document.querySelectorAll(".docFileTd");
+const initialTempContent=[];
+docFileTds.forEach((docFileTd)=>{initialTempContent.push(docFileTd.innerHTML)});
+let currentApprovalNo;
+
+
+const rewriteApproval = document.querySelectorAll(".rewriteApproval").forEach(function(one){
 
   one.addEventListener("click",function(){
 
@@ -16,12 +23,8 @@ const approvalOne = document.querySelectorAll(".approvalOne").forEach(function(o
     block3s.forEach((block3) => {block3.innerHTML = ""});
 
     /* 파일 td 초기화 */
-    // const fileTds=["docHolidayFileTd", "docRetirementFileTd", "docStoreFileTd", "docExpenseFileTd"];
-    // fileTds.forEach(fileTd =>{
-    //   const file = document.getElementById(fileTd);
-    //   file.innerHTML='';
+    docFileTds.forEach((docFileTd,index)=>{docFileTd.innerHTML=initialTempContent[index];});
 
-    // // });
 
     /* 기안문 정보 가져오기 */
     fetch("/approval/writeApproval/selectInfo")
@@ -30,6 +33,7 @@ const approvalOne = document.querySelectorAll(".approvalOne").forEach(function(o
       // 팀이름(부장일 경우 부서이름)
       const infoTeams = document.querySelectorAll(".infoTeam");
       infoTeams.forEach((infoTeam)=>{
+
         if(writeInfo.teamName==null){infoTeam.innerText = writeInfo.departmentName;}
         else{infoTeam.innerText = writeInfo.departmentName + "(" + writeInfo.teamName + ")";}
       })
@@ -52,38 +56,20 @@ const approvalOne = document.querySelectorAll(".approvalOne").forEach(function(o
     fetch("/approval/tempSave/selectTempData?approvalNo=" + approvalNo + "&docCategoryNo=" + parseInt(docCategoryNo))
     .then(resp=>resp.json())
     .then((map)=>{
-      
-      console.log(map.tempApproval.approvalFileRoute + map.tempApproval.approvalFileReName);
+
+      currentApprovalNo=approvalNo;
+      const approvalNoInput = document.createElement("input");
+      approvalNoInput.setAttribute("type","hidden");
+      approvalNoInput.setAttribute("name","approvalNo");
+      approvalNoInput.value=approvalNo;
 
       switch(parseInt(docCategoryNo)){
 
         case 0 :{ /* 휴가신청서 */
-
+          document.getElementById("docHoliday").append(approvalNoInput);
           document.getElementById("inputHoliday").value=map.tempApproval.approvalTitle;
           document.getElementById("inputHoliday2").value=map.tempApproval.approvalDocTitle;
-          document.getElementById("docHolidayText").value=map.tempApproval.approvalContent;
-          addTempCount("docHolidayText");
-
-          // // 파일
-          // const fileTd = document.getElementById("docHolidayFileTd");
-          // document.getElementById("docHolidayFile").setAttribute("style","display:none;");
-          // const fileLabel = document.createElement("label");
-          // const fileSpan = document.createElement("span");
-          // if(map.tempApproval.approvalFileOriginName!=null){
-          //   fileSpan.innerText=map.tempApproval.approvalFileOriginName;
-          // }
-
-          // fileLabel.classList.add("fileLabel");
-          // fileLabel.innerText="파일 선택";
-          // fileLabel.style.backgroundColor='#efefef';
-          // fileLabel.style.border='1px solid #767676';
-          // fileLabel.style.padding='3px 5px';
-          // fileLabel.style.borderRadius='3px';
-          // fileLabel.setAttribute("for","docHolidayFile");
-          // fileSpan.style.padding='3px 5px';
-          // fileTd.append(fileLabel,fileSpan);
-
-
+          inputToInput(document.getElementById("inputHoliday"), document.getElementById("inputHoliday2"));
           // 휴가시작일, 휴가종료일
           if(map.tempApproval.docHolidayStart!=null){
             document.getElementById("docHolidayStart").value=map.tempApproval.docHolidayStart;
@@ -91,65 +77,140 @@ const approvalOne = document.querySelectorAll(".approvalOne").forEach(function(o
           if(map.tempApproval.docHolidayEnd!=null){
             document.getElementById("docHolidayEnd").value=map.tempApproval.docHolidayEnd;
           }
+          document.getElementById("docHolidayText").value=map.tempApproval.approvalContent;
+          addTempCount("docHolidayText");
+
+          // 파일
+          fileSection(map, 3, 'docHolidayFile');
 
           // 결재자
           addTempApprovers(map.tempApprover, 4);
 
+          // 유효성 검사
+          const submitUpdateHoliday = document.getElementById("submitHoliday");
+          submitUpdateHoliday.addEventListener("click",(e)=>{
+            checkSubmitHoliday(e);
+          });
+
         }; break;
 
         case 1 :{ /* 사직서 */
+          document.getElementById("docRetirement").append(approvalNoInput);
           document.getElementById("inputRetire").value=map.tempApproval.approvalTitle;
           document.getElementById("inputRetire2").value=map.tempApproval.approvalDocTitle;
+          inputToInput(document.getElementById("inputRetire"), document.getElementById("inputRetire2"));
+          if(map.tempApproval.docRetireDate!=null){
+            document.getElementById("retirementDate").value=map.tempApproval.docRetireDate;
+          }
           document.getElementById("docRetirementText").value=map.tempApproval.approvalContent;
           addTempCount("docRetirementText");
 
+          fileSection(map, 2, 'docRetirementFile');
           addTempApprovers(map.tempApprover, 3);
+          const submitRetirement = document.getElementById("submitRetirement");
+          submitRetirement.addEventListener("click", (e) =>{
+            checkSubmitRetirement(e);
+          })
 
         }; break;
 
         case 2 : { /* 출점 */
+          document.getElementById("docStore").append(approvalNoInput);
           document.getElementById("inputStore").value=map.tempApproval.approvalTitle;
           document.getElementById("inputStore2").value=map.tempApproval.approvalDocTitle;
+          inputToInput(document.getElementById("inputStore"), document.getElementById("inputStore2"));
           document.getElementById("docStoreText").value=map.tempApproval.approvalContent;
+          document.getElementById("storeName").value=map.tempApproval.storeName;
+          document.getElementById("openStore").checked="true";
           addTempCount("docStoreText");
-
+          fileSection(map, 1, 'docStoreFile');
           addTempApprovers(map.tempApprover, 2);
+          const submitStore = document.getElementById("submitStore");
+          submitStore.addEventListener("click", e =>{
+            checkSubmitStore(e);
+          })
         }; break;
 
         case 3 : { /* 폐점 */
+          document.getElementById("docStore").append(approvalNoInput);
           document.getElementById("inputStore").value=map.tempApproval.approvalTitle;
           document.getElementById("inputStore2").value=map.tempApproval.approvalDocTitle;
+          inputToInput(document.getElementById("inputStore"), document.getElementById("inputStore2"));
           document.getElementById("docStoreText").value=map.tempApproval.approvalContent;
+          document.getElementById("storeName").value=map.tempApproval.storeName;
+          document.getElementById("storeNo").value=map.tempApproval.storeNo;
+          document.getElementById("closeStore").checked="true";
           addTempCount("docStoreText");
-
+          fileSection(map, 1, 'docStoreFile');
           addTempApprovers(map.tempApprover, 2);
+          const submitStore = document.getElementById("submitStore");
+          submitStore.addEventListener("click", e =>{
+            checkSubmitStore(e);
+          })
         }; break;
 
+        case 6 : { /* 임시저장 시 출폐점을 선택하지 않은 경우 */
+          document.getElementById("docStore").append(approvalNoInput);
+          document.getElementById("inputStore").value=map.tempApproval.approvalTitle;
+          document.getElementById("inputStore2").value=map.tempApproval.approvalDocTitle;
+          inputToInput(document.getElementById("inputStore"), document.getElementById("inputStore2"));
+          document.getElementById("docStoreText").value=map.tempApproval.approvalContent;
+          document.getElementById("storeName").value=map.tempApproval.storeName;
+          document.getElementById("defaultStore").checked="true";
+          addTempCount("docStoreText");
+          fileSection(map, 1, 'docStoreFile');
+          addTempApprovers(map.tempApprover, 2);
+          const submitStore = document.getElementById("submitStore");
+          submitStore.addEventListener("click", e =>{
+            checkSubmitStore(e);
+          })
+        }
+
         case 4 : { /* 지출 */
+          document.getElementById("docExpense").append(approvalNoInput);
           document.getElementById("inputExpense").value=map.tempApproval.approvalTitle;
           document.getElementById("inputExpense2").value=map.tempApproval.approvalDocTitle;
+          inputToInput(document.getElementById("inputExpense"), document.getElementById("inputExpense2"));
           document.getElementById("docExpenseText").value=map.tempApproval.approvalContent;
           addTempCount("docExpenseText");
-
+          fileSection(map, 0, 'docExpenseFile');
           addTempApprovers(map.tempApprover, 1);
+          const submitExpense = document.getElementById("submitExpense");
+          submitExpense.addEventListener("click", e =>{
+            checkSubmitExpense(e);
+          })
         }; break;
         
         case 5 : { /* 발주 */
+          document.getElementById("docOrder").append(approvalNoInput);
           document.getElementById("inputOrder").value=map.tempApproval.approvalTitle;
           document.getElementById("inputOrder2").value=map.tempApproval.approvalDocTitle;
+          inputToInput(document.getElementById("inputOrder"), document.getElementById("inputOrder2"));
+          console.log(map.tempOrderList);
+          document.getElementById("orderDate").value=map.tempOrderList[0].docOrderDate;
+
+          createOrder();
+          for(let i=0; i<map.tempOrderList.length;i++){
+            // 추가
+          }
           
           addTempApprovers(map.tempApprover, 0);
+          const submitOrder = document.getElementById("submitOrder");
+          submitOrder.addEventListener("click", e =>{
+            checkSubmitOrder(e);
+          })
         }; break;
         default : console.log("오류"); break;
 
       }
     })
     .catch(e=>console.log(e));
+
   })
 })
 
 
-/* =========================================================== */
+/* ========================================================================================================= */
 /* 임시저장 결재자 추가 함수 */
 
 function addTempApprovers(tempApprovers, block3Num) {
@@ -237,7 +298,7 @@ function addTempCount(textId){
 }
 
 
-/* =========================================================== */
+/* ========================================================================================================= */
 
 /* 화살표 클릭시 팀 목록 토글 */
 function toggleTeams(e){
@@ -331,7 +392,6 @@ function selectTeamMember(e){
 
 
 /* 팀원 더블클릭 시 결재라인에 추가 */
-
 let members=[];
 
 function addLine(e){
@@ -423,3 +483,445 @@ function remove(e){
 
   e.parentElement.parentElement.remove();
 }
+
+
+/* ========================================================================================================= */
+/* 공용 */
+
+// 파일
+function fileSection(map, i, inputFileId){
+  
+  const fileName = document.querySelectorAll(".fileName")[i];
+  if(map.tempApproval.approvalFileOriginName!=null){
+    fileName.innerText=map.tempApproval.approvalFileOriginName;
+  }
+
+  document.getElementById(inputFileId).addEventListener("change",(e)=>{
+    fileName.innerText=e.target.files[0].name;
+  })
+
+  document.querySelectorAll(".fileReset")[i].addEventListener("click",(e)=>{
+    const inputFile =e.target.parentElement.previousElementSibling.previousElementSibling;
+    if(inputFile){
+      inputFile.value="";
+    }
+    fileName.innerText="선택된 파일 없음";
+  })
+}
+
+/* 제목 입력 함수 */
+function inputToInput(title1, title2){
+  title1.addEventListener("input", (e) => {
+    const val = title1.value.trim();
+    title2.value = val;
+  });
+}
+
+/* 삭제버튼 */
+function deleteBtn(){
+  const userConfirm = confirm("문서를 삭제하시겠습니까?");
+
+  if(!userConfirm){
+    return;
+  }
+  const currentUrl = window.location.href;
+  location.href="deleteTempApproval?approvalNo=" + currentApprovalNo +"&currentUrl=" + currentUrl;
+
+}
+
+/* =========================================================== */
+/* 임시저장 */
+
+function addSaveListener(saveId, extraAction = () => {}) {
+  document.getElementById(saveId).addEventListener("click", e => {
+    extraAction();
+
+    const userConfirm = confirm("작성한 문서를 임시저장하시겠습니까?");
+    if (!userConfirm) {
+      e.preventDefault();
+    }
+  });
+}
+
+addSaveListener("saveHoliday");
+addSaveListener("saveRetirement");
+addSaveListener("saveStore", () => {
+  const storeNo = document.getElementById("storeNo");
+  if (storeNo.value == "") {
+    storeNo.value = 200;
+  }
+});
+addSaveListener("saveExpense");
+addSaveListener("saveOrder");
+
+/* ========================================================================================================= */
+/* 유효성 검사 내부 코드 */
+
+/* 휴가 신청서 */
+function checkSubmitHoliday(e){
+  if(document.getElementById("inputHoliday").value.trim().length==0){
+    alert("제목을 입력해주세요");
+    document.getElementById("inputHoliday").focus();
+    e.preventDefault();
+    return;
+  }
+  if(document.getElementById("inputHoliday2").value.trim().length == 0){
+    alert("제목을 입력해주세요");
+    document.getElementById("inputHoliday2").focus();
+    e.preventDefault();
+    return;
+  }
+  if(document.getElementById("docHolidayStart").value===''){
+    alert("휴가 시작일을 입력해주세요");
+    document.getElementById("docHolidayStart").focus();
+    e.preventDefault();
+    return;
+  }
+  if(document.getElementById("docHolidayEnd").value===''){
+    alert("휴가 종료일을 입력해주세요");
+    document.getElementById("docHolidayEnd").focus();
+    e.preventDefault();
+    return;
+  }
+  if(document.getElementById("docHolidayStart").value>document.getElementById("docHolidayEnd").value){ 
+    alert("휴가 종료일을 정확하게 입력해주세요")
+    document.getElementById("docHolidayEnd").focus();
+    e.preventDefault();
+    return;
+  }
+  if(document.getElementById("docHolidayText").value===''){
+    alert("내용을 입력해주세요");
+    document.getElementById("docHolidayText").focus();
+    e.preventDefault();
+    return;
+  }
+  if(block3s[4].innerHTML===''){
+    alert("결재선을 추가해주세요");
+    e.preventDefault();
+    return;
+  }
+  const userConfirm = confirm("결재를 요청하시겠습니까?");
+  if(!userConfirm){
+    e.preventDefault();
+    return;
+  }
+}
+
+
+/* 사직서  */
+function checkSubmitRetirement(e){
+  if(document.getElementById("inputRetire").value.trim().length == 0){
+    alert("제목을 입력해주세요");
+    document.getElementById("inputRetire").focus();
+    e.preventDefault();
+    return;
+  }
+  if(document.getElementById("inputRetire2").value.trim().length == 0){
+    alert("제목을 입력해주세요");
+    document.getElementById("inputRetire2").focus();
+    e.preventDefault();
+    return;
+  }
+  if(document.getElementById("retirementDate").value===''){
+    alert("퇴직 예정일을 입력해주세요");
+    document.getElementById("retirementDate").focus();
+    e.preventDefault();
+    return;
+  }
+  if(document.getElementById("docRetirementText").value===''){
+    alert("내용을 입력해주세요");
+    document.getElementById("docRetirementText").focus();
+    e.preventDefault();
+    return;
+  }
+  if(block3s[3].innerHTML===''){
+    alert("결재선을 추가해주세요");
+    e.preventDefault();
+    return;
+  }
+  const userConfirm = confirm("결재를 요청하시겠습니까?");
+  if(!userConfirm){
+    e.preventDefault();
+    return;
+  }
+}
+
+/* 출/폐점 등록 요청서 */
+function checkSubmitStore(e){
+  if(inputStore = document.getElementById("inputStore").value.trim().length == 0){
+    alert("제목을 입력해주세요");
+    inputStore = document.getElementById("inputStore").focus();
+    e.preventDefault();
+    return;
+  }
+  if(document.getElementById("inputStore2").value.trim().length == 0){
+    alert("제목을 입력해주세요");
+    document.getElementById("inputStore2").focus();
+    e.preventDefault();
+    return;
+  }
+  if(document.getElementById("storeName").length == 0){
+    alert("매장명을 입력해주세요");
+    document.getElementById("storeName").focus();
+    e.preventDefault();
+    return;
+  }
+  if(storeNo = document.getElementById("storeNo").length == 0){ // 폐점일때로 제한
+    alert("매장번호를 입력해주세요");
+    storeNo = document.getElementById("storeNo").focus();
+    e.preventDefault();
+    return;
+  }
+  if(!(document.getElementById("openStore").checked) && !(document.getElementById("closeStore").checked)){
+    alert("출/폐점 여부를 체크해주세요");
+    e.preventDefault();
+    return;
+  }
+  if(document.getElementById("docStoreText").value===''){
+    alert("내용을 입력해주세요");
+    document.getElementById("docStoreText").focus();
+    e.preventDefault();
+    return;
+  }
+  if(block3s[2].innerHTML===''){
+    alert("결재선을 추가해주세요");
+    e.preventDefault();
+    return;
+  }
+  const userConfirm = confirm("결재를 요청하시겠습니까?");
+  if(!userConfirm){
+    e.preventDefault();
+    return;
+  }  
+
+}
+
+/* 지출결의서 */
+function checkSubmitExpense(e){
+  if(document.getElementById("inputExpense").value.trim().length == 0){
+    alert("제목을 입력해주세요");
+    document.getElementById("inputExpense").focus();
+    e.preventDefault();
+    return;
+  }
+  if(document.getElementById("inputExpense2").value.trim().length == 0){
+    alert("제목을 입력해주세요");
+    document.getElementById("inputExpense2").focus();
+    e.preventDefault();
+    return;
+  }
+  if(document.getElementById("docExpenseText").value===''){
+    alert("내용을 입력해주세요");
+    document.getElementById("docExpenseText").focus();
+    e.preventDefault();
+    return;
+  }
+  if(document.getElementById("docExpenseFile").value===''){
+    alert("영수증 파일을 첨부해주세요");
+    e.preventDefault();
+    return;
+  }
+  if(block3s[1].innerHTML===''){
+    alert("결재선을 추가해주세요");
+    e.preventDefault();
+    return;
+  }
+  const userConfirm = confirm("결재를 요청하시겠습니까?");
+  if(!userConfirm){
+    e.preventDefault();
+    return;
+  }  
+}
+
+/* 발주기안서 */
+function checkSubmitOrder(e){  
+  if(document.getElementById("inputOrder").value.trim().length == 0){
+    alert("제목을 입력해주세요");
+    document.getElementById("inputOrder").focus();
+    e.preventDefault();
+    return;
+  }
+  if(document.getElementById("inputOrder2").value.trim().length == 0){
+    alert("제목을 입력해주세요");
+    document.getElementById("inputOrder2").focus();
+    e.preventDefault();
+    return;
+  }
+  if(document.getElementById("orderDate").value===''){
+    alert("납기일을 입력해주세요");
+    document.getElementById("orderDate").focus();
+    e.preventDefault();
+    return;
+  }
+  const tbody = document.getElementById("orderTbody");
+  if(tbody.firstElementChild.firstElementChild.firstElementChild.value===''){
+      alert("발주 품목을 추가해주세요");
+      e.preventDefault();
+      return;
+  }
+  if(block3s[0].innerHTML===''){
+    alert("결재선을 추가해주세요");
+    e.preventDefault();
+    return;
+  }
+  const userConfirm = confirm("결재를 요청하시겠습니까?");
+  if(!userConfirm){
+    e.preventDefault();
+    return;
+  }
+}
+
+
+
+/* ====================================== */
+
+// 요소 생성 코드
+// createElement("input",{type:"text", name:"inputId"},["test", "aaa"])
+function createElement(tag, obj, classList){
+  const element = document.createElement(tag);
+
+  for(let key in obj){
+    element.setAttribute(key, obj[key]);
+  }
+  for(let clas of classList){
+    element.classList.add(clas);
+  }
+  return element;
+}
+
+
+function createOrder(){
+
+  const docOrder = document.getElementById("docOrder");
+  const orderSum = document.getElementById("orderSum");
+  // 발주기안서 테이블 생성
+  const orderTbody = document.getElementById("orderTbody");
+  
+  for(let i = 0; i<10 ; i++){
+    const orderTr = createElement("tr", null, ["orderRow"]);
+  
+    // 상품번호 컬럼 생성
+    const td1 = document.createElement("td");
+    const input1 = createElement("input", {"type":"number","name":"approvalList["+i+"].goodsNo"},[]);
+    input1.readOnly = true;
+    td1.append(input1);
+  
+    // 품목이름 컬럼 생성
+    const td2 = document.createElement("td");
+    const input2 = createElement("input", {"type":"text","name":"approvalList["+i+"].docOrderGoodsName"},[]);
+    const div = createElement("div", null, ["list-group", "position-absolute", "zindex2000"]);
+  
+    // 품목이름 자동완성
+    input2.addEventListener("input", e=>{
+      const tr = e.target.parentElement.parentElement;
+      const input = e.target;
+  
+      // 자동완성 박스 초기화
+      div.innerHTML = "";
+  
+      // 초기화
+      tr.children[0].children[0].value = "";
+      tr.children[2].children[0].value = "";
+      tr.children[2].children[0].disabled = true;
+      tr.children[3].children[0].value = "";
+      tr.children[4].children[0].value = "";
+  
+      // 글자 지울 시 남아있는 자동완성 삭제
+      if(e.target.value.trim().length == 0){
+        orderPriceFn();
+        return;
+      }
+  
+    fetch("/approval/docOrderName?goodsName=" + e.target.value)
+    .then(resp=>resp.json())
+    .then(goodsList=>{
+  
+      for(let goods of goodsList){
+        const button = createElement("button", {"type" : "button"}, ["list-group-item"]);
+        button.innerText = goods.goodsName;
+        div.append(button);
+  
+        // 버튼 클릭 시 컬럼들 값 채워지기
+        button.addEventListener("click", ()=>{
+          const goodsNos = document.querySelectorAll(".orderRow>td:first-of-type>input");
+          for(let item of goodsNos){
+            if(item.value == goods.goodsNo){
+              alert("이미 존재하는 품목입니다");
+              input.value = "";
+              div.innerHTML = "";
+              return;
+            }
+          }
+          e.target.value = goods.goodsName;
+          e.target.readOnly = true;
+  
+          tr.children[0].children[0].value = goods.goodsNo;
+          tr.children[2].children[0].value = 0;
+          tr.children[2].children[0].disabled = false;
+          tr.children[3].children[0].value = goods.stockInPrice;
+  
+          div.innerHTML = "";
+        })
+      }
+    })
+    .catch(e=>console.log(e));
+  
+    });
+    input2.addEventListener("dblclick" , e=>{
+      e.target.readOnly = false;
+    });
+    td2.append(input2, div);
+    
+    // 수량 컬럼 생성
+    const td3 = document.createElement("td");
+    const input3 = createElement("input", {"type":"number","name":"approvalList["+i+"].docOrderAmount"},[]);
+    input3.disabled = true;
+    input3.addEventListener("input", e=>{
+      if(e.target.value < 0){
+        e.target.value = 0;
+      }
+      input5.value = e.target.value * input4.value;
+      orderPriceFn();
+    });
+    td3.append(input3);
+    
+    // 단가 컬럼 생성
+    const td4 = document.createElement("td");
+    const input4 = createElement("input", {"type":"number","name":"approvalList["+i+"].docOrderUnitPrice"},[]);
+    input4.readOnly = true;
+    td4.append(input4);
+  
+    // 금액 컬럼 생성
+    const td5 = document.createElement("td");
+    const input5 = createElement("input", {"type":"number","name":"approvalList["+i+"].docOrderPrice"},[]);
+    input5.classList.add("orderPrice");
+    input5.readOnly = true;
+    td5.append(input5);
+  
+    orderTr.append(td1, td2, td3, td4, td5);
+    orderTbody.append(orderTr);
+  }
+  
+  function orderPriceFn(){
+    const orderPrice = document.getElementsByClassName("orderPrice");
+    console.log(orderPrice);
+    let temp = 0;
+    for(let price of orderPrice){
+      if(price.value != ""){
+        temp += Number(price.value);
+      }
+      console.log(temp);
+    }
+    orderSum.value = temp;
+  }
+}
+
+
+docOrder.addEventListener("submit", ()=>{
+  const docOrder = document.querySelectorAll("#orderTbody>tr>td>input");
+  for(let item of docOrder){
+    if(item.value.trim().length == 0){
+      item.disabled = true;
+    }
+  }
+});

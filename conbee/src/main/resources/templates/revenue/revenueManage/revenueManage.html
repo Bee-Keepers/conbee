@@ -135,9 +135,9 @@
                   <td th:text="*{historyGoodsName}">울트라 스킨</td>
                   <td th:text="*{lcategoryName}">신변잡화</td>
                   <td th:text="*{scategoryName}">화장품</td>
-                  <td th:text="*{historyActualPrice}">150ml</td>
+                  <td th:text="*{#numbers.formatInteger(historyActualPrice, 0, 'COMMA')}">150ml</td>
                   <td th:text="*{historyAmount}">20000</td>
-                  <td th:text="*{totalPrice}">30000</td>
+                  <td th:text="*{#numbers.formatInteger(totalPrice, 0, 'COMMA')}">30000</td>
                 </tr>
             </th:block>
             <th:block th:if="${#lists.size(revenueList) == 0}">

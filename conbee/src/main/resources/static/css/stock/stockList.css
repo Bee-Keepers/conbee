@@ -135,3 +135,7 @@ thead>tr>th{
 .goodsDetailBtn{
    cursor: pointer;
 }
+
+.goodsDetailSelectBtn{
+   cursor: pointer;
+}

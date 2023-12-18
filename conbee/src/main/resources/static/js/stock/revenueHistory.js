@@ -1,5 +1,18 @@
 const storeSearch = document.getElementById("storeSearch");
 const storeSelect = document.getElementById("storeSelect");
+// 요소 생성 코드
+// createElement("input",{type:"text", name:"inputId"},["test", "aaa"])
+function createElement(tag, obj, classList){
+    const element = document.createElement(tag);
+  
+    for(let key in obj){
+      element.setAttribute(key, obj[key]);
+    }
+    for(let clas of classList){
+      element.classList.add(clas);
+    }
+    return element;
+  };
 // 지점 이름으로 검색
 storeSearch.addEventListener("change", e=>{
 
@@ -105,3 +118,86 @@ if(document.getElementById("startDate") != null){
     startDate.value = document.getElementById("startDate").innerText;
     endDate.value = document.getElementById("endDate").innerText;
 }
+
+// 무한 스크롤
+
+const urlSearch = url.search;
+const tableTbody = document.getElementById("tableTbody");
+let cp = 1;
+const cpFn = ()=>{
+   cp += 1;
+};
+let callback = (entries, observer) => {
+   entries.forEach(entry => {
+    // 타겟 요소가 루트 요소와 교차하는 점이 없으면 콜백을 호출했으되, 조기에 탈출한다.
+    if (entry.intersectionRatio <= 0) return
+ 
+    // 혹은 isIntersecting을 사용할 수 있습니다.
+    if (!entry.isIntersecting) return
+ 
+    // ... 콜백 로직
+    cpFn();
+   let params;
+   if(urlSearch == ""){
+      params = "?cp=" + cp;
+   } else{
+      params = urlSearch + "&cp=" + cp;
+   }
+   fetch("/revenueManage/historyListAjax"+ params)
+   .then(resp=>resp.json())
+   .then(list=>{
+
+      if(list.length == 0){
+         observer.disconnect();
+      }
+      for(let goods of list){
+         const tr = createElement("tr",null,[]);
+
+         const td1 = createElement("td",null,[]);
+         td1.innerText = goods.historyNo;
+
+         const td2 = createElement("td",null,[]);
+         td2.innerText = goods.historyDivide;
+         
+         const td3 = createElement("td",null,[]);
+         td3.innerText = goods.historyGoodsName;
+
+         const td4 = createElement("td",null,[]);
+         td4.innerText = goods.lcategoryName;
+
+         const td5 = createElement("td",null,[]);
+         td5.innerText = goods.scategoryName;
+
+         const td6 = createElement("td",null,[]);
+         td6.innerText = goods.historyUnitPrice.toLocaleString("ko-KR");
+
+         const td7 = createElement("td",null,[]);
+         td7.innerText = goods.historyDiscount;
+
+         const td8 = createElement("td",null,[]);
+         td8.innerText = goods.historyActualPrice.toLocaleString("ko-KR");
+
+         const td9 = createElement("td",null,[]);
+         td9.innerText = goods.historyAmount;
+
+         const td10 = createElement("td",null,[]);
+         td10.innerText = goods.totalPrice.toLocaleString("ko-KR");
+
+         const td11 = createElement("td",null,[]);
+         td11.innerText = goods.historyDate;
+
+         tr.append(td1, td2, td3, td4, td5, td6, td7, td8, td9, td10, td11);
+
+         tableTbody.append(tr);
+      }
+   })
+   .catch(e=>console.log(e));
+   });
+ };
+
+const observer = new IntersectionObserver( callback ,{
+	threshold: 0.5
+});
+
+
+observer.observe(document.querySelector("#observedTag"));

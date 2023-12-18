@@ -98,20 +98,25 @@
           <!-- 테이블 내용 -->
 
           <tbody id="goodsTable" class="text-center">
-              <tr id="checkbox" th:each="stock : ${map.goodsListSelect}" th:object="${stock}">
+              <tr id="checkbox" th:each="stock : ${goodsListSelect}" th:object="${stock}">
                 <td>
                   <label class="w-100">
                     <input type="checkbox" class="checkbox" th:name="*{goodsNo}">
                   </label>
                 </td>
                 <td th:text="*{goodsNo}">상품번호</td>
-                <td th:text="*{goodsName}" data-bs-toggle="modal" data-bs-target="#goodsDetailSelectBtn" class="goodsDetailSelectBtn" style="cursor: pointer;">상품이름</td>
+                <td th:text="*{goodsName}" data-bs-toggle="modal" data-bs-target="#goodsDetailSelectBtn" class="goodsDetailSelectBtn">상품이름</td>
                 <td th:text="*{goodsStandard}">재고규격</td>
-                <td th:text="*{goodsPrice}">상품가격</td>
+                <td th:text="*{#numbers.formatInteger(goodsPrice, 0, 'COMMA')}">상품가격</td>
                 <td th:text="*{lcategoryName}">대분류</td>
                 <td th:text="*{scategoryName}">소분류</td>
               </tr>
           </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="7" id="observedTag"></td>
+            </tr>
+          </tfoot>
 
         </table>
       </div>

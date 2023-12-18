@@ -12,7 +12,7 @@ import com.keepers.conbee.email.model.service.EmailService;
 
 import lombok.RequiredArgsConstructor;
 
-// @RestController : 비동기 요청 및 응답 제어 용도의 컨토를로
+// @RestController : 비동기 요청 및 응답 제어 용도의 컨트롤러
 @RestController // @Controller + @ResponseBody
 @RequestMapping("email")
 @RequiredArgsConstructor

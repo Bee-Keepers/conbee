@@ -15,6 +15,13 @@
 		AND APPROVAL_CONDITION=1
 	</select>
 	
+	<!-- 임시저장 문서 삭제 -->
+	<update id="deleteTempApproval">
+		UPDATE APPROVAL 
+		SET APPROVAL_DELETE = 2
+		WHERE APPROVAL_NO = #{approvalNo}
+		AND MEMBER_NO=#{memberNo}
+	</update>
 	
 	<!-- 임시저장함 조회 -->
 	<select id="selectTempSave" resultType="Approval">
@@ -29,7 +36,7 @@
 	
 	<!-- 임시저장 데이터 조회 -->
 	<select id="selectTempHoliday" resultType="Approval">
-		SELECT APPROVAL_TITLE, APPROVAL_DOC_TITLE, APPROVAL_CONTENT,
+		SELECT APPROVAL_TITLE, APPROVAL_DOC_TITLE, APPROVAL_CONTENT, APPROVAL_NO, TO_CHAR(APPROVAL_DATE, 'YYYY-MM-DD') APPROVAL_DATE,
 			TO_CHAR(DOC_HOLIDAY_START, 'YYYY-MM-DD') DOC_HOLIDAY_START, TO_CHAR(DOC_HOLIDAY_END, 'YYYY-MM-DD') DOC_HOLIDAY_END,
 			APPROVAL_FILE_NO, APPROVAL_FILE_ROUTE, APPROVAL_FILE_ORIGIN_NAME, APPROVAL_FILE_RENAME
 		FROM "APPROVAL"
@@ -40,6 +47,7 @@
 	
 	<select id="selectTempRetirement" resultType="Approval">
 		SELECT APPROVAL_TITLE, APPROVAL_DOC_TITLE, APPROVAL_CONTENT, TO_CHAR(DOC_RETIRE_DATE, 'YYYY-MM-DD') DOC_RETIRE_DATE,
+			APPROVAL_NO, TO_CHAR(APPROVAL_DATE, 'YYYY-MM-DD') APPROVAL_DATE,
 			APPROVAL_FILE_NO, APPROVAL_FILE_ROUTE, APPROVAL_FILE_ORIGIN_NAME, APPROVAL_FILE_RENAME
 		FROM "APPROVAL"
 		LEFT JOIN "APPROVAL_FILE" USING(APPROVAL_NO)
@@ -49,6 +57,7 @@
 	
 	<select id="selectTempStore" resultType="Approval">
 		SELECT APPROVAL_TITLE, APPROVAL_DOC_TITLE, APPROVAL_CONTENT, DOC_STORE_STATE, STORE_NAME, STORE_NO,
+			APPROVAL_NO, TO_CHAR(APPROVAL_DATE, 'YYYY-MM-DD') APPROVAL_DATE,
 			APPROVAL_FILE_NO, APPROVAL_FILE_ROUTE, APPROVAL_FILE_ORIGIN_NAME, APPROVAL_FILE_RENAME
 		FROM "APPROVAL"
 		LEFT JOIN "APPROVAL_FILE" USING(APPROVAL_NO)
@@ -57,10 +66,24 @@
 	</select>
 	
 	<select id="selectTempExpense" resultType="Approval">
-		SELECT APPROVAL_TITLE, APPROVAL_DOC_TITLE, APPROVAL_CONTENT,
+		SELECT APPROVAL_TITLE, APPROVAL_DOC_TITLE, APPROVAL_CONTENT, APPROVAL_NO, TO_CHAR(APPROVAL_DATE, 'YYYY-MM-DD') APPROVAL_DATE,
 			APPROVAL_FILE_NO, APPROVAL_FILE_ROUTE, APPROVAL_FILE_ORIGIN_NAME, APPROVAL_FILE_RENAME
 		FROM "APPROVAL"
 		LEFT JOIN "APPROVAL_FILE" USING(APPROVAL_NO)
+		WHERE APPROVAL_NO=#{approvalNo}
+	</select>
+	
+	<select id="selectTempOrder" resultType="Approval">
+		SELECT APPROVAL_TITLE, APPROVAL_DOC_TITLE, APPROVAL_NO, TO_CHAR(APPROVAL_DATE, 'YYYY-MM-DD') APPROVAL_DATE
+		FROM "APPROVAL"
+		WHERE APPROVAL_NO=#{approvalNo}
+	</select>
+	
+	
+	<select id="selectTempOrderList" resultType="Approval">
+		SELECT GOODS_NO, DOC_ORDER_GOODS_NAME, DOC_ORDER_AMOUNT, DOC_ORDER_UNIT_PRICE, 
+				DOC_ORDER_PRICE, DOC_ORDER_DATE
+		FROM "DOC_ORDER"
 		WHERE APPROVAL_NO=#{approvalNo}
 	</select>
 	
@@ -78,6 +101,88 @@
 		WHERE AR.APPROVAL_NO=#{approvalNo}
 		ORDER BY APPROVER_ORDER
 	</select>
+	
+	
+	<!-- 재작성 - 기안문 update -->
+	<update id="updateApproval">
+		UPDATE "APPROVAL"
+		SET APPROVAL_DATE=SYSDATE, APPROVAL_TITLE=#{approvalTitle}, APPROVAL_CONTENT=#{approvalContent}, APPROVAL_CONDITION=#{approvalCondition}, 
+			DEPARTMENT_NO =#{departmentNo}, DOC_CATEGORY_NO=#{docCategoryNo}, APPROVAL_DOC_TITLE=#{approvalDocTitle}
+		WHERE APPROVAL_NO = #{approvalNo}
+		AND MEMBER_NO=#{memberNo}
+	</update>
+	
+	<!-- 파일 검색 -->
+	<select id="selectSearchFile" resultType="_int">
+		SELECT COUNT(*)
+		FROM "APPROVAL_FILE"
+		WHERE APPROVAL_NO=#{approvalNo}
+	</select>
+	
+	<!-- 파일 정보 삭제 -->
+	<delete id="deleteLastFile">
+		DELETE FROM "APPROVAL_FILE"
+		WHERE APPROVAL_NO=#{approvalNo}
+	</delete>
+	
+	<!-- doc 업데이트 -->
+	<update id="updateApprovalDoc">
+		<choose>
+			<!-- 휴가 -->
+			<when test="docCategoryNo==0">
+				UPDATE "DOC_HOLIDAY"
+				SET DOC_HOLIDAY_START=#{docHolidayStart},
+					DOC_HOLIDAY_END=#{docHolidayEnd}
+				WHERE APPROVAL_NO=#{approvalNo}
+			</when>
+			<!-- 퇴직 -->
+			<when test="docCategoryNo==1">
+				UPDATE "DOC_RETIREMENT"
+				SET DOC_RETIRE_DATE=#{docRetireDate}
+				WHERE APPROVAL_NO=#{approvalNo}
+			</when>
+			<!-- 춢폐점-->
+			<when test="docCategoryNo==2 or docCategoryNo==3 or docCategoryNo==6">
+				UPDATE "DOC_STORE"
+				SET DOC_STORE_STATE = #{docStoreState},
+					STORE_NAME=#{storeName},
+					STORE_NO= CASE
+								WHEN ${storeNo}=-1 THEN NULL
+								ELSE ${storeNo}
+							END
+				WHERE APPROVAL_NO=#{approvalNo}
+			</when>
+			<!-- 지출은 doc 없음-->
+			<!-- 발주는 별도-->
+		</choose>
+	</update>
+	
+	
+	<!-- 발주 리스트 확인 -->
+	<select id="searchOrderList" resultType="_int">
+		SELECT COUNT(*)
+		FROM "DOC_ORDER"
+		WHERE APPROVAL_NO=#{approvalNo}
+	</select>
+	
+	<!-- 발주 리스트 삭제 -->
+	<delete id="deleteLastOrderList">
+		DELETE FROM "DOC_ORDER"
+		WHERE APPROVAL_NO=#{approvalNo}
+	</delete>
+	
+	<!-- 결재자 리스트 확인 -->
+	<select id="searchApproverList" resultType="_int">
+		SELECT COUNT(*)
+		FROM "APPROVER"
+		WHERE APPROVAL_NO=#{approvalNo}
+	</select>
+	
+	<!-- 결재자 리스트 삭제 -->
+	<delete id="deleteLastApproverList">
+		DELETE FROM "APPROVER"
+		WHERE APPROVAL_NO=#{approvalNo}
+	</delete>
 	
 
 	<!-- 기안문 작성자 정보 조회 -->
@@ -159,7 +264,7 @@
 				VALUES(#{approvalNo}, #{docRetireDate})
 			</when>
 			<!-- 출폐점 -->
-			<when test="docCategoryNo==2 or docCategoryNo==3">
+			<when test="docCategoryNo==2 or docCategoryNo==3 or docCategoryNo==6">
 				INSERT INTO "DOC_STORE"
 				VALUES(#{approvalNo}, #{docStoreState}, #{storeName},
 				CASE
@@ -168,7 +273,6 @@
 				END)
 			</when>
 			<!-- 지출은 doc 없음-->
-			<!-- 발주 추가예정-->
 		</choose>
 	</insert>
 	
@@ -228,7 +332,7 @@
 			APPROVAL_FILE_NO, APPROVAL_FILE_ROUTE, APPROVAL_FILE_ORIGIN_NAME, APPROVAL_FILE_RENAME
 		FROM "APPROVAL"
 		LEFT JOIN "APPROVAL_FILE" USING(APPROVAL_NO)
-		JOIN "DOC_HOLIDAY" USING(APPROVAL_NO)
+		LEFT JOIN "DOC_HOLIDAY" USING(APPROVAL_NO)
 		WHERE APPROVAL_NO=#{approvalNo}
 	</select>
 	
@@ -264,8 +368,22 @@
 	</select>
 	
 	
+	<select id="selectRequestOrder" resultType="Approval">
+		SELECT APPROVAL_DOC_TITLE, TO_CHAR(APPROVAL_DATE, 'YYYY-MM-DD') APPROVAL_DATE
+		FROM "APPROVAL"
+		WHERE APPROVAL_NO=#{approvalNo}
+	</select>
+	
+	<select id="selectRequestOrderList" resultType="Approval">
+		SELECT GOODS_NO, DOC_ORDER_DATE, DOC_ORDER_GOODS_NAME, DOC_ORDER_AMOUNT, 
+				DOC_ORDER_UNIT_PRICE, DOC_ORDER_PRICE
+		FROM "DOC_ORDER"
+		WHERE APPROVAL_NO=#{approvalNo}
+		
+	</select>
+	
 	<select id="selectRequestApprover" resultType="Approver">
-		SELECT AR.MEMBER_NO, TO_CHAR(AR.APPROVER_DATE, 'YYYY-MM-DD') APPROVER_DATE, AR.APPROVER_ORDER,
+		SELECT AR.MEMBER_NO, TO_CHAR(AR.APPROVER_DATE, 'YYYY-MM-DD') APPROVER_DATE, AR.APPROVER_ORDER, AR.APPROVER_CONDITION,
 				(SELECT MEMBER_NAME FROM MEMBER M WHERE AR.MEMBER_NO = M.MEMBER_NO) 
 				MEMBER_NAME,
 				(SELECT GRADE_NAME FROM MEMBER M JOIN GRADE USING(GRADE_NO)
@@ -279,6 +397,15 @@
 		ORDER BY APPROVER_ORDER		
 	</select>
 	
+
+	<!-- 회수문서함 글 개수 조회 -->
+	<select id="searchReclaimApprovalCount">
+		SELECT COUNT(*)
+		FROM APPROVAL
+		WHERE MEMBER_NO=#{memberNo}
+		AND APPROVAL_DELETE=0
+		AND APPROVAL_CONDITION=2
+	</select>
 
 
 	<!-- 회수문서함 조회 -->
@@ -779,6 +906,75 @@
 		ORDER BY APPROVAL_DATE DESC
 	</select>
 	
+	<!--결재승인권한자가 조회하는 완료문서 리스트 갯수 조회-->
+	<select id="getCompleteApprovalApproverListCount" resultType="_int">
+		SELECT COUNT(*)
+		
+		FROM APPROVAL AL
+		JOIN APPROVER AR ON (AL.APPROVAL_NO = AR.APPROVAL_NO)
+		JOIN DOC_CATEGORY D ON (AL.DOC_CATEGORY_NO = D.DOC_CATEGORY_NO)
+		JOIN MEMBER M ON (M.MEMBER_NO = AL.MEMBER_NO)
+		WHERE AR.MEMBER_NO = ${memberNo} <!--상급자(로그인멤버)의 회원번호-->
+		AND APPROVAL_DELETE = 0 <!--삭제되지 않은 문서-->
+		AND APPROVAL_CONDITION = 4 <!--결재완료된 문서-->
+		AND AR.APPROVER_CONDITION = 1 <!--상급자(로그인멤버)가 승인한 문서-->
+		ORDER BY APPROVAL_DATE DESC
+	</select>
+	
+	<!--기안자가 조회하는 결재완료문서 리스트 갯수 조회-->
+	<select id="getCompleteApprovalDrafterListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM APPROVAL A
+		JOIN MEMBER M ON (M.MEMBER_NO = A.MEMBER_NO)
+		JOIN DOC_CATEGORY USING(DOC_CATEGORY_NO)
+		LEFT JOIN TEAM T ON (M.TEAM_NO = T.TEAM_NO)
+		LEFT JOIN DEPARTMENT D ON (M.DEPARTMENT_NO = D.DEPARTMENT_NO)
+		WHERE A.MEMBER_NO = ${memberNo}
+		AND APPROVAL_CONDITION =4
+		AND APPROVAL_DELETE = 0
+		ORDER BY APPROVAL_DATE DESC
+	</select>
+	
+	<!--자신이 반려한 문서 리스트 갯수 조회-->
+	<select id="getReturnApprovalApproverListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM APPROVAL AL
+		JOIN APPROVER AR ON (AL.APPROVAL_NO = AR.APPROVAL_NO)
+		JOIN DOC_CATEGORY D ON (AL.DOC_CATEGORY_NO = D.DOC_CATEGORY_NO)
+		JOIN MEMBER M ON (M.MEMBER_NO = AL.MEMBER_NO)
+		WHERE AR.MEMBER_NO = ${memberNo} <!--상급자(로그인멤버)의 회원번호-->
+		AND APPROVAL_DELETE = 0 <!--삭제되지 않은 문서-->
+		AND APPROVAL_CONDITION = 3 <!--반려된 문서-->
+		AND AR.APPROVER_CONDITION = 2 <!--상급자(로그인멤버)가 반려한 문서-->
+		ORDER BY APPROVAL_DATE DESC
+	</select>
+	
+	<!--기안자가 자신이 기안한 문서가 반려된 경우 리스트 갯수 조회-->
+	<select id="getReturnApprovalDrafterListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM APPROVAL A
+		JOIN MEMBER M ON (M.MEMBER_NO = A.MEMBER_NO)
+		JOIN DOC_CATEGORY USING(DOC_CATEGORY_NO)
+		LEFT JOIN TEAM T ON (M.TEAM_NO = T.TEAM_NO)
+		LEFT JOIN DEPARTMENT D ON (M.DEPARTMENT_NO = D.DEPARTMENT_NO)
+		WHERE A.MEMBER_NO = ${memberNo}
+		AND APPROVAL_CONDITION =3
+		AND APPROVAL_DELETE = 0
+		ORDER BY APPROVAL_DATE DESC
+	</select>
+	
+	<!--협조문서리스트 갯수 조회-->
+	<select id="getJoinApprovalListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM APPROVAL AL
+		JOIN APPROVER AR ON (AL.APPROVAL_NO = AR.APPROVAL_NO)
+		JOIN DOC_CATEGORY D ON (AL.DOC_CATEGORY_NO = D.DOC_CATEGORY_NO)
+		JOIN MEMBER M ON (M.MEMBER_NO = AL.MEMBER_NO)
+		WHERE APPROVAL_DELETE = 0 <!--삭제되지 않은 문서-->
+		AND APPROVAL_CONDITION IN (0, 4)  <!--결재중 또는 결재완료된 문서-->
+		AND AL.DEPARTMENT_NO = ${departmentNo}
+		ORDER BY APPROVAL_DATE DESC
+	</select>
 	
 
 </mapper>

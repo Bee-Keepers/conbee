@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +23,7 @@ import com.keepers.conbee.approval.model.dto.Approver;
 import com.keepers.conbee.approval.model.dto.CommandDTO;
 import com.keepers.conbee.approval.model.dto.Pagination;
 import com.keepers.conbee.approval.model.dto.Pagination10;
+import com.keepers.conbee.approval.model.dto.PaginationAdmin;
 import com.keepers.conbee.approval.model.mapper.ApprovalMapper;
 import com.keepers.conbee.common.utility.Util;
 import com.keepers.conbee.member.model.dto.Member;
@@ -54,7 +57,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		int listCount = mapper.searchTempSaveCount(memberNo);
 		
-		Pagination pagination = new Pagination(cp, listCount);
+		Pagination10 pagination = new Pagination10(cp, listCount);
 		
 		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
 		int limit = pagination.getLimit();
@@ -63,13 +66,27 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		List<Approval> tempSaveList = mapper.selectTempSave(memberNo,rowBounds);
 		
-		log.debug(tempSaveList+"======");
+//		log.debug(tempSaveList+"======");
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("pagination", pagination);
 		map.put("tempSaveList", tempSaveList);
 	
 		return map;
+	}
+	
+
+	// 임시저장 문서 삭제
+	@Override
+	public int deleteTempApproval(int memberNo, int approvalNo) {
+		
+		Map<String, Object> param = new HashMap<>();
+		
+		param.put("memberNo", memberNo);
+		param.put("approvalNo", approvalNo);
+		
+		
+		return mapper.deleteTempApproval(param);
 	}
 	
 	
@@ -80,21 +97,24 @@ public class ApprovalServiceImpl implements ApprovalService{
 		Map<String, Object> tempData = new HashMap<>();
 		
 		Approval tempApproval = new Approval();
-		tempApproval.setDocCategoryNo(docCategoryNo); // 필요?
 		
 		// 1. 기안문 데이터 + 파일 데이터 + DOC 데이터 
 		switch(docCategoryNo) {
 		case 0 : tempApproval = mapper.selectTempHoliday(approvalNo); break; // 휴가
 		case 1 : tempApproval = mapper.selectTempRetirement(approvalNo); break; // 퇴직
-		case 2,3 : tempApproval = mapper.selectTempStore(approvalNo); break; // 점포
-		case 4 : tempApproval = mapper.selectTempExpense(approvalNo); break; // 점포
-		// case 5 : 발주 추가
+		case 2,3,6 : tempApproval = mapper.selectTempStore(approvalNo); break; // 점포
+		case 4 : tempApproval = mapper.selectTempExpense(approvalNo); break; // 지출
+		case 5 : tempApproval = mapper.selectTempOrder(approvalNo); break; // 발주
 		}
 		tempData.put("tempApproval", tempApproval);
 		
-//		log.debug(tempApproval+"==="); // 각 컬럼이 null이면 걍 null이 되는 것 같음. 컬럼값이 있는 건 잘 받아옴
+		// 2. 발주 리스트
+		if(docCategoryNo==5) {
+			List<Approval> tempOrderList = mapper.selectTempOrderList(approvalNo);
+			tempData.put("tempOrderList", tempOrderList);
+		}
 		
-		// 2. 결재자 리스트
+		// 3. 결재자 리스트
 		List<Approver> tempApprover = mapper.selectTempApprover(approvalNo);
 		tempData.put("tempApprover", tempApprover);
 
@@ -102,9 +122,101 @@ public class ApprovalServiceImpl implements ApprovalService{
 	}
 	
 	
+	// 재작성
+	@Override
+	public int updateApproval(Approval approval, List<Approver> approverList, MultipartFile approvalFile,
+			CommandDTO command) throws IllegalStateException, IOException {
+		
+		
+		int result;
+		
+		// 1) 전자결재 테이블 업데이트
+		int resultApproval = mapper.updateApproval(approval);
+		if(resultApproval==0) return 0;
+		
+		
+		// 2) 파일 테이블 삽입
+		// 문서번호에 해당하는 파일 있는지 검색 후 삭제
+		int searchFile = mapper.selectSearchFile(approval.getApprovalNo());
+		
+		if(searchFile>0) {
+			int deleteFile = mapper.deleteLastFile(approval.getApprovalNo());
+			if(deleteFile==0) return 0;
+		}
+		
+		// 파일 다시 추가
+		ApprovalFile uploadFile = new ApprovalFile();
+		int resultApprovalFile;
+		
+		if(approval.getDocCategoryNo()!=5) {			
+			if(!approvalFile.isEmpty()) {
+				
+				uploadFile.setApprovalNo(approval.getApprovalNo());
+				uploadFile.setApprovalFileRoute(webPath);
+				uploadFile.setApprovalFileOriginName(approvalFile.getOriginalFilename());
+				uploadFile.setApprovalFileRename(Util.fileRename(approvalFile.getOriginalFilename()));
+				
+				uploadFile.setUploadFile(approvalFile);
+				
+				resultApprovalFile = mapper.insertApprovalFile(uploadFile);
+				if(resultApprovalFile>0) {
+					uploadFile.getUploadFile().transferTo(new File(folderPath + uploadFile.getApprovalFileRename()));
+				}
+			}
+		}
+		
+		// 3) 휴가/퇴직/출폐점 결재문서 테이블 삽입	
+		if(approval.getDocCategoryNo()!=4 && approval.getDocCategoryNo()!=5) {			
+			resultApproval = mapper.updateApprovalDoc(approval);
+			if(resultApproval==0) return 0;
+		}
+		
+		
+		// 4) 발주 리스트 삽입
+		int searchOrderList = mapper.searchOrderList(approval.getApprovalNo());
+		
+		if(searchOrderList>0) {
+			int deleteOrderList = mapper.deleteLastOrderList(approval.getApprovalNo());
+			if(deleteOrderList==0) return 0;
+		}
+		
+		List<Approval> approvalList = command.getApprovalList();
+		if(approval.getDocCategoryNo()==5 && approvalList!=null) {
+			
+			for(Approval app : approvalList) {
+				app.setApprovalNo(approval.getApprovalNo());
+				app.setDocOrderDate(approval.getDocOrderDate());
+			}
+			resultApproval = mapper.insertOrder(approvalList);
+			if(resultApproval>0) resultApproval=1;
+		}
+		
+		
+		// 5) 결재자 리스트 테이블 삽입
+		int searchApproverList = mapper.searchApproverList(approval.getApprovalNo());
+		
+		if(searchApproverList>0) {
+			int deleteApproverList = mapper.deleteLastApproverList(approval.getApprovalNo());
+			if(deleteApproverList==0) return 0;
+		}
+		
+		if(!approverList.isEmpty()) {			
+			for(Approver approver:approverList) {
+				approver.setApprovalNo(approval.getApprovalNo()); //문서번호
+			}
+			
+			resultApproval = mapper.insertApproverList(approverList);
+			if(resultApproval>0) resultApproval=1;
+		}
+		
+	
+		if(resultApproval==1) result = 1;
+		else result =0;
+	
+	    return result;
+	}
+	
 
-	
-	
 	// 기안문 작성자 정보 조회
 	@Override
 	public Member selectInfo(int memberNo) {
@@ -150,24 +262,26 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		log.debug(approvalFile +"===================");
 
-		if(!approvalFile.isEmpty()) {
-		
-			uploadFile.setApprovalNo(approval.getApprovalNo());
-			uploadFile.setApprovalFileRoute(webPath);
-			uploadFile.setApprovalFileOriginName(approvalFile.getOriginalFilename());
-			uploadFile.setApprovalFileRename(Util.fileRename(approvalFile.getOriginalFilename()));
-			
-			uploadFile.setUploadFile(approvalFile);
-			
-			resultApprovalFile = mapper.insertApprovalFile(uploadFile);
-			if(resultApprovalFile>0) {
-				uploadFile.getUploadFile().transferTo(new File(folderPath + uploadFile.getApprovalFileRename()));
+		if(approval.getDocCategoryNo()!=5) {			
+			if(!approvalFile.isEmpty()) {
+				
+				uploadFile.setApprovalNo(approval.getApprovalNo());
+				uploadFile.setApprovalFileRoute(webPath);
+				uploadFile.setApprovalFileOriginName(approvalFile.getOriginalFilename());
+				uploadFile.setApprovalFileRename(Util.fileRename(approvalFile.getOriginalFilename()));
+				
+				uploadFile.setUploadFile(approvalFile);
+				
+				resultApprovalFile = mapper.insertApprovalFile(uploadFile);
+				if(resultApprovalFile>0) {
+					uploadFile.getUploadFile().transferTo(new File(folderPath + uploadFile.getApprovalFileRename()));
+				}
 			}
 		}
 
 		
 		
-		// 3) 휴가/퇴직/출폐점/발주 결재문서 테이블 삽입	
+		// 3) 휴가/퇴직/출폐점 결재문서 테이블 삽입	
 		// => 임시 저장시 삽입됨 임시저장 문서 재작성시 insert or update 에 따라 수정하기
 		if(approval.getDocCategoryNo()!=4 && approval.getDocCategoryNo()!=5) {			
 			resultApproval = mapper.insertApprovalDoc(approval);
@@ -214,7 +328,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 		int listCount = mapper.searchRequestApprovalCount(memberNo);
 		
 		/* cp, listCount를 이용해 Pagination 객체 생성*/
-		Pagination pagination = new Pagination(cp, listCount);
+		Pagination10 pagination = new Pagination10(cp, listCount);
 		
 		// RowBounds 객체 생성
 		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
@@ -246,12 +360,19 @@ public class ApprovalServiceImpl implements ApprovalService{
 		case 0 : requestApproval = mapper.selectRequestHoliday(approvalNo); break; // 휴가
 		case 1 : requestApproval = mapper.selectRequestRetirement(approvalNo); break; // 퇴직
 		case 2,3 : requestApproval = mapper.selectRequestStore(approvalNo); break; // 점포
-		case 4 : requestApproval = mapper.selectRequestExpense(approvalNo); break; // 점포
-		// case 5 : 발주 추가
+		case 4 : requestApproval = mapper.selectRequestExpense(approvalNo); break; // 지출
+		case 5 : requestApproval = mapper.selectRequestOrder(approvalNo); break; // 발주
 		}
 		requestData.put("requestApproval", requestApproval);
 		
-		// 2. 결재자 리스트
+		// 2. 발주 데이터 넣기
+		List<Approval> orderList = new ArrayList<>();
+		if(docCategoryNo==5) {
+			orderList = mapper.selectRequestOrderList(approvalNo);
+		}
+		requestData.put("orderList", orderList);
+		
+		// 3. 결재자 리스트
 		List<Approver> requestApprover = mapper.selectRequestApprover(approvalNo);
 		requestData.put("requestApprover", requestApprover);
 		
@@ -263,8 +384,28 @@ public class ApprovalServiceImpl implements ApprovalService{
 	
 	// 회수문서함 조회
 	@Override
-	public List<Approval> selectReclaimApproval(int memberNo) {
-		return mapper.selectReclaimApproval(memberNo);
+	public Map<String, Object> selectReclaimApproval(int memberNo, int cp) {
+		
+	
+		int listCount = mapper.searchReclaimApprovalCount(memberNo);
+		
+		/* cp, listCount를 이용해 Pagination 객체 생성*/
+		Pagination pagination = new Pagination(cp, listCount);
+		
+		// RowBounds 객체 생성
+		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
+		
+		int limit = pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		List<Approval> reclaimApprovalList = mapper.selectReclaimApproval(memberNo, rowBounds);
+		
+		Map<String , Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("reclaimApprovalList",reclaimApprovalList);
+		
+		return map;
 	}
 
 	// 문서 회수하기
@@ -348,18 +489,58 @@ public class ApprovalServiceImpl implements ApprovalService{
 	 *
 	 */
 	@Override
-	public List<Approval> selectCompleteApproval(int memberNo) {
+	public Map<String, Object> selectCompleteApproval(int memberNo, int cp) {
 		
 		// 1) 결재승인권한자가 조회하는 완료문서 리스트
-		List<Approval> completeApprovalListByApprover = mapper.selectCompleteApprovalApprover(memberNo);
+//		List<Approval> completeApprovalListByApprover = mapper.selectCompleteApprovalApprover(memberNo);
 		
 		// 2) 기안자가 조회하는 결재완료문서 리스트
-		List<Approval> completeApprovalListByDrafter = mapper.selectCompleteApprovalDrafter(memberNo);
+//		List<Approval> completeApprovalListByDrafter = mapper.selectCompleteApprovalDrafter(memberNo);
+		
+		// 리스트 합치기
+//		completeApprovalListByApprover.addAll(completeApprovalListByDrafter);
+
+
+		// 1) 결재승인권한자가 조회하는 완료문서 리스트 갯수 조회
+		int listCount = mapper.getCompleteApprovalApproverListCount(memberNo);
+		
+		// 2) 기안자가 조회하는 결재완료문서 리스트 갯수 조회
+		int listCount2 = mapper.getCompleteApprovalDrafterListCount(memberNo);
+		
+		listCount += listCount2; // 총 결재완료 문서 갯수
+		
+		/* cp, listCount를 이용해 Pagination 객체 생성*/
+		Pagination10 pagination = new Pagination10(cp, listCount);
+		
+		// RowBounds 객체 생성
+		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
+		
+		int limit = pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		
+		// 마이바티스 호출
+		
+		// 1) 결재승인권한자가 조회하는 완료문서 리스트
+		List<Approval> completeApprovalListByApprover = mapper.selectCompleteApprovalApprover(memberNo, rowBounds);
+		
+		// 2) 기안자가 조회하는 결재완료문서 리스트
+		List<Approval> completeApprovalListByDrafter = mapper.selectCompleteApprovalDrafter(memberNo, rowBounds);
 		
 		// 리스트 합치기
 		completeApprovalListByApprover.addAll(completeApprovalListByDrafter);
 		
-		return completeApprovalListByApprover;
+		// 중복 제거하기
+		Set<Approval> set = new HashSet<>(completeApprovalListByApprover);
+		List<Approval> completeApprovalList = new ArrayList<Approval>(set);
+		
+		// Map에 담아 반환
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("completeApprovalList", completeApprovalList);
+		
+		return map;
 	}
 	
 	
@@ -368,27 +549,88 @@ public class ApprovalServiceImpl implements ApprovalService{
 	 *
 	 */
 	@Override
-	public List<Approval> selectReturnApprovalList(int memberNo) {
+	public Map<String, Object> selectReturnApprovalList(int memberNo, int cp) {
 		
 		// 1) 자신이 반려한 문서 리스트 조회
-		List<Approval> returnApprovalListByApprover = mapper.selectReturnApprovalApprover(memberNo);
+		// List<Approval> returnApprovalListByApprover = mapper.selectReturnApprovalApprover(memberNo);
 		
 		// 2) 기안자가 자신이 기안한 문서가 반려된 경우 리스트 조회
-		List<Approval> returnApprovalListByDrafter = mapper.selectReturnApprovalDrafter(memberNo);
+		// List<Approval> returnApprovalListByDrafter = mapper.selectReturnApprovalDrafter(memberNo);
 
+		// 리스트 합치기
+		// returnApprovalListByApprover.addAll(returnApprovalListByDrafter);
+		
+		// return returnApprovalListByApprover;
+		
+		
+		// 1) 자신이 반려한 문서 리스트 갯수 조회
+		int listCount = mapper.getReturnApprovalApproverListCount(memberNo);
+		
+		// 2) 기안자가 자신이 기안한 문서가 반려된 경우 리스트 갯수 조회
+		int listCount2 = mapper.getReturnApprovalDrafterListCount(memberNo);
+		
+		listCount += listCount2; // 총 반려문서 갯수
+		
+		/* cp, listCount를 이용해 Pagination 객체 생성(10개짜리)*/
+		PaginationAdmin pagination = new PaginationAdmin(cp, listCount);
+		
+		// RowBounds 객체 생성
+		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
+		int limit = pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		
+		// 마이바티스 호출
+		// 1) 자신이 반려한 문서 리스트 조회
+		List<Approval> returnApprovalListByApprover = mapper.selectReturnApprovalApprover(memberNo, rowBounds);
+		
+		// 2) 기안자가 자신이 기안한 문서가 반려된 경우 리스트 조회
+		List<Approval> returnApprovalListByDrafter = mapper.selectReturnApprovalDrafter(memberNo, rowBounds);
+		
 		// 리스트 합치기
 		returnApprovalListByApprover.addAll(returnApprovalListByDrafter);
 		
+		// 중복 제거하기
+		Set<Approval> set = new HashSet<>(returnApprovalListByApprover);
+		List<Approval> returnApprovalList = new ArrayList<Approval>(set);
 		
-		return returnApprovalListByApprover;
+		// Map에 담아 반환
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("returnApprovalList", returnApprovalList);
+		
+		return map;
+		
+		
+		
 	}
 	
 	/** 협조문서함 조회
 	 *
 	 */
 	@Override
-	public List<Approval> selectJoinApprovalList(int departmentNo) {
-		return mapper.selectJoinApprovalList(departmentNo);
+	public Map<String, Object> selectJoinApprovalList(int departmentNo, int cp) {
+		
+		// 협조문서리스트 갯수 조회
+		int listCount = mapper.getJoinApprovalListCount(departmentNo);
+		
+		/* cp, listCount를 이용해 Pagination 객체 생성(12개짜리)*/
+		Pagination10 pagination = new Pagination10(cp, listCount);
+		
+		// RowBounds 객체 생성
+		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
+		int limit = pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		// 마이바티스 호출
+		List<Approval> joinApprovalList = mapper.selectJoinApprovalList(departmentNo, rowBounds);
+		
+		// Map에 담아 반환
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("joinApprovalList", joinApprovalList);
+		
+		return map;
 	}
 	
 	

@@ -1,7 +1,7 @@
 <!-- 3 . 출점/폐점 문서 -->
 <div class="modal-body" style="width: 800px; height: 800px; ">
   <!-- 템플릿 -->
-  <div class="temps my-2 mx-3 p-3">
+  <div class="docTemps my-2 mx-3 p-3">
 
     <!-- 템플릿 제목 -->
     <div class="pt-4" style="font-size:30px; font-weight: bold; text-align: center;">업무 보고</div>
@@ -25,7 +25,7 @@
           </tr>
           <tr>
             <th>구분(항목)</th>
-            <td>업무(출점)</td><!-- 출점/폐점 -->
+            <td id="openOrClose">업무(출점)</td><!-- 출점/폐점 -->
           </tr>
           <tr>
             <th>협조 부서</th>
@@ -39,11 +39,18 @@
       </div>
 
       <!-- 승인 -->
+      <div class="tempApprov my-2 mx-3 px-2 d-flex">
+        <table class="table table-bordered" style="height:160px; border: black; text-align: center;">
+          <tr class="hTr1"></tr>
+          <tr class="hTr2"></tr>
+          <tr class="hTr3" style="font-size:10px;"></tr>
+        </table>
+      </div>
 
     </div>
 
     <!-- 본문 -->
-    <div class="tempContents my-2 mx-3 px-2">
+    <div class="docTempContent my-2 mx-3 px-2">
       <table class="table table-bordered" style="width: 100%; border: black;">
 
         <colgroup>
@@ -74,7 +81,7 @@
           </tr>
           <tr>
             <th>첨부파일</th>
-            <td><a id="docStoreFile"></a></td>
+            <td><a class="docFile"></a></td>
           </tr>
         </tbody>
       </table>

@@ -87,9 +87,9 @@ const totalPriceList = document.querySelectorAll("#tableTbody>tr>td:last-of-type
 if(totalPrice != null){
    let temp = 0;
    for(let totalPrices of totalPriceList){
-      temp += parseInt(totalPrices.innerText);
+      temp += parseInt(totalPrices.innerText.replace(",",""));
    }
-   totalPrice.innerText = temp;
+   totalPrice.innerText = temp.toLocaleString("ko-KR");
 }
 
 // 검색한 날짜 저장
@@ -105,3 +105,5 @@ floatingPrice.addEventListener("input", e=>{
       e.target.value = 0;
    }
 });
+
+

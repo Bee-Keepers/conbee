@@ -4,13 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title th:text="${boardCodeName}">게시글 상세조회</title>
-  <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="/js/ckeditor54/sample/styles.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="/css/board/boardDetail.css">
+  <link rel="stylesheet" href="/css/board/boardComment.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <style>
-    
-    
 
     tr > td {
       height: 30px;
@@ -44,6 +43,14 @@
         color: hsl(0, 100%, 100%);
     }
 
+    li{
+      list-style-type: none;
+    }
+
+    li input {
+      margin-right: 10px;
+    }
+
 
   </style>
 
@@ -52,7 +59,6 @@
 <body class="d-flex flex-column" style="height: 100vh;" >
 
   <th:block th:replace="~{common/header}"></th:block>
-  <!-- memberList, pagination 변수 선언 -->
   <main class="d-flex flex-grow-1 overflow-y-auto">
 
     <!-- 사이드바 -->
@@ -86,14 +92,16 @@
                   <!-- 타임리프 if문에서 객체가 null이 아니면 true
                        null 이면 false
                   -->
-                  <img>
+                  <img th:unless="*{memberProfile}" th:src="#{user.default.image}">
                   
                   <!-- 프로필 이미지가 있을 경우 출력 -->
-                  <img>
+                  <img th:if="*{memberProfile}" th:src="*{memberProfile}">
 
 
+                  <th:block th:unless="${boardCodeNo == 3}">
 
-                  <span th:text="${board.memberName}">작성자 이름</span>
+                    <span th:text="${board.memberName}">작성자 이름</span>
+                  </th:block>
 
                   
                   <!-- 북마크 별 -->
@@ -121,52 +129,94 @@
 
 
 
-
-
-
-
-
           <!-- 내용 -->
           <div class="board-content ck-content media" th:utext="${board.boardContent}">내용</div>
-
-          <!-- 버튼 영역-->
-          <div class="board-btn-area">
-
-              <!-- 로그인한 회원과 게시글 작성자 번호가 같은 경우-->
-              <div class="btn-group W-100" style="float: right;">
-                <th:block th:if="${session.loginMember != null and session.loginMember.memberNo == board.memberNo}">
-                  <a th:href="@{/board/boardUpdate/{boardCodeNo}/{boardNo}/update(boardCodeNo=${boardCodeNo}, boardNo=*{boardNo})}"  class="updateBtn me-1">수정</a>
-                  <button type="button" class="deleteBtn me-1" id="deleteBtn">삭제</button>
-                </th:block>
-                <button id="goToListBtn" class="listBtn me-1">목록으로</button>
-              </div>
+          
+          
+          <!-- 첨부파일 다운 -->
+          <!-- 
+          <div class="input-group mb-1">
+            <input type="file" name="boardAttach" class="form-control" id="inputGroupFile02">
           </div>
-
+           -->
+          
+          
+          <!-- 버튼 영역-->
+          <div class="board-btn-area mb-3">
+            
+            <!-- 로그인한 회원과 게시글 작성자 번호가 같은 경우-->
+            <div class="btn-group W-100" style="float: right;">
+              <th:block th:if="${session.loginMember != null and session.loginMember.memberNo == board.memberNo}">
+                <a th:href="@{/board/boardUpdate/{boardCodeNo}/{boardNo}/update(boardCodeNo=${boardCodeNo}, boardNo=*{boardNo})}"  class="updateBtn me-1">수정</a>
+                <button type="button" class="deleteBtn me-1" id="deleteBtn">삭제</button>
+              </th:block>
+              <th:block th:if="${session.loginMember != null and session.loginMember.memberNo != board.memberNo}">
+                <button type="button" class="reportBtn me-2" data-bs-toggle="modal" data-bs-target="#reportBtn">신고</button>
+              </th:block>
+              <button id="goToListBtn" class="listBtn me-1">목록으로</button>
+            </div>
+          </div>
+          
+          <!-- 댓글 영역-->
+          <th:block th:replace="~{board/boardComment}"></th:block>
+          
       </section>
 
 
-      <!-- 댓글 영역-->
-      <!-- <th:block th:replace="~{board/comment}"></th:block> -->
 
+      <!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ보드디테일ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 
-      <!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ보드디테이르ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+      <!-- ================================== 신고버튼 ======================================= -->
+
+      <div class="modal fade" tabindex="-1" id="reportBtn">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <h5 class="modal-title">신고하기</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form action="/board/boardReport">
+              <div class="modal-body">
+                <ul>
+                  <li><label><input type="radio" name="reportContent" value="1">스팸홍보/도배글</label></li>
+                  <li><label><input type="radio" name="reportContent" value="2">음란물</label></li>
+                  <li><label><input type="radio" name="reportContent" value="3">불법정보 포함</label></li>
+                  <li><label><input type="radio" name="reportContent" value="4">욕설/생명경시/혐오/차별적 표현</label></li>
+                  <li><label><input type="radio" name="reportContent" value="5">개인정보 노출</label></li>
+                  <li><label><input type="radio" name="reportContent" value="6">불쾌한 표현</label></li>
+                  <li><label><input type="radio" name="reportContent" value="7">명예훼손/저작권 침해</label></li>
+                  <li><label><input type="radio" name="reportContent" value="8">불법촬영물 포함</label></li>
+                </ul>
+                <input type="hidden" name="boardCodeNo" th:value="${boardCodeNo}">
+                <input type="hidden" name="boardNo" th:value="${board.boardNo}">
+                <input type="hidden" name="memberNo" th:value="${session.loginMember.memberNo}">
+                <input type="hidden" name="boardCommentNo" id="boardCommentNo" value="">
+              </div>
+
+              <div class="modal-footer">
+                <button type="submit" class="btn reportBtn">신고</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- =================================================================================== -->
+
 
 
 
       </div>
 
-
-
-  <!-- 
-      <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">
-        <a href="/board/boardWrite" class="btn btn-warning mx-3" style="width: 80px;">작성</a>
-      </div>
-       -->
     </div>
   </main>
 
   <script src="/js/bootstrap.bundle.min.js"></script>
   <script src="/js/board/boardDetail.js"></script>
+  <script src="/js/board/boardComment.js"></script>
 
   
   <script th:inline="javascript">
@@ -177,10 +227,6 @@
     const loginCheck = /*[[${session.loginMember != null ? true : false}]]*/ "로그인 여부";
 
 
-    // 목록 버튼 눌렀을 때 이전 페이지로 이동
-    // document.getElementById("listBtn").addEventListener("click", function() {
-    // window.history.back();
-    // });
 
 
     

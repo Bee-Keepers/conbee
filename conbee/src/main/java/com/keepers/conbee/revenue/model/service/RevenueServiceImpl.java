@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +22,7 @@ public class RevenueServiceImpl implements RevenueService{
 	
 	// 매출 상세 검색
 	@Override
-	public List<Revenue> revenueSearch(Revenue revenue) {
+	public List<Revenue> revenueSearch(Revenue revenue, int cp) {
 		if(revenue.getStartDate() == null && revenue.getStartDate() == null && revenue.getGoodsName() == null && revenue.getLcategoryName() == null && revenue.getScategoryName() == null) {
 			Date today = new Date();
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -31,12 +32,13 @@ public class RevenueServiceImpl implements RevenueService{
 			revenue.setLcategoryName("");
 			revenue.setScategoryName("");
 		}
-		return mapper.revenueSearch(revenue);
+		RowBounds rowBounds = new RowBounds((cp-1)*20, 20);
+		return mapper.revenueSearch(revenue, rowBounds);
 	}
 	
 	// 입출고 내역 검색
 	@Override
-	public List<Revenue> historySearch(Revenue revenue) {
+	public List<Revenue> historySearch(Revenue revenue, int cp) {
 		if(revenue.getStartDate() == null && revenue.getStartDate() == null && revenue.getGoodsName() == null && revenue.getLcategoryName() == null && revenue.getScategoryName() == null) {
 			Date today = new Date();
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -47,6 +49,7 @@ public class RevenueServiceImpl implements RevenueService{
 			revenue.setScategoryName("");
 			revenue.setHistoryDivide("전체");
 		}
-		return mapper.historySearch(revenue);
+		RowBounds rowBounds = new RowBounds((cp-1)*20, 20);
+		return mapper.historySearch(revenue, rowBounds);
 	}
 }

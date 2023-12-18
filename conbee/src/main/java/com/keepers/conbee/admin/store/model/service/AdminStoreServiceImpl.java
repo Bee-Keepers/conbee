@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.keepers.conbee.admin.store.model.dto.Store;
 import com.keepers.conbee.admin.store.model.mapper.AdminStoreMapper;
 import com.keepers.conbee.approval.model.dto.Pagination;
+import com.keepers.conbee.approval.model.dto.PaginationAdmin;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,7 +33,7 @@ public class AdminStoreServiceImpl implements AdminStoreService{
 		int listCount = mapper.getListCount();
 		
 		/* cp, listCount를 이용해 Pagination 객체 생성*/
-		Pagination pagination = new Pagination(cp, listCount);
+		PaginationAdmin pagination = new PaginationAdmin(cp, listCount);
 		
 		// RowBounds 객체 생성
 		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
