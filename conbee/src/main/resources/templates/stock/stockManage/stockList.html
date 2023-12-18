@@ -66,7 +66,7 @@
 
     <th:block th:replace="~{stock/stockManage/sidebar}"></th:block>
 
-    <div class="d-flex flex-column flex-grow-1 align-items-center overflow-y-auto p-3">
+    <div class="d-flex flex-column flex-grow-1 align-items-center p-3">
 
       <div class="d-flex justify-content-between align-items-center w-100 border-bottom">
         <div class="fs-3 pb-3 px-3">재고 조회</div>
@@ -114,11 +114,11 @@
               <td th:text="*{lcategoryName}">식품</td>
               <td th:text="*{scategoryName}">가공식사</td>
               <td th:text="*{goodsStandard}">-</td>
-              <td th:text="*{stockInPrice}">800</td>
-              <td th:text="*{stockOutPrice}">1500</td>
+              <td th:text="*{#numbers.formatInteger(stockInPrice , 0, 'COMMA')}">800</td>
+              <td th:text="*{#numbers.formatInteger(stockOutPrice , 0, 'COMMA')}">1500</td>
               <td th:text="*{stockAmount}">0</td>
               <td th:text="*{stockDiscount}">10</td>
-              <td th:text="*{priceSum}">6750</td>
+              <td th:text="*{#numbers.formatInteger(priceSum , 0, 'COMMA')}">6750</td>
               <td th:text="*{storeNo}" style="display: none;"></td>
             </tr>
           </tbody>
@@ -172,7 +172,7 @@
                 <label for="">소분류</label>
               </div>
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="goodsPrice" id="goodsPrice" placeholder="입고단가" value="0" disabled>
+                <input type="text" class="form-control" name="goodsPrice" id="goodsPrice" placeholder="입고단가" readonly>
                 <label for="">현)입고단가</label>
               </div>
               <div class="form-floating mb-3">

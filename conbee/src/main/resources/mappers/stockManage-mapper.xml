@@ -51,26 +51,14 @@
 	
 	<!-- 재고 현황 리스트 전체 조회 -->
 	<select id="stockList" resultType="Stock">
-		SELECT GOODS_NO, GOODS_NAME, GOODS_STANDARD, LCATEGORY_NAME, SCATEGORY_NAME, STORE_NAME, STOCK_IN_PRICE, STOCK_OUT_PRICE, STOCK_DISCOUNT, STOCK_AMOUNT, STORE_NO
+		SELECT GOODS_NO, GOODS_NAME, GOODS_STANDARD, LCATEGORY_NAME, SCATEGORY_NAME, STORE_NAME, 
+				STOCK_IN_PRICE, STOCK_OUT_PRICE, STOCK_DISCOUNT, STOCK_AMOUNT, STORE_NO, GOODS_PRICE
 		FROM GOODS
 		JOIN LCATEGORY USING(LCATEGORY_NO)
 		JOIN SCATEGORY USING(SCATEGORY_NO)
 		JOIN STOCK USING(GOODS_NO)
 		JOIN STORE USING(STORE_NO)
-		WHERE STORE_NO = 
-		<if test='storeNo == -1'>
-			0
-		</if>
-		<if test='storeNo != -1'>
-			#{storeNo}
-		</if>
-		<if test='lcategoryName != ""'>
-			AND LCATEGORY_NAME = #{lcategoryName}
-		</if>
-		<if test='scategoryName != ""'>
-			AND SCATEGORY_NAME = #{scategoryName}
-		</if>
-		AND GOODS_NAME LIKE '%${goodsName}%'
+		WHERE STORE_NO = 0
 		ORDER BY GOODS_NO DESC
 	</select>
 	
@@ -82,7 +70,7 @@
 			#{stockAmount},
 			#{stockDiscount},
 			#{stockOutPrice},
-			#{stockInPrice})
+			#{goodsPrice})
 	</insert>
 	
 	<!-- 상품명 입력 시 대소분류 작성 -->
