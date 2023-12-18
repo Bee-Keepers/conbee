@@ -80,6 +80,27 @@ public interface BoardMapper {
 
 
 
+	
+	
+	/* ================================= 예리나 ========================================== */
+	
+	
+	/** 게시글 신고 기능
+	 * @param paramMap
+	 * @return
+	 */
+	int boardReport(Map<String, Object> paramMap);
+
+	/** 댓글 신고 기능
+	 * @param paramMap
+	 * @return
+	 */
+	int commentReport(Map<String, Object> paramMap);
+	
+	
+	
+	
+
 
 
 	

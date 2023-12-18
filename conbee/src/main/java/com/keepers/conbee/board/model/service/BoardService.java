@@ -49,6 +49,16 @@ public interface BoardService {
 	 * @return
 	 */
 	String boardName(int boardCodeNo);
+	
+	
+	/* ================================= 예리나 ========================================== */
+	
+	
+	/** 게시글 신고
+	 * @param paramMap
+	 * @return
+	 */
+	int boardReport(Map<String, Object> paramMap);
 
 
 

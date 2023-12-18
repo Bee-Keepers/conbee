@@ -451,3 +451,8 @@ function insertChildComment(boardCommentParent, btn){
 }
 
 
+/* 댓글번호 모달로 넘김 */
+function reportFn(e){
+    const boardCommentNo = document.getElementById("boardCommentNo");
+    boardCommentNo.value = e.value;
+}
