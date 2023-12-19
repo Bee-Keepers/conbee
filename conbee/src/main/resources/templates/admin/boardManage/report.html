@@ -9,10 +9,15 @@
   <style>
 
     tr > td {
-      height: 60px;
       text-align: center;
 
       vertical-align: middle;
+    }
+
+    td > a {
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
     }
 
   </style>
@@ -41,12 +46,12 @@
           
           <colgroup>
             <col width=7%>
-            <col width=57%>
+            <col width=47%>
             <col width=7%>
             <col width=7%>
             <col width=6%>
             <col width=6%>
-            <col width=10%>
+            <col width=20%>
           </colgroup>
 
           <thead>
@@ -62,23 +67,21 @@
           </thead>
           <tbody class="table-group-divider">
 
-            <!-- 신고된 게시글/댓글이 없을 때 -->
+            <!-- 신고된 게시글이 없을 때 -->
             <tr th:if="${#lists.size(reportList) == 0}">
               <td colspan="8">신고된 게시글이 존재하지 않습니다.</td>
             </tr>
 
-            <!-- 점포가 존재할 때 -->
+            <!-- 신고된 게시글이 존재할 때 -->
             <th:block th:unless="${#lists.size(reportList) == 0}">
               <tr th:each="report : ${reportList}" th:object="${report}">
                 <td th:text="*{boardNo}">123021</td>
-                <td th:text="*{boardTitle}">386</td>
+                <td><a th:href="@{{url}(url=*{url})}">[[*{boardTitle}]]</a></td>
                 <td th:text="*{writerName}">작성자</td>
                 <td th:text="*{memberName}">신고자</td>
                 <td th:text="*{reportCount}">8</td>
                 <td th:text="*{reportAnswer}">N</td>
-                <td>
-                  <a href="#" class="btn btn-secondary mx-3" style="width: 80px;">폐쇄</a>
-                </td>
+                <td th:text="*{reportTitle}">신고사유</td>
               </tr>
             </th:block>
           </tbody>
