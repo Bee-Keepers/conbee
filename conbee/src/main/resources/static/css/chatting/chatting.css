@@ -171,6 +171,7 @@
 }
 
 .target-name{
+  margin-left: 1px;
 	font-size: 1.1em;
 	font-weight: bold;
 }
@@ -202,14 +203,15 @@
 
 .not-read-count{
 	width: 25px;
-    height: 25px;
+    height: 24px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    background-color: red;
+    background-color: #303841;
     color: white;
     font-size: 12px;
+    font-weight: bold;
     margin-right: 3px;
 }
 

@@ -23,7 +23,7 @@ soloBtn.addEventListener("click", () => {
 
 const addTarget = document.querySelector("#addTarget"); // 추가 버튼
 
-const addTargetPopupLayer = document.querySelector("#addTargetPopupLayer"); // 팝업 레이어
+const addTargetPopupLayer = document.querySelector("#addTargetPopupLayer"); // 팝업
 
 const closeBtn = document.querySelector("#closeBtn"); // 닫기 버튼
 
@@ -66,7 +66,7 @@ targetInput.addEventListener("input", e => {
 
 	// 입력된게 있을 때
 	if(query.length > 0){
-		fetch("/chatting/selectTarget?query="+query)
+		fetch("/chatting/chatting/selectTarget?query="+query)
 		.then(resp => resp.json())
 		.then(list => {
 			console.log(list);
@@ -91,14 +91,14 @@ targetInput.addEventListener("input", e => {
 				img.classList.add("result-row-img");
 				
 				// 프로필 이미지 여부에 따른 src 속성 선택
-				if(member.profileImage == null) img.setAttribute("src", userDefaultImage);
-				else	img.setAttribute("src", member.profileImage);
+				if(member.memberProfile == null) img.setAttribute("src", userDefaultImage);
+				else	img.setAttribute("src", member.memberProfile);
 
-				let nickname = member.memberNickname;
-				let email = member.memberEmail;
+				let name = member.memberName;
+				let id = member.memberId;
 
 				const span = document.createElement("span");
-				span.innerHTML = `${nickname} ${email}`.replace(query, `<mark>${query}</mark>`);
+				span.innerHTML = `${name} ${id}`.replace(query, `<mark>${query}</mark>`);
 
 				// 요소 조립(화면에 추가)
 				li.append(img, span);
@@ -114,19 +114,20 @@ targetInput.addEventListener("input", e => {
 });
 
 
+
 // 채팅방 입장 또는 선택 함수
 function chattingEnter(e){
 	console.log(e.target); // 실제 클릭된 요소
 	console.log(e.currentTarget); // 이벤트 리스트가 설정된 요소
 
 	const targetNo = e.currentTarget.getAttribute("data-id");
-
-	fetch("/chatting/enter?targetNo="+targetNo)
+// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ에러
+	fetch("/chatting/chatting/enter?targetNo="+targetNo)
 	.then(resp => resp.text())
 	.then(chatNo => {
 		console.log(chatNo);
 		
-		selectRoomList(); // 채팅방 목록 조회
+		selectChatList(); // 채팅방 목록 조회
 		
 		setTimeout(()=>{ 
 			// 만약 채팅방 목록 중 이미 존재하는 채팅방이 있으면 클릭해서 입장
@@ -142,21 +143,21 @@ function chattingEnter(e){
 				}
 			}
 
-		}, 200);
+		}, 200); // 이게 뭘까?? ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
 	})
 	.catch(err => console.log(err));
 }
 
-
+// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ에러
 
 // 비동기로 채팅방 목록 조회
-function selectRoomList(){
+function selectChatList(){
 
-	fetch("/chatting/roomList")
+	fetch("/chatting/chatting/chatList")
 	.then(resp => resp.json())
-	.then(roomList => {
-		console.log(roomList);
+	.then(chatList => {
+		console.log(chatList);
 
 		// 채팅방 목록 출력 영역 선택
 		const chattingList = document.querySelector(".chatting-list");
@@ -165,13 +166,13 @@ function selectRoomList(){
 		chattingList.innerHTML = "";
 
 		// 조회한 채팅방 목록을 화면에 추가
-		for(let room of roomList){
+		for(let chat of chatList){
 			const li = document.createElement("li");
 			li.classList.add("chatting-item");
-			li.setAttribute("chat-no", room.chatNo);
-			li.setAttribute("target-no", room.targetNo);
+			li.setAttribute("chat-no", chat.chatNo);
+			li.setAttribute("target-no", chat.targetNo);
 
-			if(room.chatNo == selectChatNo){
+			if(chat.chatNo == selectChatNo){
 				li.classList.add("select");
 			}
 
@@ -182,10 +183,10 @@ function selectRoomList(){
 			const listProfile = document.createElement("img");
 			listProfile.classList.add("list-profile");
 
-			if(room.targetImg == undefined)	
+			if(chat.targetImg == undefined)	
 				listProfile.setAttribute("src", userDefaultImage);
 			else								
-				listProfile.setAttribute("src", room.targetImg);
+				listProfile.setAttribute("src", chat.targetImg);
 
 			itemHeader.append(listProfile);
 
@@ -197,14 +198,14 @@ function selectRoomList(){
 
 			const targetName = document.createElement("span");
 			targetName.classList.add("target-name");
-			targetName.innerText = room.targetNickname;
+			targetName.innerText = chat.targetName;
 			
-			const recentSendTime = document.createElement("span");
-			recentSendTime.classList.add("recent-send-time");
-			recentSendTime.innerText = room.sendTime;
+			const recentChatMessageDate = document.createElement("span");
+			recentChatMessageDate.classList.add("recent-send-time");
+			recentChatMessageDate.innerText = chat.chatMessageDate;
 			
 			
-			p.append(targetName, recentSendTime);
+			p.append(targetName, recentChatMessageDate);
 			
 			
 			const div = document.createElement("div");
@@ -212,8 +213,8 @@ function selectRoomList(){
 			const recentMessage = document.createElement("p");
 			recentMessage.classList.add("recent-message");
 
-			if(room.lastMessage != undefined){
-				recentMessage.innerHTML = room.lastMessage;
+			if(chat.lastMessage != undefined){
+				recentMessage.innerHTML = chat.lastMessage;
 			}
 			
 			div.append(recentMessage);
@@ -221,17 +222,17 @@ function selectRoomList(){
 			itemBody.append(p,div);
 
 			// 현재 채팅방을 보고있는게 아니고 읽지 않은 개수가 0개 이상인 경우 -> 읽지 않은 메세지 개수 출력
-			if(room.notReadCount > 0 && room.chatNo != selectChatNo ){
-			// if(room.chatNo != selectChatNo ){
+			if(chat.notReadCount > 0 && chat.chatNo != selectChatNo ){
+			// if(chat.chatNo != selectChatNo ){
 				const notReadCount = document.createElement("p");
 				notReadCount.classList.add("not-read-count");
-				notReadCount.innerText = room.notReadCount;
+				notReadCount.innerText = chat.notReadCount;
 				div.append(notReadCount);
 			}else{
 
 				// 현재 채팅방을 보고있는 경우
 				// 비동기로 해당 채팅방 글을 읽음으로 표시
-				fetch("/chatting/updateReadFlag",{
+				fetch("/chatting/chatting/updateChatMessageRead",{
 					method : "PUT",
 					headers : {"Content-Type": "application/json"},
 					body : JSON.stringify({"chatNo" : selectChatNo, "memberNo" : loginMemberNo})
@@ -247,7 +248,7 @@ function selectRoomList(){
 			chattingList.append(li);
 		}
 
-		roomListAddEvent();
+		chatListAddEvent();
 	})
 	.catch(err => console.log(err));
 
@@ -271,26 +272,34 @@ function selectRoomList(){
 const display = document.getElementsByClassName("display-chatting")[0];
 
 
-// 채팅방 목록에 이벤트를 추가하는 함수 
-function roomListAddEvent(){
+function chatListAddEvent(){
 	const chattingItemList = document.getElementsByClassName("chatting-item");
 	
 	for(let item of chattingItemList){
 		item.addEventListener("click", e => {
 	
-			// 클릭한 채팅방의 번호 얻어오기
-			//const id = item.getAttribute("id");
-			//const arr = id.split("-");
-			// 전역변수에 채팅방 번호, 상대 번호, 상태 프로필, 상대 이름 저장
 			selectChatNo = item.getAttribute("chat-no");
 			selectTargetNo = item.getAttribute("target-no");
+
+
+
 
 			selecttargetImg = item.children[0].children[0].getAttribute("src");
 			selectTargetName = item.children[1].children[0].children[0].innerText;
 
+			
+
+
+
+			// 1 지우는 구문임 !! ( 아래 구문 주석해서 작동 X)
 			if(item.children[1].children[1].children[1] != undefined){
 				item.children[1].children[1].children[1].remove();
 			}
+
+			console.log(item); // 오류나서 로그 찍어봄
+
+
+
 
 	
 			// 모든 채팅방에서 select 클래스를 제거
@@ -308,13 +317,15 @@ function roomListAddEvent(){
 
 
 
+
+
 // 비동기로 메세지 목록을 조회하는 함수
 function selectChattingFn() {
 
-	fetch("/chatting/selectMessage?"+`chatNo=${selectChatNo}&memberNo=${loginMemberNo}`)
+	fetch("/chatting/chatting/selectMessage?"+`chatNo=${selectChatNo}&memberNo=${loginMemberNo}`)
 	.then(resp => resp.json())
-	.then(messageList => {
-		console.log(messageList);
+	.then(chatMessageList => {
+		console.log(chatMessageList);
 
 		// <ul class="display-chatting">
 		const ul = document.querySelector(".display-chatting");
@@ -322,22 +333,22 @@ function selectChattingFn() {
 		ul.innerHTML = ""; // 이전 내용 지우기
 
 		// 메세지 만들어서 출력하기
-		for(let msg of messageList){
+		for(let msg of chatMessageList){
 			//<li>,  <li class="my-chat">
 			const li = document.createElement("li");
 
 			// 보낸 시간
 			const span = document.createElement("span");
 			span.classList.add("chatDate");
-			span.innerText = msg.sendTime;
+			span.innerText = msg.chatMessageDate;
 
 			// 메세지 내용
 			const p = document.createElement("p");
 			p.classList.add("chat");
-			p.innerHTML = msg.messageContent; // br태그 해석을 위해 innerHTML
+			p.innerHTML = msg.chatMessageContent; // br태그 해석을 위해 innerHTML
 
 			// 내가 작성한 메세지인 경우
-			if(loginMemberNo == msg.senderNo){ 
+			if(loginMemberNo == msg.chatMessageSender){ 
 				li.classList.add("my-chat");
 				
 				li.append(span, p);
@@ -382,9 +393,12 @@ function selectChattingFn() {
 let chatSock;
 
 if(loginMemberNo != ""){
-	chatSock = new SockJS("/chatSock");
+	chatSock = new SockJS("/chatting/chatting/chatSock");
 }
 
+
+
+// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ에러
 
 
 // 채팅 입력
@@ -398,10 +412,10 @@ const sendMessage = () => {
 		inputChat.value = "";
 	} else {
 		var obj = {
-			"senderNo": loginMemberNo, // 누가
+			"chatMessageSender": loginMemberNo, // 누가
 			"targetNo": selectTargetNo, // 누구에게
 			"chatNo": selectChatNo, // 어떤 채팅방 번호로
-			"messageContent": inputChat.value, // 채팅을 보내는지
+			"chatMessageContent": inputChat.value, // 채팅을 보내는지
 		};
 		console.log(obj)
 
@@ -411,90 +425,91 @@ const sendMessage = () => {
 		inputChat.value = "";
 	}
 }
+// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ에러
 
-// // 엔터 == 제출
-// // 쉬프트 + 엔터 == 줄바꿈
-// inputChat.addEventListener("keyup", e => {
-// 	if(e.key == "Enter"){ 
-// 		if (!e.shiftKey) {
-// 			sendMessage();
-// 		}
-// 	}
-// })
-
-
-
-// // WebSocket 객체 chatSock이 서버로 부터 메세지를 통지 받으면 자동으로 실행될 콜백 함수
-// chatSock.onmessage = function(e) {
-// 	// 메소드를 통해 전달받은 객체값을 JSON객체로 변환해서 obj 변수에 저장.
-// 	const msg = JSON.parse(e.data);
-// 	console.log(msg);
+// 엔터 == 제출
+// 쉬프트 + 엔터 == 줄바꿈
+inputChat.addEventListener("keyup", e => {
+	if(e.key == "Enter"){ 
+		if (!e.shiftKey) {
+			sendMessage();
+		}
+	}
+})
 
 
-// 	// 현재 채팅방을 보고있는 경우
-// 	if(selectChatNo == msg.chatNo){
+
+// WebSocket 객체 chatSock이 서버로 부터 메세지를 통지 받으면 자동으로 실행될 콜백 함수
+chatSock.onmessage = function(e) {
+	// 메소드를 통해 전달받은 객체값을 JSON객체로 변환해서 obj 변수에 저장.
+	const msg = JSON.parse(e.data);
+	console.log(msg);
 
 
-// 		const ul = document.querySelector(".display-chatting");
+	// 현재 채팅방을 보고있는 경우
+	if(selectChatNo == msg.chatNo){
+
+
+		const ul = document.querySelector(".display-chatting");
 	
-// 		// 메세지 만들어서 출력하기
-// 		//<li>,  <li class="my-chat">
-// 		const li = document.createElement("li");
+		// 메세지 만들어서 출력하기
+		//<li>,  <li class="my-chat">
+		const li = document.createElement("li");
 	
-// 		// 보낸 시간
-// 		const span = document.createElement("span");
-// 		span.classList.add("chatDate");
-// 		span.innerText = msg.sendTime;
+		// 보낸 시간
+		const span = document.createElement("span");
+		span.classList.add("chatDate");
+		span.innerText = msg.chatMessageDate;
 	
-// 		// 메세지 내용
-// 		const p = document.createElement("p");
-// 		p.classList.add("chat");
-// 		p.innerHTML = msg.messageContent; // br태그 해석을 위해 innerHTML
+		// 메세지 내용
+		const p = document.createElement("p");
+		p.classList.add("chat");
+		p.innerHTML = msg.chatMessageContent; // br태그 해석을 위해 innerHTML
 	
-// 		// 내가 작성한 메세지인 경우
-// 		if(loginMemberNo == msg.senderNo){ 
-// 			li.classList.add("my-chat");
+		// 내가 작성한 메세지인 경우
+		if(loginMemberNo == msg.chatMessageSender){ 
+			li.classList.add("my-chat");
 			
-// 			li.append(span, p);
+			li.append(span, p);
 			
-// 		}else{ // 상대가 작성한 메세지인 경우
-// 			li.classList.add("target-chat");
+		}else{ // 상대가 작성한 메세지인 경우
+			li.classList.add("target-chat");
 	
-// 			// 상대 프로필
-// 			const img = document.createElement("img");
-// 			img.setAttribute("src", selecttargetImg);
+			// 상대 프로필
+			const img = document.createElement("img");
+			img.setAttribute("src", selecttargetImg);
 			
-// 			const div = document.createElement("div");
+			const div = document.createElement("div");
 	
-// 			// 상대 이름
-// 			const b = document.createElement("b");
-// 			b.innerText = selectTargetName; // 전역변수
+			// 상대 이름
+			const b = document.createElement("b");
+			b.innerText = selectTargetName; // 전역변수
 	
-// 			const br = document.createElement("br");
+			const br = document.createElement("br");
 	
-// 			div.append(b, br, p, span);
-// 			li.append(img,div);
+			div.append(b, br, p, span);
+			li.append(img,div);
 	
-// 		}
+		}
 	
-// 		ul.append(li)
-// 		display.scrollTop = display.scrollHeight; // 스크롤 제일 밑으로
-// 	}
+		ul.append(li)
+		display.scrollTop = display.scrollHeight; // 스크롤 제일 밑으로
+	}
 
 
 
-// 	selectRoomList();
-// }
+	selectChatList();
+}
 
 
 
 
-// // 문서 로딩 완료 후 수행할 기능
-// document.addEventListener("DOMContentLoaded", ()=>{
+// 문서 로딩 완료 후 수행할 기능
+document.addEventListener("DOMContentLoaded", ()=>{
 	
-// 	// 채팅방 목록에 클릭 이벤트 추가
-// 	roomListAddEvent(); 
+	// 채팅방 목록에 클릭 이벤트 추가
+	chatListAddEvent(); 
 
-// 	// 보내기 버튼에 이벤트 추가
-// 	send.addEventListener("click", sendMessage);
-// });
+	// 보내기 버튼에 이벤트 추가
+	send.addEventListener("click", sendMessage);
+});
