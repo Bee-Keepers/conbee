@@ -13,13 +13,21 @@ const docFiles = document.querySelectorAll(".docFile");
 
 const openDoc = document.querySelectorAll('#docOne, #docTwo, #docThree, #docFour, #docFive');
 
+// 모달 내부 스크롤
+const leftSections = document.querySelectorAll(".leftSection");
+
+document.querySelectorAll(".modal").forEach(modal => {
+  modal.addEventListener('hide.bs.modal', (e)=>{
+    leftSections.forEach((leftSection)=>{leftSection.scrollTop=0});
+  })
+})
 
 openDoc.forEach((doc)=>{
   doc.addEventListener("click",(element)=>{
-
+    
     // 폼 리셋
     switch(doc.id){
-      case 'docFive' : document.getElementById("docOrder").reset(); break;
+      case 'docFive' : document.getElementById("docOrder").reset();  break;
       case 'docFour' : document.getElementById("docExpense").reset(); break;
       case 'docThree' : document.getElementById("docStore").reset(); break;
       case 'docTwo' : document.getElementById("docRetirement").reset(); break;
@@ -55,6 +63,8 @@ openDoc.forEach((doc)=>{
 
     })
     .catch(e => console.log(e));
+
+
   })
 });
 
@@ -795,13 +805,13 @@ for(let i = 0; i<10 ; i++){
 
   // 상품번호 컬럼 생성
   const td1 = document.createElement("td");
-  const input1 = createElement("input", {"type":"number","name":"approvalList["+i+"].goodsNo"},[]);
+  const input1 = createElement("input", {"type":"number","name":"approvalList["+i+"].goodsNo","class":"ListGoodsNo"},[]);
   input1.readOnly = true;
   td1.append(input1);
 
   // 품목이름 컬럼 생성
   const td2 = document.createElement("td");
-  const input2 = createElement("input", {"type":"text","name":"approvalList["+i+"].docOrderGoodsName"},[]);
+  const input2 = createElement("input", {"type":"text","name":"approvalList["+i+"].docOrderGoodsName","class":"ListGoodsName"},[]);
   const div = createElement("div", null, ["list-group", "position-absolute", "zindex2000"]);
 
   // 품목이름 자동완성
@@ -867,7 +877,7 @@ for(let i = 0; i<10 ; i++){
   
   // 수량 컬럼 생성
   const td3 = document.createElement("td");
-  const input3 = createElement("input", {"type":"number","name":"approvalList["+i+"].docOrderAmount"},[]);
+  const input3 = createElement("input", {"type":"number","name":"approvalList["+i+"].docOrderAmount", "class":"ListOrderAmount"},[]);
   input3.disabled = true;
   input3.addEventListener("input", e=>{
     if(e.target.value < 0){
@@ -880,8 +890,15 @@ for(let i = 0; i<10 ; i++){
   
   // 단가 컬럼 생성
   const td4 = document.createElement("td");
-  const input4 = createElement("input", {"type":"number","name":"approvalList["+i+"].docOrderUnitPrice"},[]);
+  const input4 = createElement("input", {"type":"number","name":"approvalList["+i+"].docOrderUnitPrice", "class":"ListOrderUnitPrice"},[]);
   // input4.readOnly = true;
+  input4.addEventListener("input",e=>{
+    if(e.target.value<0){
+      e.target.value=0;
+    }
+    input5.value = e.target.value*input3.value;
+    orderPriceFn();
+  });
   td4.append(input4);
 
   // 금액 컬럼 생성

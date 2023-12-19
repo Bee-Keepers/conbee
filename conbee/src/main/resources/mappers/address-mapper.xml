@@ -5,7 +5,7 @@
 
 	<select id="address" resultType="Member">
 		SELECT MEMBER_NO, MEMBER_ID, MEMBER_NAME, MEMBER_TEL, MEMBER_PROFILE,
-		TEAM_NAME, DEPARTMENT_NAME, GRADE_NAME
+		TEAM_NAME, DEPARTMENT_NAME, GRADE_NAME, D.DEPARTMENT_NO
 		FROM MEMBER M
 		LEFT JOIN TEAM USING (TEAM_NO)
 		JOIN DEPARTMENT D ON (D.DEPARTMENT_NO = M.DEPARTMENT_NO)
@@ -15,7 +15,7 @@
 			<![CDATA[ AND GRADE_NO < 6 ]]>
 		</if>
 		<if test='grade == 2'>
-			AND GRADE_NO = 6 
+			AND GRADE_NO = 6
 		</if>
 		<if test='query != null'>
 			AND MEMBER_NAME LIKE '%${query}%'

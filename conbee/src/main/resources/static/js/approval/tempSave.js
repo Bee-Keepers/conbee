@@ -25,6 +25,7 @@ const rewriteApproval = document.querySelectorAll(".rewriteApproval").forEach(fu
       case 'docOne' : document.getElementById("docHoliday").reset(); break;
     }
 
+
     // 발주 리셋
     const orderTbody = document.getElementById("orderTbody");
     orderTbody.innerHTML="";
@@ -757,7 +758,6 @@ submitOrder.addEventListener("click", e =>{
 })
 
 
-
 /* ====================================== */
 
 // 요소 생성 코드
@@ -874,8 +874,15 @@ function createOrder(){
     const td4 = document.createElement("td");
     const input4 = createElement("input", {"type":"number","name":"approvalList["+i+"].docOrderUnitPrice", "class":"ListOrderUnitPrice"},[]);
     // input4.readOnly = true;
+    input4.addEventListener("input",e=>{
+      if(e.target.value<0){
+        e.target.value=0;
+      }
+      input5.value = e.target.value*input3.value;
+      orderPriceFn();
+    });
     td4.append(input4);
-  
+
     // 금액 컬럼 생성
     const td5 = document.createElement("td");
     const input5 = createElement("input", {"type":"number","name":"approvalList["+i+"].docOrderPrice"},[]);
