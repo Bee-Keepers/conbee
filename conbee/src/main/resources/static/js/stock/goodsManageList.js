@@ -296,34 +296,22 @@ const observer = new IntersectionObserver( callback ,{
 	threshold: 0.5
 });
 
+
 observer.observe(document.querySelector("#observedTag"));
 
+const goodsInsertBtn = document.getElementById("goodsInsertBtn");
+const goodsNameInsert = document.getElementById("goodsNameInsert");
 
+goodsInsertBtn.addEventListener("click", () => {
 
-// ---------------------------------------------------------------------------------------------------------
-// 상품 중복 등록 막기
-// 상품명 입력 필드
-const goodsNameInput = document.getElementById('goodsNameInsert');
+   const goodsDetailSelect = document.querySelectorAll(".goodsDetailSelectBtn");
 
-// 상품 등록 폼 제출 시 이벤트 핸들러
-document.getElementById('goodsInertForm').addEventListener('submit', function(event) {
-   event.preventDefault(); // 폼 제출 기본 동작 방지
+   goodsDetailSelect.forEach(btn => {
 
-   const goodsName = goodsNameInput.value; // 입력된 상품명
+      if(btn.textContent === goodsNameInsert.value){
+         console.log("dasdasd");
+      }
 
-   fetch('/checkGoogsInsert', {
-      method:"POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(date)
-   })
-   .then(response => response.json())
-   .then( parsedResponse => {
-
-   })
-   .catch(e=>console.log(e));
-
+   });
 
 });
-
-
-// ---------------------------------------------------------------------------------------------------------

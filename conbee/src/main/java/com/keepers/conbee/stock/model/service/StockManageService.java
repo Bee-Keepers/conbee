@@ -71,15 +71,6 @@ public interface StockManageService {
 	 */
 	List<Stock> stockListSearch(Stock stock);
 
-	/** 재고 수정
-	 * @param goodsNoList
-	 * @param stockOutPriceList
-	 * @param stockDiscountList
-	 * @param storeNo
-	 * @return
-	 */
-	int stockUpdateManage(List<Integer> goodsNoList, List<Integer> stockOutPriceList, List<Integer> stockDiscountList);
-
 
 
 

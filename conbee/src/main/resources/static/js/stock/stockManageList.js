@@ -9,20 +9,6 @@ for(let option of options){
   }
 }
 
-// 요소 생성 코드
-// createElement("input",{type:"text", name:"inputId"},["test", "aaa"])
-function createElement(tag, obj, classList){
-  const element = document.createElement(tag);
-
-  for(let key in obj){
-    element.setAttribute(key, obj[key]);
-  }
-  for(let clas of classList){
-    element.classList.add(clas);
-  }
-  return element;
-}
-
 const lcategoryName = document.getElementById("lcategoryName");
 const scategoryName = document.getElementById("scategoryName");
 const serachName = document.getElementById("serachName");
@@ -151,64 +137,41 @@ for(let item of goodsDetailBtn){
   });
 };
 
-// ------------------------------------------------------------------------------------------------------
-// 재고 수정버튼 클릭 시 데이터 조회
-const stockUpdateTable = document.getElementById("stockUpdateTable");
+const checkboxes = document.querySelectorAll(".checkbox");
+
+// 체크박스 선택 시 모달 연결
+checkboxes.forEach(checkbox => {
+  checkbox.addEventListener("change", () => {
+    const isChecked = checkbox.checked;
+    
+    if (isChecked) {
+      stockUpdateBtn.setAttribute("data-bs-target", "#stockUpdateModel");
+    } else {
+      stockUpdateBtn.setAttribute("data-bs-target", "");
+    }
+  });
+});
+
 const stockUpdateBtn = document.getElementById("stockUpdateBtn");
 /* 재고 수정 버튼 클릭 시 데이터 조회 */
 stockUpdateBtn.addEventListener("click", () => {
-  
-  // 체크된 박스 전체 조회
-  const checkbox = document.querySelectorAll("input[type='checkbox']:checked");
 
-  // 수정버튼 클릭 시 table 초기화
-  stockUpdateTable.innerHTML = "";
-  
-  // 체크가 안되어 있을 경우
-  if (checkbox.length == 0) {
+  const checkbox = document.querySelector("input[type='checkbox']:checked");
+
+  if (checkbox == null) {
     alert('수정할 품목을 선택하세요.');
-    return;
   }
 
-  // 체크 되면 모달창 열림
-  const stockUpdateModel = new bootstrap.Modal('#stockUpdateModel', {
-    keyboard: false,
-    backdrop: 'static',
-    focus:false
-  })
-  stockUpdateModel.show();
-
-  // 모달 창 안에 체크된 데이터 출력
-  for(let rows of checkbox){
-    let row = rows.closest("tr");
-    const tr = document.createElement("tr");
-
-    const td0 = document.createElement("td");
-    const input0 = createElement("input", {"type" : "number", "name":"goodsNo"},["goodsNoUpdateView", "text-center"]);
-    input0.readOnly = true;
-    input0.value = row.children[1].innerText;
-    td0.append(input0);
-
-    const td = createElement("td", null, ["goodsNameUpdateView", "text-truncate"]);
-    td.innerText = row.children[2].innerText;
-
-    const td1 = document.createElement("td");
-    const input1 = createElement("input", {"type" : "number", "name":"stockOutPrice"},["form-control"]);
-    input1.value = row.children[7].innerText.replace(",", "");
-    td1.append(input1);
-
-    const td2 = document.createElement("td");
-    const input2 = createElement("input", {"type" : "number", "name":"stockDiscount"},["form-control"]);
-    input2.value = row.children[9].innerText.replace(",", "");
-    td2.append(input2);
-
-    tr.append(td0, td, td1, td2);
-    stockUpdateTable.append(tr);
-  }
+  const row = checkbox.closest("tr");
+  document.getElementById("goodsNoUpdate").value = row.children[1].innerText;
+  document.getElementById("goodsName").value = row.children[2].innerText;
+  document.getElementById("lcategoryNameUpdate").value = row.children[3].innerText;
+  document.getElementById("scategoryNameUpdate").value = row.children[4].innerText;
+  document.getElementById("stockInPriceUpdate").value = row.children[6].innerText;
+  document.getElementById("stockOutPriceUpdate").value = row.children[7].innerText;
+  document.getElementById("stockDiscountUpdate").value = row.children[9].innerText;
+  document.getElementById("storeNoUpdate").value = row.children[11].innerText;
 });
-
-// --------------------------------------------------------------------------------------------------------
-
 
 const lcategorySelect = document.getElementById("lcategorySelect");
 const scategorySelect = document.getElementById("scategorySelect");

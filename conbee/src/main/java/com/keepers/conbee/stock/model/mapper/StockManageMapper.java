@@ -82,11 +82,5 @@ public interface StockManageMapper {
 	 */
 	int goodsListCount();
 
-	/** 재고 수정
-	 * @param stock
-	 * @return
-	 */
-	int stockUpdateManage(Stock stock);
-
 
 }

@@ -170,8 +170,27 @@ for(let item of goodsDetailBtn){
   });
 };
 
+const checkboxes = document.querySelectorAll(".checkbox");
+
+// 체크박스 선택 시 모달 연결
+checkboxes.forEach(checkbox => {
+  checkbox.addEventListener("change", () => {
+    const isChecked = checkbox.checked;
+    
+    if (isChecked) {
+      stockUpdateBtn.setAttribute("data-bs-target", "#stockUpdateModel");
+    } else {
+      stockUpdateBtn.setAttribute("data-bs-target", "");
+    }
+  });
+});
+
+
 // ------------------------------------------------------------------------------------------------------
 // 재고 수정버튼 클릭 시 데이터 조회
+
+
+
 const storeNoUpdate = document.getElementById("storeNoUpdate");
 storeNoUpdate.value = storeNoSelect.value;
 const stockUpdateTable = document.getElementById("stockUpdateTable");
@@ -179,40 +198,31 @@ const stockUpdateBtn = document.getElementById("stockUpdateBtn");
 /* 재고 수정 버튼 클릭 시 데이터 조회 */
 stockUpdateBtn.addEventListener("click", () => {
   
-  // 체크된 박스 전체 조회
   const checkbox = document.querySelectorAll("input[type='checkbox']:checked");
 
-  // 수정버튼 클릭 시 table 초기화
   stockUpdateTable.innerHTML = "";
   
-  // 체크가 안되어 있을 경우
+  const backdrop = document.querySelector(".modal-backdrop");
+  if (backdrop) {
+    backdrop.remove();
+  }
+
   if (checkbox.length == 0) {
     alert('수정할 품목을 선택하세요.');
     return;
   }
 
-  // 체크 되면 모달창 열림
-  const stockUpdateModel = new bootstrap.Modal('#stockUpdateModel', {
-    keyboard: false,
-    backdrop: 'static',
-    focus:false
-  })
-  stockUpdateModel.show();
-
-  console.log(checkbox);
-  // 모달 창 안에 체크된 데이터 출력
   for(let rows of checkbox){
     let row = rows.closest("tr");
-    console.log(row);
     const tr = document.createElement("tr");
 
     const td0 = document.createElement("td");
-    const input0 = createElement("input", {"type" : "number", "name":"goodsNo"},["goodsNoUpdateView", "text-center"]);
+    const input0 = createElement("input", {"type" : "number", "name":"goodsNo"},["form-control"]);
     input0.readOnly = true;
     input0.value = row.children[1].innerText;
     td0.append(input0);
 
-    const td = createElement("td", null, ["goodsNameUpdateView", "text-truncate"]);
+    const td = document.createElement("td");
     td.innerText = row.children[2].innerText;
 
     const td1 = document.createElement("td");
@@ -228,6 +238,11 @@ stockUpdateBtn.addEventListener("click", () => {
     tr.append(td0, td, td1, td2);
     stockUpdateTable.append(tr);
   }
+});
+
+const stockUpdateClose = document.getElementById("stockUpdateClose");
+stockUpdateClose.addEventListener("click", ()=>{
+  document.getElementById("stockUpdateForm").reset();
 });
 
 // --------------------------------------------------------------------------------------------------------

@@ -88,6 +88,21 @@ public class StockManageController {
 		return stockService.goodsDelete(goodsNo);
 	}
 	
+	/** 상품 수정
+	 * @param stock
+	 * @param ra
+	 * @return
+	 */
+//	@PostMapping("goodsUpdate")
+//	public String goodsUpdate (Stock stock, RedirectAttributes ra
+//			) {
+//		int result = stockService.goodsUpdate(stock);
+//		if(result <= 0) {
+//			ra.addFlashAttribute("message", "수정 실패");
+//		}
+//		return "redirect:goodsList";
+//	}
+	
 	/** 재고 전체 조회
 	 * @return
 	 */
@@ -119,15 +134,15 @@ public class StockManageController {
 		return "redirect:stockList";
 	}
 	
-	/** 재고 수정
+	/** 재고 현황 수정
 	 * @param stock
 	 * @param ra
 	 * @return
 	 */
-	@PostMapping("stockUpdateManage")
-	public String stockUpdate(@RequestParam("goodsNo") List<Integer> goodsNoList, @RequestParam("stockOutPrice") List<Integer> stockOutPriceList,
-			@RequestParam("stockDiscount") List<Integer> stockDiscountList,RedirectAttributes ra) {
-		int result = service.stockUpdateManage(goodsNoList, stockOutPriceList, stockDiscountList);
+	@PostMapping("stockUpdate")
+	public String stockUpdate( Stock stock, RedirectAttributes ra) {
+		int result = stockService.stockUpdate(stock);
+		
 		if(result <= 0) {
 			ra.addFlashAttribute("message", "수정 실패");
 		}
@@ -304,13 +319,6 @@ public class StockManageController {
 		List<Stock> stockList = service.stockListSearch(stock);
 		model.addAttribute("stockListSelect", stockList);
 		return "stock/stockManage/stockList";
-	}
-	
-	@PostMapping("checkGoogsInsert")
-	public String checkGoogsInsert(String goodsName) {
-		
-		return"";
-		
 	}
 	
 	

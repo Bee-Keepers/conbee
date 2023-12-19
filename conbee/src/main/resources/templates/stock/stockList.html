@@ -128,7 +128,7 @@
       <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-2 mt-2">
         <div class="" role="group" aria-label="Basic outlined example">
           <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="#stockInsertModel">등록</button>
-          <button type="button" class="btn btn-warning me-1" id="stockUpdateBtn">재고수정</button>
+          <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="" id="stockUpdateBtn">재고수정</button>
           <button name="stockDelete" id="deleteBtn" type="button" class="btn btn-warning">삭제</button>
         </div>
       </div>
@@ -200,8 +200,8 @@
   </div>
 
   <!-- 재고 수정 Modal -->
-  <div class="modal fade" id="stockUpdateModel"  tabindex="-1"  aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+  <div class="modal fade" id="stockUpdateModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
 
 
@@ -213,19 +213,13 @@
         <div class="modal-body">
           <form action="/stock/stockUpdate" method="post" id="stockUpdateForm" >
             <div class="modal-body">
-              <table class="w-100" style="table-layout: fixed;">
-                <colgroup>
-                  <col width="10%">
-                  <col width="57%">
-                  <col width="20%">
-                  <col width="13%">
-                </colgroup>
+              <table class="w-100">
                 <thead>
                   <tr>
-                    <th class="text-center" style="width: 100px;">번호</th>
-                    <th class="text-center">상품명</th>
-                    <th class="text-center">출고가</th>
-                    <th class="text-center">할인율</th>
+                    <th >상품번호</th>
+                    <th >상품명</th>
+                    <th>출고가</th>
+                    <th>할인율</th>
                   </tr>
                 </thead>
                 <tbody id="stockUpdateTable">
@@ -251,6 +245,62 @@
       </div>
     </div>
   </div>
+
+  <!-- <div class="modal fade" id="stockUpdateModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">재고 가격 수정</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <form action="/stock/stockUpdate" method="post" >
+            <div>
+              <div id="autoSerchNameContainer" class="form-floating mb-3">
+                <div  class="position-absolute w-100 start-0" style="top: 110%;">
+                  <ul id="goodsNameList" class="list-group">
+                  </ul>
+                </div>
+                <input type="text" class="form-control" name="goodsName" id="goodsName" placeholder="품목명" disabled>
+                <label for="serachName">상품명</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="lcategoryNameUpdate" placeholder="대분류" disabled>
+                <label for="">대분류</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="scategoryNameUpdate" placeholder="소분류" disabled>
+                <label for="">소분류</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="stockInPrice" id="stockInPriceUpdate" placeholder="입고단가" value="0" disabled>
+                <label for="">입고단가</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="stockOutPrice"  id="stockOutPriceUpdate" placeholder="출고단가">
+                <label for="">출고단가</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="stockDiscount" id="stockDiscountUpdate" placeholder="할인율" value="0">
+                <label for="">할인율</label>
+              </div>
+            </div>
+            
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+              <button type="submit" class="btn btn-primary btn-warning">수정</button>
+            </div>
+            <input type="hidden" id="storeNoUpdate" name="storeNo" value="">
+            <input type="hidden" id="goodsNoUpdate" name="goodsNo" value="">
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div> -->
 
   <!-- 상품 상세 조회 Modal -->
   <div class="modal fade" id="goodsDateilModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -295,14 +345,6 @@
       </div>
     </div>
   </div>
-
-  <style>
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-  </style>
 
   <script th:inline="javascript">
     const defaultImage = /*[[#{logo.default.image}]]*/ "상품 기본이미지";
