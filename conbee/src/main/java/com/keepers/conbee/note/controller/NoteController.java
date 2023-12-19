@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.board.model.dto.Board;
@@ -25,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("note")
+@SessionAttributes({"unReadCount"})
 public class NoteController {
 	
     private final NoteService service;
@@ -110,7 +112,14 @@ public class NoteController {
     	return service.readCheck(messageNo);
     }
     
-    
+    // 안읽은 쪽지 수 조회
+    @GetMapping("unReadCount")
+    @ResponseBody
+    public int unReadCount(int memberNo, Model model){
+    	int unReadCount = service.unReadCount(memberNo);
+    	model.addAttribute("unReadCount", unReadCount);
+    	return unReadCount;
+    }
   
 
 
