@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.calendar.model.dto.Calendar;
 import com.keepers.conbee.calendar.model.service.CalendarService;
@@ -63,7 +65,16 @@ public class CalendarController {
         return "calendar/storecalendar";
     } 
 	
-	
+	 @PostMapping("updatecalendar")
+	    public String myPageStoreUpdate(@RequestBody Calendar calendar ,RedirectAttributes ra) {
+	    	int result = service.updatecalendar(calendar);
+	    	if(result > 0) {
+	    		ra.addFlashAttribute("message", "수정 성공");
+	    	} else {
+	    		ra.addFlashAttribute("message", "수정 실패");
+	    	}
+	    	return "redirect:storecalendar";
+	    }
 	
 	
 	

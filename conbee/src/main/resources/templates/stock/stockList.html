@@ -206,6 +206,52 @@
 
   <!-- 재고 수정 Modal -->
   <div class="modal fade" id="stockUpdateModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+
+
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">재고 가격 수정</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <form action="/stock/stockUpdate" method="post" id="stockUpdateForm" >
+            <div class="modal-body">
+              <table class="w-100">
+                <thead>
+                  <tr>
+                    <th >상품번호</th>
+                    <th >상품명</th>
+                    <th>출고가</th>
+                    <th>할인율</th>
+                  </tr>
+                </thead>
+                <tbody id="stockUpdateTable">
+                  <tr>
+                    <td>상품이름</td>
+                    <td><input type="text" class="form-control" name="stockOutPrice"></td>
+                    <td><input type="text" class="form-control" name="stockDiscount"></td>
+                  </tr>
+                </tbody>
+
+              </table>
+
+            </div>
+
+            <div class="modal-footer">
+              <button id="stockUpdateClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+              <button type="submit" class="btn btn-primary btn-warning">수정</button>
+            </div>
+            <input type="hidden" id="storeNoUpdate" name="storeNo" value="">
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="modal fade" id="stockUpdateModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
 
@@ -221,7 +267,6 @@
               <div id="autoSerchNameContainer" class="form-floating mb-3">
                 <div  class="position-absolute w-100 start-0" style="top: 110%;">
                   <ul id="goodsNameList" class="list-group">
-                    <!-- <li class="list-group-item">An item</li> -->
                   </ul>
                 </div>
                 <input type="text" class="form-control" name="goodsName" id="goodsName" placeholder="품목명" disabled>
@@ -241,7 +286,7 @@
               </div>
               <div class="form-floating mb-3">
                 <input type="text" class="form-control" name="stockOutPrice"  id="stockOutPriceUpdate" placeholder="출고단가">
-              <label for="">출고단가</label>
+                <label for="">출고단가</label>
               </div>
               <div class="form-floating mb-3">
                 <input type="text" class="form-control" name="stockDiscount" id="stockDiscountUpdate" placeholder="할인율" value="0">
@@ -260,7 +305,7 @@
 
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!-- 상품 상세 조회 Modal -->
   <div class="modal fade" id="goodsDateilModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

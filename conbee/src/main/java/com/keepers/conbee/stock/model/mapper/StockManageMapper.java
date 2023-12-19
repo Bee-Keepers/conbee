@@ -57,9 +57,10 @@ public interface StockManageMapper {
 
 	/** 상품 검색
 	 * @param stock
+	 * @param rowBounds 
 	 * @return
 	 */
-	List<Stock> goodsSearch(Stock stock);
+	List<Stock> goodsSearch(Stock stock, RowBounds rowBounds);
 
 	/** 재고 등록
 	 * @param stock
@@ -74,9 +75,10 @@ public interface StockManageMapper {
 	int stockInPriceUpdate(Stock stock);
 	/** 본사 재고 검색
 	 * @param stock
+	 * @param rowBounds 
 	 * @return
 	 */
-	List<Stock> stockListSearch(Stock stock);
+	List<Stock> stockListSearch(Stock stock, RowBounds rowBounds);
 
 	/** 상품 총 수 조회
 	 * @return

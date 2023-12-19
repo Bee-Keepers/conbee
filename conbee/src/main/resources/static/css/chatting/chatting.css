@@ -1,3 +1,9 @@
+.roomDiv{
+  border: 1px solid black;
+  height: 50px;
+}
+
+
 /* 채팅방 생성 버튼 */
 #openChatRoom {
 	width: 120px;

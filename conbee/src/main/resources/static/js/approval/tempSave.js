@@ -1,29 +1,39 @@
-/* ========================================================================================================= */
 /* 초기화 */
+let members=[];
+let currentApprovalNo;
 
+// 결재선
+const approverLines = document.querySelectorAll(".approverLine");
+const initialApproverLineSection = [];
+initialApproverLineSection.push(approverLines[0].innerHTML);
 const block3s = document.querySelectorAll(".block3"); 
+// 파일
 const docFileTds = document.querySelectorAll(".docFileTd");
 const initialFileTds=[];
 docFileTds.forEach((docFileTd)=>{initialFileTds.push(docFileTd.innerHTML)});
-let currentApprovalNo;
 
 
 const rewriteApproval = document.querySelectorAll(".rewriteApproval").forEach(function(one){
-
   one.addEventListener("click",function(){
 
-    /* 폼 내용 초기화, 결재라인 초기화 */
-    const formIds = ["docHoliday", "docRetirement", "docStore", "docExpense", "docOrder"];
+    // 폼 리셋
+    switch(one.id){
+      case 'docFive' : document.getElementById("docOrder").reset(); break;
+      case 'docFour' : document.getElementById("docExpense").reset(); break;
+      case 'docThree' : document.getElementById("docStore").reset(); break;
+      case 'docTwo' : document.getElementById("docRetirement").reset(); break;
+      case 'docOne' : document.getElementById("docHoliday").reset(); break;
+    }
 
-    formIds.forEach(formId => {
-      const form = document.getElementById(formId);
-      form.reset();
-    });
 
+    // 발주 리셋
     const orderTbody = document.getElementById("orderTbody");
     orderTbody.innerHTML="";
-
+    
+    // 결재선 리셋
+    approverLines.forEach((approverLine)=>{approverLine.innerHTML=initialApproverLineSection[0];});
     block3s.forEach((block3) => {block3.innerHTML = ""});
+    members=[];
 
     /* 파일 td 초기화 */
     docFileTds.forEach((docFileTd,index)=>{docFileTd.innerHTML=initialFileTds[index];});
@@ -370,13 +380,10 @@ function selectTeamMember(e){
 
 
 /* 팀원 더블클릭 시 결재라인에 추가 */
-let members=[];
-
 function addLine(e){
 
   const block3 = e.parentElement.parentElement.parentElement.nextElementSibling.lastElementChild;
   const innerBoxes = block3.querySelectorAll(".lineContainer");
-
 
   if(innerBoxes.length<4){
     
@@ -440,8 +447,8 @@ function addLine(e){
       lineContainer.append(lineSign,lineBox);
       block3.append(lineContainer);
 
-      // console.log(innerBoxes);
-      // console.log(innerBoxes.length);
+      console.log(members);
+      console.log(members.length);
     })
     .catch(e=>console.log(e));
   }
@@ -504,7 +511,6 @@ function deleteBtn(){
   }
   const currentUrl = window.location.href;
   location.href="deleteTempApproval?approvalNo=" + currentApprovalNo +"&currentUrl=" + currentUrl;
-
 }
 
 /* =========================================================== */
@@ -576,7 +582,7 @@ submitUpdateHoliday.addEventListener("click",(e)=>{
     e.preventDefault();
     return;
   }
-  if(block3s[4].innerHTML===''){
+  if(members.length==0){
     alert("결재선을 추가해주세요");
     e.preventDefault();
     return;
@@ -602,9 +608,9 @@ submitRetirement.addEventListener("click", (e) =>{
     e.preventDefault();
     return;
   }
-  if(document.getElementById("retirementDate").value===''){
+  if(document.getElementById("docRetireDate").value===''){
     alert("퇴직 예정일을 입력해주세요");
-    document.getElementById("retirementDate").focus();
+    document.getElementById("docRetireDate").focus();
     e.preventDefault();
     return;
   }
@@ -614,7 +620,7 @@ submitRetirement.addEventListener("click", (e) =>{
     e.preventDefault();
     return;
   }
-  if(block3s[3].innerHTML===''){
+  if(members.length==0){
     alert("결재선을 추가해주세요");
     e.preventDefault();
     return;
@@ -663,7 +669,7 @@ submitStore.addEventListener("click", e =>{
     e.preventDefault();
     return;
   }
-  if(block3s[2].innerHTML===''){
+  if(members.length==0){
     alert("결재선을 추가해주세요");
     e.preventDefault();
     return;
@@ -701,7 +707,7 @@ submitExpense.addEventListener("click", e =>{
     e.preventDefault();
     return;
   }
-  if(block3s[1].innerHTML===''){
+  if(members.length==0){
     alert("결재선을 추가해주세요");
     e.preventDefault();
     return;
@@ -739,7 +745,7 @@ submitOrder.addEventListener("click", e =>{
       e.preventDefault();
       return;
   }
-  if(block3s[0].innerHTML===''){
+  if(members.length==0){
     alert("결재선을 추가해주세요");
     e.preventDefault();
     return;
@@ -750,7 +756,6 @@ submitOrder.addEventListener("click", e =>{
     return;
   }
 })
-
 
 
 /* ====================================== */
@@ -869,8 +874,15 @@ function createOrder(){
     const td4 = document.createElement("td");
     const input4 = createElement("input", {"type":"number","name":"approvalList["+i+"].docOrderUnitPrice", "class":"ListOrderUnitPrice"},[]);
     // input4.readOnly = true;
+    input4.addEventListener("input",e=>{
+      if(e.target.value<0){
+        e.target.value=0;
+      }
+      input5.value = e.target.value*input3.value;
+      orderPriceFn();
+    });
     td4.append(input4);
-  
+
     // 금액 컬럼 생성
     const td5 = document.createElement("td");
     const input5 = createElement("input", {"type":"number","name":"approvalList["+i+"].docOrderPrice"},[]);

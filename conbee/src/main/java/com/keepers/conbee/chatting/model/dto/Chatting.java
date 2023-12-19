@@ -1,4 +1,4 @@
-package com.keepers.conbee.chatting.dto;
+package com.keepers.conbee.chatting.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;

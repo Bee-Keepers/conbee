@@ -21,5 +21,8 @@ public interface CalendarService {
 	int staffcalendar(Calendar cal);
 
 
+	int updatecalendar(Calendar calendar);
+
+	
 
 }

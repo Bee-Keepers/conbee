@@ -1,8 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <!-- 연결할 인터페이스의 패키지명.인터페이스명을 작성 -->
-<mapper namespace="com.keepers.conbee.chatting.mapper.ChattingMapper">
+<mapper namespace="com.keepers.conbee.chatting.model.mapper.ChattingMapper">
 	
+	<!-- 1:1 채팅 조회 시 -->
+	<select id="selectChat" resultType="Chatting">
+		SELECT * FROM "CHAT"
+		WHERE CHAT_OPEN_MEMBER = #{memberNo}
+	</select>
+	
+	
+	
+	
+	
+	
+<!--	<select id="selectChatList1" resultType="Chatting">
+		SELECT CHAT_NO
+		
+			,(SELECT MESSAGE_CONTENT FROM (
+				SELECT * FROM MESSAGE M2
+				WHERE M2.CHATTING_NO = R.CHATTING_NO
+				ORDER BY MESSAGE_NO DESC) 
+				WHERE ROWNUM = 1) LAST_MESSAGE
+				
+			,TO_CHAR(NVL((SELECT MAX(SEND_TIME) SEND_TIME 
+					FROM MESSAGE M
+					WHERE R.CHATTING_NO  = M.CHATTING_NO), CREATE_DATE), 
+					'YYYY.MM.DD') SEND_TIME
+					
+					
+			,NVL2((SELECT OPEN_MEMBER FROM CHATTING_ROOM R2
+				WHERE R2.CHATTING_NO = R.CHATTING_NO
+				AND R2.OPEN_MEMBER = #{memberNo}),
+				R.PARTICIPANT,
+				R.OPEN_MEMBER
+				) TARGET_NO	
+				
+				
+			,NVL2((SELECT OPEN_MEMBER FROM CHATTING_ROOM R2
+				WHERE R2.CHATTING_NO = R.CHATTING_NO
+				AND R2.OPEN_MEMBER = #{memberNo}),
+				(SELECT MEMBER_NICKNAME FROM MEMBER WHERE MEMBER_NO = R.PARTICIPANT),
+				(SELECT MEMBER_NICKNAME FROM MEMBER WHERE MEMBER_NO = R.OPEN_MEMBER)
+				) TARGET_NICKNAME	
+			,NVL2((SELECT OPEN_MEMBER FROM CHATTING_ROOM R2
+				WHERE R2.CHATTING_NO = R.CHATTING_NO
+				AND R2.OPEN_MEMBER = #{memberNo}),
+				(SELECT PROFILE_IMG FROM MEMBER WHERE MEMBER_NO = R.PARTICIPANT),
+				(SELECT PROFILE_IMG FROM MEMBER WHERE MEMBER_NO = R.OPEN_MEMBER)
+				) TARGET_PROFILE
+			,(SELECT COUNT(*) FROM MESSAGE M WHERE M.CHATTING_NO = R.CHATTING_NO AND READ_FL = 'N' AND SENDER_NO != #{memberNo}) NOT_READ_COUNT
+			,(SELECT MAX(MESSAGE_NO) SEND_TIME FROM MESSAGE M WHERE R.CHATTING_NO  = M.CHATTING_NO) MAX_MESSAGE_NO
+		FROM CHATTING_ROOM R
+		WHERE OPEN_MEMBER = #{memberNo}
+		OR PARTICIPANT = #{memberNo}
+		ORDER BY MAX_MESSAGE_NO DESC NULLS LAST
+	</select>-->
+	
+	
+	
+	<!-- 팀 채팅 조회 시 -->
+<!--	<select id="selectChatList2" resultType="Chatting">
+		
+	</select>-->
 
 	
 	

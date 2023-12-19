@@ -12,10 +12,59 @@
 	</select>
 
 	<!--쪽지 보내기-->
-	<insert id="">
-		INSERT 
-
+	<insert id="noteWrite">
+		INSERT INTO "MESSAGE" VALUES(
+		SEQ_MESSAGE_NO.NEXTVAL, #{messageContent}, DEFAULT, DEFAULT, #{memberNoSender}, DEFAULT, #{memberNoReciplent})
 	</insert>
+
+	<!-- 쪽지 수신함 -->
+	<select id="noteReceive" resultType="Note">
+		SELECT MES.*, MEM.MEMBER_NAME FROM "MESSAGE" MES
+		JOIN MEMBER MEM ON(MES.MEMBER_NO_SENDER = MEM.MEMBER_NO)
+		WHERE MEMBER_NO_RECIPIENT = #{memberNo}
+		ORDER BY MESSAGE_NO DESC
+	</select>
+	
+	<!-- 쪽지 읽음 -->
+	<update id="readCheck">
+		UPDATE "MESSAGE" SET
+		MESSAGE_READ_FL = 'Y'
+		WHERE MESSAGE_NO = #{messageNo}
+	</update>
+	
+	<!-- 안 읽은 쪽지 수 -->
+	<select id="unReadCount" resultType="_int">
+		SELECT COUNT(*) FROM "MESSAGE"
+		WHERE MEMBER_NO_RECIPIENT = #{memberNo}
+		AND MESSAGE_READ_FL = 'N'
+	</select>
+	
+		<!-- 쪽지 발신함 -->
+	<select id="noteSent" resultType="Note">
+		SELECT MES.*, MEM.MEMBER_NAME FROM "MESSAGE" MES
+		JOIN MEMBER MEM ON(MES.MEMBER_NO_RECIPIENT = MEM.MEMBER_NO)
+		WHERE MEMBER_NO_SENDER = #{memberNo}
+		ORDER BY MESSAGE_NO DESC
+	</select>
+	
+	<!--페이지네이션-->
+		<select id="getListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM "MESSAGE"
+		WHERE MESSAGE_DEL_FL = 'N'
+		<if test='grade == 1'>
+			<![CDATA[ AND GRADE_NO < 6 ]]>
+		</if>
+		<if test='grade == 2'>
+			AND GRADE_NO = 6 
+		</if>
+		<if test='query != null'>
+			AND MEMBER_NAME LIKE '%${query}%'
+		</if>
+	</select>
+	
+	
+	
 
 
 </mapper>

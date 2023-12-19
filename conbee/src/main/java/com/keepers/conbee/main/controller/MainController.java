@@ -16,6 +16,8 @@ import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.approval.model.service.ApprovalService;
 import com.keepers.conbee.board.model.service.BoardService;
 import com.keepers.conbee.member.model.dto.Member;
+import com.keepers.conbee.note.model.dto.Note;
+import com.keepers.conbee.note.model.service.NoteService;
 import com.keepers.conbee.revenue.model.dto.Revenue;
 import com.keepers.conbee.revenue.model.service.RevenueService;
 import com.keepers.conbee.stock.model.dto.Order;
@@ -34,6 +36,7 @@ public class MainController {
 	private final RevenueService revenueService;
 	private final ApprovalService approvalService;
 	private final BoardService boardService;
+	private final NoteService noteService;
 	
 	/** 메인 페이지 전환
 	 * @param loginMember
@@ -74,14 +77,17 @@ public class MainController {
 				// 경영관리부인 경우
 				if(loginMember.getDepartmentNo() == 2) {
 					
-				}
-				
-				// 임원인 경우
-				if(loginMember.getDepartmentNo() == 0) {
+				} else {
+					
+					// 받은 쪽지 조회
+					List<Note> noteList = noteService.noteReceive(loginMember.getMemberNo());
+					model.addAttribute("noteList",noteList);
 					
 				}
+				
 			}
-			
+			// 메인 페이지 신상품 3개
+			List<Stock> goodsList = stockService.newGoodsThree();
 			List<Stock> stockList = stockService.stockList(stock, cp);
 			List<Revenue> revenueList = revenueService.revenueSearch(revenue, cp);
 			
@@ -89,6 +95,7 @@ public class MainController {
 			Map<String, Object> map = boardService.selectBoardList(1, 1);
 			
 			
+			model.addAttribute("goodsList", goodsList);
 			model.addAttribute("stockList", stockList);
 			model.addAttribute("revenueList", revenueList);
 			model.addAttribute("map", map);
