@@ -16,6 +16,8 @@ import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.approval.model.service.ApprovalService;
 import com.keepers.conbee.board.model.service.BoardService;
 import com.keepers.conbee.member.model.dto.Member;
+import com.keepers.conbee.note.model.dto.Note;
+import com.keepers.conbee.note.model.service.NoteService;
 import com.keepers.conbee.revenue.model.dto.Revenue;
 import com.keepers.conbee.revenue.model.service.RevenueService;
 import com.keepers.conbee.stock.model.dto.Order;
@@ -34,6 +36,7 @@ public class MainController {
 	private final RevenueService revenueService;
 	private final ApprovalService approvalService;
 	private final BoardService boardService;
+	private final NoteService noteService;
 	
 	/** 메인 페이지 전환
 	 * @param loginMember
@@ -75,6 +78,10 @@ public class MainController {
 				if(loginMember.getDepartmentNo() == 2) {
 					
 				} else {
+					
+					// 받은 쪽지 조회
+					List<Note> noteList = noteService.noteReceive(loginMember.getMemberNo());
+					model.addAttribute("noteList",noteList);
 					
 				}
 				

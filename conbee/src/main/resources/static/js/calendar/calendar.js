@@ -354,88 +354,90 @@ document.getElementById('calendar_allday_update').addEventListener('change', e =
 })
 
 
-
-// 일정 수정 - 모달 수정 버튼 클릭 시
-document.getElementById('calender-update-btn').addEventListener('click',() => {
-
-  const calTitle = document.getElementById('calendar_title_update').value;
-  const calDetail = document.getElementById('calendar_content_update').value;
-  const calendarAllday = document.getElementById('calendar_allday_update').checked; // 체크 시 true, 아니면 false
-
-  const calendarStartDate = document.getElementById('calendar_start_date_update').value;
-  const calendarStartTime = document.getElementById('calendar_start_time_update').value;
-
-  const calendarEndDate = document.getElementById('calendar_end_date_update').value;
-  const calendarEndTime = document.getElementById('calendar_end_time_update').value;
-
-  const calendarColor = document.getElementById('calendar_color_update').value;
-
-
-  // 시작/종료 날짜 + 시간  (2023-12-14/16:20)
-  let calStartTime;
-  let calEndTime;
-
-
-  // 하루 종일이 체크되어 있는 경우 (2023-12-14/00:00)
-  if(calendarAllday){
-    if(calendarStartDate == calendarEndDate){
-      calStartTime = calendarStartDate + "T00:00:00" ;
-      calEndTime = calendarEndDate+ "T00:00:00";
-   
-    }else{
-      calStartTime = calendarStartDate + "T00:00:00" ;
-
-      const temp = new Date(calendarEndDate);
-      const year = temp.getFullYear();
-      const month = temp.getMonth() + 1; // month (0~11) + 1 --> 1월 ~ 12월
-      const date = temp.getDate() + 1; // 끝나는 날짜를 하루 증가해야 캘린더에서 종료일 까지 색이 꽉 참
-
-      calEndTime = `${year}-${month}-${date}T00:00:00`;
+if(document.getElementById('calender-update-btn') != null){
+  // 일정 수정 - 모달 수정 버튼 클릭 시
+  document.getElementById('calender-update-btn').addEventListener('click',() => {
+  
+    const calTitle = document.getElementById('calendar_title_update').value;
+    const calDetail = document.getElementById('calendar_content_update').value;
+    const calendarAllday = document.getElementById('calendar_allday_update').checked; // 체크 시 true, 아니면 false
+  
+    const calendarStartDate = document.getElementById('calendar_start_date_update').value;
+    const calendarStartTime = document.getElementById('calendar_start_time_update').value;
+  
+    const calendarEndDate = document.getElementById('calendar_end_date_update').value;
+    const calendarEndTime = document.getElementById('calendar_end_time_update').value;
+  
+    const calendarColor = document.getElementById('calendar_color_update').value;
+  
+  
+    // 시작/종료 날짜 + 시간  (2023-12-14/16:20)
+    let calStartTime;
+    let calEndTime;
+  
+  
+    // 하루 종일이 체크되어 있는 경우 (2023-12-14/00:00)
+    if(calendarAllday){
+      if(calendarStartDate == calendarEndDate){
+        calStartTime = calendarStartDate + "T00:00:00" ;
+        calEndTime = calendarEndDate+ "T00:00:00";
+     
+      }else{
+        calStartTime = calendarStartDate + "T00:00:00" ;
+  
+        const temp = new Date(calendarEndDate);
+        const year = temp.getFullYear();
+        const month = temp.getMonth() + 1; // month (0~11) + 1 --> 1월 ~ 12월
+        const date = temp.getDate() + 1; // 끝나는 날짜를 하루 증가해야 캘린더에서 종료일 까지 색이 꽉 참
+  
+        calEndTime = `${year}-${month}-${date}T00:00:00`;
+      }
+      
+    
+      // 하루 종일이 체크되어 있지 않은 경우 (2023-12-14/16:20)
+    } else{
+      calStartTime = calendarStartDate + "T" + calendarStartTime + ":00";
+      calEndTime = calendarEndDate + "T" + calendarEndTime + "00";
+    }
+  
+    // 입력된 데이터를 하나의 객체로 묶음
+    const dataObj = {"calTitle": calTitle, 
+                    "calDetail" : calDetail, 
+                    "calAllDay" : (calendarAllday ? 1 : 0), // 체크 되었으면 1, 아니면 0
+                    "calStartTime" : calStartTime,
+                    "calEndTime": calEndTime,
+                    "calColor" : calendarColor
     }
     
   
-    // 하루 종일이 체크되어 있지 않은 경우 (2023-12-14/16:20)
-  } else{
-    calStartTime = calendarStartDate + "T" + calendarStartTime + ":00";
-    calEndTime = calendarEndDate + "T" + calendarEndTime + "00";
-  }
-
-  // 입력된 데이터를 하나의 객체로 묶음
-  const dataObj = {"calTitle": calTitle, 
-                  "calDetail" : calDetail, 
-                  "calAllDay" : (calendarAllday ? 1 : 0), // 체크 되었으면 1, 아니면 0
-                  "calStartTime" : calStartTime,
-                  "calEndTime": calEndTime,
-                  "calColor" : calendarColor
-  }
+    fetch('/calendar/staffcalendar', {
+      method : "POST",
+      headers : {"Content-Type" : "application/json"},
+      body : JSON.stringify(dataObj)
+    })
+    .then(resp => resp.text())
+    .then(result => {
+      console.log(result); // 성공 시 1
   
-
-  fetch('/calendar/staffcalendar', {
-    method : "POST",
-    headers : {"Content-Type" : "application/json"},
-    body : JSON.stringify(dataObj)
+      selectCalendar(); // 달력 다시 만들기
+  
+      /* 모달에 작성된 내용 삭제 */
+      document.getElementById('calendar_title').value = '';
+      document.getElementById('calendar_content').value = '';
+      document.getElementById('calendar_allday').checked = false;
+      document.getElementById('calendar_start_date').value = '';
+      document.getElementById('calendar_end_date').value = '';
+  
+      document.querySelectorAll(".calendar-time-container").forEach( item => item.style.display = "block" );
+  
+      // 모달 닫기
+      $('#calendarModal').modal('hide');
+  
+    })
+    .catch(e => console.log(e))
   })
-  .then(resp => resp.text())
-  .then(result => {
-    console.log(result); // 성공 시 1
+}
 
-    selectCalendar(); // 달력 다시 만들기
-
-    /* 모달에 작성된 내용 삭제 */
-    document.getElementById('calendar_title').value = '';
-    document.getElementById('calendar_content').value = '';
-    document.getElementById('calendar_allday').checked = false;
-    document.getElementById('calendar_start_date').value = '';
-    document.getElementById('calendar_end_date').value = '';
-
-    document.querySelectorAll(".calendar-time-container").forEach( item => item.style.display = "block" );
-
-    // 모달 닫기
-    $('#calendarModal').modal('hide');
-
-  })
-  .catch(e => console.log(e))
-})
 
 
 /* 하루 종일 체크 변경 시 마다 수행 */
