@@ -1,12 +1,14 @@
 package com.keepers.conbee.myPage.model.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.keepers.conbee.admin.store.model.dto.Store;
+import com.keepers.conbee.board.model.dto.Board;
 import com.keepers.conbee.myPage.model.mapper.MyPageMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -32,5 +34,23 @@ public class MyPageServiceImpl implements MyPageService{
 	@Override
 	public Store myPageStore(int storeNo) {
 		return mapper.myPageStore(storeNo);
+	}
+	
+	@Override
+	public List<Board> selectWriteList(int memberNo) {
+		
+		return mapper.selectWriteList(memberNo);
+	}
+	
+	@Override
+	public List<Board> commentList(int memberNo) {
+		
+		return mapper.commentList(memberNo);
+	}
+	
+	@Override
+	public List<Board> choiceList(int memberNo) {
+		
+		return mapper.choiceList(memberNo);
 	}
 }

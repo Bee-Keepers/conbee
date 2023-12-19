@@ -41,23 +41,15 @@ public class NoteController {
 
     
     @GetMapping("note-sent")
-    public String notesent(Board board, Model model, @SessionAttribute("loginMember") Member loginMember,
-    		@RequestParam(value = "grade" , required = false , defaultValue = "0") int grade,
-    		@RequestParam(value = "cp", required = false, defaultValue = "1") int cp , String query) {
+    public String noteSent(Board board, Model model, @SessionAttribute("loginMember") Member loginMember) {
     	
-//    	List<Note> noteList = service.noteSent(loginMember.getMemberNo(),cp);
+    	List<Note> noteList = service.noteSent(loginMember.getMemberNo());
     	
-    	Map<String, Object> map = service.noteSent (grade,query,cp,loginMember.getMemberNo());
-    	
-    	if(query != null) {
-    		model.addAttribute("query", query);
-    	}
-    	
-    	model.addAttribute("grade", grade);
-    	model.addAttribute("map",map);
+    	model.addAttribute("noteList", noteList);
     	
         return "note/note-sent";
     }
+
     
     @GetMapping("note-keep")
     public String notekeep(Board board, Model model) {

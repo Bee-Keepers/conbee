@@ -45,19 +45,8 @@ public interface NoteService {
 	 * @param memberNo
 	 * @return
 	 */
-	
-	
-	/**
-	 * 
-	 * @param grade
-	 * @param query 
-	 * @param cp
-	 * @return
-	 */
 
-
-
-	Map<String, Object> noteSent(int grade, String query, int cp,int i);
+	List<Note> noteSent(int memberNo);
 
 	
 			
