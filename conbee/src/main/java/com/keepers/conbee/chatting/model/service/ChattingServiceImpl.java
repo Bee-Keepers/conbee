@@ -18,20 +18,20 @@ public class ChattingServiceImpl implements ChattingService{
 	private final ChattingMapper mapper;
 	
 	// 1:1 채팅 조회 시
-//	@Override
-//	public List<Chatting> selectChatList1(int memberNo) {
-//		return mapper.selectChatList1(memberNo);
-//	}
+	@Override
+	public List<Chatting> selectChatList1(int memberNo) {
+		return mapper.selectChatList1(memberNo);
+	}
 
 	// 팀 채팅 조회 시
-//	@Override
-//	public List<Chatting> selectChatList2(int teamNo) {
-//		return mapper.selectChatList2(teamNo);
-//	}
+	@Override
+	public List<Chatting> selectChatList2(int teamNo) {
+		return mapper.selectChatList2(teamNo);
+	}
 	
 	// 조회 테스트
-	@Override
-	public List<Chatting> selectChat(int memberNo) {
-		return mapper.selectChat(memberNo);
-	}
+//	@Override
+//	public List<Chatting> selectChat(int memberNo) {
+//		return mapper.selectChat(memberNo);
+//	}
 }
