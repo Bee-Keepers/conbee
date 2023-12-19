@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.keepers.conbee.admin.board.model.dto.Report;
 import com.keepers.conbee.admin.board.model.mapper.AdminBoardMapper;
+import com.keepers.conbee.approval.model.dto.Pagination10;
 import com.keepers.conbee.approval.model.dto.PaginationAdmin;
 
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class AdminBoardServiceImpl implements AdminBoardService{
 		int listCount = mapper.getReportListCount();
 		
 		/* cp, listCount를 이용해 Pagination 객체 생성*/
-		PaginationAdmin pagination = new PaginationAdmin(cp, listCount);
+		Pagination10 pagination = new Pagination10(cp, listCount);
 		
 		// RowBounds 객체 생성
 		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
@@ -62,7 +63,7 @@ public class AdminBoardServiceImpl implements AdminBoardService{
 		int listCount = mapper.getReportCommnetListCount();
 		
 		/* cp, listCount를 이용해 Pagination 객체 생성*/
-		PaginationAdmin pagination = new PaginationAdmin(cp, listCount);
+		Pagination10 pagination = new Pagination10(cp, listCount);
 		
 		// RowBounds 객체 생성
 		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();

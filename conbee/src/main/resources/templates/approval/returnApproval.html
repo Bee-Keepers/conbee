@@ -76,15 +76,16 @@
 
                 <!-- 기안자명이 로그인 회원명과 같을시 재작성 버튼-->
                 <td th:if="*{memberName} == ${session.loginMember.memberName}">
-                  <button class="btn btn-outline-warning approvalOne" style="width: 90px;"
+                  <button class="btn btn-outline-warning rewriteApproval" style="width: 90px;"
                   data-bs-toggle="modal" 
-                  th:attr="data-one-id=*{approvalNo}, data-bs-target='#doc' + ${(approval.docCategoryNo == 0 ? 
+                  
+                  th:attr="data-one-id=*{approvalNo}, data-bs-target='#rewriteDoc' + ${(approval.docCategoryNo == 0 ? 
                     1 : (approval.docCategoryNo == 1 ? 
-                    2 : (approval.docCategoryNo == 2 || approval.docCategoryNo == 3) ? 
+                    2 : (approval.docCategoryNo == 2 || approval.docCategoryNo == 3 || approval.docCategoryNo == 6) ? 
                     3 : (approval.docCategoryNo == 4 ? 
                     4 : (approval.docCategoryNo == 5 ? 
                     5 : approval.docCategoryNo))))},
-                      data-one-sort=${approval.docCategoryNo}" >
+                    data-one-sort=${approval.docCategoryNo}" >
                   재작성
                   </button>
                 </td>
@@ -159,359 +160,378 @@
 
   <!-- ==================================================템플릿들============================================================= -->
 
-    <!-- 휴가신청서 Modal [0]-->
-    <div class="modal fade" id="holidayModal" tabindex="-1" aria-labelledby="holidayModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          
-          <!-- 휴가신청서 모달 헤더 -->
-          <div class="modal-header">
-            <div><h1 class="modal-title fs-5" id="holidayModalLabel">결재 요청문서</h1></div>
-            <div>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-            </div>
+  <!-- 휴가신청서 Modal [0]-->
+  <div class="modal fade" id="holidayModal" tabindex="-1" aria-labelledby="holidayModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        
+        <!-- 휴가신청서 모달 헤더 -->
+        <div class="modal-header">
+          <div><h1 class="modal-title fs-5" id="holidayModalLabel">결재 요청문서</h1></div>
+          <div>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
           </div>
+        </div>
 
-          <!-- 기안서 템플릿 바디(비동기 생성) -->
-          <!-- <th:block th:replace="~{approval/approvalDoc/docHolidayFin}"></th:block> -->
+        <!-- 기안서 템플릿 바디(비동기 생성) -->
+        <!-- <th:block th:replace="~{approval/approvalDoc/docHolidayFin}"></th:block> -->
 
-          <!-- 모달 푸터 -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-warning me-1"  data-bs-target="#" style="width: 85px;" onclick="returnReasonBtn()">반려사유</button>
-            <button type="button" class="btn btn-secondary me-1" data-bs-target="#" style="width: 80px;" th:onclick="deleteAtReturnBtn([[${session.loginMember.memberNo}]])">삭제</button>
+        <!-- 모달 푸터 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-warning me-1"  data-bs-target="#" style="width: 85px;" onclick="returnReasonBtn()">반려사유</button>
+          <button type="button" class="btn btn-secondary me-1" data-bs-target="#" style="width: 80px;" th:onclick="deleteAtReturnBtn([[${session.loginMember.memberNo}]])">삭제</button>
 
-            <div class="btn-group dropup">
-              <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
-              style="width: 80px; background-color: #f2f2f2; color: black;">
-                인쇄
-              </button>
-              <ul class="dropdown-menu">
-                <li><div class="dropdown-item" onclick="downloadPdf();">PDF 저장</div></li>
-                <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
-              </ul>
-            </div>
+          <div class="btn-group dropup">
+            <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+            style="width: 80px; background-color: #f2f2f2; color: black;">
+              인쇄
+            </button>
+            <ul class="dropdown-menu">
+              <li><div class="dropdown-item" onclick="downloadPdf();">PDF 저장</div></li>
+              <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
+            </ul>
           </div>
+        </div>
 
+      </div>
+    </div>
+  </div>
+
+  <!-- 퇴직 신청서 Modal[1] -->
+  <div class="modal fade" id="retirementModal" tabindex="-1" aria-labelledby="retirementModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        
+        <!-- 퇴직 모달 헤더 -->
+        <div class="modal-header">
+          <div><h1 class="modal-title fs-5" id="retirementModalLabel">결재 요청문서</h1></div>
+          <div>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          </div>
+        </div>
+
+        <!-- 기안서 템플릿 바디 -->
+        <!-- <th:block th:replace="~{approval/approvalDoc/docRetirement}"></th:block> -->
+
+        <!-- 모달 푸터 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-warning me-1"  data-bs-target="#" style="width: 85px;" onclick="returnReasonBtn()">반려사유</button>
+          <button type="button" class="btn btn-secondary me-1" data-bs-target="#" style="width: 80px;" th:onclick="deleteAtReturnBtn([[${session.loginMember.memberNo}]])">삭제</button>
+
+          <div class="btn-group dropup">
+            <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+            style="width: 80px; background-color: #f2f2f2; color: black;">
+              인쇄
+            </button>
+            <ul class="dropdown-menu">
+              <li><div class="dropdown-item" onclick="downloadPdf();">PDF 저장</div></li>
+              <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- 퇴직 신청서 Modal[1] -->
-    <div class="modal fade" id="retirementModal" tabindex="-1" aria-labelledby="retirementModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          
-          <!-- 퇴직 모달 헤더 -->
-          <div class="modal-header">
-            <div><h1 class="modal-title fs-5" id="retirementModalLabel">결재 요청문서</h1></div>
-            <div>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-            </div>
+  <!-- 출점 신청서 Modal [2]-->
+  <div class="modal fade" id="openStoreModal" tabindex="-1" aria-labelledby="openStoreModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        
+        <!-- 출점 모달 헤더 -->
+        <div class="modal-header">
+          <div><h1 class="modal-title fs-5" id="openStoreModalLabel">결재 요청문서</h1></div>
+          <div>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
           </div>
+        </div>
 
-          <!-- 기안서 템플릿 바디 -->
-          <!-- <th:block th:replace="~{approval/approvalDoc/docRetirement}"></th:block> -->
+        <!-- 기안서 템플릿 바디 -->
+        <!-- <th:block th:replace="~{approval/approvalDoc/docStore}"></th:block> -->
 
-          <!-- 모달 푸터 -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-warning me-1"  data-bs-target="#" style="width: 85px;" onclick="returnReasonBtn()">반려사유</button>
-            <button type="button" class="btn btn-secondary me-1" data-bs-target="#" style="width: 80px;" th:onclick="deleteAtReturnBtn([[${session.loginMember.memberNo}]])">삭제</button>
+        <!-- 모달 푸터 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-warning me-1"  data-bs-target="#" style="width: 85px;" onclick="returnReasonBtn()">반려사유</button>
+          <button type="button" class="btn btn-secondary me-1" data-bs-target="#" style="width: 80px;" th:onclick="deleteAtReturnBtn([[${session.loginMember.memberNo}]])">삭제</button>
 
-            <div class="btn-group dropup">
-              <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
-              style="width: 80px; background-color: #f2f2f2; color: black;">
-                인쇄
-              </button>
-              <ul class="dropdown-menu">
-                <li><div class="dropdown-item" onclick="downloadPdf();">PDF 저장</div></li>
-                <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
-              </ul>
-            </div>
+          <div class="btn-group dropup">
+            <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+            style="width: 80px; background-color: #f2f2f2; color: black;">
+              인쇄
+            </button>
+            <ul class="dropdown-menu">
+              <li><div class="dropdown-item" onclick="downloadPdf();">PDF 저장</div></li>
+              <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
+            </ul>
           </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 폐점 신청서 Modal [3] -->
+  <div class="modal fade" id="closeStoreModal" tabindex="-1" aria-labelledby="closeStoreModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        
+        <!-- 폐점 모달 헤더 -->
+        <div class="modal-header">
+          <div><h1 class="modal-title fs-5" id="closeStoreModalLabel">결재 요청문서</h1></div>
+          <div>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          </div>
+        </div>
+
+        <!-- 기안서 템플릿 바디 -->
+        <!-- <th:block th:replace="~{approval/approvalDoc/docStore}"></th:block> -->
+
+        <!-- 모달 푸터 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-warning me-1"  data-bs-target="#" style="width: 85px;" onclick="returnReasonBtn()">반려사유</button>
+          <button type="button" class="btn btn-secondary me-1" data-bs-target="#" style="width: 80px;" th:onclick="deleteAtReturnBtn([[${session.loginMember.memberNo}]])">삭제</button>
+
+          <div class="btn-group dropup">
+            <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+            style="width: 80px; background-color: #f2f2f2; color: black;">
+              인쇄
+            </button>
+            <ul class="dropdown-menu">
+              <li><div class="dropdown-item" onclick="downloadPdf();">PDF 저장</div></li>
+              <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 지출결의서 Modal [4]-->
+  <div class="modal fade" id="expenseModal" tabindex="-1" aria-labelledby="expenseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        
+        <!-- 지출결의서 모달 헤더 -->
+        <div class="modal-header">
+          <div><h1 class="modal-title fs-5" id="expenseModalLabel">결재 요청문서</h1></div>
+          <div>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          </div>
+        </div>
+
+        <!-- 기안서 템플릿 바디 --> <!-- 비동기 생성 -->
+        <!-- <th:block th:replace="~{approval/approvalDoc/docExpenseFin}"></th:block> -->
+
+        <!-- 모달 푸터 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-warning me-1"  data-bs-target="#" style="width: 85px;" onclick="returnReasonBtn()">반려사유</button>
+          <button type="button" class="btn btn-secondary me-1" data-bs-target="#" style="width: 80px;" th:onclick="deleteAtReturnBtn([[${session.loginMember.memberNo}]])">삭제</button>
+
+          <div class="btn-group dropup">
+            <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+            style="width: 80px; background-color: #f2f2f2; color: black;">
+              인쇄
+            </button>
+            <ul class="dropdown-menu">
+              <li><div class="dropdown-item" onclick="downloadPdf();">PDF 저장</div></li>
+              <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 발주기안서 Modal [5]-->
+  <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        
+        <!-- 발주기안서 모달 헤더 -->
+        <div class="modal-header">
+          <div><h1 class="modal-title fs-5" id="orderModalLabel">결재 요청문서</h1></div>
+          <div>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          </div>
+        </div>
+
+        <!-- 기안서 템플릿 바디 -->
+        <!-- <th:block th:replace="~{approval/approvalDoc/docOrder}"></th:block> -->
+
+        <!-- 모달 푸터 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-warning me-1"  data-bs-target="#" style="width: 85px;" onclick="returnReasonBtn()">반려사유</button>
+          <button type="button" class="btn btn-secondary me-1" data-bs-target="#" style="width: 80px;" th:onclick="deleteAtReturnBtn([[${session.loginMember.memberNo}]])">삭제</button>
+
+          <div class="btn-group dropup">
+            <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+            style="width: 80px; background-color: #f2f2f2; color: black;">
+              인쇄
+            </button>
+            <ul class="dropdown-menu">
+              <li><div class="dropdown-item" onclick="downloadPdf();">PDF 저장</div></li>
+              <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================================================================== -->
+  
+  <!-- ======================================================== 재작성 템플릿 ============================================== -->
+  <!-- 5. 발주기안 -->
+  <div class="modal fade" id="rewriteDoc5" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <!-- 모달 헤더 -->
+        <div class="modal-header">
+          <div><h1 class="modal-title fs-5">기안문 작성 - 발주기안서</h1></div>
+          <div>
+            <button type="submit" form="docOrder" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveOrder"
+            name="approvalCondition" value="1">임시저장</button>
+            <button type="submit" form="docOrder" class="btn btn-warning me-1" id="submitOrder" name="approvalCondition" value="0">결재</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"  name="closeDoc">닫기</button>
+          </div>
+        </div> 
+        <!-- 모달 바디 -->
+        <div class="modal-body" style="width: 1300px; overflow: hidden;">
+          <form class="d-flex flex-row" action="updateApproval/docOrder" id="docOrder" method="POST" enctype="multipart/form-data">
+            <th:block th:replace="~{approval/approvalDoc/docOrder}"></th:block>
+          </form>
+        </div>
+        <!-- 모달 풋터 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary me-1" onclick="deleteBtn()">삭제하기</button>
         </div>
       </div>
     </div>
- 
-    <!-- 출점 신청서 Modal [2]-->
-    <div class="modal fade" id="openStoreModal" tabindex="-1" aria-labelledby="openStoreModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          
-          <!-- 출점 모달 헤더 -->
-          <div class="modal-header">
-            <div><h1 class="modal-title fs-5" id="openStoreModalLabel">결재 요청문서</h1></div>
-            <div>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-            </div>
+  </div>
+  
+  
+  <!-- 4. 지출결의  -->
+  <div class="modal fade" id="rewriteDoc4" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <!-- 모달 헤더 -->
+        <div class="modal-header">
+          <div><h1 class="modal-title fs-5">기안문 작성 - 지출결의서</h1></div>
+          <div>
+            <button type="submit" form="docExpense" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveExpense"
+            name="approvalCondition" value="1">임시저장</button>
+            <button type="submit" form="docExpense" class="btn btn-warning me-1" id="submitExpense" name="approvalCondition" value="0">결재</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
           </div>
-
-          <!-- 기안서 템플릿 바디 -->
-          <!-- <th:block th:replace="~{approval/approvalDoc/docStore}"></th:block> -->
-
-          <!-- 모달 푸터 -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-warning me-1"  data-bs-target="#" style="width: 85px;" onclick="returnReasonBtn()">반려사유</button>
-            <button type="button" class="btn btn-secondary me-1" data-bs-target="#" style="width: 80px;" th:onclick="deleteAtReturnBtn([[${session.loginMember.memberNo}]])">삭제</button>
-
-            <div class="btn-group dropup">
-              <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
-              style="width: 80px; background-color: #f2f2f2; color: black;">
-                인쇄
-              </button>
-              <ul class="dropdown-menu">
-                <li><div class="dropdown-item" onclick="downloadPdf();">PDF 저장</div></li>
-                <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
-              </ul>
-            </div>
-          </div>
-
+        </div> 
+        <!-- 모달 바디 -->
+        <div class="modal-body" style="width: 1300px; overflow: hidden;">
+          <form class="d-flex flex-row" action="updateApproval/docExpense" id="docExpense" method="POST" enctype="multipart/form-data">
+            <th:block th:replace="~{approval/approvalDoc/docExpense}"></th:block>
+          </form>
+        </div>
+        <!-- 모달 풋터 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary me-1" onclick="deleteBtn()">삭제하기</button>
         </div>
       </div>
     </div>
-
-    <!-- 폐점 신청서 Modal [3] -->
-    <div class="modal fade" id="closeStoreModal" tabindex="-1" aria-labelledby="closeStoreModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          
-          <!-- 폐점 모달 헤더 -->
-          <div class="modal-header">
-            <div><h1 class="modal-title fs-5" id="closeStoreModalLabel">결재 요청문서</h1></div>
-            <div>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-            </div>
+  </div>
+  
+  
+  <!-- 3. 출점/폐점  -->
+  <div class="modal fade" id="rewriteDoc3" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <!-- 모달 헤더 -->
+        <div class="modal-header">
+          <div>
+            <h1 class="modal-title fs-5">기안문 작성 - 출/폐점 등록 요청서</h1>
           </div>
-
-          <!-- 기안서 템플릿 바디 -->
-          <!-- <th:block th:replace="~{approval/approvalDoc/docStore}"></th:block> -->
-
-          <!-- 모달 푸터 -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-warning me-1"  data-bs-target="#" style="width: 85px;" onclick="returnReasonBtn()">반려사유</button>
-            <button type="button" class="btn btn-secondary me-1" data-bs-target="#" style="width: 80px;" th:onclick="deleteAtReturnBtn([[${session.loginMember.memberNo}]])">삭제</button>
-
-            <div class="btn-group dropup">
-              <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
-              style="width: 80px; background-color: #f2f2f2; color: black;">
-                인쇄
-              </button>
-              <ul class="dropdown-menu">
-                <li><div class="dropdown-item" onclick="downloadPdf();">PDF 저장</div></li>
-                <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
-              </ul>
-            </div>
+          <div>
+            <button type="submit" form="docStore" class="btn me-1" style="width: 100px; background-color: #f2f2f2;"
+              id="saveStore" name="approvalCondition" value="1">임시저장</button>
+            <button type="submit" form="docStore" class="btn btn-warning me-1" id="submitStore" name="approvalCondition"
+              value="0">결재</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
           </div>
-
+        </div>
+        <!-- 모달 바디 -->
+        <div class="modal-body" style="width: 1300px; overflow: hidden;">
+          <form class="d-flex flex-row" action="updateApproval/docStore" id="docStore" method="POST" enctype="multipart/form-data">
+            <th:block th:replace="~{approval/approvalDoc/docStore}"></th:block>
+          </form>
+        </div>
+        <!-- 모달 풋터 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary me-1" onclick="deleteBtn()">삭제하기</button>
         </div>
       </div>
     </div>
-
-    <!-- 지출결의서 Modal [4]-->
-    <div class="modal fade" id="expenseModal" tabindex="-1" aria-labelledby="expenseModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          
-          <!-- 지출결의서 모달 헤더 -->
-          <div class="modal-header">
-            <div><h1 class="modal-title fs-5" id="expenseModalLabel">결재 요청문서</h1></div>
-            <div>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-            </div>
-          </div>
-
-          <!-- 기안서 템플릿 바디 --> <!-- 비동기 생성 -->
-          <!-- <th:block th:replace="~{approval/approvalDoc/docExpenseFin}"></th:block> -->
-
-          <!-- 모달 푸터 -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-warning me-1"  data-bs-target="#" style="width: 85px;" onclick="returnReasonBtn()">반려사유</button>
-            <button type="button" class="btn btn-secondary me-1" data-bs-target="#" style="width: 80px;" th:onclick="deleteAtReturnBtn([[${session.loginMember.memberNo}]])">삭제</button>
-
-            <div class="btn-group dropup">
-              <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
-              style="width: 80px; background-color: #f2f2f2; color: black;">
-                인쇄
-              </button>
-              <ul class="dropdown-menu">
-                <li><div class="dropdown-item" onclick="downloadPdf();">PDF 저장</div></li>
-                <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
-              </ul>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- 발주기안서 Modal [5]-->
-    <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          
-          <!-- 발주기안서 모달 헤더 -->
-          <div class="modal-header">
-            <div><h1 class="modal-title fs-5" id="orderModalLabel">결재 요청문서</h1></div>
-            <div>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-            </div>
-          </div>
-
-          <!-- 기안서 템플릿 바디 -->
-          <!-- <th:block th:replace="~{approval/approvalDoc/docOrder}"></th:block> -->
-
-          <!-- 모달 푸터 -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-warning me-1"  data-bs-target="#" style="width: 85px;" onclick="returnReasonBtn()">반려사유</button>
-            <button type="button" class="btn btn-secondary me-1" data-bs-target="#" style="width: 80px;" th:onclick="deleteAtReturnBtn([[${session.loginMember.memberNo}]])">삭제</button>
-
-            <div class="btn-group dropup">
-              <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
-              style="width: 80px; background-color: #f2f2f2; color: black;">
-                인쇄
-              </button>
-              <ul class="dropdown-menu">
-                <li><div class="dropdown-item" onclick="downloadPdf();">PDF 저장</div></li>
-                <li><div class="dropdown-item" onclick="fnModalPrint(this)">인쇄</div></li>
-              </ul>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- ===================================================================================================================== -->
-    
-    <!-- ======================================================== 재작성 템플릿 ======================================== -->
-    <!-- 5. 발주기안 -->
-    <div class="modal fade" id="doc5" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-      <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          <!-- 모달 헤더 -->
-          <div class="modal-header">
-            <div><h1 class="modal-title fs-5">기안문 작성 - 발주기안서</h1></div>
-            <div>
-              <button type="submit" form="docOrder" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveOrder"
-              name="approvalCondition" value="1">임시저장</button>
-              <button type="submit" form="docOrder" class="btn btn-warning me-1" id="submitOrder" name="approvalCondition" value="0">결재</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"  name="closeDoc">닫기</button>
-            </div>
+  </div>
+  
+  
+  <!-- 2. 사직서 -->
+  <div class="modal fade" id="rewriteDoc2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <!-- 모달 헤더 -->
+        <div class="modal-header">
+          <div><h1 class="modal-title fs-5">기안문 작성 - 사직서</h1></div>
+          <div>
+            <button type="submit" form="docRetirement" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveRetirement"
+            name="approvalCondition" value="1">임시저장</button>
+            <button type="submit" form="docRetirement" class="btn btn-warning me-1" id="submitRetirement" name="approvalCondition" value="0">결재</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
           </div> 
-          <!-- 모달 바디 -->
-          <div class="modal-body" style="width: 1300px; overflow: hidden;">
-            <form class="d-flex flex-row" action="tempSave/docOrder" id="docOrder" method="POST" enctype="multipart/form-data">
-              <th:block th:replace="~{approval/approvalDoc/docOrder}"></th:block>
-            </form>
-          </div>
+        </div>
+        <!-- 모달 바디 -->
+        <div class="modal-body" style="width: 1300px; overflow: hidden;">
+          <form class="d-flex flex-row" action="updateApproval/docRetirement" id="docRetirement" method="POST" enctype="multipart/form-data">
+            <th:block th:replace="~{approval/approvalDoc/docRetirement}"></th:block>
+          </form>
+        </div>
+        <!-- 모달 풋터 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary me-1" onclick="deleteBtn()">삭제하기</button>
         </div>
       </div>
     </div>
-
-
-    <!-- 4. 지출결의  -->
-    <div class="modal fade" id="doc4" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-      <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          <!-- 모달 헤더 -->
-          <div class="modal-header">
-            <div><h1 class="modal-title fs-5">기안문 작성 - 지출결의서</h1></div>
-            <div>
-              <button type="submit" form="docExpense" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveExpense"
-              name="approvalCondition" value="1">임시저장</button>
-              <button type="submit" form="docExpense" class="btn btn-warning me-1" id="submitExpense" name="approvalCondition" value="0">결재</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
-            </div>
+  </div>
+  
+  
+  <!-- 1. 휴가 신청서 -->
+  <div class="modal fade" id="rewriteDoc1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <!-- 모달 헤더 -->
+        <div class="modal-header">
+          <div><h1 class="modal-title fs-5">기안문 작성 - 휴가신청서</h1></div>
+          <div>
+            <button type="submit" form="docHoliday" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveHoliday"
+            name="approvalCondition" value="1">임시저장</button>
+            <button type="submit" form="docHoliday" class="btn btn-warning me-1" id="submitHoliday" name="approvalCondition" value="0">결재</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
           </div> 
-          <!-- 모달 바디 -->
-          <div class="modal-body" style="width: 1300px; overflow: hidden;">
-            <form class="d-flex flex-row" action="tempSave/docExpense" id="docExpense" method="POST" enctype="multipart/form-data">
-              <th:block th:replace="~{approval/approvalDoc/docExpense}"></th:block>
-            </form>
-          </div>
         </div>
+        <!-- 모달 바디 -->
+        <div class="modal-body" style="width: 1300px; overflow: hidden;">
+          <form class="d-flex flex-row" action="updateApproval/docHoliday" id="docHoliday" method="POST" enctype="multipart/form-data">
+            <th:block th:replace="~{approval/approvalDoc/docHoliday}"></th:block>
+          </form>
+        </div>
+        <!-- 모달 풋터 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary me-1" onclick="deleteBtn()">삭제하기</button>
+        </div>        
       </div>
     </div>
-
-
-    <!-- 3. 출점/폐점  -->
-    <div class="modal fade" id="doc3" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-      <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          <!-- 모달 헤더 -->
-          <div class="modal-header">
-            <div>
-              <h1 class="modal-title fs-5">기안문 작성 - 출/폐점 등록 요청서</h1>
-            </div>
-            <div>
-              <button type="submit" form="docStore" class="btn me-1" style="width: 100px; background-color: #f2f2f2;"
-                id="saveStore" name="approvalCondition" value="1">임시저장</button>
-              <button type="submit" form="docStore" class="btn btn-warning me-1" id="submitStore" name="approvalCondition"
-                value="0">결재</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
-            </div>
-          </div>
-          <!-- 모달 바디 -->
-          <div class="modal-body" style="width: 1300px; overflow: hidden;">
-            <form class="d-flex flex-row" action="tempSave/docStore" id="docStore" method="POST" enctype="multipart/form-data">
-              <th:block th:replace="~{approval/approvalDoc/docStore}"></th:block>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- 2. 사직서 -->
-    <div class="modal fade" id="doc2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-      <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          <!-- 모달 헤더 -->
-          <div class="modal-header">
-            <div><h1 class="modal-title fs-5">기안문 작성 - 사직서</h1></div>
-            <div>
-              <button type="submit" form="docRetirement" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveRetirement"
-              name="approvalCondition" value="1">임시저장</button>
-              <button type="submit" form="docRetirement" class="btn btn-warning me-1" id="submitRetirement" name="approvalCondition" value="0">결재</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
-            </div> 
-          </div>
-          <!-- 모달 바디 -->
-          <div class="modal-body" style="width: 1300px; overflow: hidden;">
-            <form class="d-flex flex-row" action="tempSave/docRetirement" id="docRetirement" method="POST" enctype="multipart/form-data">
-              <th:block th:replace="~{approval/approvalDoc/docRetirement}"></th:block>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- 1. 휴가 신청서 -->
-    <div class="modal fade" id="doc1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-      <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          <!-- 모달 헤더 -->
-          <div class="modal-header">
-            <div><h1 class="modal-title fs-5">기안문 작성 - 휴가신청서</h1></div>
-            <div>
-              <button type="submit" form="docHoliday" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveHoliday"
-              name="approvalCondition" value="1">임시저장</button>
-              <button type="submit" form="docHoliday" class="btn btn-warning me-1" id="submitHoliday" name="approvalCondition" value="0">결재</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closeDoc">닫기</button>
-            </div> 
-          </div>
-          <!-- 모달 바디 -->
-          <div class="modal-body" style="width: 1300px; overflow: hidden;">
-            <form class="d-flex flex-row" action="tempSave/docHoliday" id="docHoliday" method="POST" enctype="multipart/form-data">
-              <th:block th:replace="~{approval/approvalDoc/docHoliday}"></th:block>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ===================================================================================================================== -->
-
+  </div>
+  <!--=========================================================================================================-->
+  
   <script src="/js/bootstrap.bundle.min.js"></script>
   <script src="/js/approval/commonApproval.js"></script>
   <script src="/js/approval/waitApproval.js"></script>

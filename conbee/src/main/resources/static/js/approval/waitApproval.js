@@ -1,5 +1,5 @@
 // 승인/반려시 사용할 문서번호 전역변수 선언
-let currentApprovalNo;
+let nowApprovalNo;
 
 // 승인/반려시 사용할 기안자 회원번호 전역변수 선언
 let currentApprovalMemberNo;
@@ -50,7 +50,7 @@ function modal(approvalNo, docCategoryNo){
 
       console.log(approval.length);
 
-      currentApprovalNo = approval[0].approvalNo; // 기안서 문서번호 전역변수 대입
+      nowApprovalNo = approval[0].approvalNo; // 기안서 문서번호 전역변수 대입
       currentApprovalMemberNo = approval[0].memberNo; // 기안자 회원번호 전역변수 대입
       currentApprovaldocCategoryNo = approval[0].docCategoryNo;
       currentApprovaldocTitle = '발주기안서';
@@ -373,7 +373,7 @@ function modal(approvalNo, docCategoryNo){
   .then(resp => resp.json())
   .then(approval => {
 
-    currentApprovalNo = approval.approvalNo;
+    nowApprovalNo = approval.approvalNo;
     currentApprovalMemberNo = approval.memberNo;
     currentApprovaldocCategoryNo = approval.docCategoryNo;
 
@@ -1727,18 +1727,18 @@ function modal(approvalNo, docCategoryNo){
 
 /* 결재 버튼 클릭 시 작동함수 */
 function approveBtn(){
-  if(currentApprovalNo == undefined) return;
-  location.href="approve?approvalNo=" + currentApprovalNo;
+  if(nowApprovalNo == undefined) return;
+  location.href="approve?approvalNo=" + nowApprovalNo;
 }
 
 // 반려 버튼 클릭 시 작동함수
 function returnBtn(){
-  if(currentApprovalNo == undefined) return;
+  if(nowApprovalNo == undefined) return;
 
   const returnReason = prompt("반려 사유");
   if(returnReason != null){ // 반려 사유 입력 후 반려 클릭 시
 
-    location.href="returnApprove?approvalNo=" + currentApprovalNo + "&returnReason=" + returnReason;
+    location.href="returnApprove?approvalNo=" + nowApprovalNo + "&returnReason=" + returnReason;
 
   } else {
     return;
@@ -1749,7 +1749,7 @@ function returnBtn(){
 function deleteBtn(memberNo){
 
   // console.log(currentApprovalMemberNo);
-  if(currentApprovalNo == undefined) return;
+  if(nowApprovalNo == undefined) return;
 
   // 문서번호의 기안자의 회원번호가 로그인memberNo와 다르면 return. 같다면 confirm 후 삭제 진행
   if(currentApprovalMemberNo != memberNo){
@@ -1758,7 +1758,7 @@ function deleteBtn(memberNo){
   } 
 
   if(confirm("해당 기안서를 영구삭제 하시겠습니까?")){
-    location.href="deleteApprove?approvalNo=" + currentApprovalNo;
+    location.href="deleteApprove?approvalNo=" + nowApprovalNo;
   }
 }
 
@@ -1766,7 +1766,7 @@ function deleteBtn(memberNo){
 function returnReasonBtn(){
 
   // 해당 문서의 반려사유를 불러와서 alert로 띄움
-  fetch('selectReturnReason?approvalNo=' + currentApprovalNo)
+  fetch('selectReturnReason?approvalNo=' + nowApprovalNo)
   .then(resp => resp.text())
   .then(result => {
     alert(result);
@@ -1775,7 +1775,7 @@ function returnReasonBtn(){
 
 /* 반려문서함에서 삭제버튼 클릭 시 작동함수 */
 function deleteAtReturnBtn(memberNo){
-  if(currentApprovalNo == undefined) return;
+  if(nowApprovalNo == undefined) return;
 
   // 문서번호의 기안자의 회원번호가 로그인memberNo와 다르면 return. 같다면 confirm 후 삭제 진행
   if(currentApprovalMemberNo != memberNo){
@@ -1784,7 +1784,7 @@ function deleteAtReturnBtn(memberNo){
   } 
 
   if(confirm("해당 기안서를 영구삭제 하시겠습니까?")){
-    location.href="deleteApproveAtReturn?approvalNo=" + currentApprovalNo;
+    location.href="deleteApproveAtReturn?approvalNo=" + nowApprovalNo;
   }
 }
 
