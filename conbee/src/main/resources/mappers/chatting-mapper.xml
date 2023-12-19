@@ -60,6 +60,82 @@
 	
 	
 	
+	<!-- 대화 상대 검색 - DB 확인 완료F>> 성공-->
+	<select id="selectTarget" resultType="Member">
+		SELECT MEMBER_NO, MEMBER_ID, MEMBER_NAME, MEMBER_PROFILE  FROM "MEMBER"
+		WHERE (MEMBER_ID LIKE '%${query}%' OR MEMBER_NAME LIKE '%${query}%')
+		AND MEMBER_DEL_FL = 'N'
+		AND MEMBER_NO != ${memberNo}
+	</select>
+	
+	
+	
+	
+	<!-- 채팅방 유무 확인 - DB 확인 완료 -->
+	<select id="checkChatNo" resultType="_int">
+		SELECT NVL(SUM(CHAT_NO),0) CHAT_NO FROM CHAT
+		WHERE (CHAT_OPEN_MEMBER = #{loginMemberNo} AND MEMBER_NO = #{targetNo})
+		OR (CHAT_OPEN_MEMBER = #{targetNo} AND MEMBER_NO = #{loginMemberNo})
+	</select>
+	
+	
+	
+	<!-- 1:1 채팅방 생성 -->
+	<insert id="createChattingRoom" parameterType="map" useGeneratedKeys="true">
+	
+		<selectKey keyProperty="chatNo" order="BEFORE" resultType="_int">
+			SELECT SEQ_ROOM_NO.NEXTVAL FROM DUAL
+		</selectKey>
+	
+		INSERT INTO CHAT
+		VALUES(#{chatNo}, DEFAULT, #{loginMemberNo}, #{targetNo}, NULL)
+	</insert>	
+	<!-- 오류나면 확인 -->
+	
+	
+	
+	
+	
+	
+	
+	<!-- 채팅 메세지 삽입 -->
+	<insert id="insertMessage">
+		INSERT INTO "CHAT_MESSAGE"
+		VALUES(SEQ_CHAT_MESSAGE_NO.NEXTVAL, DEFAULT, #{chatMessageContent}, DEFAULT, #{chattingNo}, #{chatMessageSender})
+	</insert>
+	
+	
+	
+	<!-- 채팅 메세지 중 내가 보내지 않은 글을 읽음으로 표시 -->
+	<update id="updateChatMessageRead">
+		UPDATE "CHAT_MESSAGE" SET
+		CHAT_MESSAGE_READ = '읽지않음'
+		WHERE CHAT_NO = #{chatNo}
+		AND CHAT_MESSAGE_SENDER != #{memberNo}
+	</update>
+	
+	
+	
+	<!-- 채팅방 메세지 조회 -->
+	<select id="selectMessageList" resultType="ChatMessage">
+		SELECT CHAT_MESSAGE_NO, CHAT_MESSAGE_CONTENT, CHAT_MESSAGE_READ, CHAT_MESSAGE_SENDER, CHAT_NO,
+		TO_CHAR(CHAT_MESSAGE_DATE, 'YYYY.MM.DD HH24:MI') CHAT_MESSAGE_DATE 
+		FROM CHAT_MESSAGE
+		WHERE CHAT_NO  = #{chatNo}
+		ORDER BY CHAT_MESSAGE_NO
+	</select>	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<!-- 팀 채팅 조회 시 -->
 	<select id="selectChatList2" resultType="Chatting">
 		
