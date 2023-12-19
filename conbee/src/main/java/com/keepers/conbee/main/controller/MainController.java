@@ -74,14 +74,13 @@ public class MainController {
 				// 경영관리부인 경우
 				if(loginMember.getDepartmentNo() == 2) {
 					
-				}
-				
-				// 임원인 경우
-				if(loginMember.getDepartmentNo() == 0) {
+				} else {
 					
 				}
+				
 			}
-			
+			// 메인 페이지 신상품 3개
+			List<Stock> goodsList = stockService.newGoodsThree();
 			List<Stock> stockList = stockService.stockList(stock, cp);
 			List<Revenue> revenueList = revenueService.revenueSearch(revenue, cp);
 			
@@ -89,6 +88,7 @@ public class MainController {
 			Map<String, Object> map = boardService.selectBoardList(1, 1);
 			
 			
+			model.addAttribute("goodsList", goodsList);
 			model.addAttribute("stockList", stockList);
 			model.addAttribute("revenueList", revenueList);
 			model.addAttribute("map", map);
