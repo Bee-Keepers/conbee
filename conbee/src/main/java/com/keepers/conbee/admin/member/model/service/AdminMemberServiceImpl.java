@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.keepers.conbee.admin.member.model.mapper.AdminMemberMapper;
 import com.keepers.conbee.admin.store.model.dto.Store;
 import com.keepers.conbee.approval.model.dto.Pagination;
+import com.keepers.conbee.approval.model.dto.PaginationAdmin;
 import com.keepers.conbee.member.model.dto.Member;
 
 import lombok.RequiredArgsConstructor;
@@ -37,7 +38,7 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 		
 		int listCount = mapper.getListCount();
 		
-		Pagination pagination = new Pagination(cp, listCount);
+		PaginationAdmin pagination = new PaginationAdmin(cp, listCount);
 		
 		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
 		
@@ -46,7 +47,7 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
 		// 마이바티스 호출
-		List<Map<String, Object>> memberList = mapper.readAllMemberList(rowBounds);
+		List<Member> memberList = mapper.readAllMemberList(rowBounds);
 		
 		// Map에 담아 반환
 		Map<String, Object> map = new HashMap<>();
@@ -62,10 +63,10 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 	@Override
 	public Map<String, Object> searchMemberList(Map<String, Object> paramMap, int cp) {
 		
-		// 검색 조건이 일치하는 게시글 수 조회
+		// 검색 조건이 일치하는 멤버 수 조회
 		int listCount = mapper.searchMemberListCount(paramMap);
 		
-		Pagination pagination = new Pagination(cp, listCount);
+		PaginationAdmin pagination = new PaginationAdmin(cp, listCount);
 		
 		// RowBounds 객체 생성
 		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
@@ -75,7 +76,7 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
 		// 마이바티스 호출
-		List<Map<String, Object>> memberList = mapper.searchMemberList(paramMap, rowBounds);
+		List<Member> memberList = mapper.searchMemberList(paramMap, rowBounds);
 		
 		// Map에 담아 반환
 		Map<String, Object> map = new HashMap<>();
@@ -165,9 +166,20 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 		map.put("memberNo", memberNo);
 		
 		return mapper.changeMemberDelFl(map);
-		
-		
 	}
+	
+	
+	
+	//============================= 예리나 =====================================
+	
+	/** 회원가입 시 부서 선택 후 팀 셀렉 기능
+	 *
+	 */
+	@Override
+	public List<String> teamNoList(String departmentNo) {
+		return mapper.teamNoList(departmentNo);
+	}
+	
 	
 	
 	

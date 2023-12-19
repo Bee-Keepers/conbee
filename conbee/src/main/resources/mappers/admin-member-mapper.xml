@@ -74,36 +74,36 @@
 	
 	<!-- 검색 회원 조회 -->
 	<select id="searchMemberListCount" resultType="_int">
-		SELECT COUNT(*) FROM MEMBER
-		JOIN TEAM USING (TEAM_NO)
-		JOIN DEPARTMENT USING (DEPARTMENT_NO)
-		JOIN GRADE USING (GRADE_NO)
-		WHERE MEMBER_NO LIKE '%${query}%' 
-		OR DEPARTMENT_NAME LIKE '%${query}%'
-		OR TEAM_NAME LIKE '%${query}%'
-		OR GRADE_NAME LIKE '%${query}%'
-		OR MEMBER_NAME LIKE '%${query}%'
-		OR MEMBER_TEL LIKE '%${query}%'
-		OR MEMBER_ADDRESS LIKE '%${query}%'
-		ORDER BY MEMBER_NO
+		SELECT COUNT(*) 
+		FROM MEMBER M
+		JOIN TEAM T ON (T.TEAM_NO=M.TEAM_NO)
+		JOIN DEPARTMENT D ON (D.DEPARTMENT_NO=M.DEPARTMENT_NO)
+		JOIN GRADE G ON (G.GRADE_NO=M.GRADE_NO)
+		WHERE M.MEMBER_NO LIKE '%${query}%' 
+		OR D.DEPARTMENT_NAME LIKE '%${query}%'
+		OR T.TEAM_NAME LIKE '%${query}%'
+		OR G.GRADE_NAME LIKE '%${query}%'
+		OR M.MEMBER_NAME LIKE '%${query}%'
+		OR M.MEMBER_TEL LIKE '%${query}%'
+		OR M.MEMBER_ADDRESS LIKE '%${query}%'
+		ORDER BY M.MEMBER_NO
 	</select>
 	
 	<!-- 검색한 회원과 일치하는 회원 조회 -->
 	<select id="searchMemberList" resultType="Member">
-		SELECT MEMBER_NO, DEPARTMENT_NAME, TEAM_NAME, GRADE_NAME, MEMBER_NAME, MEMBER_TEL, MEMBER_ADDRESS,
-		MEMBER_ENROLL_DATE, MEMBER_DEL_FL
-		FROM MEMBER
-		JOIN TEAM USING (TEAM_NO)
-		JOIN DEPARTMENT USING (DEPARTMENT_NO)
-		JOIN GRADE USING (GRADE_NO)
-		WHERE MEMBER_NO LIKE '%${query}%' 
-		OR DEPARTMENT_NAME LIKE '%${query}%'
-		OR TEAM_NAME LIKE '%${query}%'
-		OR GRADE_NAME LIKE '%${query}%'
-		OR MEMBER_NAME LIKE '%${query}%'
-		OR MEMBER_TEL LIKE '%${query}%'
-		OR MEMBER_ADDRESS LIKE '%${query}%'
-		ORDER BY MEMBER_NO
+		SELECT M.MEMBER_NO, D.DEPARTMENT_NAME, T.TEAM_NAME, G.GRADE_NAME, M.MEMBER_NAME, M.MEMBER_TEL, M.MEMBER_ADDRESS, M.MEMBER_ENROLL_DATE, M.MEMBER_DEL_FL
+		FROM MEMBER M
+		JOIN TEAM T ON (T.TEAM_NO=M.TEAM_NO)
+		JOIN DEPARTMENT D ON (D.DEPARTMENT_NO=M.DEPARTMENT_NO)
+		JOIN GRADE G ON (G.GRADE_NO=M.GRADE_NO)
+		WHERE M.MEMBER_NO LIKE '%${query}%' 
+		OR D.DEPARTMENT_NAME LIKE '%${query}%'
+		OR T.TEAM_NAME LIKE '%${query}%'
+		OR G.GRADE_NAME LIKE '%${query}%'
+		OR M.MEMBER_NAME LIKE '%${query}%'
+		OR M.MEMBER_TEL LIKE '%${query}%'
+		OR M.MEMBER_ADDRESS LIKE '%${query}%'
+		ORDER BY M.MEMBER_NO
 	</select>
 	
 	<!-- 회원 탈퇴 버튼 -->
@@ -113,6 +113,17 @@
 		MEMBER_DEL_FL = #{memberDelFl}
 		WHERE MEMBER_NO = #{memberNo}
 	</update>
+	
+	
+	<!--회원가입 시 부서 선택 후 팀 셀렉 기능-->
+	<select id="teamNoList" resultType="string">
+		SELECT TEAM_NAME 
+		FROM TEAM
+		JOIN DEPARTMENT USING (DEPARTMENT_NO)
+		WHERE DEPARTMENT_NO = ${departmentNo}
+	</select>
+	
+	
 	
 	
 </mapper>

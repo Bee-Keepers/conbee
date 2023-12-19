@@ -18,9 +18,6 @@
                         <strong style="color: white;">프로필명</strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow">
-                        <li><a class="dropdown-item" href="/mypage/mypage-profile">마이페이지</a></li>
-                        <li><a class="dropdown-item" href="#">환경설정</a></li>
-                        <li><a class="dropdown-item" href="/note/note-list">쪽지</a></li>
                         <li th:if="${session.loginMember != null && session.loginMember.memberAuthority == 0}">
                             <a class="dropdown-item" href="#">관리자페이지</a>
                         </li>
@@ -45,7 +42,7 @@
                 </li>
 
                 <li class="nav-item">
-                <a class="nav-link" href="/admin/boardManage/noticeBoard">게시판관리</a>
+                <a class="nav-link" href="/admin/boardManage/report">신고관리</a>
                 </li>
 
                 <li class="nav-item">

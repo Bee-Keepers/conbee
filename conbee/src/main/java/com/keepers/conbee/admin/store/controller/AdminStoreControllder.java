@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("admin/storeManage")
 @RequiredArgsConstructor
-//@SessionAttributes({"readStore"})
+@SessionAttributes({"readStore"})
 public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트롤러
 	
 	private final AdminStoreService service;
@@ -45,13 +45,12 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 		
 		// 검색이 아닌 일반 목록 조회인 경우
 		if(paramMap.get("query") == null) {
-			
 			Map<String, Object> map = service.readAllStoreList(cp);
 			model.addAttribute("map", map);
 		} 
+		
 		// 검색어가 있는 경우
 		else {
-			
 			Map<String, Object> map = service.searchStoreList(paramMap, cp);
 			model.addAttribute("map", map);
 		}

@@ -1,5 +1,6 @@
 package com.keepers.conbee.admin.member.model.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.keepers.conbee.admin.store.model.dto.Store;
@@ -58,6 +59,12 @@ public interface AdminMemberService {
 	 * @return
 	 */
 	int changeMemberDelFl(String memberDelFl, int memberNo);
+
+	/** 회원가입 시 부서 선택 후 팀 셀렉 기능
+	 * @param departmentNo
+	 * @return
+	 */
+	List<String> teamNoList(String departmentNo);
 
 
 }

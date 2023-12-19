@@ -144,9 +144,9 @@
           <!-- 버튼 영역-->
           <div class="board-btn-area mb-3">
             
-            <!-- 로그인한 회원과 게시글 작성자 번호가 같은 경우-->
+            <!-- 로그인한 회원과 게시글 작성자 번호가 같은 경우 또는 관리자인 경우-->
             <div class="btn-group W-100" style="float: right;">
-              <th:block th:if="${session.loginMember != null and session.loginMember.memberNo == board.memberNo}">
+              <th:block th:if="${session.loginMember != null and (session.loginMember.memberNo == board.memberNo or session.loginMember.memberAuthority == 0)}">
                 <a th:href="@{/board/boardUpdate/{boardCodeNo}/{boardNo}/update(boardCodeNo=${boardCodeNo}, boardNo=*{boardNo})}"  class="updateBtn me-1">수정</a>
                 <button type="button" class="deleteBtn me-1" id="deleteBtn">삭제</button>
               </th:block>

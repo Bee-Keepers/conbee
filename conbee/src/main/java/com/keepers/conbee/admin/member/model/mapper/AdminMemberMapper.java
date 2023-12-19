@@ -55,7 +55,7 @@ public interface AdminMemberMapper {
 	 * @param rowBounds
 	 * @return
 	 */
-	List<Map<String, Object>> readAllMemberList(RowBounds rowBounds);
+	List<Member> readAllMemberList(RowBounds rowBounds);
 
 //	--------------------------------------------
 	
@@ -70,7 +70,7 @@ public interface AdminMemberMapper {
 	 * @param rowBounds
 	 * @return
 	 */
-	List<Map<String, Object>> searchMemberList(Map<String, Object> paramMap, RowBounds rowBounds);
+	List<Member> searchMemberList(Map<String, Object> paramMap, RowBounds rowBounds);
 
 	/** 회원 등록 비밀번호 지정 및 암호화
 	 * @param inputMember
@@ -88,6 +88,12 @@ public interface AdminMemberMapper {
 	 * @return
 	 */
 	int changeMemberDelFl(Map<String, Object> map);
+
+	/** 회원가입 시 부서 선택 후 팀 셀렉 기능
+	 * @param departmentNo
+	 * @return
+	 */
+	List<String> teamNoList(String departmentNo);
 
 	
 
