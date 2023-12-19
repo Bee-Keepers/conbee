@@ -154,15 +154,15 @@ public class StockManageController {
 	 * @param ra
 	 * @return
 	 */
-	@PostMapping("stockUpdate")
-	public String stockUpdate( Stock stock, RedirectAttributes ra) {
-		int result = stockService.stockUpdate(stock);
-		
-		if(result <= 0) {
-			ra.addFlashAttribute("message", "수정 실패");
-		}
-		return "redirect:stockList";
-	}
+//	@PostMapping("stockUpdate")
+//	public String stockUpdate( Stock stock, RedirectAttributes ra) {
+//		int result = stockService.stockUpdate(stock);
+//		
+//		if(result <= 0) {
+//			ra.addFlashAttribute("message", "수정 실패");
+//		}
+//		return "redirect:stockList";
+//	}
 	
 	/** 재고 삭제
 	 * @param dataList

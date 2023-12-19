@@ -32,6 +32,9 @@ const selectCalendar = () => {
     // 화면에 출력할 달력 설정
     let calendarEl = document.getElementById('calendar');
     let calendar = new FullCalendar.Calendar(calendarEl, {
+      contentHeight : "auto",
+      // height : 300,
+      // aspectRatio: 3,
       headerToolbar: {
         left: 'prev,next today',
         center: 'title',
@@ -48,6 +51,7 @@ const selectCalendar = () => {
           }
         }
       },
+
 
       /* 달력에 출력할 일정 [{}, {}] */
       events : calendarList,
