@@ -1,11 +1,14 @@
 /* ========================================================================================================= */
 /* 초기화 */
 let members=[];
+
+// 결재선
 const approverFulls = document.querySelectorAll(".approverFull");
 const initialApproverSection = [];
 initialApproverSection.push(approverFulls[0].innerHTML);
+
 const textareas = document.querySelectorAll('textarea');
-const block3s = document.querySelectorAll(".block3");
+// const block3s = document.querySelectorAll(".block3");
 const docFiles = document.querySelectorAll(".docFile");
 
 const openDoc = document.querySelectorAll('#docOne, #docTwo, #docThree, #docFour, #docFive');
@@ -14,12 +17,13 @@ const openDoc = document.querySelectorAll('#docOne, #docTwo, #docThree, #docFour
 openDoc.forEach((doc)=>{
   doc.addEventListener("click",(element)=>{
 
+    // 폼 리셋
     switch(doc.id){
-      case 'docFive' : document.getElementById("docOrder").reset();
-      case 'docFour' : document.getElementById("docExpense").reset();
-      case 'docThree' : document.getElementById("docStore").reset();
-      case 'docTwo' : document.getElementById("docRetirement").reset();
-      case 'docOne' : document.getElementById("docHoliday").reset();
+      case 'docFive' : document.getElementById("docOrder").reset(); break;
+      case 'docFour' : document.getElementById("docExpense").reset(); break;
+      case 'docThree' : document.getElementById("docStore").reset(); break;
+      case 'docTwo' : document.getElementById("docRetirement").reset(); break;
+      case 'docOne' : document.getElementById("docHoliday").reset(); break;
     }
 
     approverFulls.forEach((approverFull)=>{approverFull.innerHTML=initialApproverSection[0];});
@@ -542,9 +546,6 @@ function addLine(e){
   const block3 = e.parentElement.parentElement.parentElement.nextElementSibling.lastElementChild;
   const innerBoxes = block3.querySelectorAll(".lineContainer");
 
-
-  console.log(innerBoxes);
-  console.log(innerBoxes.length);
   if(innerBoxes.length<4){
     
     fetch("/approval/writeApproval/selectMember?memberNo=" + e.value)
@@ -585,10 +586,7 @@ function addLine(e){
         lineSign.innerHTML=`<i class="bi bi-arrow-down"></i>`;
       }
 
-
       members.push(member.memberNo);
-      console.log(members);
-
 
       departmentInfo.innerText=member.departmentName;
       if(member.teamName!=null){
@@ -608,8 +606,8 @@ function addLine(e){
       lineContainer.append(lineSign,lineBox);
       block3.append(lineContainer);
 
-      console.log(innerBoxes);
-      console.log(innerBoxes.length);
+      console.log(members);
+      console.log(members.length);
     })
     .catch(e=>console.log(e));
   }
