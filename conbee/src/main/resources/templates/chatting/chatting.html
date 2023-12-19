@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>회원정보조회</title>
+  <title>conBee 채팅</title>
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="/css/chatting/chatting.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
@@ -47,8 +47,8 @@
 
             <hr class="me-4">
             <div class="btn-group W-100">
-              <button class="soloBtn selectChatBtn ms-3">1:1 채팅</button>
-              <button  class="teamBtn selectChatBtn">팀 채팅</button>
+              <button id="soloBtn" class="soloBtn selectChatBtn ms-3">1:1 채팅</button>
+              <button id="teamBtn" class="teamBtn selectChatBtn">팀 채팅</button>
             </div>
 
             <!-- +버튼 클릭 시 -->
@@ -72,11 +72,14 @@
                 <li class="result-row">일치하는 회원이 없습니다</li> -->
               </ul>
             </div>
-            <th:block th:each="room : ${roomList}">
+            <div id="listContainer">sadfojsadoifj</div>
+            <th:block th:each="chat : ${chatList}" th:object="${chat}">
     
               <!-- th:chat-no : li 태그에 임의의 속성 chat-no를 추가하는데
                 타임리프를 이용해 출력된 값을 chat-no 속성 값으로 대입 -->
-              <li class="chatting-item" th:chat-no="${room.chattingNo}" th:target-no="${room.targetNo}">
+
+
+              <li class="chatting-item" th:chat-no="*{chatNo}" th:target-no="${room.targetNo}">
                 <div class="item-header">
     
                   <img th:if="${room.targetProfile}" class="list-profile" th:src="${room.targetProfile}">

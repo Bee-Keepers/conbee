@@ -11,8 +11,23 @@ function revenueSumFn(revenueList){
   
   revenueSum.innerText = '합계 : ' + temp.toLocaleString("ko-KR");
 };
+if(revenueSum != null){
+  revenueSumFn(revenueList);
+}
 
-revenueSumFn(revenueList);
+// 요소 생성 코드
+// createElement("input",{type:"text", name:"inputId"},["test", "aaa"])
+function createElement(tag, obj, classList){
+  const element = document.createElement(tag);
+
+  for(let key in obj){
+    element.setAttribute(key, obj[key]);
+  }
+  for(let clas of classList){
+    element.classList.add(clas);
+  }
+  return element;
+}
 
 // 재고현황 지정 변경시 리스트 재출력
 const stockStoreNo = document.getElementById('stockStoreNo');
@@ -138,4 +153,68 @@ if(orderStoreNo != null){
     })
     .catch(e=>console.log(e));
   });
+}
+
+// 무한 스크롤
+
+const tableTbody = document.getElementById("tableTbody");
+let cp = 1;
+const cpFn = () => {
+  cp += 1;
+};
+let url;
+let callback = (entries, observer) => {
+  entries.forEach(entry => {
+    // 타겟 요소가 루트 요소와 교차하는 점이 없으면 콜백을 호출했으되, 조기에 탈출한다.
+    if (entry.intersectionRatio <= 0) return
+
+    // 혹은 isIntersecting을 사용할 수 있습니다.
+    if (!entry.isIntersecting) return
+
+    // ... 콜백 로직
+
+    // cp 증가 함수
+    cpFn();
+
+    // url 설정
+    if(stockStoreNo != null){
+      url = "/stock/stockListAjax?cp=" + cp+"&storeNo="+stockStoreNo.value;
+    } else{
+      url = "stockManage/stockListAjax?cp=" + cp + "&storeNo=0";
+    }
+
+    // 비동기 무한스크롤 요청
+    fetch(url)
+      .then(resp => resp.json())
+      .then(list => {
+        console.log(list);
+        if (list.length == 0) {
+          observer.disconnect();
+        }
+        for (let goods of list) {
+           const tr = createElement("tr", null, []);
+
+           const td1 = createElement("td", null, []);
+         td1.innerText = goods.scategoryName;
+
+         const td2 = createElement("td",null,["text-truncate"]);
+         td2.innerText = goods.goodsName;
+         
+         const td3 = createElement("td",null,[]);
+         td3.innerText = goods.stockAmount;
+
+         tr.append(td1, td2, td3);
+
+         stockTbody.append(tr);
+      }
+   })
+   .catch(e=>console.log(e));
+   });
+ };
+
+const observer = new IntersectionObserver( callback ,{
+	threshold: 0.5
+});
+if(document.querySelector("#stockObservedTag") != null){
+  observer.observe(document.querySelector("#stockObservedTag"));
 }

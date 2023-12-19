@@ -230,7 +230,9 @@ goodsInertReset.addEventListener("click", () => {
 
 
 // 무한 스크롤
-
+const url = new URL(location.href);
+const search = url.search;
+const pathName = url.pathname;
 const goodsTable = document.getElementById("goodsTable");
 let cp = 1;
 const cpFn = ()=>{
@@ -247,12 +249,20 @@ let callback = (entries, observer) => {
     // ... 콜백 로직
     cpFn();
    console.log(cp);
-   fetch("/stockManage/goodsListAjax?cp=" + cp)
+   let tempURL;
+   if(search == ""){
+      tempURL= pathName + "Ajax" +"?cp=" + cp;
+   } else {
+      tempURL = pathName + "Ajax" + search + "&cp=" + cp;
+   }
+   console.log(tempURL);
+   fetch(tempURL)
    .then(resp=>resp.json())
    .then(list=>{
-
+      console.log(list);
       if(list.length == 0){
          observer.disconnect();
+         return;
       }
       console.log(list);
       for(let goods of list){

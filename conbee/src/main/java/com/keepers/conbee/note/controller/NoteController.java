@@ -1,12 +1,16 @@
 package com.keepers.conbee.note.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -26,13 +30,32 @@ public class NoteController {
     private final NoteService service;
 
     @GetMapping("note-receive")
-    public String notereceive(Board board, Model model) {
+    public String noteReceive(Board board, Model model, @SessionAttribute("loginMember") Member loginMember) {
+    	
+    	List<Note> noteList = service.noteReceive(loginMember.getMemberNo());
+    	
+    	model.addAttribute("noteList", noteList);
+    	
         return "note/note-receive";
     }
 
     
     @GetMapping("note-sent")
-    public String notesent(Board board, Model model) {
+    public String notesent(Board board, Model model, @SessionAttribute("loginMember") Member loginMember,
+    		@RequestParam(value = "grade" , required = false , defaultValue = "0") int grade,
+    		@RequestParam(value = "cp", required = false, defaultValue = "1") int cp , String query) {
+    	
+//    	List<Note> noteList = service.noteSent(loginMember.getMemberNo(),cp);
+    	
+    	Map<String, Object> map = service.noteSent (grade,query,cp,loginMember.getMemberNo());
+    	
+    	if(query != null) {
+    		model.addAttribute("query", query);
+    	}
+    	
+    	model.addAttribute("grade", grade);
+    	model.addAttribute("map",map);
+    	
         return "note/note-sent";
     }
     
@@ -70,7 +93,7 @@ public class NoteController {
     	note.setMemberNoSender(loginMember.getMemberNo());
     	
     	
-    	int result = service.notewrite(note);
+    	int result = service.noteWrite(note);
     	
     	if(result>0) {
 			ra.addFlashAttribute("message", "쪽지가 성공적으로 보내졌습니다");
@@ -84,7 +107,19 @@ public class NoteController {
         return "redirect:note-sent";
     }
 
-
+    
+    /** 쪽지 읽음
+     * @param messageNo
+     * @return
+     */
+    @PutMapping("readCheck")
+    @ResponseBody
+    public int readCheck(@RequestBody int messageNo) {
+    	return service.readCheck(messageNo);
+    }
+    
+    
+  
 
 
 }

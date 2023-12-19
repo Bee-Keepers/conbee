@@ -35,7 +35,6 @@ public class ManagerInterceptor implements HandlerInterceptor{
 				response.sendRedirect("/storeError");
 			}
 		}
-		
 		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 	}
 	

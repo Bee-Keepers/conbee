@@ -56,8 +56,8 @@ searchBtn.addEventListener("click", ()=>{
 
 /* 쪽지 보내기 */
 
-document.getElementById('notego').addEventListener('submit', function(e){
-
+document.getElementById('notego').addEventListener('submit', e=>{
+  noteSock.send(memberNoReciplent.value);
   // 유효성 검사
   // e.preventDefault();
 
@@ -92,4 +92,11 @@ document.getElementById('notego').addEventListener('submit', function(e){
 
   // });
 
+  
+
 });
+
+
+
+
+
