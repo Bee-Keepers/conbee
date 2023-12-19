@@ -44,7 +44,6 @@ serachName.addEventListener("input", e=>{
     .then(list => {
       goodsNameList.innerHTML = ""; // 기존 자동완성 목록 초기화
 
-      console.log(list);
       // 자동완성 결과를 기반으로 목록 생성
       list.forEach(item => {
         const listItem = document.createElement("li");
@@ -59,10 +58,19 @@ serachName.addEventListener("input", e=>{
           lcategoryName.value = item.lcategoryName;
           scategoryName.value = item.scategoryName;
           goodsPrice.value = item.goodsPrice;
-          // 선택된 항목에 대한 추가 동작 수행
-          // 예: 선택한 상품명에 대한 추가 정보 로드 등
-        });
 
+          const stockInsertBtn = document.getElementById("stockInsertBtn");
+          for(let item of goodsDetailBtn) {
+            if (item.innerText === selectedValue){
+              alert("중복된 상품이름입니다.");
+              stockInsertBtn.disabled = true;
+              document.getElementById("stockInertForm").reset();
+              break;
+            }
+            stockInsertBtn.disabled = false;
+          }
+
+        });
         goodsNameList.appendChild(listItem);
       });
     })
@@ -83,7 +91,6 @@ deleteBtn.addEventListener('click', () => {
    
   if( confirm("삭제 하시겠습니까?") ){
     let obj = document.querySelectorAll(".checkbox");
-    console.log(obj);
     let idList = new Array();
     for(let i = 0; i<obj.length; i++){
       if(obj[i].checked == true) {
@@ -105,18 +112,18 @@ deleteBtn.addEventListener('click', () => {
     .then(resp => resp.text())
     .then(result => {
       if(result > 0){
-       alert("삭제되었습니다");
+        alert("삭제되었습니다");
         for(let i = 0; i<obj.length; i++){
           if(obj[i].checked == true) {
             obj[i].parentElement.parentElement.parentElement.remove();
             }
          }
       }else{
-         alert("삭제 실패");
+        alert("삭제 실패");
       }
     })
     .catch( e => console.log(e));
-   }
+  }
 });
 
 /* 재고 제품 상세조회 */

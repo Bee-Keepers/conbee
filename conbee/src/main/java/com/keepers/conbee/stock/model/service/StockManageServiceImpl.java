@@ -115,4 +115,5 @@ public class StockManageServiceImpl implements StockManageService{
 		}
 		return mapper.stockListSearch(stock);
 	}
+	
 }

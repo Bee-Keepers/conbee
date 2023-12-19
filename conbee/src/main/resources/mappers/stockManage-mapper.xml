@@ -80,6 +80,7 @@
 		JOIN LCATEGORY USING(LCATEGORY_NO)
 		JOIN SCATEGORY USING(SCATEGORY_NO)
 		WHERE GOODS_NAME LIKE '%${intputGoods}%'
+		AND GOODS_DEL_FL = 'N'
 	</select>
 	
 	<select id="storeName" resultType="string">
@@ -111,6 +112,7 @@
 		WHERE STORE_NO = #{storeNo}
 		AND GOODS_NO = #{goodsNo}
 	</update>
+	
 	<!-- 본사 재고 검색 -->
 	<select id="stockListSearch" resultType="Stock">
 		SELECT LCATEGORY_NAME, SCATEGORY_NAME, GOODS_NAME, GOODS_NO, GOODS_STANDARD, STORE_NO
@@ -130,5 +132,6 @@
 		</if>
 		ORDER BY GOODS_NO DESC
 	</select>
+	
 	
 </mapper>

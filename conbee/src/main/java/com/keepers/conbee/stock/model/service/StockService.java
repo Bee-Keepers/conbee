@@ -42,7 +42,7 @@ public interface StockService {
 	 * @param stock
 	 * @return
 	 */
-	int goodsUpdate(Stock stock);
+//	int goodsUpdate(Stock stock);
 
 
 	/** 자동 완성

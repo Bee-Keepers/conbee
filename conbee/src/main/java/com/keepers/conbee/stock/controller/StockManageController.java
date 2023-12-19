@@ -62,7 +62,6 @@ public class StockManageController {
 			) {
 		
 		List<Stock> goodsList = service.goodsList(cp);
-		log.info("goodsList : " + goodsList);
 		return goodsList;
 	}
 	
@@ -94,15 +93,15 @@ public class StockManageController {
 	 * @param ra
 	 * @return
 	 */
-	@PostMapping("goodsUpdate")
-	public String goodsUpdate (Stock stock, RedirectAttributes ra
-			) {
-		int result = stockService.goodsUpdate(stock);
-		if(result <= 0) {
-			ra.addFlashAttribute("message", "수정 실패");
-		}
-		return "redirect:goodsList";
-	}
+//	@PostMapping("goodsUpdate")
+//	public String goodsUpdate (Stock stock, RedirectAttributes ra
+//			) {
+//		int result = stockService.goodsUpdate(stock);
+//		if(result <= 0) {
+//			ra.addFlashAttribute("message", "수정 실패");
+//		}
+//		return "redirect:goodsList";
+//	}
 	
 	/** 재고 전체 조회
 	 * @return

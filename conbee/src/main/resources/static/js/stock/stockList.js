@@ -49,7 +49,6 @@ serachName.addEventListener("input", e=>{
     .then(list => {
       goodsNameList.innerHTML = ""; // 기존 자동완성 목록 초기화
 
-      console.log(list);
       // 자동완성 결과를 기반으로 목록 생성
       list.forEach(item => {
         const listItem = document.createElement("li");
@@ -64,6 +63,19 @@ serachName.addEventListener("input", e=>{
           lcategoryName.value = item.lcategoryName;
           scategoryName.value = item.scategoryName;
           goodsPrice.value = item.goodsPrice;
+
+          
+          const stockInsertBtn = document.getElementById("stockInsertBtn");
+          for(let item of goodsDetailBtn) {
+            if (item.innerText === selectedValue){
+              alert("중복된 상품이름입니다.");
+              stockInsertBtn.disabled = true;
+              document.getElementById("stockInertForm").reset();
+              break;
+            }
+            stockInsertBtn.disabled = false;
+          }
+
         });
 
         goodsNameList.appendChild(listItem);
@@ -72,15 +84,13 @@ serachName.addEventListener("input", e=>{
     .catch(e => console.log(e));
 });
 
-
+/* 검색 */
 const storeNoSearch = document.getElementById("storeNoSearch");
 storeNoSearch.addEventListener("click", () => {
   const selectedValue = storeNoSelect.value;
   const storeNo = document.getElementById("storeNo");
   storeNo.value = selectedValue;
 });
-
-
 
 
 const deleteBtn = document.getElementById("deleteBtn");
