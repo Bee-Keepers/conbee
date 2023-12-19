@@ -1,14 +1,11 @@
 package com.keepers.conbee.stock.model.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.keepers.conbee.approval.model.dto.Pagination;
 import com.keepers.conbee.stock.model.dto.Stock;
 import com.keepers.conbee.stock.model.mapper.StockManageMapper;
 
@@ -90,13 +87,14 @@ public class StockManageServiceImpl implements StockManageService{
 	
 	// 상품 검색
 	@Override
-	public List<Stock> goodsSearch(Stock stock) {
+	public List<Stock> goodsSearch(Stock stock, int cp) {
+		RowBounds rowBounds = new RowBounds((cp-1)*20, 20);
 		if(stock.getLcategoryName() == null && stock.getScategoryName() == null && stock.getGoodsName() == null) {
 			stock.setLcategoryName("");
 			stock.setScategoryName("");
 			stock.setGoodsName("");
 		}
-		return mapper.goodsSearch(stock);
+		return mapper.goodsSearch(stock, rowBounds);
 	}
 	
 	// 입고가 수정
@@ -107,13 +105,20 @@ public class StockManageServiceImpl implements StockManageService{
 	
 	// 본사 재고 검색
 	@Override
-	public List<Stock> stockListSearch(Stock stock) {
+	public List<Stock> stockListSearch(Stock stock, int cp) {
+		RowBounds rowBounds = new RowBounds((cp-1)*20, 20);
 		if(stock.getLcategoryName() == null && stock.getScategoryName() == null && stock.getGoodsName() == null) {
 			stock.setLcategoryName("");
 			stock.setScategoryName("");
 			stock.setGoodsName("");
 		}
-		return mapper.stockListSearch(stock);
+		List<Stock> stockList = mapper.stockListSearch(stock, rowBounds);
+		for(Stock s : stockList ) {
+			double sum = s.getStockOutPrice() * (1- ((double)s.getStockDiscount() * 0.01));
+			
+			s.setPriceSum( (int)sum + "" );
+		}
+		return stockList;
 	}
 	
 }

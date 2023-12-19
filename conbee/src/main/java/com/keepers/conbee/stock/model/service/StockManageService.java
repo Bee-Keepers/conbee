@@ -51,9 +51,10 @@ public interface StockManageService {
 
 	/** 상품 검색
 	 * @param stock
+	 * @param cp 
 	 * @return
 	 */
-	List<Stock> goodsSearch(Stock stock);
+	List<Stock> goodsSearch(Stock stock, int cp);
 
 	/** 재고 등록
 	 * @param stock
@@ -68,9 +69,10 @@ public interface StockManageService {
 	int stockInPriceUpdate(Stock stock);
 	/** 본사 재고 검색
 	 * @param stock
+	 * @param cp 
 	 * @return
 	 */
-	List<Stock> stockListSearch(Stock stock);
+	List<Stock> stockListSearch(Stock stock, int cp);
 
 
 
