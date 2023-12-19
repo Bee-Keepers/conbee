@@ -13,14 +13,27 @@
             <!-- 프로필 드롭다운 -->
             <div class="text-end">
                 <div class="dropdown">
-                    <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle position-relative" data-bs-toggle="dropdown" aria-expanded="false">
+                        <th:block th:if="${unReadCount > 0}">
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" th:text="${unReadCount}">
+                                99+
+                                <span class="visually-hidden">unread messages</span>
+                            </span>
+                        </th:block>
                         <img th:src="#{user.default.image}" alt="" width="32" height="32" class="rounded-circle me-2">
                         <strong style="color: white;">프로필명</strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow" style="z-index: 1021;">
                         <li><a class="dropdown-item" href="/myPage/myPage-profile">마이페이지</a></li>
                         <li><a class="dropdown-item" href="#">환경설정</a></li>
-                        <li><a class="dropdown-item" href="/note/note-receive">쪽지</a></li>
+                        <li class=" position-relative"><a class="dropdown-item" href="/note/note-receive">쪽지
+                            <th:block  th:if="${unReadCount > 0}">
+                                <span class="position-absolute top-50 end-0 translate-middle badge rounded-pill bg-danger" th:text="${unReadCount}">
+                                    99+
+                                    <span class="visually-hidden">unread messages</span>
+                                  </span>
+                            </th:block>
+                        </a></li>
                         <li th:if="${session.loginMember != null && session.loginMember.memberAuthority == 0}">
                             <a class="dropdown-item" href="/admin/memberManage/memberList">관리자페이지</a>
                         </li>

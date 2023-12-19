@@ -90,19 +90,20 @@
                 <form id="notego" action="note-write" method="post">
                   <div class="input-group">
                     <input type="text" class="form-control" name="recipient" id="contact">
-                    <input type="text" class="form-control" name="email" id="memberEmail" readonly>
-                    <input type="hidden"  name="memberNoReciplent" id="memberNoReciplent" value="2" >
+                    <input type="text" class="form-control" id="memberEmail" readonly>
+                    <input type="hidden"  name="memberNoReciplent" id="memberNoReciplent">
                     <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
                       주소록
                     </button>
                   </div>
                   <div>
-                    <div style="margin-top: 20px;"> 
+                    <div style="margin-top: 20px;"></div>
                     <label for="exampleFormControlTextarea1" class="form-label">내용</label>
                     <textarea class="form-control" name="messageContent" id="exampleFormControlTextarea1" rows="6" style="resize : none"></textarea>
                   </div>
-                  <div style="margin-top: 20px;"> 
+                  <div style="margin-top: 20px;"></div>
                   <button type="submit" class="btn btn-warning" style="width: 110px; height: 40px;">보내기</button>
+                  <input type="hidden" name="memberNoSender" th:value="${session.loginMember.memberNo}">
                 </form>
                 
 

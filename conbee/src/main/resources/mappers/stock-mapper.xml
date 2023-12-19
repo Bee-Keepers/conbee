@@ -301,4 +301,8 @@
 		WHERE <![CDATA[ ROWNUM <= 5 ]]>
 	</select>
 	
+	<select id="goodsNoList" resultType="_int">
+		SELECT GOODS_NO FROM "STOCK" WHERE STORE_NO = 0
+	</select>
+	
 </mapper>

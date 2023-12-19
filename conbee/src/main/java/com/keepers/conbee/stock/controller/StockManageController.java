@@ -65,6 +65,21 @@ public class StockManageController {
 		return goodsList;
 	}
 	
+	/** 재고 현황 검색
+	 * @param stock
+	 * @param model
+	 * @param loginMember
+	 * @return
+	 */
+	@GetMapping(value = "goodsSearchAjax", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<Stock> goodsSearch( Stock stock, @RequestParam(value = "cp", required = false, defaultValue = "1") int cp ) {
+		
+		List<Stock> goodsSearchList = service.goodsSearch(stock, cp);
+		
+		return goodsSearchList;
+	}
+	
 	/** 상품 등록
 	 * @return
 	 */
@@ -108,10 +123,10 @@ public class StockManageController {
 	 */
 	@GetMapping("stockList")
 	public String stockList(Model model,
-			Stock stock
+			Stock stock, @RequestParam(value = "cp", required = false, defaultValue = "1") int cp
 			) {
 		stock.setStoreNo(0);
-		List<Stock> stockListSelect = service.stockList(stock);
+		List<Stock> stockListSelect = service.stockList(stock, cp);
 		
 		model.addAttribute("stockListSelect", stockListSelect);
 		
@@ -262,12 +277,10 @@ public class StockManageController {
 	 * @return
 	 */
 	@GetMapping("goodsSearch")
-	public String goodsSearch( Stock stock, Model model ) {
+	public String goodsSearch( Stock stock, Model model, @RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		
-		List<Stock> goodsSearchList = service.goodsSearch(stock);
-		Map<String, Object> map = new HashMap<>();
-		map.put("goodsListSelect", goodsSearchList);
-		model.addAttribute("map", map);
+		List<Stock> goodsSearchList = service.goodsSearch(stock, cp);
+		model.addAttribute("goodsListSelect", goodsSearchList);
 		
 		return "stock/stockManage/goodsManageList";
 	}
@@ -284,8 +297,8 @@ public class StockManageController {
 	 * @return
 	 */
 	@GetMapping("stockSearch")
-	public String stockSearch(Stock stock, Model model) {
-		List<Stock> stockListSelect = service.stockList(stock);
+	public String stockSearch(Stock stock, Model model, @RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
+		List<Stock> stockListSelect = service.stockListSearch(stock, cp);
 		String storeName = service.storeName(stock.getStoreNo());
 		
 		model.addAttribute("stockListSelect", stockListSelect);
@@ -309,17 +322,38 @@ public class StockManageController {
 		if(stock.getGoodsName() == null) stock.setGoodsName("");
 		return "redirect:stockSearch?storeNo="+stock.getStoreNo()+"&lcategoryName="+stock.getLcategoryName()+"&scategoryName="+stock.getScategoryName()+"&goodsName="+ stock.getGoodsName();
 	}
+	
 	/** 본사 재고 검색
 	 * @param stock
 	 * @param model
 	 * @return
 	 */
 	@GetMapping("stockListSearch")
-	public String stockListSearch( Stock stock, Model model) {
-		List<Stock> stockList = service.stockListSearch(stock);
+	public String stockListSearch( Stock stock, Model model, @RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
+		stock.setStoreNo(0);
+		List<Stock> stockList = service.stockListSearch(stock, cp);
 		model.addAttribute("stockListSelect", stockList);
 		return "stock/stockManage/stockList";
 	}
 	
+	
+	/** 무한 스크롤 본사 재고 조회
+	 * @param stock
+	 * @param cp
+	 * @return
+	 */
+	@GetMapping("stockListAjax")
+	@ResponseBody
+	public List<Stock> stockListAjax(Stock stock, @RequestParam(value = "cp", required = false, defaultValue = "1") int cp){
+		List<Stock> stockListSelect = service.stockList(stock, cp);
+		return stockListSelect;
+	}
+	
+	@GetMapping("stockListSearchAjax")
+	@ResponseBody
+	public List<Stock> stockListSearchAjax(Stock stock, @RequestParam(value = "cp", required = false, defaultValue = "1") int cp){
+		List<Stock> stockListSelect = service.stockListSearch(stock, cp);
+		return stockListSelect;
+	}
 	
 }

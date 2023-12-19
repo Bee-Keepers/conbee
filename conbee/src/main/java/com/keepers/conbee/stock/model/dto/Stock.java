@@ -39,7 +39,7 @@ public class Stock {
 	
 	
 	// 점포
-	private int storeNo;
+	private int storeNo = -1;
 	private String storeName;
 	private String storeAddress;
 	private String storeTel;

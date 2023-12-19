@@ -1,8 +1,10 @@
 package com.keepers.conbee.note.model.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
 import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.note.model.dto.Note;
@@ -22,7 +24,49 @@ public interface NoteMapper {
 	 * @return
 	 */
 
-	int notewrite(Note note);
+	int noteWrite(Note note);
+
+	/** 받은 쪽지 조회
+	 * @param memberNo
+	 * @return
+	 */
+	List<Note> noteReceive(int memberNo);
+
+	/** 쪽지 읽음
+	 * @param messageNo
+	 * @return
+	 */
+	int readCheck(int messageNo);
+
+	/** 안 읽은 쪽지 수
+	 * @param memberNo
+	 * @return
+	 */
+	int unReadCount(int memberNo);
+	
+	/**
+	 * 보낸 쪽지 조회
+	 * @param memberNo
+	 * @return
+	 */
+
+	List<Note> noteSent(int memberNo);
+	
+	
+	/**
+	 * 페이지네이션
+	 * @param paramMap
+	 * @return
+	 */
+
+	int getListCount(Map<String, Object> paramMap);
+
+	List<Member> note(Map<String, Object> paramMap, RowBounds rowBounds);
+
+	List<Note> noteSent(Map<String, Object> paramMap, RowBounds rowBounds);
+	
+	
+	
 
 	
 

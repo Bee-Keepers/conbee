@@ -36,5 +36,26 @@
 		 TO_DATE(#{calEndTime}, 'YYYY-MM-DD"T"HH24:MI:SS'),
 		#{calTitle}, #{calDetail}, #{calColor}, #{memberNo})
 	</insert>
+	
+	<update id="updateCalendar">
+		UPDATE "CALENDAR" SET
+		CAL_ALLDAY= #{calAllDay}
+		CAL_START_TIME = #{calStartTime}
+		CAL_END_TIME = #{calEndTime}
+		CAL_TITLE = #{calTitle}
+		CAL_DETAIL= #{calDetail}
+		CAL_COLOR = #{calColor}
+		AND MEMBER_NO = #{memberNo}
+		
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 </mapper>

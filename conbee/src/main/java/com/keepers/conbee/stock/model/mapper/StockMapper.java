@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
 import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.stock.model.dto.Order;
@@ -58,9 +59,10 @@ public interface StockMapper {
 
 	/** 재고 현황 전체 조회
 	 * @param stock
+	 * @param rowBounds 
 	 * @return
 	 */
-	List<Stock> stockList(Stock stock);
+	List<Stock> stockList(Stock stock, RowBounds rowBounds);
 
 	/** 재고 등록 이름 검색 시 물품 조회
 	 * @param goodsName
@@ -175,6 +177,11 @@ public interface StockMapper {
 	 * @return
 	 */
 	List<Stock> newGoodsThree();
+
+	/** 본사 재고에 있는 품목 번호들
+	 * @return
+	 */
+	List<Integer> goodsNoList();
 
 
 }

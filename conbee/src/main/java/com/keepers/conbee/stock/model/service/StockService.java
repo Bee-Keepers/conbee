@@ -56,9 +56,10 @@ public interface StockService {
 
 	/** 재고 현황 전체 조회
 	 * @param stock
+	 * @param cp 
 	 * @return
 	 */
-	List<Stock> stockList(Stock stock);
+	List<Stock> stockList(Stock stock, int cp);
 
 	/** 재고 등록
 	 * @param stock
