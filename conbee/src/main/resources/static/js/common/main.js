@@ -11,8 +11,9 @@ function revenueSumFn(revenueList){
   
   revenueSum.innerText = '합계 : ' + temp.toLocaleString("ko-KR");
 };
-
-revenueSumFn(revenueList);
+if(revenueSum != null){
+  revenueSumFn(revenueList);
+}
 
 // 요소 생성 코드
 // createElement("input",{type:"text", name:"inputId"},["test", "aaa"])
@@ -214,5 +215,6 @@ let callback = (entries, observer) => {
 const observer = new IntersectionObserver( callback ,{
 	threshold: 0.5
 });
-
-observer.observe(document.querySelector("#stockObservedTag"));
+if(document.querySelector("#stockObservedTag") != null){
+  observer.observe(document.querySelector("#stockObservedTag"));
+}

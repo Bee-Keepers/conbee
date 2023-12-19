@@ -36,14 +36,14 @@ public class MessageInterceptor implements HandlerInterceptor{
 		Member loginMember = (Member)(session.getAttribute("loginMember"));
 		
 		// 로그인 되어 있을 경우만
-		if(loginMember != null) {
-			int unReadCount = service.unReadCount(loginMember.getMemberNo());
-			if(unReadCount > 99) {
-				request.setAttribute("unReadCount", "99+");
-			} else {
-				request.setAttribute("unReadCount", unReadCount);
-			}
-		}
+//		if(loginMember != null) {
+//			int unReadCount = service.unReadCount(loginMember.getMemberNo());
+//			if(unReadCount > 99) {
+//				request.setAttribute("unReadCount", "99+");
+//			} else {
+//				request.setAttribute("unReadCount", unReadCount);
+//			}
+//		}
 
 		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 	}

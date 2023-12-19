@@ -1,14 +1,15 @@
 <div class="d-flex flex-column w-50 flex-grow-1">
   <div class="d-flex flex-column overflow-y-auto flex-grow-1">
-    <div>일정</div>
-    <div class="w-100 flex-grow-1" style="background-color: cadetblue;">캘린더</div>
+    <div class="w-100 flex-grow-1">
+      <div id='calendar'></div>
+    </div>
   </div>
 
   <!-- 전자결재 -->
   <div class="card h-25 m-2">
     <div class="card-header fs-5 fw-bold"><a href="/approval/waitApproval">전자결재 대기함</a></div>
     <div class="card-body overflow-y-auto p-0">
-      <table class="table table-striped table-hover">
+      <table class="table table-striped table-hover text-center">
         <colgroup>
           <col width=45%>
           <col width=10%>
@@ -48,7 +49,7 @@
   <div class="card m-2 h-50 overflow-y-auto">
     <div class="card-header fs-5 fw-bold"><a href="/board/boardList/1">공지사항</a></div>
     <div class="card-body overflow-y-auto p-0">
-      <table class="table table-striped table-hover">
+      <table class="table table-striped table-hover text-center">
         <colgroup>
           <col width=65%>
           <col width=8%>
@@ -77,54 +78,83 @@
 
   <!-- 쪽지 -->
   <div class="w-100 d-flex h-50">
-    <div class="w-75 card m-2">
-      <div class="card-header fs-5 fw-bold d-flex justify-content-between">
-        <a href="/note/note-receive">쪽지</a>
-      </div>
-      <div class="card-body overflow-y-auto p-0">
-        <table class="table table-striped table-hover">
-          <colgroup>
-            <col width=20%>
-            <col width=50%>
-            <col width=30%>
-          </colgroup>
-          <thead>
-            <tr>
-              <th>보낸사람</th>
-              <th>내용</th>
-              <th>날짜</th>
-            </tr>
-          </thead>
-          <tbody id="noteTbody">
-            <th:block th:if="${#lists.size(noteList) == 0}">
-              
-            </th:block>
-            <th:block th:unless="${#lists.size(noteList) == 0}">
+    <div class="d-flex">
 
-            </th:block>
-          </tbody>
-        </table>
+      <!-- 재고 현황 -->
+      <div class="card m-2">
+        <div class="card-header fs-5 fw-bold d-flex align-item-center justify-content-between">
+          <a class="align-middle" href="/stockManage/stockList">재고현황</a>
+          <span class="vertical-align fs-6 fw-normal">본사 창고</span>
+        </div>
+        <div class="card-body overflow-y-auto p-0">
+          <table class="table table-striped table-hover text-center">
+            <colgroup>
+              <col width=30%>
+              <col width=55%>
+              <col width=15%>
+            </colgroup>
+            <thead>
+              <tr>
+                <th>분류</th>
+                <th>이름</th>
+                <th>수량</th>
+              </tr>
+            </thead>
+            <tbody id="stockTbody">
+              <tr th:if="${#lists.size(stockList) == 0}">
+                <td class="text-center fw-bold" colspan="3">재고가 없습니다</td>
+              </tr>
+              <tr th:each="stock : ${stockList}" th:object="${stock}">
+                <td th:text="*{scategoryName}">과자</td>
+                <td class="text-truncate" th:text="*{goodsName}">과자</td>
+                <td th:text="*{stockAmount}">과자</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3" id="stockObservedTag"></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
       </div>
-    </div>
-    <div class="w-25 card m-2">
-      <div class="card-header fs-5 fw-bold">신상품</div>
-      <div class="card-body">
-        <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <div th:each="goods : ${goodsList}" th:object="${goods}" class="carousel-item" data-bs-interval="2000">
-                <div class="imageContainer w-100">
-                  <img class="goodsImage card-img-top" th:if="*{goodsImagePath != null}" th:src="|*{goodsImagePath}*{goodsImage}|">
-                  <img class="goodsImage card-img-top" th:if="*{goodsImagePath == null}" th:src="#{logo.default.image}">
-                </div>
-                <div class="fs-4 text-truncate fw-bold" th:text="*{goodsName}">농심)신라면</div>
-                <div class="goodsDetail" th:text="*{goodsDetail}">깊고 진하게 우러난 소고기 국물맛에 얼큰함을 더한 국민 라면</div>
-            </div>
-            <div class="carousel-item active" data-bs-interval="2000">
-              <div class="imageContainer w-100">
-                <img class="goodsImage" th:src="#{logo.default.image}">
-              </div>
-            </div>
-          </div>
+  
+      <!-- 매출 현황 -->
+      <div class="card m-2">
+        <div class="card-header fs-5 fw-bold d-flex justify-content-between">
+          <a href="/revenueManage/revenueList">매출현황</a>
+          <div class="vertical-align fs-6 fw-normal">전체 일일 매출</div>
+        </div>
+        <div class="card-body overflow-y-auto p-0">
+          <table class="table table-striped table-hover text-center">
+            <colgroup>
+              <col width=30%>
+              <col width=55%>
+              <col width=15%>
+            </colgroup>
+            <thead>
+              <tr>
+                <th>분류</th>
+                <th>이름</th>
+                <th>금액</th>
+              </tr>
+            </thead>
+            <tbody id="revenueTbody">
+              <tr th:if="${#lists.size(revenueList) == 0}">
+                <td class="text-center fw-bold" colspan="3">금일 매출이 없습니다</td>
+              </tr>
+              <tr th:each="revenue : ${revenueList}" th:object="${revenue}">
+                <td th:text="*{scategoryName}">과자</td>
+                <td class="text-truncate" th:text="*{historyGoodsName}">새우깡</td>
+                <td th:text="*{#numbers.formatInteger(historyAmount * historyActualPrice, 0, 'COMMA')}">45</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th class="text-end" colspan="3" id="revenueSum">합계 : </th>
+              </tr>
+            </tfoot>
+          </table>
         </div>
       </div>
     </div>

@@ -1,14 +1,15 @@
 <div class="d-flex flex-column w-50 flex-grow-1">
   <div class="d-flex flex-column overflow-y-auto flex-grow-1">
-    <div>일정</div>
-    <div class="w-100 flex-grow-1" style="background-color: cadetblue;">캘린더</div>
+    <div class="w-100 flex-grow-1">
+      <div id='calendar'></div>
+    </div>
   </div>
 
   <!-- 전자결재 -->
   <div class="card h-25 m-2">
     <div class="card-header fs-5 fw-bold"><a href="/approval/waitApproval">전자결재 대기함</a></div>
     <div class="card-body overflow-y-auto p-0">
-      <table class="table table-striped table-hover">
+      <table class="table table-striped table-hover text-center">
         <colgroup>
           <col width=45%>
           <col width=10%>
@@ -48,7 +49,7 @@
   <div class="card m-2 h-50 overflow-y-auto">
     <div class="card-header fs-5 fw-bold"><a href="/board/boardList/1">공지사항</a></div>
     <div class="card-body overflow-y-auto p-0">
-      <table class="table table-striped table-hover">
+      <table class="table table-striped table-hover text-center">
         <colgroup>
           <col width=65%>
           <col width=8%>
@@ -79,10 +80,10 @@
   <div class="w-100 d-flex h-50">
     <div class="w-75 card m-2">
       <div class="card-header fs-5 fw-bold d-flex justify-content-between">
-        <a href="/note/note-receive">쪽지</a>
+        <a href="/note/note-receive">받은 쪽지</a>
       </div>
       <div class="card-body overflow-y-auto p-0">
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover text-center">
           <colgroup>
             <col width=20%>
             <col width=50%>
@@ -98,7 +99,7 @@
           <tbody id="noteTbody">
             <th:block th:if="${#lists.size(noteList) == 0}">
               <tr>
-                <td colspan="3">받은 쪽지가 없습니다</td>
+                <td colspan="3" class="fw-bold text-center">받은 쪽지가 없습니다</td>
               </tr>
             </th:block>
             <th:block th:unless="${#lists.size(noteList) == 0}">

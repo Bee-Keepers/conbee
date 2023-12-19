@@ -14,12 +14,10 @@
             <div class="text-end">
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle position-relative" data-bs-toggle="dropdown" aria-expanded="false">
-                        <th:block th:if="${unReadCount > 0}">
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" th:text="${unReadCount}">
-                                99+
-                                <span class="visually-hidden">unread messages</span>
-                            </span>
-                        </th:block>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" th:text="${unReadCount}">
+                            99+
+                        <span class="visually-hidden">unread messages</span>
+                        </span>
                         <img th:src="#{user.default.image}" alt="" width="32" height="32" class="rounded-circle me-2">
                         <strong style="color: white;">프로필명</strong>
                     </a>
@@ -89,4 +87,14 @@
     if(message != null){
         alert(message);
     }
-</script>    
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script>
+    let noteSock = new SockJS("/noteSock");
+
+    noteSock.onmessage = function(e){
+        console.log(e);
+        const msg = JSON.parse(e.data);
+        console.log(msg);
+    }
+</script>

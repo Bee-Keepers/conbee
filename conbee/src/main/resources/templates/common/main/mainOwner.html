@@ -1,14 +1,15 @@
 <div class="d-flex flex-column w-50 flex-grow-1">
   <div class="d-flex flex-column overflow-y-auto flex-grow-1">
-    <div>일정</div>
-    <div class="w-100 flex-grow-1" style="background-color: cadetblue;">캘린더</div>
+    <div class="w-100 flex-grow-1">
+      <div id='calendar'></div>
+    </div>
   </div>
 
   <!-- 공지사항 -->
   <div class="card h-25 m-2">
     <div class="card-header fs-5 fw-bold"><a href="/board/boardList/1">공지사항</a></div>
     <div class="card-body overflow-y-auto p-0">
-      <table class="table table-striped table-hover">
+      <table class="table table-striped table-hover text-center">
         <colgroup>
           <col width=65%>
           <col width=8%>
@@ -42,23 +43,16 @@
     <!-- 재고 현황 -->
     <div class="card m-2">
       <div class="card-header fs-5 fw-bold d-flex align-item-center justify-content-between">
-        <a th:if="${session.loginMember.gradeNo == 6}" class="align-middle" href="/stock/stockList">재고현황</a>
-        <a th:unless="${session.loginMember.gradeNo == 6}" class="align-middle" href="/stockManage/stockList">재고현황</a>
-
-        <th:block th:if="${session.loginMember.gradeNo == 6}">
-          <div class="d-inline-block">
-            <select class="form-select" id="stockStoreNo">
-              <option th:each="store : ${session.loginMember.storeList}" th:object="${store}" th:text="*{storeName}" th:value="*{storeNo}">선택</option>
-            </select>
-          </div>
-        </th:block>
+        <a class="align-middle" href="/stock/stockList">재고현황</a>
+        <div class="d-inline-block">
+          <select class="form-select" id="stockStoreNo">
+            <option th:each="store : ${session.loginMember.storeList}" th:object="${store}" th:text="*{storeName}" th:value="*{storeNo}">선택</option>
+          </select>
+        </div>
         
-        <th:block th:unless="${session.loginMember.gradeNo == 6}">
-          <span class="vertical-align fs-6 fw-normal">본사 창고</span>
-        </th:block>
       </div>
       <div class="card-body overflow-y-auto p-0">
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover text-center">
           <colgroup>
             <col width=30%>
             <col width=55%>
@@ -93,23 +87,15 @@
     <!-- 매출 현황 -->
     <div class="card m-2">
       <div class="card-header fs-5 fw-bold d-flex justify-content-between">
-        <a th:if="${session.loginMember.gradeNo == 6}" href="/revenue/list">매출현황</a>
-        <a th:unless="${session.loginMember.gradeNo == 6}" href="/revenueManage/revenueList">매출현황</a>
-
-        <th:block th:if="${session.loginMember.gradeNo == 6}">
-          <div class="d-inline-block">
-            <select class="form-select" id="revenueStoreNo">
-              <option th:each="store : ${session.loginMember.storeList}" th:object="${store}" th:text="*{storeName}" th:value="*{storeNo}">선택</option>
-            </select>
-          </div>
-        </th:block>
-
-        <th:block th:unless="${session.loginMember.gradeNo == 6}">
-          <div class="vertical-align fs-6 fw-normal">전체 일일 매출</div>
-        </th:block>
+        <a href="/revenue/list">매출현황</a>
+        <div class="d-inline-block">
+          <select class="form-select" id="revenueStoreNo">
+            <option th:each="store : ${session.loginMember.storeList}" th:object="${store}" th:text="*{storeName}" th:value="*{storeNo}">선택</option>
+          </select>
+        </div>
       </div>
       <div class="card-body overflow-y-auto p-0">
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover text-center">
           <colgroup>
             <col width=30%>
             <col width=55%>
@@ -142,44 +128,6 @@
     </div>
   </div>
     
-  <!-- 전자결재 -->
-  <th:block th:if="${session.loginMember.gradeNo != 6}">
-    <div class="card m-2 h-50 overflow-y-auto">
-      <div class="card-header fs-5 fw-bold"><a href="/approval/waitApproval">전자결재 대기함</a></div>
-      <div class="card-body overflow-y-auto p-0">
-        <table class="table table-striped table-hover">
-          <colgroup>
-            <col width=45%>
-            <col width=10%>
-            <col width=25%>
-            <col width=20%>
-          </colgroup>
-          <thead>
-            <tr>
-              <th>제목</th>
-              <th>작성자</th>
-              <th>부서</th>
-              <th>작성일자</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- 결재 대기 문서가 없을 때 -->
-            <tr th:if="${#lists.size(waitApprovalList) == 0}">
-              <th class="text-center" colspan="4">결재 대기중인 문서가 없습니다.</th>
-            </tr>
-            <th:block th:unless="${#lists.size(waitApprovalList) == 0}">
-              <tr th:each="approval : ${waitApprovalList}" th:object="${approval}">
-                <td><a href="/approval/waitApproval" th:text="*{approvalTitle}">2023년 12월 27일 일신상의 이유로 휴가신청합니다 </a></td>
-                <td th:text="*{memberName}">김민석</td>
-                <td>[[*{departmentName}]]([[*{teamName}?: '']])</td>
-                <td th:text="*{approvalDate}">2023-12-13</td>
-              </tr>
-            </th:block>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </th:block>
 
   <!-- 발주 -->
   <th:block th:if="${session.loginMember.gradeNo == 6}">
@@ -194,7 +142,7 @@
           </div>
         </div>
         <div class="card-body overflow-y-auto p-0">
-          <table class="table table-striped table-hover">
+          <table class="table table-striped table-hover text-center">
             <colgroup>
               <col width=20%>
               <col width=50%>
