@@ -157,6 +157,7 @@ public class StockManageController {
 	@PostMapping("stockUpdate")
 	public String stockUpdate( Stock stock, RedirectAttributes ra) {
 		int result = stockService.stockUpdate(stock);
+		
 		if(result <= 0) {
 			ra.addFlashAttribute("message", "수정 실패");
 		}
