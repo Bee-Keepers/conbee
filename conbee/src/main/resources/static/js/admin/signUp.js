@@ -1,6 +1,4 @@
 
-
-
 /* ***** 회원 가입 유효성 검사 ***** */
 // .confirm : 초록색 / .error : 빨간색 / 아무것도 없음 : 검은색
 
@@ -351,3 +349,52 @@ const storeNoBtn = document.getElementById("storeNoBtn");
 storeNoBtn.addEventListener("click", ()=>{
   storeNo.disabled = false;
 });
+
+
+/* ======================================================================== */
+
+const departmentNoCategory = document.getElementById("departmentNo"); // 부서 셀렉
+const teamNoCategory = document.getElementById("teamNo"); // 팀 셀렉
+const gradeNoCategory = document.getElementById("gradeNo"); // 직급 셀렉
+
+/* 부서 별로 달라지는 팀 리스트 불러오기 */
+const departmentNoFn = (departmentNoCategory, teamNoCategory) =>{
+  fetch("/admin/memberManage/teamNoList?departmentNo=" + departmentNoCategory.value)
+  .then(resp => resp.json())
+  .then(list => {
+    // 조회된 팀명이 있다면
+    if(list.length != 0){
+      for(let teamName of list){
+        const option = document.createElement("option");
+        option.innerText = teamName;
+        teamNoCategory.append(option);
+      }
+    }
+  })
+  .catch(e => console.log(e));
+};
+
+/* 부서 클릭 시 팀 셀렉 함수호출 */
+departmentNoCategory.addEventListener("change", ()=>{
+  teamNoCategory.innerHTML="";
+
+  const option = document.createElement("option");
+  option.innerText = "선택";
+  option.setAttribute("value", "");
+  teamNoCategory.append(option);
+
+  // 부서 선택 시
+  if(departmentNoCategory.value != 0){
+    departmentNoFn(departmentNoCategory, teamNoCategory);
+  }
+})
+
+
+// 부서 클릭 후 팀이 클릭되지 않았다면 직급에 부장만 나오도록
+// 부서 클릭 후 부서가 점포가 클릭되었다면 직급에는 점주만 나오도록
+// 부서 클릭 후 임원부 선택 시 직급에 사장,부사장
+
+// 팀 클릭 후 직급에 팀장~사원
+
+
+

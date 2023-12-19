@@ -22,11 +22,11 @@ function sample6_execDaumPostcode() {
           // 중복검사 코드 넣기!
 
           /* ===================== 점포주소 중복 검사 ======================= */
-            fetch("/admin/storeManage/checkStoreAddress?storeAddress=" + storeAddress.value)
-            .then(response => response.text())
-            .then(result =>{
+            // fetch("/admin/storeManage/checkStoreAddress?storeAddress=" + storeAddress.value)
+            // .then(response => response.text())
+            // .then(result =>{
 
-                if(result == 0){ // 중복 X
+            //     if(result == 0){ // 중복 X
                     messageStoreAddress.innerText= "사용 가능한 점포 주소입니다.";
                     messageStoreAddress.classList.add("OK-feedback");
                     messageStoreAddress.classList.remove("NotOK-feedback");
@@ -35,17 +35,17 @@ function sample6_execDaumPostcode() {
                     storeAddress.classList.add("is-valid");
                     storeAddress.classList.remove("is-invalid");
 
-                } else { // 중복 O
-                    messageStoreAddress.innerText= "이미 등록된 점포 주소입니다.";
-                    messageStoreAddress.classList.add("NotOK-feedback");
-                    messageStoreAddress.classList.remove("OK-feedback");
+            //     } else { // 중복 O
+            //         messageStoreAddress.innerText= "이미 등록된 점포 주소입니다.";
+            //         messageStoreAddress.classList.add("NotOK-feedback");
+            //         messageStoreAddress.classList.remove("OK-feedback");
 
-                    // 인풋 요소 변화
-                    storeAddress.classList.add("is-invalid");
-                    storeAddress.classList.remove("is-valid");
-                }
-            })
-            .catch(e=> console.log(e))
+            //         // 인풋 요소 변화
+            //         storeAddress.classList.add("is-invalid");
+            //         storeAddress.classList.remove("is-valid");
+            //     }
+            // })
+            // .catch(e=> console.log(e))
 
         }
     }).open();
@@ -68,9 +68,9 @@ const checkMemberObj = {
 /* 정보 등록 유효성 검사 */
 
 const checkObj = {
-    "storeName" : false,
-    "storeTel" : false,
-    "storeAddress" : false
+    "storeName" : true,
+    "storeTel" : true,
+    "storeAddress" : true
   };
 
 //============================================================================
@@ -80,6 +80,10 @@ const checkObj = {
 // 점포명 유효성 검사
 const storeName = document.getElementById("storeName");
 const messageStoreName = document.getElementById("messageStoreName");
+
+// 점포명이 새롭게 수정되지 않은 경우
+
+
 
 // 점포명 입력시 유효성 검사
 storeName.addEventListener("input", ()=>{
@@ -106,11 +110,11 @@ storeName.addEventListener("input", ()=>{
     if(regEx.test(storeName.value)){
 
         /* ===================== 점포명 중복 검사 ======================= */
-        fetch("/admin/storeManage/checkStoreName?storeName=" + storeName.value)
-        .then(response => response.text())
-        .then(result =>{
+        // fetch("/admin/storeManage/checkStoreName?storeName=" + storeName.value)
+        // .then(response => response.text())
+        // .then(result =>{
 
-            if(result == 0){ // 중복 X
+        //     if(result == 0){ // 중복 X
                 messageStoreName.innerText= "사용 가능한 매장명입니다.";
                 messageStoreName.classList.add("valid-feedback");
                 messageStoreName.classList.remove("invalid-feedback");
@@ -121,19 +125,19 @@ storeName.addEventListener("input", ()=>{
 
                 checkObj.storeName = true;
 
-            } else { // 중복 O
-                messageStoreName.innerText= "이미 사용중인 매장명입니다.";
-                messageStoreName.classList.add("invalid-feedback");
-                messageStoreName.classList.remove("valid-feedback");
+        //     } else { // 중복 O
+        //         messageStoreName.innerText= "이미 사용중인 매장명입니다.";
+        //         messageStoreName.classList.add("invalid-feedback");
+        //         messageStoreName.classList.remove("valid-feedback");
 
-                // 인풋 요소 변화
-                storeName.classList.add("is-invalid");
-                storeName.classList.remove("is-valid");
+        //         // 인풋 요소 변화
+        //         storeName.classList.add("is-invalid");
+        //         storeName.classList.remove("is-valid");
 
-                checkObj.storeName = false;
-            }
-        })
-        .catch(e=> console.log(e))
+        //         checkObj.storeName = false;
+        //     }
+        // })
+        // .catch(e=> console.log(e))
 
     // 입력한 점포명이 유효하지 않을 경우    
     } else {
@@ -274,7 +278,7 @@ memberNo.addEventListener("input", ()=>{
 const storeTel = document.getElementById("storeTel");
 const messageStoreTel = document.getElementById("messageStoreTel");
 
-// 점포명 입력시 유효성 검사
+// 점포전화번호 입력시 유효성 검사
 storeTel.addEventListener("input", ()=>{
 
     // 점포명이 입력되지 않은 경우
@@ -300,11 +304,11 @@ storeTel.addEventListener("input", ()=>{
     if(regEx.test(storeTel.value)){
 
         /* ===================== 점포전화번호 중복 검사 ======================= */
-        fetch("/admin/storeManage/checkStoreTel?storeTel=" + storeTel.value)
-        .then(response => response.text())
-        .then(result =>{
+        // fetch("/admin/storeManage/checkStoreTel?storeTel=" + storeTel.value)
+        // .then(response => response.text())
+        // .then(result =>{
 
-            if(result == 0){ // 중복 X
+            // if(result == 0){ // 중복 X
                 messageStoreTel.innerText= "사용 가능한 점포 전화번호입니다.";
                 messageStoreTel.classList.add("valid-feedback");
                 messageStoreTel.classList.remove("invalid-feedback");
@@ -315,19 +319,19 @@ storeTel.addEventListener("input", ()=>{
 
                 checkObj.storeTel = true;
 
-            } else { // 중복 O
-                messageStoreTel.innerText= "이미 사용중인 점포 전화번호입니다.";
-                messageStoreTel.classList.add("invalid-feedback");
-                messageStoreTel.classList.remove("valid-feedback");
+            // } else { // 중복 O
+            //     messageStoreTel.innerText= "이미 사용중인 점포 전화번호입니다.";
+            //     messageStoreTel.classList.add("invalid-feedback");
+            //     messageStoreTel.classList.remove("valid-feedback");
 
-                // 인풋 요소 변화
-                storeTel.classList.add("is-invalid");
-                storeTel.classList.remove("is-valid");
+            //     // 인풋 요소 변화
+            //     storeTel.classList.add("is-invalid");
+            //     storeTel.classList.remove("is-valid");
 
-                checkObj.storeTel = false;
-            }
-        })
-        .catch(e=> console.log(e))
+            //     checkObj.storeTel = false;
+            // }
+        // })
+        // .catch(e=> console.log(e))
 
     // 입력한 점포명이 유효하지 않을 경우    
     } else {
@@ -376,11 +380,11 @@ storeAddress.addEventListener("input", ()=>{
     if(regEx.test(storeAddress.value)){
 
         /* ===================== 점포주소 중복 검사 ======================= */
-        fetch("/admin/storeManage/checkStoreAddress?storeAddress=" + storeAddress.value)
-        .then(response => response.text())
-        .then(result =>{
+        // fetch("/admin/storeManage/checkStoreAddress?storeAddress=" + storeAddress.value)
+        // .then(response => response.text())
+        // .then(result =>{
 
-            if(result == 0){ // 중복 X
+            // if(result == 0){ // 중복 X
                 messageStoreAddress.innerText= "사용 가능한 점포 주소입니다.";
                 messageStoreAddress.classList.add("OK-feedback");
                 messageStoreAddress.classList.remove("NotOK-feedback");
@@ -391,19 +395,19 @@ storeAddress.addEventListener("input", ()=>{
 
                 checkObj.storeAddress = true;
 
-            } else { // 중복 O
-                messageStoreAddress.innerText= "이미 등록된 점포 주소입니다.";
-                messageStoreAddress.classList.add("NotOK-feedback");
-                messageStoreAddress.classList.remove("OK-feedback");
+        //     } else { // 중복 O
+        //         messageStoreAddress.innerText= "이미 등록된 점포 주소입니다.";
+        //         messageStoreAddress.classList.add("NotOK-feedback");
+        //         messageStoreAddress.classList.remove("OK-feedback");
 
-                // 인풋 요소 변화
-                storeAddress.classList.add("is-invalid");
-                storeAddress.classList.remove("is-valid");
+        //         // 인풋 요소 변화
+        //         storeAddress.classList.add("is-invalid");
+        //         storeAddress.classList.remove("is-valid");
 
-                checkObj.storeAddress = false;
-            }
-        })
-        .catch(e=> console.log(e))
+        //         checkObj.storeAddress = false;
+        //     }
+        // })
+        // .catch(e=> console.log(e))
 
     // 입력한 점포주소가 유효하지 않을 경우    
     } else {

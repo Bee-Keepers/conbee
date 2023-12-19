@@ -1,5 +1,6 @@
 package com.keepers.conbee.admin.member.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
@@ -42,9 +43,7 @@ public class AdminMemberController {
 		
 		// 검색이 아닌 일반 목록 조회인 경우
 		if(paramMap.get("query") == null) {
-			
 			Map<String, Object> map = service.readAllMemberList(cp);
-			
 			model.addAttribute("map", map);
 		}
 		
@@ -151,7 +150,19 @@ public class AdminMemberController {
 	
 	
 	
+	//============================= 예리나 =====================================
 	
+	/** 회원가입 시 부서 선택 후 팀 셀렉 기능
+	 * @author 예리나
+	 * @param departmentNo
+	 * @return
+	 */
+	@GetMapping("teamNoList")
+	@ResponseBody
+	public List<String> teamNoList(String departmentNo){
+		List<String> teamNoList = service.teamNoList(departmentNo);
+		return teamNoList;
+	}
 
 
 
