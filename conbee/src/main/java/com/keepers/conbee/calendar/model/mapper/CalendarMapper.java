@@ -27,6 +27,9 @@ public interface CalendarMapper {
 	 */
 	int staffcalendar(Calendar cal);
 
+	int updatecalendar(Calendar calendar);
+	
+	
 
 	
 

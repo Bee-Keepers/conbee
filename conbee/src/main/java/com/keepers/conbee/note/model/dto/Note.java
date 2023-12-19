@@ -15,5 +15,6 @@ public class Note {
 	private String messageReadFl;
 	private int memberNoReciplent;
 	
+	private String memberName;
 
 }
