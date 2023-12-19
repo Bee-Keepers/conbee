@@ -1,5 +1,7 @@
 package com.keepers.conbee.myPage.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.admin.store.model.dto.Store;
+import com.keepers.conbee.board.model.dto.Board;
 import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.myPage.model.service.MyPageService;
 
@@ -37,19 +40,28 @@ public class MyPageController {
 
     
     @GetMapping("myPage-mywrite")
-    public String mypageMywrite() {
+    public String mypageMywrite(@SessionAttribute(value = "loginMember", required = false) Member loginMember, Model model) {
+    	
+    	List<Board> writeList = service.selectWriteList(loginMember.getMemberNo());
+    	model.addAttribute("writeList", writeList);
         return "myPage/myPage-mywrite";
     }
     
     @GetMapping("myPage-comment")
-    public String mypageComment() {
+    public String mypageComment(@SessionAttribute(value = "loginMember", required = false) Member loginMember, Model model) {
+    	List<Board> commentList = service.commentList(loginMember.getMemberNo());
+    	model.addAttribute("commentList", commentList);
         return "myPage/myPage-comment";
     }
     
+    
     @GetMapping("myPage-choice")
-    public String mypageChoice() {
+    public String mypageChoice(@SessionAttribute(value = "loginMember", required = false) Member loginMember, Model model) {
+    	List<Board> choiceList = service.choiceList(loginMember.getMemberNo());
+    	model.addAttribute("choiceList", choiceList);
         return "myPage/myPage-choice";
     }
+    
      
     @PostMapping("myPageUpdate")
     public String mypageUpdate() {

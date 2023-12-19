@@ -53,17 +53,7 @@ public interface NoteMapper {
 	List<Note> noteSent(int memberNo);
 	
 	
-	/**
-	 * 페이지네이션
-	 * @param paramMap
-	 * @return
-	 */
 
-	int getListCount(Map<String, Object> paramMap);
-
-	List<Member> note(Map<String, Object> paramMap, RowBounds rowBounds);
-
-	List<Note> noteSent(Map<String, Object> paramMap, RowBounds rowBounds);
 	
 	
 	

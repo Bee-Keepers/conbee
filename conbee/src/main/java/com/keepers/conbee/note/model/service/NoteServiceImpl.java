@@ -54,31 +54,10 @@ public class NoteServiceImpl implements NoteService {
 	
 	// 보낸쪽지함
 	@Override
-	public Map<String, Object> noteSent(int grade, String query, int cp,int i) {
-		
-		// 파라미터 전달용 map
-		Map<String, Object> paramMap = new HashMap<>();
-		paramMap.put("grade", grade);
-		paramMap.put("query", query);
-		
-		int listCount = mapper.getListCount(paramMap);
-		
-		Pagination pagination = new Pagination(cp, listCount, 9, 10);
+	public List<Note> noteSent(int memberNo) {
 
-		int offset = (pagination.getCurrentPage() - 1) * pagination.getLimit();
-
-		int limit = pagination.getLimit();
-
-		RowBounds rowBounds = new RowBounds(offset, limit);
+		return mapper.noteSent(memberNo);
 		
-		
-		List<Note> noteList = mapper.noteSent(paramMap, rowBounds);
-		Map<String, Object> map = new HashMap<>();
-		
-		map.put("noteList", noteList);
-		map.put("pagination", pagination);
-		
-		return map;
 	}
 	
 	

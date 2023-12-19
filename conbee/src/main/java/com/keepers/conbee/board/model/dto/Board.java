@@ -39,7 +39,7 @@ public class Board {
 	
 	// 게시판 댓글
 	private int boardCommentNo; // 댓글 번호
-	private int boardCommentDate; // 댓글 등록일
+	private String boardCommentDate; // 댓글 등록일
 	private String boardCommentContent; // 댓글 내용
 	private String boardCommentDelFl; // 댓글 삭제 여부
 	private int boardCommentParent; // 부모 댓글?

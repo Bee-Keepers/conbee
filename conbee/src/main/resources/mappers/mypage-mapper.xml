@@ -14,4 +14,58 @@
 		FROM "STORE"
 		WHERE STORE_NO = #{storeNo}
 	</select>
+	
+	<!--내가 쓴 글-->
+	<select id="selectWriteList" resultType="Board">
+		SELECT BOARD_NO, BOARD_TITLE, BOARD_ATTACH, BOARD_HITS, MEMBER_NO, BOARD_CODE_NO, BOARD_CODE_NAME, MEMBER_NAME,
+		TO_CHAR(BOARD_WRITE_DATE, 'YYYY-MM-DD') BOARD_WRITE_DATE
+		FROM "BOARD"
+		JOIN "MEMBER" USING(MEMBER_NO)
+		JOIN "BOARD_CODE" USING(BOARD_CODE_NO)
+		WHERE BOARD_DEL_FL = 'N'
+		AND MEMBER_NO = #{memberNo}
+		ORDER BY BOARD_NO DESC
+		
+	</select>
+	
+	<!--내가 쓴 댓글-->
+	<select id="commentList" resultType="Board">
+		SELECT BOARD_CODE_NO, C.BOARD_NO, BOARD_COMMENT_NO ,BOARD_COMMENT_DATE,
+				BOARD_COMMENT_CONTENT, BOARD_COMMENT_PARENT,
+				(CASE
+					WHEN BOARD_CODE_NO=1 THEN '공지사항'
+					WHEN BOARD_CODE_NO=2 THEN '자유게시판'
+					ELSE '익명게시판'
+				END) BOARD_CODE_NAME
+		FROM "BOARD_COMMENT" C
+		JOIN "BOARD" B ON(C.BOARD_NO=B.BOARD_NO)
+		WHERE BOARD_COMMENT_DEL_FL = 'N'
+		AND C.MEMBER_NO = #{memberNo}
+		ORDER BY BOARD_COMMENT_NO DESC
+	</select>
+	
+	<!-- 즐겨찾기 -->
+	
+	<select id="choiceList">
+			
+	SELECT B.BOARD_CODE_NO, BM.BOARD_NO, B.BOARD_WRITE_DATE,B.BOARD_TITLE,			
+				(CASE
+					WHEN B.BOARD_CODE_NO=1 THEN '공지사항'
+					WHEN B.BOARD_CODE_NO=2 THEN '자유게시판'
+					ELSE '익명게시판'
+				END) BOARD_CODE_NAME
+	FROM BOOKMARK BM
+	JOIN BOARD B ON (B.BOARD_NO=BM.BOARD_NO)
+	WHERE BM.MEMBER_NO = #{memberNo}
+	ORDER BY BOARD_NO DESC
+		
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>
