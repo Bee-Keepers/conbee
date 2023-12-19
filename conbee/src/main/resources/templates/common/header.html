@@ -13,13 +13,16 @@
             <!-- 프로필 드롭다운 -->
             <div class="text-end">
                 <div class="dropdown">
-                    <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle position-relative" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger noteBadge" th:classappend="${session.unReadCount > 0 ? '' : 'd-none'}" th:text="${session.unReadCount}"></span>
                         <img th:src="#{user.default.image}" alt="" width="32" height="32" class="rounded-circle me-2">
                         <strong style="color: white;">프로필명</strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow" style="z-index: 1021;">
                         <li><a class="dropdown-item" href="/myPage/myPage-profile">마이페이지</a></li>
-                        <li><a class="dropdown-item" href="/note/note-receive">쪽지</a></li>
+                        <li><a class="dropdown-item position-relative" href="/note/note-receive">쪽지
+                            <span class="position-absolute top-50 end-0 translate-middle badge rounded-pill bg-danger noteBadge" th:classappend="${session.unReadCount > 0 ? '' : 'd-none'}" th:text="${session.unReadCount}"></span>
+                        </a></li>
                         <li th:if="${session.loginMember != null && session.loginMember.memberAuthority == 0}">
                             <a class="dropdown-item" href="/admin/memberManage/memberList">관리자페이지</a>
                         </li>
@@ -75,4 +78,39 @@
     if(message != null){
         alert(message);
     }
-</script>    
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script>
+    let noteSock = new SockJS("/noteSock");
+
+    noteSock.onmessage = function(e){
+
+        // 전달 받은 내 회원 번호
+        const memberNo = JSON.parse(e.data);
+
+        const noteBadges = document.querySelectorAll(".noteBadge");
+
+        fetch("/note/unReadCount?memberNo=" + memberNo)
+        .then(resp=>resp.text())
+        .then(result=>{
+            if(result > 99){
+                noteBadges.forEach(noteBadge=>{
+                    noteBadge.classList.remove("d-none");
+                    noteBadge.innerText = "99+";
+                });
+            } else if(result > 0) {
+                noteBadges.forEach(noteBadge=>{
+                    noteBadge.classList.remove("d-none");
+                    noteBadge.innerText = result;
+                });
+                
+            } else{
+                noteBadges.forEach(noteBadge=>{
+                    noteBadge.classList.add("d-none");
+                });
+                
+            }
+        })
+        .catch(e=>console.log(e));
+    }
+</script>

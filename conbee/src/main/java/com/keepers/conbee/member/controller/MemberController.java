@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.member.model.service.MemberService;
+import com.keepers.conbee.note.model.service.NoteService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,11 +26,11 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("member")
 @RequiredArgsConstructor
-@SessionAttributes({"loginMember"})
+@SessionAttributes({"loginMember","unReadCount"})
 public class MemberController {
 
 	private final MemberService service;
-	
+	private final NoteService noteService;
 	
 	/* 로그인 */
 	
@@ -73,10 +74,10 @@ public class MemberController {
 			
 			
 			resp.addCookie(cookie);
-			
+			int unReadCount = noteService.unReadCount(loginMember.getMemberNo());
 			// 회원정보 세션에 저장
 			model.addAttribute("loginMember", loginMember);
-			
+			model.addAttribute("unReadCount", unReadCount);
 			
 		}
 		// 로그인 정보 불일치 시 
