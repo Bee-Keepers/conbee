@@ -187,8 +187,21 @@ public class StockServiceImpl implements StockService{
 	
 	// 재고 수정
 	@Override
-	public int stockUpdate(Stock stock) {
-		return mapper.stockUpdate(stock);
+	public int stockUpdate(List<Integer> goodsNoList, List<Integer> stockOutPriceList, List<Integer> stockDiscountList,
+			int storeNo) {
+		int result = 0;
+		for(int i=0; i<goodsNoList.size(); i++) {
+			Stock stock = new Stock();
+			stock.setGoodsNo(goodsNoList.get(i));
+			stock.setStockOutPrice(stockOutPriceList.get(i));
+			stock.setStockDiscount(stockDiscountList.get(i));
+			stock.setStoreNo(storeNo);
+			result = mapper.stockUpdate(stock);
+			if(result <= 0) {
+				return 0;
+			}
+		}
+		return result;
 	}
 	
 	// 발주 신청/수정 화면 출력용

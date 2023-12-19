@@ -99,12 +99,7 @@ public interface StockService {
 	 */
 	int stockDelete(Map<String, Object> paramMap);
 
-	/** 재고 품목 수정
-	 * @param stock
-	 * @return
-	 */
-	int stockUpdate(Stock stock);
-
+	
 	/** 발주 신청/수정 화면 출력용 orderList
 	 * @param storeNo
 	 * @return orderList
@@ -164,6 +159,12 @@ public interface StockService {
 	 * @return
 	 */
 	List<Stock> newGoodsThree();
+
+	/** 재고 품목 수정
+	 * @return
+	 */
+	int stockUpdate(List<Integer> goodsNoList, List<Integer> stockOutPriceList, List<Integer> stockDiscountList,
+			int storeNo);
 
 
 

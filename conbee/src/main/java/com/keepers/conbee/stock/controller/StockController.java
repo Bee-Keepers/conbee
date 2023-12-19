@@ -223,8 +223,9 @@ public class StockController {
 	 * @return
 	 */
 	@PostMapping("stockUpdate")
-	public String stockUpdate( Stock stock, RedirectAttributes ra) {
-		int result = service.stockUpdate(stock);
+	public String stockUpdate(@RequestParam("goodsNo") List<Integer> goodsNoList, @RequestParam("stockOutPrice") List<Integer> stockOutPriceList,
+			@RequestParam("stockDiscount") List<Integer> stockDiscountList, @RequestParam("storeNo") int storeNo,RedirectAttributes ra) {
+		int result = service.stockUpdate(goodsNoList, stockOutPriceList, stockDiscountList, storeNo);
 		if(result <= 0) {
 			ra.addFlashAttribute("message", "수정 실패");
 		}
