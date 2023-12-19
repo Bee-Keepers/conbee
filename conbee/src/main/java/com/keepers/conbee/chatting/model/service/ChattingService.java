@@ -6,22 +6,23 @@ import com.keepers.conbee.chatting.model.dto.Chatting;
 
 public interface ChattingService {
 
-	/** 1:1 채팅 조회
+	/** 채팅 화면 전환
 	 * @param memberNo
 	 * @return
 	 */
-//	List<Chatting> selectChatList1(int memberNo);
+	List<Chatting> selectChatList1(int memberNo);
 
+	
 	/** 팀 채팅 조회
 	 * @param teamNo
 	 * @return
 	 */
-//	List<Chatting> selectChatList2(int teamNo);
+	List<Chatting> selectChatList2(int teamNo);
 
 	/** 채팅 조회 (테스트)
 	 * @param memberNo
 	 * @return
 	 */
-	List<Chatting> selectChat(int memberNo);
+//	List<Chatting> selectChat(int memberNo);
 
 }

@@ -13,18 +13,18 @@ public interface ChattingMapper {
 	 * @param memberNo
 	 * @return
 	 */
-//	List<Chatting> selectChatList1(int memberNo);
+	List<Chatting> selectChatList1(int memberNo);
 
 	/** 팀 채팅 조회 시
 	 * @param teamNo
 	 * @return
 	 */
-//	List<Chatting> selectChatList2(int teamNo);
+	List<Chatting> selectChatList2(int teamNo);
 
 	/** 테스트
 	 * @param memberNo
 	 * @return
 	 */
-	List<Chatting> selectChat(int memberNo);
+//	List<Chatting> selectChat(int memberNo);
 
 }

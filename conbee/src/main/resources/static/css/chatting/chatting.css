@@ -129,7 +129,7 @@
 .chatting-list{
 	width: 22%;
 	border : 1px solid black;
-
+  
   
 	list-style: none;
 	overflow: auto;
@@ -137,9 +137,10 @@
 }
 
 .chatting-item{
-	height: 12%;
+  height: 12%;
 	display: flex;
 	padding: 5px 0;
+  margin-right: 28px;
 	border-bottom: 1px solid black;
 	cursor: pointer;
 }
@@ -151,7 +152,6 @@
 .chatting-item > div{ height: 100%; text-align: center;}
 .item-header{ width : 25%; }
 .item-body{ 
-	width : 75%; 
 	padding : 2px 0;
 }
 .item-body> p{ 
@@ -165,17 +165,19 @@
 
 
 .list-profile{ 
-	max-width: 65px;
-    max-height: 65px;
+	max-width: 57px;
+    max-height: 57px;
+    margin-top: 5px;
 }
 
 .target-name{
-	font-size: 1.2em;
+	font-size: 1.1em;
 	font-weight: bold;
 }
 
 .recent-send-time{
 	margin-right: 5px;
+  font-size: 15px;
 }
 
 
@@ -208,7 +210,7 @@
     background-color: red;
     color: white;
     font-size: 12px;
-    margin: 10px 10px 0 0;
+    margin-right: 3px;
 }
 
 

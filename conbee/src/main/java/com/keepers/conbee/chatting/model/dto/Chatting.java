@@ -13,10 +13,15 @@ public class Chatting {
 	private String chatDate; // 채팅방 개설일
 	private int chatOpenMember; // 1:1 채팅 개설자(1:1 채팅 용도 2)
 	private int teamNo; // 팀 코드 ( 단체 채팅 용도 )
+	private String chatMessageDate;
 	
+	private int targetNo;
+	private String targetName;
+	private String targetImg;
 	
-	private int chatMessageNo; // 채팅 메세지 번호
-	private String chatMessageDate; // 메세지 보낸 시간
-	private String chatMessageContent; // 메세지 내용
-	private String chatMessageRead; // 메세지 읽음 여부
+	private String lastMessage;
+	private String sendTime;
+	private int notReadCount;
+	private int maxMessageNo;
+	
 }
