@@ -27,6 +27,11 @@ public class CalendarServiceImpl implements CalendarService {
 	public int staffcalendar(Calendar cal) {
 		return mapper.staffcalendar(cal);
 	}
-
+	
+@Override
+public int updatecalendar(Calendar calendar) {
+	
+	return mapper.updatecalendar(calendar);
+}
 	
 }
