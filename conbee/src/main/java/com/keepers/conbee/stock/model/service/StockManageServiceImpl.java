@@ -59,9 +59,9 @@ public class StockManageServiceImpl implements StockManageService{
 	
 	// 재고 조회
 	@Override
-	public List<Stock> stockList(Stock stock) {
-		
-		List<Stock> stockList = mapper.stockList(stock);
+	public List<Stock> stockList(Stock stock, int cp) {
+		RowBounds rowBounds = new RowBounds((cp-1)*20, 20);
+		List<Stock> stockList = mapper.stockList(stock, rowBounds);
 		
 		for(Stock s : stockList ) {
 			double sum = s.getStockOutPrice() * (1- ((double)s.getStockDiscount() * 0.01));

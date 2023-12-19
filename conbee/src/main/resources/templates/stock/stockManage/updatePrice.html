@@ -33,7 +33,7 @@
         </div>
       </div>
       
-      <div class="w-100 px-4 pt-2 flex-grow-1">
+      <div class="w-100 px-4 mt-2 flex-grow-1 overflow-y-auto">
         <!-- 테이블 제목 -->
         <table class="table table-striped table-hover m-0">
           <thead class="sticky-top text-center">
@@ -52,7 +52,7 @@
             </tr>
           </thead>
           <!-- 테이블 내용 -->
-          <tbody class="text-center">
+          <tbody class="text-center" id="tableTbody">
               <tr th:if="${stockListSelect == null or #lists.size(stockListSelect) == 0}">
                 <td colspan="11">결과가 없습니다 상세 검색 후 이용해주세요</td>
               </tr>
@@ -75,9 +75,14 @@
               <td th:text="*{storeNo}" style="display: none;"></td>
             </tr>
           </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="11" id="observedTag"></td>
+            </tr>
+          </tfoot>
         </table>
       </div>
-      <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">
+      <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white">
         <div class="" role="group" aria-label="Basic outlined example">
           <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="#stockUpdateModel" id="stockUpdateBtn">입고 단가 수정</button>
         </div>

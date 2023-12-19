@@ -82,7 +82,7 @@ public class MainController {
 				}
 			}
 			
-			List<Stock> stockList = stockService.stockList(stock);
+			List<Stock> stockList = stockService.stockList(stock, cp);
 			List<Revenue> revenueList = revenueService.revenueSearch(revenue, cp);
 			
 			
@@ -108,7 +108,8 @@ public class MainController {
 	 */
 	@GetMapping(value = "/ajax/stockList", produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public List<Stock> ajaxStockList(@SessionAttribute("loginMember") Member loginMember, int storeNo){
+	public List<Stock> ajaxStockList(@SessionAttribute("loginMember") Member loginMember, int storeNo, 
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp){
 
 		// 점주인 경우
 		if(loginMember.getDepartmentNo() == 5) {
@@ -117,7 +118,7 @@ public class MainController {
 			}
 			Stock stock = new Stock();
 			stock.setStoreNo(storeNo);
-			return stockService.stockList(stock);
+			return stockService.stockList(stock, cp);
 		}
 		
 		return null;
