@@ -75,7 +75,7 @@
               <td th:text="*{storeNo}" style="display: none;"></td>
             </tr>
           </tbody>
-          <tfoot>
+          <tfoot th:unless="${stockListSelect == null or #lists.size(stockListSelect) == 0}">
             <tr>
               <td colspan="11" id="observedTag"></td>
             </tr>

@@ -237,6 +237,8 @@ stockSearchReset.addEventListener("click", ()=>{
 // 무한 스크롤
 
 const urlSearch = url.search;
+const search = url.search;
+const pathName = url.pathname;
 const tableTbody = document.getElementById("tableTbody");
 let cp = 1;
 const cpFn = ()=>{
@@ -253,12 +255,13 @@ let callback = (entries, observer) => {
     // ... 콜백 로직
     cpFn();
    let params;
-   if(urlSearch == ""){
-      params = "?cp=" + cp;
-   } else{
-      params = urlSearch + "&cp=" + cp;
+   let tempURL;
+   if(search == ""){
+      tempURL= pathName + "Ajax" +"?cp=" + cp;
+   } else {
+      tempURL = pathName + "Ajax" + search + "&cp=" + cp;
    }
-   fetch("/stockManage/stockListAjax"+ params)
+   fetch(tempURL)
    .then(resp=>resp.json())
    .then(list=>{
     console.log(list);

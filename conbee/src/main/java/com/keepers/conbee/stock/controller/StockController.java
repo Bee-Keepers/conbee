@@ -287,7 +287,7 @@ public class StockController {
 	}
 
 	/**
-	 * 무한 스크롤 본사 재고 조회
+	 * 무한 스크롤 재고 조회
 	 * 
 	 * @param stock
 	 * @param cp
@@ -296,7 +296,12 @@ public class StockController {
 	@GetMapping("stockListAjax")
 	@ResponseBody
 	public List<Stock> stockListAjax(Stock stock,
-			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+			@SessionAttribute("loginMember") Member loginMember) {
+		if (stock.getStoreNo() == -1) {
+			int storeNo = loginMember.getStoreList().get(0).getStoreNo();
+			stock.setStoreNo(storeNo);
+		}
 		List<Stock> stockListSelect = service.stockList(stock, cp);
 		return stockListSelect;
 	}
