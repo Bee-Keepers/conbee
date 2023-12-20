@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<body>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+      
+    <img src="cid:logo" width="200px">
+    <h3>임시 비밀번호 입니다.</h3>
+    
+    <h3 style="text-align: center; border: 3px solid black; color:blue; width: 400px; padding:10px;" >
+      <th:block th:text="${authKey}"></th:block>
+    </h3>
+    <p class="mb-3 text-body-secondary">&copy; beekeepers</p>
+
+  </div>
+</body>
+</html>

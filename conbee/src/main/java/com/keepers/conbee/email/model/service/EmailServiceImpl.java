@@ -23,10 +23,14 @@ public class EmailServiceImpl implements EmailService{
 	private final JavaMailSender mailSender; // 자바에서 메일 보낼 때 사용하는 객체
 	private final SpringTemplateEngine templateEngine; // html파일 내용을 읽어오는 용도
 	
+	// 비밀번호 찾기 이메일 발송
 	@Override
-	public int sendEmail(String htmlName, String email) {
-		//6자리 난수 인증번호 생성
-        String authKey = createAuthKey();
+	public int sendEmail(String htmlName, String email, String authKey) {
+	
+		if(authKey == null) {
+			//6자리 난수 인증번호 생성
+			authKey = createAuthKey();
+		}
         
         try {
            
@@ -35,7 +39,8 @@ public class EmailServiceImpl implements EmailService{
            
            switch(htmlName) {
            case "authKey" : subject = "[BeeKeepers] 이메일 인증 번호 입니다."; break;
-           case "findPw" : subject = "[BeeKeepers] 이메일 인증 번호 입니다."; break;
+           case "tempPw" : subject = "[BeeKeepers] 임시 비밀번호 입니다."; break;
+           
            }
            
             //인증메일 보내기
@@ -59,6 +64,7 @@ public class EmailServiceImpl implements EmailService{
            e.printStackTrace();
            return 0;
         }
+        
         
         
         
