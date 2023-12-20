@@ -63,6 +63,14 @@
 	
 	
 	
+	<!-- 프로필 이미지 수정 -->
+	<update id="updateMemberProfile">
+		UPDATE "MEMBER"
+		SET MEMBER_PROFILE = #{memberProfile}
+		WHERE MEMBER_NO = #{memberNo}
+	</update>
+	
+	
 	
 	
 	

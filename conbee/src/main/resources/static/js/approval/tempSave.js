@@ -12,6 +12,15 @@ const docFileTds = document.querySelectorAll(".docFileTd");
 const initialFileTds=[];
 docFileTds.forEach((docFileTd)=>{initialFileTds.push(docFileTd.innerHTML)});
 
+// 모달 내부 스크롤
+const leftSections = document.querySelectorAll(".leftSection");
+
+document.querySelectorAll(".modal").forEach(modal => {
+  modal.addEventListener('hide.bs.modal', (e)=>{
+    leftSections.forEach((leftSection)=>{leftSection.scrollTop=0});
+  })
+})
+
 
 const rewriteApproval = document.querySelectorAll(".rewriteApproval").forEach(function(one){
   one.addEventListener("click",function(){

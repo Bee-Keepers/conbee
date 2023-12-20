@@ -3,6 +3,23 @@
 <!-- 연결할 인터페이스의 패키지명.인터페이스명을 작성 -->
 <mapper namespace="com.keepers.conbee.address.model.mapper.AddressMapper">
 
+	<!-- 주소록 개수 -->
+	<select id="getListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM "MEMBER"
+		WHERE MEMBER_DEL_FL='N'
+		<if test='grade == 1'><![CDATA[ AND GRADE_NO < 6 ]]></if>
+		<if test='grade == 2'>AND GRADE_NO = 6</if>
+		<if test="deptNo==0">AND DEPARTMENT_NO = 0</if>
+		<if test="deptNo==1">AND DEPARTMENT_NO = 1</if>
+		<if test="deptNo==2">AND DEPARTMENT_NO = 2</if>
+		<if test="deptNo==3">AND DEPARTMENT_NO = 3</if>
+		<if test="deptNo==4">AND DEPARTMENT_NO = 4</if>
+		<if test="deptNo==5">AND DEPARTMENT_NO = 5</if>
+		<if test="query!=null">AND MEMBER_NAME LIKE '%${query}%'</if>
+	</select>
+	
+	<!-- 주소록 -->
 	<select id="address" resultType="Member">
 		SELECT MEMBER_NO, MEMBER_ID, MEMBER_NAME, MEMBER_TEL, MEMBER_PROFILE, MEMBER_EMAIL,
 		TEAM_NAME, DEPARTMENT_NAME, GRADE_NAME, D.DEPARTMENT_NO
@@ -11,30 +28,21 @@
 		JOIN DEPARTMENT D ON (D.DEPARTMENT_NO = M.DEPARTMENT_NO)
 		JOIN GRADE USING (GRADE_NO)
 		WHERE MEMBER_DEL_FL = 'N'
-		<if test='grade == 1'>
-			<![CDATA[ AND GRADE_NO < 6 ]]>
-		</if>
-		<if test='grade == 2'>
-			AND GRADE_NO = 6
-		</if>
-		<if test='query != null'>
-			AND MEMBER_NAME LIKE '%${query}%'
-		</if>
-		ORDER BY GRADE_NO
+		<if test='grade == 1'><![CDATA[ AND GRADE_NO < 6 ]]></if>
+		<if test='grade == 2'>AND GRADE_NO = 6</if>
+		<if test="deptNo==0">AND D.DEPARTMENT_NO = 0</if>
+		<if test="deptNo==1">AND D.DEPARTMENT_NO = 1</if>
+		<if test="deptNo==2">AND D.DEPARTMENT_NO = 2</if>
+		<if test="deptNo==3">AND D.DEPARTMENT_NO = 3</if>
+		<if test="deptNo==4">AND D.DEPARTMENT_NO = 4</if>
+		<if test="deptNo==5">AND D.DEPARTMENT_NO = 5</if>
+		<if test="query!=null">AND MEMBER_NAME LIKE '%${query}%'</if>
+		ORDER BY GRADE_NO, TEAM_NO, MEMBER_NO
 	</select>
-
-	<select id="getListCount" resultType="_int">
-		SELECT COUNT(*)
-		FROM "MEMBER"
-		WHERE MEMBER_DEL_FL = 'N'
-		<if test='grade == 1'>
-			<![CDATA[ AND GRADE_NO < 6 ]]>
-		</if>
-		<if test='grade == 2'>
-			AND GRADE_NO = 6 
-		</if>
-		<if test='query != null'>
-			AND MEMBER_NAME LIKE '%${query}%'
-		</if>
-	</select>
+	
+	
+	
+	
+	
+	
 </mapper>

@@ -10,6 +10,7 @@ public interface AddressService {
 	 * @param cp
 	 * @return
 	 */
-	Map<String, Object> address(int grade, String query, int cp);
+	Map<String, Object> address(int deptNo, int grade, String query, int cp);
+
 
 }

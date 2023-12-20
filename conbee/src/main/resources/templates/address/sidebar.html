@@ -13,12 +13,29 @@
 
         <li class="nav-item" th:unless="${session.loginMember.departmentNo==5}">
             <a href="/address" class="nav-link  link-body-emphasis">
-                사원
+                전부서
             </a>
+
+            <a href="/address?deptNo=0" class="nav-link  link-body-emphasis">
+                임원
+            </a>
+            <a href="/address?deptNo=1" class="nav-link  link-body-emphasis">
+                인사관리부
+            </a>
+            <a href="/address?deptNo=2" class="nav-link  link-body-emphasis">
+                경영관리부
+            </a>
+            <a href="/address?deptNo=3" class="nav-link  link-body-emphasis">
+                운영관리부
+            </a>
+            <a href="/address?deptNo=4" class="nav-link  link-body-emphasis">
+                고객관리부
+            </a>
+
         </li>
 
         <li th:if="${session.loginMember.departmentNo==5}">
-            <a href="/address" class="nav-link link-body-emphasis">
+            <a href="/address?deptNo=5" class="nav-link link-body-emphasis">
                 점주
             </a>
         </li>

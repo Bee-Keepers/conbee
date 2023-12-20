@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.keepers.conbee.admin.store.model.dto.Store;
 import com.keepers.conbee.board.model.dto.Board;
+import com.keepers.conbee.member.model.dto.Member;
 
 @Mapper
 public interface MyPageMapper {
@@ -29,6 +30,14 @@ public interface MyPageMapper {
 
 
 	List<Board> choiceList(int memberNo);
+
+
+
+	/** 프로필 이미지 수정
+	 * @param loginMember
+	 * @return
+	 */
+	int updateMemberProfile(Member loginMember);
 	
 	
 
