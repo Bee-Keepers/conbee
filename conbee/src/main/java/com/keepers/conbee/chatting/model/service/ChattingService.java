@@ -9,12 +9,18 @@ import com.keepers.conbee.member.model.dto.Member;
 
 public interface ChattingService {
 
-	/** 채팅 화면 전환
+	/** 채팅 화면 전환 (헤더 > 채팅 클릭 / 1:1  채팅 클릭 시)
 	 * @param memberNo
 	 * @return
 	 */
 	List<Chatting> selectChatList1(int memberNo);
 
+	
+	/** 팀 채팅 클릭 시
+	 * @param teamNo
+	 * @return
+	 */
+	List<ChatMessage> selectTeamMessageList(int teamNo);
 	
 
 
@@ -60,11 +66,21 @@ public interface ChattingService {
 	
 	
 	
-	/** 실시간 채팅(웹소켓)
+	/** 실시간 1:1 채팅(웹소켓)
 	 * @param msg
 	 * @return
 	 */
 	int insertMessage(ChatMessage msg);
+
+
+	/** 실시간 팀 채팅(웹소켓)
+	 * @param msg
+	 * @return
+	 */
+	int insertTeamMessage(ChatMessage msg);
+
+
+
 
 
 

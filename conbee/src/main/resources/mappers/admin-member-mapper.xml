@@ -41,7 +41,7 @@
 		INSERT INTO MEMBER
 		VALUES(#{memberNo}, #{memberId}, #{memberPw}, 
 		#{memberEmail}, #{memberName}, NULL, NULL, NULL, DEFAULT, DEFAULT, DEFAULT,
-		#{teamNo}, #{departmentNo}, #{gradeNo})
+		#{teamNo}, #{departmentNo}, #{gradeNo}, NULL)
 	</insert>
 	<!-- 신규 회원 등록 시 점포 번호 얻어오기 -->
 	<update id="setMemberNo">

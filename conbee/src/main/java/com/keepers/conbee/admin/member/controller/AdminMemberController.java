@@ -84,6 +84,8 @@ public class AdminMemberController {
 		String tempPw = emailService.createAuthKey();
 		inputMember.setMemberPw(tempPw);
 		emailService.sendEmail("tempPw", inputMember.getMemberEmail(), tempPw);
+		
+		log.info("=-=-=-===-=-=-=-=-=-="+inputMember);
 		int result = service.memberInsert(inputMember);
 		
 		if(result>0) {

@@ -137,12 +137,14 @@
 }
 
 .chatting-item{
-  height: 12%;
+  height: 90px;
+  width: 270px;
 	display: flex;
-	padding: 5px 0;
-  margin-right: 28px;
-	border-bottom: 1px solid black;
+	padding-top: 5px;
+  /* margin-right: 28px; */
+	/* border-bottom: 1px solid black; */
 	cursor: pointer;
+  resize:none;
 }
 
 .chatting-item * {
@@ -150,9 +152,9 @@
 }
 
 .chatting-item > div{ height: 100%; text-align: center;}
-.item-header{ width : 25%; }
+.item-header{ width : 25%; resize:none;}
 .item-body{ 
-	padding : 2px 0;
+  width: 75%;
 }
 .item-body> p{ 
 	display: flex;
@@ -160,8 +162,11 @@
 }
 
 .chatting-item.select{
-	background-color: #ddd;
+	background-color: #FFE15D;
+  border-radius: 12px;
+  border: 4px solid #F6C90E;
 }
+
 
 
 .list-profile{ 
@@ -212,7 +217,7 @@
     color: white;
     font-size: 12px;
     font-weight: bold;
-    margin-right: 3px;
+    margin-right: 4px;
 }
 
 
@@ -248,6 +253,7 @@
 	display: inline-block;
 	border-radius: 5px;
 	padding: 5px;
+  margin-right: 20px;
 	background-color: #eee;
 	text-align: left;
 	max-width: 500px;
@@ -279,7 +285,7 @@
 }
 
 .my-chat>p {
-	background-color: yellow;
+	background-color: #FFE15D;
 }
 
 .chatDate {
@@ -564,4 +570,28 @@
   color: white;
   background-color: #F6C90E;
   border-color: #F6C90E;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 채팅창 호버 */
+.chatting-item:hover {
+  color: white;
+  background-color: #FFE15D;
+  border: 4px solid #F6C90E;
+  border-radius: 12px;
 }

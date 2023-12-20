@@ -76,6 +76,9 @@ public class MainController {
 				
 				// 경영관리부인 경우
 				if(loginMember.getDepartmentNo() == 2) {
+					// 받은 쪽지 조회
+					List<Note> noteList = noteService.noteReceive(loginMember.getMemberNo());
+					model.addAttribute("noteList",noteList);
 					
 				} else {
 					

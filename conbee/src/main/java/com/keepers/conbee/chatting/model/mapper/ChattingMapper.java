@@ -18,11 +18,11 @@ public interface ChattingMapper {
 	 */
 	List<Chatting> selectChatList1(int memberNo);
 
-	/** 팀 채팅 조회 시
+	/** 팀 채팅 클릭 시 
 	 * @param teamNo
 	 * @return
 	 */
-	List<Chatting> selectChatList2(int teamNo);
+	List<ChatMessage> selectTeamMessageList(int teamNo);
 
 	/** 대화 상대 검색
 	 * @param map
@@ -61,11 +61,18 @@ public interface ChattingMapper {
 	
 	
 	
-	/** 실시간 채팅(웹소켓)
+	/** 실시간 1:1 채팅(웹소켓)
 	 * @param msg
 	 * @return
 	 */
 	int insertMessage(ChatMessage msg);
+
+	/** 실시간 팀 채팅(웹소켓)
+	 * @param msg
+	 * @return
+	 */
+	int insertTeamMessage(ChatMessage msg);
+
 
 
 

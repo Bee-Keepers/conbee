@@ -47,8 +47,8 @@
 
             <hr class="me-4">
             <div class="btn-group W-100" >
-              <button id="soloBtn" class="soloBtn selectChatBtn ms-3">1:1 채팅</button>
-              <button id="teamBtn" class="teamBtn selectChatBtn">팀 채팅</button>
+              <button id="soloBtn" class="soloBtn selectChatBtn ms-3 mb-1">1:1 채팅</button>
+              <button id="teamBtn" class="teamBtn selectChatBtn mb-1">팀 채팅</button>
             </div>
 
             <!-- +버튼 클릭 시 -->
@@ -72,37 +72,41 @@
                 <li class="result-row">일치하는 회원이 없습니다</li> -->
               </ul>
             </div>
-            <th:block th:each="chat : ${chatList}">
-    
-              <!-- th:chat-no : li 태그에 임의의 속성 chat-no를 추가하는데
-                타임리프를 이용해 출력된 값을 chat-no 속성 값으로 대입 -->
-
-
-              <li class="chatting-item" th:chat-no="${chat.chatNo}" th:target-no="${chat.targetNo}">
-                <div class="item-header">
-    
-                  <img th:if="${chat.targetImg}" class="list-profile" th:src="${chat.targetImg}">
-    
-                  <img th:unless="${chat.targetImg}" class="list-profile" th:src="#{user.default.image}">
-                  
-                </div>
-
-
-                <div class="item-body">
-                  <p>
-                    <span class="target-name" th:text="${chat.targetName}">상대방 이름</span>
-                    <span class="recent-send-time" th:text="${chat.chatMessageDate}">메세지 보낸 시간</span>
-                  </p>
-                  <div>
-                    <p class="recent-message" th:text="${chat.lastMessage}">메세지 내용</p>
+            
+            <ul class="roomList" style="list-style: none; padding-left: 0; resize:none">
+              <th:block th:each="chat : ${chatList}">
+      
+                <!-- th:chat-no : li 태그에 임의의 속성 chat-no를 추가하는데
+                  타임리프를 이용해 출력된 값을 chat-no 속성 값으로 대입 -->
+  
+  
+                <li class="chatting-item" th:chat-no="${chat.chatNo}" th:target-no="${chat.targetNo}">
+                  <!-- <div class="item-top">&times</div> 나가기 버튼 -->
+                  <div class="item-header">
+      
+                    <img th:if="${chat.targetImg}" class="list-profile" th:src="${chat.targetImg}">
+      
+                    <img th:unless="${chat.targetImg}" class="list-profile" th:src="#{user.default.image}">
                     
-                    <p th:if="${chat.notReadCount > 0}" class="not-read-count" th:text="${chat.notReadCount}"></p>
                   </div>
-                </div>
-                
-              </li>
-    
-            </th:block>
+  
+  
+                  <div class="item-body">
+                    <p>
+                      <span class="target-name" th:text="${chat.targetName}">상대방 이름</span>
+                      <span class="recent-send-time" th:text="${chat.chatMessageDate}">메세지 보낸 시간</span>
+                    </p>
+                    <div>
+                      <p class="recent-message" th:text="${chat.lastMessage}">메세지 내용</p>
+                      
+                      <p th:if="${chat.notReadCount > 0}" class="not-read-count" th:text="${chat.notReadCount}"></p>
+                    </div>
+                  </div>
+                  
+                </li>
+      
+              </th:block>
+            </ul>
     
           </ul>
     
@@ -130,7 +134,7 @@
             <div class="input-area">
               
               <div class="form-floating">
-                <textarea style="width: 890px; height: 80px; resize: none; font-size: 17px;" rows="3" class="form-control me-1" placeholder="" id="inputChat"></textarea>
+                <textarea style="width: 900px; height: 80px; resize: none; font-size: 17px;" rows="3" class="form-control ms-3 me-1" placeholder="" id="inputChat"></textarea>
                 <label for="floatingTextarea">&nbsp;&nbsp;&nbsp;Comment</label>
               </div>
               
