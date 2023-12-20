@@ -73,6 +73,16 @@
 			#{goodsPrice})
 	</insert>
 	
+	<!-- 재고 수정 -->
+    <update id="stockUpdateManage">
+        UPDATE "STOCK" SET
+        STOCK_DISCOUNT = #{stockDiscount},
+        STOCK_OUT_PRICE = #{stockOutPrice}
+        WHERE GOODS_NO = #{goodsNo}
+        AND STORE_NO = 0
+    </update>
+    
+	
 	<!-- 상품명 입력 시 대소분류 작성 -->
 	<select id="goodsNameSelect" resultType="Stock">
 		SELECT GOODS_NAME, GOODS_NO, LCATEGORY_NAME, SCATEGORY_NAME, GOODS_PRICE
@@ -96,6 +106,7 @@
 		JOIN LCATEGORY USING(LCATEGORY_NO)
 		JOIN SCATEGORY USING(SCATEGORY_NO)
 		WHERE GOODS_NAME LIKE '%${goodsName}%'
+		AND GOODS_DEL_FL = 'N'
 		<if test='lcategoryName != ""'>
 			AND LCATEGORY_NAME = #{lcategoryName}
 		</if>
@@ -131,6 +142,12 @@
 			AND SCATEGORY_NAME = #{scategoryName}
 		</if>
 		ORDER BY GOODS_NO DESC
+	</select>
+	
+	<select id="checkGoogsInsert" resultType="string">
+		SELECT GOODS_NAME
+		FROM GOODS
+		WHERE GOODS_NAME = #{goodsName}
 	</select>
 	
 	

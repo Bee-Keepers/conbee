@@ -166,7 +166,6 @@ public class MemberController {
 	/** 비밀번호 찾기 화면 전환
 	 * @return
 	 */
-	// 부대찌개로 메뉴 선정
 	@GetMapping("findPw")
 	public String findPw() {
 		return "/member/findPw";
@@ -181,19 +180,15 @@ public class MemberController {
 	@PostMapping("findPw")
 	public String findPw(Member inputInformation, Model model, RedirectAttributes ra) {
 		
-		// 부대찌개 재료가 있는지 탐색
 		int result = service.findMemberPw(inputInformation);
 		
-		// 부대찌개 재료 > 부족한 것만 구매 (있는 것은 활용)
 		if(result > 0) {
 			Member searchMember = service.findPw(inputInformation);
 			
 			model.addAttribute("searchMember", searchMember);
 			
-			// 일부 장보러 가기
 			return "member/findPw-result";
 		}
-		// 전체 장보러 가기
 		
 		String message = "입력하신 값이 올바르지 않습니다.";
 		ra.addFlashAttribute("message", message);

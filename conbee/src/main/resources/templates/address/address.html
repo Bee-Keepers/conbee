@@ -120,7 +120,7 @@
             <col width=7%>
             <col width=7%>
             <col width=7%>
-            <col width=6%>
+            <col width=5%>
             <col width=8%>
             <col width=8%>
             <col width=8%>
@@ -155,9 +155,11 @@
               <td th:text="*{teamName}"></td>
               <td th:text="*{gradeName}"></td>
               <td th:text="*{memberTel}"></td>
-              <td><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                  상세정보
-                </button></td>
+              <td>
+                <a th:href="@{/note/note-write(memberNo=*{memberNo}, memberName=*{memberName}, memberEmail=*{memberEmail})}" class="btn btn-warning">
+                  쪽지쓰기
+                </a>
+              </td>
             </tr>
           </tbody>
         </table>

@@ -42,7 +42,7 @@ const selectCalendar = () => {
       },
       initialDate: new Date(),
       locale: 'ko',
-      editable: true,
+      editable: false,
       customButtons: {
         addEventButton: {
           text: '일정추가',
@@ -85,7 +85,7 @@ const selectCalendar = () => {
         // console.log(info.event.allDay);  // true/ false
         // console.log(info.event.backgroundColor);  // #e90707
 
-        // console.log(info.event.extendedProps); // 추가된 속성들 (사용자 정의 속성 / calNo, carDetail, memberNo, memberName)
+        console.log(info.event.extendedProps); // 추가된 속성들 (사용자 정의 속성 / calNo, carDetail, memberNo, memberName)
 
         
         /* 읽기 모달 열기 */
@@ -95,6 +95,8 @@ const selectCalendar = () => {
         document.querySelector("#readModal .modal-header").style.backgroundColor = info.event.backgroundColor;
         document.querySelector("#readModal .modal-header").style.borderBottom = info.event.backgroundColor;
 
+        // 제목에 일정 번호(시퀀스) 숨겨두기!! -> 수정, 삭제
+        document.querySelector("#readModalTitle").setAttribute("calNo", info.event.extendedProps.calNo);
 
         document.querySelector("#readModalTitle").innerText = info.event.title;
         document.querySelector("#readModalContent").innerText = info.event.extendedProps.calDetail;
@@ -127,6 +129,20 @@ const selectCalendar = () => {
 
           document.querySelector("#startStrModal").innerText = info.event.startStr.substr(11,5);
           document.querySelector("#endStrModal").innerText = info.event.endStr.substr(11,5);
+        }
+
+        // info.event.extendedProps.memberNo == 일정 등록한 회원의 번호
+        // loginMemberNo == 로그인한 회원의 번호
+
+        const modalFooter = document.querySelector("#readModal .modal-footer");
+        /* 로그인한 회원이 쓴 일정인 경우 */
+        if(info.event.extendedProps.memberNo == loginMemberNo){
+          modalFooter.style.display = "flex";
+        } 
+        
+        /* 로그인한 회원이 쓴 일정인 아닌 경우 */
+        else{
+          modalFooter.style.display = "none";
         }
 
         
@@ -282,6 +298,11 @@ const rgbToHex = (rgbString) => {
 
 /* 읽기 모달 -> 수정 버튼 클릭 시 */
 document.getElementById("calender-update").addEventListener('click' , ()=>{
+  
+  const calNo = document.querySelector("#readModalTitle").getAttribute("calNo");
+  document.getElementById('calendar-update-btn').setAttribute("calNo", calNo);
+
+
 
   const title = document.getElementById("readModalTitle").innerText;
   const content = document.getElementById("readModalContent").innerText;
@@ -293,6 +314,7 @@ document.getElementById("calender-update").addEventListener('click' , ()=>{
   const endTime = document.getElementById("endStrModal").innerText;
   
   const color = document.querySelector("#readModal .modal-header").style.backgroundColor;
+
 
 
   // console.log(title);
@@ -307,7 +329,6 @@ document.getElementById("calender-update").addEventListener('click' , ()=>{
   document.getElementById("calendar_title_update").value = title;
   document.getElementById("calendar_color_update").value = rgbToHex(color);
   document.getElementById("calendar_content_update").value = content;
-
 
   document.getElementById("calendar_start_date_update").value = startDate;
   document.getElementById("calendar_end_date_update").value = endDate;
@@ -354,9 +375,9 @@ document.getElementById('calendar_allday_update').addEventListener('change', e =
 })
 
 
-if(document.getElementById('calender-update-btn') != null){
+if(document.getElementById('calendar-update-btn') != null){
   // 일정 수정 - 모달 수정 버튼 클릭 시
-  document.getElementById('calender-update-btn').addEventListener('click',() => {
+  document.getElementById('calendar-update-btn').addEventListener('click',() => {
   
     const calTitle = document.getElementById('calendar_title_update').value;
     const calDetail = document.getElementById('calendar_content_update').value;
@@ -369,6 +390,8 @@ if(document.getElementById('calender-update-btn') != null){
     const calendarEndTime = document.getElementById('calendar_end_time_update').value;
   
     const calendarColor = document.getElementById('calendar_color_update').value;
+    
+    const calNo = document.getElementById('calendar-update-btn').getAttribute("calNo");
   
   
     // 시작/종료 날짜 + 시간  (2023-12-14/16:20)
@@ -387,7 +410,7 @@ if(document.getElementById('calender-update-btn') != null){
   
         const temp = new Date(calendarEndDate);
         const year = temp.getFullYear();
-        const month = temp.getMonth() + 1; // month (0~11) + 1 --> 1월 ~ 12월
+        const month = temp.getMonth() + 1; // month (0~11) + 1 --> 1월 ~ 12월recipient
         const date = temp.getDate() + 1; // 끝나는 날짜를 하루 증가해야 캘린더에서 종료일 까지 색이 꽉 참
   
         calEndTime = `${year}-${month}-${date}T00:00:00`;
@@ -406,12 +429,13 @@ if(document.getElementById('calender-update-btn') != null){
                     "calAllDay" : (calendarAllday ? 1 : 0), // 체크 되었으면 1, 아니면 0
                     "calStartTime" : calStartTime,
                     "calEndTime": calEndTime,
-                    "calColor" : calendarColor
+                    "calColor" : calendarColor,
+                    "calNo" : calNo
     }
     
   
     fetch('/calendar/staffcalendar', {
-      method : "POST",
+      method : "PUT",
       headers : {"Content-Type" : "application/json"},
       body : JSON.stringify(dataObj)
     })
@@ -421,17 +445,8 @@ if(document.getElementById('calender-update-btn') != null){
   
       selectCalendar(); // 달력 다시 만들기
   
-      /* 모달에 작성된 내용 삭제 */
-      document.getElementById('calendar_title').value = '';
-      document.getElementById('calendar_content').value = '';
-      document.getElementById('calendar_allday').checked = false;
-      document.getElementById('calendar_start_date').value = '';
-      document.getElementById('calendar_end_date').value = '';
-  
-      document.querySelectorAll(".calendar-time-container").forEach( item => item.style.display = "block" );
-  
       // 모달 닫기
-      $('#calendarModal').modal('hide');
+      $('#updateCalendar').modal('hide');
   
     })
     .catch(e => console.log(e))
@@ -460,3 +475,35 @@ document.getElementById('calendar_allday').addEventListener('change', e => {
   }
   
 })
+
+
+// ----------------------------------------------------------------------
+
+/* 일정 삭제 */
+
+document.getElementById('calender-delete').addEventListener('click', e =>{
+
+  if(confirm("정말 삭제??")){
+    const calNo = document.getElementById("readModalTitle").getAttribute("calNo");
+    console.log(calNo);
+    fetch('/calendar/staffcalendar', {
+      method : "DELETE",
+      headers : {"Content-Type" : "application/json"},
+      body : calNo
+    })
+    .then(resp => resp.text())
+    .then(result => {
+      
+      if(result > 0){ /* 삭제 성공 시 */
+        selectCalendar(); // 달력 다시 만들기
+        alert("삭제 되었습니다");
+    
+        // 모달 닫기
+        $('#readModal').modal('hide');
+      }
+
+    })
+    .catch(e => console.log(e));
+  }
+
+});

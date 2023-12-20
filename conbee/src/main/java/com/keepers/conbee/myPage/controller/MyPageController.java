@@ -33,17 +33,17 @@ public class MyPageController {
     private final MyPageService service;
     
     /** 프로필 정보 조회
-     * @param mypage
+     * @param 
      * @return
      */
     @GetMapping("myPage-profile")
-    public String mypageProfile(Member member, Model model) {
+    public String myPageProfile(Member member, Model model) {
         return "myPage/myPage-profile";
     }
 
     
     @GetMapping("myPage-mywrite")
-    public String mypageMywrite(@SessionAttribute(value = "loginMember", required = false) Member loginMember, Model model) {
+    public String myPageMywrite(@SessionAttribute(value = "loginMember", required = false) Member loginMember, Model model) {
     	
     	List<Board> writeList = service.selectWriteList(loginMember.getMemberNo());
     	model.addAttribute("writeList", writeList);
@@ -51,7 +51,7 @@ public class MyPageController {
     }
     
     @GetMapping("myPage-comment")
-    public String mypageComment(@SessionAttribute(value = "loginMember", required = false) Member loginMember, Model model) {
+    public String myPageComment(@SessionAttribute(value = "loginMember", required = false) Member loginMember, Model model) {
     	List<Board> commentList = service.commentList(loginMember.getMemberNo());
     	model.addAttribute("commentList", commentList);
         return "myPage/myPage-comment";
@@ -59,7 +59,7 @@ public class MyPageController {
     
     
     @GetMapping("myPage-choice")
-    public String mypageChoice(@SessionAttribute(value = "loginMember", required = false) Member loginMember, Model model) {
+    public String myPageChoice(@SessionAttribute(value = "loginMember", required = false) Member loginMember, Model model) {
     	List<Board> choiceList = service.choiceList(loginMember.getMemberNo());
     	model.addAttribute("choiceList", choiceList);
         return "myPage/myPage-choice";
@@ -67,7 +67,7 @@ public class MyPageController {
     
      
     @PostMapping("myPageUpdate")
-    public String mypageUpdate() {
+    public String myPageUpdate() {
         
         return "myPage/myPage-update";
     }

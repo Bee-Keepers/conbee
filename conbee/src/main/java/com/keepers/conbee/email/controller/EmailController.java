@@ -23,7 +23,7 @@ public class EmailController {
 		
 	@PostMapping("authKey")
 	public int authKey(@RequestBody String email) {
-		return service.sendEmail("authKey", email);
+		return service.sendEmail("authKey", email, null);
 	}
 
 	@PostMapping("checkAuthKey")

@@ -15,6 +15,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.admin.member.model.service.AdminMemberService;
 import com.keepers.conbee.admin.store.model.dto.Store;
+import com.keepers.conbee.email.model.service.EmailService;
+import com.keepers.conbee.email.model.service.EmailServiceImpl;
 import com.keepers.conbee.member.model.dto.Member;
 
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("admin/memberManage")
 
 public class AdminMemberController {
+	
+	private final EmailServiceImpl emailService;
 	
 	private final AdminMemberService service;
 	
@@ -77,8 +81,9 @@ public class AdminMemberController {
 	@PostMapping("signUp/insert")
 	public String memberInsert(Member inputMember, RedirectAttributes ra) {
 		log.info("--------------------" + inputMember.getStoreNo());
-		inputMember.setMemberPw("123123");
-		
+		String tempPw = emailService.createAuthKey();
+		inputMember.setMemberPw(tempPw);
+		emailService.sendEmail("tempPw", inputMember.getMemberEmail(), tempPw);
 		int result = service.memberInsert(inputMember);
 		
 		if(result>0) {
@@ -159,9 +164,11 @@ public class AdminMemberController {
 	 */
 	@GetMapping("teamNoList")
 	@ResponseBody
-	public List<String> teamNoList(String departmentNo){
-		List<String> teamNoList = service.teamNoList(departmentNo);
-		return teamNoList;
+	public List<Member> teamNoList(String departmentNo){
+		
+		List<Member> teamList = service.teamList(departmentNo);
+		
+		return teamList;
 	}
 
 

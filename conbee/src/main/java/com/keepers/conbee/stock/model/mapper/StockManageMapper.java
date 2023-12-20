@@ -84,6 +84,19 @@ public interface StockManageMapper {
 	 * @return
 	 */
 	int goodsListCount();
+	
+    /** 재고 수정
+     * @param stock
+     * @return
+     */
+    int stockUpdateManage(Stock stock);
+
+	/** 상품 중복 등록 검색
+	 * @param goodsName
+	 * @return
+	 */
+	String checkGoogsInsert(String goodsName);
+
 
 
 }
