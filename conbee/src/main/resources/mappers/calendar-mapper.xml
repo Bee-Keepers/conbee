@@ -37,21 +37,23 @@
 		#{calTitle}, #{calDetail}, #{calColor}, #{memberNo})
 	</insert>
 	
-	<update id="updateCalendar">
+	
+	<update id="updatecalendar">
 		UPDATE "CALENDAR" SET
-		CAL_ALLDAY= #{calAllDay}
-		CAL_START_TIME = #{calStartTime}
-		CAL_END_TIME = #{calEndTime}
-		CAL_TITLE = #{calTitle}
-		CAL_DETAIL= #{calDetail}
+		CAL_ALLDAY= #{calAllDay},
+		CAL_START_TIME = TO_DATE(#{calStartTime}, 'YYYY-MM-DD"T"HH24:MI:SS'),
+		CAL_END_TIME = TO_DATE(#{calEndTime}, 'YYYY-MM-DD"T"HH24:MI:SS'),
+		CAL_TITLE = #{calTitle},
+		CAL_DETAIL= #{calDetail},
 		CAL_COLOR = #{calColor}
-		AND MEMBER_NO = #{memberNo}
-		
+		WHERE CAL_NO = #{calNo}
 	</update>
 	
 	
 	
-	
+	<delete id="deleteCalrendar">
+		DELETE FROM "CALENDAR" WHERE CAL_NO = #{calNo}
+	</delete> 
 	
 	
 	

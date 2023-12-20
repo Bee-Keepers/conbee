@@ -27,7 +27,17 @@ public interface CalendarMapper {
 	 */
 	int staffcalendar(Calendar cal);
 
+	/** 일정 수정
+	 * @param calendar
+	 * @return result
+	 */
 	int updatecalendar(Calendar calendar);
+ 
+	/** 일정 삭제
+	 * @param calNo
+	 * @return result
+	 */
+	int deleteCalrendar(int calNo);
 	
 	
 
