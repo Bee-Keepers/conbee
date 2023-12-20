@@ -13,25 +13,31 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class CalendarServiceImpl implements CalendarService {
-	
+
 	private final CalendarMapper mapper;
-	
+
 	// 같은 팀의 일정 모두 조회
 	@Override
 	public List<Calendar> selectCalendar(Member loginMember) {
 		return mapper.selectCalendarList(loginMember);
 	}
-	
+
 	// 일정 추가
 	@Override
 	public int staffcalendar(Calendar cal) {
 		return mapper.staffcalendar(cal);
 	}
+
+	@Override
+	public int updatecalendar(Calendar calendar) {
+
+		return mapper.updatecalendar(calendar);
+	}
 	
-@Override
-public int updatecalendar(Calendar calendar) {
-	
-	return mapper.updatecalendar(calendar);
-}
-	
+	// 일정 삭제
+	@Override
+	public int deleteCalendar(int calNo) {
+		return mapper.deleteCalrendar(calNo);
+	}
+
 }

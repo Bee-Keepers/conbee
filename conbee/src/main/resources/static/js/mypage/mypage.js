@@ -422,4 +422,19 @@ cancelBtn.addEventListener("click", ()=>{
 
 //-------------------------------------------------------------------------
 
+/* 전체 체크하기 */
+document.getElementById("checkAll").addEventListener("change",e=>{
+  document.querySelectorAll(".checkNote").forEach((item)=>{item.checked=e.target.checked})
+});
+
+/* 체크가 하나라도 해제되면 전체체크 해제 */
+
+document.querySelectorAll(".checkNote").forEach((item)=>{
+item.addEventListener("change", e=>{
+  if(!e.target.checked){
+    document.getElementById("checkAll").checked = false;
+  }
+})
+})
+
 

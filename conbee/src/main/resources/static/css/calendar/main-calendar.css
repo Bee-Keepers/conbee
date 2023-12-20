@@ -140,3 +140,22 @@
   color: #fff;
   /* 주요 버튼 호버 글자색 */
 }
+
+
+
+
+
+
+
+
+
+.fc-event{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0;
+  font-size: 12px;
+  line-height: 12px;
+}
+
+#calendar{margin-top: 0;}
