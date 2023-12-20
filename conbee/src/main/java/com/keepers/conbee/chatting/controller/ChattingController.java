@@ -54,7 +54,27 @@ public class ChattingController {
 	@ResponseBody
 	private List<Chatting> selectSoloChat(@SessionAttribute("loginMember") Member loginMember, Model model) {
 		List<Chatting> chatList = service.selectChatList1(loginMember.getMemberNo());
+		model.addAttribute("chatList", chatList);
+//		log.info("dfdfdf : " + model);
+//		log.info("dfdfdf : " + chatList);
 		return chatList;
+	}
+	
+	
+	/** 팀 별 메세지 리스트 조회
+	 * @param loginMember
+	 * @param model
+	 * @return
+	 */
+	@GetMapping(value="/chatting/selectTeamChat", produces="application/json; charset=UTF-8;")
+	@ResponseBody
+	private List<ChatMessage> selectTeamMessageList(@SessionAttribute("loginMember") Member loginMember, Model model) {
+		List<ChatMessage> teamMessageList = service.selectTeamMessageList(loginMember.getTeamNo());
+		model.addAttribute("teamMessageList", teamMessageList);
+		
+		log.info("dfdfd : ",  teamMessageList);
+		
+		return teamMessageList;
 	}
 	
 	
@@ -104,7 +124,6 @@ public class ChattingController {
     @GetMapping(value="/chatting/chatList", produces="application/json; charset=UTF-8")
     @ResponseBody
     public List<Chatting> selectChatList(@SessionAttribute("loginMember") Member loginMember) {
-    	log.info("로그인 멤버 : " + loginMember);
     	return service.selectChatList1(loginMember.getMemberNo());
     }
     
@@ -113,11 +132,11 @@ public class ChattingController {
     
     
     
-    // 애매함 ---------------------체크하기
     // 채팅 읽음 표시
     @PutMapping("/chatting/updateChatMessageRead")
     @ResponseBody
     public int updateChatMessageRead(@RequestBody Map<String, Object> paramMap) {
+//    	log.info("파람 맵 : " + paramMap);
         return service.updateChatMessageRead(paramMap);
     }
 	
@@ -129,92 +148,6 @@ public class ChattingController {
         return service.selectMessageList(paramMap);
     }
     	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/** 채팅방 목록 조회
-	 * @param loginMember
-	 * @return
-	 */
-	@GetMapping(value="chatting/selectChat", produces = "application/json; charset=UTF-8;")
-	@ResponseBody
-	public List<Chatting> selectChat(@SessionAttribute("loginMember") Member loginMember, Model model) {
-		
-//		List<Chatting> chatList = service.selectChat(loginMember.getMemberNo());
-//		
-////		if(selectChatting == 0) {
-//			chatList = service.selectChatList1(loginMember.getMemberNo());
-//			
-////		} else {
-//			chatList = service.selectChatList2(loginMember.getTeamNo());
-//			
-//		}
-//
-//		if(chatList)
-//		model.addAttribute("chatList", chatList);
-//		
-		
-		
-
-//		if(ChatList1.size() > 0 && ChatList2.size() == 0) {
-//			model.addAttribute("ChatList1", ChatList1);
-//			
-//		} 
-//		
-//		if(ChatList1.size() == 0 && ChatList2.size() > 0) {
-//			model.addAttribute("ChatList2", ChatList2);
-//			
-//		} 
-//		
-//		if(ChatList1.size() == 0 && ChatList2.size() == 0) {
-//			return "chatting/chatting";
-//		}
-		
-		
-		return null;
-	}
-	
-	
-	
-	// 채팅 조회 테스트
-//	@GetMapping(value="chatting/selectChat", produces = "application/json; charset=UTF-8;")
-//	@ResponseBody
-//	public List<Chatting> selectChat(@SessionAttribute("loginMember") Member loginMember) {
-//		
-//		List<Chatting> chatList = service.selectChat(loginMember.getMemberNo());
-//		
-//		
-//		return chatList;
-//	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

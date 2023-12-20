@@ -344,10 +344,10 @@
     <th:block th:if="${session.loginMember.departmentNo == 5}">
       <th:block th:replace="~{common/main/mainOwner}"></th:block>
     </th:block>
-    <th:block th:if="${session.loginMember.departmentNo == 3}">
+    <th:block th:if="${session.loginMember.departmentNo == 2}">
       <th:block th:replace="~{common/main/mainBM}"></th:block>
     </th:block>
-    <th:block th:unless="${session.loginMember.departmentNo == 5 || session.loginMember.departmentNo == 3}">
+    <th:block th:unless="${session.loginMember.departmentNo == 5 || session.loginMember.departmentNo == 2}">
       <th:block th:replace="~{common/main/mainEmployee}"></th:block>
     </th:block>
   </main>

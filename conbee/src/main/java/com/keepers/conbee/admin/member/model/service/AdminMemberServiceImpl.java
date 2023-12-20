@@ -100,7 +100,7 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 		
 		// 비밀번호 암호화
 		// 암호화된 비밀번호 inputMember에 저장
-		inputMember.setMemberPw(bcrypt.encode("123123"));
+		inputMember.setMemberPw(bcrypt.encode(inputMember.getMemberPw()));
 		
 		int result = mapper.memberInsert(inputMember);
 		

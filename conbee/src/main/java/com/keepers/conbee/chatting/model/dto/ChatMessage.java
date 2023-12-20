@@ -17,6 +17,7 @@ public class ChatMessage {
 	private int chatNo; // 채팅방 번호
 	private int chatMessageSender; // 메세지 보낸사람
 	
+	private int teamNo;
 	private int targetNo;
 	
 }

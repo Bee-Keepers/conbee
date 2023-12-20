@@ -71,6 +71,25 @@ public class ChatWebsocketHandler extends TextWebSocketHandler{
         }
     }
     
+//    @Override
+//    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+//    	
+//    	log.info("전달 받은 내용 : " + message.getPayload());
+//    	
+//    	ObjectMapper objectMapper = new ObjectMapper();
+//    	
+//    	ChatMessage msg = objectMapper.readValue(message.getPayload(), ChatMessage.class);
+//    	System.out.println(msg);
+//    	
+//    	int result = service.insertTeamMessage(msg);
+//    	
+//    	if(result > 0) {
+//    		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd hh:mm");
+//    	}
+//    	
+//    	
+//    }
+    
     
     
     // 채팅 나가기

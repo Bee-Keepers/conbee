@@ -11,10 +11,10 @@
 	
 	
 	
+	<!--ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 1:1 채팅 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ-->	
 	
 	
-	
-	<!-- 1:1 채팅 조회 시 -->
+	<!-- 1:1 채팅 목록 조회 시 -->
 	<select id="selectChatList1" resultType="Chatting">
 		SELECT CHAT_NO
 		
@@ -57,10 +57,10 @@
 		OR MEMBER_NO = #{memberNo}
 		ORDER BY MAX_CHAT_MESSAGE_NO DESC NULLS LAST
 	</select>
+
 	
 	
-	
-	<!-- 대화 상대 검색 - DB 확인 완료F>> 성공-->
+	<!-- 대화 상대 검색 - DB 확인 완료>> 성공-->
 	<select id="selectTarget" resultType="Member">
 		SELECT MEMBER_NO, MEMBER_ID, MEMBER_NAME, MEMBER_PROFILE  FROM "MEMBER"
 		WHERE (MEMBER_ID LIKE '%${query}%' OR MEMBER_NAME LIKE '%${query}%')
@@ -111,7 +111,7 @@
 	<!-- 채팅 메세지 중 내가 보내지 않은 글을 읽음으로 표시 -->
 	<update id="updateChatMessageRead">
 		UPDATE "CHAT_MESSAGE" SET
-		CHAT_MESSAGE_READ = '읽지않음'
+		CHAT_MESSAGE_READ = '읽음'
 		WHERE CHAT_NO = #{chatNo}
 		AND CHAT_MESSAGE_SENDER != #{memberNo}
 	</update>
@@ -132,17 +132,52 @@
 	
 	
 	
+	<!--ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 팀 채팅 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ-->
 	
-	
-	
-	
-	
-	
-	<!-- 팀 채팅 조회 시 -->
-	<select id="selectChatList2" resultType="Chatting">
-		
+	<!-- 팀 채팅 내용 조회 시 -->
+	<select id="selectTeamMessageList" resultType="ChatMessage">
+		SELECT CHAT_MESSAGE_NO, CHAT_MESSAGE_CONTENT,
+		CHAT_MESSAGE_READ, CHAT_MESSAGE_SENDER,
+		"CHAT".CHAT_NO, "CHAT".TEAM_NO,
+		TO_CHAR(CHAT_MESSAGE_DATE, 'YYYY.MM.DD HH24:MI') CHAT_MESSAGE_DATE 
+		FROM CHAT_MESSAGE
+		JOIN MEMBER ON (CHAT_MESSAGE.CHAT_MESSAGE_SENDER = MEMBER.MEMBER_NO)
+		JOIN "CHAT" ON CHAT_MESSAGE.CHAT_NO = "CHAT".CHAT_NO 
+		WHERE "CHAT".TEAM_NO =  #{teamNo}
 	</select>
 
+
+	
+	<!-- 채팅 메세지 삽입 -->
+	<insert id="insertTeamMessage">
+		<selectKey>
+			SELECT CHAT_MESSAGE_NO, CHAT_MESSAGE_CONTENT,
+			CHAT_MESSAGE_READ, CHAT_MESSAGE_SENDER,
+			"CHAT".CHAT_NO, "CHAT".TEAM_NO,
+			TO_CHAR(CHAT_MESSAGE_DATE, 'YYYY.MM.DD HH24:MI') CHAT_MESSAGE_DATE 
+			FROM CHAT_MESSAGE
+			JOIN MEMBER ON (CHAT_MESSAGE.CHAT_MESSAGE_SENDER = MEMBER.MEMBER_NO)
+			JOIN "CHAT" ON CHAT_MESSAGE.CHAT_NO = "CHAT".CHAT_NO 
+			WHERE "CHAT".TEAM_NO =  #{teamNo}
+		</selectKey>
+		INSERT INTO "CHAT_MESSAGE"
+		VALUES(SEQ_CHAT_MESSAGE_NO.NEXTVAL, DEFAULT, #{chatMessageContent}, DEFAULT, #{chatNo}, #{chatMessageSender})
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

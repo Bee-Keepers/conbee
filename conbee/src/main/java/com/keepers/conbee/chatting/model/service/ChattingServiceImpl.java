@@ -26,6 +26,13 @@ public class ChattingServiceImpl implements ChattingService{
 		return mapper.selectChatList1(memberNo);
 	}
 
+	// 팀 채팅 클릭 시 
+	@Override
+	public List<ChatMessage> selectTeamMessageList(int teamNo) {
+		return mapper.selectTeamMessageList(teamNo);
+	}
+	
+	
 	
 	// 대화 상대 검색
 	@Override
@@ -51,7 +58,7 @@ public class ChattingServiceImpl implements ChattingService{
 		return mapper.updateChatMessageRead(paramMap);
 	}
 	
-	
+	// 채팅 전송 
 	@Override
 	public List<ChatMessage> selectMessageList(Map<String, Object> paramMap) {
         System.out.println(paramMap);
@@ -63,15 +70,16 @@ public class ChattingServiceImpl implements ChattingService{
         return messageList;
 	}
 	
-	// 실시간 채팅(웹소켓)
+	// 실시간 1:1 채팅(웹소켓)
 	@Override
 	public int insertMessage(ChatMessage msg) {
 		return mapper.insertMessage(msg);
 	}
 	
-	// 조회 테스트
-//	@Override
-//	public List<Chatting> selectChat(int memberNo) {
-//		return mapper.selectChat(memberNo);
-//	}
+	
+	// 실시간 팀 채팅(웹소켓)
+	@Override
+	public int insertTeamMessage(ChatMessage msg) {
+		return mapper.insertTeamMessage(msg);
+	}
 }
