@@ -27,7 +27,7 @@ public interface MyPageService {
 	Map<String, Object> selectchoiceNameList(int memberNo, String choiceName, int cp);
 
 
-}
+
 	/** 프로필 이미지 수정
 	 * @param memberProfile
 	 * @param loginMember

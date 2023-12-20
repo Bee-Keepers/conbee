@@ -146,7 +146,7 @@ public class MyPageServiceImpl implements MyPageService{
 	
 	}
 	
-	}
+	
 	
 	// 프로필 이미지 수정
 	@Override
