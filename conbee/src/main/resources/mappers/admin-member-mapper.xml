@@ -116,8 +116,8 @@
 	
 	
 	<!--회원가입 시 부서 선택 후 팀 셀렉 기능-->
-	<select id="teamNoList" resultType="string">
-		SELECT TEAM_NAME 
+	<select id="teamList" resultType="Member">
+		SELECT TEAM_NAME , TEAM_NO
 		FROM TEAM
 		JOIN DEPARTMENT USING (DEPARTMENT_NO)
 		WHERE DEPARTMENT_NO = ${departmentNo}

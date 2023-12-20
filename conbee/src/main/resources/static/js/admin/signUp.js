@@ -362,11 +362,15 @@ const departmentNoFn = (departmentNoCategory, teamNoCategory) =>{
   fetch("/admin/memberManage/teamNoList?departmentNo=" + departmentNoCategory.value)
   .then(resp => resp.json())
   .then(list => {
+    
     // 조회된 팀명이 있다면
     if(list.length != 0){
-      for(let teamName of list){
+
+      // 팀명, 팀번호 생성
+      for(let team of list){
         const option = document.createElement("option");
-        option.innerText = teamName;
+        option.innerText = team.teamName;
+        option.setAttribute("value", team.teamNo);
         teamNoCategory.append(option);
       }
     }
@@ -377,24 +381,89 @@ const departmentNoFn = (departmentNoCategory, teamNoCategory) =>{
 /* 부서 클릭 시 팀 셀렉 함수호출 */
 departmentNoCategory.addEventListener("change", ()=>{
   teamNoCategory.innerHTML="";
+  gradeNoCategory.innerHTML="";
 
+  // 팀 셀렉 초기화
   const option = document.createElement("option");
   option.innerText = "선택";
   option.setAttribute("value", "");
   teamNoCategory.append(option);
 
+  // 직급 셀렉 초기화
+  const option2 = document.createElement("option");
+  option2.innerText = "선택";
+  option2.setAttribute("value", "");
+  gradeNoCategory.append(option2);
+
+
   // 부서 선택 시
-  if(departmentNoCategory.value != 0){
+  if(departmentNoCategory.value != 100){
+
+    // 팀명 조회 함수 호출
     departmentNoFn(departmentNoCategory, teamNoCategory);
+
+    // 부장 직급 생성
+    if(departmentNoCategory.value != 0 && departmentNoCategory.value != 5){ // 임원부/점주가 아닌 경우
+      const option = document.createElement("option");
+      option.innerText='부장';
+      option.setAttribute("value", 2);
+      gradeNoCategory.append(option);
+    }
+
+    // 팀명 클릭 시
+    teamNoCategory.addEventListener("change", ()=>{
+
+      console.log("팀클릭!");
+
+      // 직급 셀렉 초기화
+      gradeNoCategory.innerHTML="";
+      
+      const option2 = document.createElement("option");
+      option2.innerText = "선택";
+      option2.setAttribute("value", "");
+      gradeNoCategory.append(option2);
+
+      // 점주, 팀장 산하 직급 생성
+      if(departmentNoCategory.value == 0){ // 임원부인 경우
+        const option1 = document.createElement("option");
+        option1.innerText='사장';
+        option1.setAttribute("value", 0);
+  
+        const option2 = document.createElement("option");
+        option2.innerText='부사장';
+        option2.setAttribute("value", 1);
+  
+        gradeNoCategory.append(option1, option2);
+  
+      } else if (departmentNoCategory.value == 5){ // 점주인 경우
+        const option1 = document.createElement("option");
+        option1.innerText='점주';
+        option1.setAttribute("value", 6);
+        gradeNoCategory.append(option1);
+  
+      } else {
+        const option1 = document.createElement("option");
+        option1.innerText='팀장';
+        option1.setAttribute("value", 3);
+  
+        const option2 = document.createElement("option");
+        option2.innerText='대리';
+        option2.setAttribute("value", 4);
+  
+        const option3 = document.createElement("option");
+        option3.innerText='사원';
+        option3.setAttribute("value", 5);
+  
+        gradeNoCategory.append(option, option1, option2, option3);
+      }
+    })
   }
 })
 
 
-// 부서 클릭 후 팀이 클릭되지 않았다면 직급에 부장만 나오도록
-// 부서 클릭 후 부서가 점포가 클릭되었다면 직급에는 점주만 나오도록
-// 부서 클릭 후 임원부 선택 시 직급에 사장,부사장
 
-// 팀 클릭 후 직급에 팀장~사원
+// 부서 클릭 후 팀이 클릭되지 않았다면 직급에 부장만 나오도록
+
 
 
 
