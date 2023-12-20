@@ -46,7 +46,7 @@ public class WebsocketConfig implements WebSocketConfigurer{
 		
 		registry.addHandler(noteWebsocketHandler, "/noteSock")
 				.addInterceptors(noteHandShakeInterceptor)
-				.setAllowedOriginPatterns("http://localhost/", "http://127.0.0.1/", "http://192.168.10.14/")
+				.setAllowedOriginPatterns("http://localhost/", "http://127.0.0.1/", "http://192.168.10.28/")
 				.withSockJS();
 		
 		registry.addHandler(chatWebsocketHandler, "/chatSock")
