@@ -94,7 +94,6 @@ deleteBtn.addEventListener('click', () => {
     let idList = new Array();
     for(let i = 0; i<obj.length; i++){
       if(obj[i].checked == true) {
-        console.log(obj[i].name);
         idList.push(obj[i].name);
       }
     }
@@ -102,8 +101,6 @@ deleteBtn.addEventListener('click', () => {
     data.goodsNoList = idList.join();
     data.storeNo = 0;
 
-    console.log(idList);
-    console.log(data);
     fetch( "/stockManage/stockDelete", {
       method : "DELETE",
       headers : {"Content-type" : "application/json"},
@@ -152,42 +149,64 @@ for(let item of goodsDetailBtn){
     .catch(e=>console.log(e));
   });
 };
+// ------------------------------------------------------------------------------------------------------
 
-const checkboxes = document.querySelectorAll(".checkbox");
-
-// 체크박스 선택 시 모달 연결
-checkboxes.forEach(checkbox => {
-  checkbox.addEventListener("change", () => {
-    const isChecked = checkbox.checked;
-    
-    if (isChecked) {
-      stockUpdateBtn.setAttribute("data-bs-target", "#stockUpdateModel");
-    } else {
-      stockUpdateBtn.setAttribute("data-bs-target", "");
-    }
-  });
-});
-
+// 재고 수정버튼 클릭 시 데이터 조회
+const stockUpdateTable = document.getElementById("stockUpdateTable");
 const stockUpdateBtn = document.getElementById("stockUpdateBtn");
 /* 재고 수정 버튼 클릭 시 데이터 조회 */
 stockUpdateBtn.addEventListener("click", () => {
+  
+  // 체크된 박스 전체 조회
+  const checkbox = document.querySelectorAll("input[type='checkbox']:checked");
 
-  const checkbox = document.querySelector("input[type='checkbox']:checked");
-
-  if (checkbox == null) {
+  // 수정버튼 클릭 시 table 초기화
+  stockUpdateTable.innerHTML = "";
+  
+  // 체크가 안되어 있을 경우
+  if (checkbox.length == 0) {
     alert('수정할 품목을 선택하세요.');
+    return;
   }
 
-  const row = checkbox.closest("tr");
-  document.getElementById("goodsNoUpdate").value = row.children[1].innerText;
-  document.getElementById("goodsName").value = row.children[2].innerText;
-  document.getElementById("lcategoryNameUpdate").value = row.children[3].innerText;
-  document.getElementById("scategoryNameUpdate").value = row.children[4].innerText;
-  document.getElementById("stockInPriceUpdate").value = row.children[6].innerText;
-  document.getElementById("stockOutPriceUpdate").value = row.children[7].innerText;
-  document.getElementById("stockDiscountUpdate").value = row.children[9].innerText;
-  document.getElementById("storeNoUpdate").value = row.children[11].innerText;
+  // 체크 되면 모달창 열림
+  const stockUpdateModel = new bootstrap.Modal('#stockUpdateModel', {
+    keyboard: false,
+    backdrop: 'static',
+    focus:false
+  })
+  stockUpdateModel.show();
+
+  // 모달 창 안에 체크된 데이터 출력
+  for(let rows of checkbox){
+    let row = rows.closest("tr");
+    const tr = document.createElement("tr");
+
+    const td0 = document.createElement("td");
+    const input0 = createElement("input", {"type" : "number", "name":"goodsNo"},["goodsNoUpdateView", "text-center"]);
+    input0.readOnly = true;
+    input0.value = row.children[1].innerText;
+    td0.append(input0);
+
+    const td = createElement("td", null, ["goodsNameUpdateView", "text-truncate"]);
+    td.innerText = row.children[2].innerText;
+
+    const td1 = document.createElement("td");
+    const input1 = createElement("input", {"type" : "number", "name":"stockOutPrice"},["form-control"]);
+    input1.value = row.children[7].innerText.replace(",", "");
+    td1.append(input1);
+
+    const td2 = document.createElement("td");
+    const input2 = createElement("input", {"type" : "number", "name":"stockDiscount"},["form-control"]);
+    input2.value = row.children[9].innerText.replace(",", "");
+    td2.append(input2);
+
+    tr.append(td0, td, td1, td2);
+    stockUpdateTable.append(tr);
+  }
 });
+
+// --------------------------------------------------------------------------------------------------------
 
 const lcategorySelect = document.getElementById("lcategorySelect");
 const scategorySelect = document.getElementById("scategorySelect");
@@ -264,7 +283,6 @@ let callback = (entries, observer) => {
    fetch(tempURL)
    .then(resp=>resp.json())
    .then(list=>{
-    console.log(list);
       if(list.length == 0){
          observer.disconnect();
       }

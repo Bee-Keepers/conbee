@@ -93,7 +93,7 @@ public interface AdminMemberMapper {
 	 * @param departmentNo
 	 * @return
 	 */
-	List<String> teamNoList(String departmentNo);
+	List<Member> teamList(String departmentNo);
 
 	
 

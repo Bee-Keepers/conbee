@@ -21,8 +21,20 @@ public interface CalendarService {
 	int staffcalendar(Calendar cal);
 
 
+	/** 일정 수정
+	 * @param calendar
+	 * @return
+	 */
 	int updatecalendar(Calendar calendar);
+
+
+	/** 일정 삭제
+	 * @param calNo
+	 * @return
+	 */
+	int deleteCalendar(int calNo);
 
 	
 
 }
+ 

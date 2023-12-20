@@ -7,6 +7,9 @@
   <title>쪽지쓰기</title>
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <!-- 주소록 -> 쪽지쓰기 넘어올 때 생기는 쿼리스트링 주소에서 제거 -->
+  <script>history.replaceState({}, null, location.pathname);</script>
 </head>
 
 <body class="d-flex flex-column" style="height: 100vh;">
@@ -89,9 +92,9 @@
        
                 <form id="notego" action="note-write" method="post" >
                   <div class="input-group">
-                    <input type="text" class="form-control" name="recipient" id="contact">
-                    <input type="text" class="form-control" id="memberEmail" readonly>
-                    <input type="hidden"  name="memberNoReciplent" id="memberNoReciplent">
+                    <input type="text" class="form-control" name="recipient" id="contact" th:value="${param.memberName}">
+                    <input type="text" class="form-control" id="memberEmail" th:value="${param.memberEmail}" readonly>
+                    <input type="hidden"  name="memberNoReciplent" id="memberNoReciplent" th:value="${param.memberNo}">
                     <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
                       주소록
                     </button>

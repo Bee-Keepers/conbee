@@ -16,7 +16,7 @@
                     <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle position-relative" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger noteBadge" th:classappend="${session.unReadCount > 0 ? '' : 'd-none'}" th:text="${session.unReadCount}"></span>
                         <img th:src="#{user.default.image}" alt="" width="32" height="32" class="rounded-circle me-2">
-                        <strong style="color: white;">프로필명</strong>
+                        <strong style="color: white;" th:text="${session.loginMember.memberName}">프로필명</strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow" style="z-index: 1021;">
                         <li><a class="dropdown-item" href="/myPage/myPage-profile">마이페이지</a></li>

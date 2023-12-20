@@ -80,17 +80,19 @@
 	
 	
 	
+	
+	
+	
 	<!-- 1:1 채팅방 생성 -->
-	<insert id="createChattingRoom" parameterType="map" useGeneratedKeys="true">
+	<insert id="createChatRoom" parameterType="map" useGeneratedKeys="true">
 	
 		<selectKey keyProperty="chatNo" order="BEFORE" resultType="_int">
 			SELECT SEQ_ROOM_NO.NEXTVAL FROM DUAL
 		</selectKey>
 	
 		INSERT INTO CHAT
-		VALUES(#{chatNo}, DEFAULT, #{loginMemberNo}, #{targetNo}, NULL)
+		VALUES(#{chatNo}, DEFAULT, #{targetNo}, #{loginMemberNo}, NULL)
 	</insert>	
-	<!-- 오류나면 확인 -->
 	
 	
 	
@@ -101,7 +103,7 @@
 	<!-- 채팅 메세지 삽입 -->
 	<insert id="insertMessage">
 		INSERT INTO "CHAT_MESSAGE"
-		VALUES(SEQ_CHAT_MESSAGE_NO.NEXTVAL, DEFAULT, #{chatMessageContent}, DEFAULT, #{chattingNo}, #{chatMessageSender})
+		VALUES(SEQ_CHAT_MESSAGE_NO.NEXTVAL, DEFAULT, #{chatMessageContent}, DEFAULT, #{chatNo}, #{chatMessageSender})
 	</insert>
 	
 	

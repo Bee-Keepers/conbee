@@ -68,6 +68,24 @@ public class StockManageServiceImpl implements StockManageService{
 		return stockList;
 	}
 	
+    // 재고 수정
+    @Override
+    public int stockUpdateManage(List<Integer> goodsNoList, List<Integer> stockOutPriceList, List<Integer> stockDiscountList) {
+        int result = 0;
+        for(int i=0; i<goodsNoList.size(); i++) {
+            Stock stock = new Stock();
+            stock.setGoodsNo(goodsNoList.get(i));
+            stock.setStockOutPrice(stockOutPriceList.get(i));
+            stock.setStockDiscount(stockDiscountList.get(i));
+            result = mapper.stockUpdateManage(stock);
+            if(result <= 0) {
+                return 0;
+            }
+        }
+        return result;
+    }
+
+	// 재고 등록
 	@Override
 	public int stockInsert(Stock stock) {
 		return mapper.stockInsert(stock);
@@ -119,6 +137,12 @@ public class StockManageServiceImpl implements StockManageService{
 			s.setPriceSum( (int)sum + "" );
 		}
 		return stockList;
+	}
+	
+	// 상품 중복 등록 검색
+	@Override
+	public String checkGoogsInsert(String goodsName) {
+		return mapper.checkGoogsInsert(goodsName);
 	}
 	
 }

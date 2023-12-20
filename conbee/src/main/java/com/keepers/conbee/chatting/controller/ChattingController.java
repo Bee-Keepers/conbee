@@ -45,6 +45,18 @@ public class ChattingController {
 		return "chatting/chatting";
 	}
 	
+	/** 1:1 채팅 클릭 시 
+	 * @param loginMember
+	 * @param model
+	 * @return
+	 */
+	@GetMapping(value="/chatting/selectSoloChat", produces="application/json; charset=UTF-8;")
+	@ResponseBody
+	private List<Chatting> selectSoloChat(@SessionAttribute("loginMember") Member loginMember, Model model) {
+		List<Chatting> chatList = service.selectChatList1(loginMember.getMemberNo());
+		return chatList;
+	}
+	
 	
 	//성공
 	/** 대화 상대 검색
@@ -83,6 +95,7 @@ public class ChattingController {
 		if(chatNo == 0) {
 			chatNo = service.createChatRoom(map);
 		}
+//		log.info("채팅방 번호 : " + chatNo);
 		return chatNo;
 	}
 	
@@ -91,6 +104,7 @@ public class ChattingController {
     @GetMapping(value="/chatting/chatList", produces="application/json; charset=UTF-8")
     @ResponseBody
     public List<Chatting> selectChatList(@SessionAttribute("loginMember") Member loginMember) {
+    	log.info("로그인 멤버 : " + loginMember);
     	return service.selectChatList1(loginMember.getMemberNo());
     }
     

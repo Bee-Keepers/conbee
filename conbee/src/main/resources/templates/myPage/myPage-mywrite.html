@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>내가 쓴 글</title>
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+
+
+<style>
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+</style>
+
+<body class="d-flex flex-column" style="height: 100vh;">
+
+  <th:block th:replace="~{common/header}"></th:block>
+
+  <main class="d-flex flex-grow-1">
+
+    <th:block th:replace="~{myPage/sidebar}"></th:block>
+
+    <div class="d-flex flex-column p-3" style="width: 100%;">
+      
+
+      <div class="fs-4 pb-3 px-3 border-bottom">
+           내가 쓴 글
+      </div>
+
+      
+
+      <div class="w-100 px-4 pt-2 flex-grow-1">
+        <table class="table table-striped table-hover ">
+
+          <div class="w-25 input-group">
+            <input type="text" class="form-control" id="addressName" placeholder="">
+            <button class="btn btn-warning" type="button" id="addressNameBtn">검색</button>
+          </div>
+          
+        </div>
+          <colgroup>
+            <!-- col 태그 내용 생략 (이미 작성된 내용 그대로 유지) -->
+          </colgroup>
+          <thead>
+            <tr style="text-align: center;">
+              <th><input type="checkbox"></th>
+              <th>게시판이름</th>
+              <th>글번호</th>
+              <th>제목</th>
+              <th>작성자</th>
+              <th>작성일</th>
+              <th>조회</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Thymeleaf를 사용하여 서버로부터 받은 게시글 목록을 반복적으로 표시 -->
+            <tr th:each="board: ${writeList}" style="text-align: center;" th:object="${board}">
+              <td><input type="checkbox" th:value="${board}"></td>
+              <td th:text="*{boardCodeName}">게시판이름</td>
+              <td th:text="*{boardNo}">글번호</td>
+              <td><a th:text="*{boardTitle}" th:href="@{/board/boardDetail/{boardCodeNo}/{boardNo}(boardCodeNo=*{boardCodeNo}, boardNo=*{boardNo})}">제목</a></td> 
+              <td th:text="*{memberName}">작성자</td>
+              <td th:text="*{boardWriteDate}">작성일</td>
+              <td th:text="*{boardHits}">조회</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+         <!-- ======== 페이지네이션 : 일반 조회 =========== -->
+         <ul class="pagination" th:if="${query == null}">
+          <!-- 첫 페이지로 이동 -->
+          <li class="page-item">
+            <a class="page-link" aria-label="First" th:href="@{/address(grade=${grade}, cp=1)}">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+  
+          <!-- 이전 목록 마지막 번호로 이동 -->
+          <li class="page-item">
+            <a class="page-link" aria-label="Previous" th:href="@{/address(grade=${grade}, cp=${pagination.prevPage})}">
+              <span aria-hidden="true">&lt;</span>
+            </a>
+          </li>
+  
+          <!-- 특정 페이지로 이동 -->
+          <th:block th:each="i : ${#numbers.sequence(pagination.startPage, pagination.endPage, 1)}" th:object="${member}">
+  
+            <!-- 현재 보고있는 페이지 -->
+            <li th:if="${i == pagination.currentPage}" class="page-item">
+              <a class="current page-link" th:text="${i}">1</a>
+            </li>
+  
+            <!-- 보고있지 않은 페이지 -->
+            <li th:unless="${i == pagination.currentPage}" class="page-item">
+              <a class="page-link" th:href="@{/address(grade=${grade}, cp=${i})}" th:text="${i}">2</a>
+            </li>
+          </th:block>
+  
+          <!-- 다음 목록 시작 번호로 이동 -->
+          <li class="page-item">
+            <a class="page-link" aria-label="Next" th:href="@{/address(grade=${grade}, cp=${pagination.nextPage})}">
+              <span aria-hidden="true">&gt</span>
+            </a>
+          </li>
+  
+          <li class="page-item">
+            <a class="page-link" aria-label="End" th:href="@{/address(grade=${grade}, cp=${pagination.maxPage})}">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+  
+        <!-- ======== 페이지네이션 : 검색 조회 =========== -->
+        <ul class="pagination" th:unless="${query == null}">
+          <!-- 첫 페이지로 이동 -->
+          <li class="page-item">
+            <a class="page-link" aria-label="First" th:href="@{/myPage/myPage-mywrite(query=${query}, grade=${grade}, cp=1)}">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+  
+          <!-- 이전 목록 마지막 번호로 이동 -->
+          <li class="page-item">
+            <a class="page-link" aria-label="Previous" th:href="@{/myPage/myPage-mywrite(query=${query}, grade=${grade}, cp=${pagination.prevPage})}">
+              <span aria-hidden="true">&lt;</span>
+            </a>
+          </li>
+  
+          <!-- 특정 페이지로 이동 -->
+          <th:block th:each="i : ${#numbers.sequence(pagination.startPage, pagination.endPage, 1)}" th:object="${member}">
+  
+            <!-- 현재 보고있는 페이지 -->
+            <li th:if="${i == pagination.currentPage}" class="page-item">
+              <a class="current page-link" th:text="${i}">1</a>
+            </li>
+  
+            <!-- 보고있지 않은 페이지 -->
+            <li th:unless="${i == pagination.currentPage}" class="page-item">
+              <a class="page-link" th:href="@{/myPage/myPage-mywrite(query=${query}, grade=${grade}, cp=${i})}" th:text="${i}">2</a>
+            </li>
+          </th:block>
+  
+          <!-- 다음 목록 시작 번호로 이동 -->
+          <li class="page-item">
+            <a class="page-link" aria-label="Next" th:href="@{/myPage/myPage-mywrite(query=${query}, grade=${grade}, cp=${pagination.nextPage})}">
+              <span aria-hidden="true">&gt</span>
+            </a>
+          </li>
+  
+          <li class="page-item">
+            <a class="page-link" aria-label="End" th:href="@{/myPage/myPage-mywrite(query=${query}, grade=${grade}, cp=${pagination.maxPage})}">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+  
+        <!-- </div> -->
+  
+  </main>
+  <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

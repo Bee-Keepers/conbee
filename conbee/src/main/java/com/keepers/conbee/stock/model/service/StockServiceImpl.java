@@ -74,12 +74,6 @@ public class StockServiceImpl implements StockService{
 		return result;
 	}
 	
-	// 등록된 상품 수정
-//	@Override
-//	public int goodsUpdate(Stock stock) {
-//		return mapper.goodsUpdate(stock);
-//	}
-	
 	// 재고 현황 전체 조회
 	@Override
 	public List<Stock> stockList(Stock stock, int cp) {
@@ -300,7 +294,6 @@ public class StockServiceImpl implements StockService{
 			double sum = s.getStockOutPrice() * (1- ((double)s.getStockDiscount() * 0.01));
 			
 			s.setPriceSum( (int)sum + "" );
-			
 		}
 		return stockList;
 	}
