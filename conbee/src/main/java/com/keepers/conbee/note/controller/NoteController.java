@@ -108,8 +108,12 @@ public class NoteController {
      */
     @PutMapping("readCheck")
     @ResponseBody
-    public int readCheck(@RequestBody int messageNo) {
-    	return service.readCheck(messageNo);
+    public int readCheck(@RequestBody int messageNo, @SessionAttribute("loginMember") Member loginMember, Model model) {
+    	int result = service.readCheck(messageNo);
+    	if(result <= 0) return result;
+    	int unReadCount = service.unReadCount(loginMember.getMemberNo());
+    	model.addAttribute("unReadCount", unReadCount);
+    	return unReadCount;
     }
     
     // 안읽은 쪽지 수 조회

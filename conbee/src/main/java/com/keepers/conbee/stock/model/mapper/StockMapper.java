@@ -168,9 +168,10 @@ public interface StockMapper {
 
 	/** 재고 현황 검색
 	 * @param stock
+	 * @param rowBounds 
 	 * @return
 	 */
-	List<Stock> stockSearch(Stock stock);
+	List<Stock> stockSearch(Stock stock, RowBounds rowBounds);
 
 	
 	/** 새 상품 세 개 조회
@@ -182,6 +183,12 @@ public interface StockMapper {
 	 * @return
 	 */
 	List<Integer> goodsNoList();
+
+	/** 본사 재고 조회
+	 * @param goodsNo
+	 * @return
+	 */
+	int orderAmountCheck(int goodsNo);
 
 
 }

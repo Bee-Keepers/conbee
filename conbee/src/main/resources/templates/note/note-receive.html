@@ -116,7 +116,7 @@
 
       <div class="w-100 px-4 pt-2 flex-grow-1 overflow-y-auto">
 
-        <table class="table table-striped table-hover w-100">
+        <table class="table table-striped table-hover w-100" style="table-layout: fixed;">
           <colgroup>
             <col width=3%>
             <col width=10%>
@@ -142,7 +142,7 @@
                 <td><input type="checkbox" class="checkNote"></td>
                 <td th:text="*{memberName}"></td>
                 <input type="hidden" th:value="*{messageNo}">
-                <td class="" th:classappend="*{messageReadFl == 'N'} ? fw-bold : fw-light" style="cursor: pointer;" th:text="*{messageContent}" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="readCheckFn(this)"></td>
+                <td class="text-truncate" th:classappend="*{messageReadFl == 'N'} ? fw-bold : fw-light" style="cursor: pointer;" th:text="*{messageContent}" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="readCheckFn(this)"></td>
                 <td th:text="*{messageDate}"></td>
                 
                 

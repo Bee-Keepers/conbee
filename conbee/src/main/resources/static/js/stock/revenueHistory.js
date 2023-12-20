@@ -66,6 +66,7 @@ $('.input-daterange input').datepicker('setDate', new Date());
 const revenueSearchBtn = document.getElementById("revenueSearchBtn");
 const revenueSearchForm = document.getElementById("revenueSearchForm");
 const storeNoSelect = document.getElementById("storeNoSelect");
+const floatingPrice = document.getElementById("floatingPrice");
 
 revenueSearchBtn.addEventListener("click", ()=>{
    console.log(storeSelect.value);
@@ -73,6 +74,9 @@ revenueSearchBtn.addEventListener("click", ()=>{
       alert("지점을 선택해주세요");
       return;
    }
+   if(floatingPrice.value == ""){
+      floatingPrice.value = 0;
+  }
     revenueSearchForm.submit();
 });
 
@@ -206,3 +210,10 @@ const observer = new IntersectionObserver( callback ,{
 
 
 observer.observe(document.querySelector("#observedTag"));
+
+// 상세 검색 판매금액 유효성
+floatingPrice.addEventListener("input", e=>{
+   if(e.target.value < 0){
+      e.target.value = 0;
+   }
+});

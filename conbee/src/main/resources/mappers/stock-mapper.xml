@@ -181,7 +181,7 @@
 		JOIN "ORDER" O ON O.GOODS_NO = S.GOODS_NO AND O.STORE_NO = S.STORE_NO
 		WHERE O.STORE_NO = #{storeNo}
 		<!--AND TO_CHAR(ORDER_DATE, 'YYYY-MM-DD HH24:MI:SS')  BETWEEN TO_CHAR(SYSDATE, 'YYYY-MM-DD "00":"00":"00"') AND TO_CHAR(SYSDATE+1, 'YYYY-MM-DD "00":"00":"00"')-->
-		AND ORDER_DATE BETWEEN SYSDATE-(1/24/60) AND SYSDATE
+		AND ORDER_DATE BETWEEN SYSDATE-(1/24/60)*60 AND SYSDATE
 	</select>
 	
 	<!-- 발주 수정,삭제 위한 이미 존재하는 발주 상품번호 조회-->
@@ -303,6 +303,13 @@
 	
 	<select id="goodsNoList" resultType="_int">
 		SELECT GOODS_NO FROM "STOCK" WHERE STORE_NO = 0
+	</select>
+	
+	<!--본사 재고 조회-->
+	<select id="orderAmountCheck" resultType="_int">
+		SELECT STOCK_AMOUNT FROM "STOCK"
+		WHERE STORE_NO = 0
+		AND GOODS_NO = #{goodsNo}
 	</select>
 	
 </mapper>

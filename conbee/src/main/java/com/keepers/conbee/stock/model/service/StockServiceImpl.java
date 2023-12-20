@@ -282,13 +282,14 @@ public class StockServiceImpl implements StockService{
 	
 	// 재고 현황 검색
 	@Override
-	public List<Stock> stockSearch(Stock stock) {
+	public List<Stock> stockSearch(Stock stock, int cp) {
+		RowBounds rowBounds = new RowBounds((cp-1)*20, 20);
 		if(stock.getLcategoryName() == null && stock.getScategoryName() == null && stock.getGoodsName() == null) {
 		stock.setLcategoryName("");
 		stock.setScategoryName("");
 		stock.setGoodsName("");
 		}
-		List<Stock> stockList = mapper.stockSearch(stock);
+		List<Stock> stockList = mapper.stockSearch(stock, rowBounds);
 		for(Stock s : stockList ) {
 			double sum = s.getStockOutPrice() * (1- ((double)s.getStockDiscount() * 0.01));
 			
@@ -301,6 +302,21 @@ public class StockServiceImpl implements StockService{
 	@Override
 	public List<Stock> newGoodsThree() {
 		return mapper.newGoodsThree();
+	}
+
+	// 본사 재고 체크
+	@Override
+	public List<Integer> orderAmountCheck(List<Order> orderList) {
+		List<Integer> goodsNoLIst = new ArrayList<>();
+		
+		for(int i=0; i<orderList.size(); i++) {
+			int headAmount = mapper.orderAmountCheck(orderList.get(i).getGoodsNo()); 
+			if(headAmount < orderList.get(i).getOrderAmount()) {
+				goodsNoLIst.add(orderList.get(i).getGoodsNo());
+			}
+			
+		}
+		return goodsNoLIst;
 	}
 	
 }

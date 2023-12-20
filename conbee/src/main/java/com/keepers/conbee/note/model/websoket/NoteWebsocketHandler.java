@@ -44,14 +44,20 @@ public class NoteWebsocketHandler extends TextWebSocketHandler{
 
     	// 전달받은 내용은 JSON 형태의 String
     	log.info("전달받은 내용 : " + message.getPayload());
-    	int memberNo = Integer.parseInt(message.getPayload());
     	// Jackson에서 제공하는 객체
     	// JSON String -> DTO Object
-    	// 전달받은 내용 : {"senderNo":"4","targetNo":"11","chattingNo":"8","messageContent":"실시간"}
+    	// 전달받은 내용 : {"messageContent":"ㅇㅇㅇㅇ","memberNoReciplent":"7"}
+    	ObjectMapper objectMapper = new ObjectMapper();
 
-
+    	Note note = objectMapper.readValue( message.getPayload(), Note.class);
+    	// Message 객체 확인
+    	System.out.println(note); 
+    	
+    	service.noteWrite(note);
 
 		log.info("세션 수 : " + sessions.size());
+		int memberNo = note.getMemberNoReciplent();
+		int unReadCount = service.unReadCount(memberNo);
 
 		// 전역변수로 선언된 sessions에는 접속중인 모든 회원의 세션 정보가 담겨 있음
 		for(WebSocketSession s : sessions) {
@@ -71,7 +77,8 @@ public class NoteWebsocketHandler extends TextWebSocketHandler{
 
 			// 로그인 상태인 회원 중 targetNo가 일티하는 회원에게 메세지 전달
 			if(loginMemberNo == memberNo) {
-				s.sendMessage(new TextMessage(new Gson().toJson(memberNo)));
+				temp.setAttribute("unReadCount", unReadCount);
+				s.sendMessage(new TextMessage(new Gson().toJson(unReadCount)));
 			}
 		}
     }

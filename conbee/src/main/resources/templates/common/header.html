@@ -71,7 +71,6 @@
         </div>
     </div>
 </nav>
-
 <script th:inline="javascript">
     const message = /*[[${message}]]*/ "메시지";
     
@@ -82,35 +81,36 @@
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script>
     let noteSock = new SockJS("/noteSock");
+    const noteBadges = document.querySelectorAll(".noteBadge");
 
     noteSock.onmessage = function(e){
-
+        console.log(e.data);
         // 전달 받은 내 회원 번호
         const memberNo = JSON.parse(e.data);
 
-        const noteBadges = document.querySelectorAll(".noteBadge");
 
-        fetch("/note/unReadCount?memberNo=" + memberNo)
-        .then(resp=>resp.text())
-        .then(result=>{
-            if(result > 99){
-                noteBadges.forEach(noteBadge=>{
-                    noteBadge.classList.remove("d-none");
-                    noteBadge.innerText = "99+";
-                });
-            } else if(result > 0) {
-                noteBadges.forEach(noteBadge=>{
-                    noteBadge.classList.remove("d-none");
-                    noteBadge.innerText = result;
-                });
-                
-            } else{
-                noteBadges.forEach(noteBadge=>{
-                    noteBadge.classList.add("d-none");
-                });
-                
-            }
-        })
-        .catch(e=>console.log(e));
+        if(e.data > 99){
+            noteBadges.forEach(noteBadge=>{
+                noteBadge.classList.remove("d-none");
+                noteBadge.innerText = "99+";
+            });
+        } else if(e.data > 0) {
+            noteBadges.forEach(noteBadge=>{
+                noteBadge.classList.remove("d-none");
+                noteBadge.innerText = e.data;
+            });
+            
+        } else{
+            noteBadges.forEach(noteBadge=>{
+                noteBadge.classList.add("d-none");
+            });
+            
+        }
+        // fetch("/note/unReadCount?memberNo=" + memberNo)
+        // .then(resp=>resp.text())
+        // .then(result=>{
+            
+        // })
+        // .catch(e=>console.log(e));
     }
 </script>
