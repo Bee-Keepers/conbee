@@ -176,8 +176,12 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 	 *
 	 */
 	@Override
-	public List<String> teamNoList(String departmentNo) {
-		return mapper.teamNoList(departmentNo);
+	public List<Member> teamList(String departmentNo) {
+		
+		// 팀명 받아오기
+		List<Member> teamList = mapper.teamList(departmentNo);
+		
+		return teamList;
 	}
 	
 	

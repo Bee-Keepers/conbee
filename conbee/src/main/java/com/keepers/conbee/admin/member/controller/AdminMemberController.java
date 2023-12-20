@@ -159,9 +159,11 @@ public class AdminMemberController {
 	 */
 	@GetMapping("teamNoList")
 	@ResponseBody
-	public List<String> teamNoList(String departmentNo){
-		List<String> teamNoList = service.teamNoList(departmentNo);
-		return teamNoList;
+	public List<Member> teamNoList(String departmentNo){
+		
+		List<Member> teamList = service.teamList(departmentNo);
+		
+		return teamList;
 	}
 
 

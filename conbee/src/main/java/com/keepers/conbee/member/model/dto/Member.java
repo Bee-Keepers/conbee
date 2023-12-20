@@ -23,6 +23,7 @@ public class Member {
 	private int memberAuthority;
 	private String memberEnrollDate;
 	private String memberDelFl;
+	private String memberDelApproval;
 	
 	private List<Member> memberList;
 	private int teamNo;

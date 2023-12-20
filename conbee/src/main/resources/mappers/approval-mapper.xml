@@ -688,6 +688,19 @@
 				WHERE APPROVAL_NO = ${approvalNo})
 	</update>
 	
+	<!--사직서가 결재완료된 경우 회원 탈퇴승인 처리하기-->
+	<update id="memberDelCheck">
+		UPDATE MEMBER SET
+		MEMBER_DEL_APPROVAL = 'Y'
+		WHERE MEMBER_NO = (SELECT MEMBER_NO
+							FROM "MEMBER"
+							JOIN APPROVAL USING (MEMBER_NO)
+							WHERE APPROVAL_NO = ${approvalNo})
+		AND 1 = (SELECT DOC_CATEGORY_NO
+				FROM APPROVAL
+				WHERE APPROVAL_NO = ${approvalNo})
+	</update>
+	
 	
 	<!--반려 버튼 클릭 시 반려-->
 	<update id="returnApprove">

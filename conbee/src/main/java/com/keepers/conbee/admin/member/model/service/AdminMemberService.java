@@ -64,7 +64,7 @@ public interface AdminMemberService {
 	 * @param departmentNo
 	 * @return
 	 */
-	List<String> teamNoList(String departmentNo);
+	List<Member> teamList(String departmentNo);
 
 
 }
