@@ -22,6 +22,7 @@
   font-weight: bold;
 }
 
+/*  ========== 프로필 이미지 ========== */
 .profileImgFrm{
   display: flex;
   justify-content: center;
@@ -36,16 +37,20 @@
   height: 250px;
   border-radius: 50%;
 
-  position: relative;
+  /* position: relative; */
 
   overflow: hidden;
   display: flex;
   justify-content: center;
-  align-content: center;
+  align-items: start;
 
 }
 .imgBox img{
-  width: 250px; 
-  height: 250px;
+  width: 100%;
+  object-fit: cover;
   border-radius: 50%;
+}
+
+#deleteImage{
+  color: #8c8c8c ;
 }

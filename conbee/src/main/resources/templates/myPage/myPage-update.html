@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>내 점포 수정</title>
+  <title>내 프로필 수정</title>
   <link rel="stylesheet" href="/css/myPage/myPage.css">
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
@@ -27,17 +27,20 @@
 
         <div class="divbox">
           <form class="profileImgFrm" action="memberProfile" method="POST" id="profileImgFrm" enctype="multipart/form-data">
-            <div class="imgBox mb-3">
-              <!-- 프로필 이미지가 없을 경우 -->
-              <img th:if="${session.loginMember.memberProfile==null}" th:src="#{user.default.image}" id="memberProfile">
-
-              <!-- 프로필 이미지가 있을 경우 -->
-              <img th:unless="${session.loginMember.memberProfile==null}" th:src="${session.loginMember.memberProfile}" id="memberProfile">
+            <div style="display: flex; flex-direction: row;">
+              <div class="imgBox mb-3">
+                <!-- 프로필 이미지가 없을 경우 -->
+                <img th:if="${session.loginMember.memberProfile==null}" th:src="#{user.default.image}" alt="프로필 이미지" id="memberProfile">
+  
+                <!-- 프로필 이미지가 있을 경우 -->
+                <img th:unless="${session.loginMember.memberProfile==null}" th:src="${session.loginMember.memberProfile}" alt="프로필 이미지" id="memberProfile">
+              </div>
+              <span id="deleteImage"><i class="bi bi-x-circle-fill"></i></span>
             </div>
             <div class="profileImgBtn">
-              <label for="imageInput">이미지 선택</label>
+              <label class="btn btn-outline-warning" for="imageInput">이미지 선택</label>
               <input type="file" name="memberProfile" id="imageInput" accept="image/*"  style="display: none;">
-              <button>변경하기</button>
+              <button class="btn btn-warning">변경하기</button>
             </div>
           </form>
 
@@ -125,37 +128,44 @@
 
 
   <!---------------- 다음 주소 API ------------------->
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script src="/js/myPage/myPage.js"></script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script src="/js/myPage/myPage.js"></script>
 
-    <script th:inline="javascript">
-        const memberAddress =/*[[${session.loginMember.memberAddress}]]*/"회원주소";
+  <script th:inline="javascript">
+      const memberAddress =/*[[${session.loginMember.memberAddress}]]*/"회원주소";
 
-        // 주소가 있을 경우
-        if(memberAddress != null){
+      // 주소가 있을 경우
+      if(memberAddress != null){
 
-            // 1) 문자열을 "^^^" 기준으로 쪼개어 배열로 반환
-            const arr = memberAddress.split("^^^"); // [A,B,C]
+          // 1) 문자열을 "^^^" 기준으로 쪼개어 배열로 반환
+          const arr = memberAddress.split("^^^"); // [A,B,C]
 
-            // 2) name 속성 값이  "memberAddress" 인 요소를 모두 얻어옴
-            const inputs = document.querySelectorAll("[name='memberAddress']");
+          // 2) name 속성 값이  "memberAddress" 인 요소를 모두 얻어옴
+          const inputs = document.querySelectorAll("[name='memberAddress']");
 
-            // 3) input 요소에 arr의 값을 순서대로 대입
-            // 배열 | NodeList.forEach( (item, index) => {} )
-            // - 배열 | NodeList의 모든 요소를 순차 접근하는 향상된 for문
-            // -item : 현재 접근 중인 요소
-            // - index : 현재 접근 중인 요소의 인덱스
-            inputs.forEach((item, index)=> {
-                item.value = arr[index];
+          // 3) input 요소에 arr의 값을 순서대로 대입
+          // 배열 | NodeList.forEach( (item, index) => {} )
+          // - 배열 | NodeList의 모든 요소를 순차 접근하는 향상된 for문
+          // -item : 현재 접근 중인 요소
+          // - index : 현재 접근 중인 요소의 인덱스
+          inputs.forEach((item, index)=> {
+              item.value = arr[index];
 
-            });
+          });
 
-        }
+      }
 
-    </script>
+  </script>
+
+  <script th:inline="javascript">
+    const defaultImage = /*[[#{user.default.image}]]*/ "기본 이미지";
+
+    const loginMemberProfileImg = /*[[${session.loginMember.memberProfile}]]*/ "프로필 이미지";
+
+  </script>
 
   <script src="/js/bootstrap.bundle.min.js"></script>
-  <script src="/js/myPage.js"></script>
+  <script src="/js/myPage/myPage.js"></script>
 
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>

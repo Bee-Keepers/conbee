@@ -66,11 +66,13 @@ public class MyPageController {
     }
     
      
-    @PostMapping("myPageUpdate")
+    @GetMapping("myPageUpdate")
     public String myPageUpdate() {
         
         return "myPage/myPage-update";
     }
+    
+    
     
     @GetMapping("myPage-store")
     public String myPageStore(@SessionAttribute("loginMember") Member loginMember, Model model) {
@@ -130,7 +132,7 @@ public class MyPageController {
 		ra.addFlashAttribute("message", message);
 		
 		// 프로필 페이지로 리다이렉트
-		return "myPage/myPage-update";
+		return "redirect:myPageUpdate";
     }
     
     

@@ -1,3 +1,131 @@
+/* ======================================================================== */
+/* 프로필 이미지 */
+
+const memberProfile = document.getElementById("memberProfile");
+let imageInput = document.getElementById("imageInput");
+const deleteImg = document.getElementById("deleteImage");
+
+// 변경 x : -1
+// 있다가 없어짐 : 0
+// 새 이미지 : 1
+let statusCheck=-1;
+
+// 백업
+let backupInput;
+
+if(imageInput !=null){
+
+  // 이미지 변경 함수
+  const changeImageFn = e =>{
+
+    const uploadFile = e.target.files[0];
+
+    // ============ 파일 선택 -> 취소 ============
+    if(uploadFile == undefined){
+
+      // 백업 요소 복제
+      const temp = backupInput.cloneNode(true);
+
+      // temp로 바꾸기
+      imageInput.after(temp);
+      imageInput.remove();
+      imageInput = temp;
+
+      imageInput.addEventListener("change",changeImageFn);
+
+      return;
+    }
+
+    // ============ 파일 크기 초과 ============
+    const maxSize = 1024*1024*5; // 1MB
+
+
+    if(uploadFile.size > maxSize){
+      console.log(uploadFile.size);
+      alert("5MB 이하의 이미지만 업로드 가능합니다");
+
+      if(statusCheck == -1){ // 변경x
+        imageInput.value='';
+        statusCheck=-1;
+      }
+      else{ // 기존 이미지 o
+
+        const temp = backupInput.cloneNode(true);
+
+        imageInput.after(temp);
+        imageInput.remove();
+        imageInput = temp;
+
+        imageInput.addEventListener("change",changeImageFn);
+
+        statusCheck=1;
+      }
+
+      return;
+
+    }
+
+    // ============ 미리보기 ============
+ 
+    const reader = new FileReader();
+    reader.readAsDataURL(uploadFile);
+
+    reader.onload=e=>{
+
+      console.log("이미지 로드");
+
+      memberProfile.setAttribute("src", reader.result);
+      statusCheck=1;
+
+      // 백업하기
+      backupInput = imageInput.cloneNode(true);
+
+    }
+  }
+
+  // ============ 이미지 선택 변경 ============
+  imageInput.addEventListener("change",changeImageFn);
+
+  // ============ x버튼 클릭시 기본이미지 변경 ============
+
+  deleteImg.addEventListener("click",()=>{
+
+    memberProfile.setAttribute("src",defaultImage);
+
+    imageInput.value="";
+    if(backupInput!=undefined){
+      backupInput.value="";
+    }
+
+    statusCheck=0;
+  })
+
+  const profileImgFrm = document.getElementById("profileImgFrm");
+
+  profileImgFrm.addEventListener("submit", e=>{
+
+    let flag = true;
+
+    if(loginMemberProfileImg != null && statusCheck == 0) flag = false;
+
+    if(loginMemberProfileImg == null && statusCheck == 1) flag = false;
+
+    if(loginMemberProfileImg != null && statusCheck == 1) flag = false;
+
+    if(flag){
+      console.log(statusCheck);
+      console.log(loginMemberProfileImg==null);
+      e.preventDefault();
+      alert("이미지 변경 후 클릭해주세요");
+    }
+
+  });
+
+
+}
+/* ======================================================================== */
+
+
 /* 주소 */
 function sample6_execDaumPostcode() {
     new daum.Postcode({
@@ -436,5 +564,8 @@ item.addEventListener("change", e=>{
   }
 })
 })
+
+
+
 
 

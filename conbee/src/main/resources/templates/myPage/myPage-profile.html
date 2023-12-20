@@ -38,7 +38,7 @@
             </div>
           </form>
 
-          <form action="myPageUpdate" method="POST" name="myPageFrm" id="profileFrm" enctype="multipart/form-data" th:object="${session.loginMember}">
+          <form action="myPageUpdate" method="GET" name="myPageFrm" id="profileFrm" enctype="multipart/form-data" th:object="${session.loginMember}">
             <fieldset disabled>
               <div class="mb-3">
                 <label for="disabledTextInput" class="form-label">아이디</label>
@@ -92,11 +92,13 @@
 
     const defaultImage = /*[[#{user.default.image}]]*/ "기본 이미지";
 
-    const loginMemberProfileImg = /*[[${session.loginMember.profileImg}]]*/ "프로필 이미지";
+    const loginMemberProfileImg = /*[[${session.loginMember.memberProfile}]]*/ "프로필 이미지";
 
   </script>
 
   <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/j/myPage/myPage.js"></script>
+
 
 
 </body>
