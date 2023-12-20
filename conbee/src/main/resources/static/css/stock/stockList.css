@@ -135,3 +135,11 @@ thead>tr>th{
 .goodsDetailSelectBtn{
    cursor: pointer;
 }
+
+/* 재고 수정창 내부 */
+.goodsNoUpdateView{
+   border: none;
+   outline: none;
+   cursor: auto;
+   width: 100%;
+}
