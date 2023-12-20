@@ -989,6 +989,41 @@
 		ORDER BY APPROVAL_DATE DESC
 	</select>
 	
+	<!--결재완료된 사직서의 회원번호, 퇴직예정일 받아오기-->
+	<select id="selectRetireMemberList" resultType="Member">
+		SELECT MEMBER_NO 
+		FROM APPROVAL
+		JOIN DOC_RETIREMENT USING (APPROVAL_NO)
+		WHERE APPROVAL_CONDITION = 4
+		AND DOC_CATEGORY_NO = 1
+		<![CDATA[
+		AND DOC_RETIRE_DATE < SYSDATE]]>
+	</select>
+	
+	<!--회원탈퇴(스케쥴링)-->
+	<update id="deleteMember">
+		UPDATE MEMBER SET
+		MEMBER_DEL_FL = 'Y'
+		WHERE MEMBER_NO = ${memberNo}
+	</update>
+	
+	<!--결재완료된 휴가신청서의 휴가 시작일, 종료일, 회원번호 받아오기-->
+	<select id="selectHolidayInfo" resultType="Approval">
+		SELECT TO_CHAR(DOC_HOLIDAY_START, 'YYYY-MM-DD') DOC_HOLIDAY_START, TO_CHAR(DOC_HOLIDAY_END, 'YYYY-MM-DD')DOC_HOLIDAY_END, MEMBER_NO
+		FROM APPROVAL
+		JOIN DOC_HOLIDAY USING (APPROVAL_NO)
+		WHERE APPROVAL_NO = ${approvalNo}
+	</select>
+	
+	<!--휴가신청서가 결재완료된 경우 캘린더에 등록하기-->
+	<insert id="holidayCalendarInsert">
+		INSERT INTO CALENDAR
+		VALUES (SEQ_CAL_NO.NEXTVAL, '1', 
+				 TO_DATE(#{docHolidayStart}, 'YYYY-MM-DD"T"HH24:MI:SS'),
+				 TO_DATE(#{docHolidayEnd}, 'YYYY-MM-DD"T"HH24:MI:SS'),
+				'휴가', '휴가', '#f6c90e', #{memberNo})
+	</insert>
+	
 
 </mapper>
 
