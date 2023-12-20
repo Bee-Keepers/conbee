@@ -115,21 +115,6 @@ deleteBtn.addEventListener('click', () => {
    }
 });
 
-const checkboxes = document.querySelectorAll(".checkbox");
-
-// 체크박스 선택 시 모달 연결
-checkboxes.forEach(checkbox => {
-  checkbox.addEventListener("change", () => {
-    const isChecked = checkbox.checked;
-
-    if (isChecked) {
-      updateBtn.setAttribute("data-bs-target", "#goodsUpdateModel");
-    } else {
-      updateBtn.setAttribute("data-bs-target", "");
-    }
-  });
-});
-
 
 const goodsDetailBtn = document.querySelectorAll(".goodsDetailBtn");
 const goodsDetailName = document.getElementById("goodsDetailName");
@@ -141,7 +126,6 @@ for(let item of goodsDetailBtn){
    item.addEventListener("click", () => {
    
       const goodsNo = item.previousElementSibling.innerText;
-      console.log(goodsNo);
       fetch("/stockManage/goodsDetail?goodsNo=" + goodsNo)
       .then( resp => resp.json() )
       .then( goods => {
@@ -179,7 +163,6 @@ function goodsDetailFn(goodsItem){
          goodsDetailPriceUpdate.value = goodsSelect.goodsPrice;
          goodsDetailUpdate.value = goodsSelect.goodsDetail;
          lcategorySelectUpdate.value = goodsSelect.lcategoryName;
-         console.log(lcategorySelectUpdate.value);
          fetch( "/stockManage/scategoryList?lcategory=" + lcategorySelectUpdate.value )
          .then(resp=>resp.json())
          .then(list=>{
@@ -248,7 +231,6 @@ let callback = (entries, observer) => {
  
     // ... 콜백 로직
     cpFn();
-   console.log(cp);
    let tempURL;
    if(search == ""){
       tempURL= pathName + "Ajax" +"?cp=" + cp;
@@ -259,12 +241,10 @@ let callback = (entries, observer) => {
    fetch(tempURL)
    .then(resp=>resp.json())
    .then(list=>{
-      console.log(list);
       if(list.length == 0){
          observer.disconnect();
          return;
       }
-      console.log(list);
       for(let goods of list){
          const tr = createElement("tr",null,[]);
 
@@ -309,19 +289,33 @@ const observer = new IntersectionObserver( callback ,{
 
 observer.observe(document.querySelector("#observedTag"));
 
-const goodsInsertBtn = document.getElementById("goodsInsertBtn");
-const goodsNameInsert = document.getElementById("goodsNameInsert");
 
-goodsInsertBtn.addEventListener("click", () => {
+// ---------------------------------------------------------------------------------------------------------
+// 상품 중복 등록 막기
+// 상품명 입력 필드
+const goodsNameInput = document.getElementById('goodsNameInsert');
+// 상품 등록 폼 제출 시 이벤트 핸들러
+document.getElementById('goodsInertForm').addEventListener('submit', function(event) {
+    // 폼 제출 기본 동작 방지
+   const goodsName = goodsNameInput.value; // 입력된 상품명
+   event.preventDefault();
+   fetch('/stockManage/checkGoogsInsert', {
+      method:"POST",
+      headers: {'Content-Type': 'application/json'},
+      body: goodsName
+   })
+   .then(response => response.text())
+   .then( parsedResponse => {
 
-   const goodsDetailSelect = document.querySelectorAll(".goodsDetailSelectBtn");
-
-   goodsDetailSelect.forEach(btn => {
-
-      if(btn.textContent === goodsNameInsert.value){
-         console.log("dasdasd");
+      if(goodsName === parsedResponse){
+         alert("이미 등록되어 있는 상품입니다.");
+      } else {
+         event.target.submit();
       }
 
-   });
-
+   })
+   .catch(e=>console.log(e));
 });
+
+
+// ---------------------------------------------------------------------------------------------------------
