@@ -519,6 +519,9 @@ public class ApprovalController { // 전자결재 컨트롤러
 				
 				// 사직서가 결재완료된 경우 회원 탈퇴승인 처리하기
 				int memberDelCheck = service.memberDelCheck(approvalNo);
+				
+				// 휴가신청서가 결재완료된 경우 캘린더에 등록하기
+				int holidayCalendarInsert = service.holidayCalendarInsert(approvalNo);
 			}
 			
 			ra.addFlashAttribute("message", "결재 승인이 완료되었습니다.");
