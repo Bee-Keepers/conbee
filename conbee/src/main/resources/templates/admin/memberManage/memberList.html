@@ -55,8 +55,9 @@
             <col width=4%>
             <col width=9%>
             <col width=9%>
-            <col width=36%>
+            <col width=28%>
             <col width=14%>
+            <col width=8%>
             <col width=9%>
           </colgroup>
 
@@ -70,7 +71,7 @@
               <th>연락처</th>
               <th>주소</th>
               <th>가입일</th>
-              <!-- <th>탈퇴 승인</th> -->
+              <th>탈퇴 승인</th>
               <th>탈퇴 및 복구</th>
             </tr>
           </thead>
@@ -99,7 +100,10 @@
                 <td th:text="*{memberTel}">01012341234</td>
                 <td th:text="*{memberAddress}">서울특별시 서대문구 모래내로 412 서울시립서대문도서관 (연희동) 서울시립서대문도서관</td>
                 <td th:text="*{memberEnrollDate}">2015.12.12</td>
-                <!-- <td>승인</td> -->
+                
+                <td th:if="*{memberDelApproval == 'Y'}">승인</td>
+                <td th:unless="*{memberDelApproval == 'Y'}">미승인</td>
+
                 <td th:if="*{memberDelFl == 'Y'}"> <!--회원 탈퇴 O-->
                   <a th:href="@{changeMemberDelFl/{memberNo}/{memberDelFl}(memberNo=*{memberNo}, memberDelFl=*{memberDelFl})}" class="btn btn-warning mx-3" style="width: 80px;">
                     복구

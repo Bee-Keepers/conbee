@@ -256,7 +256,12 @@ storeNo.addEventListener("input", ()=>{
   // 입력한 점포번호가 유효할 경우
   if(regEx.test(storeNo.value)){
 
+    /* ===================== 점포번호 중복 검사 ======================= */
+    fetch("/admin/storeManage/checkStoreNo?storeNo=" + storeNo.value)
+    .then(resp => resp.text())
+    .then(result =>{
 
+      if(result == 0){ // 중복이 아닌 경우
         messageStoreNo.innerText= "사용 가능한 점포번호입니다.";
         messageStoreNo.classList.add("OK-feedback");
         messageStoreNo.classList.remove("NotOK-feedback");
@@ -267,8 +272,19 @@ storeNo.addEventListener("input", ()=>{
         
         checkObj.storeNo = true;
 
-      
+      } else {
+        messageStoreNo.innerText= "이미 등록된 점포번호입니다.";
+        messageStoreNo.classList.add("NotOK-feedback");
+        messageStoreNo.classList.remove("OK-feedback");
     
+        // 인풋 요소 변화
+        storeNo.classList.add("is-invalid");
+        storeNo.classList.remove("is-valid");
+    
+        checkObj.storeNo = false;
+      }
+    })
+    .catch(e=> console.log(e))
 
   // 입력한 점포번호가 유효하지 않을 경우    
   } else {
@@ -304,7 +320,6 @@ cancelBtn.addEventListener("click", ()=>{
 })
 
 //-------------------------------------------------------------------------
-
 
 
 /* 회원 가입 버튼이 클릭 되었을 때 */
@@ -344,10 +359,19 @@ document.getElementById("submitBtn").addEventListener("click", e => {
   }
 });
 
+//-------------------------------------------------------------------------
+
+let clickCount = 0; // 버튼 클릭 횟수 저장
 const storeNoBtn = document.getElementById("storeNoBtn");
 
 storeNoBtn.addEventListener("click", ()=>{
-  storeNo.disabled = false;
+  clickCount += 1;
+
+  if(clickCount % 2 === 0){ // 닫히기일 경우
+    storeNo.disabled = true;
+  } else { // 열기일 경우
+    storeNo.disabled = false;
+  }
 });
 
 
@@ -413,11 +437,9 @@ departmentNoCategory.addEventListener("change", ()=>{
     // 팀명 클릭 시
     teamNoCategory.addEventListener("change", ()=>{
 
-      console.log("팀클릭!");
-
       // 직급 셀렉 초기화
       gradeNoCategory.innerHTML="";
-      
+
       const option2 = document.createElement("option");
       option2.innerText = "선택";
       option2.setAttribute("value", "");
@@ -459,11 +481,5 @@ departmentNoCategory.addEventListener("change", ()=>{
     })
   }
 })
-
-
-
-// 부서 클릭 후 팀이 클릭되지 않았다면 직급에 부장만 나오도록
-
-
 
 

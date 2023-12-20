@@ -715,6 +715,14 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return mapper.storeRunCheck(approvalNo);
 	}	
 	
+	/** 사직서가 결재완료된 경우 회원 탈퇴승인 처리하기
+	 *
+	 */
+	@Override
+	public int memberDelCheck(int approvalNo) {
+		return mapper.memberDelCheck(approvalNo);
+	}
+	
 
 	
 	/** 반려버튼 클릭 시 반려

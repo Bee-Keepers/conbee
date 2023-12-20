@@ -251,6 +251,13 @@ public interface ApprovalService {
 	int approvalDeleteScheduling(int approvalNo);
 
 
+	/** 사직서가 결재완료된 경우 회원 탈퇴승인 처리하기
+	 * @param approvalNo
+	 * @return
+	 */
+	int memberDelCheck(int approvalNo);
+
+
 
 
 
