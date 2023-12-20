@@ -5,6 +5,8 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
+import com.keepers.conbee.chatting.model.websocket.ChatWebsocketHandler;
+import com.keepers.conbee.common.interceptor.ChatHandShakeInterceptor;
 import com.keepers.conbee.common.interceptor.NoteHandShakeInterceptor;
 import com.keepers.conbee.note.model.websoket.NoteWebsocketHandler;
 
@@ -19,6 +21,9 @@ public class WebsocketConfig implements WebSocketConfigurer{
 
 	private final NoteWebsocketHandler noteWebsocketHandler;
 	private final NoteHandShakeInterceptor noteHandShakeInterceptor;
+	
+	private final ChatWebsocketHandler chatWebsocketHandler;
+	private final ChatHandShakeInterceptor chatHandShakeInterceptor;
 	
 	/*
 	 * 어떤 주소로 웹소켓 요청이 왔을 때 이를 처리하기 위한 웹소켓핸들러 객체와 연결 설정
@@ -43,6 +48,11 @@ public class WebsocketConfig implements WebSocketConfigurer{
 				.addInterceptors(noteHandShakeInterceptor)
 				.setAllowedOriginPatterns("http://localhost/", "http://127.0.0.1/", "http://192.168.10.14/")
 				.withSockJS();
+		
+		registry.addHandler(chatWebsocketHandler, "/chatSock")
+		.addInterceptors(chatHandShakeInterceptor)
+		.setAllowedOriginPatterns("http://localhost/", "http://127.0.0.1/", "http://192.168.10.14/")
+		.withSockJS();
 		
 		
 	}
