@@ -25,8 +25,6 @@ public class AddressController {
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
 			String query) { 
 		
-//		@RequestParam(value = "grade" , required = false , defaultValue = "0") int grade,
-		
 		Map<String, Object> map = new HashMap<>();
 		
 		if(loginMember.getDepartmentNo()==5) {
@@ -39,7 +37,7 @@ public class AddressController {
 		if(query != null) {
 			model.addAttribute("query",query);
 		}
-//		model.addAttribute("grade",grade);
+
 		model.addAttribute("map",map);
 		return "address/address";
 	}

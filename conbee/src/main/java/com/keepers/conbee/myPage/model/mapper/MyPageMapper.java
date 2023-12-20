@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
 import com.keepers.conbee.admin.store.model.dto.Store;
 import com.keepers.conbee.board.model.dto.Board;
+import com.keepers.conbee.member.model.dto.Member;
 
 @Mapper
 public interface MyPageMapper {
@@ -19,7 +21,7 @@ public interface MyPageMapper {
 	
 	
 
-	List<Board> selectWriteList(int memberNo);
+//	List<Board> selectWriteList(int memberNo);
 
 
 
@@ -29,6 +31,24 @@ public interface MyPageMapper {
 
 
 	List<Board> choiceList(int memberNo);
+
+
+
+	int getListCount(Map<String, Object> paramMap);
+
+
+
+	List<Member> selectWriteList(Map<String, Object> paramMap, RowBounds rowBounds);
+
+
+
+
+
+	List<Member> selectcommentList(Map<String, Object> paramMap, RowBounds rowBounds);
+
+
+
+	List<Member> selectchoiceNameList(Map<String, Object> paramMap, RowBounds rowBounds);
 	
 	
 

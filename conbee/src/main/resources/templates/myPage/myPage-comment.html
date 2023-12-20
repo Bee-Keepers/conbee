@@ -4,19 +4,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>내가 쓴 댓글</title>
+  <title>내가 쓴 글</title>
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
+
 
 <style>
   a {
     text-decoration: none;
   }
 
+  a:hover {
+    text-decoration: none;
+  }
+
 </style>
 
-<body class="d-flex flex-column" style="height: 100vh;">
+<body class="d-flex flex-column" style="height: 100vh;" th:with="pagination = ${map.pagination}, boardList = ${map.boardList}">
 
   <th:block th:replace="~{common/header}"></th:block>
 
@@ -24,11 +29,19 @@
 
     <th:block th:replace="~{myPage/sidebar}"></th:block>
 
-    <div class="d-flex flex-column p-3" style="width: 100%;">
 
-      <div class="fs-4 pb-3 px-3 border-bottom">
-           내가 쓴 댓글
+    <div class="d-flex flex-column flex-grow-1 align-items-center p-3 overflow-y-auto">
+      <div class="d-flex justify-content-between align-items-center w-100 border-bottom">
+        <div class="fs-2 pb-3 px-3">내가 쓴 댓글</div>
+
+        <!-- 검색창 -->
+        <form action="myPage-comment" class="w-25 input-group">
+          <input type="text" class="form-control" id="commentName" name="commentName" placeholder="내용 입력">
+          <button class="btn btn-warning" type="submit" id="commentNameBtn">검색</button>
+        </form>
+         
       </div>
+
 
       <div class="w-100 px-4 pt-2 flex-grow-1">
         <table class="table table-striped table-hover ">
@@ -39,30 +52,132 @@
             <tr style="text-align: center;">
               <th><input type="checkbox"></th>
               <th>게시판이름</th>
-              <th>댓글번호</th>
               <th>내용</th>
-              <th>작성일</th>
+              <th>등록일</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="table-group-divider">
             <!-- Thymeleaf를 사용하여 서버로부터 받은 게시글 목록을 반복적으로 표시 -->
-            <tr th:each="board: ${commentList}" style="text-align: center;" th:object="${board}">
+            <tr th:each="board: ${boardList}" style="text-align: center;" th:object="${board}">
               <td><input type="checkbox" th:value="${board}"></td>
               <td th:text="*{boardCodeName}">게시판이름</td>
-              <td th:text="*{boardCommentNo}">댓글번호</td>
-              <td><a th:text="*{boardCommentContent}" th:href="@{/board/boardDetail/{boardCodeNo}/{boardNo}(boardCodeNo=*{boardCodeNo}, boardNo=*{boardNo})}">내용</a></td> 
-              <td th:text="*{boardCommentDate}">작성일</td>
+
+
+
+              <td th:if="${param.commentName == null}">
+                <a th:text="*{boardCommentContent}" th:href="@{/board/boardDetail/{boardCodeNo}/{boardNo}(boardCodeNo=*{boardCodeNo}, boardNo=*{boardNo})}">내용</a>
+              </td> 
+              
+              <td th:if="${param.commentName != null}">
+                <a th:text="*{boardCommentContent}" th:href="@{/board/boardDetail/{boardCodeNo}/{boardNo}(boardCodeNo=*{boardCodeNo}, boardNo=*{boardNo}, commentName=${param.commentName})}">내용</a>
+              </td> 
+
+              <td th:text="*{boardCommentDate}">등록일</td>
             </tr>
           </tbody>
-        </table>
+      </table>
+    </div>
 
+    <!-- ======== 페이지네이션 : 일반 조회 =========== -->
+    <ul class="pagination" th:if="${param.commentName == null}">
+     <!-- 첫 페이지로 이동 -->
+     <li class="page-item">
+       <a class="page-link" aria-label="First" th:href="@{/myPage/myPage-comment(cp=1)}">
+         <span aria-hidden="true">&laquo;</span>
+       </a>
+     </li>
 
+     <!-- 이전 목록 마지막 번호로 이동 -->
+     <li class="page-item">
+       <a class="page-link" aria-label="Previous" th:href="@{/myPage/myPage-comment(cp=${pagination.prevPage})}">
+         <span aria-hidden="true">&lt;</span>
+       </a>
+     </li>
+
+     <!-- 특정 페이지로 이동 -->
+     <th:block th:each="i : ${#numbers.sequence(pagination.startPage, pagination.endPage, 1)}" >
+
+       <!-- 현재 보고있는 페이지 -->
+       <li th:if="${i == pagination.currentPage}" class="page-item">
+         <a class="current page-link" th:text="${i}">1</a>
+       </li>
+
+       <!-- 보고있지 않은 페이지 -->
+       <li th:unless="${i == pagination.currentPage}" class="page-item">
+         <a class="page-link" th:href="@{/myPage/myPage-comment(cp=${i})}" th:text="${i}">2</a>
+       </li>
+     </th:block>
+
+     <!-- 다음 목록 시작 번호로 이동 -->
+     <li class="page-item">
+       <a class="page-link" aria-label="Next" th:href="@{/myPage/myPage-comment(cp=${pagination.nextPage})}">
+         <span aria-hidden="true">&gt</span>
+       </a>
+     </li>
+
+     <li class="page-item">
+       <a class="page-link" aria-label="End" th:href="@{/myPage/myPage-comment(cp=${pagination.maxPage})}">
+         <span aria-hidden="true">&raquo;</span>
+       </a>
+     </li>
+   </ul>
+
+   <!-- ======== 페이지네이션 : 검색 조회 =========== -->
+   <ul class="pagination" th:unless="${param.commentName == null}">
+     <!-- 첫 페이지로 이동 -->
+     <li class="page-item">
+       <a class="page-link" aria-label="First" th:href="@{/myPage/myPage-mywrite(commentName=${param.commentName},cp=1)}">
+         <span aria-hidden="true">&laquo;</span>
+       </a>
+     </li>
+
+     <!-- 이전 목록 마지막 번호로 이동 -->
+     <li class="page-item">
+       <a class="page-link" aria-label="Previous" th:href="@{/myPage/myPage-comment(commentName=${param.commentName}, cp=${pagination.prevPage})}">
+         <span aria-hidden="true">&lt;</span>
+       </a>
+     </li>
+
+     <!-- 특정 페이지로 이동 -->
+     <th:block th:each="i : ${#numbers.sequence(pagination.startPage, pagination.endPage, 1)}" >
+
+       <!-- 현재 보고있는 페이지 -->
+       <li th:if="${i == pagination.currentPage}" class="page-item">
+         <a class="current page-link" th:text="${i}">1</a>
+       </li>
+
+       <!-- 보고있지 않은 페이지 -->
+       <li th:unless="${i == pagination.currentPage}" class="page-item">
+         <a class="page-link" th:href="@{/myPage/myPage-comment(commentName=${param.commentName}, cp=${i})}" th:text="${i}">2</a>
+       </li>
+     </th:block>
+
+     <!-- 다음 목록 시작 번호로 이동 -->
+     <li class="page-item">
+       <a class="page-link" aria-label="Next" th:href="@{/myPage/myPage-comment(commentName=${param.commentName}, cp=${pagination.nextPage})}">
+         <span aria-hidden="true">&gt</span>
+       </a>
+     </li>
+
+     <li class="page-item">
+       <a class="page-link" aria-label="End" th:href="@{/myPage/myPage-comment(commentName=${param.writeName}, cp=${pagination.maxPage})}">
+         <span aria-hidden="true">&raquo;</span>
+       </a>
+     </li>
+   </ul>
 
 
       </div>
-    </div>
-  </main>
+
+          
+
+      
+      
+      <!-- </div> -->
+      
+    </main>
   <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/myPage/myPage-commentName.js"></script>
 </body>
 
 </html>

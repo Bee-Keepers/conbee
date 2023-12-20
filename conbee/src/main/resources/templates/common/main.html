@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" href="/css/common/main.css">
   <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.5/main.min.css' rel='stylesheet' />
+  <link rel="stylesheet" href="/css/calendar/main-calendar.css">
 
   <!-- jQuery 스크립트 -->
   <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> -->
@@ -16,265 +17,8 @@
   <!-- 다른 스크립트 태그들 -->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.5/main.min.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.5/locales/ko.js'></script>
-  <style>
-    #calendar {
-        max-width: 850px;
-        max-height: 400px;
-        margin: 0 auto;
-        margin-top: 10px;
-    }
-
-    /* FullCalendar의 날짜 셀 스타일 */
-    .fc .fc-daygrid-day .fc-daygrid-day-number {
-        text-decoration: none;
-        /* 밑줄 제거 */
-    }
-
-    .fc .fc-col-header-cell .fc-col-header-cell-cushion {
-        text-decoration: none;
-        /* 밑줄 제거 */
-    }
-
-    /* 날짜 셀 스타일 */
-    .fc-daygrid-day-number {
-        font-size: 14px;
-        /* 날짜 숫자 크기 */
-        color: #495057;
-        /* 날짜 숫자 색상 */
-    }
-
-    /* 오늘 날짜 스타일 */
-    .fc-day-today {
-        background-color: #fff3cd;
-        /* 오늘 날짜 배경 색상 */
-        border-color: #ffeeba;
-        /* 오늘 날짜 테두리 색상 */
-    }
-
-    /* 헤더 셀 테두리 */
-    .fc .fc-col-header-cell {
-        background-color: #ffeeba;
-        /* 헤더 셀 테두리 색상 설정 */
-    }
-
-    /* 모달 배경 스타일 */
-    .modal-content {
-        background-color: #fff;
-        /* 모달 배경색 */
-        border: 1px solid #e4e4e4;
-        /* 모달 테두리 */
-        border-radius: 10px;
-        /* 모달 테두리 둥글게 */
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        /* 그림자 효과 */
-    }
-
-    /* 모달 헤더 스타일 */
-    .modal-header {
-        color: #fff;
-        /* 헤더 텍스트 색상 */
-        padding: 15px;
-        /* 헤더 안쪽 여백 */
-        border-top-left-radius: 10px;
-        /* 왼쪽 상단 테두리 둥글게 */
-        border-top-right-radius: 10px;
-        /* 오른쪽 상단 테두리 둥글게 */
-    }
-
-    /* 모달 내용 스타일 */
-    .modal-body {
-        padding: 20px;
-        /* 내용 안쪽 여백 */
-    }
-
-    /* 모달 푸터 스타일 */
-    .modal-footer {
-        background-color: #f7f7f7;
-        /* 푸터 배경색 */
-        border-top: 1px solid #e4e4e4;
-        /* 푸터 위 테두리 */
-        padding: 15px;
-        /* 푸터 안쪽 여백 */
-        border-bottom-left-radius: 10px;
-        /* 왼쪽 하단 테두리 둥글게 */
-        border-bottom-right-radius: 10px;
-        /* 오른쪽 하단 테두리 둥글게 */
-    }
-
-    /* 모달 제목 스타일 */
-    .modal-title {
-        font-weight: bold;
-        /* 글꼴 굵게 */
-        font-size: 1.5em;
-        /* 글꼴 크기 조절 (원하는 크기로 수정 가능) */
-        color: #563d7c;
-        /* 제목 글자색 */
-        text-align: center;
-        /* 가운데 정렬 */
-        margin-bottom: 10px;
-        /* 아래 여백 추가 (원하는 여백으로 수정 가능) */
-        text-transform: uppercase;
-        /* 글자 대문자 변환 */
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        /* 텍스트 그림자 효과 (선택사항) */
-    }
-
-    /* 입력 필드 스타일 */
-    .form-control {
-        border: 1px solid #ccc;
-        /* 입력 필드 테두리 */
-        border-radius: 5px;
-        /* 입력 필드 둥글게 */
-    }
-
-    /* 버튼 스타일 */
-    .btn {
-        padding: 10px 20px;
-        /* 버튼 안쪽 여백 */
-        font-size: 1em;
-        /* 버튼 글꼴 크기 */
-        border-radius: 5px;
-        /* 버튼 둥글게 */
-    }
-
-    /* 버튼 색상 스타일 */
-    .btn-primary {
-        background-color: #563d7c;
-        /* 주요 버튼 배경색 */
-        border: 1px solid #563d7c;
-        /* 주요 버튼 테두리 */
-        color: #fff;
-        /* 주요 버튼 글자색 */
-    }
-
-    .btn-primary:hover {
-        background-color: #482d5b;
-        /* 주요 버튼 호버 배경색 */
-        border: 1px solid #482d5b;
-        /* 주요 버튼 호버 테두리 */
-        color: #fff;
-        /* 주요 버튼 호버 글자색 */
-    }
-</style>
 </head>
 <body class="d-flex flex-column overflow-y-auto" style="height: 100vh;">
-  <!-- 입력 모달 -->
-  <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <input type="text" class="form-control" id="calendar_title" name="calendar_title" placeholder="제목"
-            style="font-weight: bold; font-size:1.3em;">
-          <input type="color" class="form-control form-control-color" id="calendar_color" value="#563d7c">
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="calendar_content" class="col-form-label">일정 내용</label>
-            <textarea class="form-control" id="calendar_content" name="calendar_content" style="resize:none"></textarea>
-            <!-- <input type="text" class="form-control" id="calendar_content" name="calendar_content"> -->
-
-            <label for="calendar_allday" class="col-form-label">하루 종일</label>
-            <input type="checkbox" id="calendar_allday" name="calendar_allday">
-
-            <hr>
-
-            <div class="d-flex justify-content-evenly">
-              <div class="start-container">
-                <div>
-                  <label for="calendar_start_date" class="col-form-label">시작 날짜</label>
-                  <input type="date" class="form-control" id="calendar_start_date" name="calendar_start_date">
-                </div>
-
-                <div class="calendar-time-container">
-                  <label for="calendar_start_time" class="col-form-label">시작 시간</label>
-                  <input type="time" class="form-control" id="calendar_start_time" name="calendar_start_time">
-                </div>
-              </div>
-
-              <div class="end-container">
-                <div>
-                  <label for="calendar_end_date" class="col-form-label">종료 날짜</label>
-                  <input type="date" class="form-control" id="calendar_end_date" name="calendar_end_date">
-                </div>
-
-                <div class="calendar-time-container">
-                  <label for="calendar_end_time" class="col-form-label">종료 시간</label>
-                  <input type="time" class="form-control" id="calendar_end_time" name="calendar_end_time">
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" id="calender-confirm">확인</button>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-
-  <!-- 수정 모달 -->
-  <div class="modal fade" id="updateCalendar" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-
-        <div class="modal-header">
-          <input type="text" class="form-control" id="calendar_title_update" name="calendar_title_update"
-            placeholder="제목" style="font-weight: bold; font-size:1.3em;">
-          <input type="color" class="form-control form-control-color" id="calendar_color_update" value="#563d7c">
-        </div>
-
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="calendar_content_update" class="col-form-label">일정 내용</label>
-            <textarea class="form-control" id="calendar_content_update" name="calendar_content_update"
-              style="resize:none"></textarea>
-
-            <label for="calendar_allday_update" class="col-form-label">하루 종일</label>
-            <input type="checkbox" id="calendar_allday_update" name="calendar_allday_update">
-
-            <hr>
-
-            <div class="d-flex justify-content-evenly">
-              <div class="start-container">
-                <div>
-                  <label for="calendar_start_date_update" class="col-form-label">시작 날짜</label>
-                  <input type="date" class="form-control" id="calendar_start_date_update"
-                    name="calendar_start_date_update">
-                </div>
-
-                <div class="update-time-container">
-                  <label for="calendar_start_time_update" class="col-form-label">시작 시간</label>
-                  <input type="time" class="form-control" id="calendar_start_time_update"
-                    name="calendar_start_time_update">
-                </div>
-              </div>
-
-              <div class="end-container">
-                <div>
-                  <label for="calendar_end_date_update" class="col-form-label">종료 날짜</label>
-                  <input type="date" class="form-control" id="calendar_end_date_update" name="calendar_end_date_update">
-                </div>
-
-                <div class="update-time-container">
-                  <label for="calendar_end_time_update" class="col-form-label">종료 시간</label>
-                  <input type="time" class="form-control" id="calendar_end_time_update" name="calendar_end_time_update">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" id="calendar-update-btn">수정</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
 
 
   <!-- 읽기 모달 -->
@@ -310,6 +54,9 @@
                       </div>
                       <p id="startStrModal"></p>
                     </div>
+
+
+
                   </div>
 
                   <div class="end-container">
@@ -323,12 +70,6 @@
                       </div>
                     </div>
                   </div>
-                </div>
-
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" id="calender-update" data-bs-toggle="modal"
-                    data-bs-target="#updateCalendar">수정</button>
-                  <button type="button" class="btn btn-primary" id="calender-delete">삭제</button>
                 </div>
 
               </div>
@@ -358,6 +99,6 @@
   <script src="/js/common/main.js"></script>
   <script src="/js/bootstrap.bundle.min.js"></script>
   <script src="/js/calendar/ko.js"></script>
-  <script src="/js/calendar/calendar.js"></script>
+  <script src="/js/calendar/main-calendar.js"></script>
 </body>
 </html>
