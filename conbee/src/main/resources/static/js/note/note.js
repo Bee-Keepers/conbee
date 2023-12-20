@@ -55,12 +55,31 @@ searchBtn.addEventListener("click", ()=>{
 });
 
 /* 쪽지 보내기 */
-document.getElementById('notego').addEventListener('submit', e=>{
+document.getElementById('notegoBtn').addEventListener('click', ()=>{
+  const messageContent = document.getElementById("messageContent");
+  const memberNoSender = document.getElementById("memberNoSender");
+
+  if(memberNoReciplent.value == 0){
+    alert("받는 사람을 주소록에서 찾아 입력해주세요");
+    return;
+  }
+  if(messageContent.value == ""){
+    alert("쪽지 내용을 입력해주세요");
+    messageContent.focus();
+    return;
+  }
+  let obj = {};
+  obj.messageContent = messageContent.value;
+  obj.memberNoReciplent = memberNoReciplent.value;
+  obj.memberNoSender = memberNoSender.value;
+
+  noteSock.send(JSON.stringify(obj));
   
-  Promise.resolve().then(() => {
-    noteSock.send(memberNoReciplent.value);
-  });
-  
+  notego.reset();
+  alert("쪽지를 보냈습니다.");
+
+
+
   // 유효성 검사
   // e.preventDefault();
 

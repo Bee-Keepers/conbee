@@ -296,16 +296,18 @@ let callback = (entries, observer) => {
          td7.innerText = goods.stockInPrice.toLocaleString("ko-KR");
 
          const td8 = createElement("td",null,[]);
+         console.log(goods.stockOutPrice);
          td8.innerText = goods.stockOutPrice.toLocaleString("ko-KR");
-
+         
          const td9 = createElement("td",null,[]);
          td9.innerText = goods.stockAmount;
-
+         
          const td10 = createElement("td",null,[]);
          td10.innerText = goods.stockDiscount;
-
+         
          const td11 = createElement("td",null,[]);
-         td11.innerText = goods.priceSum.toLocaleString("ko-KR");
+         console.log(goods.priceSum);
+         td11.innerText = parseInt(goods.priceSum).toLocaleString("ko-KR");
 
          const td12 = document.createElement("td")
          td12.style.display = "none";

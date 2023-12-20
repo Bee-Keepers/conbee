@@ -310,6 +310,7 @@ let callback = (entries, observer) => {
    } else{
       params = urlSearch + "&cp=" + cp;
    }
+   console.log(params);
    fetch("/stock/stockListAjax"+ params)
    .then(resp=>resp.json())
    .then(list=>{
@@ -326,10 +327,10 @@ let callback = (entries, observer) => {
          label.append(input);
          td1.append(label);
 
-         const td2 = createElement("td",{"data-bs-toggle":"modal","data-bs-target":"#goodsDateilModel"},["goodsDetailBtn"]);
+         const td2 = createElement("td",null,[]);
          td2.innerText = goods.goodsNo;
          
-         const td3 = createElement("td",null,[]);
+         const td3 = createElement("td",{"data-bs-toggle":"modal","data-bs-target":"#goodsDateilModel"},["goodsDetailBtn"]);
          td3.innerText = goods.goodsName;
 
          const td4 = createElement("td",null,[]);
@@ -361,6 +362,23 @@ let callback = (entries, observer) => {
          td12.innerText = goods.storeNo;
 
          tr.append(td1, td2, td3, td4, td5, td6, td7, td8, td9, td10, td11, td12);
+         td3.addEventListener("click", () => {
+  
+          const goodsNo = td3.previousElementSibling.innerText;
+          fetch("/stock/goodsDetail?goodsNo=" + goodsNo)
+          .then( resp => resp.json() )
+          .then( goods => {
+            if(goods.goodsImagePath == null || goods.goodsImage == null){
+              goodsDetailImage.src = defaultImage;
+            } else {
+              goodsDetailImage.src = goods.goodsImagePath + goods.goodsImage;
+            }
+            goodsDetailName.innerText = goods.goodsName;
+            goodsDetailStandard.innerText = goods.goodsStandard;
+            goodsDetail.innerText = goods.goodsDetail;
+          } )
+          .catch(e=>console.log(e));
+        });
 
          tableTbody.append(tr);
       }

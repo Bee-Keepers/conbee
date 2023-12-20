@@ -152,9 +152,10 @@ public interface StockService {
 
 	/** 재고 현황 검색
 	 * @param stock
+	 * @param cp 
 	 * @return
 	 */
-	List<Stock> stockSearch(Stock stock);
+	List<Stock> stockSearch(Stock stock, int cp);
 
 	/** 신상품 세 개 조회
 	 * @return
@@ -166,6 +167,12 @@ public interface StockService {
 	 */
 	int stockUpdate(List<Integer> goodsNoList, List<Integer> stockOutPriceList, List<Integer> stockDiscountList,
 			int storeNo);
+
+	/** 본사 재고 체크
+	 * @param orderList
+	 * @return
+	 */
+	List<Integer> orderAmountCheck(List<Order> orderList);
 
 
 

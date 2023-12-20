@@ -33,6 +33,9 @@ const storeNo = document.getElementById("storeNo");
 
 revenueSearchBtn.addEventListener("click", ()=>{
     storeNo.value = storeNoSelect.value;
+    if(floatingPrice.value == ""){
+      floatingPrice.value = 0;
+    }
     revenueSearchForm.submit();
 });
 

@@ -2,7 +2,7 @@ const messageName = document.getElementById("messageName");
 const messageContent = document.getElementById("messageContent");
 const messageDate = document.getElementById("messageDate");
 
-
+// 쪽지가 클릭 될 때 읽음으로 변경
 function readCheckFn(e){
 
   // 쪽지 번호
@@ -17,9 +17,27 @@ function readCheckFn(e){
     })
     .then(resp=>resp.text())
     .then(result=>{
+      console.log(result);
       if(result > 0){
         e.classList.remove("fw-bold");
         e.classList.add("fw-light");
+
+        noteBadges.forEach(noteBadge => {
+          noteBadge.classList.remove("d-none");
+          noteBadge.innerText = result;
+        });
+
+        if (result > 99) {
+          noteBadges.forEach(noteBadge => {
+            noteBadge.innerText = "99+";
+          });
+        }
+      } else {
+        e.classList.remove("fw-bold");
+        e.classList.add("fw-light");
+        noteBadges.forEach(noteBadge => {
+          noteBadge.classList.add("d-none");
+        });
       }
     })
     .catch(e=>console.log(e));

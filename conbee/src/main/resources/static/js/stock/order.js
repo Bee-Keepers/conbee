@@ -105,7 +105,7 @@ floatingName.addEventListener("input", e=>{
           nameBtn.append(createElement("input", {"type" : "hidden", "name" : "lcategoryName", "value" : stock.lcategoryName}, []));
           nameBtn.append(createElement("input", {"type" : "hidden", "name" : "scategoryName", "value" : stock.scategoryName}, []));
           nameBtn.append(createElement("input", {"type" : "hidden", "name" : "stockAmount", "value" : stock.stockAmount}, []));
-          nameBtn.append(createElement("input", {"type" : "hidden", "name" : "stockInPrice", "value" : stock.stockInPrice}, []));
+          nameBtn.append(createElement("input", {"type" : "hidden", "name" : "stockInPrice", "value" : stock.stockInPrice.toLocaleString("ko-KR")}, []));
           nameBtn.addEventListener("click", e=>{
             e.target.remove();
           });
@@ -159,7 +159,7 @@ revenueSearchBtn.addEventListener("click", ()=>{
     tableTbody.prepend(tr);
   };
   
-
+  totalPriceFn();
 });
 
 
@@ -178,11 +178,18 @@ const totalPriceFn = ()=>{
   const inputOrderAmounts = document.querySelectorAll(".inputOrderAmount");
   let temp = 0;
   for(let inputOrderAmount of inputOrderAmounts){
-    temp += inputOrderAmount.value * parseInt(inputOrderAmount.parentElement.previousElementSibling.innerText);
+    temp += inputOrderAmount.value * parseInt(inputOrderAmount.parentElement.previousElementSibling.innerText.replace(",",""));
   }
-  totalPrice.innerText = temp;
+  totalPrice.innerText = temp.toLocaleString("ko-KR");
 }
-
+totalPriceFn();
+if(document.querySelectorAll(".inputOrderAmount") != null){
+  document.querySelectorAll(".inputOrderAmount").forEach(item=>{
+    item.addEventListener("change",()=>{
+      totalPriceFn();
+    });
+  });
+}
 // 체크박스 전체 선택
 const checkAll = document.getElementById("checkAll");
 checkAll.addEventListener("click", e=>{
@@ -221,6 +228,7 @@ deleteBtn.addEventListener("click", ()=>{
     })
     .catch(e=>console.log(e));
   }
+  totalPriceFn();
 });
 
 
@@ -250,5 +258,34 @@ submitBtn.addEventListener("click", ()=>{
     alert("품목을 입력해주세요");
     return;
   }
-  placeOrderForm.submit();
+  const inputOrderAmount = document.querySelectorAll(".inputOrderAmount");
+  const goodsNos = document.querySelectorAll("tr>td:nth-of-type(2)>input");
+  const list = [];
+  for(let i=0; i<inputOrderAmount.length; i++){
+
+    let dataObj = {}
+    dataObj.orderAmount = inputOrderAmount[i].value;
+    dataObj.goodsNo = goodsNos[i].value;
+    
+    list.push(dataObj)
+  }
+  
+  console.log(list);
+
+  fetch("/stock/orderAmountCheck",{
+    method : "POST",
+    headers : {"Content-Type" : "application/json"},
+    body : JSON.stringify(list)
+  })
+  .then(resp=>resp.json())
+  .then(result=>{
+
+    if(result > 0){
+      placeOrderForm.submit();
+    } else{
+      alert(result + "번 물품이 본사 재고가 부족합니다");
+    }
+
+  })
+  .catch(e=>console.log(e));
 });

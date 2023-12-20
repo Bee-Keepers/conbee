@@ -274,13 +274,14 @@ public class StockController {
 	 * @return
 	 */
 	@GetMapping("stockSearch")
-	public String stockSearch(Stock stock, Model model, @SessionAttribute("loginMember") Member loginMember) {
+	public String stockSearch(Stock stock, Model model, @SessionAttribute("loginMember") Member loginMember,
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 
 		if (stock.getStoreNo() == -1) {
 			stock.setStoreNo(loginMember.getStoreList().get(0).getStoreNo());
 		}
 
-		List<Stock> stockSearchList = service.stockSearch(stock);
+		List<Stock> stockSearchList = service.stockSearch(stock, cp);
 
 		model.addAttribute("stockListSelect", stockSearchList);
 
@@ -303,8 +304,17 @@ public class StockController {
 			int storeNo = loginMember.getStoreList().get(0).getStoreNo();
 			stock.setStoreNo(storeNo);
 		}
-		List<Stock> stockListSelect = service.stockList(stock, cp);
+		List<Stock> stockListSelect = service.stockSearch(stock, cp);
 		return stockListSelect;
 	}
 
+	/** 본사 재고 수량 체크
+	 * @param orderList
+	 * @return
+	 */
+	@PostMapping("orderAmountCheck")
+	@ResponseBody
+	public List<Integer> orderAmountCheck(@RequestBody List<Order> orderList) {
+		return service.orderAmountCheck(orderList);
+	}
 }

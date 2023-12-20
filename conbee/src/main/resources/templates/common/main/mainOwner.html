@@ -179,14 +179,14 @@
               <div th:each="goods : ${goodsList}" th:object="${goods}" class="carousel-item" data-bs-interval="2000">
                   <div class="imageContainer w-100">
                     <img class="goodsImage card-img-top" th:if="*{goodsImagePath != null}" th:src="|*{goodsImagePath}*{goodsImage}|">
-                    <img class="goodsImage card-img-top" th:if="*{goodsImagePath == null}" th:src="#{logo.default.image}">
+                    <img class="goodsImage card-img-top" th:if="*{goodsImagePath == null}" th:src="#{logo.login.image}">
                   </div>
                   <div class="fs-4 text-truncate fw-bold" th:text="*{goodsName}">농심)신라면</div>
                   <div class="goodsDetail" th:text="*{goodsDetail}">깊고 진하게 우러난 소고기 국물맛에 얼큰함을 더한 국민 라면</div>
               </div>
               <div class="carousel-item active" data-bs-interval="2000">
                 <div class="imageContainer w-100">
-                  <img class="goodsImage" th:src="#{logo.default.image}">
+                  <img class="goodsImage" th:src="#{logo.login.image}">
                 </div>
               </div>
             </div>
