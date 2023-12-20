@@ -2,6 +2,7 @@ package com.keepers.conbee.myPage.model.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,12 +16,18 @@ public interface MyPageService {
 
 	Store myPageStore(int storeNo);
 
-	List<Board> selectWriteList(int memberNo);
+	Map<String, Object> selectWriteList(int memberNo, String query, int cp);
 
 	List<Board> commentList(int memberNo);
 
 	List<Board> choiceList(int memberNo);
 
+	Map<String, Object> selectcommentList(int memberNo, String commentName, int cp);
+
+	Map<String, Object> selectchoiceNameList(int memberNo, String choiceName, int cp);
+
+
+}
 	/** 프로필 이미지 수정
 	 * @param memberProfile
 	 * @param loginMember

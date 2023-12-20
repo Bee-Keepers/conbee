@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 연결할 인터페이스의 패키지명.인터페이스명을 작성 -->
 <mapper namespace="com.keepers.conbee.myPage.model.mapper.MyPageMapper">
-	
+
 	<update id="myPageStoreUpdate">
 		UPDATE "STORE" SET
 		STORE_TEL = #{storeTel}
@@ -14,52 +14,71 @@
 		FROM "STORE"
 		WHERE STORE_NO = #{storeNo}
 	</select>
-	
+
+
+	<select id="getListCount" resultType="_int"> SELECT COUNT(*) FROM "BOARD"
+		WHERE BOARD_DEL_FL = 'N' AND MEMBER_NO = #{memberNo} <if
+			test="writeName != null">
+			AND BOARD_TITLE LIKE '%${writeName}%'
+		</if>
+	</select>
+
 	<!--내가 쓴 글-->
-	<select id="selectWriteList" resultType="Board">
-		SELECT BOARD_NO, BOARD_TITLE, BOARD_ATTACH, BOARD_HITS, MEMBER_NO, BOARD_CODE_NO, BOARD_CODE_NAME, MEMBER_NAME,
-		TO_CHAR(BOARD_WRITE_DATE, 'YYYY-MM-DD') BOARD_WRITE_DATE
-		FROM "BOARD"
-		JOIN "MEMBER" USING(MEMBER_NO)
-		JOIN "BOARD_CODE" USING(BOARD_CODE_NO)
-		WHERE BOARD_DEL_FL = 'N'
-		AND MEMBER_NO = #{memberNo}
-		ORDER BY BOARD_NO DESC
-		
-	</select>
-	
+	<select id="selectWriteList" resultType="Board"> 
+		SELECT BOARD_NO,
+		BOARD_TITLE, BOARD_ATTACH, BOARD_HITS, MEMBER_NO, BOARD_CODE_NO,
+		BOARD_CODE_NAME, MEMBER_NAME, TO_CHAR(BOARD_WRITE_DATE, 'YYYY-MM-DD')
+		BOARD_WRITE_DATE 
+		FROM "BOARD" 
+		JOIN "MEMBER" USING(MEMBER_NO) JOIN
+		"BOARD_CODE" USING(BOARD_CODE_NO) 
+		WHERE BOARD_DEL_FL = 'N' 
+		AND MEMBER_NO = #{memberNo} 
+		<if test='writeName != null'>
+			AND BOARD_TITLE LIKE '%${writeName}%'
+		</if> 
+		ORDER BY BOARD_NO DESC 
+		</select>
+
+
 	<!--내가 쓴 댓글-->
-	<select id="commentList" resultType="Board">
-		SELECT BOARD_CODE_NO, C.BOARD_NO, BOARD_COMMENT_NO ,BOARD_COMMENT_DATE,
-				BOARD_COMMENT_CONTENT, BOARD_COMMENT_PARENT,
-				(CASE
-					WHEN BOARD_CODE_NO=1 THEN '공지사항'
-					WHEN BOARD_CODE_NO=2 THEN '자유게시판'
-					ELSE '익명게시판'
-				END) BOARD_CODE_NAME
-		FROM "BOARD_COMMENT" C
-		JOIN "BOARD" B ON(C.BOARD_NO=B.BOARD_NO)
-		WHERE BOARD_COMMENT_DEL_FL = 'N'
-		AND C.MEMBER_NO = #{memberNo}
-		ORDER BY BOARD_COMMENT_NO DESC
-	</select>
-	
+	<select id="selectcommentList" resultType="Board"> 
+		SELECT BOARD_CODE_NO,
+		C.BOARD_NO, BOARD_COMMENT_NO, BOARD_COMMENT_DATE, BOARD_COMMENT_CONTENT,
+		BOARD_COMMENT_PARENT, 
+		(CASE WHEN BOARD_CODE_NO=1 THEN '공지사항' WHEN
+		BOARD_CODE_NO=2 THEN '자유게시판' ELSE '익명게시판' 
+		END) BOARD_CODE_NAME FROM
+		"BOARD_COMMENT" C 
+		JOIN "BOARD" B ON (C.BOARD_NO=B.BOARD_NO) 
+		WHERE BOARD_COMMENT_DEL_FL = 'N' AND C.MEMBER_NO = #{memberNo} 
+		<if test='commentName != null'>
+			AND BOARD_COMMENT_CONTENT LIKE '%${commentName}%'
+		</if> 
+		ORDER BY BOARD_NO DESC, BOARD_COMMENT_NO DESC 
+		</select>
+
 	<!-- 즐겨찾기 -->
-	
-	<select id="choiceList">
-			
-	SELECT B.BOARD_CODE_NO, BM.BOARD_NO, B.BOARD_WRITE_DATE,B.BOARD_TITLE,			
+
+	<select id="selectchoiceNameList" resultType="Board">
+		SELECT B.BOARD_CODE_NO, BM.BOARD_NO, B.BOARD_WRITE_DATE,B.BOARD_TITLE,	M.MEMBER_NAME,
 				(CASE
 					WHEN B.BOARD_CODE_NO=1 THEN '공지사항'
 					WHEN B.BOARD_CODE_NO=2 THEN '자유게시판'
 					ELSE '익명게시판'
 				END) BOARD_CODE_NAME
 	FROM BOOKMARK BM
+	JOIN MEMBER M ON (M.MEMBER_NO = BM.MEMBER_NO)
 	JOIN BOARD B ON (B.BOARD_NO=BM.BOARD_NO)
 	WHERE BM.MEMBER_NO = #{memberNo}
+	<if test='choiceName != null'>
+		AND BOARD_TITLE LIKE '%${choiceName}%'
+		</if> 
 	ORDER BY BOARD_NO DESC
-		
+
 	</select>
+
+
 	
 	
 	
