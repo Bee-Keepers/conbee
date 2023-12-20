@@ -4,12 +4,8 @@
   border-radius: 0.5rem;
 }
 
-*{
-  /* border: 1px solid black; */
-}
-
 .divbox{
-  margin-top: 5rem;
+  margin-top: 2rem;
   font-size: 1.5rem;
   height: 100%;
   width: 60%;
@@ -24,4 +20,32 @@
 .form-label{
   font-size: 1.2rem;
   font-weight: bold;
+}
+
+.profileImgFrm{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 20px;
+}
+
+.imgBox{
+  /* border: 1px solid black;  */
+  width: 250px; 
+  height: 250px;
+  border-radius: 50%;
+
+  position: relative;
+
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+
+}
+.imgBox img{
+  width: 250px; 
+  height: 250px;
+  border-radius: 50%;
 }

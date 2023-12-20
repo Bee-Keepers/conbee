@@ -18,17 +18,25 @@
     <th:block th:replace="~{myPage/sidebar}"></th:block>
 
     <div class="d-flex flex-column flex-grow-1 align-items-center overflow-y-auto w-100">
-      <div class="d-flex justify-content-between align-items-center w-100 px-2">
-        <p class="fs-4 pb-3 px-3 border-bottom w-100 pt-3">내 프로필 조회</p>
-      </div>
+        <div class="d-flex justify-content-between align-items-center w-100 px-2">
+          <p class="fs-4 pb-3 px-3 border-bottom w-100 pt-3">내 프로필 조회</p>
+        </div>
   
 
 
 
         <div class="divbox">
-          <div class="">
-            <img src="..." class="rounded mx-auto d-block" alt="..." style="width: 250px; height: 250px;">
-          </div>
+          <form class="profileImgFrm" action="#">
+            <div class="imgBox mb-3">
+
+              <!-- 프로필 이미지가 없을 경우 -->
+              <img th:if="${session.loginMember.memberProfile==null}" th:src="#{user.default.image}" id="memberProfile">
+
+              <!-- 프로필 이미지가 있을 경우 -->
+              <img th:unless="${session.loginMember.memberProfile==null}" th:src="${session.loginMember.memberProfile}" id="memberProfile">
+
+            </div>
+          </form>
 
           <form action="myPageUpdate" method="POST" name="myPageFrm" id="profileFrm" enctype="multipart/form-data" th:object="${session.loginMember}">
             <fieldset disabled>
@@ -80,6 +88,13 @@
       </div>
     </main>
 
+  <script th:inline="javascript">
+
+    const defaultImage = /*[[#{user.default.image}]]*/ "기본 이미지";
+
+    const loginMemberProfileImg = /*[[${session.loginMember.profileImg}]]*/ "프로필 이미지";
+
+  </script>
 
   <script src="/js/bootstrap.bundle.min.js"></script>
 

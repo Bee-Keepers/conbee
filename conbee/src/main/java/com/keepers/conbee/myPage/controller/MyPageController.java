@@ -1,5 +1,6 @@
 package com.keepers.conbee.myPage.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -7,9 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.admin.store.model.dto.Store;
@@ -98,5 +101,39 @@ public class MyPageController {
     	}
     	return "redirect:myPage-store";
     }
+    
+    
+    
+    /** 프로필 이미지 수정
+     * @param memberProfile
+     * @param loginMember
+     * @param ra
+     * @return
+     */
+    @PostMapping("memberProfile")
+    public String profile(@RequestParam("memberProfile") MultipartFile memberProfile, @SessionAttribute("loginMember") Member loginMember,
+    		RedirectAttributes ra) throws IllegalStateException, IOException {
+    	
+    	int result = service.updateMemberProfile(memberProfile, loginMember);
+    	
+		// 서비스 결과에 따라 응답 제어
+		String message = null;
+		
+		if(result > 0) {
+			message = "프로필 이미지가 변경되었습니다.";
+			
+		} else {
+			message = "프로필 변경 실패!";
+			
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		// 프로필 페이지로 리다이렉트
+		return "myPage/myPage-update";
+    }
+    
+    
+    
 
 }

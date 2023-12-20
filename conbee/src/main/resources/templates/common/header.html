@@ -48,7 +48,8 @@
             <a class="nav-link" href="/board/boardList/1">게시판</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="/address">주소록</a>
+            <a class="nav-link" href="/address?deptNo=5" th:if="${session.loginMember.departmentNo ==5}">주소록</a>
+            <a class="nav-link" href="/address" th:if="${session.loginMember.departmentNo !=5}">주소록</a>
             </li>
             <li class="nav-item">
             <a class="nav-link" href="/chatting/chatting">채팅</a>
