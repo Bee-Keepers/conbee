@@ -90,7 +90,7 @@
           <label for="exampleFormControlInput1" class="form-label">받는사람</label>
           
        
-                <form id="notego" action="note-write" method="post">
+                <form id="notego" action="note-write" method="post" >
                   <div class="input-group">
                     <input type="text" class="form-control" name="recipient" id="contact" th:value="${param.memberName}">
                     <input type="text" class="form-control" id="memberEmail" th:value="${param.memberEmail}" readonly>
@@ -101,13 +101,13 @@
                   </div>
                   <div>
                     <div style="margin-top: 20px;"></div>
-                    <label for="exampleFormControlTextarea1" class="form-label">내용</label>
-                    <textarea class="form-control" name="messageContent" id="exampleFormControlTextarea1" rows="6" style="resize : none"></textarea>
+                    <label for="messageContent" class="form-label">내용</label>
+                    <textarea class="form-control" name="messageContent" id="messageContent" rows="6" style="resize : none"></textarea>
                   </div>
                   <div style="margin-top: 20px;"></div>
-                  <button type="submit" class="btn btn-warning" style="width: 110px; height: 40px;">보내기</button>
-                  <input type="hidden" name="memberNoSender" th:value="${session.loginMember.memberNo}">
+                  <input type="hidden" name="memberNoSender" id="memberNoSender" th:value="${session.loginMember.memberNo}">
                 </form>
+                <button type="submit" class="btn btn-warning" style="width: 110px; height: 40px;" id="notegoBtn">보내기</button>
                 
 
 

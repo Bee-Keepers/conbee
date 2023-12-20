@@ -258,6 +258,26 @@ public interface ApprovalService {
 	int memberDelCheck(int approvalNo);
 
 
+	/** 결재완료된 사직서의 회원번호, 퇴직예정일 받아오기
+	 * @return
+	 */
+	List<Member> selectRetireMemberList();
+
+
+	/** 회원탈퇴(스케쥴링)
+	 * @param memberNo
+	 * @return
+	 */
+	int deleteMember(int memberNo);
+
+
+	/** 휴가신청서가 결재완료된 경우 캘린더에 등록하기
+	 * @param approvalNo
+	 * @return
+	 */
+	int holidayCalendarInsert(int approvalNo);
+
+
 
 
 

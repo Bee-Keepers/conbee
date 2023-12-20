@@ -59,6 +59,9 @@ revenueSearchBtn.addEventListener("click", ()=>{
         alert("지점을 선택해주세요");
         return;
     }
+    if(floatingPrice.value == ""){
+        floatingPrice.value = 0;
+    }
     revenueSearchForm.submit();
 });
 

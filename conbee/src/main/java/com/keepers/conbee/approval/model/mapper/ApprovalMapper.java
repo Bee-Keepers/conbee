@@ -485,6 +485,35 @@ public interface ApprovalMapper {
 	int memberDelCheck(int approvalNo);
 
 
+	/** 결재완료된 사직서의 회원번호, 퇴직예정일 받아오기
+	 * @return
+	 */
+	List<Member> selectRetireMemberList();
+
+
+	/** 회원탈퇴(스케쥴링)
+	 * @param memberNo
+	 * @return
+	 */
+	int deleteMember(int memberNo);
+
+
+	/** 결재완료된 휴가신청서의 휴가 시작일, 종료일, 회원번호 받아오기
+	 * @param approvalNo
+	 * @return
+	 */
+	Approval selectHolidayInfo(int approvalNo);
+
+
+	/** 캘린더에 휴가일정 인서트
+	 * @param approval
+	 * @return
+	 */
+	int holidayCalendarInsert(Approval approval);
+
+	
+
+	
 
 
 }

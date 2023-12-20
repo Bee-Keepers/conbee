@@ -43,9 +43,13 @@ const revenueSearchBtn = document.getElementById("revenueSearchBtn");
 const revenueSearchForm = document.getElementById("revenueSearchForm");
 const storeNoSelect = document.getElementById("storeNoSelect");
 const storeNo = document.getElementById("storeNo");
+const floatingPrice = document.getElementById("floatingPrice");
 
 revenueSearchBtn.addEventListener("click", ()=>{
     storeNo.value = storeNoSelect.value;
+    if(floatingPrice.value == ""){
+      floatingPrice.value = 0;
+    }
     revenueSearchForm.submit();
 });
 
@@ -182,3 +186,12 @@ const observer = new IntersectionObserver( callback ,{
 
 
 observer.observe(document.querySelector("#observedTag"));
+
+
+
+// 상세검색 판매가격 유효성
+floatingPrice.addEventListener("input", e=>{
+   if(e.target.value < 0){
+      e.target.value = 0;
+   }
+});

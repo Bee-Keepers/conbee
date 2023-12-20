@@ -19,4 +19,6 @@ public interface AddressMapper {
 	 */
 	int getListCount(Map<String, Object> paramMap);
 
+
+
 }

@@ -792,6 +792,37 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return mapper.approvalDeleteScheduling(approvalNo);
 	}
 	
+	/** 결재완료된 사직서의 회원번호, 퇴직예정일 받아오기
+	 *
+	 */
+	@Override
+	public List<Member> selectRetireMemberList() {
+		return mapper.selectRetireMemberList();
+	}
+	
+	/** 회원탈퇴(스케쥴링)
+	 *
+	 */
+	@Override
+	public int deleteMember(int memberNo) {
+		return mapper.deleteMember(memberNo);
+	}
+	
+	/** 휴가신청서가 결재완료된 경우 캘린더에 등록하기
+	 *
+	 */
+	@Override
+	public int holidayCalendarInsert(int approvalNo) {
+		
+		// 결재완료된 휴가신청서의 휴가 시작일, 종료일, 회원번호 받아오기
+		Approval approval = mapper.selectHolidayInfo(approvalNo);
+		
+		log.info(approval + "-------");
+		
+		// 캘린더에 휴가일정 인서트
+		return mapper.holidayCalendarInsert(approval);
+	}
+	
 
 }
 

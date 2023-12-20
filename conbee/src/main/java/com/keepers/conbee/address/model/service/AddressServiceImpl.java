@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.keepers.conbee.address.model.mapper.AddressMapper;
+import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.approval.model.dto.Pagination;
+import com.keepers.conbee.approval.model.dto.Pagination10;
 import com.keepers.conbee.member.model.dto.Member;
 
 import lombok.RequiredArgsConstructor;
@@ -22,10 +24,11 @@ public class AddressServiceImpl implements AddressService {
 	private final AddressMapper mapper;
 
 	@Override
-	public Map<String, Object> address(int grade, String query, int cp) {
+	public Map<String, Object> address(int deptNo,int grade, String query, int cp) {
 		
 		// 파라미터 전달용 map
 		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("deptNo", deptNo);
 		paramMap.put("grade", grade);
 		paramMap.put("query", query);
 		
@@ -48,4 +51,8 @@ public class AddressServiceImpl implements AddressService {
 		
 		return map;
 	}
+	
+
+	
+	
 }
