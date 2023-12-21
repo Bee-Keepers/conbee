@@ -49,11 +49,23 @@ public interface MyPageMapper {
 
 
 	List<Member> selectchoiceNameList(Map<String, Object> paramMap, RowBounds rowBounds);
+	
+	
 	/** 프로필 이미지 수정
 	 * @param loginMember
 	 * @return
 	 */
 	int updateMemberProfile(Member loginMember);
+
+
+	/**
+	 * 프로필 수정
+	 * @param updateMember
+	 * @return
+	 */
+	int myPageUpdate(Member updateMember);
+	
+	
 	
 	
 

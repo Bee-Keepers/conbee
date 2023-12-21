@@ -22,20 +22,26 @@
 
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">상세조회</h1>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">쪽지</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-
+          
           <div class="modal-body">
-
-
-
-
-
+            <div id="messageName">
+              이름
+            </div>
+            <div id="messageDate">
+              날짜
+            </div>
+            <div id="messageContent">
+              내용
+            </div>
+            <input type="hidden" id="messageNo">
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+         
           </div>
         </div>
       </div>
@@ -59,22 +65,23 @@
           </colgroup>
           <thead>
             <tr style="text-align: center;">
-              <th><input type="checkbox"></th>
+              <th><input type="checkbox" id="checkAll"></th>
               <th>보낸사람/받는사람</th>
               <th>내용</th>
               <th>날짜</th>
             </tr>
           </thead>
           <tbody class="table-group-divider">
-
-            <tr th:each="member : ${memberList}" th:object="${member}" style="text-align: center;">
-              <td><input type="checkbox"></td>
-              <td th:text="*{memberNo}"></td>
-              <td>
-                <img th:if="*{memberProfile == null}" th:src="#{user.default.image}" style="width: 45px; height: 45px;">
-                <img th:unless="*{memberProfile == null}" th:src="*{memberProfile}">
-              </td>
+            <tr th:if="${noteList == null}">
+              <td colspan="4">저장된 쪽지가 없습니다</td>
+              
+            </tr>
+            <tr th:each="note : ${noteList}" th:object="${note}" style="text-align: center;">
+              <td><input type="checkbox" class="checkNote"></td>
               <td th:text="*{memberName}"></td>
+              <input type="hidden" th:value="*{messageNo}">
+              <td class="text-truncate" th:classappend="*{messageReadFl == 'N'} ? fw-bold : fw-light" style="cursor: pointer;" th:text="*{messageContent}" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="readCheckFn(this)"></td>
+              <td th:text="*{messageDate}"></td>
             </tr>
 
 
@@ -92,7 +99,7 @@
 
 
   <script src="/js/bootstrap.bundle.min.js"></script>
-  <script src="/js/address.js"></script>
+  <script src="/js/note/noteKeep.js"></script>
 </body>
 
 </html>

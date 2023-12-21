@@ -126,7 +126,7 @@
    <ul class="pagination" th:unless="${param.commentName == null}">
      <!-- 첫 페이지로 이동 -->
      <li class="page-item">
-       <a class="page-link" aria-label="First" th:href="@{/myPage/myPage-mywrite(commentName=${param.commentName},cp=1)}">
+       <a class="page-link" aria-label="First" th:href="@{/myPage/myPage-comment(commentName=${param.commentName},cp=1)}">
          <span aria-hidden="true">&laquo;</span>
        </a>
      </li>
@@ -160,7 +160,7 @@
      </li>
 
      <li class="page-item">
-       <a class="page-link" aria-label="End" th:href="@{/myPage/myPage-comment(commentName=${param.writeName}, cp=${pagination.maxPage})}">
+       <a class="page-link" aria-label="End" th:href="@{/myPage/myPage-comment(commentName=${param.commentName}, cp=${pagination.maxPage})}">
          <span aria-hidden="true">&raquo;</span>
        </a>
      </li>

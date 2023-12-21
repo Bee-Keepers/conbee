@@ -79,9 +79,6 @@
 	</select>
 
 
-	
-	
-	
 	<!-- 프로필 이미지 수정 -->
 	<update id="updateMemberProfile">
 		UPDATE "MEMBER"
@@ -89,6 +86,15 @@
 		WHERE MEMBER_NO = #{memberNo}
 	</update>
 	
+	
+	<!--  프로필 수정 -->
+	
+	<update id="myPageUpdate">
+		UPDATE "MEMBER" SET
+		MEMBER_TEL =#{memberTel},
+	    MEMBER_ADDRESS =#{memberAddress}
+	    WHERE MEMBER_NO =#{memberNo}
+	</update>
 	
 	
 	

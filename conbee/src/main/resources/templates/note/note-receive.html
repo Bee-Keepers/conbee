@@ -96,10 +96,11 @@
             <div id="messageContent">
               내용
             </div>
+            <input type="hidden" id="messageNo">
           </div>
 
           <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">저장</button>
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="messageSave">저장</button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
          
           </div>
@@ -144,8 +145,6 @@
                 <input type="hidden" th:value="*{messageNo}">
                 <td class="text-truncate" th:classappend="*{messageReadFl == 'N'} ? fw-bold : fw-light" style="cursor: pointer;" th:text="*{messageContent}" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="readCheckFn(this)"></td>
                 <td th:text="*{messageDate}"></td>
-                
-                
               </tr>
             </th:block>
           </tbody>
