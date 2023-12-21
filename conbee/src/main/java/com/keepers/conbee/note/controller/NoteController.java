@@ -53,8 +53,15 @@ public class NoteController {
     }
 
     
+    /** 쪽지 보관함
+     * @param model
+     * @param loginMember
+     * @return
+     */
     @GetMapping("note-keep")
-    public String notekeep(Board board, Model model) {
+    public String notekeep(Model model, @SessionAttribute("loginMember") Member loginMember) {
+    	List<Note> noteList = service.notekeep(loginMember.getMemberNo());
+    	model.addAttribute("noteList",noteList);
         return "note/note-keep";
     }
     
@@ -125,6 +132,12 @@ public class NoteController {
     	return unReadCount;
     }
   
+    // 쪽지 저장
+    @PutMapping("save")
+    @ResponseBody
+    public int save(@RequestBody int messageNo) {
+    	return service.save(messageNo);
+    }
 
 
 }

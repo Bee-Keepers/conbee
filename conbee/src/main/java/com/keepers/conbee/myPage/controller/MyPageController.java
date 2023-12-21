@@ -24,6 +24,7 @@ import com.keepers.conbee.myPage.model.service.MyPageService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @RequestMapping("myPage")
@@ -82,11 +83,38 @@ public class MyPageController {
         
     }
     
-     
+    /**
+     * 회원 정보 수정
+     * @return
+     */
     @GetMapping("myPageUpdate")
     public String myPageUpdate() {
-        
-        return "myPage/myPage-update";
+    	return "myPage/myPage-update";
+    }
+     
+    @PostMapping("myPageUpdate")
+    public String myPageUpdate(Member updateMember, String[]memberAddress,
+			@SessionAttribute("loginMember") Member loginMember,
+			RedirectAttributes ra) {
+    	
+    	updateMember.setMemberNo(loginMember.getMemberNo());
+    	
+    	int result = service.myPageUpdate(updateMember,memberAddress);
+    	
+    	String message= null;
+		
+		if(result>0) {
+			message = "회원 정보가 수정 되었습니다";
+			loginMember.setMemberTel(updateMember.getMemberTel());
+			loginMember.setMemberAddress(updateMember.getMemberAddress());
+		}else {
+			message = "회원정보가 수정 실패";
+		}
+		
+		
+		ra.addFlashAttribute("message",message);
+		
+		return "redirect:myPage-update";
     }
     
     

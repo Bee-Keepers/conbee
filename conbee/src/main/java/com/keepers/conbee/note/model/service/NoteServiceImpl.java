@@ -60,5 +60,23 @@ public class NoteServiceImpl implements NoteService {
 		
 	}
 	
+	// 쪽지 저장
+	@Override
+	public int save(int messageNo) {
+		int result = mapper.alreadySave(messageNo);
+		
+		// 만약 이미 저장된 메시지라면
+		if(result > 0) {
+			return -1;
+		}
+		
+		return mapper.save(messageNo);
+	}
+
+	// 쪽지 보관함
+	@Override
+	public List<Note> notekeep(int memberNo) {
+		return mapper.notekeep(memberNo);
+	}
 	
 }

@@ -1,6 +1,7 @@
 const messageName = document.getElementById("messageName");
 const messageContent = document.getElementById("messageContent");
 const messageDate = document.getElementById("messageDate");
+const messageNoInput = document.getElementById("messageNo");
 
 // 쪽지가 클릭 될 때 읽음으로 변경
 function readCheckFn(e){
@@ -45,7 +46,7 @@ function readCheckFn(e){
   messageName.innerText = e.previousElementSibling.previousElementSibling.innerText;
   messageContent.innerText = e.innerText;
   messageDate.innerText = e.nextElementSibling.innerText;
-
+  messageNoInput.value = messageNo;
 
 };
 
@@ -64,3 +65,23 @@ document.querySelectorAll(".checkNote").forEach((item)=>{
   })
 })
 
+const messageSave = document.getElementById("messageSave");
+
+messageSave.addEventListener("click", ()=>{
+  fetch("/note/save",{
+    method : "PUT",
+    headers : {"Content-Type" : "application/json"},
+    body : messageNoInput.value
+  })
+  .then(resp=>resp.text())
+  .then(result=>{
+    if(result>0){
+      alert("저장 성공");
+    } else if(result == -1){
+      alert("이미 저장된 메시지입니다");
+    }else{
+      alert("저장 안됨");
+    }
+  })
+  .catch(e=>console.log(e));
+});

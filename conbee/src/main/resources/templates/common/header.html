@@ -20,7 +20,7 @@
                         <strong style="color: white;" th:text="${session.loginMember.memberName}">프로필명</strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow" style="z-index: 1021;">
-                        <li th:if="${session.loginMember!=null && session.loginMember.memberAuthority!=0}"><a class="dropdown-item" href="/myPage/myPage-profile">마이페이지</a></li>
+                        <li><a class="dropdown-item" href="/myPage/myPage-profile">마이페이지</a></li>
                         <li><a class="dropdown-item position-relative" href="/note/note-receive">쪽지
                             <span class="position-absolute top-50 end-0 translate-middle badge rounded-pill bg-danger noteBadge" th:classappend="${session.unReadCount > 0 ? '' : 'd-none'}" th:text="${session.unReadCount}"></span>
                         </a></li>

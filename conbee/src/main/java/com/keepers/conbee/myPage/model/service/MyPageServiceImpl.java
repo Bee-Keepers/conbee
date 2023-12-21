@@ -180,4 +180,25 @@ public class MyPageServiceImpl implements MyPageService{
 
 		return result;
 	}
+	
+	//  프로필 수정
+	@Override
+	public int myPageUpdate(Member updateMember, String[] memberAddress) {
+		if(updateMember.getMemberAddress().equals(",,")) {
+			updateMember.setMemberAddress(null);
+		
+		}else { 
+			String address = String.join("^^^", memberAddress);
+			updateMember.setMemberAddress(address);
+		}
+
+		
+		return mapper.myPageUpdate(updateMember);
+	}
+	
+	
+	
+	
+	
+	
 }

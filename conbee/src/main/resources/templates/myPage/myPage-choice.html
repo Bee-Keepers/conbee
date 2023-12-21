@@ -35,7 +35,7 @@
         <div class="fs-2 pb-3 px-3">즐겨찾기</div>
 
         <!-- 검색창 -->
-        <form action="myPage-mychoice" class="w-25 input-group">
+        <form action="myPage-choice" class="w-25 input-group">
           <input type="text" class="form-control" id="choiceName" name="choiceName" placeholder="제목 입력">
           <button class="btn btn-warning" type="submit" id="choiceNameBtn">검색</button>
         </form>
@@ -89,14 +89,14 @@
     <ul class="pagination" th:if="${param.choiceName == null}">
      <!-- 첫 페이지로 이동 -->
      <li class="page-item">
-       <a class="page-link" aria-label="First" th:href="@{/myPage/myPage-mychoice(cp=1)}">
+       <a class="page-link" aria-label="First" th:href="@{/myPage/myPage-choice(cp=1)}">
          <span aria-hidden="true">&laquo;</span>
        </a>
      </li>
 
      <!-- 이전 목록 마지막 번호로 이동 -->
      <li class="page-item">
-       <a class="page-link" aria-label="Previous" th:href="@{/myPage/myPage-mychoice(cp=${pagination.prevPage})}">
+       <a class="page-link" aria-label="Previous" th:href="@{/myPage/myPage-choice(cp=${pagination.prevPage})}">
          <span aria-hidden="true">&lt;</span>
        </a>
      </li>
@@ -111,19 +111,19 @@
 
        <!-- 보고있지 않은 페이지 -->
        <li th:unless="${i == pagination.currentPage}" class="page-item">
-         <a class="page-link" th:href="@{/myPage/myPage-mychoice(cp=${i})}" th:text="${i}">2</a>
+         <a class="page-link" th:href="@{/myPage/myPage-choice(cp=${i})}" th:text="${i}">2</a>
        </li>
      </th:block>
 
      <!-- 다음 목록 시작 번호로 이동 -->
      <li class="page-item">
-       <a class="page-link" aria-label="Next" th:href="@{/myPage/myPage-mychoice(cp=${pagination.nextPage})}">
+       <a class="page-link" aria-label="Next" th:href="@{/myPage/myPage-choice(cp=${pagination.nextPage})}">
          <span aria-hidden="true">&gt</span>
        </a>
      </li>
 
      <li class="page-item">
-       <a class="page-link" aria-label="End" th:href="@{/myPage/myPage-mychoice(cp=${pagination.maxPage})}">
+       <a class="page-link" aria-label="End" th:href="@{/myPage/myPage-choice(cp=${pagination.maxPage})}">
          <span aria-hidden="true">&raquo;</span>
        </a>
      </li>
@@ -133,14 +133,14 @@
    <ul class="pagination" th:unless="${param.choiceName == null}">
      <!-- 첫 페이지로 이동 -->
      <li class="page-item">
-       <a class="page-link" aria-label="First" th:href="@{/myPage/myPage-mychoice(choiceName=${param.choiceName},cp=1)}">
+       <a class="page-link" aria-label="First" th:href="@{/myPage/myPage-choice(choiceName=${param.choiceName},cp=1)}">
          <span aria-hidden="true">&laquo;</span>
        </a>
      </li>
 
      <!-- 이전 목록 마지막 번호로 이동 -->
      <li class="page-item">
-       <a class="page-link" aria-label="Previous" th:href="@{/myPage/myPage-mychoice(choiceName=${param.choiceName}, cp=${pagination.prevPage})}">
+       <a class="page-link" aria-label="Previous" th:href="@{/myPage/myPage-choice(choiceName=${param.choiceName}, cp=${pagination.prevPage})}">
          <span aria-hidden="true">&lt;</span>
        </a>
      </li>
@@ -155,19 +155,19 @@
 
        <!-- 보고있지 않은 페이지 -->
        <li th:unless="${i == pagination.currentPage}" class="page-item">
-         <a class="page-link" th:href="@{/myPage/myPage-mychoice(choiceName=${param.choiceName}, cp=${i})}" th:text="${i}">2</a>
+         <a class="page-link" th:href="@{/myPage/myPage-choice(choiceName=${param.choiceName}, cp=${i})}" th:text="${i}">2</a>
        </li>
      </th:block>
 
      <!-- 다음 목록 시작 번호로 이동 -->
      <li class="page-item">
-       <a class="page-link" aria-label="Next" th:href="@{/myPage/myPage-mychoice(choiceName=${param.choiceName}, cp=${pagination.nextPage})}">
+       <a class="page-link" aria-label="Next" th:href="@{/myPage/myPage-choice(choiceName=${param.choiceName}, cp=${pagination.nextPage})}">
          <span aria-hidden="true">&gt</span>
        </a>
      </li>
 
      <li class="page-item">
-       <a class="page-link" aria-label="End" th:href="@{/myPage/myPage-mychoice(choiceName=${param.choiceName}, cp=${pagination.maxPage})}">
+       <a class="page-link" aria-label="End" th:href="@{/myPage/myPage-choice(choiceName=${param.choiceName}, cp=${pagination.maxPage})}">
          <span aria-hidden="true">&raquo;</span>
        </a>
      </li>
@@ -184,7 +184,7 @@
       
     </main>
   <script src="/js/bootstrap.bundle.min.js"></script>
-  <script src="/js/myPage/myPage-mychoice.js"></script>
+  <script src="/js/myPage/myPage-choice.js"></script>
 </body>
 
 </html>

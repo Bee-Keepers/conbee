@@ -34,4 +34,14 @@ public interface MyPageService {
 	 * @return
 	 */
 	int updateMemberProfile(MultipartFile memberProfile, Member loginMember) throws IllegalStateException, IOException;
+	
+	
+	/**
+	 * 프로필 수정
+	 * @param updateMember
+	 * @param memberAddress
+	 * @return
+	 */
+
+	int myPageUpdate(Member updateMember, String[] memberAddress);
 }

@@ -14,7 +14,7 @@
 	<!--쪽지 보내기-->
 	<insert id="noteWrite">
 		INSERT INTO "MESSAGE" VALUES(
-		SEQ_MESSAGE_NO.NEXTVAL, #{messageContent}, DEFAULT, DEFAULT, #{memberNoSender}, DEFAULT, #{memberNoReciplent})
+		SEQ_MESSAGE_NO.NEXTVAL, #{messageContent}, DEFAULT, DEFAULT, #{memberNoSender}, DEFAULT, #{memberNoReciplent}, 'N')
 	</insert>
 
 	<!-- 쪽지 수신함 -->
@@ -63,8 +63,26 @@
 		</if>
 	</select>
 	
-	
-	
+	<!--쪽지 저장-->
+	<update id="save">
+		UPDATE "MESSAGE" SET
+		MESSAGE_SAVE = 'Y'
+		WHERE MESSAGE_NO = #{messageNo}
+	</update>
 
+	<!--쪽지 보관함-->
+	<select id="notekeep" resultType="Note">
+		SELECT MES.*, MEM.MEMBER_NAME FROM "MESSAGE" MES
+		JOIN MEMBER MEM ON(MES.MEMBER_NO_SENDER = MEM.MEMBER_NO)
+		WHERE MEMBER_NO_RECIPIENT = #{memberNo}
+		AND MESSAGE_SAVE = 'Y'
+		ORDER BY MESSAGE_NO DESC
+	</select>	
+	
+	<select id="alreadySave" resultType="_int">
+		SELECT COUNT(*) FROM "MESSAGE"
+		WHERE MESSAGE_NO = #{messageNo}
+		AND MESSAGE_SAVE = 'Y'
+	</select>
 
 </mapper>

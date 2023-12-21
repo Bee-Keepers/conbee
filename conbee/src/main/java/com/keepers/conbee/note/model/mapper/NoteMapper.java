@@ -51,6 +51,24 @@ public interface NoteMapper {
 	 */
 
 	List<Note> noteSent(int memberNo);
+
+	/** 쪽지 저장
+	 * @param messageNo
+	 * @return
+	 */
+	int save(int messageNo);
+
+	/** 쪽지 보관함
+	 * @param memberNo
+	 * @return
+	 */
+	List<Note> notekeep(int memberNo);
+
+	/** 저장 되어있는지 확인
+	 * @param messageNo
+	 * @return
+	 */
+	int alreadySave(int messageNo);
 	
 	
 
