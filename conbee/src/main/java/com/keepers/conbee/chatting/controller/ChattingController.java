@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("chatting")
-@SessionAttributes({"loginMember"})
+@SessionAttributes({"loginMember", "chatMessage"})
 public class ChattingController {
 	
 	private final ChattingService service;
@@ -61,21 +61,6 @@ public class ChattingController {
 	}
 	
 	
-	/** 팀 별 메세지 리스트 조회
-	 * @param loginMember
-	 * @param model
-	 * @return
-	 */
-	@GetMapping(value="/chatting/selectTeamChat", produces="application/json; charset=UTF-8;")
-	@ResponseBody
-	private List<ChatMessage> selectTeamMessageList(@SessionAttribute("loginMember") Member loginMember, Model model) {
-		List<ChatMessage> teamMessageList = service.selectTeamMessageList(loginMember.getTeamNo());
-		model.addAttribute("teamMessageList", teamMessageList);
-		
-		log.info("dfdfd : ",  teamMessageList);
-		
-		return teamMessageList;
-	}
 	
 	
 	//성공
@@ -149,13 +134,27 @@ public class ChattingController {
     }
     	
 	
+	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	
+
+	/** 팀 별 메세지 리스트 조회
+	 * @param loginMember
+	 * @param model
+	 * @return
+	 */
+	@GetMapping(value="/chatting/selectTeamMessageList", produces="application/json; charset=UTF-8;")
+	@ResponseBody
+	private List<ChatMessage> selectTeamMessageList(@SessionAttribute("loginMember") Member loginMember, Model model) {
+		List<ChatMessage> teamMessageList = service.selectTeamMessageList(loginMember.getTeamNo());
+		
+		log.info("dfdfd : ",  teamMessageList);
+		
+		return teamMessageList;
+	}
 	
 	
 	
-	
-	
-	
-	
+//	@GetMapping(value)
 	
 	
 	
