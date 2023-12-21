@@ -1,6 +1,6 @@
 // let calendar;
 let calendarList = []; /* 일정 저장하는 배열 */
-
+let calendar;
 const selectMainCalendar = () => {
 
   fetch('/calendar/selectCalendar')
@@ -30,14 +30,14 @@ const selectMainCalendar = () => {
 
     // 화면에 출력할 달력 설정
     let calendarEl = document.getElementById('calendar');
-    let calendar = new FullCalendar.Calendar(calendarEl, {
+    calendar = new FullCalendar.Calendar(calendarEl, {
       contentHeight : "auto",
       // height : 300,
       // aspectRatio: 3,
       headerToolbar: {
-        left: 'prev,next today',
+        left: 'prev',
         center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        right: 'next'
       },
       initialDate: new Date(),
       locale: 'ko',
@@ -141,6 +141,7 @@ const selectMainCalendar = () => {
 
     calendar.render(); // 화면에 달력 출력
 
+    document.getElementById("fc-dom-1").addEventListener("click", () => { calendar.today(); } )
 
   })
   .catch(e => console.log(e));
@@ -148,3 +149,5 @@ const selectMainCalendar = () => {
 
 
 selectMainCalendar();
+
+
