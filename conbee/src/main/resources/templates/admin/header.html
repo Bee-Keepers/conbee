@@ -14,7 +14,10 @@
             <div class="text-end">
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img th:src="#{user.default.image}" alt="" width="32" height="32" class="rounded-circle me-2">
+                        <img th:if="${session.loginMember.memberProfile==null}" th:src="#{user.default.image}" 
+                        alt="" width="32" height="32" class="rounded-circle me-2"><!-- 프로필 이미지 x -->
+                        <img th:unless="${session.loginMember.memberProfile==null}" th:src="${session.loginMember.memberProfile}" 
+                        alt="" width="32" height="32" class="rounded-circle me-2"><!-- 프로필 이미지 o -->
                         <strong style="color: white;" th:text="${session.loginMember.memberName}">프로필명</strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow">
