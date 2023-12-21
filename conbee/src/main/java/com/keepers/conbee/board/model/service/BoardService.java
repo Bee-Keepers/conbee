@@ -51,6 +51,14 @@ public interface BoardService {
 	String boardName(int boardCodeNo);
 	
 	
+	
+	/** 댓글 수 조회
+	 * @return
+	 */
+	int getCommentCount();
+	
+	
+	
 	/* ================================= 예리나 ========================================== */
 	
 	
@@ -59,6 +67,7 @@ public interface BoardService {
 	 * @return
 	 */
 	int boardReport(Map<String, Object> paramMap);
+
 
 
 

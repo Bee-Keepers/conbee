@@ -86,10 +86,10 @@
     font-size: 20px;
 }
 
-#resultArea{list-style: none;}
+#resultArea{list-style: none; overflow: auto; max-height: 550px;}
 
 .result-row{
-	width: 100%;
+	width: 200px;
 	height: 50px;
 	padding: 5px;
 	cursor: pointer;
@@ -126,13 +126,17 @@
 }
 
 /*  채팅 목록 */
+
+.main-roomList{
+}
+
 .chatting-list{
 	width: 22%;
 	border : 1px solid black;
   
   
+  
 	list-style: none;
-	overflow: auto;
   border-radius: 10px 0px 3px 10px;
 }
 
@@ -173,6 +177,7 @@
 	max-width: 57px;
     max-height: 57px;
     margin-top: 5px;
+    border-radius: 20px;
 }
 
 .target-name{
@@ -223,16 +228,17 @@
 
 /* 채팅 내용 */
 .chatting-content{
-	width: 70%;
+  width: 70%;
+  height: 500px;
 }
 
 .display-chatting {
-	width: 100%;
+  width: 100%;
+  overflow-y: auto;
 	height: 568px;
 	border: 1px solid black;
   border-radius: 0px 10px 3px 0px;
   border-left: none;
-	overflow: auto;
 	list-style: none;
 }
 
@@ -247,6 +253,7 @@
 .target-chat > img{
 	width: 50px;
 	margin-right: 5px;
+  border-radius: 50px;
 }
 
 .chat {

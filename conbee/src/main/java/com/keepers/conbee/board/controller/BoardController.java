@@ -50,27 +50,32 @@ public class BoardController {
 	 */
 	@GetMapping("boardList/{boardCodeNo:[0-9]+}")
 	public String boardList(
-		@PathVariable("boardCodeNo") int boardCodeNo, Model model,
+		@PathVariable("boardCodeNo") int boardCodeNo,
+		Model model,
 		@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
 		@RequestParam Map<String, Object> paramMap
 		) {
 		
+		model.addAttribute("boardCodeNo", boardCodeNo);
 		
 		// 검색이 아닌 일반 조회
-		if(paramMap.get("key") == null && paramMap.get("query") == null) {
+		if(paramMap.get("query") == null) {
 			Map<String, Object> map =service.selectBoardList(boardCodeNo, cp);
-			model.addAttribute("map", map);
 			
+			
+			model.addAttribute("map", map);
+			return "board/boardList";
 			
 		// 검색
 		} else {
-			paramMap.put("boardCodeNo", boardCodeNo);
+//			paramMap.put("boardCodeNo", boardCodeNo);
 			
 			Map<String, Object> map = service.searchBoardList(paramMap, cp);
 			model.addAttribute("map", map);
+			return "board/boardList";
+			
 		}
 		
-		return "board/boardList";
 	}
 	
 	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ상세 + 좋아요 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
@@ -92,7 +97,7 @@ public class BoardController {
 			Model model, RedirectAttributes ra,
 			@SessionAttribute(value = "loginMember", required = false) Member loginMember, HttpServletRequest req,
 			HttpServletResponse resp) throws ParseException {
-
+		model.addAttribute("boardCodeNo", boardCodeNo);
 		String boardCodeName = service.boardName(boardCodeNo);
 		
 		// 1. 상세 조회 서비스 호출
@@ -233,21 +238,6 @@ public class BoardController {
 
 	         // ----------------------------------------------------
 			 
-//	         if (board.getImageList().size() > 0) {
-//
-//	             BoardImg thumbnail = null;
-//	             
-//	             
-//	             // 썸네일이 존재하면
-//	             if (board.getImageList().get(0).getImgOrder() == 0) {
-//	                thumbnail = board.getImageList().get(0);
-//	             }
-//
-//	             model.addAttribute("thumbnail", thumbnail);
-//	             model.addAttribute("start", thumbnail != null ? 1 : 0);
-//	          }
-	          
-			
 
 		}
 		
@@ -260,12 +250,6 @@ public class BoardController {
 		
 		return path;
 	}
-//	
-//	@GetMapping("boardReport")
-//	public String report() {
-//		return "boardReport";
-//	}
-//
 	
 	
 	/** 북마크 처리

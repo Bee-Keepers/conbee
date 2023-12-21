@@ -93,6 +93,15 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	
+	@Override
+	public int tempPw(String memberEmail, String memberPw) {
+		String tempPw = mapper.tempPw(memberEmail);
+		if(memberPw.equals(tempPw)) {
+			return 1;
+		}
+		return 0;
+	}
+	
 	
 	
 	

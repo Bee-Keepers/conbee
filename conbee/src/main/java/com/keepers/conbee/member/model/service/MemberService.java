@@ -46,6 +46,8 @@ public interface MemberService {
 	 */
 	int findPwResult(Member inputMember);
 
+	int tempPw(String memberEmail, String memberPw);
+
 	
 	
 	

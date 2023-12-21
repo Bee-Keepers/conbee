@@ -37,7 +37,7 @@
 
         <!-- 검색버튼 -->
         <form action="boardList" method="GET" style="width: 200px;">
-          <input type="text" name="" id="" class="form-control" placeholder="게시글 조회" size="40">
+          <input type="text" name="query" id="searchQuery" class="form-control" placeholder="게시글 조회" size="40">
         </form>
 
       </div>
@@ -87,12 +87,13 @@
               
               <td colspan="2" th:text="*{boardNo}">1234</td>
               <td>
-                <a style="color: black; text-decoration: none; width: 100%; display: block;"  th:href="@{/board/boardDetail/{boardCodeNo}/{boardNo}(boardCodeNo=${boardCodeNo}, boardNo=*{boardNo}) }"  th:text="*{boardTitle}" > </a>
+                <a style="color: black; text-decoration: none; width: 100%; display: block;"  th:href="@{/board/boardDetail/{boardCodeNo}/{boardNo}(boardCodeNo=${boardCodeNo}, boardNo=*{boardNo}) }"  th:text="|*{boardTitle} [*{commentCount}]|" > </a>
+                
               </td>
-              <td th:text="*{memberName}">김민규</td>
-              <td  th:text="*{boardWriteDate}">
-             
-              </td>
+              <td th:if="${boardCodeNo != 3}" th:text="*{memberName}">김민규</td>
+              <td th:if="${boardCodeNo == 3}">익명</td>
+              <td  th:text="*{boardWriteDate}"> 작성일</td>
+              <!-- <td th:text="*{CommentNo}">댓글수</td> -->
               <td th:text="*{boardHits}">12314</td>
             </tr>
             </th:block>

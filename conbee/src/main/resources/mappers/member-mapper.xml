@@ -85,5 +85,9 @@
 		WHERE MEMBER_NO = #{memberNo}
 	 </update>
 	
+	<select id="tempPw" resultType="string">
+		SELECT AUTH_KEY_SERIAL FROM AUTH_KEY
+		WHERE AUTH_KEY_EMAIL = #{memberEmail}
+	</select>
 
 </mapper>

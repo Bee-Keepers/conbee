@@ -357,6 +357,13 @@ document.getElementById("submitBtn").addEventListener("click", e => {
           return;
       }
   }
+  if(gradeNoCategory.value == 6){
+    if(storeNo.disabled == true){
+      alert("점주등록은 점포번호를 입력해야합니다")
+      e.preventDefault(); // form 제출 X
+      return;
+    }
+  }
 });
 
 //-------------------------------------------------------------------------

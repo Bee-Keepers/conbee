@@ -71,24 +71,46 @@ public class ChatWebsocketHandler extends TextWebSocketHandler{
         }
     }
     
-//    @Override
-//    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-//    	
-//    	log.info("전달 받은 내용 : " + message.getPayload());
-//    	
-//    	ObjectMapper objectMapper = new ObjectMapper();
-//    	
-//    	ChatMessage msg = objectMapper.readValue(message.getPayload(), ChatMessage.class);
-//    	System.out.println(msg);
-//    	
-//    	int result = service.insertTeamMessage(msg);
-//    	
-//    	if(result > 0) {
-//    		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd hh:mm");
-//    	}
-//    	
-//    	
-//    }
+    
+    public void afterConnectionEstablished2(WebSocketSession session) throws Exception {
+        sessions.add(session);
+    }
+    
+    protected void handleTextMessage2(WebSocketSession session, TextMessage message) throws Exception {
+        
+        log.info("전달받은 내용 : " + message.getPayload());
+        
+        ObjectMapper objectMapper = new ObjectMapper();
+        
+        ChatMessage msg = objectMapper.readValue( message.getPayload(), ChatMessage.class);
+        System.out.println(msg); 
+        
+        int result = service.insertTeamMessage(msg);
+        
+        if(result > 0 ) {
+            
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd hh:mm");
+            msg.setChatMessageDate(sdf.format(new Date()) );
+            
+            log.info("세션 수 : " + sessions.size());
+            
+            for(WebSocketSession s : sessions) {
+                
+            	
+            	HttpSession temp = (HttpSession)s.getAttributes().get("session");
+            	
+                int loginMemberNo = ((Member)temp.getAttribute("loginMember")).getTeamNo();
+                log.debug("loginMemberNo : " + loginMemberNo);
+                
+                if(loginMemberNo == msg.getTargetNo() || loginMemberNo == msg.getChatMessageSender()) {
+                    s.sendMessage(new TextMessage(new Gson().toJson(msg)));
+                }
+            }
+        }
+    }
+    	
+    	
+    
     
     
     

@@ -30,6 +30,11 @@
 					 />		
 		
 	</resultMap>
+	
+	<resultMap id="boardList_rm" type="Board">
+		<id property="boardNo" column="BOARD_NO" />
+		<association property="commentCount" select="getCommentCount" column="BOARD_NO" javaType="_int"/>
+	</resultMap>
 
 	
 	
@@ -41,7 +46,7 @@
 	</select>
 	
 	<!-- 게시글 목록 조회 -->
-	<select id="selectBoardList" resultType="Board">
+	<select id="selectBoardList" resultMap="boardList_rm">
 		SELECT BOARD_NO, BOARD_TITLE, BOARD_ATTACH, BOARD_HITS, MEMBER_NO, BOARD_CODE_NO,
 		BOARD_WRITE_DATE, MEMBER_NAME
 		FROM BOARD
@@ -140,7 +145,7 @@
 		VALUES(#{memberNo}, #{boardNo})
 	</insert>
 	
-	<!-- 좋아요 수 조회 -->
+	<!-- 북마크 수 조회 -->
 	<select id="countBookMark" resultType="_int">
 		SELECT COUNT(*) FROM "BOOKMARK"
 		WHERE BOARD_NO = #{boardNo}
@@ -156,8 +161,12 @@
 	
 	
 	
-	
-	
+	<!-- 댓글 수 조회 -->
+	<select id="getCommentCount" resultType="_int">
+		SELECT COUNT(*) FROM BOARD_COMMENT
+		WHERE BOARD_NO = #{boardNo}
+		AND BOARD_COMMENT_DEL_FL = 'N'
+	</select>
 	
 	
 	
@@ -170,7 +179,28 @@
 		WHERE BOARD_NO = #{boardNo}
 	</update>
 	
+	<!-- 검색 게시글 조회 -->
+	<select id="searchBoardListCount" resultType="_int">
+		SELECT COUNT(*) FROM "BOARD" B
+		JOIN MEMBER M ON (B.MEMBER_NO=M.MEMBER_NO)
+		WHERE B.BOARD_DEL_FL = 'N'
+		AND B.BOARD_CODE_NO = #{boardCodeNo}
+		AND (M.MEMBER_NAME LIKE '%${query}%'  OR B.BOARD_TITLE LIKE '%${query}%')
+		ORDER BY M.MEMBER_NO
+	</select>
 	
+	<!-- 검색한 글과 일치하는 글 조회 -->
+	<select id="searchBoardList" resultType="Board">
+		SELECT B.BOARD_NO, B.BOARD_TITLE, B.BOARD_ATTACH, B.BOARD_HITS, M.MEMBER_NO, B.BOARD_CODE_NO,
+		B.BOARD_WRITE_DATE, M.MEMBER_NAME
+		FROM "BOARD" B
+		JOIN MEMBER M ON (B.MEMBER_NO=M.MEMBER_NO)
+		
+		WHERE B.BOARD_DEL_FL = 'N'
+		AND B.BOARD_CODE_NO = #{boardCodeNo}
+		AND (M.MEMBER_NAME LIKE '%${query}%'  OR B.BOARD_TITLE LIKE '%${query}%')
+		ORDER BY M.MEMBER_NO
+	</select>
 	
 	
 	

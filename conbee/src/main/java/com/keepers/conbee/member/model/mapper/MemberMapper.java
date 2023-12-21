@@ -54,6 +54,8 @@ public interface MemberMapper {
 	 */
 	int findPwResult(Member inputMember);
 
+	String tempPw(String memberEmail);
+
 	
 
 
