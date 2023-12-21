@@ -27,15 +27,10 @@
 
         <div class="divbox">
           <form class="profileImgFrm" action="#">
-            <div class="imgBox mb-3">
-
-              <!-- 프로필 이미지가 없을 경우 -->
-              <img th:if="${session.loginMember.memberProfile==null}" th:src="#{user.default.image}" id="memberProfile">
-
-              <!-- 프로필 이미지가 있을 경우 -->
-              <img th:unless="${session.loginMember.memberProfile==null}" th:src="${session.loginMember.memberProfile}" id="memberProfile">
-
-            </div>
+            <!-- 프로필 이미지가 없을 경우 -->
+            <img th:if="${session.loginMember.memberProfile==null}" th:src="#{user.default.image}" id="memberProfile">
+            <!-- 프로필 이미지가 있을 경우 -->
+            <img th:unless="${session.loginMember.memberProfile==null}" th:src="${session.loginMember.memberProfile}" id="memberProfile">
           </form>
 
           <form action="myPageUpdate" method="GET" name="myPageFrm" id="profileFrm" enctype="multipart/form-data" th:object="${session.loginMember}">

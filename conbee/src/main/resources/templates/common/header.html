@@ -15,8 +15,10 @@
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle position-relative" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger noteBadge" th:classappend="${session.unReadCount > 0 ? '' : 'd-none'}" th:text="${session.unReadCount}"></span>
-                        <img th:if="${session.loginMember.memberProfile==null}" th:src="#{user.default.image}" alt="" width="32" height="32" class="rounded-circle me-2">
-                        <img th:unless="${session.loginMember.memberProfile==null}" th:src="${session.loginMember.memberProfile}" alt="" width="32" height="32" class="rounded-circle me-2">
+                        <img th:if="${session.loginMember.memberProfile==null}" th:src="#{user.default.image}" 
+                        alt="" width="32" height="32" class="rounded-circle me-2"><!-- 프로필 이미지 x -->
+                        <img th:unless="${session.loginMember.memberProfile==null}" th:src="${session.loginMember.memberProfile}" 
+                        alt="" width="32" height="32" class="rounded-circle me-2"><!-- 프로필 이미지 o -->
                         <strong style="color: white;" th:text="${session.loginMember.memberName}">프로필명</strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow" style="z-index: 1021;">
