@@ -28,7 +28,7 @@ public interface MemberService {
 	 */
 	String findMemberId(Member inputInformation);
 
-	/** 비밀번호 찾기(멤버 조회)  부대찌개 탐색
+	/** 비밀번호 찾기(멤버 조회)  
 	 * @param inputInformation
 	 * @return
 	 */

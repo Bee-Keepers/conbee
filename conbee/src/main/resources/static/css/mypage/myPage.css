@@ -43,3 +43,7 @@
 #deleteImage{
   color: #8c8c8c ;
 }
+
+
+.is-valid{border: 2px solid #FFE15D;}
+.is-invalid{border: 2px solid red;}

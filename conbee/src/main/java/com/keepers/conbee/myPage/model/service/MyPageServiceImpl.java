@@ -183,22 +183,33 @@ public class MyPageServiceImpl implements MyPageService{
 	
 	//  프로필 수정
 	@Override
-	public int myPageUpdate(Member updateMember, String[] memberAddress) {
-		if(updateMember.getMemberAddress().equals(",,")) {
+	public int myPageUpdate(Member updateMember) {
+		if(updateMember.getMemberAddress().equals("")) {
 			updateMember.setMemberAddress(null);
 		
-		}else { 
-			String address = String.join("^^^", memberAddress);
-			updateMember.setMemberAddress(address);
 		}
-
 		
 		return mapper.myPageUpdate(updateMember);
 	}
 	
+	// 이메일 유효성 검사
+	@Override
+	public int checkmyPageEmail(String memberEmail) {
+		
+		return mapper.checkmyPageEmail(memberEmail);
+	}
 	
 	
+	@Override
+	public int checkMemberTel(String memberTel) {
+		return mapper.checkMemberTel(memberTel);
+	}
 	
-	
+//	
+//	@Override
+//	public int checkMemberPw(String memberPw) {
+//		return mapper.checkMemberPw();
+//	}
+//	
 	
 }

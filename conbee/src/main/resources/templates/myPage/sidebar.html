@@ -27,7 +27,7 @@
             </a>
         </li>
         <li>
-            <a href="/myPage/myPage-store" class="nav-link link-body-emphasis">
+            <a th:if="${session.loginMember != null && session.loginMember.gradeNo == 6}" href="/myPage/myPage-store" class="nav-link link-body-emphasis">
                 내 점포 조회
             </a>
         </li>

@@ -71,6 +71,27 @@ public interface NoteMapper {
 	int alreadySave(int messageNo);
 	
 	
+	/**
+	 * 쪽지 삭제
+	 * @param messageNoList
+	 * @return
+	 */
+
+	int deleteNoteReceive(List<Integer> messageNoList);
+
+	int deleteNoteSent(List<Integer> messageNoList);
+
+	int deleteNoteKeep(List<Integer> messageNoList);
+	
+	/**
+	 * 보낸 쪽지 저장
+	 * @param messageNo
+	 * @return
+	 */
+
+	int savesent(int messageNo);
+	
+	
 
 	
 	

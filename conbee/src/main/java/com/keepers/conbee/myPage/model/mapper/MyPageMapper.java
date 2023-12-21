@@ -64,6 +64,30 @@ public interface MyPageMapper {
 	 * @return
 	 */
 	int myPageUpdate(Member updateMember);
+
+
+	/**
+	 * 이메일 유효성 검사
+	 * @param memberEmail
+	 * @return
+	 */
+	int checkmyPageEmail(String memberEmail);
+
+
+
+	/** 전화번호 중복 검사
+	 * @param memberTel
+	 * @return
+	 */
+	int checkMemberTel(String memberTel);
+
+
+
+	/** 비밀번호 유효성 검사
+	 * @param memberPw
+	 * @return
+	 */
+//	int checkMemberPw(String memberPw);
 	
 	
 	

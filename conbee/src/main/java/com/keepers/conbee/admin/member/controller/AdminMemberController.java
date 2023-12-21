@@ -75,7 +75,7 @@ public class AdminMemberController {
 	
 	/** 회원가입
 	 * @param inputMember
-	 * @param ra
+	 * @param 
 	 * @return
 	 */
 	@PostMapping("signUp/insert")

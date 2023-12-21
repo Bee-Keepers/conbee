@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,7 +23,9 @@ import com.keepers.conbee.note.model.dto.Note;
 import com.keepers.conbee.note.model.service.NoteService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("note")
@@ -138,6 +141,54 @@ public class NoteController {
     public int save(@RequestBody int messageNo) {
     	return service.save(messageNo);
     }
+    
+    // 보낸쪽지 저장
+    @PutMapping("savesent")
+    @ResponseBody
+    public int savesent(@RequestBody int messageNo) {
+    	return service.savesent(messageNo);
+    }
+    
+    // 쪽지 삭제
+    @GetMapping("deleteNoteReceive")
+    public String deleteNoteReceive(@RequestParam("messageNoList") List<Integer> messageNoList, RedirectAttributes ra) {
+    	
+    	int result = service.deleteNoteReceive(messageNoList);
+    	
+    	if(result>0) {    		
+    		ra.addFlashAttribute("message", "쪽지가 삭제되었습니다");
+    	}
+    	
+    	return "redirect:note-receive";
+    }
+    
+    @GetMapping("deleteNoteSent")
+    public String deleteNoteSent(@RequestParam("messageNoList") List<Integer> messageNoList, RedirectAttributes ra) {
+    	
+    	int result = service.deleteNoteSent(messageNoList);
+    	
+    	if(result>0) {    		
+    		ra.addFlashAttribute("message", "쪽지가 삭제되었습니다");
+    	}
+    	
+    	
+    	return "redirect:note-sent";
+    }
+	
+    @GetMapping("deleteNoteKeep")
+    public String deleteNoteKeep(@RequestParam("messageNoList") List<Integer> messageNoList, RedirectAttributes ra) {
+    	
+    	int result = service.deleteNoteKeep(messageNoList);
+    	
+    	if(result>0) {    		
+    		ra.addFlashAttribute("message", "쪽지가 삭제되었습니다");
+    	}
+    	
+    	
+    	return "redirect:note-keep";
+    }
+	
+	
 
 
 }

@@ -1,3 +1,5 @@
+
+
 const messageName = document.getElementById("messageName");
 const messageContent = document.getElementById("messageContent");
 const messageDate = document.getElementById("messageDate");
@@ -24,9 +26,30 @@ document.getElementById("checkAll").addEventListener("change",e=>{
 /* 체크가 하나라도 해제되면 전체체크 해제 */
 
 document.querySelectorAll(".checkNote").forEach((item)=>{
-  item.addEventListener("change", e=>{
-    if(!e.target.checked){
-      document.getElementById("checkAll").checked = false;
-    }
-  })
+item.addEventListener("change", e=>{
+  if(!e.target.checked){
+    document.getElementById("checkAll").checked = false;
+  }
 })
+})
+
+
+document.getElementById('deleteBtn').addEventListener('click', e =>{
+  
+  let messageNo;
+  let messageNoList=[];
+  const checkNotes = document.querySelectorAll(".checkNote");
+  for(let checkNote of checkNotes){
+    if(checkNote.checked==true){
+      messageNo=checkNote.value;
+      messageNoList.push(parseInt(messageNo));
+      console.log(messageNoList);
+    }
+  }
+  if(confirm("정말 삭제??")){
+  
+    location.href="/note/deleteNoteKeep?messageNoList=" + messageNoList;
+
+  }
+
+});

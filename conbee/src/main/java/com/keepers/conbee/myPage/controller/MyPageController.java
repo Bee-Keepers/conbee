@@ -1,30 +1,30 @@
 package com.keepers.conbee.myPage.controller;
 
-import java.util.HashMap;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.admin.store.model.dto.Store;
-import com.keepers.conbee.board.model.dto.Board;
+import com.keepers.conbee.email.model.service.EmailService;
 import com.keepers.conbee.member.model.dto.Member;
+import com.keepers.conbee.member.model.service.MemberService;
 import com.keepers.conbee.myPage.model.service.MyPageService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @RequestMapping("myPage")
@@ -34,6 +34,7 @@ import oracle.jdbc.proxy.annotation.Post;
 public class MyPageController {
     
     private final MyPageService service;
+    private final EmailService emailService;
     
     /** 프로필 정보 조회
      * @param 
@@ -93,20 +94,22 @@ public class MyPageController {
     }
      
     @PostMapping("myPageUpdate")
-    public String myPageUpdate(Member updateMember, String[]memberAddress,
+    public String myPageUpdate(Member updateMember,
 			@SessionAttribute("loginMember") Member loginMember,
 			RedirectAttributes ra) {
     	
     	updateMember.setMemberNo(loginMember.getMemberNo());
     	
-    	int result = service.myPageUpdate(updateMember,memberAddress);
+    	int result = service.myPageUpdate(updateMember);
     	
     	String message= null;
 		
 		if(result>0) {
 			message = "회원 정보가 수정 되었습니다";
 			loginMember.setMemberTel(updateMember.getMemberTel());
+			loginMember.setMemberEmail(updateMember.getMemberEmail());
 			loginMember.setMemberAddress(updateMember.getMemberAddress());
+//			loginMember.setMemberPw(updateMember.getMemberPw());
 		}else {
 			message = "회원정보가 수정 실패";
 		}
@@ -114,7 +117,7 @@ public class MyPageController {
 		
 		ra.addFlashAttribute("message",message);
 		
-		return "redirect:myPage-update";
+		return "redirect:myPage-profile";
     }
     
     
@@ -149,9 +152,33 @@ public class MyPageController {
     	return "redirect:myPage-store";
     }
     
+    // 이메일 중복 검사
+ 	@GetMapping("checkmyPageEmail")
+ 	@ResponseBody
+ 	public int checkmyPageEmail(String memberEmail) {
+ 		int result = service.checkmyPageEmail(memberEmail);
+ 		return result;
+ 	}
+ 	
+ 	// 전화번호 유효성 검사
+ 	@GetMapping("checkMemberTel")
+ 	@ResponseBody
+ 	public int checkMemberTel(String memberTel) {
+ 		int result = service.checkMemberTel(memberTel);
+ 		return result;
+ 	}
+// 	
+// 	// 비밀번호 유효성 검사
+// 	@GetMapping("memberPwCheck")
+// 	@ResponseBody
+// 	public int checkMemberPw(String memberPw) {
+// 		int result = service.checkMemberPw(memberPw);
+// 		return result;
+// 	}
+//    
+//    
     
-    
-    /** 프로필 이미지 수정
+     /** 프로필 이미지 수정
      * @param memberProfile
      * @param loginMember
      * @param ra
@@ -179,6 +206,7 @@ public class MyPageController {
 		// 프로필 페이지로 리다이렉트
 		return "redirect:myPageUpdate";
     }
+    
     
     
     
