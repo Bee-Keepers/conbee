@@ -222,6 +222,7 @@ function addTempApprovers(tempApprovers, block3Num) {
       const approverInfo = document.createElement("div");
       const removeBtn = document.createElement("div");
 
+      const profileInfo = document.createElement("img");
       const departmentInfo = document.createElement("div");
       const teamInfo = document.createElement("div");
       const gradeNameInfo = document.createElement("div");
@@ -235,6 +236,14 @@ function addTempApprovers(tempApprovers, block3Num) {
       approverInfo.classList.add("approverInfo");
       removeBtn.classList.add("removeBtn");
 
+      // console.log(tempApprovers[i]);
+      profileInfo.classList.add("profileInfo");
+      if(tempApprovers[i].memberProfile!=null){
+        profileInfo.setAttribute("src",tempApprovers[i].memberProfile);
+      }
+      else{
+        profileInfo.setAttribute("src","/images/user.png" );
+      }
       departmentInfo.classList.add("departmentInfo");
       memberNoInfo.setAttribute("name", "approverMemNo");
       memberNoInfo.setAttribute("type", "hidden");
@@ -256,7 +265,7 @@ function addTempApprovers(tempApprovers, block3Num) {
       removeBtn.classList.add("removeBtn");
       removeBtn.setAttribute("onclick", "remove(this)");
 
-      approverInfo.append(departmentInfo, teamInfo, gradeNameInfo, memberNoInfo);
+      approverInfo.append(profileInfo,departmentInfo, teamInfo, gradeNameInfo, memberNoInfo);
       lineBox.append(approverInfo, removeBtn);
       lineContainer.append(lineSign, lineBox);
       block3.append(lineContainer);
@@ -413,6 +422,7 @@ function addLine(e){
       const approverInfo = document.createElement("div");
       const removeBtn = document.createElement("div");
 
+      const profileInfo = document.createElement("img");
       const departmentInfo = document.createElement("div");
       const teamInfo = document.createElement("div");
       const gradeNameInfo = document.createElement("div");
@@ -426,6 +436,13 @@ function addLine(e){
       approverInfo.classList.add("approverInfo");
       removeBtn.classList.add("removeBtn");
 
+      profileInfo.classList.add("profileInfo");
+      if(member.memberProfile!=null){
+        profileInfo.setAttribute("src",member.memberProfile);
+      }
+      else{
+        profileInfo.setAttribute("src","/images/user.png" );
+      }
       departmentInfo.classList.add("departmentInfo");
       memberNoInfo.setAttribute("name","approverMemNo");
       memberNoInfo.setAttribute("type","hidden");
@@ -451,7 +468,7 @@ function addLine(e){
       removeBtn.setAttribute("onclick","remove(this)");
       
       
-      approverInfo.append(departmentInfo,teamInfo,gradeNameInfo,memberNoInfo);
+      approverInfo.append(profileInfo,departmentInfo,teamInfo,gradeNameInfo,memberNoInfo);
       lineBox.append(approverInfo,removeBtn)
       lineContainer.append(lineSign,lineBox);
       block3.append(lineContainer);
