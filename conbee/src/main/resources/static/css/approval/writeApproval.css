@@ -184,6 +184,15 @@
   width: 140px;
 }
 
+.profileInfo{
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+  margin-bottom: 1px;
+}
+
 .departmentInfo{
   font-weight: bold;
 }

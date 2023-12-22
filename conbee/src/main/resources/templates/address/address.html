@@ -148,7 +148,7 @@
               <td th:text="*{memberNo}"></td>
               <td>
                 <img th:if="*{memberProfile == null}" th:src="#{user.default.image}" style="width: 45px; height: 45px;">
-                <img th:unless="*{memberProfile == null}" th:src="*{memberProfile}" style="width: 45px; height: 45px; border-radius: 50%;">
+                <img th:unless="*{memberProfile == null}" th:src="*{memberProfile}" style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover; object-position: top;">
               </td>
               <td th:text="*{memberName}"></td>
               <td th:text="*{departmentName}"></td>
