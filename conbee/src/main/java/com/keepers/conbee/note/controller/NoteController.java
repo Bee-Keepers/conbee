@@ -34,27 +34,54 @@ public class NoteController {
 	
     private final NoteService service;
 
+    // 받은 쪽지함
     @GetMapping("note-receive")
-    public String noteReceive(Board board, Model model, @SessionAttribute("loginMember") Member loginMember) {
+    public String noteReceive(Board board, Model model, @SessionAttribute("loginMember") Member loginMember,
+    		@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+			String query) {
     	
-    	List<Note> noteList = service.noteReceive(loginMember.getMemberNo());
     	
-    	model.addAttribute("noteList", noteList);
+    	// 검색이 아닌 경우
+    	if(query == null) {    		
+    		Map<String, Object> map = service.selectNoteReceive(loginMember.getMemberNo(), cp);
+    		model.addAttribute("map",map);
+    	}
+    	// 검색인 경우
+    	else {
+    		Map<String, Object> map = service.searchNoteReceive(loginMember.getMemberNo(), query, cp);    		
+    		model.addAttribute("map",map);
+    	}
+    	
+//    	model.addAttribute("noteList", noteList);		
+//		if(query != null) {
+//			model.addAttribute("query",query);
+//		}
     	
         return "note/note-receive";
     }
 
-    
+    // 보낸 쪽지함
     @GetMapping("note-sent")
-    public String noteSent(Board board, Model model, @SessionAttribute("loginMember") Member loginMember) {
+    public String noteSent(Board board, Model model, @SessionAttribute("loginMember") Member loginMember,
+    		@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+			String query) {
     	
-    	List<Note> noteList = service.noteSent(loginMember.getMemberNo());
+//    	log.debug(query);
     	
-    	model.addAttribute("noteList", noteList);
+    	// 검색이 아닌 경우
+    	if(query == null) {    		
+    		Map<String, Object> map = service.selectNoteSent(loginMember.getMemberNo(), cp);
+    		model.addAttribute("map",map);
+    	}
+    	// 검색인 경우
+    	else {
+    		Map<String, Object> map = service.searchNoteSent(loginMember.getMemberNo(), query, cp);    		
+    		model.addAttribute("map",map);
+    	}
     	
         return "note/note-sent";
     }
-
+    
     
     /** 쪽지 보관함
      * @param model
@@ -62,11 +89,28 @@ public class NoteController {
      * @return
      */
     @GetMapping("note-keep")
-    public String notekeep(Model model, @SessionAttribute("loginMember") Member loginMember) {
-    	List<Note> noteList = service.notekeep(loginMember.getMemberNo());
-    	model.addAttribute("noteList",noteList);
+    public String noteKeep(Board board, Model model, @SessionAttribute("loginMember") Member loginMember,
+    		@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+			String query) {
+    	
+    	// 검색이 아닌 경우
+    	if(query == null) {    		
+    		Map<String, Object> map = service.selectNoteKeep(loginMember.getMemberNo(), cp);
+    		model.addAttribute("map",map);
+    	}
+    	// 검색인 경우
+    	else {
+    		Map<String, Object> map = service.searchNoteKeep(loginMember.getMemberNo(), query, cp);    		
+    		model.addAttribute("map",map);
+    	}
+    	
         return "note/note-keep";
     }
+    
+	
+
+    
+   
     
     
     @GetMapping("note-write")
@@ -142,12 +186,6 @@ public class NoteController {
     	return service.save(messageNo);
     }
     
-    // 보낸쪽지 저장
-    @PutMapping("savesent")
-    @ResponseBody
-    public int savesent(@RequestBody int messageNo) {
-    	return service.savesent(messageNo);
-    }
     
     // 쪽지 삭제
     @GetMapping("deleteNoteReceive")
@@ -187,7 +225,8 @@ public class NoteController {
     	
     	return "redirect:note-keep";
     }
-	
+    
+ 
 	
 
 

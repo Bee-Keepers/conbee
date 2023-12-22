@@ -16,6 +16,22 @@ function readCheckFn(e){
 
 };
 
+/* 전체 체크하기 */
+document.getElementById("checkAll").addEventListener("change",e=>{
+  document.querySelectorAll(".checkNote").forEach((item)=>{item.checked=e.target.checked})
+});
+
+/* 체크가 하나라도 해제되면 전체체크 해제 */
+
+document.querySelectorAll(".checkNote").forEach((item)=>{
+item.addEventListener("change", e=>{
+  if(!e.target.checked){
+    document.getElementById("checkAll").checked = false;
+  }
+})
+})
+
+
 
 
 
@@ -31,6 +47,12 @@ document.getElementById('deleteBtn').addEventListener('click', e =>{
       console.log(messageNoList);
     }
   }
+
+  if(messageNoList.length==0){
+    alert("삭제할 쪽지를 선택해주세요");
+    e.preventDefault();
+    return;            
+  }
   if(confirm("정말 삭제??")){
   
     location.href="/note/deleteNoteSent?messageNoList=" + messageNoList;
@@ -40,26 +62,30 @@ document.getElementById('deleteBtn').addEventListener('click', e =>{
 });
 
 
-const messageSave = document.getElementById("messageSave");
+/* 검색 */
+const sentName = document.getElementById("sentName");
+const sentNameBtn = document.getElementById("sentNameBtn");
 
-messageSave.addEventListener("click", ()=>{
-  fetch("/note/save",{
-    method : "PUT",
-    headers : {"Content-Type" : "application/json"},
-    body : messageNoInput.value
-  })
-  .then(resp=>resp.text())
-  .then(result=>{
-    if(result>0){
-      alert("저장 성공");
-    } else if(result == -1){
-      alert("이미 저장된 메시지입니다");
-    }else{
-      alert("저장 안됨");
-    }
-  })
-  .catch(e=>console.log(e));
+const url = new URL(location.href);
+const urlParams = url.searchParams;
+
+sentNameBtn.addEventListener("click", ()=>{
+    const url = new URL(location.href);
+    const urlParams = url.searchParams;
+    location.href = "/note/note-sent?query=" + sentName.value;
 });
+
+
+/* 검색 기록 남기기 */
+(()=>{
+  const searchWord = urlParams.get("query"); // 검색어
+
+  // 검색을 했을 경우
+  if(searchWord !=null){
+    sentName.value = searchWord; // 검색어를 input에 추가
+  }
+})();
+
 
 
 

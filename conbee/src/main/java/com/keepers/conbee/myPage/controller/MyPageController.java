@@ -35,6 +35,8 @@ public class MyPageController {
     
     private final MyPageService service;
     private final EmailService emailService;
+    private final MemberService memberService;
+    
     
     /** 프로필 정보 조회
      * @param 
@@ -175,8 +177,27 @@ public class MyPageController {
 // 		int result = service.checkMemberPw(memberPw);
 // 		return result;
 // 	}
-//    
-//    
+//   
+ 
+ 	@PostMapping("member/findPw")
+ 	public String findPwResult(Member inputMember, RedirectAttributes ra, SessionStatus status) {
+ 		int result = memberService.findPwResult(inputMember);
+ 		// 비밀번호 변경 성공시
+ 			if(result > 0) {
+ 				ra.addFlashAttribute("message", "비밀번호가 변경되었습니다.");
+ 				
+ 				// 로그아웃
+ 				status.setComplete();
+
+ 				// 로그인페이지 리다이렉트
+ 				return "redirect:login";
+ 			}
+ 			
+ 			ra.addFlashAttribute("message", "비밀번호 변경이 실패하였습니다.");
+ 			
+ 			return "member/findPw";
+ 	}
+ 	
     
      /** 프로필 이미지 수정
      * @param memberProfile

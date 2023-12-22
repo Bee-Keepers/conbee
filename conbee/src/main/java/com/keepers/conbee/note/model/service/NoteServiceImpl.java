@@ -8,13 +8,17 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.keepers.conbee.approval.model.dto.Approval;
 import com.keepers.conbee.approval.model.dto.Pagination;
+import com.keepers.conbee.approval.model.dto.Pagination10;
 import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.note.model.dto.Note;
 import com.keepers.conbee.note.model.mapper.NoteMapper;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -35,9 +39,53 @@ public class NoteServiceImpl implements NoteService {
 		return mapper.noteWrite(note);
 	}
 	
+	// 받은 쪽지함  조회
 	@Override
-	public List<Note> noteReceive(int memberNo) {
-		return mapper.noteReceive(memberNo);
+	public Map<String, Object> selectNoteReceive(int memberNo, int cp) {
+		
+		int listCount = mapper.noteReceiveCount(memberNo);
+		
+		Pagination pagination = new Pagination(cp, listCount);
+		
+		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
+		int limit = pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset,limit);
+		
+		List<Note> noteList = mapper.selectNoteReceive(memberNo,rowBounds);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("noteList", noteList);
+		
+		return map;
+	}
+	
+	// 받은 쪽지함 조회(검색)
+	@Override
+	public Map<String, Object> searchNoteReceive(int memberNo, String query, int cp) {
+
+		
+		Map<String,Object> param = new HashMap<>();
+		param.put("memberNo", memberNo);
+		param.put("query", query);
+		
+		int listCount = mapper.searchNoteReceiveCount(param);
+		
+		Pagination pagination = new Pagination(cp, listCount);
+		
+		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
+		int limit = pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset,limit);
+		
+		List<Note> noteList = mapper.searchNoteReceive(param,rowBounds);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("noteList", noteList);
+		
+		return map;
 	}
 	
 	// 쪽지 읽음
@@ -52,14 +100,6 @@ public class NoteServiceImpl implements NoteService {
 		return mapper.unReadCount(memberNo);
 	}
 	
-	// 보낸쪽지함
-	@Override
-	public List<Note> noteSent(int memberNo) {
-
-		return mapper.noteSent(memberNo);
-		
-	}
-	
 	// 쪽지 저장
 	@Override
 	public int save(int messageNo) {
@@ -72,12 +112,115 @@ public class NoteServiceImpl implements NoteService {
 		
 		return mapper.save(messageNo);
 	}
-
-	// 쪽지 보관함
+	
+	// 보낸 쪽지함 조회 (페이지네이션)
 	@Override
-	public List<Note> notekeep(int memberNo) {
-		return mapper.notekeep(memberNo);
+	public Map<String, Object> selectNoteSent(int memberNo, int cp) {
+		
+		int listCount = mapper.selectNoteSentCount(memberNo);
+		
+		Pagination pagination = new Pagination(cp, listCount);
+		
+		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
+		int limit = pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset,limit);
+		
+		List<Note> noteList = mapper.selectNoteSent(memberNo,rowBounds);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("noteList", noteList);
+		
+		return map;
 	}
+	
+	// 보낸쪽지함 검색
+	@Override
+	public Map<String, Object> searchNoteSent(int memberNo, String query, int cp) {
+
+		
+		Map<String,Object> param = new HashMap<>();
+		param.put("memberNo", memberNo);
+		param.put("query", query);
+		
+		int listCount = mapper.searchNoteSentCount(param);
+		
+		Pagination pagination = new Pagination(cp, listCount);
+		
+		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
+		int limit = pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset,limit);
+		
+		List<Note> noteList = mapper.searchNoteSent(param,rowBounds);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("noteList", noteList);
+		
+		return map;
+	
+	
+	}
+	
+	// 쪽지 보관함 조회
+	@Override
+	public Map<String, Object> selectNoteKeep(int memberNo, int cp) {
+		
+	int listCount = mapper.selectNoteKeepCount(memberNo);
+		
+		Pagination pagination = new Pagination(cp, listCount);
+		
+		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
+		int limit = pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset,limit);
+		
+		List<Note> noteList = mapper.selectNoteKeep(memberNo,rowBounds);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("noteList", noteList);
+		
+		
+		return map;
+
+	}
+	
+	// 쪽지 보관함 검색
+	@Override
+	public Map<String, Object> searchNoteKeep(int memberNo, String query, int cp) {
+		
+		Map<String,Object> param = new HashMap<>();
+		param.put("memberNo", memberNo);
+		param.put("query", query);
+		
+		int listCount = mapper.searchNoteKeepCount(param);
+		
+		Pagination pagination = new Pagination(cp, listCount);
+		
+		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
+		int limit = pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset,limit);
+		
+		List<Note> noteList = mapper.searchNoteKeep(param,rowBounds);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("noteList", noteList);
+		
+		return map;
+	
+	}
+	
+	
+	
+	
+
+	
+//-----------------------------------------------------------------------
 	
 	// 쪽지 삭제
 	@Override
@@ -96,12 +239,12 @@ public class NoteServiceImpl implements NoteService {
 		
 		return mapper.deleteNoteKeep(messageNoList);
 	}
-	
-	// 보낸 쪽지 저장
-	@Override
-	public int savesent(int messageNo) {
-		
-		return mapper.savesent(messageNo);
-	}
+
+	// 쪽지 보관함
+		@Override
+		public List<Note> notekeep(int memberNo) {
+			return mapper.notekeep(memberNo);
+		}
+
 	
 }

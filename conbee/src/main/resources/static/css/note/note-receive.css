@@ -1,0 +1,57 @@
+
+.modal {
+background-color: rgba(0, 0, 0, 0.5); /* 배경을 반투명한 검은색으로 설정 */
+}
+
+.modal-dialog {
+max-width: 800px; /* 모달 창의 최대 너비 설정 */
+}
+
+.modal-content {
+background-color: #f8f9fa; /* 모달 내용의 배경색 설정 */
+border: none; /* 테두리 제거 */
+border-radius: 10px; /* 둥근 테두리 설정 */
+box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* 그림자 효과 추가 */
+}
+
+.modal-header {
+background-color: #343a40; /* 모달 헤더 배경색 설정 */
+color: white; /* 헤더 글자색 설정 */
+border-radius: 10px 10px 0 0; /* 상단 둥근 테두리 설정 */
+}
+
+.modal-title {
+font-size: 1.5rem; /* 제목 글자 크기 설정 */
+}
+
+.modal-body {
+padding: 20px; /* 내용 여백 설정 */
+}
+
+.modal-footer {
+background-color: #f8f9fa; /* 모달 푸터 배경색 설정 */
+border-top: none; /* 푸터 상단 테두리 제거 */
+border-radius: 0 0 10px 10px; /* 하단 둥근 테두리 설정 */
+}
+
+/* 모달 내용 스타일 */
+.modal-body {
+padding: 20px; /* 내용 여백 설정 */
+}
+
+#messageName {
+font-size: 1.2rem; /* 이름 폰트 크기 설정 */
+font-weight: bold; /* 이름 글꼴을 굵게 설정 */
+margin-bottom: 10px; /* 아래 여백 설정 */
+}
+
+#messageDate {
+font-size: 1rem; /* 날짜 폰트 크기 설정 */
+color: #6c757d; /* 날짜 텍스트 색상 설정 */
+margin-bottom: 10px; /* 아래 여백 설정 */
+}
+
+#messageContent {
+font-size: 1.1rem; /* 내용 폰트 크기 설정 */
+line-height: 1.4; /* 행 간격 설정 */
+}

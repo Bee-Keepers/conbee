@@ -26,6 +26,16 @@
                 즐겨찾기
             </a>
         </li>
+
+        <form action="/member/member/findPw-result" method="GET" id="findPw-Frm">
+            <li>
+                <input type="hidden" name="memberNo" th:value="${session.loginMember.memberNo}">
+                <a href="/member/findPw-result" class="nav-link link-body-emphasis" >
+                    비밀번호 변경
+                </a>
+            </li>
+        </form>
+
         <li>
             <a th:if="${session.loginMember != null && session.loginMember.gradeNo == 6}" href="/myPage/myPage-store" class="nav-link link-body-emphasis">
                 내 점포 조회

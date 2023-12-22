@@ -16,12 +16,38 @@
 		INSERT INTO "MESSAGE" VALUES(
 		SEQ_MESSAGE_NO.NEXTVAL, #{messageContent}, DEFAULT, DEFAULT, #{memberNoSender}, DEFAULT, #{memberNoReciplent}, 'N')
 	</insert>
+	
+	<!-- 쪽지 수신함 쪽지 개수 조회 -->
+	<select id="noteReceiveCount">
+		SELECT COUNT(*)
+		FROM "MESSAGE"
+		WHERE MEMBER_NO_RECIPIENT = #{memberNo}
+	</select>
+	
+	<!-- 쪽지 수신함 쪽지 검색 조회 -->
+	<select id="searchNoteReceiveCount">
+		SELECT COUNT(*)
+		FROM "MESSAGE" MES
+		JOIN "MEMBER" MEM ON(MES.MEMBER_NO_RECIPIENT = MEM.MEMBER_NO)
+		WHERE MEMBER_NO_RECIPIENT = #{memberNo}
+		AND MEMBER_NAME LIKE '%${query}%'
+	</select>
+
 
 	<!-- 쪽지 수신함 -->
-	<select id="noteReceive" resultType="Note">
+	<select id="selectNoteReceive" resultType="Note">
 		SELECT MES.*, MEM.MEMBER_NAME FROM "MESSAGE" MES
 		JOIN MEMBER MEM ON(MES.MEMBER_NO_SENDER = MEM.MEMBER_NO)
 		WHERE MEMBER_NO_RECIPIENT = #{memberNo}
+		ORDER BY MESSAGE_NO DESC
+	</select>
+	
+	<!-- 쪽지 수신함 (검색)-->
+	<select id="searchNoteReceive" resultType="Note">
+		SELECT MES.*, MEM.MEMBER_NAME FROM "MESSAGE" MES
+		JOIN MEMBER MEM ON(MES.MEMBER_NO_SENDER = MEM.MEMBER_NO)
+		WHERE MEMBER_NO_RECIPIENT = #{memberNo}
+		AND MEMBER_NAME LIKE '%${query}%'
 		ORDER BY MESSAGE_NO DESC
 	</select>
 	
@@ -39,13 +65,41 @@
 		AND MESSAGE_READ_FL = 'N'
 	</select>
 	
-		<!-- 쪽지 발신함 -->
-	<select id="noteSent" resultType="Note">
+	<!-- 쪽지 발신함 쪽지 개수 조회 -->
+	<select id="selectNoteSentCount">
+		SELECT COUNT(*)
+		FROM "MESSAGE"
+		WHERE MEMBER_NO_SENDER = #{memberNo}
+	</select>
+	
+	<!-- 쪽지 발신함 쪽지 검색 조회 -->
+	<select id="searchNoteSentCount">
+		SELECT COUNT(*)
+		FROM "MESSAGE" MES
+		JOIN "MEMBER" MEM ON(MES.MEMBER_NO_RECIPIENT = MEM.MEMBER_NO)
+		WHERE MEMBER_NO_SENDER = #{memberNo}
+		AND MEMBER_NAME LIKE '%${query}%'
+	</select>
+
+
+	<!-- 쪽지 발신함 -->
+	<select id="selectNoteSent" resultType="Note">
 		SELECT MES.*, MEM.MEMBER_NAME FROM "MESSAGE" MES
 		JOIN MEMBER MEM ON(MES.MEMBER_NO_RECIPIENT = MEM.MEMBER_NO)
 		WHERE MEMBER_NO_SENDER = #{memberNo}
 		ORDER BY MESSAGE_NO DESC
 	</select>
+	
+	<!-- 쪽지 발신함 (검색)-->
+	<select id="searchNoteSent" resultType="Note">
+		SELECT MES.*, MEM.MEMBER_NAME 
+		FROM "MESSAGE" MES
+		JOIN MEMBER MEM ON(MES.MEMBER_NO_RECIPIENT = MEM.MEMBER_NO)
+		WHERE MEMBER_NO_SENDER = #{memberNo}
+		AND MEMBER_NAME LIKE '%${query}%'
+		ORDER BY MESSAGE_NO DESC
+	</select>
+
 	
 	<!--페이지네이션-->
 		<select id="getListCount" resultType="_int">
@@ -71,15 +125,17 @@
 	</update>
 	
 	<!-- 보낸 쪽지 저장-->
-	<update id="savesent">
+	<update id="saveSent">
 		UPDATE "MESSAGE" SET
 		MESSAGE_SAVE = 'Y'
 		WHERE MESSAGE_NO = #{messageNo}
 	</update>
 
+
 	<!--쪽지 보관함-->
-	<select id="notekeep" resultType="Note">
-		SELECT MES.*, MEM.MEMBER_NAME FROM "MESSAGE" MES
+	<select id="selectNoteKeep" resultType="Note">
+		SELECT MES.*, MEM.MEMBER_NAME 
+		FROM "MESSAGE" MES
 		JOIN MEMBER MEM ON(MES.MEMBER_NO_SENDER = MEM.MEMBER_NO)
 		WHERE MEMBER_NO_RECIPIENT = #{memberNo}
 		AND MESSAGE_SAVE = 'Y'
@@ -91,6 +147,51 @@
 		WHERE MESSAGE_NO = #{messageNo}
 		AND MESSAGE_SAVE = 'Y'
 	</select>
+	
+		<!-- 쪽지 보관함 쪽지 개수 조회 -->
+	<select id="selectNoteKeepCount">
+		SELECT COUNT(*)
+		FROM "MESSAGE"
+		WHERE MEMBER_NO_RECIPIENT = #{memberNo}
+		AND MESSAGE_SAVE = 'Y'
+	</select>
+	
+	<!-- 쪽지 보관함 쪽지 검색 조회 -->
+	<select id="searchNoteKeepCount">
+		SELECT COUNT(*)
+		FROM "MESSAGE" MES
+		JOIN MEMBER MEM ON(MES.MEMBER_NO_SENDER = MEM.MEMBER_NO)
+		WHERE MEMBER_NO_RECIPIENT = #{memberNo}
+		AND MESSAGE_SAVE = 'Y'
+		AND MEMBER_NAME LIKE '%${query}%'
+	</select>
+
+	
+	<!-- 쪽지 보관함 (검색)-->
+	<select id="searchNoteKeep" resultType="Note">
+		SELECT MES.*, MEM.MEMBER_NAME 
+		FROM "MESSAGE" MES
+		JOIN MEMBER MEM ON(MES.MEMBER_NO_SENDER = MEM.MEMBER_NO)
+		WHERE MEMBER_NO_RECIPIENT = #{memberNo}
+		AND MESSAGE_SAVE = 'Y'
+		AND MEMBER_NAME LIKE '%${query}%'
+		ORDER BY MESSAGE_NO DESC
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	<!--쪽지 삭제-->
 	<delete id="deleteNoteReceive" parameterType="list">

@@ -75,18 +75,12 @@ public class MainController {
 				model.addAttribute("waitApprovalList", waitApprovalList.get("waitApprovalList"));
 				
 				// 경영관리부인 경우
-				if(loginMember.getDepartmentNo() == 2) {
+				if(loginMember.getDepartmentNo() != 2) {
 					// 받은 쪽지 조회
-					List<Note> noteList = noteService.noteReceive(loginMember.getMemberNo());
-					model.addAttribute("noteList",noteList);
+					Map<String, Object> map = noteService.selectNoteReceive(loginMember.getMemberNo(), 1);
+					model.addAttribute("noteList",map.get("noteList"));
 					
-				} else {
-					
-					// 받은 쪽지 조회
-					List<Note> noteList = noteService.noteReceive(loginMember.getMemberNo());
-					model.addAttribute("noteList",noteList);
-					
-				}
+				} 
 				
 			}
 			// 메인 페이지 신상품 3개

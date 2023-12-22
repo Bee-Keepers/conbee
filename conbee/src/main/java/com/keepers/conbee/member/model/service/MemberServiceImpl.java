@@ -85,7 +85,8 @@ public class MemberServiceImpl implements MemberService{
 	// 비밀번호 찾기 후 비밀번호 변경
 	@Override
 	public int findPwResult(Member inputMember) {
-
+		
+		
 		// 비밀번호 암호화
 		inputMember.setMemberPw( bcrypt.encode(inputMember.getMemberPw()) );
 		
