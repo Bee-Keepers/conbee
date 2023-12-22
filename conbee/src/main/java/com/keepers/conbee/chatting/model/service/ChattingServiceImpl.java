@@ -28,8 +28,8 @@ public class ChattingServiceImpl implements ChattingService{
 
 	// 팀 채팅 클릭 시 
 	@Override
-	public List<ChatMessage> selectTeamMessageList(int teamNo) {
-		return mapper.selectTeamMessageList(teamNo);
+	public List<ChatMessage> teamList(int teamNo) {
+		return mapper.teamList(teamNo);
 	}
 	
 	

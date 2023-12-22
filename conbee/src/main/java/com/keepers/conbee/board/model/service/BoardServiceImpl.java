@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.keepers.conbee.approval.model.dto.Pagination10;
+import com.keepers.conbee.approval.model.dto.PaginationAdmin;
 import com.keepers.conbee.board.model.dto.Board;
 import com.keepers.conbee.board.model.mapper.BoardMapper;
+import com.keepers.conbee.member.model.dto.Member;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +57,26 @@ public class BoardServiceImpl implements BoardService{
 	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 작업 예정 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	@Override
 	public Map<String, Object> searchBoardList(Map<String, Object> paramMap, int cp) {
-		return null;
+		int listCount = mapper.searchBoardListCount(paramMap);
+		
+		PaginationAdmin pagination = new PaginationAdmin(cp, listCount);
+		
+		// RowBounds 객체 생성
+		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
+		
+		int limit = pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		// 마이바티스 호출
+		List<Board> boardList = mapper.searchBoardList(paramMap, rowBounds);
+		
+		// Map에 담아 반환
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("boardList", boardList);
+		
+		return map;
 	}
 	
 	
@@ -109,6 +130,16 @@ public class BoardServiceImpl implements BoardService{
 	public String boardName(int boardCodeNo) {
 		return mapper.selectBoardName2(boardCodeNo);
 	}
+	
+	
+	
+	// 댓글 수 조회
+	@Override
+	public int getCommentCount() {
+		return mapper.getCommentCount();
+	}
+	
+	
 	
 	
 	/* ================================= 예리나 ========================================== */

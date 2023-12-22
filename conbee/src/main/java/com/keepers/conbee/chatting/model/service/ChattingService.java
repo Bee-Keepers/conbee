@@ -20,7 +20,7 @@ public interface ChattingService {
 	 * @param teamNo
 	 * @return
 	 */
-	List<ChatMessage> selectTeamMessageList(int teamNo);
+	List<ChatMessage> teamList(int teamNo);
 	
 
 

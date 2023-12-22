@@ -74,11 +74,21 @@ public class MemberController {
 			
 			
 			resp.addCookie(cookie);
+			
+			// 안 읽은 쪽지 수 조회
 			int unReadCount = noteService.unReadCount(loginMember.getMemberNo());
+			
+			// 첫 로그인 판명(임시 비밀번호인지)
+			// 1 : 첫로그인, 0 : 아님
+			int result = service.tempPw(loginMember.getMemberEmail(), inputMember.getMemberPw());
+			
 			// 회원정보 세션에 저장
 			model.addAttribute("loginMember", loginMember);
 			model.addAttribute("unReadCount", unReadCount);
-			
+			if(result == 1) {
+				ra.addFlashAttribute("message", "임시 비밀번호를 변경해주세요");
+				return "redirect:/myPage/myPageUpdate";
+			}
 		}
 		// 로그인 정보 불일치 시 
 		if(loginMember == null) {

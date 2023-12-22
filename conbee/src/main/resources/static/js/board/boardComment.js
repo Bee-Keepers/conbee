@@ -16,6 +16,9 @@
 // 댓글 목록 조회
 const selectCommentList = () => {
 
+    const url = new URL(location.href);
+    const pathName = url.pathname;
+    const pathNameArr = pathName.split("/");
 
     // 기본적으로 form태그는 GET/POST만 지원
     
@@ -50,16 +53,24 @@ const selectCommentList = () => {
 
                 // 프로필 이미지
                 const memberProfile = document.createElement("img");
-
-                if( comment.memberProfile != null ){ // 프로필 이미지가 있을 경우
-                    memberProfile.setAttribute("src", comment.memberProfile);
-                }else{ // 없을 경우 == 기본이미지
+                memberProfile.style.borderRadius = "50%";
+                if(pathNameArr[3] != 3){
+                    if( comment.memberProfile != null ){ // 프로필 이미지가 있을 경우
+                        memberProfile.setAttribute("src", comment.memberProfile);
+                    }else{ // 없을 경우 == 기본이미지
+                        memberProfile.setAttribute("src", userDefaultImage);
+                    }
+                } else{
                     memberProfile.setAttribute("src", userDefaultImage);
                 }
 
                 // 작성자 닉네임
                 const memberName = document.createElement("span");
-                memberName.innerText = comment.memberName;
+                if(pathNameArr[3] != 3){
+                    memberName.innerText = comment.memberName;
+                } else{
+                    memberName.innerText = "익명";
+                }
                 
                 // 작성일
                 const boardCommentDate = document.createElement("span");

@@ -22,7 +22,7 @@ public interface ChattingMapper {
 	 * @param teamNo
 	 * @return
 	 */
-	List<ChatMessage> selectTeamMessageList(int teamNo);
+	List<ChatMessage> teamList(int teamNo);
 
 	/** 대화 상대 검색
 	 * @param map

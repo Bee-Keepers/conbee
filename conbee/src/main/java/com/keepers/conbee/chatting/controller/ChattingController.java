@@ -126,7 +126,7 @@ public class ChattingController {
     }
 	
 	
-    // 채팅 전송
+    // 채팅 전송 (+팀도 작동)
     @GetMapping(value="/chatting/selectMessage", produces="application/json; charset=UTF-8")
     @ResponseBody
     public List<ChatMessage> selectMessageList(@RequestParam Map<String, Object> paramMap) {
@@ -145,7 +145,7 @@ public class ChattingController {
 	@GetMapping(value="/chatting/selectTeamMessageList", produces="application/json; charset=UTF-8;")
 	@ResponseBody
 	private List<ChatMessage> selectTeamMessageList(@SessionAttribute("loginMember") Member loginMember, Model model) {
-		List<ChatMessage> teamMessageList = service.selectTeamMessageList(loginMember.getTeamNo());
+		List<ChatMessage> teamMessageList = service.teamList(loginMember.getTeamNo());
 		
 		log.info("dfdfd : ",  teamMessageList);
 		
@@ -155,6 +155,7 @@ public class ChattingController {
 	
 	
 //	@GetMapping(value)
+	
 	
 	
 	

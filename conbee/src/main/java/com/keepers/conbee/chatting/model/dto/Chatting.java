@@ -12,7 +12,8 @@ public class Chatting {
 	private int memberNo; // 1:1 채팅 멤버 넘버(1:1 채팅 용도 1)
 	private String chatDate; // 채팅방 개설일
 	private int chatOpenMember; // 1:1 채팅 개설자(1:1 채팅 용도 2)
-	private int teamNo; // 팀 코드 ( 단체 채팅 용도 )
+	private int teamNo; // 팀 코드 ( 팀 채팅 용도 )
+	private String teamName; // 팀 이름 ( 팀 채팅 용도)
 	private String chatMessageDate;
 	
 	private int targetNo;

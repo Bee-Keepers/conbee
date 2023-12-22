@@ -78,8 +78,19 @@ public interface BoardMapper {
 	 */
 	int updateBoardHits(int boardNo);
 
+	/** 게시판 검색 카운트
+	 * @param paramMap
+	 * @return
+	 */
+	int searchBoardListCount(Map<String, Object> paramMap);
 
 
+	/** 게시판 검색
+	 * @param paramMap
+	 * @param rowBounds
+	 * @return
+	 */
+	List<Board> searchBoardList(Map<String, Object> paramMap, RowBounds rowBounds);
 	
 	
 	/* ================================= 예리나 ========================================== */
@@ -96,6 +107,13 @@ public interface BoardMapper {
 	 * @return
 	 */
 	int commentReport(Map<String, Object> paramMap);
+
+	/** 댓글 수 조회
+	 * @return
+	 */
+	int getCommentCount();
+
+
 	
 	
 	
