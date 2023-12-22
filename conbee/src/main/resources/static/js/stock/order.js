@@ -266,6 +266,7 @@ submitBtn.addEventListener("click", ()=>{
     let dataObj = {}
     dataObj.orderAmount = inputOrderAmount[i].value;
     dataObj.goodsNo = goodsNos[i].value;
+    dataObj.storeNo = storeSelect.value;
     
     list.push(dataObj)
   }
@@ -279,8 +280,8 @@ submitBtn.addEventListener("click", ()=>{
   })
   .then(resp=>resp.json())
   .then(result=>{
-
-    if(result > 0){
+    console.log(result);
+    if(result.length == 0){
       placeOrderForm.submit();
     } else{
       alert(result + "번 물품이 본사 재고가 부족합니다");

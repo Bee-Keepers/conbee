@@ -174,6 +174,11 @@ public interface StockService {
 	 */
 	List<Integer> orderAmountCheck(List<Order> orderList);
 
+	/** 본사 입고단가를 발주 단가로 수정
+	 * @param orderList
+	 */
+	void headStockInPrice(List<Approval> orderList);
+
 
 
 }

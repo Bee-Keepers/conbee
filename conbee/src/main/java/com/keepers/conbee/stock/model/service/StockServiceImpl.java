@@ -180,6 +180,7 @@ public class StockServiceImpl implements StockService{
 	  log.info("-=-=--=-=-= orderList : " + orderList);
 		if(orderList.size() != 0) {
 			mapper.orderScheduling(orderList);
+			mapper.minusHeadAmount(orderList);
 		}
 	}
 	
@@ -309,14 +310,26 @@ public class StockServiceImpl implements StockService{
 	public List<Integer> orderAmountCheck(List<Order> orderList) {
 		List<Integer> goodsNoLIst = new ArrayList<>();
 		
+		// 발주 테이블에 있는 수량이 본사보다 많으면
 		for(int i=0; i<orderList.size(); i++) {
-			int headAmount = mapper.orderAmountCheck(orderList.get(i).getGoodsNo()); 
-			if(headAmount < orderList.get(i).getOrderAmount()) {
+			int headAmount = mapper.orderAmountCheck(orderList.get(i).getGoodsNo());
+			int allAmount = mapper.orderAllAmount(orderList.get(i));
+			
+			// 만약 모든 발주대기 수량 + 입력하려는 수량이 본사 재고를 초과한다면
+			if(headAmount < allAmount + orderList.get(i).getOrderAmount()) {
 				goodsNoLIst.add(orderList.get(i).getGoodsNo());
 			}
 			
 		}
 		return goodsNoLIst;
+	}
+	
+	// 본사 입고단가를 발주 단가로 수정
+	@Override
+	public void headStockInPrice(List<Approval> orderList) {
+		for(int i=0; i<orderList.size();i++) {
+			mapper.headStockInPrice(orderList.get(i));
+		}
 	}
 	
 }

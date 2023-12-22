@@ -149,7 +149,7 @@
 		FROM "ORDER" O
 		JOIN GOODS G ON(G.GOODS_NO = O.GOODS_NO)
 		JOIN STORE ST ON(ST.STORE_NO = O.STORE_NO)
-		WHERE ORDER_DATE BETWEEN SYSDATE-(1/24/60) AND SYSDATE
+		WHERE ORDER_DATE BETWEEN SYSDATE-(1/24/60)*60 AND SYSDATE
 		<!--WHERE ORDER_DATE BETWEEN SYSDATE-1 AND SYSDATE-->
 	</select>
 	
@@ -163,7 +163,7 @@
 	</insert>
 	
 	<!-- 발주 스케쥴러에 의한 입출고 내역 삽입 시 본사 재고 감소 -->
-	<insert id="">
+	<insert id="minusHeadAmount">
 		INSERT INTO "HISTORY"
 		<foreach collection="list" item="item" separator=" UNION ">
 			SELECT NEXT_HISTORY_NO(), '출고', #{item.orderAmount}, #{item.stockInPrice}, #{item.stockInPrice}, 
@@ -189,7 +189,8 @@
 		SELECT GOODS_NO
 		FROM "ORDER"
 		WHERE STORE_NO = #{storeNo}
-		AND TO_CHAR(ORDER_DATE, 'YYYY-MM-DD HH24:MI:SS')  BETWEEN TO_CHAR(SYSDATE, 'YYYY-MM-DD "00":"00":"00"') AND TO_CHAR(SYSDATE+1, 'YYYY-MM-DD "00":"00":"00"')
+		<!--AND TO_CHAR(ORDER_DATE, 'YYYY-MM-DD HH24:MI:SS')  BETWEEN TO_CHAR(SYSDATE, 'YYYY-MM-DD "00":"00":"00"') AND TO_CHAR(SYSDATE+1, 'YYYY-MM-DD "00":"00":"00"')-->
+		AND ORDER_DATE BETWEEN SYSDATE - (1/24/60)*60 AND SYSDATE
 	</select>
 	
 	<!-- 발주 삭제 -->
@@ -197,7 +198,8 @@
 		DELETE FROM "ORDER"
 		WHERE GOODS_NO = #{goodsNo}
 		AND STORE_NO = #{storeNo}
-		AND TO_CHAR(ORDER_DATE, 'YYYY-MM-DD HH24:MI:SS')  BETWEEN TO_CHAR(SYSDATE, 'YYYY-MM-DD "00":"00":"00"') AND TO_CHAR(SYSDATE+1, 'YYYY-MM-DD "00":"00":"00"')
+		<!--AND TO_CHAR(ORDER_DATE, 'YYYY-MM-DD HH24:MI:SS')  BETWEEN TO_CHAR(SYSDATE, 'YYYY-MM-DD "00":"00":"00"') AND TO_CHAR(SYSDATE+1, 'YYYY-MM-DD "00":"00":"00"')-->
+		AND ORDER_DATE BETWEEN SYSDATE - (1/24/60)*60 AND SYSDATE
 	</delete>
 	
 	<!-- 발주 검색 -->
@@ -311,5 +313,21 @@
 		WHERE STORE_NO = 0
 		AND GOODS_NO = #{goodsNo}
 	</select>
+	
+	<!--발주 대기 중인 모든 발주 물건 수 조회-->
+	<select id="orderAllAmount" resultType="_int">
+		SELECT NVL(SUM(ORDER_AMOUNT), 0) FROM "ORDER"
+		WHERE GOODS_NO = #{goodsNo}
+		AND ORDER_DATE BETWEEN SYSDATE-(1/24/60)*60 AND SYSDATE
+		AND STORE_NO != #{storeNo}
+	</select>
+	
+	<!--본사 입고단가를 발주 단가로 수정-->
+	<update id="headStockInPrice">
+		UPDATE "STOCK" SET
+		STOCK_IN_PRICE = #{docOrderUnitPrice}
+		WHERE GOOD_NO = #{goodsNo}
+		AND STORE_NO = 0
+	</update>
 	
 </mapper>

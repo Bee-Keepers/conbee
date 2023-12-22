@@ -95,10 +95,10 @@
               <th>그룹명</th>
               <th>재고규격</th>
               <th>현)입고단가</th>
-              <th>출고단가</th>
+              <!-- <th>출고단가</th> -->
               <th>재고</th>
-              <th>할인율</th>
-              <th>가격</th>
+              <!-- <th>할인율</th> -->
+              <!-- <th>가격</th> -->
             </tr>
           </thead>
           <!-- 테이블 내용 -->
@@ -115,10 +115,10 @@
               <td th:text="*{scategoryName}">가공식사</td>
               <td th:text="*{goodsStandard}">-</td>
               <td th:text="*{#numbers.formatInteger(stockInPrice , 0, 'COMMA')}">800</td>
-              <td th:text="*{#numbers.formatInteger(stockOutPrice , 0, 'COMMA')}">1500</td>
+              <!-- <td th:text="*{#numbers.formatInteger(stockOutPrice , 0, 'COMMA')}">1500</td> -->
               <td th:text="*{stockAmount}">0</td>
-              <td th:text="*{stockDiscount}">10</td>
-              <td th:text="*{#numbers.formatInteger(priceSum , 0, 'COMMA')}">6750</td>
+              <!-- <td th:text="*{stockDiscount}">10</td> -->
+              <!-- <td th:text="*{#numbers.formatInteger(priceSum , 0, 'COMMA')}">6750</td> -->
               <td th:text="*{storeNo}" style="display: none;"></td>
             </tr>
           </tbody>
@@ -132,7 +132,7 @@
       <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-2 mt-2">
         <div class="" role="group" aria-label="Basic outlined example">
           <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="#stockInsertModel">등록</button>
-          <button type="button" class="btn btn-warning me-1" id="stockUpdateBtn">재고수정</button>
+          <!-- <button type="button" class="btn btn-warning me-1" id="stockUpdateBtn">재고수정</button> -->
           <button name="stockDelete" id="deleteBtn" type="button" class="btn btn-warning">삭제</button>
         </div>
       </div>
@@ -204,7 +204,7 @@
   </div>
 
     <!-- 재고 수정 Modal -->
-    <div class="modal fade" id="stockUpdateModel"  tabindex="-1"  aria-hidden="true">
+    <!-- <div class="modal fade" id="stockUpdateModel"  tabindex="-1"  aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
   
@@ -253,7 +253,7 @@
 
         </div>
       </div>
-    </div>
+    </div> -->
 
 
   <!-- 상품 상세 조회 Modal -->

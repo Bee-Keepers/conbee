@@ -42,6 +42,10 @@ public class OrderScheduling {
 			log.info("조회된 결과가 없습니다");
 			return;
 		}
+		
+		// 본사 입고단가를 발주 단가로 수정
+		service.headStockInPrice(orderList);
+		
 		// 입출고 내역에 삽입
 		service.orderApproval(orderList);
 		

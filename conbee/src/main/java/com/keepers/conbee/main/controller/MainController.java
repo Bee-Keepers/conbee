@@ -60,7 +60,7 @@ public class MainController {
 				model.addAttribute("goodsList", goodsList);
 				
 				// 메인 페이지 일일 발주
-				List<Order> orderList = stockService.orderInsertUpdate(1);
+				List<Order> orderList = stockService.orderInsertUpdate(loginMember.getStoreNoList().get(0));
 				model.addAttribute("orderList",orderList);
 				
 			} else {
