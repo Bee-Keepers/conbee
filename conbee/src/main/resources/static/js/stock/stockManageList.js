@@ -155,56 +155,56 @@ for(let item of goodsDetailBtn){
 const stockUpdateTable = document.getElementById("stockUpdateTable");
 const stockUpdateBtn = document.getElementById("stockUpdateBtn");
 /* 재고 수정 버튼 클릭 시 데이터 조회 */
-stockUpdateBtn.addEventListener("click", () => {
+// stockUpdateBtn.addEventListener("click", () => {
   
-  // 체크된 박스 전체 조회
-  const checkbox = document.querySelectorAll("input[type='checkbox']:checked");
+//   // 체크된 박스 전체 조회
+//   const checkbox = document.querySelectorAll("input[type='checkbox']:checked");
 
-  // 수정버튼 클릭 시 table 초기화
-  stockUpdateTable.innerHTML = "";
+//   // 수정버튼 클릭 시 table 초기화
+//   stockUpdateTable.innerHTML = "";
   
-  // 체크가 안되어 있을 경우
-  if (checkbox.length == 0) {
-    alert('수정할 품목을 선택하세요.');
-    return;
-  }
+//   // 체크가 안되어 있을 경우
+//   if (checkbox.length == 0) {
+//     alert('수정할 품목을 선택하세요.');
+//     return;
+//   }
 
-  // 체크 되면 모달창 열림
-  const stockUpdateModel = new bootstrap.Modal('#stockUpdateModel', {
-    keyboard: false,
-    backdrop: 'static',
-    focus:false
-  })
-  stockUpdateModel.show();
+//   // 체크 되면 모달창 열림
+//   const stockUpdateModel = new bootstrap.Modal('#stockUpdateModel', {
+//     keyboard: false,
+//     backdrop: 'static',
+//     focus:false
+//   })
+//   stockUpdateModel.show();
 
-  // 모달 창 안에 체크된 데이터 출력
-  for(let rows of checkbox){
-    let row = rows.closest("tr");
-    const tr = document.createElement("tr");
+//   // 모달 창 안에 체크된 데이터 출력
+//   for(let rows of checkbox){
+//     let row = rows.closest("tr");
+//     const tr = document.createElement("tr");
 
-    const td0 = document.createElement("td");
-    const input0 = createElement("input", {"type" : "number", "name":"goodsNo"},["goodsNoUpdateView", "text-center"]);
-    input0.readOnly = true;
-    input0.value = row.children[1].innerText;
-    td0.append(input0);
+//     const td0 = document.createElement("td");
+//     const input0 = createElement("input", {"type" : "number", "name":"goodsNo"},["goodsNoUpdateView", "text-center"]);
+//     input0.readOnly = true;
+//     input0.value = row.children[1].innerText;
+//     td0.append(input0);
 
-    const td = createElement("td", null, ["goodsNameUpdateView", "text-truncate"]);
-    td.innerText = row.children[2].innerText;
+//     const td = createElement("td", null, ["goodsNameUpdateView", "text-truncate"]);
+//     td.innerText = row.children[2].innerText;
 
-    const td1 = document.createElement("td");
-    const input1 = createElement("input", {"type" : "number", "name":"stockOutPrice"},["form-control"]);
-    input1.value = row.children[7].innerText.replace(",", "");
-    td1.append(input1);
+//     const td1 = document.createElement("td");
+//     const input1 = createElement("input", {"type" : "number", "name":"stockOutPrice"},["form-control"]);
+//     input1.value = row.children[7].innerText.replace(",", "");
+//     td1.append(input1);
 
-    const td2 = document.createElement("td");
-    const input2 = createElement("input", {"type" : "number", "name":"stockDiscount"},["form-control"]);
-    input2.value = row.children[9].innerText.replace(",", "");
-    td2.append(input2);
+//     const td2 = document.createElement("td");
+//     const input2 = createElement("input", {"type" : "number", "name":"stockDiscount"},["form-control"]);
+//     input2.value = row.children[9].innerText.replace(",", "");
+//     td2.append(input2);
 
-    tr.append(td0, td, td1, td2);
-    stockUpdateTable.append(tr);
-  }
-});
+//     tr.append(td0, td, td1, td2);
+//     stockUpdateTable.append(tr);
+//   }
+// });
 
 // --------------------------------------------------------------------------------------------------------
 
@@ -313,25 +313,25 @@ let callback = (entries, observer) => {
          const td7 = createElement("td",null,[]);
          td7.innerText = goods.stockInPrice.toLocaleString("ko-KR");
 
-         const td8 = createElement("td",null,[]);
-         console.log(goods.stockOutPrice);
-         td8.innerText = goods.stockOutPrice.toLocaleString("ko-KR");
+        //  const td8 = createElement("td",null,[]);
+        //  console.log(goods.stockOutPrice);
+        //  td8.innerText = goods.stockOutPrice.toLocaleString("ko-KR");
          
          const td9 = createElement("td",null,[]);
          td9.innerText = goods.stockAmount;
          
-         const td10 = createElement("td",null,[]);
-         td10.innerText = goods.stockDiscount;
+        //  const td10 = createElement("td",null,[]);
+        //  td10.innerText = goods.stockDiscount;
          
-         const td11 = createElement("td",null,[]);
-         console.log(goods.priceSum);
-         td11.innerText = parseInt(goods.priceSum).toLocaleString("ko-KR");
+        //  const td11 = createElement("td",null,[]);
+        //  console.log(goods.priceSum);
+        //  td11.innerText = parseInt(goods.priceSum).toLocaleString("ko-KR");
 
          const td12 = document.createElement("td")
          td12.style.display = "none";
          td12.innerText = goods.storeNo;
 
-         tr.append(td1, td2, td3, td4, td5, td6, td7, td8, td9, td10, td11, td12);
+         tr.append(td1, td2, td3, td4, td5, td6, td7, td9, td12);
          td3.addEventListener("click", () => {
   
           const goodsNo = td3.previousElementSibling.innerText;

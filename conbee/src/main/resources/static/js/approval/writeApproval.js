@@ -816,11 +816,12 @@ for(let i = 0; i<10 ; i++){
 
   // 품목이름 자동완성
   input2.addEventListener("input", e=>{
+    // 자동완성 박스 초기화
+    div.innerHTML = "";
+
     const tr = e.target.parentElement.parentElement;
     const input = e.target;
 
-    // 자동완성 박스 초기화
-    div.innerHTML = "";
 
     // 초기화
     tr.children[0].children[0].value = "";
@@ -838,7 +839,8 @@ for(let i = 0; i<10 ; i++){
   fetch("/approval/docOrderName?goodsName=" + e.target.value)
   .then(resp=>resp.json())
   .then(goodsList=>{
-
+    console.log(goodsList);
+    div.innerHTML = "";
     for(let goods of goodsList){
       const button = createElement("button", {"type" : "button"}, ["list-group-item"]);
       button.innerText = goods.goodsName;

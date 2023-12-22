@@ -315,6 +315,7 @@ public class StockController {
 	@PostMapping("orderAmountCheck")
 	@ResponseBody
 	public List<Integer> orderAmountCheck(@RequestBody List<Order> orderList) {
+		log.info(""+ orderList);
 		return service.orderAmountCheck(orderList);
 	}
 }

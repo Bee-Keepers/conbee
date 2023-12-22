@@ -190,5 +190,21 @@ public interface StockMapper {
 	 */
 	int orderAmountCheck(int goodsNo);
 
+	/** 발주 대기중인 물건 수 조회
+	 * @param order
+	 * @return
+	 */
+	int orderAllAmount(Order order);
+
+	/** 발주 마감 스케쥴러 작동 시 본사 재고 감소
+	 * @param orderList
+	 */
+	void minusHeadAmount(List<Order> orderList);
+
+	/** 본사 입고단가를 발주 단가로 수정
+	 * @param approval
+	 */
+	void headStockInPrice(Approval approval);
+
 
 }
