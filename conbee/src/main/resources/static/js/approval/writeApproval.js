@@ -575,6 +575,7 @@ function addLine(e){
       const approverInfo = document.createElement("div");
       const removeBtn = document.createElement("div");
 
+      const profileInfo = document.createElement("img");
       const departmentInfo = document.createElement("div");
       const teamInfo = document.createElement("div");
       const gradeNameInfo = document.createElement("div");
@@ -588,6 +589,13 @@ function addLine(e){
       approverInfo.classList.add("approverInfo");
       removeBtn.classList.add("removeBtn");
 
+      profileInfo.classList.add("profileInfo");
+      if(member.memberProfile!=null){
+        profileInfo.setAttribute("src",member.memberProfile);
+      }
+      else{
+        profileInfo.setAttribute("src","/images/user.png" );
+      }
       departmentInfo.classList.add("departmentInfo");
       memberNoInfo.setAttribute("name","approverMemNo");
       memberNoInfo.setAttribute("type","hidden");
@@ -611,7 +619,7 @@ function addLine(e){
       removeBtn.setAttribute("onclick","remove(this)");
       
       
-      approverInfo.append(departmentInfo,teamInfo,gradeNameInfo,memberNoInfo);
+      approverInfo.append(profileInfo,departmentInfo,teamInfo,gradeNameInfo,memberNoInfo);
       lineBox.append(approverInfo,removeBtn)
       lineContainer.append(lineSign,lineBox);
       block3.append(lineContainer);
