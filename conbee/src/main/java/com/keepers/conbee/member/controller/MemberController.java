@@ -197,6 +197,19 @@ public class MemberController {
 	}
 	
 	
+	
+	/** 마이페이지 -> 비밀번호 찾기 페이지로 포워드
+	 * @return
+	 */
+	@GetMapping("findPw-result")
+	public String findPwPageFrd(@SessionAttribute("loginMember") Member searchMember, Model model) {
+		
+		model.addAttribute("searchMember", searchMember);
+		
+		return "member/findPw-result";
+	}
+
+	
 	@PostMapping("findPw-result")
 	public String findPwResult(Member inputMember, RedirectAttributes ra, SessionStatus status) {
 		

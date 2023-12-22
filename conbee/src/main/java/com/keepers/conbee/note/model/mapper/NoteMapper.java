@@ -26,12 +26,29 @@ public interface NoteMapper {
 
 	int noteWrite(Note note);
 
-	/** 받은 쪽지 조회
+	
+	/** 받은 쪽지 개수 조회
 	 * @param memberNo
 	 * @return
 	 */
-	List<Note> noteReceive(int memberNo);
+	int noteReceiveCount(int memberNo);
 
+	int searchNoteReceiveCount(Map<String, Object> param);
+	
+	/** 받은 쪽지 조회
+	 * @param memberNo
+	 * @param rowBounds 
+	 * @return
+	 */
+	List<Note> selectNoteReceive(int memberNo, RowBounds rowBounds);
+
+	List<Note> searchNoteReceive(Map<String, Object> param, RowBounds rowBounds);
+	
+	
+
+
+	
+	
 	/** 쪽지 읽음
 	 * @param messageNo
 	 * @return
@@ -44,13 +61,7 @@ public interface NoteMapper {
 	 */
 	int unReadCount(int memberNo);
 	
-	/**
-	 * 보낸 쪽지 조회
-	 * @param memberNo
-	 * @return
-	 */
-
-	List<Note> noteSent(int memberNo);
+	
 
 	/** 쪽지 저장
 	 * @param messageNo
@@ -83,14 +94,78 @@ public interface NoteMapper {
 
 	int deleteNoteKeep(List<Integer> messageNoList);
 	
+	
+	
+	
 	/**
-	 * 보낸 쪽지 저장
-	 * @param messageNo
+	 * 보낸 쪽지함 조회
+	 * @param memberNo
 	 * @return
 	 */
 
-	int savesent(int messageNo);
+	int selectNoteSentCount(int memberNo);
+
+	List<Note> selectNoteSent(int memberNo, RowBounds rowBounds);
 	
+	
+	
+	/**
+	 * 보낸 쪽지함 검색
+	 * @param param
+	 * @return
+	 */
+	int searchNoteSentCount(Map<String, Object> param);
+
+	List<Note> searchNoteSent(Map<String, Object> param, RowBounds rowBounds);
+	
+	
+	/**
+	 * 쪽지 보관함 조회
+	 * @param memberNo
+	 * @return
+	 */
+
+	int selectNoteKeepCount(int memberNo);
+
+	List<Note> selectNoteKeep(int memberNo, RowBounds rowBounds);
+	
+	/**
+	 * 쪽지 보관함 검색
+	 * @param param
+	 * @return
+	 */
+
+	int searchNoteKeepCount(Map<String, Object> param);
+
+	List<Note> searchNoteKeep(Map<String, Object> param, RowBounds rowBounds);
+	
+	
+
+
+	
+	
+
+	
+
+
+	
+
+
+	
+
+	
+
+
+
+
+
+	
+
+
+
+
+	
+
 	
 
 	

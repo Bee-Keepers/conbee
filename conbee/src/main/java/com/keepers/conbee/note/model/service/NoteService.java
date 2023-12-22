@@ -24,9 +24,19 @@ public interface NoteService {
 
 	/** 받은 쪽지 조회
 	 * @param memberNo
+	 * @param query 
+	 * @param cp 
 	 * @return
 	 */
-	List<Note> noteReceive(int memberNo);
+	Map<String, Object> selectNoteReceive(int memberNo, int cp);
+	
+	/** 받은 쪽지 조회(검색)
+	 * @param memberNo
+	 * @param query
+	 * @param cp
+	 * @return
+	 */
+	Map<String, Object> searchNoteReceive(int memberNo, String query, int cp);
 
 	/** 쪽지 읽음
 	 * @param messageNo
@@ -39,15 +49,6 @@ public interface NoteService {
 	 * @return
 	 */
 	int unReadCount(int memberNo);
-	
-	/**
-	 * 보낸 쪽지 조회
-	 * @param memberNo
-	 * @return
-	 */
-
-	List<Note> noteSent(int memberNo);
-
 	
 	/** 쪽지 저장
 	 * @param messageNo
@@ -72,21 +73,59 @@ public interface NoteService {
 	int deleteNoteSent(List<Integer> messageNoList);
 
 	int deleteNoteKeep(List<Integer> messageNoList);
-
 	
 	/**
-	 * 보낸 쪽지 저장
-	 * @param messageNo
+	 * 보낸 쪽지 조회
+	 * @param memberNo
 	 * @return
 	 */
-	int savesent(int messageNo);
+	Map<String, Object> selectNoteSent(int memberNo, int cp);
+	
+	
+	/**
+	 * 보낸 쪽지 조회(검색)
+	 * @param memberNo
+	 * @param query
+	 * @param cp
+	 * @return
+	 */
+
+	Map<String, Object> searchNoteSent(int memberNo, String query, int cp);
+	
+	
+	
+	
+	
+	
+	/**
+	 * 쪽지 보관함 조회
+	 * @param memberNo
+	 * @param cp
+	 * @return
+	 */
+
+	Map<String, Object> selectNoteKeep(int memberNo, int cp);
+
+	/**
+	 * 쪽지 보관함 검색
+	 * @param memberNo
+	 * @param query
+	 * @param cp
+	 * @return
+	 */
+	Map<String, Object> searchNoteKeep(int memberNo, String query, int cp);
 
 	
-			
+
 
 
 
 	
+
+
+
+	
+
 
 
 	

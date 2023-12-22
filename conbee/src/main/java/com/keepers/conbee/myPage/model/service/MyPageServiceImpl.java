@@ -75,7 +75,7 @@ public class MyPageServiceImpl implements MyPageService{
 				int listCount = mapper.getListCount(paramMap);
 				
 				Pagination pagination = new Pagination(cp, listCount);
-
+				
 				int offset = (pagination.getCurrentPage() - 1) * pagination.getLimit();
 
 				int limit = pagination.getLimit();
@@ -88,6 +88,7 @@ public class MyPageServiceImpl implements MyPageService{
 				
 				map.put("boardList", boardList);
 				map.put("pagination", pagination);
+				log.info("sdkjbgkajshk : " + pagination.getEndPage());
 				
 				return map;
 			}

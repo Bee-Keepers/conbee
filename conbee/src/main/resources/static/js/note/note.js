@@ -11,6 +11,8 @@ const myModal = new bootstrap.Modal('#exampleModal', {
 })
 
 searchBtn.addEventListener("click", ()=>{
+
+  noteTbody.innerHTML="";
   console.log(memberNameInput.value);
   fetch("/note/name-search?memberName=" + memberNameInput.value)
   .then(resp=>resp.json())

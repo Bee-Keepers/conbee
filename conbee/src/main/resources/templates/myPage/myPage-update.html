@@ -59,15 +59,7 @@
                 <input type="text" id="disabledTextInput" class="form-control p-3" th:placeholder="*{memberName}">
               </div>
             </fieldset>
-<!-- 
-              <div class="mb-3">
-                <label for="userPw" class="form-label">비밀번호</label>
-                <input type="password" id="memberPw" name="memberPw" class="memberPw form-control p-3" >
-                <label for="userPw" class="form-label">비밀번호 확인</label>
-                <input type="password"  name="memberPwCheck" class="memberPwCheck form-control p-3" >
-                <article id="checkMessage"></article>
-              </div>
-             -->
+             
               <div class="mb-3">
                 <label for="userphone" class ="form-label">전화번호</label>
                 <input type="text" class="form-control p-3" id="memberTel" placeholder="전화번호(-빼고)" name="memberTel" maxlength="11" th:value="*{memberTel}" th:placeholder="*{memberTel}"required>

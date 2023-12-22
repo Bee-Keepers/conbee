@@ -101,6 +101,13 @@ document.getElementById('deleteBtn').addEventListener('click', e =>{
       console.log(messageNoList);
     }
   }
+
+  if(messageNoList.length==0){
+    alert("삭제할 쪽지를 선택해주세요");
+    e.preventDefault();
+    return;            
+  }
+
   if(confirm("정말 삭제??")){
   
     location.href="/note/deleteNoteReceive?messageNoList=" + messageNoList;
@@ -108,3 +115,28 @@ document.getElementById('deleteBtn').addEventListener('click', e =>{
   }
 
 });
+
+
+/* 검색 */
+const receiveName = document.getElementById("receiveName");
+const receiveNameBtn = document.getElementById("receiveNameBtn");
+
+const url = new URL(location.href);
+const urlParams = url.searchParams;
+
+receiveNameBtn.addEventListener("click", ()=>{
+    const url = new URL(location.href);
+    const urlParams = url.searchParams;
+    location.href = "/note/note-receive?query=" + receiveName.value;
+});
+
+
+/* 검색 기록 남기기 */
+(()=>{
+  const searchWord = urlParams.get("query"); // 검색어
+
+  // 검색을 했을 경우
+  if(searchWord !=null){
+    receiveName.value = searchWord; // 검색어를 input에 추가
+  }
+})();

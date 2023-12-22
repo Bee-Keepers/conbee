@@ -350,8 +350,8 @@ checkAuthKeyBtn.addEventListener("click", function () {
           authKey.classList.add("is-valid");
           authKey.classList.remove("is-invalid");
           
-          authKey.disabled = true;
-          memberEmail.disabled = true;
+          authKey.readOnly = true;
+          memberEmail.readOnly = true;
         } else {
           alert("인증번호가 일치하지 않습니다.")
           authKey.classList.add("is-invalid");
