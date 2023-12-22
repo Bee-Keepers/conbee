@@ -20,4 +20,6 @@ public class ChatMessage {
 	private int teamNo;
 	private int targetNo;
 	
+	private String memberProfile;
+	private String memberName;
 }

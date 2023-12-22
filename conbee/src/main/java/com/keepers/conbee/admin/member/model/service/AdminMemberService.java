@@ -66,5 +66,11 @@ public interface AdminMemberService {
 	 */
 	List<Member> teamList(String departmentNo);
 
+	/** 회원 수정
+	 * @param updateMember
+	 * @return
+	 */
+	int memberUpdateResult(Member updateMember);
+
 
 }

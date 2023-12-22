@@ -80,6 +80,13 @@ public interface ChattingService {
 	int insertTeamMessage(ChatMessage msg);
 
 
+	/** 같은 팀 멤버 정보 조회
+	 * @param teamNo
+	 * @return
+	 */
+	List<Member> teamMemberList(int teamNo);
+
+
 
 
 

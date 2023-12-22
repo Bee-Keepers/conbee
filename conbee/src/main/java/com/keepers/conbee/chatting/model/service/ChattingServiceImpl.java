@@ -62,11 +62,18 @@ public class ChattingServiceImpl implements ChattingService{
 	@Override
 	public List<ChatMessage> selectMessageList(Map<String, Object> paramMap) {
         System.out.println(paramMap);
-        List<ChatMessage> messageList = mapper.selectMessageList(  Integer.parseInt( String.valueOf(paramMap.get("chatNo") )));
         
-        if(!messageList.isEmpty()) {
+//        if(paramMap.get("teamNo") == "0") {
+        	
+    	List<ChatMessage> messageList = mapper.selectMessageList(  Integer.parseInt( String.valueOf(paramMap.get("chatNo") )));
+//        }
+        
+        // 채팅 메세지 중 내가 보내지 않은 글을 읽음으로 표시
+        if(!messageList.isEmpty() && paramMap.get("memberNo") != null) {
             int result = mapper.updateChatMessageRead(paramMap);
         }
+        
+       
         return messageList;
 	}
 	
@@ -81,5 +88,11 @@ public class ChattingServiceImpl implements ChattingService{
 	@Override
 	public int insertTeamMessage(ChatMessage msg) {
 		return mapper.insertTeamMessage(msg);
+	}
+
+	// 같은 팀 멤버 조회
+	@Override
+	public List<Member> teamMemberList(int teamNo) {
+		return mapper.teamMemberList(teamNo);
 	}
 }

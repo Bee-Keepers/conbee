@@ -35,20 +35,17 @@
         <div class="chatting-area">
           <ul class="chatting-list overflow-y-auto">
             <!-- 검색 / + 버튼 -->
-            <div class="sticky-top bg-white pt-3">
+            <div class="sticky-top bg-white pt-3" style="width: 99%;">
               <div class="" style="display: flex;">
-                <input type="text" name="query" id="searchQuery" class="form-control me-2 ms-2" placeholder="검색 입력" size="40">
-                <button id="addTarget">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
-                  </svg>
+                <button id="addTarget" style="width: 92%; font-style: bold;">
+                  &nbsp; 1:1 채팅 추가하기 &nbsp;
                 </button>
               </div>
   
               <hr class="me-4">
               <div class="btn-group W-100" >
                 <button id="soloBtn" class="soloBtn selectChatBtn ms-3 mb-1">1:1 채팅</button>
-                <button id="teamBtn" class="teamBtn selectChatBtn mb-1">팀 채팅</button>
+                <a id="teamBtn" class="teamBtn selectChatBtn mb-1" th:if="${session.loginMember != null || session.loginMember.teamNo != 0 ||  session.loginMember.teamNo != 11}">팀 채팅</a>
               </div>
             </div>
 
@@ -77,7 +74,7 @@
 
               <ul class="roomList" style="list-style: none; padding-left: 0;">
                 
-                <th:block th:each="chat : ${chatList}" th:if="${teamNo == null}">
+                <th:block th:each="chat : ${chatList}" th:if="${chat.teamNo == 0}">
         
                   <!-- th:chat-no : li 태그에 임의의 속성 chat-no를 추가하는데
                     타임리프를 이용해 출력된 값을 chat-no 속성 값으로 대입 -->
@@ -111,7 +108,7 @@
                 </th:block>
 
                 
-                <th:block th:each="chat : ${teamMessageList}" th:if="${teamNo != null}">
+                <th:block th:each="chat : ${teamMessageList}" th:if="${chat.teamNo != null}">
         
                   <!-- th:chat-no : li 태그에 임의의 속성 chat-no를 추가하는데
                     타임리프를 이용해 출력된 값을 chat-no 속성 값으로 대입 -->
@@ -198,6 +195,8 @@
 	<script th:inline="javascript">
 		// 로그인한 회원 번호
 		const loginMemberNo = /*[[${session.loginMember?.memberNo}]]*/ '로그인회원번호';
+
+		const myTeamNo = /*[[${session.loginMember?.teamNo}]]*/ '로그인한 회원의 팀번호';
 
 		const userDefaultImage = /*[[#{user.default.image}]]*/ '기본 이미지' ;
 	</script>

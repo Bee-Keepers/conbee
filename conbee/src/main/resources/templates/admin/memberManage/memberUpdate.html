@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ko"  xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>conBee 회원수정</title>
+  <link rel="stylesheet" href="/css/admin/signUp.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <style>
+    tr { height: 80px; }
+    
+    td { text-align: start;}
+
+    .form-control {
+      width: 350px; height: 55px;
+    }
+
+  </style>
+</head>
+<body class="d-flex flex-column" style="height: 100vh;">
+
+  <th:block th:replace="~{admin/header}"></th:block>
+
+  <main class="d-flex flex-grow-1">
+
+    <!-- 사이드바 -->
+    <th:block th:replace="~{/admin/memberManage/sidebar}"></th:block>
+
+    <!-- 신규점포등록 -->
+    <div class="d-flex flex-column p-3 flex-grow-1">
+
+      <!-- 타이틀 -->
+      <div class="d-flex justify-content-between align-items-center border-bottom">
+        <div class="fs-3 pb-3 px-3">
+          회원수정
+        </div>
+      </div>
+
+      <form  action="memberUpdate/update" class="validation-form"  method="post" id="memberUpdateResultFrm" name="memberUpdateResultFrm">
+        <div class="d-flex flex-column justify-content-center align-items-center" th:each="member : ${memberUpdateResult}" th:object="${member}">
+
+          <table class="table border-top-none" style="width: 95%; text-align: center; vertical-align: middle; margin-bottom: 0px; margin-top: 3px;">
+            
+            <colgroup>
+              <col width=7%>
+              <col width=10%>
+              <col width=2%>
+              <col width=3%>
+              <col width=10%>
+              <col width=2%>
+              <col width=4%>
+              <col width=10%>
+              <col width=10%>
+              
+            </colgroup>
+            
+            <tbody>
+
+              <tr>
+                <th style="padding-left: 25px;" aria-placeholder="부서선택">부 서</th>
+                <td style="padding-left: 28px;">
+                  <div class="d-flex align-items-center" >
+                    <select name="departmentNo" id="departmentNo" class="form-select-1 form-select-md" th:value="*{departmentNo}" required>
+                      <option>부서를 선택하세요.</option>
+                      <option value="0">임원부</option>
+                      <option value="1">인사관리부</option>
+                      <option value="2">경영관리부</option>
+                      <option value="3">운영관리부</option>
+                      <option value="4">고객관리부</option>
+                      <option value="5">점주</option>
+                    </select>
+                  </div>
+                </td>
+
+                <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
+                
+                <th style="padding: none;">팀</th>
+                <td  style="padding-left: 28px;">
+                  <div class="d-flex align-items-center" >
+                    <select name="teamNo" id="teamNo" class="form-select-1 form-select-md" th:value="*{teamNo}" required>
+                      <option value="">팀을 선택하세요.</option>
+                      <!-- <option value="0">임원팀</option>
+                      <option value="1">사원관리팀</option>
+                      <option value="2">점주관리팀</option>
+                      <option value="3">점포관리팀</option>
+                      <option value="4">재고관리팀</option>
+                      <option value="5">매출관리팀</option>
+                      <option value="6">회계팀</option>
+                      <option value="7">영업팀</option>
+                      <option value="8">전산팀</option>
+                      <option value="9">행정팀</option>
+                      <option value="10">고객서비스팀</option>
+                      <option value="11">점포</option> -->
+                    </select>
+                    
+                  </div>
+                </td>
+                
+                <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
+               
+                <th>직 급</th>
+                <td  style="padding-left: 28px;">
+                  <div class="d-flex align-items-center" >
+                    <select name="gradeNo" id="gradeNo" class="form-select-1 form-select-md" th:value="*{gradeNo}" required>
+                      <option value="">직급을 선택하세요.</option>
+                      <!-- <option value="0">사장</option>
+                      <option value="1">부사장</option>
+                      <option value="2">부장</option>
+                      <option value="3">팀장</option>
+                      <option value="4">대리</option>
+                      <option value="5">사원</option>
+                      <option value="6">점주</option> -->
+                    </select>
+                  </div>
+                </td>
+                <!-- 사이즈 조절용 -->
+                <td></td>
+              </tr>
+
+  
+              
+            </tbody>
+          </table>
+  
+          <table class="table border-top-none" style="width: 95%; text-align: center; vertical-align: middle;">
+            
+            <colgroup>
+              <col width=13%>
+              <col width=30%>
+              <col width=2%>
+              <col width=14%>
+              <col width=39%>
+            </colgroup>
+
+            <tbody>
+
+              <tr>
+                <th>아이디</th>
+                <fieldset disabled>
+                  <td>
+                    <div class="d-flex align-items-center" >
+                      <!-- <input type="text" class="form-control" name="memberId" id="memberId"  maxlength="12" disabled>  -->
+                    </div>
+                  </td>
+                  <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
+
+                </fieldset>
+
+                <th>이 름</th>
+                <td>
+                  <div class="d-flex align-items-center" >
+                    <input type="text" class="form-control" name="memberName" id="memberName" th:placeholder="*{memberName}" maxlength="8" required>
+                    
+                  </div>
+                  <article id="messageMemberName"></article>
+                </td>
+              </tr>
+
+              <!-- <tr>
+                <th>비밀번호</th>
+                <td>
+                  <div class="d-flex align-items-center" >
+                    <input type="password" class="form-control" name="memberPw" id="memberPw" placeholder="비밀번호를 입력해주세요.">
+                  </div>
+  
+                <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
+  
+                <th>비밀번호 확인</th>
+                <td>
+                  <div class="d-flex align-items-center" >
+                    <input type="password" class="form-control" name="memberPwConfirm" id="memberPwConfirm" placeholder="비밀번호 확인을 입력해주세요.">
+                  </div>
+                </td>
+              </tr> -->
+
+              <tr>
+                <th>이메일</th>
+                <td>
+                  <div class="d-flex align-items-center" >
+                    <input type="text" class="form-control" name="memberEmail" id="memberEmail" th:placeholder="*{memberEmail}" disabled>
+                  </div>
+                  <article id="messageMemberEmail"></article>
+                </td>
+
+                <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
+  
+                <th>점포 번호</th>
+                <td>
+                  <div class="d-flex align-items-center" >
+                    <input type="number" class="form-control" name="storeNo" id="storeNo" max="999" th:placeholder="*{storeNo}" disabled required>
+                    <button type="button" class="ms-2 btn btn-warning" id="storeNoBtn">점주 수정 시 클릭</button>
+                  </div>
+                  <article id="messageStoreNo"></article>
+                </td>
+  <!-- 
+                <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
+   
+                <th>이메일 인증번호</th>
+                <td>
+                  <div class="d-flex align-items-center" >
+                    <input type="text" class="form-control" name="emailAuthKey" id="emailAuthKey" placeholder="이메일 인증번호를 입력해주세요."  maxlength="6" autocomplete="off">
+                    <button class="btn btn-warning  ms-3" style="width: 90px; margin-right: 35px;" id="checkEmailAuthKeyBtn"  type="button">인증하기</button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <th>휴대폰번호</th>
+                <td>
+                  <div class="d-flex align-items-center" >
+                    <input type="text" class="form-control" name="memberTel" id="memberTel" placeholder="휴대폰번호를 입력해주세요.">
+                  </div>
+                </td>
+
+              
+
+
+              </tr>
+
+              <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
+
+                <th>위치</th>
+                <td colspan="4">
+                  <section class="d-flex align-items-center">
+                    <div class="d-flex align-items-center" >
+                      <input type="text" class="form-control" id="memberAddress" placeholder="집 주소를 입력해주세요." style="width: 500px;">
+                    </div>
+  
+                    <div class="signUp-input-area">
+                      <button type="button" class="btn ms-4 btn-outline-warning" onclick="sample6_execDaumPostcode()">주소 검색</button>
+                    </div>
+                  </section>
+                </td>
+                <span class="signUp-message" id="authKeyMessage"></span>
+              </tr> -->
+            </tbody>
+          </table>
+          
+          
+          <div class="w-100 align-items-start sticky-bottom bg-white">
+            <section class="d-flex justify-content-end" style="width: 100%;">
+              <section class="btn btn-secondary" id="cancelBtn" style="width: 80px;">취소</section>
+              <button type="submit" id="submitBtn" class="btn btn-warning ms-3" style="width: 177px; margin-right: 35px;">저장</button>
+            </section>
+          </div>
+  
+        </div>
+      </form>
+
+  </main>
+
+  <script src="/js/admin/signUp.js"></script>
+  <script src="/js/bootstrap.bundle.min.js"></script>
+
+  <!-- 다음 주소 API -->
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+
+  <script>
+    window.addEventListener('load', () => {
+      const forms = document.getElementsByClassName('validation-form');
+
+      Array.prototype.filter.call(forms, (form) => {
+        form.addEventListener('submit', function (event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  </script>
+
+
+
+
+
+</body>
+</html>

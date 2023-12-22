@@ -71,10 +71,13 @@ public class BoardServiceImpl implements BoardService{
 		// 마이바티스 호출
 		List<Board> boardList = mapper.searchBoardList(paramMap, rowBounds);
 		
+		int boardCodeNo = Integer.parseInt(paramMap.get("boardCodeNo").toString()); 
+		String boardCodeName = mapper.selectBoardName2(boardCodeNo);
 		// Map에 담아 반환
 		Map<String, Object> map = new HashMap<>();
 		map.put("pagination", pagination);
 		map.put("boardList", boardList);
+		map.put("boardCodeName", boardCodeName);
 		
 		return map;
 	}
@@ -125,7 +128,7 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	
-	// 게시글 이름 조회
+	// 게시판 이름 조회
 	@Override
 	public String boardName(int boardCodeNo) {
 		return mapper.selectBoardName2(boardCodeNo);

@@ -36,7 +36,7 @@
         </div>
 
         <!-- 검색버튼 -->
-        <form action="boardList" method="GET" style="width: 200px;">
+        <form th:action="@{{boardCodeNo}(boardCodeNo=${boardCodeNo})}" method="GET" style="width: 200px;">
           <input type="text" name="query" id="searchQuery" class="form-control" placeholder="게시글 조회" size="40">
         </form>
 
@@ -67,13 +67,13 @@
           <tbody class="table-group-divider">
 
             <!-- 회원이 존재하지 않을 때 -->
-            <tr  th:if="${boardList == null}">
+            <tr  th:if="${boardList == null and param.query == null}">
               <td colspan="9">회원이 존재하지 않습니다.</td>
             </tr>
 
             <!-- 회원이 존재하지 않을 때 -->
             
-            <tr th:if="${boardList.size == 0}">
+            <tr th:if="${boardList.size == 0 and param.query != null}">
               <td colspan="9">일치하는 회원이 존재하지 않습니다.</td>
             </tr>
 
@@ -154,37 +154,37 @@
 
 
           <!-- ======== 페이지네이션 : 검색 조회 =========== -->
-          <ul class="pagination" th:unless="${param.query == null}">
+          <!-- <ul class="pagination" th:unless="${param.query == null}"> -->
             <!-- 첫 페이지로 이동 -->
-            <li class="page-item">
+            <!-- <li class="page-item">
               <a class="page-link" aria-label="First" th:href="@{/board/boardList/{boardCodeNo}(boardCodeNo=${boardCodeNo}, cp=1, query=${param.query})}">
                 <span aria-hidden="true">&laquo;</span>
               </a>
-            </li>
+            </li> -->
 
             <!-- 이전 목록 마지막 번호로 이동 -->
-            <li class="page-item">
+            <!-- <li class="page-item">
               <a class="page-link" aria-label="Previous" th:href="@{/board/boardList/{boardCodeNo}(boardCodeNo=${boardCodeNo}, cp=${pagination.prevPage}, query=${param.query})}">
                 <span aria-hidden="true">&lt;</span>
               </a>
-            </li>
+            </li> -->
 
             <!-- 특정 페이지로 이동 -->
-            <th:block th:each="i : ${#numbers.sequence(pagination.startPage, pagination.endPage, 1)}">
+            <!-- <th:block th:each="i : ${#numbers.sequence(pagination.startPage, pagination.endPage, 1)}"> -->
 
               <!-- 현재 보고있는 페이지 -->
-              <li th:if="${i == pagination.currentPage}" class="page-item">
+       <!--        <li th:if="${i == pagination.currentPage}" class="page-item">
                 <a class="current page-link" th:text="${i}">1</a>
               </li>
-
+ -->
               <!-- 보고있지 않은 페이지 -->
-              <li th:unless="${i == pagination.currentPage}" class="page-item">
+       <!--        <li th:unless="${i == pagination.currentPage}" class="page-item">
                 <a class="page-link" th:href="@{/board/boardList/{boardCodeNo}(boardCodeNo=${boardCodeNo}, cp=${i}, query=${param.query})}" th:text="${i}">2</a>
               </li>
             </th:block>
-
+ -->
             <!-- 다음 목록 시작 번호로 이동 -->
-            <li class="page-item">
+           <!--  <li class="page-item">
               <a class="page-link" href="#" aria-label="Next" th:href="@{/board/boardList/{boardCodeNo}(boardCodeNo=${boardCodeNo}, cp=${pagination.nextPage}, query=${param.query})}">
                 <span aria-hidden="true">&gt</span>
               </a>
@@ -202,6 +202,7 @@
             </oi>
 
           </ul>
+           -->
         </nav>
       </div>  
       <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">

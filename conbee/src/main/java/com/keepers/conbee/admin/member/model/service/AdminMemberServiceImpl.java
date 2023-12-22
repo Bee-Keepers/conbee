@@ -170,6 +170,24 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 	
 	
 	
+	
+	/** 회원 수정
+	 *
+	 */
+	@Override
+	public int memberUpdateResult(Member updateMember) {
+		
+		
+		int result = mapper.memberUpdateResult(updateMember);
+		
+		if(result > 0 && updateMember.getStoreNo() > 0) {
+			result = mapper.memberUpdateStoreNo(updateMember);
+		}
+		return result;
+	}
+	
+	
+	
 	//============================= 예리나 =====================================
 	
 	/** 회원가입 시 부서 선택 후 팀 셀렉 기능

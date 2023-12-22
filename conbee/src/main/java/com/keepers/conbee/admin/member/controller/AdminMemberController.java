@@ -154,7 +154,32 @@ public class AdminMemberController {
 		// redirect가 있어서 redirectAttributes로 값을 반환
 		return "redirect:/admin/memberManage/memberList";
 	}
+
 	
+	
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 4. 회원 수정 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+	// 수정 화면 전환
+	@GetMapping("memberUpdate")
+	public String  memberUpdate() {
+		
+		return "admin/memberManage/memberUpdate";
+	}
+	
+	// 수정 화면
+	@PostMapping("memberUpdate/update")
+	public String memberUpdateResult(Member updateMember, RedirectAttributes ra) {
+		
+		int result = service.memberUpdateResult(updateMember);
+		
+		if(result>0) {
+			ra.addFlashAttribute("message", "수정 성공");
+			return "redirect:/admin/memberManage/memberList";
+		}
+		ra.addFlashAttribute("message", "수정 실패");
+		return "redirect:/admin/memberManage/memberUpdate";
+		
+	}
 	
 	
 	//============================= 예리나 =====================================
