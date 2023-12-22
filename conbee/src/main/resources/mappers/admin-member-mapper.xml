@@ -125,5 +125,22 @@
 	
 	
 	
+	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+	<!-- 회원 수정 -->
+	<update id="memberUpdateResult">
+		UPDATE "MEMBER" SET
+		MEMBER_NAME = #{memberName},
+		GRADE_NO = #{gradeNo},
+		TEAM_NO = #{teamNo},
+		DEPARTMENT_NO = #{departmentNo}
+		WHERE MEMBER_NO=#{memberNo};
+	</update>
+	
+	<!-- 회원 수정 시 점포 번호 수정하기 -->
+	<update id="memberUpdateStoreNo">
+		UPDATE STORE SET STORE_NO = #{STORE_NO}
+		WHERE MEMBER_NO = #{memberNo}
+	</update>
+	
 	
 </mapper>

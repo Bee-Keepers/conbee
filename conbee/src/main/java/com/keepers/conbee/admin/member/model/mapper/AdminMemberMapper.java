@@ -95,6 +95,18 @@ public interface AdminMemberMapper {
 	 */
 	List<Member> teamList(String departmentNo);
 
+	/** 회원 정보 수정
+	 * @param updateMember
+	 * @return
+	 */
+	int memberUpdateResult(Member updateMember);
+
+	/** 회원 정보 수정 (점포번호 수정)
+	 * @param updateMember
+	 * @return
+	 */
+	int memberUpdateStoreNo(Member updateMember);
+
 	
 
 }

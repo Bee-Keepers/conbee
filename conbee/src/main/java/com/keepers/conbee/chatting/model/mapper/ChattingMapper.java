@@ -9,6 +9,9 @@ import com.keepers.conbee.chatting.model.dto.ChatMessage;
 import com.keepers.conbee.chatting.model.dto.Chatting;
 import com.keepers.conbee.member.model.dto.Member;
 
+/**
+ * 
+ */
 @Mapper
 public interface ChattingMapper {
 
@@ -72,6 +75,12 @@ public interface ChattingMapper {
 	 * @return
 	 */
 	int insertTeamMessage(ChatMessage msg);
+
+	/** 같은 팀 멤버 조회
+	 * @param teamNo
+	 * @return
+	 */
+	List<Member> teamMemberList(int teamNo);
 
 
 

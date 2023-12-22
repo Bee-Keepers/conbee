@@ -144,7 +144,7 @@ public class ChattingController {
 	 */
 	@GetMapping(value="/chatting/selectTeamMessageList", produces="application/json; charset=UTF-8;")
 	@ResponseBody
-	private List<ChatMessage> selectTeamMessageList(@SessionAttribute("loginMember") Member loginMember, Model model) {
+	public List<ChatMessage> selectTeamMessageList(@SessionAttribute("loginMember") Member loginMember, Model model) {
 		List<ChatMessage> teamMessageList = service.teamList(loginMember.getTeamNo());
 		
 		log.info("dfdfd : ",  teamMessageList);
@@ -152,7 +152,11 @@ public class ChattingController {
 		return teamMessageList;
 	}
 	
-	
+	@GetMapping(value="teamMemberList", produces="application/json; charset=UTF-8;")
+	@ResponseBody
+	public List<Member> teamMemberList(@SessionAttribute("loginMember") Member loginMember){
+		return service.teamMemberList(loginMember.getTeamNo());
+	}
 	
 //	@GetMapping(value)
 	

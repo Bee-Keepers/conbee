@@ -68,7 +68,7 @@ public class BoardController {
 			
 		// 검색
 		} else {
-//			paramMap.put("boardCodeNo", boardCodeNo);
+			paramMap.put("boardCodeNo", boardCodeNo);
 			
 			Map<String, Object> map = service.searchBoardList(paramMap, cp);
 			model.addAttribute("map", map);
