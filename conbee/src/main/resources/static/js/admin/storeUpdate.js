@@ -1,3 +1,24 @@
+// 지점찾기 클릭 시 입력된 값 없는 경우 리턴
+const searchStoreFrm = document.getElementById("searchStoreFrm");
+
+searchStoreFrm.addEventListener("submit", (e)=>{
+
+    const searchStoreNo = document.getElementById("searchStoreNo");
+
+    // 입력된 인풋 값이 없을 경우
+    if(searchStoreNo.value.trim().length == 0){
+        searchStoreNo.value = "";
+
+        alert("수정할 점포번호를 입력해주세요.");
+
+        e.preventDefault();
+        return;
+    }
+})
+
+
+//============================================================================
+
 
 /* 주소검색 API */
 function sample6_execDaumPostcode() {
