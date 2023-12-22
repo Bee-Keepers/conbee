@@ -35,13 +35,23 @@
 		WHERE BOARD_CODE_NO = #{boardCodeNo}
 		AND BOARD_NO = #{boardNo}
 	</update>
+	
+	<!--삭제되는 게시글이 신고된 게시글인지 확인-->
+	<select id="checkReportBoard" resultType="_int">
+		SELECT COUNT(*) 
+		FROM REPORT
+		WHERE BOARD_NO = #{boardNo}
+	</select>
+	
+	<!--삭제시 신고글인 경우 REPORT 업데이트-->
+	<update id="reportAnswerBoard">
+		UPDATE REPORT SET 
+		REPORT_ANSWER = 'Y'
+		WHERE BOARD_NO = #{boardNo}
+	</update>
 
 
-
-
-
-
-
+	
 
 
 

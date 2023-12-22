@@ -33,4 +33,16 @@ public interface CommentMapper {
 	 */
 	int delete(int commentNo);
 
+	
+	/** 신고댓글인지 확인
+	 * @param commentNo
+	 * @return
+	 */
+	int checkReportComment(int commentNo);
+
+	/** 신고댓글인 경우 REPORT_COMMENT 테이블 업데이트
+	 * @param commentNo
+	 */
+	void reportAnswerComment(int commentNo);
+
 }

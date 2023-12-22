@@ -36,6 +36,15 @@ public class EditBoardServiceImpl implements EditBoardService{
 	// 게시글 삭제
 	@Override
 	public int deleteBoard(Map<String, Integer> paramMap) {
+		
+		// 신고게시글인지 확인
+		int result = mapper.checkReportBoard(paramMap);
+
+		if(result > 0) {
+			// 신고글인 경우 REPORT 테이블 업데이트
+			mapper.reportAnswerBoard(paramMap);
+		}
+
 		return mapper.deleteBoard(paramMap);
 	}
 	

@@ -284,6 +284,15 @@ public class AdminStoreServiceImpl implements AdminStoreService{
 			return 100;
 		}
 		
+		// 점주명과 점주번호가 기등록과 다를 경우 return
+		int result1 = mapper.searchExistMember(updateStore);
+		
+		// 기존 회원번호와 회원명이 일치하는 경우 없을 경우 return
+		// (일치시 1, 불일치시 0)
+		if(result1 <= 0) {
+			return 50;
+		}
+		
 		// 점주명 변경 수정
 		mapper.storeUpdateName(updateStore);
 		
@@ -313,11 +322,23 @@ public class AdminStoreServiceImpl implements AdminStoreService{
 			
 			// 신규점포등록 - 기존회원이 점주일 경우
 			else {
-				// 점포정보 insert
-				mapper.storeInsertwMember(inputStore);
 				
-				// 회원정보 insert
-				return mapper.storeUpdateName(inputStore);
+				// 입력한 점주명과 점주번호가 일치하는지 확인
+				int result1 = mapper.searchExistMember(inputStore);
+				
+				// 기존 회원번호와 회원명이 일치하는 경우 없을 경우 return
+				// (일치시 1, 불일치시 0)
+				if(result1 <= 0) {
+					return 50;
+
+				} else {
+					// 점포정보 insert
+					mapper.storeInsertwMember(inputStore);
+					
+					// 회원정보 insert
+					return mapper.storeUpdateName(inputStore);
+				}
+				
 			}
 		} 
 		

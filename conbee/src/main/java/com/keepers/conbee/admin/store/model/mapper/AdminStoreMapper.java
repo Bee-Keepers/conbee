@@ -126,6 +126,12 @@ public interface AdminStoreMapper {
 	 * @return
 	 */
 	List<Store> sortStoreRunFl(String query, RowBounds rowBounds);
+
+	/** 점주 회원번호와 점주명이 일치하는지 확인하기
+	 * @param updateStore
+	 * @return
+	 */
+	int searchExistMember(Store updateStore);
 	
 	
 

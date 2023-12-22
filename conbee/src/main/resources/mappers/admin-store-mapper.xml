@@ -219,6 +219,14 @@
 			#{storeTel}, DEFAULT, DEFAULT, NULL, ${memberNo}, DEFAULT)
 	</insert>
 	
+	<!--입력된 점주회원번호와 일치하는 점주명 얻어오기-->
+	<select id="searchExistMember" resultType="_int">
+		SELECT COUNT(*) 
+		FROM "MEMBER"
+		WHERE MEMBER_NO = ${memberNo}
+		AND MEMBER_NAME = #{memberName}
+	</select>
+	
 	
 	
 	

@@ -40,6 +40,15 @@ public class CommentServiceImpl implements CommentService {
 	// 댓글 삭제
 	@Override
 	public int delete(int commentNo) {
+		
+		// 신고댓글인지 확인
+		int result = mapper.checkReportComment(commentNo);
+
+		if(result > 0) {
+			// 신고댓글인 경우 REPORT 테이블 업데이트
+			mapper.reportAnswerComment(commentNo);
+		}
+		
 		return mapper.delete(commentNo);
 	}
 }
