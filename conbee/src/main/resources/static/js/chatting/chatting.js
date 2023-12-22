@@ -164,7 +164,7 @@ function selectChatList() {
 
 			// 채팅방 목록 지우기
 			chattingList.innerHTML = "";
-			
+
 			// 조회한 채팅방 목록을 화면에 추가
 			for (let chat of chatList) {
 				const li = document.createElement("li");
@@ -309,7 +309,11 @@ function chatListAddEvent() {
 			item.classList.add("select");
 
 			// 비동기로 메세지 목록을 조회하는 함수 호출
-			selectChattingFn();
+			let flag = 0;
+
+			selectChattingFn(flag);
+
+
 		});
 	}
 }
@@ -320,13 +324,14 @@ function chatListAddEvent() {
 
 
 // 비동기로 메세지 목록을 조회하는 함수
-function selectChattingFn() { 
+
+function selectChattingFn(flag) {
 
 	// 팀 넘버가 (null)0인 경우 1:1
-	
-	if(myTeamNo ==0) {
-	
-		fetch("/chatting/chatting/selectMessage?" + `chatNo=${selectChatNo}&memberNo=${loginMemberNo}`)
+
+
+
+	fetch("/chatting/chatting/selectMessage?" + `chatNo=${selectChatNo}&memberNo=${loginMemberNo}&flag=${flag}`)
 		.then(resp => resp.json())
 		.then(chatMessageList => {
 			console.log(chatMessageList);
@@ -336,130 +341,51 @@ function selectChattingFn() {
 
 			ul.innerHTML = ""; // 이전 내용 지우기
 
+			// 이미지와 이름을 미리 불러옴(gpt)
+
+			/* 에러 부분 */
 			// 메세지 만들어서 출력하기
 			for (let msg of chatMessageList) {
-				//<li>,  <li class="my-chat">
-				const li = document.createElement("li");
 
-				// 보낸 시간
+
+				const img = document.createElement("img");
+				const b = document.createElement("b");
+
+				if (msg.memberName == null) {
+					img.setAttribute("src", selecttargetImg);
+					b.innerText = selectTargetName;
+
+				} else {
+					img.setAttribute("src", msg.memberProfile);
+					b.innerText = msg.memberName;
+				}
+
+
+				const li = document.createElement("li");
 				const span = document.createElement("span");
 				span.classList.add("chatDate");
 				span.innerText = msg.chatMessageDate;
 
-				// 메세지 내용
 				const p = document.createElement("p");
 				p.classList.add("chat");
-				p.innerHTML = msg.chatMessageContent; // br태그 해석을 위해 innerHTML
+				p.innerHTML = msg.chatMessageContent;
 
-				// 내가 작성한 메세지인 경우
 				if (loginMemberNo == msg.chatMessageSender) {
 					li.classList.add("my-chat");
-
 					li.append(span, p);
-
-			
-
-
-				} else { // 상대가 작성한 메세지인 경우
+				} else {
 					li.classList.add("target-chat");
-
-					// 상대 프로필
-					const img = document.createElement("img");
-					img.setAttribute("src", selecttargetImg);
-
 					const div = document.createElement("div");
-
-					// 상대 이름
-					const b = document.createElement("b");
-					b.innerText = selectTargetName; // 전역변수
-
-					const br = document.createElement("br");
-
-					div.append(b, br, p, span);
+					div.append(b, document.createElement("br"), p, span);
 					li.append(img, div);
-
 				}
 
-
-				
-
-
-
 				ul.append(li);
-				display.scrollTop = display.scrollHeight; // 스크롤 제일 밑으로
+				display.scrollTop = display.scrollHeight;
 			}
-
-
 		})
 		.catch(err => console.log(err));
-	} else {
-		fetch("/chatting/chatting/selectMessage?" + `chatNo=${selectChatNo}&memberNo=${loginMemberNo}&teamNo=${myTeamNo}`)
-		.then(resp => resp.json())
-		.then(chatMessageList => {
-			console.log(chatMessageList);
 
-			// <ul class="display-chatting">
-			const ul = document.querySelector(".display-chatting");
-
-			ul.innerHTML = ""; // 이전 내용 지우기
-
-			// 메세지 만들어서 출력하기
-			for (let msg of chatMessageList) {
-				//<li>,  <li class="my-chat">
-				const li = document.createElement("li");
-
-				// 보낸 시간
-				const span = document.createElement("span");
-				span.classList.add("chatDate");
-				span.innerText = msg.chatMessageDate;
-
-				// 메세지 내용
-				const p = document.createElement("p");
-				p.classList.add("chat");
-				p.innerHTML = msg.chatMessageContent; // br태그 해석을 위해 innerHTML
-
-				// 내가 작성한 메세지인 경우
-				if (loginMemberNo == msg.chatMessageSender) {
-					li.classList.add("my-chat");
-
-					li.append(span, p);
-
-			
-
-
-				} else { // 상대가 작성한 메세지인 경우
-					li.classList.add("target-chat");
-
-					// 상대 프로필
-					const img = document.createElement("img");
-					img.setAttribute("src", selecttargetImg);
-
-					const div = document.createElement("div");
-
-					// 상대 이름
-					const b = document.createElement("b");
-					b.innerText = selectTargetName; // 전역변수
-
-					const br = document.createElement("br");
-
-					div.append(b, br, p, span);
-					li.append(img, div);
-
-				}
-
-
-				
-
-
-
-				ul.append(li);
-				display.scrollTop = display.scrollHeight; // 스크롤 제일 밑으로
-			}
-
-
-		})
-		.catch(err => console.log(err));
-	}
 
 }
 
@@ -578,10 +504,10 @@ chatSock.onmessage = function (e) {
 
 
 	/* 1:1 채팅 / 팀채팅 구분용 */
- if(msg.chatNo>11){
-	 selectChatList();
+	if (msg.chatNo > 11) {
 
- }
+		selectChatList();
+	}
 
 
 }
@@ -701,65 +627,67 @@ const teamBtn = document.getElementById("teamBtn");
 
 teamBtn.addEventListener("click", () => {
 	const chattingList = document.querySelector(".roomList");
-		
+
 	// 채팅방 목록 지우기
 	chattingList.innerHTML = "";
 	fetch("/chatting/teamMemberList")
-	.then(resp=>resp.json())
-	.then(list=>{
-		for(let member of list){
-			const li = document.createElement("li");
-			li.classList.add("chatting-item");
+		.then(resp => resp.json())
+		.then(list => {
+			for (let member of list) {
+				const li = document.createElement("li");
+				li.classList.add("chatting-item");
 
-			const div1 = document.createElement("div");
-			div1.classList.add("item-header");
-			
-			const img = document.createElement("img");
-			img.classList.add("list-profile");
-			if(member.memberProfile == null){
-				img.src = userDefaultImage;
-			} else {
-				img.src = member.memberProfile;
+				const div1 = document.createElement("div");
+				div1.classList.add("item-header");
+
+				const img = document.createElement("img");
+				img.classList.add("list-profile");
+				if (member.memberProfile == null) {
+					img.src = userDefaultImage;
+				} else {
+					img.src = member.memberProfile;
+				}
+				div1.append(img);
+
+				const div2 = document.createElement("div");
+				div2.classList.add("item-body");
+
+				const p1 = document.createElement("p");
+				const span1 = document.createElement("span");
+				span1.classList.add("target-name");
+				span1.innerText = member.memberName;
+
+				const span2 = document.createElement("span");
+
+
+				span2.classList.add("recent-send-time");
+				span2.innerText = member.gradeName;
+
+				p1.append(span1, span2);
+
+				const p2 = document.createElement("p");
+				p2.innerText = member.memberTel;
+
+				div2.append(p1, p2);
+
+				li.append(div1, div2);
+
+				chattingList.append(li);
+
 			}
-			div1.append(img);
+		})
+		.catch();
+	// selectChatNo = myTeamNo;
 
-			const div2 = document.createElement("div");
-			div2.classList.add("item-body");
-
-			const p1 = document.createElement("p");
-			const span1 = document.createElement("span");
-			span1.classList.add("target-name");
-			span1.innerText = member.memberName;
-
-			const span2 = document.createElement("span");
+	let flag = 1;
+	selectChattingFn(flag);
 
 
-			span2.classList.add("recent-send-time");
-			span2.innerText = member.gradeName;
-
-			p1.append(span1, span2);
-
-			const p2 = document.createElement("p");
-			p2.innerText =  member.memberTel;
-
-			div2.append(p1, p2);
-
-			li.append(div1, div2);
-
-			chattingList.append(li);
-
-		}
-	})
-	.catch();
-	selectChatNo = myTeamNo;
-	selectChattingFn();
-	
-	
 	// fetch("/chatting/chatting/selectTeamMessageList")
 	// .then(resp => resp.json())
 	// .then(teamMessageList => {
 	// 	console.log(teamMessageList);
-		
+
 
 	// })
 	// .catch(err => console.log(err));

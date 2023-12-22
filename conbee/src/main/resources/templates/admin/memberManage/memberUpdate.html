@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>conBee 회원수정</title>
-  <link rel="stylesheet" href="/css/admin/signUp.css">
+  <link rel="stylesheet" href="/css/admin/memberUpdate.css">
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <style>
@@ -38,7 +38,7 @@
       </div>
 
       <form  action="memberUpdate/update" class="validation-form"  method="post" id="memberUpdateResultFrm" name="memberUpdateResultFrm">
-        <div class="d-flex flex-column justify-content-center align-items-center" th:each="member : ${memberUpdateResult}" th:object="${member}">
+        <div class="d-flex flex-column justify-content-center align-items-center" >
 
           <table class="table border-top-none" style="width: 95%; text-align: center; vertical-align: middle; margin-bottom: 0px; margin-top: 3px;">
             
@@ -57,11 +57,11 @@
             
             <tbody>
 
-              <tr>
+              <tr style="height: 100px;">
                 <th style="padding-left: 25px;" aria-placeholder="부서선택">부 서</th>
                 <td style="padding-left: 28px;">
                   <div class="d-flex align-items-center" >
-                    <select name="departmentNo" id="departmentNo" class="form-select-1 form-select-md" th:value="*{departmentNo}" required>
+                    <select name="departmentNo" id="departmentNo" class="form-select-1 form-select-md"  required>
                       <option>부서를 선택하세요.</option>
                       <option value="0">임원부</option>
                       <option value="1">인사관리부</option>
@@ -78,7 +78,7 @@
                 <th style="padding: none;">팀</th>
                 <td  style="padding-left: 28px;">
                   <div class="d-flex align-items-center" >
-                    <select name="teamNo" id="teamNo" class="form-select-1 form-select-md" th:value="*{teamNo}" required>
+                    <select name="teamNo" id="teamNo" class="form-select-1 form-select-md"  required>
                       <option value="">팀을 선택하세요.</option>
                       <!-- <option value="0">임원팀</option>
                       <option value="1">사원관리팀</option>
@@ -102,7 +102,7 @@
                 <th>직 급</th>
                 <td  style="padding-left: 28px;">
                   <div class="d-flex align-items-center" >
-                    <select name="gradeNo" id="gradeNo" class="form-select-1 form-select-md" th:value="*{gradeNo}" required>
+                    <select name="gradeNo" id="gradeNo" class="form-select-1 form-select-md"  required>
                       <option value="">직급을 선택하세요.</option>
                       <!-- <option value="0">사장</option>
                       <option value="1">부사장</option>
@@ -133,15 +133,19 @@
               <col width=39%>
             </colgroup>
 
-            <tbody>
+            <tbody >
 
-              <tr>
+              <tr style="height: 100px;">
                 <th>아이디</th>
-                <fieldset disabled>
+                <fieldset >
                   <td>
-                    <div class="d-flex align-items-center" >
-                      <!-- <input type="text" class="form-control" name="memberId" id="memberId"  maxlength="12" disabled>  -->
-                    </div>
+                    <form action="/memberUpdate" method="post"  id="searchMemberFrm" ><!-- action 입력하기 -->
+
+                      <div class="d-flex align-items-center" >
+                        <input type="text" class="form-control" name="memberId" id="memberId" style="width:253px;" placeholder="회원 수정할 아이디를 입력해주세요." maxlength="12" > 
+                        <button id="z" class="btn btn-warning ms-2"style="width: 90px; height: 40px;">회원 검색</button>
+                      </div>
+                    </form>
                   </td>
                   <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
 
@@ -150,7 +154,7 @@
                 <th>이 름</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" name="memberName" id="memberName" th:placeholder="*{memberName}" maxlength="8" required>
+                    <input type="text" class="form-control" name="memberName" id="memberName"  maxlength="8" required>
                     
                   </div>
                   <article id="messageMemberName"></article>
@@ -174,11 +178,11 @@
                 </td>
               </tr> -->
 
-              <tr>
+              <tr style="height: 100px;">
                 <th>이메일</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" name="memberEmail" id="memberEmail" th:placeholder="*{memberEmail}" disabled>
+                    <input type="text" class="form-control" name="memberEmail" id="memberEmail"  >
                   </div>
                   <article id="messageMemberEmail"></article>
                 </td>
@@ -188,7 +192,7 @@
                 <th>점포 번호</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="number" class="form-control" name="storeNo" id="storeNo" max="999" th:placeholder="*{storeNo}" disabled required>
+                    <input type="number" class="form-control" name="storeNo" id="storeNo" max="999"  disabled required>
                     <button type="button" class="ms-2 btn btn-warning" id="storeNoBtn">점주 수정 시 클릭</button>
                   </div>
                   <article id="messageStoreNo"></article>
@@ -241,7 +245,7 @@
           <div class="w-100 align-items-start sticky-bottom bg-white">
             <section class="d-flex justify-content-end" style="width: 100%;">
               <section class="btn btn-secondary" id="cancelBtn" style="width: 80px;">취소</section>
-              <button type="submit" id="submitBtn" class="btn btn-warning ms-3" style="width: 177px; margin-right: 35px;">저장</button>
+              <button type="submit" id="submitBtn" class="btn btn-warning ms-3" style="width: 80px; margin-right: 35px;">저장</button>
             </section>
           </div>
   
@@ -250,7 +254,7 @@
 
   </main>
 
-  <script src="/js/admin/signUp.js"></script>
+  <script src="/js/admin/memberUpdate.js"></script>
   <script src="/js/bootstrap.bundle.min.js"></script>
 
   <!-- 다음 주소 API -->

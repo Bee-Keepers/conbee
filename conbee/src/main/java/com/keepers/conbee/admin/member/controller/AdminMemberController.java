@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.keepers.conbee.admin.member.model.service.AdminMemberService;
@@ -26,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("admin/memberManage")
+@SessionAttributes({"memberInfo"})
 
 public class AdminMemberController {
 	
@@ -166,20 +169,103 @@ public class AdminMemberController {
 		return "admin/memberManage/memberUpdate";
 	}
 	
-	// 수정 화면
+	
+	/** 회원 수정
+	 * @param updateMember
+	 * @param ra
+	 * @param memberInfo
+	 * @return
+	 */
 	@PostMapping("memberUpdate/update")
-	public String memberUpdateResult(Member updateMember, RedirectAttributes ra) {
+	public String memberUpdateResult(Member updateMember, RedirectAttributes ra,
+			@SessionAttribute("memberInfo") Member memberInfo) {
 		
 		int result = service.memberUpdateResult(updateMember);
 		
-		if(result>0) {
-			ra.addFlashAttribute("message", "수정 성공");
-			return "redirect:/admin/memberManage/memberList";
-		}
-		ra.addFlashAttribute("message", "수정 실패");
-		return "redirect:/admin/memberManage/memberUpdate";
+		String message = null;
 		
+		if(result == 100) { // 기존 회원번호가 없는 경우
+			message = "입력하신 정보와 일치하는 회원이 없습니다.";
+		}
+		
+		else if(result == 50) { // 회원 이름과 회원번호가 일치하지 않는경우 
+			message = "회원 이름과 회원번호가 일치하지 않습니다.";
+		}
+		
+		else if(result > 0) { // 회원 수정 완료 (+ 점포번호 포함)
+			message = "회원 정보가 수정되었습니다.";
+			memberInfo.setDepartmentNo(updateMember.getDepartmentNo());
+			memberInfo.setGradeNo(updateMember.getGradeNo());
+			memberInfo.setTeamNo(updateMember.getTeamNo());
+			memberInfo.setMemberName(updateMember.getMemberName());
+			memberInfo.setMemberEmail(updateMember.getMemberEmail());
+			memberInfo.setStoreNo(updateMember.getStoreNo());
+			
+		} else {
+			message = "회원 정보 수정이 실패하였습니다.";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:/admin/memberManage/memberUpdate";
 	}
+	
+	/** 회원 수정  회원 아이디 입력 시 회원 정보 불러오기
+	 * @param storeNo
+	 * @param model
+	 * @return
+	 */
+	@PostMapping("memberUpdate")
+	public String memberUpdate(String memberId, Model model, RedirectAttributes ra) {
+		
+		// 해당 회원 정보 얻어오기
+		Member memberInfo = service.updateMemberInfo(memberId);
+		
+		// 회원 정보 O
+		if(memberInfo != null) {
+			model.addAttribute("memberInfo", memberInfo);
+			return "admin/memberManage/memberUpdate";
+			
+		// 회원 정보 X
+		} else {
+			ra.addFlashAttribute("message", "입력하신 회원이 존재하지 않습니다.");
+		}
+			
+		return "redirect:/admin/memberManage/memberUpdate";
+	}
+	
+//	
+//	/** 회원 수정  회원 조회 클릭 시 회원 정보 입력
+//	 * @param storeNo
+//	 * @param model
+//	 * @param ra
+//	 * @return
+//	 */
+//	@GetMapping("memberUpdate")
+//	public String memberUpdate(String memberId, Model model) {
+//		
+//		// 회원 정보 얻어오기
+//		Member memberInfo = service.updateMemberInfo(memberId);
+//		
+//		model.addAttribute("memberInfo", memberInfo);
+//		
+//		return "admin/memberManage/memberUpdate";
+//		
+//	}
+//	
+//	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	//============================= 예리나 =====================================

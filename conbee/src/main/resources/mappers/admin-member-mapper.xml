@@ -130,6 +130,7 @@
 	<update id="memberUpdateResult">
 		UPDATE "MEMBER" SET
 		MEMBER_NAME = #{memberName},
+		MEMBER_EMAIL = #{memberEmail},
 		GRADE_NO = #{gradeNo},
 		TEAM_NO = #{teamNo},
 		DEPARTMENT_NO = #{departmentNo}
@@ -141,6 +142,52 @@
 		UPDATE STORE SET STORE_NO = #{STORE_NO}
 		WHERE MEMBER_NO = #{memberNo}
 	</update>
+
+	<!-- 회원 수정 시 일치하는 회원 조회 -->
+	<select id="searchMemerNo" resultType="_int">
+		SELECT COUNT(*)
+		FROM "MEMBER"
+		WHERE MEMBER_NO = ${memberNo}
+	</select>
+	
+	<!--회원 수정 시 입력된 아이디와 회원 번호가 일치하는 회원 조회 -->
+	<select id="searchExistMember" resultType="_int">
+		SELECT COUNT(*) 
+		FROM "MEMBER"
+		WHERE MEMBER_NO = ${memberNo}
+		AND MEMBER_ID = #{memberId}
+	</select>
+	
+	<!-- 회원 수정 시 검색 회원 조회 -->
+	<select id="updateMemberInfo" resultType="Member">
+		SELECT MEMBER_NO, MEMBER_TEL, MEMBER_ADDRESS,
+		MEMBER_ENROLL_DATE, DEPARTMENT_NO, TEAM_NO, GRADE_NO, MEMBER_NAME
+		, MEMBER_DEL_FL, MEMBER_DEL_APPROVAL
+		FROM MEMBER 
+		WHERE MEMBER_ID  = #{memberId}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 </mapper>
