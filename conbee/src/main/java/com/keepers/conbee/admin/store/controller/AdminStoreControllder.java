@@ -177,9 +177,12 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 		
 		String message = null;
 		
-		
 		if(result == 100) { // 기존 회원번호가 없는 경우
 			message = "입력하신 정보와 일치하는 회원이 없습니다. 회원가입을 우선 진행해주세요.";
+		}
+		
+		else if(result == 50) { // 점주명과 점주번호가 일치하지 않는경우 
+			message = "점주명과 점주 회원번호가 일치하지 않습니다.";
 		}
 		
 		else if(result > 0) { // 점포수정 완료된 경우
@@ -304,6 +307,8 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	}
 	
 	
+	
+	
 	/*========================== 신규점포등록 =================================*/
 	
 	/** 신규점포등록 포워드
@@ -344,6 +349,12 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 			path = "redirect:/admin/storeManage/storeInsert";
 		}
 		
+		// 기존 회원번호와 회원명이 일치하는 경우 없을 경우
+		else if(result == 50) {
+			ra.addFlashAttribute("message", "가입된 기존 회원정보와 일치하지 않습니다.");
+			path = "redirect:/admin/storeManage/storeInsert";
+		}
+		
 		// 점포 등록 성공 시 점포정보조회 페이지로 리다이렉트
 		else if(result > 0) {
 			ra.addFlashAttribute("message", "점포 등록이 성공하였습니다.");
@@ -356,7 +367,6 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 			path = "redirect:/admin/storeManage/storeInsert";
 		}
 
-		
 		return path;		
 	}
 	

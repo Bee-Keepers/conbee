@@ -58,8 +58,19 @@
 	</update>
 	
 	
+	<!--신고댓글인지 확인-->
+	<select id="checkReportComment" resultType="_int">
+		SELECT COUNT(*) 
+		FROM REPORT_COMMENT
+		WHERE BOARD_COMMENT_NO = #{commentNo}
+	</select>
 	
-	
+	<!--신고댓글인 경우 REPORT_COMMENT 테이블 업데이트-->
+	<update id="reportAnswerComment">
+		UPDATE REPORT_COMMENT SET 
+		REPORT_COMMENT_ANSWER = 'Y'
+		WHERE BOARD_COMMENT_NO = #{commentNo}
+	</update>
 	
 	
 	

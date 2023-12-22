@@ -665,6 +665,7 @@
 	<update id="approve">
 		UPDATE APPROVER SET 
 		APPROVER_CONDITION = 1
+		, APPROVER_DATE = SYSDATE
 		WHERE MEMBER_NO = ${memberNo}
 		AND APPROVAL_NO = ${approvalNo}		
 	</update>
@@ -1017,6 +1018,9 @@
 		FROM APPROVAL
 		JOIN DOC_HOLIDAY USING (APPROVAL_NO)
 		WHERE APPROVAL_NO = ${approvalNo}
+		AND 0 = (SELECT DOC_CATEGORY_NO
+			FROM APPROVAL
+			WHERE APPROVAL_NO = ${approvalNo})
 	</select>
 	
 	<!--휴가신청서가 결재완료된 경우 캘린더에 등록하기-->

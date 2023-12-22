@@ -461,6 +461,12 @@ submitBtn.addEventListener("click", (e)=>{
         return;
     }
 
+
+    // 점주명과 점주회원번호의 정보가 기존의 회원정보와 일치하지 않을 경우 리턴
+    // if()
+
+
+
     /* checkObj의 모든 값을 검사해서
     하나라도 false이면 가입 시도 X */
     // 객체 전용 향상된 for문 (for .... in)

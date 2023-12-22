@@ -28,5 +28,17 @@ public interface EditBoardMapper {
 	 */
 	int updateBoard(Board board);
 
+	/** 삭제시 신고글인 경우 REPORT 업데이트
+	 * @param paramMap
+	 * @return
+	 */
+	void reportAnswerBoard(Map<String, Integer> paramMap);
+
+	/** 삭제되는 게시글이 신고된 게시글인지 확인
+	 * @param paramMap
+	 * @return
+	 */
+	int checkReportBoard(Map<String, Integer> paramMap);
+
 
 }

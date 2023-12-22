@@ -817,7 +817,9 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// 결재완료된 휴가신청서의 휴가 시작일, 종료일, 회원번호 받아오기
 		Approval approval = mapper.selectHolidayInfo(approvalNo);
 		
-		log.info(approval + "-------");
+		if(approval == null) {
+			return 0;
+		}
 		
 		// 캘린더에 휴가일정 인서트
 		return mapper.holidayCalendarInsert(approval);

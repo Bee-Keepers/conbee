@@ -13,15 +13,6 @@ import com.keepers.conbee.approval.model.dto.Approver;
 import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.stock.model.dto.Stock;
 
-/**
- * 
- */
-/**
- * 
- */
-/**
- * 
- */
 @Mapper
 public interface ApprovalMapper {
 
