@@ -22,5 +22,6 @@ public class Approver {
 	  private String gradeName;
 	  private String teamName;
 	  private String departmentName;
+	  private String memberProfile;
 
 }
