@@ -85,3 +85,26 @@ messageSave.addEventListener("click", ()=>{
   })
   .catch(e=>console.log(e));
 });
+
+
+
+
+document.getElementById('deleteBtn').addEventListener('click', e =>{
+  
+  let messageNo;
+  let messageNoList=[];
+  const checkNotes = document.querySelectorAll(".checkNote");
+  for(let checkNote of checkNotes){
+    if(checkNote.checked==true){
+      messageNo=checkNote.value;
+      messageNoList.push(parseInt(messageNo));
+      console.log(messageNoList);
+    }
+  }
+  if(confirm("정말 삭제??")){
+  
+    location.href="/note/deleteNoteReceive?messageNoList=" + messageNoList;
+
+  }
+
+});

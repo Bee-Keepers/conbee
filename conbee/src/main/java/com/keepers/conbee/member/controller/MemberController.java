@@ -222,21 +222,6 @@ public class MemberController {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 	
 	

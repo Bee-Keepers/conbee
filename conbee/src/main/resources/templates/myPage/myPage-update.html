@@ -51,20 +51,26 @@
                 <label for="disabledTextInput" class="form-label">아이디</label>
                 <input type="text" id="disabledTextInput" class="form-control p-3" th:placeholder="*{memberId}">
               </div>
-              </fieldset>
-
-              <fieldset disabled>
-                <div class="mb-3">
-                  <label for="disabledTextInput" class="form-label">이름</label>
-                  <input type="text" id="disabledTextInput" class="form-control p-3" th:placeholder="*{memberName}">
-                </div>
-                </fieldset>
-
+            </fieldset>
+            
+            <fieldset disabled>
+              <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">이름</label>
+                <input type="text" id="disabledTextInput" class="form-control p-3" th:placeholder="*{memberName}">
+              </div>
+            </fieldset>
+<!-- 
+              <div class="mb-3">
+                <label for="userPw" class="form-label">비밀번호</label>
+                <input type="password" id="memberPw" name="memberPw" class="memberPw form-control p-3" >
+                <label for="userPw" class="form-label">비밀번호 확인</label>
+                <input type="password"  name="memberPwCheck" class="memberPwCheck form-control p-3" >
+                <article id="checkMessage"></article>
+              </div>
+             -->
               <div class="mb-3">
                 <label for="userphone" class ="form-label">전화번호</label>
-                <input type="text" class="form-control p-3" id="*{memberTel}" placeholder="phonenumber" name="*{memberTel}" required>
-                <div class="valid-feedback">Valid.</div>
-                <div class="invalid-feedback">Please fill out this field.</div>
+                <input type="text" class="form-control p-3" id="memberTel" placeholder="전화번호(-빼고)" name="memberTel" maxlength="11" th:value="*{memberTel}" th:placeholder="*{memberTel}"required>
               </div>
 
               <fieldset disabled>
@@ -77,9 +83,7 @@
 
               <div class="mb-3">
                 <label for="userphone"  class ="form-label">이메일 변경</label>
-                <input type="text" id="*{memberEmail}" class="form-control p-3" th:placeholder="*{memberEmail}">
-                <div class="valid-feedback">Valid.</div>
-                <div class="invalid-feedback">Please fill out this field.</div>
+                <input type="text" id="memberEmail" name="memberEmail" class="form-control p-3" th:placeholder="*{memberEmail}" th:value="*{memberEmail}">
               </div>
 
                 <!-- 인증번호 입력 -->
@@ -88,7 +92,9 @@
                   <input type="text" name="authKey" id="authKey" class="form-control p-3" s placeholder="인증번호 입력" maxlength="6" autocomplete="off" >
                
               </div>
-              <button type="button" class="btn btn-outline-warning">인증하기</button>
+              <button id="sendAuthKeyBtn" class="btn btn-warning" type="button" style="display: inline-block;" >인증번호 발송</button>
+              <button id="checkAuthKeyBtn" class="btn btn-outline-warning" type="button" style="display: inline-block;" >인증하기</button>
+              
 
               <span class="signUp-message" id="authKeyMessage"></span>
                               <!-- 인증번호가 일치하지 않습니다 -->
@@ -98,37 +104,27 @@
 
             <div class="mb-3">
               <label for="useraddress" class ="form-label">주소</label>
-                <input type="address"  class="form-control p-3"  name="memberAddress" placeholder="우편번호" id="postcode">   
-              
+                <input type="address"  class="form-control p-3"  name="memberAddress" placeholder="검색 버튼을 이용해서 입력" id="inputAddress">   
             </div>
 
-            <div class="mb-3">
-                <input type="address"  class="form-control p-3"  name="memberAddress"  placeholder="도로명/지번 주소" id="address">                
-            </div>
-
-            <div class="mb-3">
-                <input type="address"  class="form-control p-3"  name="memberAddress"  placeholder="상세 주소" id="detailAddress">                
-            </div>
-            <button class="btn btn-outline-warning" onclick="sample6_execDaumPostcode()">검색</button>
+            <button type="button" class="btn btn-outline-warning" onclick="searchAddress()">검색</button>
             
             
+            
+            
+            <div class="d-flex justify-content-end my-5" >
+              <button class="btn btn-warning btnBox fs-5" type="submit">저장</button>
+            </div>
+            
+          </form>
 
-              <div class="d-flex justify-content-end my-5" >
-                <button class="btn btn-warning btnBox fs-5" type="submit">저장</button>
-              </div>
-
-            </form>
       </div>
     </main>
-
-
-  <th:block th:replace="~{common/footer}"></th:block>
 
 
 
   <!---------------- 다음 주소 API ------------------->
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-  <script src="/js/myPage/myPage.js"></script>
 
   <script th:inline="javascript">
       const memberAddress =/*[[${session.loginMember.memberAddress}]]*/"회원주소";
@@ -138,7 +134,6 @@
 
           // 1) 문자열을 "^^^" 기준으로 쪼개어 배열로 반환
           const arr = memberAddress.split("^^^"); // [A,B,C]
-
           // 2) name 속성 값이  "memberAddress" 인 요소를 모두 얻어옴
           const inputs = document.querySelectorAll("[name='memberAddress']");
 
@@ -149,7 +144,6 @@
           // - index : 현재 접근 중인 요소의 인덱스
           inputs.forEach((item, index)=> {
               item.value = arr[index];
-
           });
 
       }

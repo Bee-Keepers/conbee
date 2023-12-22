@@ -19,7 +19,7 @@ public interface MemberMapper {
 	 */
 	Member quickLogin(String memberId);
 
-	/** 비밀번호 암호화( 임시 삭제예정)
+	/** 비밀번호 암호화
 	 * @param inputMember
 	 */
 	void password(Member inputMember);
@@ -36,7 +36,7 @@ public interface MemberMapper {
 	 */
 	String findMemberId(Member inputInformation);
 
-	/** 비밀번호 찾기(회원 조회) 부대찌개 재료 탐색
+	/** 비밀번호 찾기(회원 조회)
 	 * @param inputInformation
 	 * @return
 	 */

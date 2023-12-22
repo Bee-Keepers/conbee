@@ -13,16 +13,27 @@
 		FROM "CALENDAR"
 		JOIN MEMBER USING(MEMBER_NO)
 		WHERE CAL_NO != 0 
-		AND TEAM_NO = #{teamNo}
 		
-		<!-- 사장 부사장 부장 팀장 대리 사원 조회-->
-		<if test="gradeNo != 6">
+		<!-- 사원 -> 팀 일정 조회 -->
+		<if test="gradeNo != 6 and teamNo > 0">
 			AND GRADE_NO != 6 
+			AND TEAM_NO = #{teamNo}
 		</if>
 		
-		<!-- 점주만 조회-->
+		
+		
+		<!-- 부장 -> 같은 부서 + 부장 자기 일정 -->
+		<if test="gradeNo != 6 and teamNo == 0">
+			AND (GRADE_NO != 6  AND DEPARTMENT_NO 
+						= (SELECT DEPARTMENT_NO FROM MEMBER WHERE MEMBER_NO = #{memberNo}) )
+			OR MEMBER_NO = #{memberNo}
+		</if>
+		
+		
+		<!-- 점주 -> 개인 일정 조회 -->
 		<if test="gradeNo == 6">
 			AND GRADE_NO = 6 
+			AND MEMBER_NO = #{memberNo}
 		</if>
 		
 		

@@ -139,7 +139,7 @@
 
             <th:block th:if="${noteList != null}">
               <tr th:each="note : ${noteList}" th:object="${note}" style="text-align: center;">
-                <td><input type="checkbox" class="checkNote"></td>
+                <td><input type="checkbox" class="checkNote" th:value="*{messageNo}"></td>
                 <td th:text="*{memberName}"></td>
                 <input type="hidden" th:value="*{messageNo}">
                 <td class="" th:classappend="*{messageReadFl == 'N'} ? fw-bold : fw-light" style="cursor: pointer;" th:text="*{messageContent}" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="readCheckFn(this)"></td>
@@ -153,7 +153,7 @@
         </table>
 
         <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">
-              <a href="#" class="btn btn-secondary" style="width: 80px;">삭제</a>
+              <a id="deleteBtn" class="btn btn-secondary" style="width: 80px;">삭제</a>
         </div>
       </div>
 

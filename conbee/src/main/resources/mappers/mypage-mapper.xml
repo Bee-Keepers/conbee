@@ -92,12 +92,32 @@
 	<update id="myPageUpdate">
 		UPDATE "MEMBER" SET
 		MEMBER_TEL =#{memberTel},
-	    MEMBER_ADDRESS =#{memberAddress}
+	    MEMBER_ADDRESS =#{memberAddress},
+	   <!-- MEMBER_PW =#{memberPw}-->
 	    WHERE MEMBER_NO =#{memberNo}
 	</update>
 	
+		<!-- 이메일 유효성 검사 -->
+	<select id="checkmyPageEmail" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE MEMBER_EMAIL = #{memberEmail}
+	</select>
 	
 	
+		<!-- 전화번호 검사 -->
+	<select id="checkMemberTel" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE MEMBER_TEL = #{memberTel}
+	</select>
+	
+		<!-- 비밀번호 검사 -->
+	<!--	
+	<select id="checkMemberPw" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE MEMBER_PW = #{memberPw}
+	</select>
+	
+	-->
 	
 	
 	

@@ -69,6 +69,13 @@
 		MESSAGE_SAVE = 'Y'
 		WHERE MESSAGE_NO = #{messageNo}
 	</update>
+	
+	<!-- 보낸 쪽지 저장-->
+	<update id="savesent">
+		UPDATE "MESSAGE" SET
+		MESSAGE_SAVE = 'Y'
+		WHERE MESSAGE_NO = #{messageNo}
+	</update>
 
 	<!--쪽지 보관함-->
 	<select id="notekeep" resultType="Note">
@@ -84,5 +91,30 @@
 		WHERE MESSAGE_NO = #{messageNo}
 		AND MESSAGE_SAVE = 'Y'
 	</select>
+	
+	<!--쪽지 삭제-->
+	<delete id="deleteNoteReceive" parameterType="list">
+	    DELETE FROM "MESSAGE"
+	    WHERE MESSAGE_NO IN
+	    <foreach item="messageNo" collection="list" open="(" separator="," close=")">
+	        #{messageNo}
+	    </foreach>
+	</delete>
+	
+	<delete id="deleteNoteSent" parameterType="list">
+	    DELETE FROM "MESSAGE"
+	    WHERE MESSAGE_NO IN
+	    <foreach item="messageNo" collection="list" open="(" separator="," close=")">
+	        #{messageNo}
+	    </foreach>
+	</delete>
+	
+	<delete id="deleteNoteKeep" parameterType="list">
+	    DELETE FROM "MESSAGE"
+	    WHERE MESSAGE_NO IN
+	    <foreach item="messageNo" collection="list" open="(" separator="," close=")">
+	        #{messageNo}
+	    </foreach>
+	</delete>
 
 </mapper>

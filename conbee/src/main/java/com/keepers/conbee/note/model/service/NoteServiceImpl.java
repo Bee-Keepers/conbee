@@ -79,4 +79,29 @@ public class NoteServiceImpl implements NoteService {
 		return mapper.notekeep(memberNo);
 	}
 	
+	// 쪽지 삭제
+	@Override
+	public int deleteNoteReceive(List<Integer> messageNoList) {
+		
+		return mapper.deleteNoteReceive(messageNoList);
+	}
+	
+	@Override
+	public int deleteNoteSent(List<Integer> messageNoList) {
+		return mapper.deleteNoteSent(messageNoList);
+	}
+	
+	@Override
+	public int deleteNoteKeep(List<Integer> messageNoList) {
+		
+		return mapper.deleteNoteKeep(messageNoList);
+	}
+	
+	// 보낸 쪽지 저장
+	@Override
+	public int savesent(int messageNo) {
+		
+		return mapper.savesent(messageNo);
+	}
+	
 }
