@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.keepers.conbee.stock.model.dto.Order;
 import com.keepers.conbee.stock.model.dto.OrderDetail;
 import com.keepers.conbee.stock.model.dto.Stock;
+import com.keepers.conbee.stock.model.service.StockManageService;
 import com.keepers.conbee.stock.model.service.StockService;
 
 import lombok.RequiredArgsConstructor;
@@ -40,18 +41,33 @@ public class StockController {
 
 	private final StockService service;
 
-	/**
-	 * 상품 리스트 전체 조회
-	 * 
+	/** 상품 리스트 전체 조회
 	 * @return
 	 */
 	@GetMapping("goodsList")
-	public String stockGoodsList(Model model, @RequestParam Map<String, Object> paramMap) {
-
-		Map<String, Object> map = service.goodsList(paramMap);
-
-		model.addAttribute("map", map);
-
+	public String stockGoodsList( Model model,
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp
+			) {
+		
+		List<Stock> goodsListSelect = service.goodsList(cp);
+			
+		model.addAttribute("goodsListSelect", goodsListSelect);
+			
+		return "stock/goodsList";
+	}
+	
+	/** 상품 검색
+	 * @param stock
+	 * @param model
+	 * @param loginMember
+	 * @return
+	 */
+	@GetMapping("goodsSearch")
+	public String goodsSearch( Stock stock, Model model, @RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
+		
+		List<Stock> goodsSearchList = service.goodsSearch(stock, cp);
+		model.addAttribute("goodsListSelect", goodsSearchList);
+		
 		return "stock/goodsList";
 	}
 
@@ -201,7 +217,7 @@ public class StockController {
 		if (result <= 0) {
 			ra.addFlashAttribute("message", "등록 실패");
 		}
-		return "redirect:stockList";
+		return "redirect:stockList?storeNo=" + stock.getStoreNo();
 	}
 
 	/**
@@ -212,8 +228,8 @@ public class StockController {
 	 */
 	@GetMapping("goodsNameSelect")
 	@ResponseBody
-	public List<Stock> goodsNameSelect(String intputGoods) {
-		List<Stock> goodsNameSelect = service.goodsNameSelect(intputGoods);
+	public List<Stock> goodsNameSelect(String intputGoods, int storeValue) {
+		List<Stock> goodsNameSelect = service.goodsNameSelect(intputGoods, storeValue);
 		return goodsNameSelect;
 	}
 
@@ -318,4 +334,6 @@ public class StockController {
 		log.info(""+ orderList);
 		return service.orderAmountCheck(orderList);
 	}
+	
+	
 }

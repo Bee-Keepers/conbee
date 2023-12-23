@@ -26,13 +26,6 @@ public interface StockMapper {
 	 */
 	int goodsInsert(Stock stock);
 
-
-	/** 상품 등록 전체조회
-	 * @param paramMap
-	 * @return
-	 */
-	List<Stock> goodsList(Map<String, Object> paramMap);
-
 	/** 등록된 상품 삭제
 	 * @param goodsNo
 	 * @return
@@ -64,15 +57,12 @@ public interface StockMapper {
 	 */
 	List<Stock> stockList(Stock stock, RowBounds rowBounds);
 
-	/** 재고 등록 이름 검색 시 물품 조회
-	 * @param goodsName
-	 * @param scategoryName 
-	 * @param lcategoryName 
-	 * @param goodsNo 
+	/** 재고 이름 검색
+	 * @param intputGoods
 	 * @return
 	 */
-	List<Stock> goodsNameSelect(String intputGoods);
-  
+	List<Stock> goodsNameSelect(Map<String, Object> map);
+	
 	/** 발주 신청
 	 * @param orderList
 	 * @return
@@ -107,6 +97,7 @@ public interface StockMapper {
 	 * @return
 	 */
 	int stockUpdate(Stock stock);
+	
 	/**발주 신청/수정 화면 출력용
 	 * @param storeNo
 	 * @return
@@ -205,6 +196,26 @@ public interface StockMapper {
 	 * @param approval
 	 */
 	void headStockInPrice(Approval approval);
+
+	/** 상품 전체 조회
+	 * @param rowBounds
+	 * @return
+	 */
+	List<Stock> goodsList(RowBounds rowBounds);
+
+	/** 상품 검색
+	 * @param stock
+	 * @param rowBounds
+	 * @return
+	 */
+	List<Stock> goodsSearch(Stock stock, RowBounds rowBounds);
+
+
+
+	
+
+
+
 
 
 }

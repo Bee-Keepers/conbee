@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -48,15 +49,6 @@ public class StockServiceImpl implements StockService{
 	@Override
 	public int goodsInsert(Stock stock) {
 		return mapper.goodsInsert(stock);
-	}
-	
-	// 상품등록 전체 조회
-	@Override
-	public Map<String, Object> goodsList(Map<String, Object> paramMap) {
-		List<Stock> goodsListSelect = mapper.goodsList(paramMap);
-		Map<String, Object> map = new HashMap<>();
-		map.put("goodsListSelect", goodsListSelect);
-		return map;
 	}
 	
 	// 등록된 상품 삭제
@@ -125,8 +117,14 @@ public class StockServiceImpl implements StockService{
 	
 	// 재고 등록 이름 검색 시 물품 조회
 	@Override
-	public List<Stock> goodsNameSelect(String intputGoods) {
-		return mapper.goodsNameSelect(intputGoods);
+	public List<Stock> goodsNameSelect(String intputGoods, int storeValue) {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("intputGoods", intputGoods);
+		map.put("storeValue", storeValue);
+		
+		return mapper.goodsNameSelect(map);
+		
 	}
 	
 	// 발주 신청
@@ -331,5 +329,27 @@ public class StockServiceImpl implements StockService{
 			mapper.headStockInPrice(orderList.get(i));
 		}
 	}
+	
+	// 상품등록 전체 조회
+	@Override
+	public List<Stock> goodsList(int cp) {
+
+		// 페이지 네이션
+		RowBounds rowBounds = new RowBounds((cp-1)*20, 20);
+		return mapper.goodsList(rowBounds);
+	}
+	
+	// 상품 검색
+		@Override
+		public List<Stock> goodsSearch(Stock stock, int cp) {
+			RowBounds rowBounds = new RowBounds((cp-1)*20, 20);
+			if(stock.getLcategoryName() == null && stock.getScategoryName() == null && stock.getGoodsName() == null) {
+				stock.setLcategoryName("");
+				stock.setScategoryName("");
+				stock.setGoodsName("");
+			}
+			return mapper.goodsSearch(stock, rowBounds);
+		}
+
 	
 }

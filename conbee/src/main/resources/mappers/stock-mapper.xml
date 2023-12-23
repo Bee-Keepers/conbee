@@ -30,6 +30,23 @@
 			DEFAULT)
 	</insert>
 	
+	<!-- 상품 검색 -->
+	<select id="goodsSearch" resultType="Stock">
+		SELECT LCATEGORY_NAME, SCATEGORY_NAME, GOODS_NAME, GOODS_NO, GOODS_STANDARD, GOODS_PRICE
+		FROM GOODS
+		JOIN LCATEGORY USING(LCATEGORY_NO)
+		JOIN SCATEGORY USING(SCATEGORY_NO)
+		WHERE GOODS_NAME LIKE '%${goodsName}%'
+		AND GOODS_DEL_FL = 'N'
+		<if test='lcategoryName != ""'>
+			AND LCATEGORY_NAME = #{lcategoryName}
+		</if>
+		<if test='scategoryName != ""'>
+			AND SCATEGORY_NAME = #{scategoryName}
+		</if>
+		ORDER BY GOODS_NO DESC
+	</select>
+	
 	<!-- 상품 등록 후 조회 -->
 	<select id="goodsList" resultType="Stock">
 		SELECT GOODS_NO, GOODS_NAME, GOODS_STANDARD, LCATEGORY_NAME, SCATEGORY_NAME , GOODS_PRICE
@@ -112,9 +129,14 @@
 		JOIN SCATEGORY USING(SCATEGORY_NO)
 		WHERE GOODS_NAME LIKE '%${intputGoods}%'
 		AND GOODS_DEL_FL = 'N'
+		AND GOODS_NO NOT IN (SELECT GOODS_NO
+					FROM STOCK
+					JOIN GOODS USING (GOODS_NO)
+					WHERE STORE_NO = ${storeValue}
+					AND GOODS_NAME LIKE '%${intputGoods}%'
+					AND GOODS_DEL_FL = 'N')
 	</select>
 	
-
 	<!-- 발주 신청 삽입 -->
 	<insert id="orderInsert">
 		INSERT INTO "ORDER"
