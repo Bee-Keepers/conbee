@@ -171,21 +171,43 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 	
 	
 	
-	/** 회원 수정
+	/**
+	 * 회원 수정
 	 *
 	 */
 	@Override
 	public int memberUpdateResult(Member updateMember) {
-		
-		
-		int result = mapper.memberUpdateResult(updateMember);
-		
-		if(result > 0 && updateMember.getStoreNo() > 0) {
-			result = mapper.memberUpdateStoreNo(updateMember);
+
+		int result = mapper.searchMemerNo(updateMember);
+
+		// 기존 회원번호가 없을 경우 return
+		if (result <= 0) {
+			return 100;
 		}
-		return result;
+
+		// 회원 이름과 회원번호가 기등록과 다를 경우 return
+		int result1 = mapper.compareMember(updateMember);
+
+		// 기존 회원번호와 회원 이름이 일치하는 경우 없을 경우 return
+		// (일치시 1, 불일치시 0)
+		if (result1 <= 0) {
+			return 50;
+		}
+
+		// 점포 번호 변경 수정
+		
+		mapper.memberUpdateStoreNo(updateMember);
+
+		// 회원 정보 수정
+		return mapper.memberUpdateResult(updateMember);
 	}
 	
+	
+	// 검색한 회원 조회
+	@Override
+	public Member updateMemberInfo(String memberId) {
+		return mapper.updateMemberInfo(memberId);
+	}
 	
 	
 	//============================= 예리나 =====================================

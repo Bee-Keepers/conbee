@@ -72,5 +72,11 @@ public interface AdminMemberService {
 	 */
 	int memberUpdateResult(Member updateMember);
 
+	/** 회원 수정 - 검색 회원 조회
+	 * @param memberId
+	 * @return
+	 */
+	Member updateMemberInfo(String memberId);
+
 
 }

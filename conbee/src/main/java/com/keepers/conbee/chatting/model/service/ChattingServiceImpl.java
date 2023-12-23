@@ -12,7 +12,8 @@ import com.keepers.conbee.chatting.model.mapper.ChattingMapper;
 import com.keepers.conbee.member.model.dto.Member;
 
 import lombok.RequiredArgsConstructor;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -25,14 +26,13 @@ public class ChattingServiceImpl implements ChattingService{
 	public List<Chatting> selectChatList1(int memberNo) {
 		return mapper.selectChatList1(memberNo);
 	}
-
-	// 팀 채팅 클릭 시 
-	@Override
-	public List<ChatMessage> teamList(int teamNo) {
-		return mapper.teamList(teamNo);
-	}
-	
-	
+	/*
+	 * // 팀 채팅 클릭 시
+	 * 
+	 * @Override public List<ChatMessage> teamList(int teamNo) { return
+	 * mapper.teamList(teamNo); }
+	 * 
+	 */
 	
 	// 대화 상대 검색
 	@Override
@@ -60,20 +60,26 @@ public class ChattingServiceImpl implements ChattingService{
 	
 	// 채팅 전송 
 	@Override
-	public List<ChatMessage> selectMessageList(Map<String, Object> paramMap) {
-        System.out.println(paramMap);
+	public List<ChatMessage> selectMessageList(Map<String, Object> paramMap, int teamNo) {
+//        System.out.println(paramMap);
         
 //        if(paramMap.get("teamNo") == "0") {
-        	
-    	List<ChatMessage> messageList = mapper.selectMessageList(  Integer.parseInt( String.valueOf(paramMap.get("chatNo") )));
-//        }
+		List<ChatMessage> messageList = null;
         
-        // 채팅 메세지 중 내가 보내지 않은 글을 읽음으로 표시
-        if(!messageList.isEmpty() && paramMap.get("memberNo") != null) {
-            int result = mapper.updateChatMessageRead(paramMap);
-        }
-        
-       
+		if(Integer.parseInt( String.valueOf(paramMap.get("flag") )) == 0) {
+			messageList = mapper.selectMessageList(  Integer.parseInt( String.valueOf(paramMap.get("chatNo") )));
+			// 채팅 메세지 중 내가 보내지 않은 글을 읽음으로 표시
+			if(!messageList.isEmpty() && paramMap.get("memberNo") != null) {
+				int result = mapper.updateChatMessageRead(paramMap);
+			}
+			
+			
+		} else {
+			messageList = mapper.teamList(teamNo);
+			
+		}
+
+       log.info("fsjdfjas :" + messageList);
         return messageList;
 	}
 	

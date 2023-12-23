@@ -198,12 +198,21 @@
 }
 
 .recent-message{
-	width: 180px;
+  width: 180px;
+  white-space: normal;
+  overflow: hidden;
+  display: flex;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+  justify-content: space-between; 
+  margin-left: 5px;
 
 	/* 여러 줄 말줄임 처리 */
 	white-space: normal;
     overflow: hidden;
-    display: -webkit-box;
+    display: flex;
+    /* display: -webkit-box; */
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 
@@ -250,11 +259,19 @@
 	display: flex;
 	align-items: flex-start;
 }
-.target-chat > img{
+.target-chat >div{
+  text-align: left;
+}
+
+.target-chat  > img{
 	width: 50px;
   height: 50px;
 	margin-right: 5px;
-  border-radius: 50%x;
+  border-radius: 50%;
+  
+    
+
+
 }
 
 .chat {

@@ -107,6 +107,24 @@ public interface AdminMemberMapper {
 	 */
 	int memberUpdateStoreNo(Member updateMember);
 
+	/** 회원 정보 수정 멤버 조회
+	 * @param updateMember
+	 * @return
+	 */
+	int searchMemerNo(Member updateMember);
+
+	/** 회원 정보 수정(회원 이름 / 회원 아이디 일치 여부 확인)
+	 * @param updateMember
+	 * @return
+	 */
+	int compareMember(Member updateMember);
+
+	/** 회원 수정 - 검색 회원 조회
+	 * @param memberId
+	 * @return
+	 */
+	Member updateMemberInfo(String memberId);
+
 	
 
 }
