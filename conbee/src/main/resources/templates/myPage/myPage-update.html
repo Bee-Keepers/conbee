@@ -43,7 +43,7 @@
             </div>
           </form>
 
-          <form action="myPageUpdate" method="POST" name="myPageFrm" id="profileFrm" enctype="multipart/form-data" th:object="${session.loginMember}">
+          <form action="myPageUpdate" method="POST" name="myPageFrm" id="" enctype="multipart/form-data" th:object="${session.loginMember}">
 
            
             <fieldset disabled>
@@ -63,6 +63,7 @@
               <div class="mb-3">
                 <label for="userphone" class ="form-label">전화번호</label>
                 <input type="text" class="form-control p-3" id="memberTel" placeholder="전화번호(-빼고)" name="memberTel" maxlength="11" th:value="*{memberTel}" th:placeholder="*{memberTel}"required>
+                <article id="messageMemberTel"></article>
               </div>
 
               <fieldset disabled>
@@ -81,7 +82,7 @@
                 <!-- 인증번호 입력 -->
               
                 <div class="mb-3">
-                  <input type="text" name="authKey" id="authKey" class="form-control p-3" s placeholder="인증번호 입력" maxlength="6" autocomplete="off" >
+                  <input type="text" name="authKey" id="authKey" class="form-control p-3" s placeholder="인증번호 입력" maxlength="6" autocomplete="off" required >
                
               </div>
               <button id="sendAuthKeyBtn" class="btn btn-warning" type="button" style="display: inline-block;" >인증번호 발송</button>
@@ -96,8 +97,10 @@
 
             <div class="mb-3">
               <label for="useraddress" class ="form-label">주소</label>
-                <input type="address"  class="form-control p-3"  name="memberAddress" placeholder="검색 버튼을 이용해서 입력" id="inputAddress">   
-            </div>
+                <input type="address"  class="form-control p-3"  name="memberAddress" placeholder="검색 버튼을 이용해서 입력" id="inputAddress" required>   
+                <article id="messageMemberAddress"></article>
+            
+              </div>
 
             <button type="button" class="btn btn-outline-warning" onclick="searchAddress()">검색</button>
             

@@ -160,6 +160,7 @@ function searchAddress() {
       // 커서를 상세주소 필드로 이동한다.
       document.getElementById("inputAddress").focus();
 
+      messageMemberAddress.innerText = "유효한 주소입니다";
       document.getElementById("inputAddress").classList.add("is-valid");
       document.getElementById("inputAddress").classList.remove("is-invalid");
       checkObj.inputAddress = true;
@@ -256,7 +257,7 @@ sendAuthKeyBtn.addEventListener("click", function () {
 
   // 유효하지 않은 이메일인 경우
   if (!checkObj.memberEmail) {
-    alert("이메일을 입력해주세요");
+    alert("수정할 이메일을 입력해주세요");
     return;
   }
 
@@ -402,6 +403,10 @@ memberTel.addEventListener("input", () => {
 
         if (result == 0) { // 중복 X
           // 인풋 요소 변화
+    /* The above code is setting the font size of an element with the id "messageMemberTel" to 16
+    pixels. */
+          messageMemberTel.style.fontSize = "16px";
+          messageMemberTel.innerText = "유효한 전화번호 입니다.";
           memberTel.classList.add("is-valid");
           memberTel.classList.remove("is-invalid");
 
@@ -409,6 +414,8 @@ memberTel.addEventListener("input", () => {
 
         } else { // 중복 O
           // 인풋 요소 변화
+          messageMemberTel.style.fontSize = "16px";
+          messageMemberTel.innerText = "중복된 전화번호 입니다.";
           memberTel.classList.add("is-invalid");
           memberTel.classList.remove("is-valid");
 
@@ -419,6 +426,8 @@ memberTel.addEventListener("input", () => {
 
     // 입력한 점포명이 유효하지 않을 경우    
   } else {
+    messageMemberTel.style.fontSize = "16px";
+    messageMemberTel.innerText = "전화번호는 숫자 9~11글자 이내로 작성해주세요.";
     // 인풋 요소 변화
     memberTel.classList.add("is-invalid");
     memberTel.classList.remove("is-valid");
@@ -440,13 +449,15 @@ inputAddress.addEventListener("input", () => {
   // 주소가 입력되지 않은 경우
   if (inputAddress.value.trim().length < 15) {
     inputAddress.value = "";
-
+    messageMemberAddress.style.fontSize = "16px";
+    messageMemberAddress.innerText = "주소를 입력해주세요";
     inputAddress.classList.add("is-invalid");
     inputAddress.classList.remove("is-valid");
 
     checkObj.inputAddress = false;
     return;
   } else{
+
     inputAddress.classList.add("is-valid");
     inputAddress.classList.remove("is-invalid");
 

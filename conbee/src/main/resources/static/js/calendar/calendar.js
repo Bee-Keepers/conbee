@@ -183,6 +183,27 @@ document.getElementById('calender-confirm').addEventListener('click',() => {
 
   const calendarColor = document.getElementById('calendar_color').value;
 
+  if(calTitle.trim().length == 0){
+    alert("제목을 입력해주세요");
+    return;
+  }
+
+  if(calDetail.trim().length == 0){
+    alert("내용을 입력해주세요");
+    return;
+  }
+
+  if(calendarStartDate.trim().length == 0){
+    alert("시작 날짜를 선택해주세요");
+    return;
+  }
+
+  if(calendarEndDate.trim().length == 0){
+    alert( "종료 날짜를 선택해주세요");
+    return;
+  }
+
+
 
   // 시작/종료 날짜 + 시간  (2023-12-14/16:20)
   let calStartTime;

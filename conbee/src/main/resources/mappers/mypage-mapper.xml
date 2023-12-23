@@ -3,22 +3,25 @@
 <!-- 연결할 인터페이스의 패키지명.인터페이스명을 작성 -->
 <mapper namespace="com.keepers.conbee.myPage.model.mapper.MyPageMapper">
 
+   <!-- 내 점포 조회 (수정 )-->
 	<update id="myPageStoreUpdate">
 		UPDATE "STORE" SET
 		STORE_TEL = #{storeTel}
 		WHERE STORE_NO = #{storeNo}
 	</update>
 
+   <!-- 내 점포 수정-->
 	<select id="myPageStore" resultType="Store">
 		SELECT STORE_NO, STORE_NAME, STORE_TEL, STORE_ADDRESS
 		FROM "STORE"
 		WHERE STORE_NO = #{storeNo}
 	</select>
 
-
-	<select id="getListCount" resultType="_int"> SELECT COUNT(*) FROM "BOARD"
-		WHERE BOARD_DEL_FL = 'N' AND MEMBER_NO = #{memberNo} <if
-			test="writeName != null">
+	<!--페이지 네이션-->
+	<select id="getListCount" resultType="_int"> 
+		SELECT COUNT(*) FROM "BOARD"
+		WHERE BOARD_DEL_FL = 'N' AND MEMBER_NO = #{memberNo} 
+		<if test="writeName != null">
 			AND BOARD_TITLE LIKE '%${writeName}%'
 		</if>
 	</select>
@@ -41,6 +44,17 @@
 		</select>
 
 
+	<!--내가 쓴 댓글 수-->
+	<select id="getCommentListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM "BOARD_COMMENT" C 
+		JOIN "BOARD" B ON (C.BOARD_NO=B.BOARD_NO) 
+		WHERE BOARD_COMMENT_DEL_FL = 'N' AND C.MEMBER_NO = #{memberNo} 
+		<if test='commentName != null'>
+			AND BOARD_COMMENT_CONTENT LIKE '%${commentName}%'
+		</if> 
+	</select>
+
 	<!--내가 쓴 댓글-->
 	<select id="selectcommentList" resultType="Board"> 
 		SELECT BOARD_CODE_NO,
@@ -56,7 +70,7 @@
 			AND BOARD_COMMENT_CONTENT LIKE '%${commentName}%'
 		</if> 
 		ORDER BY BOARD_NO DESC, BOARD_COMMENT_NO DESC 
-		</select>
+	</select>
 
 	<!-- 즐겨찾기 -->
 
@@ -76,6 +90,18 @@
 		</if> 
 	ORDER BY BOARD_NO DESC
 
+	</select>
+	
+		<!-- 즐겨찾기 개수-->
+	<select id="getchoiceListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM "BOOKMARK" BM
+		JOIN MEMBER M ON (M.MEMBER_NO = BM.MEMBER_NO)
+		JOIN BOARD B ON (B.BOARD_NO=BM.BOARD_NO)
+		WHERE BM.MEMBER_NO = #{memberNo}
+		<if test='choiceName != null'>
+			AND BOARD_TITLE LIKE '%${choiceName}%'
+		</if> 
 	</select>
 
 

@@ -16,6 +16,8 @@ function readCheckFn(e){
 
 };
 
+
+
 /* 전체 체크하기 */
 document.getElementById("checkAll").addEventListener("change",e=>{
   document.querySelectorAll(".checkNote").forEach((item)=>{item.checked=e.target.checked})
