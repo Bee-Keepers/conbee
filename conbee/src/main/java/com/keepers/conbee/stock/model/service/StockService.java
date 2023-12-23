@@ -26,24 +26,13 @@ public interface StockService {
 	 */
 	int goodsInsert(Stock stock);
 
-	/** 상품 등록 전체 조회
-	 * @param paramMap 
-	 * @return
-	 */
-	Map<String, Object> goodsList(Map<String, Object> paramMap);
-
 	/** 등록된 상품 삭제
 	 * @param goodsNo
 	 * @return
 	 */
 	int goodsDelete(List<Integer> goodsNo);
-
-	/** 등록된 물품 수정
-	 * @param stock
-	 * @return
-	 */
-//	int goodsUpdate(Stock stock);
-
+	
+	
 
 	/** 자동 완성
 	 * @param inputQuery
@@ -68,13 +57,15 @@ public interface StockService {
 	int stockInsert(Stock stock);
 
 	/** 재고 등록 이름 검색 시 물품 조회
+	 * @param storeValue 
+	 * @param inputStoreNo 
 	 * @param goodsName
 	 * @param scategoryName 
 	 * @param lcategoryName 
 	 * @param goodsNo 
 	 * @return
 	 */
-	List<Stock> goodsNameSelect(String intputGoods);
+	List<Stock> goodsNameSelect(String intputGoods, int storeValue);
 
 	/** 발주 신청
 	 * @param goodsNo
@@ -178,7 +169,19 @@ public interface StockService {
 	 * @param orderList
 	 */
 	void headStockInPrice(List<Approval> orderList);
+	
+	
+	/** 상품 전체 조회
+	 * @param cp
+	 * @return
+	 */
+	List<Stock> goodsList(int cp);
 
-
+	/** 상품 검색
+	 * @param stock
+	 * @param cp
+	 * @return
+	 */
+	List<Stock> goodsSearch(Stock stock, int cp);
 
 }

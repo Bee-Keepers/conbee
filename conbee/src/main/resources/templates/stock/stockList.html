@@ -132,7 +132,7 @@
       </div>
       <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-2 mt-2">
         <div class="" role="group" aria-label="Basic outlined example">
-          <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="#stockInsertModel">등록</button>
+          <button type="button" class="btn btn-warning me-1" data-bs-toggle="modal" data-bs-target="#stockInsertModel" id="insertBtn">등록</button>
           <button type="button" class="btn btn-warning me-1" id="stockUpdateBtn">재고수정</button>
           <button name="stockDelete" id="deleteBtn" type="button" class="btn btn-warning">삭제</button>
         </div>
@@ -156,7 +156,7 @@
           <form action="/stock/stockInsert" method="post" id="stockInertForm" >
             <div class="mb-3">
               <select class="form-select" name="storeNo" id="storeNameClick">
-                <option th:each="store : ${session.loginMember.storeList}" th:value="${store.storeNo}" th:text="${store.storeName}"></option>
+                <option th:each="store : ${session.loginMember.storeList}" th:value="${store.storeNo}" th:text="${store.storeName}" class="serachBtn"></option>
               </select>
             </div>
             <div>

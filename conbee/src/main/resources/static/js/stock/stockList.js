@@ -1,4 +1,5 @@
 const storeNoSelect = document.getElementById("storeNoSelect");
+const storeNameClick = document.getElementById("storeNameClick");
 // 지점 변경 시 화면 변경
 storeNoSelect.addEventListener("change", ()=>{
   location.href = "/stock/stockList?storeNo=" + storeNoSelect.value;
@@ -30,20 +31,26 @@ function createElement(tag, obj, classList){
   return element;
 }
 
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 const lcategoryName = document.getElementById("lcategoryName");
 const scategoryName = document.getElementById("scategoryName");
 const serachName = document.getElementById("serachName");
 const goodsNameList = document.getElementById("goodsNameList");
+
 // 등록 시 상품명 입력하면 대분류, 소분류 자동입력
 serachName.addEventListener("input", e=>{
   const inputValue = e.target.value.trim();
-
+  
   if(inputValue.length == 0){
     goodsNameList.innerHTML = "";
     return;
   }
 
-  fetch("/stock/goodsNameSelect?intputGoods=" + inputValue)
+  fetch("/stock/goodsNameSelect?intputGoods=" + inputValue + "&storeValue=" + storeNameClick.value)
     .then(resp => resp.json())
     .then(list => {
       goodsNameList.innerHTML = ""; // 기존 자동완성 목록 초기화
@@ -56,24 +63,13 @@ serachName.addEventListener("input", e=>{
 
         // 자동완성 목록에서 항목 선택 처리
         listItem.addEventListener("click", e => {
+
           const selectedValue = e.target.innerText;
           serachName.value = selectedValue;
           goodsNameList.innerHTML = ""; // 자동완성 목록 초기화 또는 숨김 처리
           lcategoryName.value = item.lcategoryName;
           scategoryName.value = item.scategoryName;
           goodsPrice.value = item.goodsPrice;
-
-          
-          const stockInsertBtn = document.getElementById("stockInsertBtn");
-          for(let item of goodsDetailBtn) {
-            if (item.innerText === selectedValue){
-              alert("중복된 상품이름입니다.");
-              stockInsertBtn.disabled = true;
-              document.getElementById("stockInertForm").reset();
-              break;
-            }
-            stockInsertBtn.disabled = false;
-          }
 
         });
 
@@ -82,6 +78,8 @@ serachName.addEventListener("input", e=>{
     })
     .catch(e => console.log(e));
 });
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 /* 검색 */
 const storeNoSearch = document.getElementById("storeNoSearch");
