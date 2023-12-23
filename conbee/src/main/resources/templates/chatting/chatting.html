@@ -195,10 +195,14 @@
 	<script th:inline="javascript">
 		// 로그인한 회원 번호
 		const loginMemberNo = /*[[${session.loginMember?.memberNo}]]*/ '로그인회원번호';
+		const loginMemberName = /*[[${session.loginMember?.memberName}]]*/ '로그인한 회원 이름';
+		const loginMemberProfile = /*[[${session.loginMember?.memberProfile}]]*/ '로그인한 회원 프로필';
 
 		const myTeamNo = /*[[${session.loginMember?.teamNo}]]*/ '로그인한 회원의 팀번호';
 
 		const userDefaultImage = /*[[#{user.default.image}]]*/ '기본 이미지' ;
+
+
     
 	</script>
 

@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("chatting")
-@SessionAttributes({ "loginMember", "chatMessage" })
+@SessionAttributes({ "loginMember", "chatMessage", "chatNo" })
 public class ChattingController {
 
 	private final ChattingService service;
@@ -92,7 +92,7 @@ public class ChattingController {
 	 */
 	@GetMapping("/chatting/enter")
 	@ResponseBody
-	public int chatEnter(int targetNo, @SessionAttribute("loginMember") Member loginMember) {
+	public int chatEnter(int targetNo, @SessionAttribute("loginMember") Member loginMember, Model model) {
 
 		Map<String, Integer> map = new HashMap<String, Integer>();
 
@@ -105,6 +105,8 @@ public class ChattingController {
 			chatNo = service.createChatRoom(map);
 		}
 //		log.info("채팅방 번호 : " + chatNo);
+		
+		model.addAttribute("chatNo", chatNo);
 		return chatNo;
 	}
 
@@ -127,8 +129,10 @@ public class ChattingController {
 	// 채팅 전송 (+팀도 작동)
 	@GetMapping(value = "/chatting/selectMessage", produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public List<ChatMessage> selectMessageList(@RequestParam Map<String, Object> paramMap, @SessionAttribute("loginMember") Member loginMember) {
+	public List<ChatMessage> selectMessageList(@RequestParam Map<String, Object> paramMap, @SessionAttribute("loginMember") Member loginMember,
+			Model model) {
 		log.info("dfsdf :" + paramMap);
+		model.addAttribute("chatNo", paramMap.get("chatNo"));
 		return service.selectMessageList(paramMap, loginMember.getTeamNo());
 	}
 
@@ -163,7 +167,8 @@ public class ChattingController {
 	 */
 	@GetMapping(value = "teamMemberList", produces = "application/json; charsext=UTF-8;")
 	@ResponseBody
-	public List<Member> teamMemberList(@SessionAttribute("loginMember") Member loginMember) {
+	public List<Member> teamMemberList(@SessionAttribute("loginMember") Member loginMember, Model model) {
+		model.addAttribute("chatNo", loginMember.getTeamNo());
 		return service.teamMemberList(loginMember.getTeamNo());
 	}
 
