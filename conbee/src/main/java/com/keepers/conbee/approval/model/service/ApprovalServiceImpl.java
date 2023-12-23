@@ -321,6 +321,13 @@ public class ApprovalServiceImpl implements ApprovalService{
 	}
 	
 
+	// 점포 정보 조회
+	@Override
+	public int searchStoreNo(int storeNo) {
+		return mapper.searchStoreNo(storeNo);
+	}
+	
+
 	// 결재요청함 조회
 	@Override
 	public Map<String, Object> selectRequestApproval(int memberNo, int cp) {

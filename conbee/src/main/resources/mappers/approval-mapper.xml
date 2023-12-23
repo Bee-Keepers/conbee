@@ -239,6 +239,13 @@
 
 	</insert> 
 	
+	<!-- 점포 정보 조회 -->
+	<select id="searchStoreNo" resultType="_int">
+		SELECT COUNT(*)
+		FROM STORE
+		WHERE STORE_NO = #{storeNo}
+	</select>
+	
 	
 	<!-- 기안문 파일 insert -->
 	<insert id="insertApprovalFile">

@@ -138,6 +138,13 @@ public interface ApprovalMapper {
 	int insertApproval(Approval approval);
 	
 	
+	/** 점포 정보 조회
+	 * @param storeNo
+	 * @return
+	 */
+	int searchStoreNo(int storeNo);
+	
+	
 	/** 파일 insert
 	 * @param uploadFile
 	 * @return result
@@ -501,8 +508,6 @@ public interface ApprovalMapper {
 	 * @return
 	 */
 	int holidayCalendarInsert(Approval approval);
-
-	
 
 	
 

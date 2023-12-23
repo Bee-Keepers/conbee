@@ -87,6 +87,15 @@ public interface ApprovalService {
 	* @return result
 	*/
 	int insertApproval(Approval approval, List<Approver> approverList, MultipartFile approvalFile, CommandDTO command) throws IllegalStateException, IOException;
+	
+	
+	
+	/** 점포 정보 조회
+	 * @param storeNo
+	 * @return
+	 */
+	int searchStoreNo(int storeNo);
+	
 
 	
 	/** 결재요청함 조회
@@ -276,7 +285,6 @@ public interface ApprovalService {
 	 * @return
 	 */
 	int holidayCalendarInsert(int approvalNo);
-
 
 
 
