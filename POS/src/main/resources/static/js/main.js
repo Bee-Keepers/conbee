@@ -9,10 +9,10 @@ function calcPay(e){
     const amount = e.value;
     const price = e.parentElement.previousElementSibling.innerText;
     
-    e.parentElement.nextElementSibling.innerText = amount * price;
+    e.parentElement.nextElementSibling.innerText = (amount * price.replace(",", "")).toLocaleString("ko-KR");
     const input = document.createElement("input");
     input.setAttribute("type", "hidden");
-    input.setAttribute("value", price);
+    input.setAttribute("value", price.replace(",", ""));
     input.setAttribute("name", "historyActualPrice");
 
     e.parentElement.nextElementSibling.append(input);
@@ -72,9 +72,7 @@ plusRowBtn.addEventListener("click", ()=>{
                     default : break;
                 }
                 if(i == 7 || i == 8){
-                    td.innerText = parent.children[i].innerText;
-                    console.log(parent.children[i].innerText.toLocaleString("ko-KR"));
-                    
+                    td.innerText = Number(parent.children[i].innerText).toLocaleString("ko-KR");
                 } else{
                     td.innerText = parent.children[i].innerText;
                 }
@@ -111,20 +109,20 @@ plusRowBtn.addEventListener("click", ()=>{
                 let temp = 0;
                 for(let price of prices){
                     if(price.innerText != ""){
-                        temp += parseInt(price.innerText);
+                        temp += parseInt(price.innerText.replace(",",""));
                     }
                 }
-                totalPrice.innerText = temp;
+                totalPrice.innerText = temp.toLocaleString("ko-KR");
             });
             calcPay(input);
             const prices = document.querySelectorAll("#parentTable>tr>td:nth-of-type(11)");
                 let temp = 0;
                 for(let price of prices){
                     if(price.innerText != ""){
-                        temp += parseInt(price.innerText);
+                        temp += parseInt(price.innerText.replace(",",""));
                     }
                 }
-                totalPrice.innerText = temp;
+                totalPrice.innerText = temp.toLocaleString("ko-KR");
 
         }
     }
@@ -149,7 +147,7 @@ inputPosSearch.addEventListener("input", ()=>{
     }
 
     fetch(
-        "/search?inputPosSearch=" + inputPosSearch.value + "&storeName=" +storeSelect.value
+        "/search?inputPosSearch=" + inputPosSearch.value + "&storeNo=" +storeSelect.value
     )
     .then(resp=>resp.json())
     .then(goodsList=>{
@@ -286,7 +284,7 @@ formSubmitBtn.addEventListener("click", ()=>{
 
     const stockAmount = document.querySelectorAll(".stockAmount");
     for(let stockAm of stockAmount){
-        if(stockAm.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.children[0].value > stockAm.value){
+        if(stockAm.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.children[0].value > Number(stockAm.value)){
             alert("재고를 초과합니다");
             return;
         }
@@ -300,22 +298,31 @@ storeSelect.addEventListener("change", ()=>{
     if(storeSelect.value == 0){
         location.href = "/";
     } else{
-        location.href = "?store=" + storeSelect.value;
+        location.href = "?storeNo=" + storeSelect.value;
     }
 });
 
 
 const url = new URL(location.href);
 const urlParams = url.searchParams;
-if(urlParams.get("store") == null){
+if(urlParams.get("storeNo") == null){
     modalBtn.disabled = true;
 }
 // 선택 옵션 그대로 지정
 const options = document.querySelectorAll("#storeSelect>option");
 for(let option of options){
-    if(option.value == urlParams.get("store")){
+    if(option.value == urlParams.get("storeNo")){
         option.selected = true;
         break;
     }
 }
 
+// 가게 번호 보내기
+const storeName = document.getElementById("storeName");
+const storeNameOption = document.querySelectorAll("#storeSelect>option");
+storeNameOption.forEach(option=>{
+    if(option.selected){
+        console.log(option.innerText);
+        storeName.value = option.innerText;
+    }
+})

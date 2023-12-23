@@ -54,10 +54,10 @@ public class MainController {
 	 */
 	@GetMapping(value = "search", produces = "application/json")
 	@ResponseBody
-	public List<Goods> search(String inputPosSearch, String storeName) {
+	public List<Goods> search(String inputPosSearch, int storeNo) {
 		
 		// 지점 이름, 검색어 전달 후 지점에 따른 상품 정보 반환
-		List<Goods> goodsList = service.search(inputPosSearch, storeName.split(" ")[1]);
+		List<Goods> goodsList = service.search(inputPosSearch, storeNo);
 		return goodsList;
 	}
 	
@@ -78,21 +78,16 @@ public class MainController {
 	@PostMapping("insert")
 	public String insert(@SessionAttribute Member loginMember, @RequestParam("historyDiscount") List<Integer> historyDiscount, @RequestParam("historyUnitPrice") List<Integer> historyUnitPrice,
 			@RequestParam("historyGoodsName") List<String> historyGoodsName, @RequestParam("historyAmount") List<Integer> historyAmount, @RequestParam("historyActualPrice") List<Integer> historyActualPrice, @RequestParam("goodsNo") List<Integer> goodsNo,
-			@RequestParam("historyStoreInfo") String historyStoreInfo, RedirectAttributes ra) {
-		
-		// 지점 이름 및 번호 가공
-		String[] arr = historyStoreInfo.split(" ");
-		int storeNo = Integer.parseInt(arr[0]);
-		String historyStoreName = arr[1];
+			@RequestParam("storeNo") int storeNo, @RequestParam("storeName") String storeName, RedirectAttributes ra) {
 		
 		// 결과에 따라 메세지 전달
-		int result = service.insert(historyDiscount, historyUnitPrice, historyGoodsName, historyAmount, historyActualPrice, goodsNo, historyStoreName, storeNo);
+		int result = service.insert(historyDiscount, historyUnitPrice, historyGoodsName, historyAmount, historyActualPrice, goodsNo, storeName, storeNo);
 		if(result > 0) {
 			ra.addFlashAttribute("message", "결제 성공");
 		} else {
 			ra.addFlashAttribute("message", "결제 실패");
 		}
-		return "redirect:/";
+		return "redirect:/?storeNo="+storeNo;
 	}
 
 }

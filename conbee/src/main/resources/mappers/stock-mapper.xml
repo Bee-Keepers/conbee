@@ -272,7 +272,7 @@
 		JOIN APPROVAL USING(APPROVAL_NO)
 		WHERE DOC_CATEGORY_NO = 5
 		AND APPROVAL_CONDITION = 4
-		AND DOC_ORDER_DATE = TO_CHAR(SYSDATE+1, 'YYYY-MM-DD')
+		AND DOC_ORDER_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 	</select>
 	
 	<!-- 재고에서 등록할 때 검색기능 -->
@@ -326,7 +326,7 @@
 	<update id="headStockInPrice">
 		UPDATE "STOCK" SET
 		STOCK_IN_PRICE = #{docOrderUnitPrice}
-		WHERE GOOD_NO = #{goodsNo}
+		WHERE GOODS_NO = #{goodsNo}
 		AND STORE_NO = 0
 	</update>
 	

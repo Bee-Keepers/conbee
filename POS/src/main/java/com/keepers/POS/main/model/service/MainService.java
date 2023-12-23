@@ -9,10 +9,10 @@ public interface MainService {
 
 	/** 상품 검색
 	 * @param inputPosSearch
-	 * @param storeName 
+	 * @param storeNo 
 	 * @return goodsList
 	 */
-	List<Goods> search(String inputPosSearch, String storeName);
+	List<Goods> search(String inputPosSearch, int storeNo);
 
 
 	/** 입출고 내역 삽입
@@ -28,6 +28,6 @@ public interface MainService {
 	 */
 	int insert(List<Integer> historyDiscount, List<Integer> historyUnitPrice, List<String> historyGoodsName,
 			List<Integer> historyAmount, List<Integer> historyActualPrice, List<Integer> goodsNo,
-			String historyStoreName, int storeNo);
+			String storeName, int storeNo);
 
 }

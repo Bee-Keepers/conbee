@@ -22,5 +22,6 @@ public class History {
 	private String historyDate;
 	private String historyDivide;
 	private int historyNo;
+	private String storeName;
 	
 }

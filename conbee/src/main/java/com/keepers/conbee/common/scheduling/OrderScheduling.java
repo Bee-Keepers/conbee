@@ -32,7 +32,7 @@ public class OrderScheduling {
 		service.orderScheduling();
 		
 	}
-	@Scheduled(cron = "0 0 0 * * *")
+	@Scheduled(cron = "0 0 9 * * *")
 	public void orderScheduling2() {
 		log.info("본사 발주 승인 스케쥴러 동작");
 		
