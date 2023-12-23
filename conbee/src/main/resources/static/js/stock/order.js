@@ -124,7 +124,9 @@ const tableTbody = document.getElementById("tableTbody");
 // 상세 검색 모달창에서 등록 버튼 누를 시 테이블에 행 추가하는 구문
 revenueSearchBtn.addEventListener("click", ()=>{
   const nameBtn = document.querySelectorAll("#nameBtns>button");
-  
+  if(tableTbody.children[0].children[0].innerText == '오늘의 발주가 없습니다'){
+    tableTbody.innerHTML = "";
+  }
   for(let btn of nameBtn){
     const tr = document.createElement("tr");
     const td1 = document.createElement("td");

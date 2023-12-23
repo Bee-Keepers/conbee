@@ -112,7 +112,10 @@
           </thead>
           <!-- 테이블 내용 -->
           <tbody id="tableTbody" class="text-center">
-            <tr th:each="order : ${orderList}" th:object="${order}">
+            <tr th:if="${#lists.size(orderList) == 0}">
+              <td colspan="8">오늘의 발주가 없습니다</td>
+            </tr>
+            <tr th:unless="${#lists.size(orderList) == 0}" th:each="order : ${orderList}" th:object="${order}">
               <td><input type="checkbox" class="rowCheckbox"></td>
               <td>[[*{goodsNo}]]<input type="hidden" name="goodsNo" th:value="*{goodsNo}"></td>
               <td>[[*{goodsName}]]</td>

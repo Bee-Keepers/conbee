@@ -10,7 +10,7 @@
 </head>
 <body class="d-flex flex-column" style="height: 100vh;">
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalLabel">품목 검색</h1>
@@ -41,7 +41,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="plusRowBtn">확인</button>
+          <button type="button" class="btn btn-warning" data-bs-dismiss="modal" id="plusRowBtn">확인</button>
         </div>
       </div>
     </div>
@@ -56,7 +56,7 @@
       <div class="fs-1 me-3">KH 편의점</div>
     </div>
     
-    <form action="/insert" method="post" id="posForm" class="w-100 d-flex flex-column flex-grow-1 align-items-center overflow-y-auto">
+    <form action="/insert" method="post" id="posForm" class="sticky-top w-100 d-flex flex-column flex-grow-1 align-items-center overflow-y-auto">
       <input type="hidden" id="storeName" name="storeName">
       <div class="d-flex align-items-center justify-content-end w-100 mb-2">
         <div>
@@ -67,8 +67,8 @@
             </th:block>
           </select>
         </div>
-        <button type="button" class="btn btn-light mx-3" id="deleteBtn">삭제</button>
-        <button id="modalBtn" type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <button type="button" class="btn btn-secondary mx-3" id="deleteBtn">삭제</button>
+        <button id="modalBtn" type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
           품목검색
         </button>
       </div>
@@ -110,16 +110,14 @@
         </tbody>
       </table>
     </form>
-    <div class="px-3 d-flex align-items-center sticky-bottom table-group-divider w-100 fw-bold">
+    <div class="p-3 d-flex align-items-center sticky-bottom table-group-divider w-100 fw-bold">
         <div class="w-50 text-end me-auto">합계</div>
         <div class="w-25" id="totalPrice">0</div>
         <input type="hidden" name="historyActualPrice" value="">
-        <button id="formSubmitBtn" class="btn btn-light">결제하기</button>
+        <button id="formSubmitBtn" class="btn btn-warning">결제하기</button>
     </div>
 
   </main>
-
-  <th:block th:replace="~{footer}"></th:block>
 
   <script src="/js/bootstrap.bundle.min.js"></script>
   <script src="/js/main.js"></script>

@@ -63,14 +63,22 @@
             <li class="nav-item">
             <a class="nav-link" href="/calendar/staffcalendar">캘린더</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/stock/stockList" th:if="${session.loginMember.teamNo == 11}">재고/발주</a>
-                <a class="nav-link" href="/stockManage/goodsList" th:unless="${session.loginMember.teamNo == 11}">재고 관리</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="/revenue/list" th:if="${session.loginMember.teamNo == 11}">매출</a>
-            <a class="nav-link" href="/revenueManage/revenueList" th:unless="${session.loginMember.teamNo == 11}">매출 관리</a>
-            </li>
+            <th:block th:if="${session.loginMember.departmentNo == 5}">
+                <li class="nav-item">
+                    <a class="nav-link" href="/stock/stockList">재고/발주</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/revenue/list">매출</a>
+                </li>
+            </th:block>
+            <th:block th:if="${session.loginMember.departmentNo == 2}">
+                <li class="nav-item">
+                    <a class="nav-link" href="/stockManage/goodsList">재고 관리</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/revenueManage/revenueList">매출 관리</a>
+                </li>
+            </th:block>
         </ul>
         </div>
     </div>
@@ -92,7 +100,7 @@
         // 전달 받은 내 회원 번호
         const memberNo = JSON.parse(e.data);
 
-
+        // 안 읽은 쪽지가 99개를 초과하면
         if(e.data > 99){
             noteBadges.forEach(noteBadge=>{
                 noteBadge.classList.remove("d-none");
