@@ -20,54 +20,6 @@
 </head>
 <body class="d-flex flex-column" style="height: 100vh;">
 
-
-
-
-  <th:block th:replace="~{admin/header}"></th:block>
-
-  <main class="d-flex flex-grow-1">
-
-    
-
-    <!-- 사이드바 -->
-    <th:block th:replace="~{/admin/memberManage/sidebar}"></th:block>
-
-    <!-- 신규점포등록 -->
-    <div class="d-flex flex-column p-3 flex-grow-1">
-
-      <!-- 타이틀 -->
-      <div class="d-flex justify-content-between align-items-center border-bottom">
-        <div class="fs-3 pb-3 px-3">
-          회원수정
-        </div>
-      </div>
-
-      <form  action="memberUpdate/update" class="validation-form"  method="post" id="memberUpdateResultFrm" name="memberUpdateResultFrm">
-        <div class="d-flex flex-column justify-content-center align-items-center" >
-
-
-  
-          <table class="table border-top-none" style="width: 95%; text-align: center; vertical-align: middle;">
-            
-            <colgroup>
-              <col width=13%>
-              <col width=30%>
-              <col width=2%>
-              <col width=14%>
-              <col width=39%>
-            </colgroup>
-
-            <tbody >
-
-              <tr style="height: 100px;">
-                <th>아이디</th>
-                <fieldset >
-                  <td>
-                    <form action="memberUpdate" method="post"  id="searchMemberFrm" ><!-- action 입력하기 -->
-
-                      <div class="d-flex align-items-center" >
-                        <input type="text" class="form-control" name="memberId" id="memberId" style="width:253px;" placeholder="회원 수정할 아이디를 입력해주세요." maxlength="12" > 
-                        
     <!-- 모달 -->
     <div class="modal modal-lg fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable">
@@ -99,14 +51,6 @@
   
   
                 <!-- 주소록 아이템들 -->
-                <tr th:each="member : ${memberList}">
-                  <td th:text="${member.memberNo}"></td>
-                  <td th:text="${member.memberName}"></td>
-                  <td th:text="${member.memberTel}"></td>
-                  <td>
-                    <button type="button" class="btn btn-primary">선택</button>
-                  </td>
-                </tr>
   
   
               </tbody>
@@ -118,21 +62,66 @@
         </div>
       </div>
     </div>
-                        <button id="exampleModal" class="btn btn-warning ms-2"style="width: 90px; height: 40px;" data-bs-target="#exampleModal">회원 검색</button>
+
+
+  <th:block th:replace="~{admin/header}"></th:block>
+
+  <main class="d-flex flex-grow-1">
+
+    <!-- 사이드바 -->
+    <th:block th:replace="~{/admin/memberManage/sidebar}"></th:block>
+
+    <!-- 신규점포등록 -->
+    <div class="d-flex flex-column p-3 flex-grow-1">
+
+      <!-- 타이틀 -->
+      <div class="d-flex justify-content-between align-items-center border-bottom">
+        <div class="fs-3 pb-3 px-3">
+          회원수정
+        </div>
+      </div>
+
+      <form  action="memberUpdate/update" class="validation-form"  method="post" id="memberUpdateResultFrm" name="memberUpdateResultFrm">
+        <div class="d-flex flex-column justify-content-center align-items-center" >
+
+          
+  
+          <table class="table border-top-none" style="width: 95%; text-align: center; vertical-align: middle;">
+            
+            <colgroup>
+              <col width=13%>
+              <col width=30%>
+              <col width=2%>
+              <col width=14%>
+              <col width=39%>
+            </colgroup>
+
+            <tbody >
+
+              <tr style="height: 100px;">
+                <th>아이디</th>
+                <fieldset >
+                  <td>
+
+                      <div class="d-flex align-items-center" >
+                        <input type="text" class="form-control" name="memberId" id="memberId" style="width:253px;" placeholder="" maxlength="12" > 
+                        <button id="z" type="button" class="btn btn-warning ms-2"style="width: 90px; height: 40px;" data-bs-toggle="modal" data-bs-target="#exampleModal">회원 검색</button>
                       </div>
-                    </form>
+                      <article id="messageMemberId"></article>
                   </td>
                   <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
 
                 </fieldset>
 
-                <th>이 름</th>
+
+
+                <th>점포 번호</th>
                 <td>
                   <div class="d-flex align-items-center" >
-                    <input type="text" class="form-control" name="memberName" id="memberName"  maxlength="8" required>
-                    
+                    <input type="number" class="form-control" name="storeNo" id="storeNo" max="999"  disabled required>
+                    <button type="button" class="ms-2 btn btn-warning" id="storeNoBtn">점주 수정 시 클릭</button>
                   </div>
-                  <article id="messageMemberName"></article>
+                  <article id="messageStoreNo"></article>
                 </td>
               </tr>
 
@@ -154,6 +143,16 @@
               </tr> -->
 
               <tr style="height: 100px;">
+                <th>이 름</th>
+                <td>
+                  <div class="d-flex align-items-center" >
+                    <input type="text" class="form-control" name="memberName" id="memberName"  maxlength="8">
+                  </div>
+                  <article id="messageMemberName"></article>
+                </td>
+                
+                <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
+                
                 <th>이메일</th>
                 <td>
                   <div class="d-flex align-items-center" >
@@ -161,17 +160,7 @@
                   </div>
                   <article id="messageMemberEmail"></article>
                 </td>
-
-                <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
-  
-                <th>점포 번호</th>
-                <td>
-                  <div class="d-flex align-items-center" >
-                    <input type="number" class="form-control" name="storeNo" id="storeNo" max="999"  disabled required>
-                    <button type="button" class="ms-2 btn btn-warning" id="storeNoBtn">점주 수정 시 클릭</button>
-                  </div>
-                  <article id="messageStoreNo"></article>
-                </td>
+              </tr> 
   <!-- 
                 <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
    
@@ -215,6 +204,7 @@
               </tr> -->
             </tbody>
           </table>
+          
           <table class="table border-top-none" style="width: 95%; text-align: center; vertical-align: middle; margin-bottom: 0px; margin-top: 3px;">
             
             <colgroup>
@@ -297,7 +287,8 @@
               
             </tbody>
           </table>
-          
+
+
           
           <div class="w-100 align-items-start sticky-bottom bg-white">
             <section class="d-flex justify-content-end" style="width: 100%;">
