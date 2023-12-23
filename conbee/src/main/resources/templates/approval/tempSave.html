@@ -28,15 +28,13 @@
         
         <table class="table table-striped table-hover">
           <colgroup>
-            <col width=10%>
-            <col width=10%>
-            <col width=10%>
+            <col width=15%>
+            <col width=15%>
             <col width=45%>
             <col width=25%>
           </colgroup>
           <thead>
             <tr style="text-align: center;">
-              <th>문서번호</th>
               <th>구분</th>
               <th>항목</th>
               <th>제목</th>
@@ -61,7 +59,6 @@
                 4 : (approval.docCategoryNo == 5 ? 
                 5 : approval.docCategoryNo))))},
                 data-one-sort=${approval.docCategoryNo}" >
-                <td th:text="*{approvalNo}">문서번호</td>
                 <td th:text="*{docCategoryGroup}">구분</td>
                 <td th:text="*{docCategorySort}">항목</td>
                 <td th:text="*{approvalTitle}" style="text-align: start;">제목</td>
@@ -132,7 +129,7 @@
       <div class="modal-content">
         <!-- 모달 헤더 -->
         <div class="modal-header">
-          <div><h1 class="modal-title fs-5">기안문 작성 - 발주기안서</h1></div>
+          <div><h1 class="modal-title fs-5">임시저장 - 발주기안서</h1></div>
           <div>
             <button type="submit" form="docOrder" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveOrder"
             name="approvalCondition" value="1">임시저장</button>
@@ -161,7 +158,7 @@
       <div class="modal-content">
         <!-- 모달 헤더 -->
         <div class="modal-header">
-          <div><h1 class="modal-title fs-5">기안문 작성 - 지출결의서</h1></div>
+          <div><h1 class="modal-title fs-5">임시저장 - 지출결의서</h1></div>
           <div>
             <button type="submit" form="docExpense" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveExpense"
             name="approvalCondition" value="1">임시저장</button>
@@ -191,7 +188,7 @@
         <!-- 모달 헤더 -->
         <div class="modal-header">
           <div>
-            <h1 class="modal-title fs-5">기안문 작성 - 출/폐점 등록 요청서</h1>
+            <h1 class="modal-title fs-5">임시저장 - 출/폐점 등록 요청서</h1>
           </div>
           <div>
             <button type="submit" form="docStore" class="btn me-1" style="width: 100px; background-color: #f2f2f2;"
@@ -222,7 +219,7 @@
       <div class="modal-content">
         <!-- 모달 헤더 -->
         <div class="modal-header">
-          <div><h1 class="modal-title fs-5">기안문 작성 - 사직서</h1></div>
+          <div><h1 class="modal-title fs-5">임시저장 - 사직서</h1></div>
           <div>
             <button type="submit" form="docRetirement" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveRetirement"
             name="approvalCondition" value="1">임시저장</button>
@@ -251,7 +248,7 @@
       <div class="modal-content">
         <!-- 모달 헤더 -->
         <div class="modal-header">
-          <div><h1 class="modal-title fs-5">기안문 작성 - 휴가신청서</h1></div>
+          <div><h1 class="modal-title fs-5">임시저장 - 휴가신청서</h1></div>
           <div>
             <button type="submit" form="docHoliday" class="btn me-1" style="width: 100px; background-color: #f2f2f2;" id="saveHoliday"
             name="approvalCondition" value="1">임시저장</button>
