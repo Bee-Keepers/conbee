@@ -243,11 +243,14 @@ function selectChatList() {
 
 				}
 
-
 				li.append(itemHeader, itemBody);
 				chattingList.append(li);
-			}
 
+
+
+
+			}
+			
 			chatListAddEvent();
 		})
 		.catch(err => console.log(err));
@@ -422,6 +425,8 @@ const sendMessage = () => {
 			"targetNo": selectTargetNo, // 누구에게
 			"chatNo": selectChatNo, // 어떤 채팅방 번호로
 			"chatMessageContent": inputChat.value, // 채팅을 보내는지
+			"memberName" : loginMemberName,
+			"memberProfile" : loginMemberProfile
 		};
 		console.log(obj)
 
@@ -483,13 +488,15 @@ chatSock.onmessage = function (e) {
 
 			// 상대 프로필
 			const img = document.createElement("img");
-			img.setAttribute("src", selecttargetImg);
+			// img.setAttribute("src", selecttargetImg);
+			img.setAttribute("src", msg.memberProfile);
 
 			const div = document.createElement("div");
 
 			// 상대 이름
 			const b = document.createElement("b");
-			b.innerText = selectTargetName; // 전역변수
+			// b.innerText = selectTargetName; // 전역변수
+			b.innerText = msg.memberName; // 전역변수
 
 			const br = document.createElement("br");
 
@@ -597,9 +604,33 @@ soloBtn.addEventListener("click", () => {
 
 				itemBody.append(p, div);
 
+			
+
+				if (chat.notReadCount > 0 && chat.chatNo != selectChatNo) {
+					// if(chat.chatNo != selectChatNo ){
+					const notReadCount = document.createElement("p");
+					notReadCount.classList.add("not-read-count");
+					notReadCount.innerText = chat.notReadCount;
+					div.append(notReadCount);
+				} else {
+
+					// 현재 채팅방을 보고있는 경우
+					// 비동기로 해당 채팅방 글을 읽음으로 표시
+					fetch("/chatting/chatting/updateChatMessageRead", {
+						method: "PUT",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({ "chatNo": selectChatNo, "memberNo": loginMemberNo })
+					})
+						.then(resp => resp.text())
+						.then(result => console.log(result))
+						.catch(err => console.log(err));
+
+				}
 				li.append(itemHeader, itemBody);
 
 				chattingList.append(li);
+				
+
 			}
 
 			// 만들어진 채팅 목록(li) 태그에 클릭 이벤트 추가
@@ -649,6 +680,7 @@ teamBtn.addEventListener("click", () => {
 				}
 				div1.append(img);
 
+
 				const div2 = document.createElement("div");
 				div2.classList.add("item-body");
 
@@ -677,7 +709,7 @@ teamBtn.addEventListener("click", () => {
 			}
 		})
 		.catch();
-	// selectChatNo = myTeamNo;
+	selectChatNo = myTeamNo;
 
 	let flag = 1;
 	selectChattingFn(flag);
