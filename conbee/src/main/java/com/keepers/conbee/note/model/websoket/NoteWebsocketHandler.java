@@ -35,6 +35,7 @@ public class NoteWebsocketHandler extends TextWebSocketHandler{
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         sessions.add(session);
+        log.info("접속 완료!!!!!!");
     }
     
 
@@ -90,7 +91,7 @@ public class NoteWebsocketHandler extends TextWebSocketHandler{
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         sessions.remove(session);
-        //log.info("{}연결끊김",session.getId());
+        log.info("{}연결끊김",session.getId());
     }
     
 }

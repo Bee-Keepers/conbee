@@ -13,7 +13,7 @@
 		JOIN STOCK USING(GOODS_NO)
 		JOIN STORE USING(STORE_NO)
 		WHERE GOODS_NAME LIKE '%${inputPosSearch}%'
-		AND STORE_NAME = #{storeName}
+		AND STORE_NO = #{storeNo}
 	</select>
 	
 	<!-- 입출고 내역 삽입 (트리거 걸려있어서 재고 수량 자동 업데이트) -->

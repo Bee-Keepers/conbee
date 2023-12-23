@@ -57,17 +57,15 @@
     </div>
     
     <form action="/insert" method="post" id="posForm" class="w-100 d-flex flex-column flex-grow-1 align-items-center overflow-y-auto">
-      
+      <input type="hidden" id="storeName" name="storeName">
       <div class="d-flex align-items-center justify-content-end w-100 mb-2">
         <div>
-          <select class="form-select form-select-sm" aria-label="Default select example" name="historyStoreInfo" id="storeSelect">
+          <select class="form-select form-select-sm" aria-label="Default select example" name="storeNo" id="storeSelect">
             <option value="0">지점 선택 후 검색가능</option>
             <th:block th:each="store : ${session.loginMember.storeList}" th:object="${store}">
-              <option th:text="|*{storeNo} *{storeName}|">
-              </option>
+              <option th:text="*{storeName}" th:value="*{storeNo}"></option>
             </th:block>
           </select>
-          <input type="hidden" name="storeNo" th:value="*{storeNo}">
         </div>
         <button type="button" class="btn btn-light mx-3" id="deleteBtn">삭제</button>
         <button id="modalBtn" type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
