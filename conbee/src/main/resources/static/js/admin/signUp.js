@@ -10,76 +10,6 @@ const checkObj = {
 };
 
 
-/* 회원 아이디 유효성 검사 */
-const memberId = document.getElementById("memberId");
-const messageMemberId = document.getElementById("messageMemberId");
-
-memberId.addEventListener("input", () => {
-
-    if(memberId.value.trim().length == 0) {
-        memberId.value = "";
-
-        messageMemberId.innerText = "아이디는 영어/숫자 포함 6~12글자 이내로 입력해주세요."
-        messageMemberId.classList.remove("OK-feedback");
-        messageMemberId.classList.remove("NotOK-feedback");
-
-        memberId.classList.remove("is-invalid");
-        memberId.classList.remove("is-valid");
-
-    return;
-  }
-
-  // 아이디 정규표현식
-  // 영어 대소문자 6~12글자
-  const regEx = /^[A-Za-z\d]{6,12}$/;
-
-  // 입력한 아이디가 유효할 경우
-  if(regEx.test(memberId.value)){
-
-    /* ===================== 아이디 중복 검사 ======================= */
-    fetch("/admin/memberManage/checkMemberId?memberId=" + memberId.value)
-    .then(response => response.text())
-    .then(result =>{
-
-      if(result == 0){ // 중복 X
-        messageMemberId.innerText= "사용 가능한 아이디입니다.";
-        messageMemberId.classList.add("OK-feedback");
-        messageMemberId.classList.remove("NotOK-feedback");
-        
-        // 인풋 요소 변화
-        memberId.classList.add("is-valid");
-        memberId.classList.remove("is-invalid");
-        
-        checkObj.memberId = true;
-
-      } else { // 중복 O
-        messageMemberId.innerText= "이미 사용중인 아이디입니다.";
-        messageMemberId.classList.add("NotOK-feedback");
-        messageMemberId.classList.remove("OK-feedback");
-
-        // 인풋 요소 변화
-        memberId.classList.add("is-invalid");
-        memberId.classList.remove("is-valid");
-
-        checkObj.memberId = false;
-      }
-    })
-    .catch(e=> console.log(e))
-
-  // 입력한 아이디가 유효하지 않을 경우    
-  } else {
-    messageMemberId.innerText= "아이디가 형식에 맞지 않습니다.";
-    messageMemberId.classList.add("NotOK-feedback");
-    messageMemberId.classList.remove("OK-feedback");
-
-    // 인풋 요소 변화
-    memberId.classList.add("is-invalid");
-    memberId.classList.remove("is-valid");
-
-    checkObj.memberId = false;
-  }
-
-});
 
 
 
@@ -302,6 +232,79 @@ storeNo.addEventListener("input", ()=>{
 });
 
 
+
+/* 회원 아이디 유효성 검사 */
+const memberId = document.getElementById("memberId");
+const messageMemberId = document.getElementById("messageMemberId");
+
+memberId.addEventListener("input", () => {
+
+    if(memberId.value.trim().length == 0) {
+        memberId.value = "";
+
+        messageMemberId.innerText = "아이디는 영어/숫자 포함 6~12글자 이내로 입력해주세요."
+        messageMemberId.classList.remove("OK-feedback");
+        messageMemberId.classList.remove("NotOK-feedback");
+
+        memberId.classList.remove("is-invalid");
+        memberId.classList.remove("is-valid");
+
+    return;
+  }
+
+  // 아이디 정규표현식
+  // 영어 대소문자 6~12글자
+  const regEx = /^[A-Za-z\d]{6,12}$/;
+
+  // 입력한 아이디가 유효할 경우
+  if(regEx.test(memberId.value)){
+
+    /* ===================== 아이디 중복 검사 ======================= */
+    fetch("/admin/memberManage/checkMemberId?memberId=" + memberId.value)
+    .then(response => response.text())
+    .then(result =>{
+
+      if(result == 0){ // 중복 X
+        messageMemberId.innerText= "사용 가능한 아이디입니다.";
+        messageMemberId.classList.add("OK-feedback");
+        messageMemberId.classList.remove("NotOK-feedback");
+        
+        // 인풋 요소 변화
+        memberId.classList.add("is-valid");
+        memberId.classList.remove("is-invalid");
+        
+        checkObj.memberId = true;
+
+      } else { // 중복 O
+        messageMemberId.innerText= "이미 사용중인 아이디입니다.";
+        messageMemberId.classList.add("NotOK-feedback");
+        messageMemberId.classList.remove("OK-feedback");
+
+        // 인풋 요소 변화
+        memberId.classList.add("is-invalid");
+        memberId.classList.remove("is-valid");
+
+        checkObj.memberId = false;
+      }
+    })
+    .catch(e=> console.log(e))
+
+  // 입력한 아이디가 유효하지 않을 경우    
+  } else {
+    messageMemberId.innerText= "아이디가 형식에 맞지 않습니다.";
+    messageMemberId.classList.add("NotOK-feedback");
+    messageMemberId.classList.remove("OK-feedback");
+
+    // 인풋 요소 변화
+    memberId.classList.add("is-invalid");
+    memberId.classList.remove("is-valid");
+
+    checkObj.memberId = false;
+  }
+
+});
+
+
 /* ======================================================================== */
 
 /* 취소, 확인 버튼 작동 */
@@ -369,18 +372,22 @@ document.getElementById("submitBtn").addEventListener("click", e => {
 //-------------------------------------------------------------------------
 
 let clickCount = 0; // 버튼 클릭 횟수 저장
+
 const storeNoBtn = document.getElementById("storeNoBtn");
 
-storeNoBtn.addEventListener("click", ()=>{
+storeNoBtn.addEventListener("click", () => {
   clickCount += 1;
 
-  if(clickCount % 2 === 0){ // 닫히기일 경우
+  if (clickCount % 2 === 0) { // 닫히기일 경우 (유효성 검사 기록 삭제)
     storeNo.disabled = true;
+    storeNo.value = "";
+    messageStoreNo.innerText = ""; 
+    messageStoreNo.classList.remove("OK-feedback", "NotOK-feedback"); 
+    storeNo.classList.remove("is-invalid", "is-valid"); 
   } else { // 열기일 경우
     storeNo.disabled = false;
   }
 });
-
 
 /* ======================================================================== */
 
