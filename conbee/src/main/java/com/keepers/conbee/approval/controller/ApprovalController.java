@@ -340,6 +340,18 @@ public class ApprovalController { // 전자결재 컨트롤러
 	}
 	
 	
+	/** 점포 존재 조회
+	 * @param storeNo
+	 * @return
+	 */
+	@GetMapping(value = "writeApproval/searchStoreNo", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public int searchStoreNo(int storeNo) {	
+		
+		int result = service.searchStoreNo(storeNo);
+		return result;
+	}
+	
 	
 	// ============================== 결재 요청함 ==============================
 	
