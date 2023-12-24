@@ -14,6 +14,12 @@
 		JOIN STORE USING(STORE_NO)
 		WHERE GOODS_NAME LIKE '%${inputPosSearch}%'
 		AND STORE_NO = #{storeNo}
+		<if test='lcategoryName != ""'>
+		AND LCATEGORY_NAME = #{lcategoryName}
+		</if>
+		<if test='scategoryName != ""'>
+		AND SCATEGORY_NAME = #{scategoryName}
+		</if>
 	</select>
 	
 	<!-- 입출고 내역 삽입 (트리거 걸려있어서 재고 수량 자동 업데이트) -->
@@ -25,5 +31,12 @@
 			FROM DUAL
 		</foreach>
 	</insert>
+	
+	<!-- 상품 등록 시 대분류 누르면 소분류 나오는 기능 -->
+	<select id="scategoryList" resultType="string">
+		SELECT SCATEGORY_NAME FROM SCATEGORY
+		JOIN LCATEGORY USING(LCATEGORY_NO)
+		WHERE LCATEGORY_NAME = #{lcategory}
+	</select>
 	
 </mapper>

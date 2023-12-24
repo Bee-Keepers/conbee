@@ -12,15 +12,21 @@ import com.keepers.POS.main.model.dto.History;
 public interface MainMapper {
 
 	/** 상품 검색
-	 * @param map
+	 * @param goods
 	 * @return goodsList
 	 */
-	List<Goods> search(Map<String, Object> map);
+	List<Goods> search(Goods goods);
 
 	/** 입출고 내역 삽입
 	 * @param historyList
 	 * @return
 	 */
 	int insertHistory(List<History> historyList);
+
+	/** 대분류 선택시 소분류 나옴
+	 * @param lcategory
+	 * @return
+	 */
+	List<String> scategoryList(String lcategory);
 
 }

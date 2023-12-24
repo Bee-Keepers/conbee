@@ -2,6 +2,39 @@
 // ===================================================================================
 // 지점 선택 select 요소
 const storeSelect = document.getElementById("storeSelect");
+const lcategorySelect = document.getElementById("lcategorySelect");
+const scategorySelect = document.getElementById("scategorySelect");
+
+// 검색 창 모달에서 대분류 선택 시 대분류 안에있는 소분류 불러오기
+lcategorySelect.addEventListener("change", ()=>{
+    scategorySelect.innerHTML = "";
+    const option = document.createElement("option");
+    option.innerText = "선택";
+    option.setAttribute("value", "");
+    scategorySelect.append(option);
+    if(lcategorySelect.value != ""){
+       fetch(
+          "/stock/scategoryList?lcategory=" + lcategorySelect.value
+       )
+       .then(resp=>resp.json())
+       .then(list=>{
+          if(list.length != 0){
+             for(let scategory of list){
+                const option = document.createElement("option");
+                option.innerText = scategory;
+                scategorySelect.append(option);
+             }
+          }
+       })
+       .catch(e=>console.log(e));
+    }
+
+    // 대분류 선택 시 검색
+    searchFn();
+});
+
+// 소분류 선택 시 검색
+scategorySelect.addEventListener("change", searchFn);
 
 // 수량을 입력하면 단가와 수량을 곱한 금액을 금액란에 계산해서 출력하는 함수
 function calcPay(e){
@@ -136,6 +169,15 @@ const modalBody = document.getElementById("modalBody");
 modalBtn.addEventListener("click", ()=>{
     modalBody.innerHTML = "";
     inputPosSearch.value = "";
+
+    lcategorySelect.children[0].selected = true;
+    scategorySelect.innerHTML = "";
+    const option = document.createElement("option");
+    option.innerText = "선택";
+    option.setAttribute("value", "");
+    scategorySelect.append(option);
+
+    searchFn();
 });
 
 // 품목 검색 기능
@@ -146,73 +188,7 @@ inputPosSearch.addEventListener("input", ()=>{
         return;
     }
 
-    fetch(
-        "/search?inputPosSearch=" + inputPosSearch.value + "&storeNo=" +storeSelect.value
-    )
-    .then(resp=>resp.json())
-    .then(goodsList=>{
-        modalBody.innerHTML = "";
-        
-        if(goodsList.length == 0){
-            const div = document.createElement("div");
-            div.classList.add("form-control", "my-2");
-            div.innerText = "검색된 상품이 없습니다.";
-            modalBody.append(div);
-
-            return;
-        }
-
-        for(let goods of goodsList){
-            const label = document.createElement("label");
-            label.classList.add("form-control", "my-2", "user-select-none");
-
-            const input = document.createElement("input");
-            input.classList.add("form-check-input", "goods");
-            input.setAttribute("type", "checkbox");
-
-            const span1 = document.createElement("span");
-            span1.innerText = goods.goodsNo;
-            span1.style.display = "none";
-
-            const span2 = document.createElement("span");
-            span2.innerText = goods.lcategoryName;
-            span2.style.display = "none";
-            const span3 = document.createElement("span");
-            span3.innerText = goods.scategoryName;
-            span3.style.display = "none";
-            
-            const span4 = document.createElement("span");
-            span4.innerText = goods.goodsName;
-            span4.classList.add("mx-2");
-
-            const span45 = document.createElement("span");
-            span45.innerText = goods.stockAmount;
-            span45.style.display = "none";
-
-            const span5 = document.createElement("span");
-            span5.innerText = goods.stockDiscount;
-            span5.style.display = "none";
-            
-
-            const span6 = document.createElement("span");
-            span6.style.display = "none";
-            span6.innerText = goods.stockOutPrice;
-
-            const span7 = document.createElement("span");
-            span7.innerText = goods.stockOutPrice - (goods.stockDiscount * 0.01 * goods.stockOutPrice);
-            span7.style.display = "none";
-
-            const span8 = document.createElement("span");
-            span8.innerText = goods.stockAmount;
-            span8.style.display = "none";
-            
-            label.append(input, span1, span2, span3, span4, span45, span5, span6, span7, span8);
-            modalBody.append(label);
-
-
-        }
-    })
-    .catch(e=>console.log(e));
+    searchFn();
     
 });
 
@@ -326,3 +302,80 @@ storeNameOption.forEach(option=>{
         storeName.value = option.innerText;
     }
 })
+   
+
+
+
+
+
+    
+// 검색 함수
+function searchFn(){
+    fetch(
+        "/search?inputPosSearch=" + inputPosSearch.value + "&storeNo=" +storeSelect.value + "&lcategoryName=" + lcategorySelect.value + "&scategoryName=" +scategorySelect.value
+    )
+    .then(resp=>resp.json())
+    .then(goodsList=>{
+        modalBody.innerHTML = "";
+        
+        if(goodsList.length == 0){
+            const div = document.createElement("div");
+            div.classList.add("form-control", "my-2", "w-25");
+            div.innerText = "검색된 상품이 없습니다.";
+            modalBody.append(div);
+
+            return;
+        }
+
+        for(let goods of goodsList){
+            const label = document.createElement("label");
+            label.classList.add("form-control", "my-2", "user-select-none");
+
+            const input = document.createElement("input");
+            input.classList.add("form-check-input", "goods");
+            input.setAttribute("type", "checkbox");
+
+            const span1 = document.createElement("span");
+            span1.innerText = goods.goodsNo;
+            span1.style.display = "none";
+
+            const span2 = document.createElement("span");
+            span2.innerText = goods.lcategoryName;
+            span2.style.display = "none";
+            const span3 = document.createElement("span");
+            span3.innerText = goods.scategoryName;
+            span3.style.display = "none";
+            
+            const span4 = document.createElement("span");
+            span4.innerText = goods.goodsName;
+            span4.classList.add("mx-2");
+
+            const span45 = document.createElement("span");
+            span45.innerText = goods.stockAmount;
+            span45.style.display = "none";
+
+            const span5 = document.createElement("span");
+            span5.innerText = goods.stockDiscount;
+            span5.style.display = "none";
+            
+
+            const span6 = document.createElement("span");
+            span6.style.display = "none";
+            span6.innerText = goods.stockOutPrice;
+
+            const span7 = document.createElement("span");
+            span7.innerText = goods.stockOutPrice - (goods.stockDiscount * 0.01 * goods.stockOutPrice);
+            span7.style.display = "none";
+
+            const span8 = document.createElement("span");
+            span8.innerText = goods.stockAmount;
+            span8.style.display = "none";
+            
+            label.append(input, span1, span2, span3, span4, span45, span5, span6, span7, span8);
+            modalBody.append(label);
+
+
+        }
+    })
+    .catch(e=>console.log(e));
+}

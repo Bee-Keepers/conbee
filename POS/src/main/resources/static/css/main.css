@@ -49,3 +49,9 @@ table{
 tbody>tr>td{
     vertical-align: middle;
 }
+
+#modalBody > label{
+    width: 19%;
+    margin-left: 5px;
+    margin-right: 5px;
+}

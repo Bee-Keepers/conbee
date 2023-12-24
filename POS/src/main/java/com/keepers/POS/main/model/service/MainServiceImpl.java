@@ -25,11 +25,8 @@ public class MainServiceImpl implements MainService {
 	
 	// 상품 검색
 	@Override
-	public List<Goods> search(String inputPosSearch, int storeNo) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("inputPosSearch", inputPosSearch);
-		map.put("storeNo", storeNo);
-		return mapper.search(map);
+	public List<Goods> search(Goods goods) {
+		return mapper.search(goods);
 	}
 	
 	// 포스기 결제 시 입출고 내역 입력
@@ -53,5 +50,10 @@ public class MainServiceImpl implements MainService {
 			log.info(" storeName : " + storeName);
 		}
 		return mapper.insertHistory(historyList);
+	}
+	
+	@Override
+	public List<String> scategoryList(String lcategory) {
+		return mapper.scategoryList(lcategory);
 	}
 }

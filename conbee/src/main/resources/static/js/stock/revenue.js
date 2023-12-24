@@ -55,6 +55,7 @@ lcategorySelect.addEventListener("change", ()=>{
       )
       .then(resp=>resp.json())
       .then(list=>{
+         console.log(list);
          if(list.length != 0){
             for(let scategory of list){
                const option = document.createElement("option");

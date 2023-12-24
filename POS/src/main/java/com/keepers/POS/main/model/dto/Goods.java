@@ -19,4 +19,8 @@ public class Goods {
 	private String stockDiscount;
 	private String stockAmount;
 	
+	private String inputPosSearch;
+	private int storeNo;
+	
+	
 }

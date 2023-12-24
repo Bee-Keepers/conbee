@@ -4,6 +4,7 @@ const scategorySelect = document.getElementById("scategorySelect");
 
 const totalPrice = document.getElementById("totalPrice");
 
+// 대분류 선택 시 소분류 나오는 구문
 lcategorySelect.addEventListener("change", ()=>{
   scategorySelect.innerHTML = "";
   const option = document.createElement("option");
@@ -26,7 +27,13 @@ lcategorySelect.addEventListener("change", ()=>{
      })
      .catch(e=>console.log(e));
   }
+
+  autoCompleteFn();
 });
+
+//
+scategorySelect.addEventListener("change", autoCompleteFn);
+
 // 선택 되어있는 select 초기화
 const modalBtn = document.getElementById("modalBtn");
 const autoComplete = document.getElementById("autoComplete");
@@ -35,10 +42,16 @@ const nameBtns = document.getElementById("nameBtns");
 
 modalBtn.addEventListener("click", ()=>{
   lcategorySelect.value = "";
-  scategorySelect.value = "";
+  scategorySelect.innerHTML = "";
+  const option = document.createElement("option");
+  option.innerText = "선택";
+  option.setAttribute("value", "");
+  scategorySelect.append(option);
   autoComplete.innerHTML = "";
   floatingName.value = "";
-  nameBtns.innerHTML = "";  
+  nameBtns.innerHTML = "";
+
+  autoCompleteFn();
 });
 
 // 요소 생성 코드
@@ -69,53 +82,7 @@ floatingName.addEventListener("input", e=>{
     return;
   }
   
-  fetch("/stock/autoComplete?inputQuery=" + floatingName.value + "&storeNo=" + storeSelect.value
-    + "&lcategoryName=" + lcategorySelect.value + "&scategoryName=" + scategorySelect.value)
-  .then(resp => resp.json())
-  .then(list =>{
-    autoComplete.innerHTML = "";
-    if(list.length == 0){
-      const list = createElement("li", null, ["list-group-item"]);
-      list.innerText = "검색된 품목이 없습니다";
-      autoComplete.append(list);
-    } else {
-      for(let stock of list){
-        const button = createElement("button", {"type":"button"}, ["list-group-item", "list-group-item-action"]);
-        button.innerText = stock.goodsName;
-
-        // 자동완성검색어 클릭 시 태그 생성
-        button.addEventListener("click", ()=>{
-          const goodsNameList = document.querySelectorAll("#tableTbody>tr>td:nth-of-type(2)>input");
-          // 발주 신청 창에 이미 존재하면 생성되지 않음
-          for(let goodsNameInput of goodsNameList){
-            if(goodsNameInput.value == stock.goodsNo){
-              return;
-            }
-          }
-          // 검색 태그들이 이미 있으면 생성되지 않음
-          for(let children of nameBtns.children){
-            if(children.children[0].value == stock.goodsNo){
-              return;
-            }
-          };
-          const nameBtn = createElement("button", {"type":"button"}, ["btn", "btn-sm", "btn-warning", "mx-1", "mb-1"]);
-          nameBtn.innerText = stock.goodsName;
-          nameBtn.append(createElement("input", {"type" : "hidden", "name" : "goodsNo", "value" : stock.goodsNo}, []));
-          nameBtn.append(createElement("input", {"type" : "hidden", "name" : "goodsName", "value" : stock.goodsName}, []));
-          nameBtn.append(createElement("input", {"type" : "hidden", "name" : "lcategoryName", "value" : stock.lcategoryName}, []));
-          nameBtn.append(createElement("input", {"type" : "hidden", "name" : "scategoryName", "value" : stock.scategoryName}, []));
-          nameBtn.append(createElement("input", {"type" : "hidden", "name" : "stockAmount", "value" : stock.stockAmount}, []));
-          nameBtn.append(createElement("input", {"type" : "hidden", "name" : "stockInPrice", "value" : stock.stockInPrice.toLocaleString("ko-KR")}, []));
-          nameBtn.addEventListener("click", e=>{
-            e.target.remove();
-          });
-          nameBtns.append(nameBtn);
-        });
-        autoComplete.append(button);
-      }
-    }
-  })
-  .catch(e => console.log(e));
+  autoCompleteFn();
 });
 
 const revenueSearchBtn = document.getElementById("revenueSearchBtn");
@@ -231,6 +198,14 @@ deleteBtn.addEventListener("click", ()=>{
     .catch(e=>console.log(e));
   }
   totalPriceFn();
+  console.log(document.querySelectorAll(".rowCheckbox"));
+  if(document.querySelectorAll(".rowCheckbox").length == 0){
+    const tr = document.createElement("tr");
+    const td = createElement("td", {"colspan":"8"},[]);
+    td.innerText = "오늘의 발주가 없습니다";
+    tr.append(td);
+    tableTbody.append(tr);
+  }
 });
 
 
@@ -292,3 +267,54 @@ submitBtn.addEventListener("click", ()=>{
   })
   .catch(e=>console.log(e));
 });
+
+function autoCompleteFn(){
+
+  fetch("/stock/autoComplete?inputQuery=" + floatingName.value + "&storeNo=" + storeSelect.value
+    + "&lcategoryName=" + lcategorySelect.value + "&scategoryName=" + scategorySelect.value)
+  .then(resp => resp.json())
+  .then(list =>{
+    autoComplete.innerHTML = "";
+    if(list.length == 0){
+      const button = createElement("button", {"type":"button"}, ["btn", "btn-light", "w-100"]);
+      button.innerText = "검색된 품목이 없습니다.";
+      autoComplete.append(button)
+    } else {
+      for(let stock of list){
+        const button = createElement("button", {"type":"button"}, ["btn", "btn-light", "m-1"]);
+        button.innerText = stock.goodsName;
+
+        // 자동완성검색어 클릭 시 태그 생성
+        button.addEventListener("click", ()=>{
+          const goodsNameList = document.querySelectorAll("#tableTbody>tr>td:nth-of-type(2)>input");
+          // 발주 신청 창에 이미 존재하면 생성되지 않음
+          for(let goodsNameInput of goodsNameList){
+            if(goodsNameInput.value == stock.goodsNo){
+              return;
+            }
+          }
+          // 검색 태그들이 이미 있으면 생성되지 않음
+          for(let children of nameBtns.children){
+            if(children.children[0].value == stock.goodsNo){
+              return;
+            }
+          };
+          const nameBtn = createElement("button", {"type":"button"}, ["btn", "btn-sm", "btn-warning", "mx-1", "mb-1"]);
+          nameBtn.innerText = stock.goodsName;
+          nameBtn.append(createElement("input", {"type" : "hidden", "name" : "goodsNo", "value" : stock.goodsNo}, []));
+          nameBtn.append(createElement("input", {"type" : "hidden", "name" : "goodsName", "value" : stock.goodsName}, []));
+          nameBtn.append(createElement("input", {"type" : "hidden", "name" : "lcategoryName", "value" : stock.lcategoryName}, []));
+          nameBtn.append(createElement("input", {"type" : "hidden", "name" : "scategoryName", "value" : stock.scategoryName}, []));
+          nameBtn.append(createElement("input", {"type" : "hidden", "name" : "stockAmount", "value" : stock.stockAmount}, []));
+          nameBtn.append(createElement("input", {"type" : "hidden", "name" : "stockInPrice", "value" : stock.stockInPrice.toLocaleString("ko-KR")}, []));
+          nameBtn.addEventListener("click", e=>{
+            e.target.remove();
+          });
+          nameBtns.append(nameBtn);
+        });
+        autoComplete.append(button);
+      }
+    }
+  })
+  .catch(e => console.log(e));
+}

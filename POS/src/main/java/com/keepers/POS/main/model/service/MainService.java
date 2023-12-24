@@ -12,7 +12,7 @@ public interface MainService {
 	 * @param storeNo 
 	 * @return goodsList
 	 */
-	List<Goods> search(String inputPosSearch, int storeNo);
+	List<Goods> search(Goods goods);
 
 
 	/** 입출고 내역 삽입
@@ -29,5 +29,12 @@ public interface MainService {
 	int insert(List<Integer> historyDiscount, List<Integer> historyUnitPrice, List<String> historyGoodsName,
 			List<Integer> historyAmount, List<Integer> historyActualPrice, List<Integer> goodsNo,
 			String storeName, int storeNo);
+
+
+	/** 대분류 선택 시 소분류 선택
+	 * @param lcategory
+	 * @return
+	 */
+	List<String> scategoryList(String lcategory);
 
 }
