@@ -148,9 +148,9 @@ public class AdminMemberController {
 		
 		// result에 담긴 값이 있을 때 
 		if(result > 0) {
-			ra.addFlashAttribute("message", "회원 탈퇴 성공");
+			ra.addFlashAttribute("message", "권한 변경 성공");
 		} else { // result에 담긴 값이 없을 때
-			ra.addFlashAttribute("message", "회원 탈퇴 실패");
+			ra.addFlashAttribute("message", "권한 변경 실패");
 		}
 		
 		// 반환 (위에 result 데이터 값만 남겨두고 나머지는 다 삭제 >> redirect!!)
@@ -164,12 +164,33 @@ public class AdminMemberController {
 	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 4. 회원 수정 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
 	// 수정 화면 전환
 	@GetMapping("memberUpdate")
+	
 	public String  memberUpdate() {
 		
 		return "admin/memberManage/memberUpdate";
 	}
 	
 	
+//	
+//	/** 회원 수정  회원 조회 클릭 시 회원 정보 입력
+//	 * @param storeNo
+//	 * @param model
+//	 * @param ra
+//	 * @return
+//	 */
+//	@GetMapping("memberUpdate")
+//	public String memberUpdate(String memberId, Model model) {
+//		
+//		// 회원 정보 얻어오기
+//		Member memberInfo = service.updateMemberInfo(memberId);
+//		
+//		model.addAttribute("memberInfo", memberInfo);
+//		
+//		return "admin/memberManage/memberUpdate";
+//		
+//	}
+//	
+//	
 	/** 회원 수정
 	 * @param updateMember
 	 * @param ra
@@ -233,27 +254,6 @@ public class AdminMemberController {
 			
 		return "redirect:/admin/memberManage/memberUpdate";
 	}
-	
-//	
-//	/** 회원 수정  회원 조회 클릭 시 회원 정보 입력
-//	 * @param storeNo
-//	 * @param model
-//	 * @param ra
-//	 * @return
-//	 */
-//	@GetMapping("memberUpdate")
-//	public String memberUpdate(String memberId, Model model) {
-//		
-//		// 회원 정보 얻어오기
-//		Member memberInfo = service.updateMemberInfo(memberId);
-//		
-//		model.addAttribute("memberInfo", memberInfo);
-//		
-//		return "admin/memberManage/memberUpdate";
-//		
-//	}
-//	
-//	
 	
 	
 	

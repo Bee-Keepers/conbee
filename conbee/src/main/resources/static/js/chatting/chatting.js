@@ -94,11 +94,13 @@ targetInput.addEventListener("input", e => {
 					if (member.memberProfile == null) img.setAttribute("src", userDefaultImage);
 					else img.setAttribute("src", member.memberProfile);
 
+					let departmentName = member.departmentName; // 부서 이름
+					let gradeName = member.gradeName; // 직급 이름
 					let name = member.memberName;
 					let id = member.memberId;
 
 					const span = document.createElement("span");
-					span.innerHTML = `${name} ${id}`.replace(query, `<mark>${query}</mark>`);
+					span.innerHTML = `${name} ${id}<br>${departmentName}, ${gradeName}`.replace(query, `<mark>${query}</mark>`);
 
 					// 요소 조립(화면에 추가)
 					li.append(img, span);
@@ -382,7 +384,7 @@ function selectChattingFn(flag) {
 					div.append(b, document.createElement("br"), p, span);
 					li.append(img, div);
 				}
-
+				console.log(chatMessageList);
 				ul.append(li);
 				display.scrollTop = display.scrollHeight;
 			}

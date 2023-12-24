@@ -65,11 +65,21 @@
 	
 	<!-- 대화 상대 검색 - DB 확인 완료>> 성공-->
 	<select id="selectTarget" resultType="Member">
-		SELECT MEMBER_NO, MEMBER_ID, MEMBER_NAME, MEMBER_PROFILE  FROM "MEMBER"
-		WHERE (MEMBER_ID LIKE '%${query}%' OR MEMBER_NAME LIKE '%${query}%')
-		AND MEMBER_DEL_FL = 'N'
-		AND MEMBER_NO != ${memberNo}
+	    SELECT 
+	        M.MEMBER_NO, 
+	        M.MEMBER_ID, 
+	        M.MEMBER_NAME, 
+	        M.MEMBER_PROFILE,
+	        D.DEPARTMENT_NAME,
+	        G.GRADE_NAME
+	    FROM MEMBER M
+	    LEFT JOIN DEPARTMENT D ON M.DEPARTMENT_NO = D.DEPARTMENT_NO
+	    LEFT JOIN GRADE G ON M.GRADE_NO = G.GRADE_NO
+	    WHERE (M.MEMBER_ID LIKE '%${query}%' OR M.MEMBER_NAME LIKE '%${query}%')
+	    AND M.MEMBER_DEL_FL = 'N'
+	    AND M.MEMBER_NO != ${memberNo}
 	</select>
+
 	
 	
 	
