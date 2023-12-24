@@ -659,54 +659,80 @@ submitRetirement.addEventListener("click", (e) =>{
 })
 /* 출/폐점 등록 요청서 */
 const submitStore = document.getElementById("submitStore");
-submitStore.addEventListener("click", e =>{
-  if(inputStore = document.getElementById("inputStore").value.trim().length == 0){
+submitStore.addEventListener("click", async (e) =>{
+  // 제목
+  if(inputStore.value.trim().length == 0){
     alert("제목을 입력해주세요");
-    inputStore = document.getElementById("inputStore").focus();
-    e.preventDefault();
+    inputStore.focus();
     return;
   }
-  if(document.getElementById("inputStore2").value.trim().length == 0){
+  if(inputStore2.value.trim().length == 0){
     alert("제목을 입력해주세요");
-    document.getElementById("inputStore2").focus();
-    e.preventDefault();
+    inputStore2.focus();
     return;
   }
-  if(document.getElementById("storeName").length == 0){
+  if(storeName.value.trim().length == 0){
     alert("매장명을 입력해주세요");
-    document.getElementById("storeName").focus();
-    e.preventDefault();
+    storeName.focus();
     return;
   }
-  if(storeNo = document.getElementById("storeNo").length == 0){ // 폐점일때로 제한
-    alert("매장번호를 입력해주세요");
-    storeNo = document.getElementById("storeNo").focus();
-    e.preventDefault();
-    return;
-  }
-  if(!(document.getElementById("openStore").checked) && !(document.getElementById("closeStore").checked)){
+  if(!(openStore.checked) && !(closeStore.checked)){
     alert("출/폐점 여부를 체크해주세요");
-    e.preventDefault();
     return;
   }
-  if(document.getElementById("docStoreText").value===''){
+  if(closeStore.checked){
+    if(storeNo.value.trim().length == 0){ // 폐점일때로 제한
+      alert("매장번호를 입력해주세요");
+      storeNo.focus();
+      return;
+    }
+    else{
+      const result = await searchStoreNoFn(storeNo.value);
+      
+      if(result){
+        return;
+      } 
+    }
+  }
+  if(docStoreText.value===''){
     alert("내용을 입력해주세요");
-    document.getElementById("docStoreText").focus();
-    e.preventDefault();
+    docStoreText.focus();
     return;
   }
   if(members.length==0){
     alert("결재선을 추가해주세요");
-    e.preventDefault();
     return;
   }
   const userConfirm = confirm("결재를 요청하시겠습니까?");
   if(!userConfirm){
-    e.preventDefault();
     return;
   }  
+  const hidden = document.createElement("input");
+  hidden.type = "hidden";
+  hidden.name = "approvalCondition";
+  hidden.value = 0;
+  docStore.append(hidden);
 
+  docStore.submit();
 })
+
+async function searchStoreNoFn(storeNo){
+  let bool = false;
+
+  await fetch("/approval/writeApproval/searchStoreNo?storeNo=" + storeNo)
+    .then((resp) => {return resp.json(); })
+    .then((result) => {
+      if(result==0){
+        alert("존재하지 않는 점포입니다");
+        bool = true;
+      }
+    })
+  .catch(e => {
+    console.log(e);
+  });
+
+  return bool;
+}
 /* 지출결의서 */
 const submitExpense = document.getElementById("submitExpense");
 submitExpense.addEventListener("click", e =>{
