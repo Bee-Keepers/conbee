@@ -10,17 +10,40 @@
 </head>
 <body class="d-flex flex-column" style="height: 100vh;">
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalLabel">품목 검색</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <div>
-            <input id="inputPosSearch" type="text" class="form-control" placeholder="상품 이름을 입력해주세요">
+        <div class="modal-body d-flex flex-column align-items-center">
+          <div class="d-flex align-items-center w-100">
+
+            <!-- 대분류 -->
+            <div class="input-group w-25">
+              <label class="input-group-text" for="lcategorySelect">대분류</label>
+              <select class="form-select" name="lcategoryName" id="lcategorySelect">
+                <option value="">선택</option>
+                <option>간편식사</option>
+                <option>즉석조리</option>
+                <option>과자류</option>
+                <option>아이스크림</option>
+                <option>식품</option>
+                <option>음료</option>
+                <option>생활용품</option>
+              </select>
+            </div>
+
+            <!-- 소분류 -->
+            <div class="input-group w-25 mx-5">
+              <label class="input-group-text" for="inputGroupSelect01">소분류</label>
+              <select class="form-select" name="scategoryName" id="scategorySelect">
+                <option value="">선택</option>
+              </select>
+            </div>
+            <input id="inputPosSearch" type="text" class="form-control w-50" placeholder="상품 이름을 입력해주세요">
           </div>
-          <div id="modalBody">
+          <div id="modalBody" class="overflow-y-auto align-content-start w-100 d-flex flex-wrap" style="height: 70vh;">
             <!-- <label class="form-control my-1">
               <input type="checkbox" class="form-check-input goods">
               <span>A0002</span>

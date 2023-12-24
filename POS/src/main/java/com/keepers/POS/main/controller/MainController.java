@@ -54,11 +54,10 @@ public class MainController {
 	 */
 	@GetMapping(value = "search", produces = "application/json")
 	@ResponseBody
-	public List<Goods> search(String inputPosSearch, int storeNo) {
+	public List<Goods> search(Goods goods) {
 		
 		// 지점 이름, 검색어 전달 후 지점에 따른 상품 정보 반환
-		List<Goods> goodsList = service.search(inputPosSearch, storeNo);
-		return goodsList;
+		return service.search(goods);
 	}
 	
 	
@@ -88,6 +87,12 @@ public class MainController {
 			ra.addFlashAttribute("message", "결제 실패");
 		}
 		return "redirect:/?storeNo="+storeNo;
+	}
+	
+	@GetMapping("stock/scategoryList")
+	@ResponseBody
+	public List<String> scategoryList(String lcategory){
+		return service.scategoryList(lcategory);
 	}
 
 }

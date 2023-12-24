@@ -14,52 +14,48 @@
 
   <!-- 품목 검색 Modal -->
   <div class="modal fade" id="exampleModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">상세 검색</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body d-flex">
-          <div class="" style="width: 35%;">
-            <form id="orderInsertForm" action="/stock/order/insert" method="post">
-              <!-- 대분류 -->
-              <div class="input-group mb-3">
-                <label class="input-group-text" for="lcategorySelect">대분류</label>
-                <select class="form-select" name="lcategoryName" id="lcategorySelect">
-                  <option value="">선택</option>
-                  <option>간편식사</option>
-                  <option>즉석조리</option>
-                  <option>과자류</option>
-                  <option>아이스크림</option>
-                  <option>식품</option>
-                  <option>음료</option>
-                  <option>생활용품</option>
-                </select>
-              </div>
-    
-              <!-- 소분류 -->
-              <div class="input-group mb-3">
-                <label class="input-group-text" for="scategorySelect">소분류</label>
-                <select class="form-select" name="scategoryName" id="scategorySelect">
-                  <option value="">선택</option>
-                </select>
-              </div>
-    
-              <div id="autoCompleteContainer" class="form-floating mb-3 position-relative">
-                <div  class="position-absolute w-100 start-0" style="top: 110%;">
-                  <ul id="autoComplete" class="list-group">
-                  </ul>
-                </div>
-                <input type="text" class="form-control" name="goodsName" id="floatingName" placeholder="">
-                <label for="floatingName">품목 이름</label>
-              </div>
-              <input type="hidden" name="storeNo" class="storeNo" th:value="${session.loginMember.storeList[0].storeNo}">
-            </form>
+        <div class="modal-body d-flex flex-column overflow-y-auto">
+          <form id="orderInsertForm" action="/stock/order/insert" method="post" class="d-flex align-items-center">
+            <!-- 대분류 -->
+            <div class="input-group w-25">
+              <label class="input-group-text" for="lcategorySelect">대분류</label>
+              <select class="form-select" name="lcategoryName" id="lcategorySelect">
+                <option value="">선택</option>
+                <option>간편식사</option>
+                <option>즉석조리</option>
+                <option>과자류</option>
+                <option>아이스크림</option>
+                <option>식품</option>
+                <option>음료</option>
+                <option>생활용품</option>
+              </select>
+            </div>
+  
+            <!-- 소분류 -->
+            <div class="input-group w-25 mx-5">
+              <label class="input-group-text" for="scategorySelect">소분류</label>
+              <select class="form-select" name="scategoryName" id="scategorySelect">
+                <option value="">선택</option>
+              </select>
+            </div>
+  
+            <div id="autoCompleteContainer" class="w-50">
+              <input type="text" class="form-control" name="goodsName" id="floatingName" placeholder="품목이름">
+            </div>
+            <input type="hidden" name="storeNo" class="storeNo" th:value="${session.loginMember.storeList[0].storeNo}">
+          </form>
+          <div class="w-100 overflow-y-auto p-2"  id="autoComplete" style="height: 50vh;">
           </div>
-          <div id="nameBtns" class="px-2" style="width: 65%;">
+          <div id="nameBtns" class="px-2 overflow-y-auto" style="height: 20vh;">
             <!-- <button type="button" class="btn btn-sm btn-warning mx-1 mb-1">자이언트치킨<input type="hidden" value="27"></button> -->
           </div>
+          
         </div>
         <div class="modal-footer">
           <p class="me-5 fw-light">태그 클릭 시 삭제</p>
