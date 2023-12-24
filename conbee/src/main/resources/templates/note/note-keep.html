@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>쪽지보관함</title>
   <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/note/note-keep.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 
@@ -101,6 +102,7 @@
       <div class="w-100 sticky-bottom fixed-bottom bg-white pagination-area"  th:if="${#lists.size(noteList) > 0}">
         <nav class="d-flex justify-content-center" style="color: #303841;" >
           <!-- ======== 페이지네이션 : 일반 조회 =========== -->
+          <th:block th:if="${pagination.reviewCount != 0}" >
           <ul class="pagination" th:if="${query == null}">
             <!-- 첫 페이지로 이동 -->
             <li class="page-item">
@@ -189,6 +191,7 @@
           </ul>
         </nav>
       </div>
+    </th:block>
 
       <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">
         <a id="deleteBtn" class="btn btn-secondary" style="width: 80px;">삭제</a>

@@ -82,6 +82,23 @@ public interface MyPageMapper {
 	int checkMemberTel(String memberTel);
 
 
+	/**
+	 * 댓글 페이지 네이션
+	 * @param paramMap
+	 * @return
+	 */
+
+	int getCommentListCount(Map<String, Object> paramMap);
+
+	/**
+	 * 즐겨찾기 페이지네이션
+	 * @param paramMap
+	 * @return
+	 */
+
+	int getchoiceListCount(Map<String, Object> paramMap);
+
+
 
 	/** 비밀번호 유효성 검사
 	 * @param memberPw

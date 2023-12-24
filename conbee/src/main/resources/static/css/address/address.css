@@ -1,0 +1,10 @@
+.form-control {
+  width: 70%;
+  /* margin: 5px; 입력란의 폭을 50%로 설정 */
+}
+tr > td {
+  height: 60px;
+  text-align: center;
+
+  vertical-align: middle;
+}

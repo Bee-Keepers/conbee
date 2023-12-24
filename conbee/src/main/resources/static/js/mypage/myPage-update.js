@@ -1,108 +1,19 @@
 const checkObj = {
     "authKey" : false,
     "authKeyMessage" : false,
-    "memberEmail" : false,
-    "memberPw" : false,
-    "memberPwCheck" : false
+    "memberEmail" : false
+
+   
 };
 const checkObj2 = {
-    "authKey" : false
+    "authKey" : false,
+    "memberTel" : true,
+    "memberAddress" : true
 };
 
 
   
-  /*  비밀번호/비밀번호 확인 유효성 검사 */
- /*  
-  const memberPw = document.querySelector(".memberPw");
-  const memberPwCheck = document.querySelector(".memberPwCheck");
-  const checkMessage = document.getElementById("checkMessage");
-  const submitBtn = document.getElementById("submitBtn");
-  
-  
-  memberPw.addEventListener("input", ()=>{
-  
-      if(memberPw.value.trim().length == 0){
-          memberPw.value = ""; 
-  
-          checkMessage.innerText = "비밀번호는 영어,숫자,특수문자(!,@,#,-,_) 8~20글자 사이로 입력해주세요.";
-          checkMessage.classList.remove("confirm", "error"); 
-  
-          checkObj.memberPw = false; 
-          return;
-      }
-  
-      
-  
-      // 영어,숫자,특수문자(!,@,#,-,_) 8~20글자 사이
-      const regEx = /^[a-zA-Z0-9\!\@\#\-\_]{8,20}$/;
-  
-      // 입력한 비밀번호가 유효한 경우
-      if(regEx.test(memberPw.value)){
-          checkObj.memberPw = true; 
-          
-          // 비밀번호가 유효하게 작성된 상태에서
-          // 비밀번호 확인이 입력되지 않았을 때
-          if(memberPwCheck.value.trim().length == 0){
-  
-              checkMessage.innerText = "유효한 비밀번호 형식입니다";
-              checkMessage.classList.add("confirm");
-              checkMessage.classList.remove("error");
-          }
-          
-          // 비밀번호가 유효하게 작성된 상태에서
-          // 비밀번호 확인이 입력되어 있을 때
-          else{
-              // 비밀번호 == 비밀번호 확인  (같을 경우)
-              if(memberPw.value == memberPwCheck.value){
-                  checkMessage.innerText = "비밀번호가 일치합니다";
-                  checkMessage.classList.add("confirm");
-                  checkMessage.classList.remove("error");
-                  checkObj.memberPwCheck = true;
-                  
-              } else{ // 다를 경우
-                  checkMessage.innerText = "비밀번호가 일치하지 않습니다";
-                  checkMessage.classList.add("error");
-                  checkMessage.classList.remove("confirm");
-                  checkObj.memberPwCheck = false;
-              }
-          }
-  
-          
-      } else{ // 유효하지 않은 경우
-          
-          checkMessage.innerText = "비밀번호 형식이 유효하지 않습니다";
-          checkMessage.classList.add("error");
-          checkMessage.classList.remove("confirm");
-          checkObj.memberPw = false; 
-      }
-  })
-  
-  
-  // 비밀번호 확인 유효성 검사
-  memberPwCheck.addEventListener('input', ()=>{
-  
-      if(checkObj.memberPw){ // 비밀번호가 유효하게 작성된 경우에
-  
-          // 비밀번호 == 비밀번호 확인  (같을 경우)
-          if(memberPw.value == memberPwCheck.value){
-              checkMessage.innerText = "비밀번호가 일치합니다";
-              checkMessage.classList.add("confirm");
-              checkMessage.classList.remove("error");
-              checkObj.memberPwCheck = true;
-              
-          } else{ // 다를 경우
-              checkMessage.innerText = "비밀번호가 일치하지 않습니다";
-              checkMessage.classList.add("error");
-              checkMessage.classList.remove("confirm");
-              checkObj.memberPwCheck = false;
-          }
-  
-      } else { // 비밀번호가 유효하지 않은 경우
-          checkObj.memberPwCheck = false;
-      }
-  });
-  
-   */
+
 
 
 // ============================== 이메일 인증 ==============================
@@ -125,6 +36,7 @@ memberEmail.addEventListener("input", () => {
     // 3) 입력된 이메일이 없을 경우
     if(memberEmail.value.trim().length == 0){
         memberEmail.value = '';
+        alert("이메일을 입력해주세요");
 
         // checkObj의 memberEmail 값을 false로 변경
         // == 이메일이 유효하지 않음을 의미
@@ -262,32 +174,6 @@ checkAuthKeyBtn.addEventListener("click", function(){
 
 });
 
-document.getElementById("profileFrm").addEventListener('submit', e => {
-    
-    for(let key in checkObj2){
-
-        // 객체에서 얻어온 값이 false 경우
-        // (유효하지 않은 것이 있을 경우)
-        if( !checkObj2[key] ){
-
-            let str;
-            switch(key){
-                case "authKey": str = "인증번호가 유효하지 않습니다"; break;
-            }
-
-            alert(str);
-
-            // key == input id 속성 값
-            // 유효하지 않은 input 태그로 focus 맞춤
-            document.querySelector(`.${key}`).focus();
-
-            e.preventDefault(); // form 제출 X
-            return;
-        }
-    }
-});
-
-
 
 
 
@@ -322,5 +208,184 @@ function searchAddress() {
 
 
 
+// 점포전화번호 유효성 검사
+const memberTel = document.getElementById("memberTel");
+const messageMemberTel = document.getElementById("messageMemberTel");
+
+// 점포전화번호 입력시 유효성 검사
+memberTel.addEventListener("input", ()=>{
+
+    // 점포명이 입력되지 않은 경우
+    if(memberTel.value.trim().length == 0){
+        memberTel.value = "";
+
+        messageMemberTel.innerText = "점포 전화번호는 숫자 9~11글자 이내로 작성해주세요.";
+        messageMemberTel.classList.remove("valid-feedback");
+        messageMemberTel.classList.remove("invalid-feedback");
+
+        memberTel.classList.remove("is-invalid");
+        memberTel.classList.remove("is-valid");
+
+
+        return;
+    }
+
+    // 점포전화번호 정규표현식
+    // 숫자 9~11글자, 첫글자는 0
+    const regEx = /^[0][0-9]{8,10}$/;
+
+    // 입력한 점포전화번호가 유효할 경우
+    if(regEx.test(memberTel.value)){
+
+        /* ===================== 점포전화번호 중복 검사 ======================= */
+        // fetch("/admin/storeManage/checkStoreTel?memberTel=" + memberTel.value)
+        // .then(response => response.text())
+        // .then(result =>{
+
+            // if(result == 0){ // 중복 X
+                messageMemberTel.innerText= "사용 가능한 점포 전화번호입니다.";
+                messageMemberTel.classList.add("valid-feedback");
+                messageMemberTel.classList.remove("invalid-feedback");
+
+                // 인풋 요소 변화
+                memberTel.classList.add("is-valid");
+                memberTel.classList.remove("is-invalid");
+
+                checkObj.memberTel = true;
+
+            // } else { // 중복 O
+            //     messageMemberTel.innerText= "이미 사용중인 점포 전화번호입니다.";
+            //     messageMemberTel.classList.add("invalid-feedback");
+            //     messageMemberTel.classList.remove("valid-feedback");
+
+            //     // 인풋 요소 변화
+            //     memberTel.classList.add("is-invalid");
+            //     memberTel.classList.remove("is-valid");
+
+            //     checkObj.memberTel = false;
+            // }
+        // })
+        // .catch(e=> console.log(e))
+
+    // 입력한 점포명이 유효하지 않을 경우    
+    } else {
+        messageMemberTel.innerText= "점포 전화번호가 형식에 맞지 않습니다.";
+        messageMemberTel.classList.add("invalid-feedback");
+        messageMemberTel.classList.remove("valid-feedback");
+
+        // 인풋 요소 변화
+        memberTel.classList.add("is-invalid");
+        memberTel.classList.remove("is-valid");
+
+        checkObj.memberTel = false;
+    }
+
+})
+
+
+//-------------------------------------------------------------------------
+
+// 점포주소 유효성 검사
+
+const memberAddress = document.getElementById("memberAddress");
+const messageMemberAddress = document.getElementById("messageMemberAddress");
+
+// 점포주소 입력시 유효성 검사
+memberAddress.addEventListener("input", ()=>{
+
+    // 점포주소가 입력되지 않은 경우
+    if(memberAddress.value.trim().length == 0){
+        memberAddress.value = "";
+
+        messageMemberAddress.innerText = "점포 주소는 한글, 숫자로 작성해주세요.";
+        messageMemberAddress.classList.remove("OK-feedback");
+        messageMemberAddress.classList.remove("NotOK-feedback");
+
+        memberAddress.classList.remove("is-invalid");
+        memberAddress.classList.remove("is-valid");
+
+        return;
+    }
+
+    // 점포주소 정규표현식
+    // 한글, 숫자, 띄어쓰기, -, (), ,를 포함한 10~100글자 이내의 정규표현식
+    const regEx = /^[가-힣0-9\s\-\(\),]{10,100}$/;
+
+    // 입력한 점포주소가 유효할 경우
+    if(regEx.test(memberAddress.value)){
+
+        /* ===================== 점포주소 중복 검사 ======================= */
+        // fetch("/admin/storeManage/checkStoreAddress?memberAddress=" + memberAddress.value)
+        // .then(response => response.text())
+        // .then(result =>{
+
+            // if(result == 0){ // 중복 X
+                messageMemberAddress.innerText= "사용 가능한 점포 주소입니다.";
+                messageMemberAddress.classList.add("OK-feedback");
+                messageMemberAddress.classList.remove("NotOK-feedback");
+
+                // 인풋 요소 변화
+                memberAddress.classList.add("is-valid");
+                memberAddress.classList.remove("is-invalid");
+
+                checkObj.memberAddress = true;
+
+        //     } else { // 중복 O
+        //         messageMemberAddress.innerText= "이미 등록된 점포 주소입니다.";
+        //         messageMemberAddress.classList.add("NotOK-feedback");
+        //         messageMemberAddress.classList.remove("OK-feedback");
+
+        //         // 인풋 요소 변화
+        //         memberAddress.classList.add("is-invalid");
+        //         memberAddress.classList.remove("is-valid");
+
+        //         checkObj.memberAddress = false;
+        //     }
+        // })
+        // .catch(e=> console.log(e))
+
+    // 입력한 점포주소가 유효하지 않을 경우    
+    } else {
+        messageMemberAddress.innerText= "점포 주소가 형식에 맞지 않습니다.";
+        messageMemberAddress.classList.add("NotOK-feedback");
+        messageMemberAddress.classList.remove("OK-feedback");
+
+        // 인풋 요소 변화
+        memberAddress.classList.add("is-invalid");
+        memberAddress.classList.remove("is-valid");
+
+        checkObj.memberAddress = false;
+    }
+
+})
+
+
+
+document.getElementById("profileFrm").addEventListener('submit', e => {
+    
+    for(let key in checkObj2){
+
+        // 객체에서 얻어온 값이 false 경우
+        // (유효하지 않은 것이 있을 경우)
+        if( !checkObj2[key] ){
+
+            let str;
+            switch(key){
+                case "authKey": str = "인증번호가 유효하지 않습니다"; break;
+                case "memberTel": str = "전화번호가 유효하지 않습니다"; break;
+                case "memberAddress": str = "주소가 유효하지 않습니다"; break;
+            }
+
+            alert(str);
+
+            // key == input id 속성 값
+            // 유효하지 않은 input 태그로 focus 맞춤
+            document.querySelector(`.${key}`).focus();
+
+            e.preventDefault(); // form 제출 X
+            return;
+        }
+    }
+});
 
 

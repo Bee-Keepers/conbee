@@ -37,6 +37,7 @@ public class MyPageServiceImpl implements MyPageService{
 	@Value("${my.member.location}")
 	private String folderPath;
 	
+	// 내 점포 조회 전화번호 수정
 	
 	@Override
 	public int myPageStoreUpdate(int storeNo, String storeTel) {
@@ -46,12 +47,16 @@ public class MyPageServiceImpl implements MyPageService{
 
 		return mapper.myPageStoreUpdate(map);
 	}
+	
+	
+	// 내 점포 조회
 
 	@Override
 	public Store myPageStore(int storeNo) {
 		return mapper.myPageStore(storeNo);
 	}
 
+	// 내가 쓴 댓글
 	
 	@Override
 	public List<Board> commentList(int memberNo) {
@@ -59,11 +64,16 @@ public class MyPageServiceImpl implements MyPageService{
 		return mapper.commentList(memberNo);
 	}
 	
+	
+	// 즐겨찾기
+	
 	@Override
 	public List<Board> choiceList(int memberNo) {
 		
 		return mapper.choiceList(memberNo);
 	}
+	
+	// 내가 쓴 글
 	
 	@Override
 	public Map<String, Object> selectWriteList(int memberNo, String writeName, int cp) {
@@ -93,6 +103,9 @@ public class MyPageServiceImpl implements MyPageService{
 				return map;
 			}
 	
+	
+	// 내가 쓴 댓글 
+	
 	@Override
 	public Map<String, Object> selectcommentList(int memberNo, String commentName, int cp) {
 		
@@ -100,16 +113,15 @@ public class MyPageServiceImpl implements MyPageService{
 		paramMap.put("memberNo", memberNo);
 		paramMap.put("commentName", commentName);
 		
-		int listCount = mapper.getListCount(paramMap);
+//		int listCount = mapper.getListCount(paramMap);
+		int listCount = mapper.getCommentListCount(paramMap);
 		
 		Pagination pagination = new Pagination(cp, listCount);
+		pagination.setLimit(10);
 
 		int offset = (pagination.getCurrentPage() - 1) * pagination.getLimit();
-
 		int limit = pagination.getLimit();
-
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		
 		
 		List<Member> boardList = mapper.selectcommentList(paramMap, rowBounds);
 		Map<String, Object> map = new HashMap<>();
@@ -120,13 +132,16 @@ public class MyPageServiceImpl implements MyPageService{
 		return map;
 	}
 	
+	
+	// 즐겨찾기 조회
 	@Override
 	public Map<String, Object> selectchoiceNameList(int memberNo, String choiceName, int cp) {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("memberNo", memberNo);
 		paramMap.put("choiceName", choiceName);
 		
-		int listCount = mapper.getListCount(paramMap);
+	//	int listCount = mapper.getListCount(paramMap);
+		int listCount = mapper.getchoiceListCount(paramMap);
 		
 		Pagination pagination = new Pagination(cp, listCount);
 
@@ -201,6 +216,7 @@ public class MyPageServiceImpl implements MyPageService{
 	}
 	
 	
+	// 전화번호 유효성 검사
 	@Override
 	public int checkMemberTel(String memberTel) {
 		return mapper.checkMemberTel(memberTel);

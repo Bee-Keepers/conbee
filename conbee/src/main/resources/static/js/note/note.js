@@ -57,6 +57,7 @@ searchBtn.addEventListener("click", ()=>{
 });
 
 /* 쪽지 보내기 */
+
 document.getElementById('notegoBtn').addEventListener('click', ()=>{
   const messageContent = document.getElementById("messageContent");
   const memberNoSender = document.getElementById("memberNoSender");
@@ -80,35 +81,6 @@ document.getElementById('notegoBtn').addEventListener('click', ()=>{
   notego.reset();
   alert("쪽지를 보냈습니다.");
 
-
-
-  // 유효성 검사
-  // e.preventDefault();
-
-
-
-  
-  // var formData = new FormData(this);
-
-  // fetch('/notesent',{
-  //   method:'POST',
-  //   body:formData
-  // })
-
-  // .then(response => {
-  //     if(response.ok) {
-  //       window.location.href='/note-sent';
-  //     }else{
-  //       alert('쪽지 전송에 실패했습니다.');
-  //     }
-  // })
-  // .catch(error => {
-  //   console.error('Error',error);
-
-
-  // });
-
-  
 
 });
 

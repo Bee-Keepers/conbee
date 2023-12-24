@@ -46,7 +46,15 @@ public class MyPageController {
     public String myPageProfile(Member member, Model model) {
         return "myPage/myPage-profile";
     }
-
+    
+    /**
+     * 내가 쓴 글
+     * @param loginMember
+     * @param model
+     * @param cp
+     * @param writeName
+     * @return
+     */
     
     @GetMapping("myPage-mywrite")
     public String myPageMywrite(@SessionAttribute("loginMember") Member loginMember, Model model ,
@@ -59,7 +67,14 @@ public class MyPageController {
         return "myPage/myPage-mywrite";
     }
     
-
+    /**
+     * 내가 쓴 댓글
+     * @param loginMember
+     * @param model
+     * @param cp
+     * @param commentName
+     * @return
+     */
     @GetMapping("myPage-comment")
     public String myPageComment(@SessionAttribute("loginMember") Member loginMember, Model model ,
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
@@ -71,7 +86,14 @@ public class MyPageController {
         return "myPage/myPage-comment";
     }
     
-    
+    /**
+     * 즐겨찾기
+     * @param loginMember
+     * @param model
+     * @param cp
+     * @param choiceName
+     * @return
+     */
     @GetMapping("myPage-choice")
     public String myPageChoice(@SessionAttribute("loginMember") Member loginMember, Model model ,
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
@@ -123,7 +145,12 @@ public class MyPageController {
     }
     
     
-    
+    /**
+     * 내 점포 조회
+     * @param loginMember
+     * @param model
+     * @return
+     */
     @GetMapping("myPage-store")
     public String myPageStore(@SessionAttribute("loginMember") Member loginMember, Model model) {
     	int storeNo = loginMember.getStoreNoList().get(0);
@@ -142,7 +169,13 @@ public class MyPageController {
     	return store;
     }
     
-    
+    /**
+     * 내 점포 조회 전화번호 수정
+     * @param storeTel
+     * @param storeNo
+     * @param ra
+     * @return
+     */
     @PostMapping("myPage-store")
     public String myPageStoreUpdate(String storeTel, int storeNo, RedirectAttributes ra) {
     	int result = service.myPageStoreUpdate(storeNo, storeTel);

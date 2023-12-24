@@ -136,23 +136,24 @@ public class NoteController {
      */
     
     @PostMapping("note-write")
-    public  String notewrite(RedirectAttributes ra, Note note, @SessionAttribute("loginMember") Member loginMember) {
+    @ResponseBody
+    public int notewrite(@RequestBody Note note, @SessionAttribute("loginMember") Member loginMember) {
     	
     	note.setMemberNoSender(loginMember.getMemberNo());
     	
     	
     	int result = service.noteWrite(note);
     	
-    	if(result>0) {
-			ra.addFlashAttribute("message", "쪽지가 성공적으로 보내졌습니다");
-		
-		} else {
-			ra.addFlashAttribute("message", "쪽지가 발송되지 않았습니다");	
-		}
-		
-		
- 
-        return "redirect:note-sent";
+//    	if(result>0) {
+//			ra.addFlashAttribute("message", "쪽지가 성공적으로 보내졌습니다");
+//		
+//		} else {
+//			ra.addFlashAttribute("message", "쪽지가 발송되지 않았습니다");	
+//		}
+//		
+//        return "redirect:note-sent";
+    	
+    	return result;
     }
 
     
