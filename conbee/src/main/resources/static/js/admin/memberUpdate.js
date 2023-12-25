@@ -22,7 +22,7 @@
 /* 모든 입력이 유효성 검사가 진행 되었는지 체크할 객체를 생성 */
 const checkObj = {
     "memberName" : false,
-    "memberEmail" : false
+    "memberEmail" : false,
 };
 
 
