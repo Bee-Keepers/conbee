@@ -84,7 +84,7 @@ public class MyPageServiceImpl implements MyPageService{
 				
 				int listCount = mapper.getListCount(paramMap);
 				
-				Pagination pagination = new Pagination(cp, listCount);
+				Pagination pagination = new Pagination(cp, listCount, 14, 10);
 				
 				int offset = (pagination.getCurrentPage() - 1) * pagination.getLimit();
 
@@ -116,8 +116,7 @@ public class MyPageServiceImpl implements MyPageService{
 //		int listCount = mapper.getListCount(paramMap);
 		int listCount = mapper.getCommentListCount(paramMap);
 		
-		Pagination pagination = new Pagination(cp, listCount);
-		pagination.setLimit(10);
+		Pagination pagination = new Pagination(cp, listCount, 14, 10);
 
 		int offset = (pagination.getCurrentPage() - 1) * pagination.getLimit();
 		int limit = pagination.getLimit();
@@ -143,7 +142,7 @@ public class MyPageServiceImpl implements MyPageService{
 	//	int listCount = mapper.getListCount(paramMap);
 		int listCount = mapper.getchoiceListCount(paramMap);
 		
-		Pagination pagination = new Pagination(cp, listCount);
+		Pagination pagination = new Pagination(cp, listCount, 14, 10);
 
 		int offset = (pagination.getCurrentPage() - 1) * pagination.getLimit();
 
