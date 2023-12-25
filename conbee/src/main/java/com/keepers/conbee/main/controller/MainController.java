@@ -47,6 +47,7 @@ public class MainController {
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		Stock stock = new Stock();
 		Revenue revenue = new Revenue();
+		Map<String, Object> map = null;
 		// 로그인 한 경우
 		if(loginMember != null) {
 			
@@ -63,11 +64,17 @@ public class MainController {
 				List<Order> orderList = stockService.orderInsertUpdate(loginMember.getStoreNoList().get(0));
 				model.addAttribute("orderList",orderList);
 				
+				// 점주 공지사항
+				map = boardService.selectBoardList(4, 1);
+				
 			} else {
 				
 				// 임직원 공통
 				stock.setStoreNo(0);
 				revenue.setStoreNo(0);
+				
+				// 사내 공지사항
+				map = boardService.selectBoardList(1, 1);
 
 				// 전자결재 대기함
 				int approvalCp = 1; // 결재대기함 조회 용 cp
@@ -77,19 +84,19 @@ public class MainController {
 				// 경영관리부인 경우
 				if(loginMember.getDepartmentNo() != 2) {
 					// 받은 쪽지 조회
-					Map<String, Object> map = noteService.selectNoteReceive(loginMember.getMemberNo(), 1);
-					model.addAttribute("noteList",map.get("noteList"));
+					Map<String, Object> noteMap = noteService.selectNoteReceive(loginMember.getMemberNo(), 1);
+					model.addAttribute("noteList",noteMap.get("noteList"));
 					
 				} 
 				
 			}
-			// 메인 페이지 신상품 3개
+			// 메인 페이지 신상품
 			List<Stock> goodsList = stockService.newGoodsThree();
 			List<Stock> stockList = stockService.stockList(stock, cp);
 			List<Revenue> revenueList = revenueService.revenueSearch(revenue, cp);
 			
 			
-			Map<String, Object> map = boardService.selectBoardList(1, 1);
+			
 			
 			
 			model.addAttribute("goodsList", goodsList);
