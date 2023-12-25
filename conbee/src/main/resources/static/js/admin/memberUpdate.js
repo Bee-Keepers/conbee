@@ -110,7 +110,7 @@ searchBtn.addEventListener("click", ()=>{
           }
       
           gradeNoCategory.value = member.gradeNo;
-
+          
     }
 
     
