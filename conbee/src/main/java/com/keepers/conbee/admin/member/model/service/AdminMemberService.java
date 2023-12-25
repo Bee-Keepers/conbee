@@ -18,9 +18,10 @@ public interface AdminMemberService {
 
 	/** 이메일 유효성 검사
 	 * @param memberEmail
+	 * @param memberNo 
 	 * @return
 	 */
-	int checkMemberEmail(String memberEmail);
+	int checkMemberEmail(String memberEmail, int memberNo);
 
 	/** 점포 번호 유효성 검사
 	 * @param storeNo
