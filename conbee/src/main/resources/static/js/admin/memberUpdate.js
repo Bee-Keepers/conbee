@@ -1,8 +1,20 @@
-// const myModal = new bootstrap.Modal('#exampleModal', {
-//   keyboard: false
-// })
+// 지점찾기 클릭 시 입력된 값 없는 경우 리턴
+const searchMemberIdFrm = document.getElementById("searchMemberIdFrm");
 
+searchMemberIdFrm.addEventListener("submit", (e)=>{
 
+    const searchMemberId = document.getElementById("searchMemberId");
+
+    // 입력된 인풋 값이 없을 경우
+    if(searchMemberId.value.trim().length == 0){
+      searchMemberId.value = "";
+
+        alert("회원 검색 할 아이디를 입력해주세요.");
+
+        e.preventDefault();
+        return;
+    }
+})
 
 /* ***** 회원 가입 유효성 검사 ***** */
 // .confirm : 초록색 / .error : 빨간색 / 아무것도 없음 : 검은색
@@ -11,10 +23,69 @@
 const checkObj = {
     "memberId" : false,
     "memberName" : false,
-    "memberEmail" : false
+    "memberEmail" : false,
+    "storeNo" : false
 };
 
 
+/* 
+const memberTbody = document.getElementById("memberTbody");
+const memberNameInput = document.getElementById("memberName");
+const searchBtn = document.getElementById("searchBtn");
+const contact = document.getElementById("contact");
+const memberEmail = document.getElementById("memberEmail");
+const memberNoReciplent = document.getElementById("memberNoReciplent");
+
+const myModal = new bootstrap.Modal('#exampleModal', {
+  keyboard: false
+})
+
+searchBtn.addEventListener("click", ()=>{
+
+  memberTbody.innerHTML="";
+  console.log(memberNameInput.value);
+  fetch("/admin/memberManage/memberUpdate?memberId=" + memberNameInput.value)
+  .then(resp=>resp.json())
+  .then(memberList=>{
+    console.log(memberList);
+    for(let member of memberList){
+      const tr = document.createElement("tr");
+
+      const td1 = document.createElement("td");
+      td1.innerText = member.memberNo;
+
+      const td2 = document.createElement("td");
+      td2.innerText = member.memberName;
+
+      const td3 = document.createElement("td");
+      td3.innerText = member.memberEmail;
+
+      const td4 = document.createElement("td");
+      td4.innerText = member.departmentName;
+      
+      const td5 = document.createElement("td");
+      const button = document.createElement("button");
+      button.classList.add("btn", "btn-warning")
+      button.innerText = "선택";
+      button.addEventListener("click", ()=>{
+        contact.value = member.memberName;
+        memberEmail.value = member.memberEmail;
+        memberNoReciplent.value = member.memberNo;
+
+        myModal.hide();
+
+
+      });
+      td5.append(button);
+
+      tr.append(td1, td2, td3, td4, td5);
+      memberTbody.append(tr);
+      
+    }
+  })
+  .catch(e=>console.log(e));
+});
+ */
 
 
 
@@ -319,18 +390,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
 /* 취소, 확인 버튼 작동 */
 
-const cancelBtn = document.querySelector("#cancelBtn");
+// const cancelBtn = document.querySelector("#cancelBtn");
 const submitBtn = document.querySelector("#submitBtn");
 
 
 // 취소 버튼 클릭 시 input 작성내용 지우기
-cancelBtn.addEventListener("click", ()=>{
+// cancelBtn.addEventListener("click", ()=>{
 
-  memberId.value = "";
-  memberName.value = "";
-  memberEmail.value = "";
-  return;
-})
+//   memberId.value = "";
+//   memberName.value = "";
+//   memberEmail.value = "";
+//   return;
+// })
 
 //-------------------------------------------------------------------------
 
@@ -358,6 +429,8 @@ document.getElementById("submitBtn").addEventListener("click", e => {
               
               case "memberEmail": str = "이메일이 유효하지 않습니다"; break;
 
+              case "storeNo": str = "점포번호가 유효하지 않습니다"; break;
+
           }
 
           alert(str);
@@ -377,6 +450,7 @@ document.getElementById("submitBtn").addEventListener("click", e => {
       return;
     }
   }
+  memberUpdateFrm.submit();
 });
 
 //-------------------------------------------------------------------------

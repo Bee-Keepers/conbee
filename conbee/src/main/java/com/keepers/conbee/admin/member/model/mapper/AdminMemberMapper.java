@@ -125,6 +125,12 @@ public interface AdminMemberMapper {
 	 */
 	Member updateMemberInfo(String memberId);
 
+	/** 회원 상세 조회
+	 * @param getMember
+	 * @return
+	 */
+	Member memberDetail(String memberId);
+
 	
 
 }

@@ -73,7 +73,7 @@
             
             <div class="btn-group W-100" style="float: right;">
               <button type="submit" class="saveBtn me-1">저장</button>
-              <button type="button" onclick="cancelBtn()" class="cancelBtn  me-1" >취소</button>
+              <section type="button" onclick="cancelBtn()" class="cancelBtn  me-1" >취소</section>
               <button type="button" onclick="listBtn()" id="goToListBtn" class="listBtn">목록으로</button>
             </div>
             
@@ -181,17 +181,11 @@ function handleSampleError( error ) {
     // 취소 버튼 클릭 시 
     function cancelBtn() {
 
-    // 입력 값이 비어있지 않은 경우에만 이전 페이지로 이동
-    // 여기에 이전 페이지로 이동하는 코드를 추가할 수 있습니다.
-    // 예를 들면, 아래와 같이 브라우저의 뒤로 가기 기능을 사용할 수 있습니다.
     window.history.back();
   }
 
     function listBtn() {
 
-    // 입력 값이 비어있지 않은 경우에만 이전 페이지로 이동
-    // 여기에 이전 페이지로 이동하는 코드를 추가할 수 있습니다.
-    // 예를 들면, 아래와 같이 브라우저의 뒤로 가기 기능을 사용할 수 있습니다.
     window.history.back();
     window.history.back();
   }

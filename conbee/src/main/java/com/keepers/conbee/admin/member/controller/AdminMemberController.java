@@ -171,26 +171,9 @@ public class AdminMemberController {
 	}
 	
 	
-//	
-//	/** 회원 수정  회원 조회 클릭 시 회원 정보 입력
-//	 * @param storeNo
-//	 * @param model
-//	 * @param ra
-//	 * @return
-//	 */
-//	@GetMapping("memberUpdate")
-//	public String memberUpdate(String memberId, Model model) {
-//		
-//		// 회원 정보 얻어오기
-//		Member memberInfo = service.updateMemberInfo(memberId);
-//		
-//		model.addAttribute("memberInfo", memberInfo);
-//		
-//		return "admin/memberManage/memberUpdate";
-//		
-//	}
-//	
-//	
+	
+	
+	
 	/** 회원 수정
 	 * @param updateMember
 	 * @param ra
@@ -205,11 +188,11 @@ public class AdminMemberController {
 		
 		String message = null;
 		
-		if(result == 100) { // 기존 회원번호가 없는 경우
+		if(result == 2) { // 기존 회원번호가 없는 경우
 			message = "입력하신 정보와 일치하는 회원이 없습니다.";
 		}
 		
-		else if(result == 50) { // 회원 이름과 회원번호가 일치하지 않는경우 
+		else if(result == 1) { // 회원 이름과 회원번호가 일치하지 않는경우 
 			message = "회원 이름과 회원번호가 일치하지 않습니다.";
 		}
 		
@@ -256,13 +239,45 @@ public class AdminMemberController {
 	}
 	
 	
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+	/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 5. 회원 상세조회 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+	
+	@GetMapping("/memberDetail/{memberId}") 
+	public String memberDetail(@PathVariable String memberId, Model model) {
+	    Member member = service.memberDetail(memberId);
+	    model.addAttribute("member", member);
+	    return "admin/memberManage/memberDetail";
+	}
 	
 	
 	
 	
 	
-	
-	
+//	
+//	
+//	/** 회원 수정  회원 조회 클릭 시 회원 정보 입력
+//	 * @param storeNo
+//	 * @param model
+//	 * @param ra
+//	 * @return
+//	 */
+//	@GetMapping("memberUpdate/{memberNo:[0-9]+}")
+//	public String memberUpdate(@PathVariable("memberNo") int memberNo,
+//			String memberId, Model model) {
+//		
+//		// 회원 정보 얻어오기
+//		
+//		
+//		Member memberInfo = service.updateMemberInfo(memberId, memberNo);
+//		
+//		
+//		
+//		model.addAttribute("memberInfo", memberInfo);
+//		
+//		return "admin/memberManage/memberUpdate";
+//		
+//	}
+//	
 	
 	
 	
