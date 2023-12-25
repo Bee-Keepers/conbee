@@ -125,8 +125,13 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 	
 	// 이메일 유효성 검사
 	@Override
-	public int checkMemberEmail(String memberEmail) {
-		return mapper.checkMemberEmail(memberEmail);
+	public int checkMemberEmail(String memberEmail, int memberNo) {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberEmail", memberEmail);
+		map.put("memberNo", memberNo);
+		
+		return mapper.checkMemberEmail(map);
 	}
 	
 	// 점포 번호 유효성 검사
@@ -181,28 +186,6 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 	 */
 	@Override
 	public int memberUpdateResult(Member updateMember) {
-
-		int result = mapper.searchMemerNo(updateMember);
-
-		// 기존 회원번호가 없을 경우 return
-		if (result <= 0) {
-			return 2;
-		}
-
-		// 회원 이름과 회원번호가 기등록과 다를 경우 return
-		int result1 = mapper.compareMember(updateMember);
-
-		// 기존 회원번호와 회원 이름이 일치하는 경우 없을 경우 return
-		// (일치시 1, 불일치시 0)
-		if (result1 <= 0) {
-			return 1;
-		}
-
-		// 점포 번호 변경 수정
-		
-		mapper.memberUpdateStoreNo(updateMember);
-
-		// 회원 정보 수정
 		return mapper.memberUpdateResult(updateMember);
 	}
 	
@@ -233,7 +216,6 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 		
 		return teamList;
 	}
-	
 	
 	
 	

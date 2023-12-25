@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko"  xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>conBee 회원수정</title>
+  <link rel="stylesheet" href="/css/admin/memberStorePlus.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <style>
+    tr { height: 80px; }
+    
+    td { text-align: start;}
+
+    .form-control {
+      width: 350px; height: 55px;
+    }
+
+  </style>
+</head>
+<body class="d-flex flex-column" style="height: 100vh;">
+
+
+  <th:block th:replace="~{admin/header}"></th:block>
+
+  <main class="d-flex flex-grow-1">
+
+    <!-- 사이드바 -->
+    <th:block th:replace="~{/admin/memberManage/sidebar}"></th:block>
+
+    <!-- 신규점포등록 -->
+    <div class="d-flex flex-column p-3 flex-grow-1">
+
+      <!-- 타이틀 -->
+      <div class="d-flex justify-content-between align-items-center border-bottom">
+        <div class="fs-3 pb-3 px-3">
+          점포수정
+        </div>
+      </div>
+
+
+        <div class="d-flex flex-column justify-content-center align-items-center">
+
+          <form class="w-50">
+            <table class="table border-top-none" style="width: 95%;  text-align: center; vertical-align: middle; margin-left: 36px;">
+              
+              <colgroup>
+                <col width=50%>
+                <col width=50%>
+              </colgroup>
+  
+              <tbody>
+  
+                <tr style="height: 100px;">
+                  <th>아이디</th>
+                  <td>
+                      <div class="d-flex align-items-center" >
+                        <input type="text" class="form-control" name="memberId" id="searchMemberId" style="width:250px;" placeholder="먼저 아이디를 검색해주세요." maxlength="12" > 
+                        <button type="button" class="btn btn-warning ms-2"style="width: 90px; height: 40px;" id="searchBtn" >회원 검색</button>
+                      </div>
+                    <article id="messageMemberId"></article>
+                  </td>
+                </tr>
+  
+                <tr style="height: 100px;">
+                  <th>점포 번호</th>
+                  <td>
+                      <div class="d-flex align-items-center">
+                        <input type="number" th:value="*{storeNo}"  class="form-control" name="storeNo" style="width:250px;" id="storeNo" max="999">
+                        <button type="button" class="btn btn-warning ms-2"style="width: 90px; height: 40px;" id="plusBtn" >추가</button>
+                      </div>
+                      <article id="messageStoreNo"></article>
+                  </td>
+              </tbody>
+            </table>
+            <div id="storeNoContainer" style="height: 300px;">
+
+            </div>
+  
+          </form>
+          
+          
+  
+        </div>
+
+          <div class="w-100 align-items-start sticky-bottom bg-white mt-2">
+            <div class="d-flex justify-content-end" style="width: 100%;">
+              <a href="/admin/memberManage/memberList" class="btn btn-secondary" id="cancelBtn" style="width: 80px;">취소</a>
+              <button type="submit" id="submitBtn" class="btn btn-warning ms-3" style="width: 80px; margin-right: 35px;">수정</button>
+            </div>
+          </div>
+  
+        </div>
+
+  </main>
+
+  <script src="/js/admin/memberStorePlus.js"></script>
+  <script src="/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

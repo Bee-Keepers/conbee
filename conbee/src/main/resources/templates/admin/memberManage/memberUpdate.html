@@ -50,7 +50,7 @@
 
          
           
-          <form class="w-100">
+          <form class="w-100" action="/admin/memberManage/memberUpdate/update" method="post" id="updateForm">
             <table class="table border-top-none" style="width: 95%;  text-align: center; vertical-align: middle; margin-left: 36px;">
               
               <colgroup>
@@ -110,7 +110,7 @@
                   <th>점포 번호</th>
                   <td>
                     <div class="d-flex align-items-center" >
-                      <input type="number" th:value="*{storeNo}"  class="form-control" name="storeNo" id="storeNo" max="999" disabled required>
+                      <input type="text" th:value="*{storeNo}"  class="form-control" id="storeNo" disabled>
                       <!-- <button type="button" class="ms-2 btn btn-warning" id="storeNoBtn">점포번호 수정 시 클릭</button> -->
                       <article id="messageStoreNo"></article>
                     </div>
@@ -241,6 +241,7 @@
                 
               </tbody>
             </table>
+            <input type="hidden" id="memberNo" name="memberNo">
           </form>
           
           

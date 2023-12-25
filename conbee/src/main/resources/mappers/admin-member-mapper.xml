@@ -24,6 +24,7 @@
 	<select id="checkMemberEmail" resultType="_int">
 		SELECT COUNT(*) FROM MEMBER
 		WHERE MEMBER_EMAIL = #{memberEmail}
+		AND MEMBER_NO != #{memberNo}
 	</select>
 	
 	<!-- 점포 번호 유효성 검사 -->
@@ -144,15 +145,9 @@
 		GRADE_NO = #{gradeNo},
 		TEAM_NO = #{teamNo},
 		DEPARTMENT_NO = #{departmentNo}
-		WHERE MEMBER_NO=#{memberNo};
-	</update>
-	
-	<!-- 회원 수정 시 점포 번호 수정하기 -->
-	<update id="memberUpdateStoreNo">
-		UPDATE STORE SET STORE_NO = #{STORE_NO}
 		WHERE MEMBER_NO = #{memberNo}
 	</update>
-
+	
 	<!-- 회원 수정 시 일치하는 회원 조회 -->
 	<select id="searchMemerNo" resultType="_int">
 		SELECT COUNT(*)

@@ -21,10 +21,10 @@ public interface AdminMemberMapper {
 	int checkMemberId(String memberId);
 
 	/** 이메일 유효성 검사
-	 * @param memberEmail
+	 * @param map
 	 * @return
 	 */
-	int checkMemberEmail(String memberEmail);
+	int checkMemberEmail(Map<String, Object> map);
 
 	/** 점포 번호 유효성 검사
 	 * @param storeNo
