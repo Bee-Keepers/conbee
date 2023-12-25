@@ -309,18 +309,18 @@ memberId.addEventListener("input", () => {
 
 /* 취소, 확인 버튼 작동 */
 
-const cancelBtn = document.querySelector("#cancelBtn");
+// const cancelBtn = document.querySelector("#cancelBtn");
 const submitBtn = document.querySelector("#submitBtn");
 
 
 // 취소 버튼 클릭 시 input 작성내용 지우기
-cancelBtn.addEventListener("click", ()=>{
+// cancelBtn.addEventListener("click", ()=>{
 
-  memberId.value = "";
-  memberName.value = "";
-  memberEmail.value = "";
-  return;
-})
+//   memberId.value = "";
+//   memberName.value = "";
+//   memberEmail.value = "";
+//   return;
+// })
 
 //-------------------------------------------------------------------------
 

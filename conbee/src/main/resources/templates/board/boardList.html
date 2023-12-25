@@ -103,9 +103,8 @@
         </table>
       </div>
       <div class="w-100 sticky-bottom fixed-bottom bg-white pagination-area" th:if="${#lists.size(boardList) > 0}">
-
-        <nav aria-label="Page navigation example" class="d-flex justify-content-center" style="color: #303841;" >
-          </ul>
+        
+        <nav aria-label="Page navigation example" class="d-flex" style="color: #303841; justify-content: center; margin-left: 400px;" >
 
 
           <!-- ======== 페이지네이션 : 일반 조회 =========== -->
@@ -203,11 +202,11 @@
 
           </ul>
            -->
+           <div class="w-60 d-flex pe-4 sticky-bottom bg-white mb-3" style="justify-content: flex-end;  margin-left: 300px;">
+             <a th:href="@{/board/boardWrite/{boardCodeNo}/insert(boardCodeNo=${boardCodeNo})}" class="btn btn-warning mx-3" style="width: 80px;">작성</a>
+           </div>
         </nav>
       </div>  
-      <div class="w-100 d-flex justify-content-end pe-4 sticky-bottom bg-white mb-3">
-        <a th:href="@{/board/boardWrite/{boardCodeNo}/insert(boardCodeNo=${boardCodeNo})}" class="btn btn-warning mx-3" style="width: 80px;">작성</a>
-      </div>
       
     </div>
   </main>

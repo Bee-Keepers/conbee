@@ -100,7 +100,7 @@ targetInput.addEventListener("input", e => {
 					let id = member.memberId;
 
 					const span = document.createElement("span");
-					span.innerHTML = `${name} ${id}<br>${departmentName}, ${gradeName}`.replace(query, `<mark>${query}</mark>`);
+					span.innerHTML = `${name} ${id}<br>${departmentName} - ${gradeName}`.replace(query, `<mark>${query}</mark>`);
 
 					// 요소 조립(화면에 추가)
 					li.append(img, span);

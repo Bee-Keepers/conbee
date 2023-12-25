@@ -186,7 +186,7 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 
 		// 기존 회원번호가 없을 경우 return
 		if (result <= 0) {
-			return 100;
+			return 2;
 		}
 
 		// 회원 이름과 회원번호가 기등록과 다를 경우 return
@@ -195,7 +195,7 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 		// 기존 회원번호와 회원 이름이 일치하는 경우 없을 경우 return
 		// (일치시 1, 불일치시 0)
 		if (result1 <= 0) {
-			return 50;
+			return 1;
 		}
 
 		// 점포 번호 변경 수정
@@ -213,6 +213,12 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 		return mapper.updateMemberInfo(memberId);
 	}
 	
+	
+	// 회원 상세 조회
+	@Override
+	public Member memberDetail(String memberId) {
+		return mapper.memberDetail(memberId);
+	}
 	
 	//============================= 예리나 =====================================
 	

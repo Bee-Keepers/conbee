@@ -70,7 +70,7 @@
               <th>이름</th>
               <th>연락처</th>
               <th>주소</th>
-              <th>가입일</th>
+              <th>아이디</th>
               <th>탈퇴 승인</th>
               <th>탈퇴 및 복구</th>
             </tr>
@@ -96,10 +96,13 @@
                 <td th:text="*{departmentName}">1</td>
                 <td th:text="*{teamName}">점포관리팀</td>
                 <td th:text="*{gradeName}">부장</td>
-                <td th:text="*{memberName}">나다</td>
+                <td >
+                  <a  style="color: black; text-decoration: none; width: 100%; display: block;"   th:href="@{/admin/memberManage/memberDetail/{memberId}(memberId=*{memberId})}" th:text="*{memberName}"></a>
+                </td>
                 <td th:text="*{memberTel}">01012341234</td>
                 <td th:text="*{memberAddress}">서울특별시 서대문구 모래내로 412 서울시립서대문도서관 (연희동) 서울시립서대문도서관</td>
-                <td th:text="*{memberEnrollDate}">2015.12.12</td>
+                <!-- <td th:text="*{memberEnrollDate}">2015.12.12</td> -->
+                <td th:text="*{memberId}">2015.12.12</td>
                 
                 <td th:if="*{memberDelApproval == 'Y'}">승인</td>
                 <td th:unless="*{memberDelApproval == 'Y'}">미승인</td>
