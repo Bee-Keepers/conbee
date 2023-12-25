@@ -218,23 +218,10 @@ public class AdminMemberController {
 	 * @param model
 	 * @return
 	 */
-	@PostMapping("memberUpdate")
-	public String memberUpdate(String memberId, Model model, RedirectAttributes ra) {
-		
-		// 해당 회원 정보 얻어오기
-		Member memberInfo = service.updateMemberInfo(memberId);
-		
-		// 회원 정보 O
-		if(memberInfo != null) {
-			model.addAttribute("memberInfo", memberInfo);
-			return "admin/memberManage/memberUpdate";
-			
-		// 회원 정보 X
-		} else {
-			ra.addFlashAttribute("message", "입력하신 회원이 존재하지 않습니다.");
-		}
-			
-		return "redirect:/admin/memberManage/memberUpdate";
+	@GetMapping("memberSearch")
+	@ResponseBody
+	public Member memberSearch(String memberId) {
+		return service.updateMemberInfo(memberId);
 	}
 	
 	

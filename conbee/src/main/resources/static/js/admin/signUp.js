@@ -506,7 +506,7 @@ departmentNoCategory.addEventListener("change", ()=>{
         option3.innerText='사원';
         option3.setAttribute("value", 5);
   
-        gradeNoCategory.append(option, option1, option2, option3);
+        gradeNoCategory.append(option1, option2, option3);
       }
     })
   }

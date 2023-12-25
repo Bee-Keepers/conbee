@@ -1,20 +1,20 @@
-// 지점찾기 클릭 시 입력된 값 없는 경우 리턴
-const searchMemberIdFrm = document.getElementById("searchMemberIdFrm");
+// // 지점찾기 클릭 시 입력된 값 없는 경우 리턴
+// const searchMemberIdFrm = document.getElementById("searchMemberIdFrm");
 
-searchMemberIdFrm.addEventListener("submit", (e)=>{
+// searchMemberIdFrm.addEventListener("submit", (e)=>{
 
-    const searchMemberId = document.getElementById("searchMemberId");
+//     const searchMemberId = document.getElementById("searchMemberId");
 
-    // 입력된 인풋 값이 없을 경우
-    if(searchMemberId.value.trim().length == 0){
-      searchMemberId.value = "";
+//     // 입력된 인풋 값이 없을 경우
+//     if(searchMemberId.value.trim().length == 0){
+//       searchMemberId.value = "";
 
-        alert("회원 검색 할 아이디를 입력해주세요.");
+//         alert("회원 검색 할 아이디를 입력해주세요.");
 
-        e.preventDefault();
-        return;
-    }
-})
+//         e.preventDefault();
+//         return;
+//     }
+// })
 
 /* ***** 회원 가입 유효성 검사 ***** */
 // .confirm : 초록색 / .error : 빨간색 / 아무것도 없음 : 검은색
@@ -28,64 +28,97 @@ const checkObj = {
 };
 
 
-/* 
-const memberTbody = document.getElementById("memberTbody");
-const memberNameInput = document.getElementById("memberName");
+
+// const memberTbody = document.getElementById("memberTbody");
+// const memberNameInput = document.getElementById("memberName");
+// const contact = document.getElementById("contact");
+const searchMemberId = document.getElementById("searchMemberId");
+
+
 const searchBtn = document.getElementById("searchBtn");
-const contact = document.getElementById("contact");
-const memberEmail = document.getElementById("memberEmail");
-const memberNoReciplent = document.getElementById("memberNoReciplent");
-
-const myModal = new bootstrap.Modal('#exampleModal', {
-  keyboard: false
-})
-
 searchBtn.addEventListener("click", ()=>{
 
-  memberTbody.innerHTML="";
-  console.log(memberNameInput.value);
-  fetch("/admin/memberManage/memberUpdate?memberId=" + memberNameInput.value)
+  fetch("/admin/memberManage/memberSearch?memberId=" + searchMemberId.value)
   .then(resp=>resp.json())
-  .then(memberList=>{
-    console.log(memberList);
-    for(let member of memberList){
-      const tr = document.createElement("tr");
+  .then(member=>{
+    console.log(member);
+    memberName.disabled = false;
+    memberName.value = member.memberName;
 
-      const td1 = document.createElement("td");
-      td1.innerText = member.memberNo;
+    memberEmail.disabled = false;
+    memberEmail.value = member.memberEmail;
 
-      const td2 = document.createElement("td");
-      td2.innerText = member.memberName;
-
-      const td3 = document.createElement("td");
-      td3.innerText = member.memberEmail;
-
-      const td4 = document.createElement("td");
-      td4.innerText = member.departmentName;
-      
-      const td5 = document.createElement("td");
-      const button = document.createElement("button");
-      button.classList.add("btn", "btn-warning")
-      button.innerText = "선택";
-      button.addEventListener("click", ()=>{
-        contact.value = member.memberName;
-        memberEmail.value = member.memberEmail;
-        memberNoReciplent.value = member.memberNo;
-
-        myModal.hide();
-
-
-      });
-      td5.append(button);
-
-      tr.append(td1, td2, td3, td4, td5);
-      memberTbody.append(tr);
-      
+    if(member.storeNo != 0){
+      storeNo.disabled = false;
+      storeNo.value = member.storeNo;
     }
+    departmentNoCategory.value = member.departmentNo;
+
+    departmentNoFn(departmentNoCategory, teamNoCategory);
+
+    // 부장 직급 생성
+    if(member.gradeNo == 2){ // 임원부/점주가 아닌 경우
+      const option = document.createElement("option");
+      option.innerText='부장';
+      option.setAttribute("value", 2);
+      gradeNoCategory.append(option);
+      option.selected = true;
+    } else{
+        setTimeout(function(){teamNoCategory.value = member.teamNo}, 1000);
+          
+      
+          // 직급 셀렉 초기화
+          gradeNoCategory.innerHTML="";
+      
+          const option2 = document.createElement("option");
+          option2.innerText = "선택";
+          option2.setAttribute("value", "");
+          gradeNoCategory.append(option2);
+      
+          // 점주, 팀장 산하 직급 생성
+          if(departmentNoCategory.value == 0){ // 임원부인 경우
+            const option1 = document.createElement("option");
+            option1.innerText='사장';
+            option1.setAttribute("value", 0);
+      
+            const option2 = document.createElement("option");
+            option2.innerText='부사장';
+            option2.setAttribute("value", 1);
+      
+            gradeNoCategory.append(option1, option2);
+      
+          } else if (departmentNoCategory.value == 5){ // 점주인 경우
+            const option1 = document.createElement("option");
+            option1.innerText='점주';
+            option1.setAttribute("value", 6);
+            gradeNoCategory.append(option1);
+      
+          } else {
+            const option1 = document.createElement("option");
+            option1.innerText='팀장';
+            option1.setAttribute("value", 3);
+      
+            const option2 = document.createElement("option");
+            option2.innerText='대리';
+            option2.setAttribute("value", 4);
+      
+            const option3 = document.createElement("option");
+            option3.innerText='사원';
+            option3.setAttribute("value", 5);
+      
+            gradeNoCategory.append(option1, option2, option3);
+          }
+      
+          gradeNoCategory.value = member.gradeNo;
+
+    }
+
+    
+
   })
   .catch(e=>console.log(e));
 });
- */
+
 
 
 
@@ -316,74 +349,74 @@ storeNo.addEventListener("input", ()=>{
 
 
 
-document.addEventListener("DOMContentLoaded", function () {
-  const memberId = document.getElementById("memberId");
-  const messageMemberId = document.getElementById("messageMemberId");
+// document.addEventListener("DOMContentLoaded", function () {
+//   const memberId = document.getElementById("memberId");
+//   const messageMemberId = document.getElementById("messageMemberId");
 
-  memberId.addEventListener("input", () => {
+//   memberId.addEventListener("input", () => {
 
-    if (memberId.value.trim().length == 0) {
-      memberId.value = "";
+//     if (memberId.value.trim().length == 0) {
+//       memberId.value = "";
 
-      if (messageMemberId) {
-        messageMemberId.innerText = "아이디는 영어/숫자 포함 6~12글자 이내로 입력해주세요."
-        messageMemberId.classList.remove("OK-feedback");
-        messageMemberId.classList.remove("NotOK-feedback");
-      }
+//       if (messageMemberId) {
+//         messageMemberId.innerText = "아이디는 영어/숫자 포함 6~12글자 이내로 입력해주세요."
+//         messageMemberId.classList.remove("OK-feedback");
+//         messageMemberId.classList.remove("NotOK-feedback");
+//       }
 
-      memberId.classList.remove("is-invalid");
-      memberId.classList.remove("is-valid");
+//       memberId.classList.remove("is-invalid");
+//       memberId.classList.remove("is-valid");
 
-      checkObj.memberId = false;
+//       checkObj.memberId = false;
 
-      return;
-    }
+//       return;
+//     }
 
-    const regEx = /^[A-Za-z\d]{6,12}$/;
+//     const regEx = /^[A-Za-z\d]{6,12}$/;
 
-    if (regEx.test(memberId.value)) {
-      fetch("/admin/memberManage/checkMemberId?memberId=" + memberId.value)
-        .then(response => response.text())
-        .then(result => {
-          if (result == 0) {
-            if (messageMemberId) {
-              messageMemberId.innerText = "일치하지 않는 회원입니다.";
-              messageMemberId.classList.remove("OK-feedback");
-              messageMemberId.classList.add("NotOK-feedback");
-            }
+//     if (regEx.test(memberId.value)) {
+//       fetch("/admin/memberManage/checkMemberId?memberId=" + memberId.value)
+//         .then(response => response.text())
+//         .then(result => {
+//           if (result == 0) {
+//             if (messageMemberId) {
+//               messageMemberId.innerText = "일치하지 않는 회원입니다.";
+//               messageMemberId.classList.remove("OK-feedback");
+//               messageMemberId.classList.add("NotOK-feedback");
+//             }
 
-            memberId.classList.add("is-invalid");
-            memberId.classList.remove("is-valid");
+//             memberId.classList.add("is-invalid");
+//             memberId.classList.remove("is-valid");
 
-            checkObj.memberId = false;
-          } else {
-            if (messageMemberId) {
-              messageMemberId.innerText = "일치하는 회원입니다.";
-              messageMemberId.classList.remove("NotOK-feedback");
-              messageMemberId.classList.add("OK-feedback");
-            }
+//             checkObj.memberId = false;
+//           } else {
+//             if (messageMemberId) {
+//               messageMemberId.innerText = "일치하는 회원입니다.";
+//               messageMemberId.classList.remove("NotOK-feedback");
+//               messageMemberId.classList.add("OK-feedback");
+//             }
 
-            memberId.classList.add("is-valid");
-            memberId.classList.remove("is-invalid");
+//             memberId.classList.add("is-valid");
+//             memberId.classList.remove("is-invalid");
 
-            checkObj.memberId = true;
-          }
-        })
-        .catch(e => console.log(e))
-    } else {
-      if (messageMemberId) {
-        messageMemberId.innerText = "아이디가 형식에 맞지 않습니다.";
-        messageMemberId.classList.add("NotOK-feedback");
-        messageMemberId.classList.remove("OK-feedback");
-      }
+//             checkObj.memberId = true;
+//           }
+//         })
+//         .catch(e => console.log(e))
+//     } else {
+//       if (messageMemberId) {
+//         messageMemberId.innerText = "아이디가 형식에 맞지 않습니다.";
+//         messageMemberId.classList.add("NotOK-feedback");
+//         messageMemberId.classList.remove("OK-feedback");
+//       }
 
-      memberId.classList.add("is-invalid");
-      memberId.classList.remove("is-valid");
+//       memberId.classList.add("is-invalid");
+//       memberId.classList.remove("is-valid");
 
-      checkObj.memberId = false;
-    }
-  });
-});
+//       checkObj.memberId = false;
+//     }
+//   });
+// });
 
 
 /* ======================================================================== */
@@ -459,19 +492,21 @@ let clickCount = 0; // 버튼 클릭 횟수 저장
 
 const storeNoBtn = document.getElementById("storeNoBtn");
 
-storeNoBtn.addEventListener("click", () => {
-  clickCount += 1;
-
-  if (clickCount % 2 === 0) { // 닫히기일 경우 (유효성 검사 기록 삭제)
-    storeNo.disabled = true;
-    storeNo.value = "";
-    messageStoreNo.innerText = ""; 
-    messageStoreNo.classList.remove("OK-feedback", "NotOK-feedback"); 
-    storeNo.classList.remove("is-invalid", "is-valid"); 
-  } else { // 열기일 경우
-    storeNo.disabled = false;
-  }
-});
+if(storeNoBtn != null){
+  storeNoBtn.addEventListener("click", () => {
+    clickCount += 1;
+  
+    if (clickCount % 2 === 0) { // 닫히기일 경우 (유효성 검사 기록 삭제)
+      storeNo.disabled = true;
+      storeNo.value = "";
+      messageStoreNo.innerText = ""; 
+      messageStoreNo.classList.remove("OK-feedback", "NotOK-feedback"); 
+      storeNo.classList.remove("is-invalid", "is-valid"); 
+    } else { // 열기일 경우
+      storeNo.disabled = false;
+    }
+  });
+}
 
 /* ======================================================================== */
 
@@ -574,7 +609,7 @@ departmentNoCategory.addEventListener("change", ()=>{
         option3.innerText='사원';
         option3.setAttribute("value", 5);
   
-        gradeNoCategory.append(option, option1, option2, option3);
+        gradeNoCategory.append(option1, option2, option3);
       }
     })
   }
