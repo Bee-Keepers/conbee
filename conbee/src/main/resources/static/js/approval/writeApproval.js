@@ -312,6 +312,14 @@ submitStore.addEventListener("click", async (e) =>{
     return;
   }
 
+  if(openStore.checked){
+    if(storeNo.value.trim().length == 0){ 
+      alert("매장번호를 입력해주세요");
+      storeNo.focus();
+      return;
+    }
+  }
+
 
   if(closeStore.checked){
     if(storeNo.value.trim().length == 0){ // 폐점일때로 제한
