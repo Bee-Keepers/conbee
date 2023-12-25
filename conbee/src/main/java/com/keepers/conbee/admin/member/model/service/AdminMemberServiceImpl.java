@@ -131,8 +131,12 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 	
 	// 점포 번호 유효성 검사
 	@Override
-	public int checkStoreNo(Store storeNo) {
-		return mapper.checkStoreNo(storeNo);
+	public int checkStoreNo(int storeNo) {
+		List<Integer> list = mapper.checkStoreNo(storeNo);
+		if(list.contains(storeNo)) {
+			return 1;
+		}
+		return  0;
 	}
 	
 	// 회원 주소 유효성 검사

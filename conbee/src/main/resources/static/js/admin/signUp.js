@@ -6,11 +6,12 @@
 const checkObj = {
     "memberId" : false,
     "memberName" : false,
-    "memberEmail" : false, 
+    "memberEmail" : false,
+    "storeNo" : false
 };
 
 
-
+let clickCount = 0; // 버튼 클릭 횟수 저장
 
 
 
@@ -166,7 +167,7 @@ const messageStoreNo = document.getElementById("messageStoreNo");
 storeNo.addEventListener("input", ()=>{
 
   // // 점포번호가 입력되지 않은 경우
-  if(storeNo.value > 99999 || storeNo.value < 0){
+  if(storeNo.value > 99999 || storeNo.value <= 0){
       storeNo.value = "";
 
     messageStoreNo.innerText = "점포번호는 숫자 1~5자리 이내로 작성해주세요.";
@@ -185,13 +186,12 @@ storeNo.addEventListener("input", ()=>{
 
   // 입력한 점포번호가 유효할 경우
   if(regEx.test(storeNo.value)){
-
     /* ===================== 점포번호 중복 검사 ======================= */
-    fetch("/admin/storeManage/checkStoreNo?storeNo=" + storeNo.value)
+    fetch("/admin/memberManage/checkStoreNo?storeNo=" + storeNo.value)
     .then(resp => resp.text())
     .then(result =>{
 
-      if(result == 0){ // 중복이 아닌 경우
+      if(result == 1){ // 중복이 아닌 경우
         messageStoreNo.innerText= "사용 가능한 점포번호입니다.";
         messageStoreNo.classList.add("OK-feedback");
         messageStoreNo.classList.remove("NotOK-feedback");
@@ -203,7 +203,7 @@ storeNo.addEventListener("input", ()=>{
         checkObj.storeNo = true;
 
       } else {
-        messageStoreNo.innerText= "이미 등록된 점포번호입니다.";
+        messageStoreNo.innerText= "사용 불가능한 점포번호입니다.";
         messageStoreNo.classList.add("NotOK-feedback");
         messageStoreNo.classList.remove("OK-feedback");
     
@@ -334,6 +334,20 @@ document.getElementById("submitBtn").addEventListener("click", e => {
 
   // 객체 전용 향상된 for문 ( for ... in )
 
+  if(gradeNoCategory.value == 6){
+    if(storeNo.disabled == true){
+      alert("점주등록은 점포번호를 입력해야합니다");
+      e.preventDefault(); // form 제출 X
+      return;
+    }
+  } else{
+    if(storeNo.disabled == false){
+      alert("점포번호 입력은 점주만 해야합니다");
+      disabledFn();
+      e.preventDefault(); // form 제출 X
+      return;
+    }
+  }
   for(let key in checkObj){
 
       // 객체에서 얻어온 값이 false 경우
@@ -348,6 +362,8 @@ document.getElementById("submitBtn").addEventListener("click", e => {
               
               case "memberEmail": str = "이메일이 유효하지 않습니다"; break;
 
+              case "storeNo": str = "점포번호가 유효하지 않습니다"; break;
+
           }
 
           alert(str);
@@ -360,22 +376,20 @@ document.getElementById("submitBtn").addEventListener("click", e => {
           return;
       }
   }
-  if(gradeNoCategory.value == 6){
-    if(storeNo.disabled == true){
-      alert("점주등록은 점포번호를 입력해야합니다")
-      e.preventDefault(); // form 제출 X
-      return;
-    }
-  }
+  
 });
 
 //-------------------------------------------------------------------------
 
-let clickCount = 0; // 버튼 클릭 횟수 저장
+
 
 const storeNoBtn = document.getElementById("storeNoBtn");
 
 storeNoBtn.addEventListener("click", () => {
+  disabledFn();
+});
+
+function disabledFn(){
   clickCount += 1;
 
   if (clickCount % 2 === 0) { // 닫히기일 경우 (유효성 검사 기록 삭제)
@@ -384,10 +398,12 @@ storeNoBtn.addEventListener("click", () => {
     messageStoreNo.innerText = ""; 
     messageStoreNo.classList.remove("OK-feedback", "NotOK-feedback"); 
     storeNo.classList.remove("is-invalid", "is-valid"); 
+    storeNo.disabled = true;
   } else { // 열기일 경우
     storeNo.disabled = false;
   }
-});
+
+};
 
 /* ======================================================================== */
 

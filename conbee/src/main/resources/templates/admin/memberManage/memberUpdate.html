@@ -459,17 +459,8 @@
                 <th style="padding-left: 25px;" aria-placeholder="부서선택">부 서</th>
                 <td style="padding-left: 28px;">
                   <div class="d-flex align-items-center" >
-                  <select name="departmentNo" id="departmentNo" class="form-select-1 form-select-md" required>
-                    <option value="" th:unless="${departmentNo}">부서를 선택하세요.</option>
-                    <option value="0" th:selected="${departmentNo == 0}">임원부</option>
-                    <option value="1" th:selected="${departmentNo == 1}">인사관리부</option>
-                    <option value="2" th:selected="${departmentNo == 2}">경영관리부</option>
-                    <option value="3" th:selected="${departmentNo == 3}">운영관리부</option>
-                    <option value="4" th:selected="${departmentNo == 4}">고객관리부</option>
-                    <option value="5" th:selected="${departmentNo == 5}">점주</option>
-                    </select>
-                    <!-- <select name="departmentNo" id="departmentNo" class="form-select-1 form-select-md" th:value="departmentNo" required>
-                      <option>부서를 선택하세요.</option>
+                    <select name="departmentNo" id="departmentNo" class="form-select-1 form-select-md"  required>
+                      <option value="">부서를 선택하세요.</option>
                       <option value="0">임원부</option>
                       <option value="1">인사관리부</option>
                       <option value="2">경영관리부</option>

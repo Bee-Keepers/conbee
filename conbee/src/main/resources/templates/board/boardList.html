@@ -90,8 +90,8 @@
                 <a style="color: black; text-decoration: none; width: 100%; display: block;"  th:href="@{/board/boardDetail/{boardCodeNo}/{boardNo}(boardCodeNo=${boardCodeNo}, boardNo=*{boardNo}) }"  th:text="|*{boardTitle} [*{commentCount}]|" > </a>
                 
               </td>
-              <td th:if="${boardCodeNo != 3}" th:text="*{memberName}">김민규</td>
-              <td th:if="${boardCodeNo == 3}">익명</td>
+              <td th:unless="${boardCodeNo == 3 or boardCodeNo == 6}" th:text="*{memberName}">김민규</td>
+              <td th:if="${boardCodeNo == 3 or boardCodeNo == 6}">익명</td>
               <td  th:text="*{boardWriteDate}"> 작성일</td>
               <!-- <td th:text="*{CommentNo}">댓글수</td> -->
               <td th:text="*{boardHits}">12314</td>
