@@ -33,7 +33,7 @@ const checkObj = {
 const searchMemberId = document.getElementById("searchMemberId");
 const memberNo = document.getElementById("memberNo");
 
-// 회원 검색 버튼 클릭 시
+
 const searchBtn = document.getElementById("searchBtn");
 searchBtn.addEventListener("click", ()=>{
 
