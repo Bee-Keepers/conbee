@@ -3,7 +3,12 @@ package com.keepers.conbee.approval.model.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -498,16 +503,6 @@ public class ApprovalServiceImpl implements ApprovalService{
 	@Override
 	public Map<String, Object> selectCompleteApproval(int memberNo, int cp) {
 		
-		// 1) 결재승인권한자가 조회하는 완료문서 리스트
-//		List<Approval> completeApprovalListByApprover = mapper.selectCompleteApprovalApprover(memberNo);
-		
-		// 2) 기안자가 조회하는 결재완료문서 리스트
-//		List<Approval> completeApprovalListByDrafter = mapper.selectCompleteApprovalDrafter(memberNo);
-		
-		// 리스트 합치기
-//		completeApprovalListByApprover.addAll(completeApprovalListByDrafter);
-
-
 		// 1) 결재승인권한자가 조회하는 완료문서 리스트 갯수 조회
 		int listCount = mapper.getCompleteApprovalApproverListCount(memberNo);
 		
@@ -542,6 +537,14 @@ public class ApprovalServiceImpl implements ApprovalService{
 		Set<Approval> set = new HashSet<>(completeApprovalListByApprover);
 		List<Approval> completeApprovalList = new ArrayList<Approval>(set);
 		
+		// 리스트 날짜 내림차순으로 정렬하기
+		Collections.sort(completeApprovalList, new Comparator<Approval>() {
+			@Override
+			public int compare(Approval a1, Approval a2) {
+				return a2.getApprovalDate().compareTo(a1.getApprovalDate());
+			}
+		});
+		
 		// Map에 담아 반환
 		Map<String, Object> map = new HashMap<>();
 		map.put("pagination", pagination);
@@ -557,18 +560,6 @@ public class ApprovalServiceImpl implements ApprovalService{
 	 */
 	@Override
 	public Map<String, Object> selectReturnApprovalList(int memberNo, int cp) {
-		
-		// 1) 자신이 반려한 문서 리스트 조회
-		// List<Approval> returnApprovalListByApprover = mapper.selectReturnApprovalApprover(memberNo);
-		
-		// 2) 기안자가 자신이 기안한 문서가 반려된 경우 리스트 조회
-		// List<Approval> returnApprovalListByDrafter = mapper.selectReturnApprovalDrafter(memberNo);
-
-		// 리스트 합치기
-		// returnApprovalListByApprover.addAll(returnApprovalListByDrafter);
-		
-		// return returnApprovalListByApprover;
-		
 		
 		// 1) 자신이 반려한 문서 리스트 갯수 조회
 		int listCount = mapper.getReturnApprovalApproverListCount(memberNo);
@@ -600,6 +591,14 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// 중복 제거하기
 		Set<Approval> set = new HashSet<>(returnApprovalListByApprover);
 		List<Approval> returnApprovalList = new ArrayList<Approval>(set);
+		
+		// 리스트 날짜 내림차순으로 정렬하기
+		Collections.sort(returnApprovalList, new Comparator<Approval>() {
+			@Override
+			public int compare(Approval a1, Approval a2) {
+				return a2.getApprovalDate().compareTo(a1.getApprovalDate());
+			}
+		});
 		
 		// Map에 담아 반환
 		Map<String, Object> map = new HashMap<>();
@@ -834,4 +833,5 @@ public class ApprovalServiceImpl implements ApprovalService{
 	
 
 }
+
 
