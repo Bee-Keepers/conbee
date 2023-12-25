@@ -223,10 +223,10 @@ deleteBtn.addEventListener("click", ()=>{
         let temp = 0;
         for(let price of prices){
             if(price.innerText != ""){
-                temp += parseInt(price.innerText);
+                temp += parseInt(price.innerText.replace(",",""));
             }
         }
-        totalPrice.innerText = temp;
+        totalPrice.innerText = temp.toLocaleString("ko-KR");
     }
 });
 
