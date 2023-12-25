@@ -100,7 +100,7 @@ public class AdminStoreServiceImpl implements AdminStoreService{
 		int listCount = mapper.searchStoreListCount(paramMap);
 		
 		/* cp, listCount를 이용해 Pagination 객체 생성*/
-		Pagination pagination = new Pagination(cp, listCount);
+		PaginationAdmin pagination = new PaginationAdmin(cp, listCount);
 		
 		// RowBounds 객체 생성
 		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
@@ -132,7 +132,7 @@ public class AdminStoreServiceImpl implements AdminStoreService{
 		int listCount = mapper.searchStoreListCount(paramMap);
 		
 		/* cp, listCount를 이용해 Pagination 객체 생성*/
-		Pagination pagination = new Pagination(cp, listCount);
+		PaginationAdmin pagination = new PaginationAdmin(cp, listCount);
 		
 		// RowBounds 객체 생성
 		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
@@ -161,7 +161,7 @@ public class AdminStoreServiceImpl implements AdminStoreService{
 		
 		int listCount = mapper.searchStoreListCount(paramMap);
 		
-		Pagination pagination = new Pagination(cp, listCount);
+		PaginationAdmin pagination = new PaginationAdmin(cp, listCount);
 		
 		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
 		int limit = pagination.getLimit();
@@ -188,7 +188,7 @@ public class AdminStoreServiceImpl implements AdminStoreService{
 		
 		int listCount = mapper.searchStoreListCount(paramMap);
 		
-		Pagination pagination = new Pagination(cp, listCount);
+		PaginationAdmin pagination = new PaginationAdmin(cp, listCount);
 		
 		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
 		int limit = pagination.getLimit();

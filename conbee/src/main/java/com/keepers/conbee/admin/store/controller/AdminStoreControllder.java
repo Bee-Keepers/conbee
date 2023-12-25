@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("admin/storeManage")
 @RequiredArgsConstructor
-@SessionAttributes({"readStore"})
+//@SessionAttributes({"readStore"})
 public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트롤러
 	
 	private final AdminStoreService service;
@@ -157,7 +157,6 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	@GetMapping("storeUpdate")
 	public String storeUpdate() {
 		
-		
 		return "admin/storeManage/storeUpdate";
 	}
 	
@@ -170,8 +169,8 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	 * @return
 	 */
 	@PostMapping("storeUpdate/info")
-	public String storeUpdate(Store updateStore, RedirectAttributes ra,
-			@SessionAttribute("readStore") Store readStore) {
+	public String storeUpdate(Store updateStore, RedirectAttributes ra
+			/*, @SessionAttribute("readStore") Store readStore*/) {
 		
 		int result = service.storeUpdate(updateStore);
 		
@@ -187,11 +186,11 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 		
 		else if(result > 0) { // 점포수정 완료된 경우
 			message = "점포 정보가 수정되었습니다.";
-			readStore.setStoreName(updateStore.getStoreName());
-			readStore.setMemberName(updateStore.getMemberName());
-			readStore.setMemberNo(updateStore.getMemberNo());
-			readStore.setStoreTel(updateStore.getStoreTel());
-			readStore.setStoreAddress(updateStore.getStoreAddress());
+//			readStore.setStoreName(updateStore.getStoreName());
+//			readStore.setMemberName(updateStore.getMemberName());
+//			readStore.setMemberNo(updateStore.getMemberNo());
+//			readStore.setStoreTel(updateStore.getStoreTel());
+//			readStore.setStoreAddress(updateStore.getStoreAddress());
 			
 		} else {
 			message = "점포 정보 수정이 실패하였습니다.";
