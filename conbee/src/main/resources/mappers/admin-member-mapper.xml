@@ -3,6 +3,16 @@
 <!-- 연결할 인터페이스의 패키지명.인터페이스명을 작성 -->
 <mapper namespace="com.keepers.conbee.admin.member.model.mapper.AdminMemberMapper">
 	
+	<resultMap id="rm_updateMemberInfo" type="Member">
+		<id property="memberNo" column="MEMBER_NO"/>
+		<collection property="storeNoList" select="selectStoreNos" column="MEMBER_NO" javaType="java.util.ArrayList" ofType="Integer" />
+	</resultMap>
+	
+	<!-- 입력한 멤버 아이디 지점 번호들 가져오기 -->
+	<select id="selectStoreNos" resultType="_int">
+		SELECT STORE_NO FROM STORE WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
 	<!-- 아이디 유효성 검사 -->
 	<select id="checkMemberId" resultType="_int">
 		SELECT COUNT(*) FROM MEMBER
@@ -159,12 +169,11 @@
 	</select>
 	
 	<!-- 회원 수정 시 검색 회원 조회 -->
-	<select id="updateMemberInfo" resultType="Member">
+	<select id="updateMemberInfo" resultMap="rm_updateMemberInfo">
 		SELECT MEMBER_NO, MEMBER_TEL, MEMBER_ADDRESS, MEMBER_ID, MEMBER_EMAIL,
 		MEMBER_ENROLL_DATE, DEPARTMENT_NO, TEAM_NO, GRADE_NO, MEMBER_NAME
-		, MEMBER_DEL_FL, MEMBER_DEL_APPROVAL, STORE_NO
+		, MEMBER_DEL_FL, MEMBER_DEL_APPROVAL
 		FROM MEMBER 
-		LEFT JOIN "STORE" USING (MEMBER_NO)
 		WHERE MEMBER_ID  = #{memberId}
 	</select>
 	
