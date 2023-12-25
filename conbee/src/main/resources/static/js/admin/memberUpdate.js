@@ -64,7 +64,7 @@ searchBtn.addEventListener("click", ()=>{
       gradeNoCategory.append(option);
       option.selected = true;
     } else{
-        setTimeout(function(){teamNoCategory.value = member.teamNo}, 1000);
+        setTimeout(function(){teamNoCategory.value = member.teamNo}, 50);
           
       
           // 직급 셀렉 초기화
@@ -110,7 +110,7 @@ searchBtn.addEventListener("click", ()=>{
           }
       
           gradeNoCategory.value = member.gradeNo;
-
+          
     }
 
     

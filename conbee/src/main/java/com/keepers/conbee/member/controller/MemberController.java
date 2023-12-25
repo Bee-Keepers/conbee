@@ -164,9 +164,12 @@ public class MemberController {
 			model.addAttribute("memberId", memberId);
 			
 			return "member/findId-result";
+		} if(result==0) {
+			
+			ra.addFlashAttribute("message", "입력하신 값이 올바르지 않습니다.");
 		}
 		
-		ra.addAttribute("message", "입력하신 값이 올바르지 않습니다.");
+		ra.addFlashAttribute("message", "입력하신 값이 올바르지 않습니다.");
 		
 		return "redirect:/";
 	}
