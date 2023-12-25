@@ -331,7 +331,6 @@ document.getElementById("submitBtn").addEventListener("click", e => {
   /*  checkObj의 모든 값을 검사해서
       하나라도 false이면 가입 시도 X */
 
-
   // 객체 전용 향상된 for문 ( for ... in )
 
   if(gradeNoCategory.value == 6){
@@ -341,6 +340,7 @@ document.getElementById("submitBtn").addEventListener("click", e => {
       return;
     }
   } else{
+    checkObj.storeNo = true;
     if(storeNo.disabled == false){
       alert("점포번호 입력은 점주만 해야합니다");
       disabledFn();
