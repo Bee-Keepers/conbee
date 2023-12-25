@@ -26,7 +26,7 @@ public interface AdminMemberService {
 	 * @param storeNo
 	 * @return
 	 */
-	int checkStoreNo(Store storeNo);
+	int checkStoreNo(int storeNo);
 
 	/** 회원 주소 유효성 검사
 	 * @param memberAddress

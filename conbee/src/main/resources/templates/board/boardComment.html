@@ -16,15 +16,15 @@
                 <!-- 삭제되지 않은 댓글인 경우 -->
                 <th:block th:unless="*{boardCommentDelFl == 'Y'}" >
                     <p class="comment-writer">
-                        <th:block th:unless="${boardCodeNo == 3}">
+                        <th:block th:unless="${boardCodeNo == 3 or boardCodeNo == 6}">
                             <!-- 프로필 이미지 없을 경우 -->
                             <img th:unless="*{memberProfile}" th:src="#{user.default.image}">
                             <!-- 프로필 이미지 있을 경우 -->
                             <img style="border-radius: 25px;" th:if="*{memberProfile}" th:src="*{memberProfile}">
                         </th:block>
-                        <img th:if="${boardCodeNo == 3}" th:src="#{user.default.image}">
-                        <span th:if="${boardCodeNo != 3}" th:text="*{memberName}">작성자</span>
-                        <span th:if="${boardCodeNo == 3}" >익명</span>
+                        <img th:if="${boardCodeNo == 3 or boardCodeNo == 6}" th:src="#{user.default.image}">
+                        <span th:unless="${boardCodeNo == 3 or boardCodeNo == 6}" th:text="*{memberName}">작성자</span>
+                        <span th:if="${boardCodeNo == 3 or boardCodeNo == 6}" >익명</span>
                         <span class="comment-date" th:text="*{boardCommentDate}">작성일</span>
                     </p>
 
