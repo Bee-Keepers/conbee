@@ -30,7 +30,7 @@ public interface AdminMemberMapper {
 	 * @param storeNo
 	 * @return
 	 */
-	int checkStoreNo(Store storeNo);
+	List<Integer> checkStoreNo(int storeNo);
 
 	/** 회원 주소 유효성 검사
 	 * @param memberAddress

@@ -124,9 +124,8 @@ public class AdminMemberController {
 	// 점포번호 유효성 검사
 	@GetMapping("checkStoreNo")
 	@ResponseBody
-	public int checkStoreNo(Store storeNo) {
-		int result = service.checkStoreNo(storeNo);
-		return result;
+	public int checkStoreNo(int storeNo) {
+		return service.checkStoreNo(storeNo);
 	}
 	
 	// 회원 주소 유효성 검사

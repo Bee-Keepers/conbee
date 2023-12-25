@@ -5,25 +5,52 @@
     </a>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto" id="sidebarHover">
-        <li class="nav-item">
-
-
-
-        <!-- 경로 수정 예정 -->
-        <a href="/board/boardList/1" class="nav-link" aria-current="page">
-            공지사항
-        </a>
-        </li>
-        <li>
-        <a href="/board/boardList/2" class="nav-link link-body-emphasis">
-            자유게시판
-        </a>
-        </li>
-        <li>
-        <a href="/board/boardList/3" class="nav-link link-body-emphasis">
-            익명게시판
-        </a>
-        </li>
+        <th:block th:if="${session.loginMember.gradeNo != 6}">
+            <li class="nav-item">
+            <!-- 경로 수정 예정 -->
+                <a href="/board/boardList/1" class="nav-link" aria-current="page">
+                    공지사항
+                </a>
+            
+            </li>
+    
+    
+            <li>
+            <a href="/board/boardList/2" class="nav-link link-body-emphasis">
+                자유게시판
+            </a>
+            </li>
+    
+    
+            <li>
+            <a href="/board/boardList/3" class="nav-link link-body-emphasis">
+                익명게시판
+            </a>
+        </th:block>
+        <th:block th:if="${session.loginMember.gradeNo == 6}">
+            </li>
+            <li class="nav-item">
+            <!-- 경로 수정 예정 -->
+                <a href="/board/boardList/4" class="nav-link" aria-current="page">
+                    공지사항
+                </a>
+            
+            </li>
+    
+    
+            <li>
+            <a href="/board/boardList/5" class="nav-link link-body-emphasis">
+                자유게시판
+            </a>
+            </li>
+    
+    
+            <li>
+            <a href="/board/boardList/6" class="nav-link link-body-emphasis">
+                익명게시판
+            </a>
+            </li>
+        </th:block>
         
     </ul>
 </div>
