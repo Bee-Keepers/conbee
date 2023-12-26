@@ -25,21 +25,25 @@ function createElement(tag, obj, classList){
 
 
 
+// ---------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 const lcategoryName = document.getElementById("lcategoryName");
 const scategoryName = document.getElementById("scategoryName");
 const serachName = document.getElementById("serachName");
 const goodsNameList = document.getElementById("goodsNameList");
-const goodsPrice = document.getElementById("goodsPrice");
+
 // 등록 시 상품명 입력하면 대분류, 소분류 자동입력
 serachName.addEventListener("input", e=>{
   const inputValue = e.target.value.trim();
-
+  
   if(inputValue.length == 0){
     goodsNameList.innerHTML = "";
     return;
   }
 
-  fetch("/stockManage/goodsNameSelect?intputGoods=" + inputValue)
+  fetch("/stockManage/goodsNameSelect?intputGoods=" + inputValue + "&storeValue=" + storeNameClick.value)
     .then(resp => resp.json())
     .then(list => {
       goodsNameList.innerHTML = ""; // 기존 자동완성 목록 초기화
@@ -52,6 +56,7 @@ serachName.addEventListener("input", e=>{
 
         // 자동완성 목록에서 항목 선택 처리
         listItem.addEventListener("click", e => {
+
           const selectedValue = e.target.innerText;
           serachName.value = selectedValue;
           goodsNameList.innerHTML = ""; // 자동완성 목록 초기화 또는 숨김 처리
@@ -59,23 +64,16 @@ serachName.addEventListener("input", e=>{
           scategoryName.value = item.scategoryName;
           goodsPrice.value = item.goodsPrice;
 
-          const stockInsertBtn = document.getElementById("stockInsertBtn");
-          for(let item of goodsDetailBtn) {
-            if (item.innerText === selectedValue){
-              alert("중복된 상품이름입니다.");
-              stockInsertBtn.disabled = true;
-              document.getElementById("stockInertForm").reset();
-              break;
-            }
-            stockInsertBtn.disabled = false;
-          }
-
         });
+
         goodsNameList.appendChild(listItem);
       });
     })
     .catch(e => console.log(e));
 });
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 const deleteBtn = document.getElementById("deleteBtn");
 

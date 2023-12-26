@@ -1,6 +1,8 @@
 package com.keepers.conbee.stock.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
@@ -93,8 +95,14 @@ public class StockManageServiceImpl implements StockManageService{
 	
 	// 재고 등록 이름 검색 시 물품 조회
 	@Override
-	public List<Stock> goodsNameSelect(String intputGoods) {
-		return mapper.goodsNameSelect(intputGoods);
+	public List<Stock> goodsNameSelect(String intputGoods, int storeValue) {
+			
+		Map<String, Object> map = new HashMap<>();
+		map.put("intputGoods", intputGoods);
+		map.put("storeValue", storeValue);
+			
+		return mapper.goodsNameSelect(map);
+			
 	}
 	
 	// 가게이름
