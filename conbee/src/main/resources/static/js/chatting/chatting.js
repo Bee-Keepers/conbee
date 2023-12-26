@@ -357,12 +357,16 @@ function selectChattingFn(flag) {
 				const b = document.createElement("b");
 
 				if (msg.memberName == null) {
-					img.setAttribute("src", selecttargetImg);
 					b.innerText = selectTargetName;
 
 				} else {
-					img.setAttribute("src", msg.memberProfile);
 					b.innerText = msg.memberName;
+				}
+
+				if (msg.memberProfile == null) {
+					img.setAttribute("src", userDefaultImage);
+				} else {
+					img.setAttribute("src", msg.memberProfile);
 				}
 
 
@@ -384,7 +388,6 @@ function selectChattingFn(flag) {
 					div.append(b, document.createElement("br"), p, span);
 					li.append(img, div);
 				}
-				console.log(chatMessageList);
 				ul.append(li);
 				display.scrollTop = display.scrollHeight;
 			}

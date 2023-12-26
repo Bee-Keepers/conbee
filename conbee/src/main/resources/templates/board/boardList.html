@@ -96,16 +96,19 @@
               <!-- <td th:text="*{CommentNo}">댓글수</td> -->
               <td th:text="*{boardHits}">12314</td>
             </tr>
-            </th:block>
-          </tbody>
-
-
+          </th:block>
+        </tbody>
         </table>
       </div>
-      <div class="sticky-bottom fixed-bottom bg-white pagination-area" style="width: 900px;  margin-left: 480px;" th:if="${#lists.size(boardList) > 0}">
+      <div class="w-60 d-flex pe-4 sticky-bottom bg-white mb-5" style="justify-content: flex-end;  margin-right: 57px;">
+        <a th:href="@{/board/boardWrite/{boardCodeNo}/insert(boardCodeNo=${boardCodeNo})}" th:if="${session.loginMember.departmentNo ==3 and boardCodeNo == 1}" class="btn btn-warning mx-3" style="width: 80px;">작성</a>
+        <a th:href="@{/board/boardWrite/{boardCodeNo}/insert(boardCodeNo=${boardCodeNo})}" th:if="${session.loginMember.departmentNo ==3 and boardCodeNo == 4}" class="btn btn-warning mx-3" style="width: 80px;">작성</a>
+        <a th:href="@{/board/boardWrite/{boardCodeNo}/insert(boardCodeNo=${boardCodeNo})}" th:unless="${boardCodeNo == 1 or boardCodeNo == 4}" class="btn btn-warning mx-3" style="width: 80px;">작성</a>
+
+      </div>
+      <div class="sticky-bottom fixed-bottom bg-white pagination-area"  th:if="${#lists.size(boardList) > 0}">
         
         <nav aria-label="Page navigation example" class="d-flex" style="color: #303841; justify-content: center;" >
-
 
           <!-- ======== 페이지네이션 : 일반 조회 =========== -->
           <ul class="pagination" th:if="${param.query == null}">
@@ -202,9 +205,7 @@
 
           </ul>
            -->
-           <div class="w-60 d-flex pe-4 sticky-bottom bg-white mb-3" style="justify-content: flex-end;  margin-left: 300px;">
-             <a th:href="@{/board/boardWrite/{boardCodeNo}/insert(boardCodeNo=${boardCodeNo})}" class="btn btn-warning mx-3" style="width: 80px;">작성</a>
-           </div>
+           
         </nav>
       </div>  
       

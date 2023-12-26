@@ -116,7 +116,7 @@ public class AdminMemberController {
 	// 이메일 유효성 검사
 	@GetMapping("checkMemberEmail")
 	@ResponseBody
-	public int checkMemberEmail(String memberEmail, int memberNo) {
+	public int checkMemberEmail(String memberEmail,@RequestParam(value = "memberNo", required = false, defaultValue = "-1") int memberNo) {
 		return service.checkMemberEmail(memberEmail, memberNo);
 	}
 	
