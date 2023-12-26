@@ -55,7 +55,7 @@ document.getElementById('deleteBtn').addEventListener('click', e =>{
     e.preventDefault();
     return;            
   }
-  if(confirm("정말 삭제??")){
+  if(confirm("삭제하시겠습니까??")){
   
     location.href="/note/deleteNoteSent?messageNoList=" + messageNoList;
 
