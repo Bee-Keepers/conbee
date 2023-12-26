@@ -127,10 +127,10 @@ if (imageInput != null) {
 /* 정보 등록 유효성 검사 */
 
 const checkObj = {
-  "memberEmail": false,
-  "memberTel": false,
-  "inputAddress": false,
-  "authKey" : false
+  "memberEmail": true,
+  "memberTel": true,
+  "inputAddress": true,
+  "authKey" : true
 };
 
 
@@ -185,6 +185,8 @@ const memberEmail = document.querySelector("#memberEmail");
 
 // 2) 이메일이 입력(input) 될 때 마다 유효성 검사 실행
 memberEmail.addEventListener("input", () => {
+  checkObj.memberEmail = false;
+  checkObj.authKey = false;
 
   // 3) 입력된 이메일이 없을 경우
   if (memberEmail.value.trim().length == 0) {
@@ -470,7 +472,7 @@ inputAddress.addEventListener("input", () => {
 
 
 /* 회원 정보 수정 제출 시 */
-document.getElementById("profileFrm").addEventListener("submit", e => {
+document.getElementById("myPageFrm").addEventListener("submit", e => {
 
   /* for...of(객체용 향상된 for문) */
   for(let key in checkObj){
