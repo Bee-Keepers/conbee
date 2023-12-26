@@ -680,6 +680,13 @@ submitStore.addEventListener("click", async (e) =>{
     alert("출/폐점 여부를 체크해주세요");
     return;
   }
+  if(openStore.checked){
+    if(storeNo.value.trim().length == 0){ 
+      alert("매장번호를 입력해주세요");
+      storeNo.focus();
+      return;
+    }
+  }
   if(closeStore.checked){
     if(storeNo.value.trim().length == 0){ // 폐점일때로 제한
       alert("매장번호를 입력해주세요");

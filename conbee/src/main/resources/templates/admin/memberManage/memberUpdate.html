@@ -22,7 +22,7 @@
 
 
 
-      
+
 
 
 
@@ -50,8 +50,8 @@
 
          
           
-          <form class="w-100">
-            <table class="table border-top-none" style="width: 95%; text-align: center; vertical-align: middle;">
+          <form class="w-100" action="/admin/memberManage/memberUpdate/update" method="post" id="updateForm">
+            <table class="table border-top-none" style="width: 95%;  text-align: center; vertical-align: middle; margin-left: 36px;">
               
               <colgroup>
                 <col width=13%>
@@ -67,16 +67,17 @@
                   <th>아이디</th>
                   <td>
                       <div class="d-flex align-items-center" >
-                        <input type="text" class="form-control" name="memberId" id="searchMemberId" style="width:250px;" placeholder="" maxlength="12" > 
+                        <input type="text" class="form-control" name="memberId" id="searchMemberId" style="width:250px;" placeholder="먼저 아이디를 검색해주세요." maxlength="12" > 
                         <button type="button" class="btn btn-warning ms-2"style="width: 90px; height: 40px;" id="searchBtn" >회원 검색</button>
                       </div>
                     <article id="messageMemberId"></article>
                   </td>
                   <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
-  
+                  
                   <th>이 름</th>
                   <td>
                     <input type="text" class="form-control" name="memberName" id="memberName" disabled>
+                    <article id="messageMemberName"></article>
                   </td>
                 </tr>
   
@@ -100,7 +101,8 @@
                 <tr style="height: 100px;">
                   <th>이메일</th>
                   <td>
-                    <input type="text" class="form-control" name="memberEmail" id="memberEmail" disabled>
+                    <input type="text" class="form-control" name="memberEmail" id="memberEmail"  disabled>
+                    <article id="messageMemberEmail"></article>
                   </td>
   
                   <td style="color: rgb(190, 190, 190); font-size: 30px;">|</td>
@@ -108,8 +110,9 @@
                   <th>점포 번호</th>
                   <td>
                     <div class="d-flex align-items-center" >
-                      <input type="number" th:value="*{storeNo}"  class="form-control" name="storeNo" id="storeNo" max="999" disabled required>
+                      <input type="text" th:value="*{storeNo}"  class="form-control" id="storeNo" disabled>
                       <!-- <button type="button" class="ms-2 btn btn-warning" id="storeNoBtn">점포번호 수정 시 클릭</button> -->
+                      <article id="messageStoreNo"></article>
                     </div>
                   </td>
     
@@ -156,7 +159,7 @@
               </tbody>
             </table>
   
-            <table class="table border-top-none" style="width: 95%; text-align: center; vertical-align: middle; margin-bottom: 0px; margin-top: 3px;">
+            <table class="table border-top-none" style="width: 95%; text-align: center; vertical-align: middle; margin-left: 36px; margin-bottom: 0px; margin-top: 3px;">
               
               <colgroup>
                 <col width=7%>
@@ -238,6 +241,7 @@
                 
               </tbody>
             </table>
+            <input type="hidden" id="memberNo" name="memberNo">
           </form>
           
           
@@ -247,7 +251,7 @@
           <div class="w-100 align-items-start sticky-bottom bg-white mt-2">
             <div class="d-flex justify-content-end" style="width: 100%;">
               <a href="/admin/memberManage/memberList" class="btn btn-secondary" id="cancelBtn" style="width: 80px;">취소</a>
-              <button type="submit" id="submitBtn" class="btn btn-warning ms-3" style="width: 80px; margin-right: 35px;">저장</button>
+              <button type="submit" id="submitBtn" class="btn btn-warning ms-3" style="width: 80px; margin-right: 35px;">수정</button>
             </div>
           </div>
   

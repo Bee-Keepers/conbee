@@ -115,6 +115,7 @@ public interface StockService {
 	 * @return
 	 */
 	Stock goodsDetail(int goodsNo);
+	
 
 	/** 상품 상세 조회
 	 * @param goodsNo
@@ -172,6 +173,7 @@ public interface StockService {
 	
 	
 	/** 상품 전체 조회
+	 * @param stock 
 	 * @param cp
 	 * @return
 	 */
@@ -183,5 +185,11 @@ public interface StockService {
 	 * @return
 	 */
 	List<Stock> goodsSearch(Stock stock, int cp);
+
+	/** 점주 상품 상세 조회
+	 * @param goodsNo
+	 * @return
+	 */
+	Stock goodsDetails(int goodsNo);
 
 }

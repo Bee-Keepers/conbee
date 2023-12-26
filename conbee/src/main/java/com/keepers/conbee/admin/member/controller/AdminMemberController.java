@@ -116,9 +116,8 @@ public class AdminMemberController {
 	// 이메일 유효성 검사
 	@GetMapping("checkMemberEmail")
 	@ResponseBody
-	public int checkMemberEmail(String memberEmail) {
-		int result = service.checkMemberEmail(memberEmail);
-		return result;
+	public int checkMemberEmail(String memberEmail, int memberNo) {
+		return service.checkMemberEmail(memberEmail, memberNo);
 	}
 	
 	// 점포번호 유효성 검사
@@ -180,36 +179,18 @@ public class AdminMemberController {
 	 * @return
 	 */
 	@PostMapping("memberUpdate/update")
-	public String memberUpdateResult(Member updateMember, RedirectAttributes ra,
-			@SessionAttribute("memberInfo") Member memberInfo) {
+	public String memberUpdateResult(Member updateMember, RedirectAttributes ra) {
 		
 		int result = service.memberUpdateResult(updateMember);
 		
 		String message = null;
-		
-		if(result == 2) { // 기존 회원번호가 없는 경우
-			message = "입력하신 정보와 일치하는 회원이 없습니다.";
-		}
-		
-		else if(result == 1) { // 회원 이름과 회원번호가 일치하지 않는경우 
-			message = "회원 이름과 회원번호가 일치하지 않습니다.";
-		}
-		
-		else if(result > 0) { // 회원 수정 완료 (+ 점포번호 포함)
-			message = "회원 정보가 수정되었습니다.";
-			memberInfo.setDepartmentNo(updateMember.getDepartmentNo());
-			memberInfo.setGradeNo(updateMember.getGradeNo());
-			memberInfo.setTeamNo(updateMember.getTeamNo());
-			memberInfo.setMemberName(updateMember.getMemberName());
-			memberInfo.setMemberEmail(updateMember.getMemberEmail());
-			memberInfo.setStoreNo(updateMember.getStoreNo());
-			
+		if(result > 0) {
+			message = "수정 성공";
 		} else {
-			message = "회원 정보 수정이 실패하였습니다.";
+			message = "수정 실패";
 		}
 		
 		ra.addFlashAttribute("message", message);
-		
 		return "redirect:/admin/memberManage/memberUpdate";
 	}
 	
@@ -286,8 +267,13 @@ public class AdminMemberController {
 	}
 
 
-
-
+//	// 점포수정 화면 전환
+//	@GetMapping("storePlus")
+//	public String storePlus() {
+//		return "admin/memberManage/memberStorePlus";
+//	}
+//	
+	
 
 
 

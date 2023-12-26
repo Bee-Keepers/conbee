@@ -25,8 +25,8 @@ public class ApprovalScheduling {
 	 * @author 이예리나
 	 * 
 	 */
-//	@Scheduled(cron = "0 0 0 * * *") // 매일 자정 실행
-	@Scheduled(cron = "0,15,30,45 * * * * *") // 15초마다 실행 테스트
+	@Scheduled(cron = "0 0 0 * * *") // 매일 자정 실행
+//	@Scheduled(cron = "0,15,30,45 * * * * *") // 15초마다 실행 테스트
 	public void approvalDeleteScheduling() {
 		
 		log.info("기안일 180일 초과 기안서 삭제 스케쥴러 동작");
@@ -52,8 +52,8 @@ public class ApprovalScheduling {
 	 * @author 이예리나
 	 * 
 	 */
-//	@Scheduled(cron = "0 0 0 * * *") // 매일 자정 실행
-	@Scheduled(cron = "0,15,30,45 * * * * *") // 15초마다 실행 테스트
+	@Scheduled(cron = "0 0 0 * * *") // 매일 자정 실행
+//	@Scheduled(cron = "0,15,30,45 * * * * *") // 15초마다 실행 테스트
 	public void memberDelScheduling() {
 		
 		log.info("퇴직예정일 지난 탈퇴 승인된 회원 스케쥴러 동작");
