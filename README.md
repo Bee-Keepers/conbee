@@ -10,12 +10,13 @@ conBee는 편의점 본사와 지점운영을 지원하는 통합 솔루션입�
 * 23.11.21일 - 23.12.26일
 
 ### 🧑‍🤝‍🧑 팀 구성
- - 팀장 이예리나 - 전자결재 결재파트, 관리자페이지(점포관리, 신고관리)
- - 팀원 김민규 - 
- - 팀원 박상언 - 
- - 팀원 정유진 - 
- - 팀원 윤성국 - 
- - 팀원 김민석 - 
+ - 팀장 **이예리나** : 전자결재 결재파트, 관리자페이지(점포관리, 신고관리)
+ - 팀원 **윤성국** : 상품 페이지, 재고 페이지
+ - 팀원 **김민석** : 발주, POS 결제, 매출, 입출고 내역, 발주 내역 검색 및 조회, 입고가 조정
+ - 팀원 **정유진** : 기안문 작성, 임시저장함, 결재요청함, 회수문서함
+ - 팀원 **김민규** : 회원 관리, 게시판 관리, 채팅
+ - 팀원 **박상언** : 마이페이지, 쪽지, 캘린더, 주소록
+
 
 ### ⚙️ 개발 환경
 - **Framework** : Springboot4, Mybatis, Bootstrap5
@@ -55,6 +56,6 @@ conBee는 편의점 본사와 지점운영을 지원하는 통합 솔루션입�
 
 ### 📌 상세 주소
 * [**요구사항 정의서**](https://docs.google.com/spreadsheets/d/1hohRRCWC4EnTQadmIPCw3EvsyTfoN2p_GTsh0FoiENs/edit#gid=0)
-* [**화면 구성**(Figma)](https://www.figma.com/file/joUbPDUWFfBpnbVl4HHdCn/beeKeepers?type=design&node-id=0-1&mode=design&t=MDE8zFqEEjUgwocW-0)
+* [**화면 구성**(Figma)](https://www.figma.com/file/SWpBQfmViq15xE256W5ts4/beeKeepers-(all)?type=design&node-id=219-8&mode=design&t=T5NrU3yY5bEGYP3s-0)
 * [**일정 관리**(Notion)](https://www.notion.so/87ffc638435c4aedba504d94af9eb2f5?v=59d56e640ca049a68b60f72bdb98ea34)
 * [**DB 설계**(ERD-Cloud)](https://www.erdcloud.com/d/wyJKMZTYS4pkfzWi7)
