@@ -44,10 +44,10 @@ public interface StockManageMapper {
 	List<Stock> stockList(Stock stock, RowBounds rowBounds);
 
 	/** 재고 등록 이름 검색 시 물품 조회
-	 * @param intputGoods
+	 * @param map
 	 * @return
 	 */
-	List<Stock> goodsNameSelect(String intputGoods);
+	List<Stock> goodsNameSelect(Map<String, Object> map);
 
 	/** 지점 이름
 	 * @param storeNo

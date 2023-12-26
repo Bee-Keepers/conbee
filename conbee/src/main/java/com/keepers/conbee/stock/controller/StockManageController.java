@@ -118,8 +118,6 @@ public class StockManageController {
 		return "stock/stockManage/stockList";
 	}
 	
-	
-	
 	/** 재고 현황 등록
 	 * @param stock
 	 * @param ra
@@ -166,8 +164,8 @@ public class StockManageController {
 	 */
 	@GetMapping("goodsNameSelect")
 	@ResponseBody
-	public List<Stock> goodsNameSelect( String intputGoods ){
-		List<Stock> goodsNameSelect = service.goodsNameSelect(intputGoods);
+	public List<Stock> goodsNameSelect(String intputGoods, int storeValue) {
+		List<Stock> goodsNameSelect = service.goodsNameSelect(intputGoods, storeValue);
 		return goodsNameSelect;
 	}
 	

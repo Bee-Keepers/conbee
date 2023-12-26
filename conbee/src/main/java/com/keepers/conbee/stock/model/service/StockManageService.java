@@ -39,9 +39,10 @@ public interface StockManageService {
 
 	/** 재고 등록 이름 검색 시 물품 조회
 	 * @param intputGoods
+	 * @param storeValue 
 	 * @return
 	 */
-	List<Stock> goodsNameSelect(String intputGoods);
+	List<Stock> goodsNameSelect(String intputGoods, int storeValue);
 
 	/** 가게이름
 	 * @param storeNo

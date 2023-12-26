@@ -91,6 +91,12 @@
 		JOIN SCATEGORY USING(SCATEGORY_NO)
 		WHERE GOODS_NAME LIKE '%${intputGoods}%'
 		AND GOODS_DEL_FL = 'N'
+		AND GOODS_NO NOT IN (SELECT GOODS_NO
+					FROM STOCK
+					JOIN GOODS USING (GOODS_NO)
+					WHERE STORE_NO = ${storeValue}
+					AND GOODS_NAME LIKE '%${intputGoods}%'
+					AND GOODS_DEL_FL = 'N')
 	</select>
 	
 	<select id="storeName" resultType="string">
