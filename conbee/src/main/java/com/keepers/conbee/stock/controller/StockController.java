@@ -333,6 +333,29 @@ public class StockController {
 		List<Stock> stockListSelect = service.stockSearch(stock, cp);
 		return stockListSelect;
 	}
+	
+	/** 상품 현황 무한 스크롤
+	 * @param cp
+	 * @return
+	 */
+	@GetMapping("goodsListAjax")
+	@ResponseBody
+	public List<Stock> goodsListAjax(Stock stock, @RequestParam(value = "cp", required = false, defaultValue = "1") int cp){
+		return service.goodsList(cp);
+	}
+	
+	
+	/** 상품 현황 검색 무한 스크롤
+	 * @param stock
+	 * @param cp
+	 * @return
+	 */
+	@GetMapping("goodsSearchAjax")
+	@ResponseBody
+	public List<Stock> goodsSearchAjax(Stock stock, @RequestParam(value = "cp", required = false, defaultValue = "1") int cp){
+		return service.goodsSearch(stock, cp);
+	}
+	
 
 	/** 본사 재고 수량 체크
 	 * @param orderList

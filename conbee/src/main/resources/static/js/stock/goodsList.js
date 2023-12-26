@@ -99,7 +99,7 @@ let callback = (entries, observer) => {
     cpFn();
    let tempURL;
    if(search == ""){
-      tempURL= pathName + "Ajax" +"?cp=" + cp;
+      tempURL= pathName + "Ajax?cp=" + cp;
    } else {
       tempURL = pathName + "Ajax" + search + "&cp=" + cp;
    }
@@ -125,7 +125,6 @@ let callback = (entries, observer) => {
 
          const td3 = createElement("td",{"data-bs-toggle":"modal", "data-bs-target":"#goodsDetailSelectBtn"},["goodsDetailSelectBtn"]);
          td3.innerText = goods.goodsName;
-         goodsDetailFn(td3);
 
          const td4 = createElement("td",null,[]);
          td4.innerText = goods.goodsStandard;
