@@ -51,6 +51,33 @@ lcategorySelect.addEventListener("change", ()=>{
    }
 });
 
+/* 재고 제품 상세조회 */
+const goodsDetailImage = document.getElementById("goodsDetailImage");
+const goodsDetailBtn = document.querySelectorAll(".goodsDetailBtn");
+const goodsDetailName = document.getElementById("goodsDetailName");
+const goodsDetailStandard = document.getElementById("goodsDetailStandard");
+const goodsDetail = document.getElementById("goodsDetail");
+for(let item of goodsDetailBtn){
+  
+  item.addEventListener("click", () => {
+  
+    const goodsNo = item.previousElementSibling.innerText;
+    fetch("/stock/goodsDetails?goodsNo=" + goodsNo)
+    .then( resp => resp.json() )
+    .then( goods => {
+      if(goods.goodsImagePath == null || goods.goodsImage == null){
+        goodsDetailImage.src = defaultImage;
+      } else {
+        goodsDetailImage.src = goods.goodsImagePath + goods.goodsImage;
+      }
+      goodsDetailName.innerText = goods.goodsName;
+      goodsDetailStandard.innerText = goods.goodsStandard;
+      goodsDetail.innerText = goods.goodsDetail;
+    } )
+    .catch(e=>console.log(e));
+  });
+};
+
 // 무한 스크롤
 const url = new URL(location.href);
 const search = url.search;
