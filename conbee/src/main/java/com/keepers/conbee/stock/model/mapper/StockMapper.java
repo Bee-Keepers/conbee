@@ -209,6 +209,12 @@ public interface StockMapper {
 	 * @return
 	 */
 	List<Stock> goodsSearch(Stock stock, RowBounds rowBounds);
+	
+	/** 점주 상품 상세 조회
+	 * @param goodsNo
+	 * @return
+	 */
+	Stock goodsDetails(int goodsNo);
 
 
 
