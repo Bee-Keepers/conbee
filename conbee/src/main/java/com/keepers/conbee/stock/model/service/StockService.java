@@ -172,6 +172,7 @@ public interface StockService {
 	
 	
 	/** 상품 전체 조회
+	 * @param stock 
 	 * @param cp
 	 * @return
 	 */
