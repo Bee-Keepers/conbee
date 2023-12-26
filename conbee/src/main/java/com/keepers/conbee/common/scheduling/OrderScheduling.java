@@ -26,13 +26,13 @@ public class OrderScheduling {
 	
 	// 자정마다 동작
 //	@Scheduled(cron = "0 0 0 * * *")
-	@Scheduled(cron = "0 0 * * * *")
+	@Scheduled(cron = "0 0,5,10,15,20,25,30,35,40,45,50,55 * * * *")
 	public void orderScheduling() {
 		log.info("발주 마감 스케쥴러 동작");
 		service.orderScheduling();
 		
 	}
-	@Scheduled(cron = "0 0 9 * * *")
+	@Scheduled(cron = "0 0,5,10,15,20,25,30,35,40,45,50,55 * * * *")
 	public void orderScheduling2() {
 		log.info("본사 발주 승인 스케쥴러 동작");
 		

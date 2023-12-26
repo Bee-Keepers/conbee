@@ -231,7 +231,7 @@ for(let option of options){
 orderInputStoreNo.value = storeSelect.value;
 // 발주 신청 폼 제출
 submitBtn.addEventListener("click", ()=>{
-  if(tableTbody.children[0] == null){
+  if(tableTbody.children[0].children[0].innerText == "오늘의 발주가 없습니다"){
     alert("품목을 입력해주세요");
     return;
   }
