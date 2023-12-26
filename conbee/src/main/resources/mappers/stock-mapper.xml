@@ -258,6 +258,12 @@
 		WHERE GOODS_NO = #{goodsNo}
 	</select>
 	
+	<!--  점주 상품 상세 조회  -->
+	<select id="goodsDetails" resultType="Stock">
+		SELECT GOODS_NAME, GOODS_STANDARD, GOODS_DETAIL, GOODS_IMAGE, GOODS_IMAGE_PATH 
+		FROM GOODS WHERE GOODS_NO = #{goodsNo} 
+	</select>
+	
 	<!-- 상품 상세 조회 -->
 	<select id="goodsDetailSelect" resultType="Stock">
 		SELECT GOODS_NAME, GOODS_STANDARD, GOODS_DETAIL, GOODS_IMAGE, GOODS_IMAGE_PATH, LCATEGORY_NAME, SCATEGORY_NAME, GOODS_PRICE

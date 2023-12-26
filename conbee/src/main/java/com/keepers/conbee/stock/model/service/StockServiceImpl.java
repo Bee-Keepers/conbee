@@ -240,6 +240,12 @@ public class StockServiceImpl implements StockService{
 		return mapper.goodsDetail(goodsNo);
 	}
 	
+	// 점주 상품 상세 조회
+	@Override
+	public Stock goodsDetails(int goodsNo) {
+		return mapper.goodsDetails(goodsNo);
+	}
+	
 	// 상품 상세 조회
 	@Override
 	public Stock goodsDetailSelect(int goodsNo) {

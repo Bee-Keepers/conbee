@@ -280,6 +280,16 @@ public class StockController {
 	public Stock goodsDetail(int goodsNo) {
 		return service.goodsDetail(goodsNo);
 	}
+	
+	/** 점수 상품 상세 조회
+	 * @param goodsNo
+	 * @return
+	 */
+	@GetMapping("goodsDetails")
+	@ResponseBody
+	public Stock goodsDetails(int goodsNo) {
+		return service.goodsDetails(goodsNo);
+	}
 
 	/**
 	 * 재고 현황 검색
