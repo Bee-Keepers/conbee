@@ -24,7 +24,9 @@
 	<select id="checkMemberEmail" resultType="_int">
 		SELECT COUNT(*) FROM MEMBER
 		WHERE MEMBER_EMAIL = #{memberEmail}
+		<if test='memberNo != -1'>
 		AND MEMBER_NO != #{memberNo}
+		</if>
 	</select>
 	
 	<!-- 점포 번호 유효성 검사 -->

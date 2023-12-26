@@ -85,6 +85,7 @@
 		WHERE MEMBER_NO = #{memberNo}
 	 </update>
 	
+	<!-- 임시 비밀번호 발송 -->
 	<select id="tempPw" resultType="string">
 		SELECT AUTH_KEY_SERIAL FROM AUTH_KEY
 		WHERE AUTH_KEY_EMAIL = #{memberEmail}
