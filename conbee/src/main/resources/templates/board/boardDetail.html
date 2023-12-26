@@ -178,7 +178,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form action="/board/boardReport">
+            <form action="/board/boardReport" id="boardReportFrm">
               <div class="modal-body">
                 <ul>
                   <li><label><input type="radio" name="reportContent" value="1">스팸홍보/도배글</label></li>
@@ -216,24 +216,18 @@
   </main>
 
   <script src="/js/bootstrap.bundle.min.js"></script>
+
   <script src="/js/board/boardDetail.js"></script>
   <script src="/js/board/boardComment.js"></script>
 
-  
   <script th:inline="javascript">
     const boardCodeNo = /*[[${boardCodeNo}]]*/ "게시판 코드";
     const boardCodeName = /*[[${boardCodeName}]]*/ "게시판 이름";
     const boardNo = /*[[${boardNo}]]*/ "게시글 번호";
     // session에 세팅된 loginMember 존재 여부 확인 
     const loginCheck = /*[[${session.loginMember != null ? true : false}]]*/ "로그인 여부";
-
-
-
-
-    
-
-  
   </script>
+  
 
   
 </body>

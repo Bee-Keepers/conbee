@@ -4,8 +4,6 @@ const bookMark = document.querySelector("#bookMark");
 // 좋아요 버튼 클릭 시(이벤트 리스너 추가)
 bookMark.addEventListener("click", e => {
   
-
-
   if(!loginCheck) { // 로그인이 되어있지 않은 경우
     alert("로그인 후 이용해주세요")
     return;
@@ -109,5 +107,17 @@ if(deleteBtn != null) {
 
 // --------------------------------------------------------------------------
 
+// 신고버튼 클릭 시, 내용 선택 안한 경우 제출 막기
+const boardReportFrm = document.getElementById("boardReportFrm");
 
+boardReportFrm.addEventListener("submit", (e)=>{
+  const reportContent = boardReportFrm.querySelector('input[type="radio"]:checked');
+  let isChecked = boardReportFrm.checked;
+
+  if(!isChecked){
+    e.preventDefault();
+    alert("신고 사유를 선택해주세요.");
+  }
+})
+  
 

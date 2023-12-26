@@ -100,7 +100,12 @@ function modal(approvalNo, docCategoryNo){
       thDepartment.innerHTML = '부 서';
       const tdDepartment = createElement("td", {}, []);
 
-      tdDepartment.innerHTML = approval[0].departmentName + '(' + approval[0].teamName + ')';
+      // 부장인 경우
+      if(approval[0].teamName != null){
+        tdDepartment.innerHTML = approval[0].departmentName + '(' + approval[0].teamName + ')';
+      } else {
+        tdDepartment.innerHTML = approval[0].departmentName;
+      }
 
       trDepartment.append(thDepartment);
       trDepartment.append(tdDepartment);
@@ -428,7 +433,12 @@ function modal(approvalNo, docCategoryNo){
       thDepartment.innerHTML = '부 서';
       const tdDepartment = createElement("td", {}, []);
 
-      tdDepartment.innerHTML = approval.departmentName + '(' + approval.teamName + ')';
+      // 부장인 경우
+      if(approval.teamName != null){
+        tdDepartment.innerHTML = approval.departmentName + '(' + approval.teamName + ')';
+      } else {
+        tdDepartment.innerHTML = approval.departmentName;
+      }
 
       trDepartment.append(thDepartment);
       trDepartment.append(tdDepartment);
@@ -701,7 +711,12 @@ function modal(approvalNo, docCategoryNo){
       thDepartment.innerHTML = '부 서';
       const tdDepartment = createElement("td", {}, []);
 
-      tdDepartment.innerHTML = approval.departmentName + '(' + approval.teamName + ')';
+      // 부장인 경우
+      if(approval.teamName != null){
+        tdDepartment.innerHTML = approval.departmentName + '(' + approval.teamName + ')';
+      } else {
+        tdDepartment.innerHTML = approval.departmentName;
+      }
 
       trDepartment.append(thDepartment);
       trDepartment.append(tdDepartment);
@@ -963,7 +978,12 @@ function modal(approvalNo, docCategoryNo){
       thDepartment.innerHTML = '부 서';
       const tdDepartment = createElement("td", {}, []);
 
-      tdDepartment.innerHTML = approval.departmentName + '(' + approval.teamName + ')';
+      // 부장인 경우
+      if(approval.teamName != null){
+        tdDepartment.innerHTML = approval.departmentName + '(' + approval.teamName + ')';
+      } else {
+        tdDepartment.innerHTML = approval.departmentName;
+      }
 
       trDepartment.append(thDepartment);
       trDepartment.append(tdDepartment);
@@ -1234,7 +1254,12 @@ function modal(approvalNo, docCategoryNo){
       thDepartment.innerHTML = '부 서';
       const tdDepartment = createElement("td", {}, []);
 
-      tdDepartment.innerHTML = approval.departmentName + '(' + approval.teamName + ')';
+      // 부장인 경우
+      if(approval.teamName != null){
+        tdDepartment.innerHTML = approval.departmentName + '(' + approval.teamName + ')';
+      } else {
+        tdDepartment.innerHTML = approval.departmentName;
+      }
 
       trDepartment.append(thDepartment);
       trDepartment.append(tdDepartment);
@@ -1515,7 +1540,12 @@ function modal(approvalNo, docCategoryNo){
       thDepartment.innerHTML = '부 서';
       const tdDepartment = createElement("td", {}, []);
 
-      tdDepartment.innerHTML = approval.departmentName + '(' + approval.teamName + ')';
+      // 부장인 경우
+      if(approval.teamName != null){
+        tdDepartment.innerHTML = approval.departmentName + '(' + approval.teamName + ')';
+      } else {
+        tdDepartment.innerHTML = approval.departmentName;
+      }
 
       trDepartment.append(thDepartment);
       trDepartment.append(tdDepartment);
