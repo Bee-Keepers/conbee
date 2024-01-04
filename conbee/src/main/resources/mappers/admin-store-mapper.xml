@@ -134,10 +134,6 @@
 	</select>
 	
 	
-	
-	
-	
-	
 	<!--점포 운영상태 변경-->
 	<update id="changeRunFl">
 		UPDATE STORE SET

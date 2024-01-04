@@ -192,8 +192,8 @@ public class ApprovalController { // 전자결재 컨트롤러
 	// ============================== 기안문 작성 ==============================
 	
 	/** 기안문작성 포워드
-	 * @return
 	 * @author 예리나
+	 * @return
 	 */
 	@GetMapping("writeApproval")
 	public String writeApproval() {
@@ -449,17 +449,17 @@ public class ApprovalController { // 전자결재 컨트롤러
 	// ============================== 결재 대기함 ==============================
 	
 	/** 결재대기함 포워드
-	* @return
-	* @author 예리나
-	*/
+	 * @author 예리나
+	 * @param loginMember : 로그인 회원정보
+	 * @param model
+	 * @param cp
+	 * @return map
+	 */
 	@GetMapping("waitApproval")
 	public String waitApproval(@SessionAttribute("loginMember") Member loginMember, Model model,
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		
 		// 로그인한 멤버가 승인하지 않은 모든 결재문서 얻어오기
-//		List<Approval> waitApprovalList = service.selectWaitApproval(loginMember.getMemberNo());
-//		model.addAttribute("waitApprovalList", waitApprovalList);
-		
 		Map<String, Object> map = service.selectWaitApproval(loginMember.getMemberNo(), cp);
 		model.addAttribute("map", map);
 		
@@ -470,7 +470,8 @@ public class ApprovalController { // 전자결재 컨트롤러
 	/** 기안서 상세조회(비동기)
 	 * @author 예리나
 	 * @param approvalNo : 전달받은 기안서 번호
-	 * @return
+	 * @param docCategoryNo : 전달받은 템플릿 번호
+	 * @return temp : 해당 기안서 내용이 담긴 Approval DTO
 	 */
 	@GetMapping(value="detailWaitApproval", produces ="application/json; charset=UTF-8")
 	@ResponseBody
@@ -482,12 +483,14 @@ public class ApprovalController { // 전자결재 컨트롤러
 	/** 발주기안서 상세조회(비동기)
 	 * @author 예리나
 	 * @param approvalNo : 전달받은 기안서 번호
-	 * @return
+	 * @param docCategoryNo : 전달받은 템플릿 번호
+	 * @return approvalList : 해당 기안서 내용이 담긴 Approval DTO List
 	 */
 	@GetMapping(value="detailWaitApprovalList", produces ="application/json; charset=UTF-8")
 	@ResponseBody
 	public List<Approval> waitApprovalList(int approvalNo, int docCategoryNo) {
 		
+		// 발주서의 상품명이 1개 이상인 경우 DB에서 여러 컬럼으로 나올 수 있기 때문에 한개의 기안서이지만 List로 담아옴
 		List<Approval> approvalList = service.waitApprovalList(approvalNo, docCategoryNo);
 		return approvalList;
 	}
@@ -495,9 +498,8 @@ public class ApprovalController { // 전자결재 컨트롤러
 	
 	/** 결재자 목록 상세조회(비동기)
 	 * @author 예리나
-	 * @param approvalNo
-	 * @param docCategoryNo
-	 * @return
+	 * @param approvalNo : 전달받은 기안서 번호
+	 * @return List<Approver>
 	 */
 	@GetMapping(value="selectWaitApprover", produces ="application/json; charset=UTF-8")
 	@ResponseBody
@@ -508,15 +510,16 @@ public class ApprovalController { // 전자결재 컨트롤러
 	
 	/** 결재 버튼 클릭 시 승인 동작 
 	 * @author 예리나
-	 * @param approvalNo
-	 * @param loginMember
-	 * @param ra
+	 * @param approvalNo : 전달받은 기안서 번호
+	 * @param loginMember : 로그인 회원 정보
+	 * @param ra : 리다이렉트 시 정보 전달
 	 * @return
 	 */
 	@GetMapping("approve")
 	public String approve(int approvalNo, @SessionAttribute("loginMember") Member loginMember,
 			RedirectAttributes ra) {
 		
+		// 결재 승인 서비스 호출
 		int result = service.approve(approvalNo, loginMember.getMemberNo());
 		
 		if(result > 0) { // 결재승인 완료시
@@ -548,10 +551,10 @@ public class ApprovalController { // 전자결재 컨트롤러
 	
 	/** 반려 버튼 클릭 시 반려 동작 
 	 * @author 예리나
-	 * @param approvalNo
+	 * @param approvalNo : 전달받은 기안서 번호
 	 * @param returnReason : 반려사유
-	 * @param loginMember
-	 * @param ra
+	 * @param loginMember : 로그인 회원 정보
+	 * @param ra : 리다이렉트 시 정보 전달
 	 * @return
 	 */
 	@GetMapping("returnApprove")
@@ -572,8 +575,8 @@ public class ApprovalController { // 전자결재 컨트롤러
 	
 	/** 결재완료함에서 삭제버튼 클릭 시 기안서 삭제
 	 * @author 예리나
-	 * @param approvalNo
-	 * @param ra
+	 * @param approvalNo : 전달받은 기안서 번호
+	 * @param ra : 리다이렉트 시 정보 전달
 	 * @return
 	 */
 	@GetMapping("deleteApprove")
@@ -595,9 +598,12 @@ public class ApprovalController { // 전자결재 컨트롤러
 	// ============================== 결재 진행함 ==============================
 	
 	/** 결재진행함 포워드
-	* @return
 	* @author 예리나
-	*/
+	 * @param loginMember
+	 * @param model
+	 * @param cp
+	 * @return map
+	 */
 	@GetMapping("progressApproval")
 	public String progressApproval(@SessionAttribute("loginMember") Member loginMember, Model model,
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
@@ -610,14 +616,15 @@ public class ApprovalController { // 전자결재 컨트롤러
 		return "approval/progressApproval";
 	}
 	
-	
-	
 	// ============================== 완료 문서함 ==============================
 	
 	/** 완료문서함 포워드
-	* @return
-	* @author 예리나
-	*/
+	 * @author 예리나
+	 * @param loginMember
+	 * @param model
+	 * @param cp
+	 * @return map
+	 */
 	@GetMapping("completeApproval")
 	public String completeApproval(@SessionAttribute("loginMember") Member loginMember, Model model,
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
@@ -636,9 +643,12 @@ public class ApprovalController { // 전자결재 컨트롤러
 	
 
 	/** 반려문서함 포워드
-	* @return
-	* @author 예리나
-	*/
+	 * @author 예리나
+	 * @param loginMember
+	 * @param model
+	 * @param cp
+	 * @return
+	 */
 	@GetMapping("returnApproval")
 	public String returnApproval(@SessionAttribute("loginMember") Member loginMember, Model model,
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
@@ -672,7 +682,6 @@ public class ApprovalController { // 전자결재 컨트롤러
 		
 		return "redirect:returnApproval"; // 반려문서함으로 리다이렉트
 	}
-	
 	
 	
 	/** 반려취소
@@ -713,9 +722,12 @@ public class ApprovalController { // 전자결재 컨트롤러
 	// ============================== 협조 문서함 ==============================
 	
 	/** 협조문서함 포워드
-	* @return
-	* @author 예리나
-	*/
+	 * @author 예리나
+	 * @param loginMember
+	 * @param model
+	 * @param cp
+	 * @return
+	 */
 	@GetMapping("joinApproval")
 	public String joinApproval(@SessionAttribute("loginMember") Member loginMember, Model model,
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
@@ -727,6 +739,7 @@ public class ApprovalController { // 전자결재 컨트롤러
 		
 		return "approval/joinApproval";
 	}
+	
 	
 	// ===============================발주 기안서==========================================
 	// ===============================  김민석  ==========================================
@@ -744,10 +757,5 @@ public class ApprovalController { // 전자결재 컨트롤러
 		
 		return goodsList;
 	}
-	// =========================================================================
-	// =========================================================================
-	// =========================================================================
-	
-	
 
 }
