@@ -89,6 +89,11 @@ public class MainController {
 		return "redirect:/?storeNo="+storeNo;
 	}
 	
+	
+	/** 상품 등록 시 대분류 누르면 소분류 나오는 기능
+	 * @param lcategory
+	 * @return
+	 */
 	@GetMapping("stock/scategoryList")
 	@ResponseBody
 	public List<String> scategoryList(String lcategory){

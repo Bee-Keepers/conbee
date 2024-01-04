@@ -18,6 +18,7 @@ for(let option of options){
 
 const detailTbody = document.getElementById("detailTbody");
 
+// 날짜 별 발주 상세 조회
 function detailOrderFn(e){
   console.log(e.parentElement.previousElementSibling.innerText);
 
@@ -80,6 +81,7 @@ const stockSearchBtn = document.getElementById("stockSearchBtn");
 const stockSearchForm = document.getElementById("stockSearchForm");
 const storeNo = document.getElementById("storeNo");
 
+// 검색 제출
 stockSearchBtn.addEventListener("click", ()=>{
   storeNo.value = storeNoSelect.value;
   stockSearchForm.submit();

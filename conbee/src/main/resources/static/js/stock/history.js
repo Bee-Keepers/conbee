@@ -45,11 +45,18 @@ const storeNoSelect = document.getElementById("storeNoSelect");
 const storeNo = document.getElementById("storeNo");
 const floatingPrice = document.getElementById("floatingPrice");
 
+// 상세 검색 모달에서 검색 버튼 클릭 시
 revenueSearchBtn.addEventListener("click", ()=>{
+
+   // 히든 input 태그에 밸류 입력
     storeNo.value = storeNoSelect.value;
+
+    // 판매 금액 빈 칸일 때 0 넣어주기
     if(floatingPrice.value == ""){
       floatingPrice.value = 0;
     }
+
+    // 제출
     revenueSearchForm.submit();
 });
 
@@ -58,7 +65,10 @@ const scategorySelect = document.getElementById("scategorySelect");
 
 // 검색 창 모달에서 대분류 선택 시 대분류 안에있는 소분류 불러오기
 lcategorySelect.addEventListener("change", ()=>{
+
+   // 소분류 초기화
    scategorySelect.innerHTML = "";
+
    const option = document.createElement("option");
    option.innerText = "선택";
    option.setAttribute("value", "");
@@ -108,10 +118,16 @@ endDate.value = document.getElementById("endDate").innerText;
 
 const urlSearch = url.search;
 const tableTbody = document.getElementById("tableTbody");
+
+// cp 선언
 let cp = 1;
+
+// cp 하나 씩 증가하는 함수 생성
 const cpFn = ()=>{
    cp += 1;
 };
+
+// 무한 스크롤 작동 함수
 let callback = (entries, observer) => {
    entries.forEach(entry => {
     // 타겟 요소가 루트 요소와 교차하는 점이 없으면 콜백을 호출했으되, 조기에 탈출한다.
@@ -121,13 +137,19 @@ let callback = (entries, observer) => {
     if (!entry.isIntersecting) return
  
     // ... 콜백 로직
-    cpFn();
+
+   // cp 증가
+   cpFn();
+
+   // 요청 주소 설정
    let params;
    if(urlSearch == ""){
       params = "?cp=" + cp;
    } else{
       params = urlSearch + "&cp=" + cp;
    }
+
+   // 무한 스크롤 다음 페이지 불러오기
    fetch("/revenue/historyListAjax"+ params)
    .then(resp=>resp.json())
    .then(list=>{
@@ -178,16 +200,17 @@ let callback = (entries, observer) => {
    })
    .catch(e=>console.log(e));
    });
- };
+};
 
+// IntersectionObserver 객체 생성
 const observer = new IntersectionObserver( callback ,{
-	threshold: 0.5
+
+   // 요소가 어느 정도 보이면 작동할지 설정
+	threshold: 0.5 
 });
 
-
+// observer가 무엇을 감시할 지 설정
 observer.observe(document.querySelector("#observedTag"));
-
-
 
 // 상세검색 판매가격 유효성
 floatingPrice.addEventListener("input", e=>{

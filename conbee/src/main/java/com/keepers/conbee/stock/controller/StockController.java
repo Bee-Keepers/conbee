@@ -93,7 +93,8 @@ public class StockController {
 	public String orderList(@SessionAttribute("loginMember") Member loginMember,
 			@RequestParam(value = "storeNo", required = false, defaultValue = "-1") int storeNo, Model model,
 			String startDate, String endDate, RedirectAttributes ra) {
-
+		
+		// 기본 가
 		if (storeNo == -1) {
 			storeNo = loginMember.getStoreList().get(0).getStoreNo();
 		}
