@@ -61,9 +61,9 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	
 	/** 점포번호순 조회 (비동기)
 	 * @author 이예리나
-	 * @param query
-	 * @param cp
-	 * @return
+	 * @param query : 검색어(없는 경우 "")
+	 * @param cp : 현재 페이지
+	 * @return map
 	 */
 	@GetMapping(value="/storeList/sortStoreNo", produces="application/json")
 	@ResponseBody
@@ -76,9 +76,9 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	
 	/** 점포명순 조회 (비동기)
 	 * @author 이예리나
-	 * @param query
-	 * @param cp
-	 * @return
+	 * @param query : 검색어
+	 * @param cp : 현재 페이지
+	 * @return map
 	 */
 	@GetMapping(value="/storeList/sortStoreName", produces="application/json")
 	@ResponseBody
@@ -92,9 +92,9 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	
 	/** 폐점승인 정렬 (비동기)
 	 * @author 이예리나
-	 * @param query
-	 * @param cp
-	 * @return
+	 * @param query : 검색어
+	 * @param cp : 현재 페이지
+	 * @return map
 	 */
 	@GetMapping(value="/storeList/sortRunApproval", produces="application/json")
 	@ResponseBody
@@ -108,9 +108,9 @@ public class AdminStoreControllder { // 관리자페이지 - 점포관리 컨트
 	
 	/** 운영여부 정렬 (비동기)
 	 * @author 이예리나
-	 * @param query
-	 * @param cp
-	 * @return
+	 * @param query : 검색어
+	 * @param cp : 현재 페이지
+	 * @return map
 	 */
 	@GetMapping(value="/storeList/sortStoreRunFl", produces="application/json")
 	@ResponseBody

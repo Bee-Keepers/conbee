@@ -107,12 +107,18 @@ if(deleteBtn != null) {
 
 // --------------------------------------------------------------------------
 
-// 신고버튼 클릭 시, 내용 선택 안한 경우 제출 막기
+/* 신고버튼 클릭 시, 내용 선택 안한 경우 제출 막기 */
 const boardReportFrm = document.getElementById("boardReportFrm");
 
 boardReportFrm.addEventListener("submit", (e)=>{
   const reportContent = boardReportFrm.querySelector('input[type="radio"]:checked');
-  let isChecked = boardReportFrm.checked;
+
+  let isChecked = false;
+
+  // 체크된 항목이 없을 경우 reportContent가 false가 아닌 uncaught로 나와서 if문으로 처리함
+  if(reportContent != null){
+    isChecked = reportContent.checked;
+  }
 
   if(!isChecked){
     e.preventDefault();

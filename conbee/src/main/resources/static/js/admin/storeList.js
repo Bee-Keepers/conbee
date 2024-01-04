@@ -249,7 +249,7 @@ const sortStoreNoFn = (cp) =>{
 }
 
 
-// 이거 내꺼에서도 해야하나??
+// 이거 내꺼에서도 해야하나?? -> 해야됨
 sortStoreNo.addEventListener("click", ()=>{
 
   sortStoreNo.classList.add("clicked");

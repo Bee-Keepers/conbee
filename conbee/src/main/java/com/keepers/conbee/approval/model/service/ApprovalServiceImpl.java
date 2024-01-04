@@ -481,9 +481,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		// RowBounds 객체 생성
 		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
-		
 		int limit = pagination.getLimit();
-		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
 		// 마이바티스 호출
@@ -516,14 +514,10 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		// RowBounds 객체 생성
 		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
-		
 		int limit = pagination.getLimit();
-		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		
 		// 마이바티스 호출
-		
 		// 1) 결재승인권한자가 조회하는 완료문서 리스트
 		List<Approval> completeApprovalListByApprover = mapper.selectCompleteApprovalApprover(memberNo, rowBounds);
 		
@@ -577,7 +571,6 @@ public class ApprovalServiceImpl implements ApprovalService{
 		int limit = pagination.getLimit();
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		
 		// 마이바티스 호출
 		// 1) 자신이 반려한 문서 리스트 조회
 		List<Approval> returnApprovalListByApprover = mapper.selectReturnApprovalApprover(memberNo, rowBounds);
@@ -606,10 +599,8 @@ public class ApprovalServiceImpl implements ApprovalService{
 		map.put("returnApprovalList", returnApprovalList);
 		
 		return map;
-		
-		
-		
 	}
+	
 	
 	/** 협조문서함 조회
 	 *
@@ -646,7 +637,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 	@Override
 	public Approval waitApproval(int approvalNo, int docCategoryNo) {
 		
-		// 문서타입별 mapper 호출
+		// 문서타입 번호 별 mapper 호출
 		switch(docCategoryNo) {
 		case 0 : return mapper.selectHolidayApproval(approvalNo); // 휴가
 		case 1 : return mapper.selectRetirementApproval(approvalNo); // 퇴직
@@ -677,7 +668,6 @@ public class ApprovalServiceImpl implements ApprovalService{
 	public List<Approver> waitApprover(int approvalNo) {
 		return mapper.waitApprover(approvalNo);
 	}
-	
 	
 	
 	
@@ -721,6 +711,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return mapper.storeRunCheck(approvalNo);
 	}	
 	
+	
 	/** 사직서가 결재완료된 경우 회원 탈퇴승인 처리하기
 	 *
 	 */
@@ -729,7 +720,6 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return mapper.memberDelCheck(approvalNo);
 	}
 	
-
 	
 	/** 반려버튼 클릭 시 반려
 	 *
@@ -798,6 +788,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return mapper.approvalDeleteScheduling(approvalNo);
 	}
 	
+	
 	/** 결재완료된 사직서의 회원번호, 퇴직예정일 받아오기
 	 *
 	 */
@@ -806,6 +797,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return mapper.selectRetireMemberList();
 	}
 	
+	
 	/** 회원탈퇴(스케쥴링)
 	 *
 	 */
@@ -813,6 +805,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 	public int deleteMember(int memberNo) {
 		return mapper.deleteMember(memberNo);
 	}
+	
 	
 	/** 휴가신청서가 결재완료된 경우 캘린더에 등록하기
 	 *

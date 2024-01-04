@@ -13,7 +13,9 @@ let currentApprovaldocTitle;
 // 모달 헤더 전역변수 선언
 const modalHeader = document.querySelectorAll(".modal-header");
 
-// 요소 생성 코드
+//-------------------------------------------------------------------------------------
+
+/* 요소 생성 함수 */
 // createElement("input",{type:"text", name:"inputId"},["test", "aaa"])
 function createElement(tag, obj, classList){
   const element = document.createElement(tag);
@@ -29,7 +31,7 @@ function createElement(tag, obj, classList){
 
 //======================================================================================
 
-// 기안서 제목 클릭 시 작동되는 함수
+/* 기안서 제목 클릭 시 작동되는 함수 */
 function modal(approvalNo, docCategoryNo){
 
   // 기존 기안서 내용(모달바디) 지움
@@ -1830,7 +1832,7 @@ console.log(currentApprovaldocCategoryNo);
 // 인쇄 하기 전
 function beforePrint() {
   const modal = document.querySelectorAll('.modal');
-  initBodyHtml = document.body.innerHTML;
+  initBodyHtml = document.body.innerHTML; // 기존 모달창 내용 저장하기
   document.body.innerHTML = modal[currentApprovaldocCategoryNo].innerHTML;
 
   // hiddenModalHeader[currentApprovaldocCategoryNo].style.display = "block";
@@ -1854,7 +1856,7 @@ function fnModalPrint() {
 function afterPrint() {
   // hiddenModalHeader[currentApprovaldocCategoryNo].style.display = "block";
   // hiddenModalFooter[currentApprovaldocCategoryNo].style.display = "block";
-  document.body.innerHTML = initBodyHtml;
+  document.body.innerHTML = initBodyHtml; // 모달창에 저장해놓은 내용 다시 띄우기
 }
 
 window.onbeforeprint = beforePrint;

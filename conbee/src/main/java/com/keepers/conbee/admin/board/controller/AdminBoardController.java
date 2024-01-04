@@ -51,7 +51,9 @@ public class AdminBoardController {
 
 	/** 게시글 신고 관리 포워드
 	 * @author 예리나
-	 * @return
+	 * @param model
+	 * @param cp
+	 * @return map
 	 */
 	@GetMapping("report")
 	public String report(Model model, @RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
@@ -66,7 +68,9 @@ public class AdminBoardController {
 	
 	/** 댓글 신고 관리 포워드
 	 * @author 예리나
-	 * @return
+	 * @param model
+	 * @param cp
+	 * @return map
 	 */
 	@GetMapping("reportComment")
 	public String reportComment(Model model, @RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
@@ -78,9 +82,4 @@ public class AdminBoardController {
 		return "admin/boardManage/reportComment";
 	}
 
-	
-	
-	
-	
-	
 }
