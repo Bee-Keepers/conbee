@@ -93,7 +93,8 @@ public class StockController {
 	public String orderList(@SessionAttribute("loginMember") Member loginMember,
 			@RequestParam(value = "storeNo", required = false, defaultValue = "-1") int storeNo, Model model,
 			String startDate, String endDate, RedirectAttributes ra) {
-
+		
+		// 기본 값 설정
 		if (storeNo == -1) {
 			storeNo = loginMember.getStoreList().get(0).getStoreNo();
 		}
@@ -121,6 +122,8 @@ public class StockController {
 	public String orderInsertPage(@SessionAttribute("loginMember") Member loginMember,
 			@RequestParam(value = "storeNo", required = false, defaultValue = "-1") int storeNo, Model model,
 			RedirectAttributes ra) {
+		
+		// 기본 값 설정
 		if (storeNo == -1) {
 			storeNo = loginMember.getStoreList().get(0).getStoreNo();
 		}
@@ -193,6 +196,7 @@ public class StockController {
 	public String stockList(Model model, @SessionAttribute("loginMember") Member loginMember, Stock stock,
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 
+		// 기본 값 설정
 		if (stock.getStoreNo() == -1) {
 			int storeNo = loginMember.getStoreList().get(0).getStoreNo();
 			stock.setStoreNo(storeNo);
@@ -303,6 +307,7 @@ public class StockController {
 	public String stockSearch(Stock stock, Model model, @SessionAttribute("loginMember") Member loginMember,
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 
+		// 기본 값 설정
 		if (stock.getStoreNo() == -1) {
 			stock.setStoreNo(loginMember.getStoreList().get(0).getStoreNo());
 		}

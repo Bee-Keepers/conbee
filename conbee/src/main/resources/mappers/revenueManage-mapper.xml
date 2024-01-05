@@ -3,6 +3,7 @@
 <!-- 연결할 인터페이스의 패키지명.인터페이스명을 작성 -->
 <mapper namespace="com.keepers.conbee.revenue.model.mapper.RevenueManageMapper">
 	
+	<!-- 매출 검색 및 조회 -->
 	<select id="revenueManageList" resultType="Revenue">
 		SELECT LCATEGORY_NAME, SCATEGORY_NAME, GOODS_NO ,HISTORY_GOODS_NAME,
 			SUM(HISTORY_AMOUNT) HISTORY_AMOUNT, AVG(HISTORY_ACTUAL_PRICE) HISTORY_ACTUAL_PRICE, SUM(HISTORY_AMOUNT * HISTORY_ACTUAL_PRICE) TOTAL_PRICE
@@ -29,6 +30,8 @@
 		</if>
 		ORDER BY LCATEGORY_NAME, SCATEGORY_NAME
 	</select>
+	
+	<!-- 입출고 내역 검색 및 조회 -->
 	<select id="historySearch" resultType="Revenue">
 		SELECT LCATEGORY_NAME, SCATEGORY_NAME, GOODS_NO ,HISTORY_GOODS_NAME,
 			HISTORY_AMOUNT, HISTORY_ACTUAL_PRICE, HISTORY_NO, HISTORY_DIVIDE, HISTORY_UNIT_PRICE, HISTORY_DISCOUNT, TO_CHAR(HISTORY_DATE, 'YYYY-MM-DD HH24:MI:SS') HISTORY_DATE
@@ -58,12 +61,14 @@
 		ORDER BY HISTORY_NO DESC
 	</select>
 	
+	<!-- 점포 검색 -->
 	<select id="storeSearch" resultType="Store">
 		SELECT STORE_NO, STORE_NAME
 		FROM STORE
 		WHERE STORE_NAME LIKE '%${inputStoreName}%'
 	</select>
 	
+	<!-- 점포 이름 검색 -->
 	<select id="storeName" resultType="string">
 		SELECT STORE_NAME
 		FROM STORE

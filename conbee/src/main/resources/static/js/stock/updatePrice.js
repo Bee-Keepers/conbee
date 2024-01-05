@@ -133,104 +133,119 @@ for(let item of goodsDetailBtn){
 const url = new URL(location.href);
 const urlSearch = url.search;
 const tableTbody = document.getElementById("tableTbody");
+
+// cp 선언
 let cp = 1;
+
+// cp 하나 씩 증가하는 함수 생성
 const cpFn = ()=>{
    cp += 1;
 };
+
+// 무한 스크롤 작동 함수
 let callback = (entries, observer) => {
-   entries.forEach(entry => {
-    // 타겟 요소가 루트 요소와 교차하는 점이 없으면 콜백을 호출했으되, 조기에 탈출한다.
-    if (entry.intersectionRatio <= 0) return
- 
-    // 혹은 isIntersecting을 사용할 수 있습니다.
-    if (!entry.isIntersecting) return
- 
-    // ... 콜백 로직
-    cpFn();
-   let params;
-   if(urlSearch == ""){
-      params = "?cp=" + cp;
-   } else{
-      params = urlSearch + "&cp=" + cp;
-   }
-   fetch("/stockManage/stockListSearchAjax"+ params)
-   .then(resp=>resp.json())
-   .then(list=>{
-    console.log(list);
-      if(list.length < 20){
-         observer.disconnect();
-      }
-      for(let goods of list){
-         const tr = createElement("tr",null,[]);
+  entries.forEach(entry => {
+  // 타겟 요소가 루트 요소와 교차하는 점이 없으면 콜백을 호출했으되, 조기에 탈출한다.
+  if (entry.intersectionRatio <= 0) return
 
-         const td1 = createElement("td",null,[]);
-         const label = createElement("label", null,["w-100"]);
-         const input = createElement("input", {"type":"checkbox","name":goods.goodsNo},["checkbox"]);
-         label.append(input);
-         td1.append(label);
+  // 혹은 isIntersecting을 사용할 수 있습니다.
+  if (!entry.isIntersecting) return
 
-         const td2 = createElement("td",null,[]);
-         td2.innerText = goods.goodsNo;
-         
-         const td3 = createElement("td",{"data-bs-toggle":"modal","data-bs-target":"#goodsDateilModel"},["goodsDetailBtn"]);
-         td3.innerText = goods.goodsName;
+  // ... 콜백 로직
 
-         const td4 = createElement("td",null,[]);
-         td4.innerText = goods.lcategoryName;
+  // cp 증가
+  cpFn();
 
-         const td5 = createElement("td",null,[]);
-         td5.innerText = goods.scategoryName;
+  // 요청 주소 설정
+  let params;
+  if(urlSearch == ""){
+    params = "?cp=" + cp;
+  } else{
+    params = urlSearch + "&cp=" + cp;
+  }
+  fetch("/stockManage/stockListSearchAjax"+ params)
+  .then(resp=>resp.json())
+  .then(list=>{
+  console.log(list);
+    if(list.length < 20){
+        observer.disconnect();
+    }
+    for(let goods of list){
+        const tr = createElement("tr",null,[]);
 
-         const td6 = createElement("td",null,[]);
-         td6.innerText = goods.goodsStandard;
+        const td1 = createElement("td",null,[]);
+        const label = createElement("label", null,["w-100"]);
+        const input = createElement("input", {"type":"checkbox","name":goods.goodsNo},["checkbox"]);
+        label.append(input);
+        td1.append(label);
 
-         const td7 = createElement("td",null,[]);
-         td7.innerText = goods.stockInPrice.toLocaleString("ko-KR");
+        const td2 = createElement("td",null,[]);
+        td2.innerText = goods.goodsNo;
+        
+        const td3 = createElement("td",{"data-bs-toggle":"modal","data-bs-target":"#goodsDateilModel"},["goodsDetailBtn"]);
+        td3.innerText = goods.goodsName;
 
-         const td8 = createElement("td",null,[]);
-         td8.innerText = goods.stockOutPrice.toLocaleString("ko-KR");
+        const td4 = createElement("td",null,[]);
+        td4.innerText = goods.lcategoryName;
 
-         const td9 = createElement("td",null,[]);
-         td9.innerText = goods.stockAmount;
+        const td5 = createElement("td",null,[]);
+        td5.innerText = goods.scategoryName;
 
-         const td10 = createElement("td",null,[]);
-         td10.innerText = goods.stockDiscount;
+        const td6 = createElement("td",null,[]);
+        td6.innerText = goods.goodsStandard;
 
-         const td11 = createElement("td",null,[]);
-         td11.innerText = parseInt(goods.priceSum).toLocaleString("ko-KR");
+        const td7 = createElement("td",null,[]);
+        td7.innerText = goods.stockInPrice.toLocaleString("ko-KR");
 
-         const td12 = document.createElement("td")
-         td12.style.display = "none";
-         td12.innerText = goods.storeNo;
+        const td8 = createElement("td",null,[]);
+        td8.innerText = goods.stockOutPrice.toLocaleString("ko-KR");
 
-         tr.append(td1, td2, td3, td4, td5, td6, td7, td8, td9, td10, td11, td12);
-         td3.addEventListener("click", () => {
-  
-          const goodsNo = td3.previousElementSibling.innerText;
-          fetch("/stockManage/goodsDetail?goodsNo=" + goodsNo)
-          .then( resp => resp.json() )
-          .then( goods => {
-            if(goods.goodsImagePath == null || goods.goodsImage == null){
-              goodsDetailImage.src = defaultImage;
-            } else {
-              goodsDetailImage.src = goods.goodsImagePath + goods.goodsImage;
-            }
-            goodsDetailName.innerText = goods.goodsName;
-            goodsDetailStandard.innerText = goods.goodsStandard;
-            goodsDetail.innerText = goods.goodsDetail;
-          } )
-          .catch(e=>console.log(e));
-        });
-         tableTbody.append(tr);
-      }
-   })
-   .catch(e=>console.log(e));
-   });
- };
+        const td9 = createElement("td",null,[]);
+        td9.innerText = goods.stockAmount;
 
+        const td10 = createElement("td",null,[]);
+        td10.innerText = goods.stockDiscount;
+
+        const td11 = createElement("td",null,[]);
+        td11.innerText = parseInt(goods.priceSum).toLocaleString("ko-KR");
+
+        const td12 = document.createElement("td")
+        td12.style.display = "none";
+        td12.innerText = goods.storeNo;
+
+        tr.append(td1, td2, td3, td4, td5, td6, td7, td8, td9, td10, td11, td12);
+        td3.addEventListener("click", () => {
+
+        const goodsNo = td3.previousElementSibling.innerText;
+        fetch("/stockManage/goodsDetail?goodsNo=" + goodsNo)
+        .then( resp => resp.json() )
+        .then( goods => {
+          if(goods.goodsImagePath == null || goods.goodsImage == null){
+            goodsDetailImage.src = defaultImage;
+          } else {
+            goodsDetailImage.src = goods.goodsImagePath + goods.goodsImage;
+          }
+          goodsDetailName.innerText = goods.goodsName;
+          goodsDetailStandard.innerText = goods.goodsStandard;
+          goodsDetail.innerText = goods.goodsDetail;
+        } )
+        .catch(e=>console.log(e));
+      });
+        tableTbody.append(tr);
+    }
+  })
+  .catch(e=>console.log(e));
+  });
+};
+
+// IntersectionObserver 객체 생성
 const observer = new IntersectionObserver( callback ,{
+
+  // 요소가 어느 정도 보이면 작동할지 설정
 	threshold: 0.5
 });
+
+// observer가 무엇을 감시할 지 설정
 if(document.querySelector("#observedTag") != null){
   observer.observe(document.querySelector("#observedTag"));
 }

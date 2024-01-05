@@ -11,6 +11,7 @@ lcategorySelect.addEventListener("change", ()=>{
   option.innerText = "선택";
   option.setAttribute("value", "");
   scategorySelect.append(option);
+
   if(lcategorySelect.value != ""){
      fetch(
         "/stock/scategoryList?lcategory=" + lcategorySelect.value
@@ -68,11 +69,8 @@ function createElement(tag, obj, classList){
   return element;
 }
 
-
 const storeNo = document.getElementsByClassName("storeNo");
 const autoCompleteContainer = document.getElementById("autoCompleteContainer");
-
-
 
 // 상세 검색 자동완성 및 여러기능
 floatingName.addEventListener("input", e=>{
@@ -82,6 +80,7 @@ floatingName.addEventListener("input", e=>{
     return;
   }
   
+  // 상세 검색 자동 완성
   autoCompleteFn();
 });
 
@@ -91,9 +90,13 @@ const tableTbody = document.getElementById("tableTbody");
 // 상세 검색 모달창에서 등록 버튼 누를 시 테이블에 행 추가하는 구문
 revenueSearchBtn.addEventListener("click", ()=>{
   const nameBtn = document.querySelectorAll("#nameBtns>button");
+
+  // 발주가 없을 경우 초기화
   if(tableTbody.children[0].children[0].innerText == '오늘의 발주가 없습니다'){
     tableTbody.innerHTML = "";
   }
+
+  // 선택된 품목 태그들 향상된 for문
   for(let btn of nameBtn){
     const tr = document.createElement("tr");
     const td1 = document.createElement("td");
@@ -152,6 +155,8 @@ const totalPriceFn = ()=>{
   totalPrice.innerText = temp.toLocaleString("ko-KR");
 }
 totalPriceFn();
+
+// 수량 변경 시 합계 계산
 if(document.querySelectorAll(".inputOrderAmount") != null){
   document.querySelectorAll(".inputOrderAmount").forEach(item=>{
     item.addEventListener("change",()=>{
@@ -186,10 +191,14 @@ deleteBtn.addEventListener("click", ()=>{
         data.push(rowCheck.parentElement.nextElementSibling.children[0].value);
       }
     }
+
+    // 행 삭제 데이터 전달용 객체
     let obj ={
       "goodsNoList" : data,
       "storeNo" : storeSelect.value
     }
+    
+    // 비동기 발주 삭제
     fetch("/stock/order/delete",{
       method : "DELETE",
       headers : {"Content-Type" : "application/json"},
@@ -198,6 +207,8 @@ deleteBtn.addEventListener("click", ()=>{
     .catch(e=>console.log(e));
   }
   totalPriceFn();
+
+  // 발주가 하나도 없을 시
   console.log(document.querySelectorAll(".rowCheckbox"));
   if(document.querySelectorAll(".rowCheckbox").length == 0){
     const tr = document.createElement("tr");
@@ -208,13 +219,10 @@ deleteBtn.addEventListener("click", ()=>{
   }
 });
 
-
 const placeOrderForm = document.getElementById("placeOrderForm");
 const submitBtn = document.getElementById("submitBtn");
 
 const orderInputStoreNo = document.getElementById("orderInputStoreNo");
-
-
 
 // 지점 선택 옵션 저장
 const url = new URL(location.href);
@@ -239,7 +247,7 @@ submitBtn.addEventListener("click", ()=>{
   const goodsNos = document.querySelectorAll("tr>td:nth-of-type(2)>input");
   const list = [];
   for(let i=0; i<inputOrderAmount.length; i++){
-
+    // 발주 신청용 데이터 전달 객체
     let dataObj = {}
     dataObj.orderAmount = inputOrderAmount[i].value;
     dataObj.goodsNo = goodsNos[i].value;
@@ -261,6 +269,7 @@ submitBtn.addEventListener("click", ()=>{
     if(result.length == 0){
       placeOrderForm.submit();
     } else{
+      // 본사 재고가 부족할 시      
       alert(result + "번 물품이 본사 재고가 부족합니다");
     }
 
@@ -268,6 +277,7 @@ submitBtn.addEventListener("click", ()=>{
   .catch(e=>console.log(e));
 });
 
+// 발주 검색 함수
 function autoCompleteFn(){
 
   fetch("/stock/autoComplete?inputQuery=" + floatingName.value + "&storeNo=" + storeSelect.value
@@ -299,6 +309,8 @@ function autoCompleteFn(){
               return;
             }
           };
+
+          // 검색 선택하면 생기는 태그
           const nameBtn = createElement("button", {"type":"button"}, ["btn", "btn-sm", "btn-warning", "mx-1", "mb-1"]);
           nameBtn.innerText = stock.goodsName;
           nameBtn.append(createElement("input", {"type" : "hidden", "name" : "goodsNo", "value" : stock.goodsNo}, []));

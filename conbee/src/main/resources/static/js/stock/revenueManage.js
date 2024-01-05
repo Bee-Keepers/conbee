@@ -116,6 +116,7 @@ if(document.getElementById("startDate") != null){
     endDate.value = document.getElementById("endDate").innerText;
 }
 
+// 판매금액 유효성 검사
 const floatingPrice = document.getElementById("floatingPrice");
 floatingPrice.addEventListener("input", e=>{
    if(e.target.value < 0){

@@ -132,10 +132,16 @@ if(document.getElementById("startDate") != null){
 
 const urlSearch = url.search;
 const tableTbody = document.getElementById("tableTbody");
+
+// cp 선언
 let cp = 1;
+
+// cp 하나 씩 증가하는 함수 생성
 const cpFn = ()=>{
    cp += 1;
 };
+
+// 무한 스크롤 작동 함수
 let callback = (entries, observer) => {
    entries.forEach(entry => {
     // 타겟 요소가 루트 요소와 교차하는 점이 없으면 콜백을 호출했으되, 조기에 탈출한다.
@@ -145,7 +151,11 @@ let callback = (entries, observer) => {
     if (!entry.isIntersecting) return
  
     // ... 콜백 로직
+
+    // cp 증가
     cpFn();
+
+    // 요청 주소 설정
    let params;
    if(urlSearch == ""){
       params = "?cp=" + cp;
@@ -202,13 +212,15 @@ let callback = (entries, observer) => {
    })
    .catch(e=>console.log(e));
    });
- };
+};
 
+// IntersectionObserver 객체 생성
 const observer = new IntersectionObserver( callback ,{
+   // 요소가 어느 정도 보이면 작동할지 설정
 	threshold: 0.5
 });
 
-
+// observer가 무엇을 감시할 지 설정
 observer.observe(document.querySelector("#observedTag"));
 
 // 상세 검색 판매금액 유효성

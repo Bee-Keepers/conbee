@@ -131,11 +131,13 @@ public class StockServiceImpl implements StockService{
 	@Override
 	public int orderInsert(List<Integer> goodsNo, List<Integer> orderAmount, int storeNo) {
 		
+		// 이미 발주되어있는 품목 조회
 		List<Integer> preGoodsNo = mapper.preGoodsNo(storeNo);
 		List<Order> orderInsertList = new ArrayList<>();
 		
 		int result = 0;
 		
+		// 이미 발주 되어있으면 update 아니면 insert
 		for(int i = 0; i<goodsNo.size(); i++) {
 			if(preGoodsNo.contains(goodsNo.get(i))) {
 				log.info("=-=-=-=-=-=" + goodsNo.get(i));
@@ -174,8 +176,12 @@ public class StockServiceImpl implements StockService{
 	// 발주 마감 스케쥴러 동작
 	@Override
 	public void orderScheduling() {
+		
+		// 24시간 이내에 발주 신청된 것들 조회
 		List<Order> orderList = mapper.selectOrderScheduling();
 	  log.info("-=-=--=-=-= orderList : " + orderList);
+	  
+	  	// 입출고 내역에 삽입 및 본사 재고 감소
 		if(orderList.size() != 0) {
 			mapper.orderScheduling(orderList);
 			mapper.minusHeadAmount(orderList);

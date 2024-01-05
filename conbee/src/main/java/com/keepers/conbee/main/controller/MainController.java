@@ -92,6 +92,7 @@ public class MainController {
 			}
 			// 메인 페이지 신상품
 			List<Stock> goodsList = stockService.newGoodsThree();
+			
 			List<Stock> stockList = stockService.stockList(stock, cp);
 			List<Revenue> revenueList = revenueService.revenueSearch(revenue, cp);
 			

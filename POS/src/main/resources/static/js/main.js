@@ -7,11 +7,15 @@ const scategorySelect = document.getElementById("scategorySelect");
 
 // 검색 창 모달에서 대분류 선택 시 대분류 안에있는 소분류 불러오기
 lcategorySelect.addEventListener("change", ()=>{
+
+    // 소분류 초기화
     scategorySelect.innerHTML = "";
     const option = document.createElement("option");
     option.innerText = "선택";
     option.setAttribute("value", "");
     scategorySelect.append(option);
+
+    // 소분류 검색
     if(lcategorySelect.value != ""){
        fetch(
           "/stock/scategoryList?lcategory=" + lcategorySelect.value
@@ -50,6 +54,7 @@ function calcPay(e){
 
     e.parentElement.nextElementSibling.append(input);
 }
+
 const posForm = document.getElementById("posForm");
 const totalPrice = document.getElementById("totalPrice");
 // 포스기에 행 추가하는 기능
@@ -65,11 +70,16 @@ plusRowBtn.addEventListener("click", ()=>{
     const goods = document.querySelectorAll("input.goods");
     const goodsNameList = document.querySelectorAll("tbody>tr>td:nth-of-type(5)");
 
-
     for(let good of goods){
+
+        // 체크된 경우
         if(good.checked){
+
             const parent = good.parentElement;
+
             let flag = true;
+
+            // 똑같은 이름이 있을 경우 입력이 안되게
             for(let goodsName of goodsNameList){
                 if(parent.children[4].innerText == goodsName.innerText){
                     flag = false;
@@ -88,6 +98,7 @@ plusRowBtn.addEventListener("click", ()=>{
             td0.append(checkbox);
             tr.append(td0);
 
+            // 행 생성 후 삽입
             for(let i = 1; i <=8; i++){
                 const td = document.createElement("td");
                 const input = document.createElement("input");
@@ -127,6 +138,7 @@ plusRowBtn.addEventListener("click", ()=>{
             tr.append(td6, td7);
             parentTable.prepend(tr);
 
+            // 수량 유효성 검사
             input.addEventListener("input", e => {
                 if(input.value > Number(parent.children[5].innerText)){
                     input.value = Number(parent.children[5].innerText);
@@ -161,11 +173,10 @@ plusRowBtn.addEventListener("click", ()=>{
     }
 });
 
-// 모달 창 열릴 때 마다 모달 바디 초기화(검색 흔적 초기화)
 const modalBtn = document.getElementById("modalBtn");
 const modalBody = document.getElementById("modalBody");
 
-
+// 모달 창 열릴 때 마다 모달 바디 초기화(검색 흔적 초기화)
 modalBtn.addEventListener("click", ()=>{
     modalBody.innerHTML = "";
     inputPosSearch.value = "";
@@ -177,6 +188,7 @@ modalBtn.addEventListener("click", ()=>{
     option.setAttribute("value", "");
     scategorySelect.append(option);
 
+    // 모달 창 초기 화면에 품목들 나오게
     searchFn();
 });
 
@@ -240,6 +252,7 @@ logoutBtn.addEventListener("click", ()=>{
 // form 제출 버튼
 const formSubmitBtn = document.getElementById("formSubmitBtn");
 
+// 유효성 검사
 formSubmitBtn.addEventListener("click", ()=>{
     if(storeSelect.value == 0){
         alert("지점을 선택해주세요");
@@ -298,7 +311,6 @@ const storeName = document.getElementById("storeName");
 const storeNameOption = document.querySelectorAll("#storeSelect>option");
 storeNameOption.forEach(option=>{
     if(option.selected){
-        console.log(option.innerText);
         storeName.value = option.innerText;
     }
 })
@@ -327,6 +339,7 @@ function searchFn(){
             return;
         }
 
+        // 검색된 결과 숨겨서 담기
         for(let goods of goodsList){
             const label = document.createElement("label");
             label.classList.add("form-control", "my-2", "user-select-none");
