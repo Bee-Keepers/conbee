@@ -23,6 +23,8 @@ public class RevenueServiceImpl implements RevenueService{
 	// 매출 상세 검색
 	@Override
 	public List<Revenue> revenueSearch(Revenue revenue, int cp) {
+		
+		// 날짜 기본 값 및 초기값들 설정
 		if(revenue.getStartDate() == null && revenue.getStartDate() == null && revenue.getGoodsName() == null && revenue.getLcategoryName() == null && revenue.getScategoryName() == null) {
 			Date today = new Date();
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -39,6 +41,8 @@ public class RevenueServiceImpl implements RevenueService{
 	// 입출고 내역 검색
 	@Override
 	public List<Revenue> historySearch(Revenue revenue, int cp) {
+		
+		// 날짜 기본 값 설정 및 초기값들 설정
 		if(revenue.getStartDate() == null && revenue.getStartDate() == null && revenue.getGoodsName() == null && revenue.getLcategoryName() == null && revenue.getScategoryName() == null) {
 			Date today = new Date();
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

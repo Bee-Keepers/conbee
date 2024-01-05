@@ -19,20 +19,25 @@ public class RevenueManageServiceImpl implements RevenueManageService{
 	
 	private final RevenueManageMapper mapper;
 	
+	// 지점 매출 조회
 	@Override
 	public List<Revenue> revenueManageList(Revenue revenue) {
 		return mapper.revenueManageList(revenue);
 	}
 
+	// 상세검색 지점 검색
 	@Override
 	public List<Store> storeSearch(String inputStoreName) {
 		return mapper.storeSearch(inputStoreName);
 	}
+	
+	// 지점 명 조회
 	@Override
 	public String storeName(int storeNo) {
 		return mapper.storeName(storeNo);
 	}
 	
+	// 입출고 내역 조회
 	@Override
 	public List<Revenue> historySearch(Revenue revenue, int cp) {
 		RowBounds rowBounds = new RowBounds((cp-1)*20, 20);

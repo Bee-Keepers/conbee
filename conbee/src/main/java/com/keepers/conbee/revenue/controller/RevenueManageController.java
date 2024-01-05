@@ -25,6 +25,11 @@ public class RevenueManageController {
 	
 	private final RevenueManageService service;
 	
+	/** 매출 검색 및 조회
+	 * @param revenue
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("revenueList")
 	public String revenueManageList(Revenue revenue, Model model) {
 		String storeName = service.storeName(revenue.getStoreNo());
@@ -36,6 +41,12 @@ public class RevenueManageController {
 		return "revenue/revenueManage/revenueManage";
 	}
 	
+	/** 입출고 내역 검색 및 조회
+	 * @param model
+	 * @param revenue
+	 * @param cp
+	 * @return
+	 */
 	@GetMapping("history")
 	public String historyPage(Model model, Revenue revenue, @RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		String storeName = service.storeName(revenue.getStoreNo());
@@ -48,6 +59,10 @@ public class RevenueManageController {
 		return "revenue/revenueManage/revenueHistory";
 	}
 	
+	/** 비동기 지점 검색
+	 * @param inputStoreName
+	 * @return
+	 */
 	@GetMapping(value="storeSearch", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public List<Store> storeSearch(String inputStoreName){
@@ -57,6 +72,11 @@ public class RevenueManageController {
 		return storeList;
 	}
 
+	/** 무한 스크롤 입출고 내역
+	 * @param revenue
+	 * @param cp
+	 * @return
+	 */
 	@GetMapping(value = "historyListAjax", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public List<Revenue> historyListAjax(Revenue revenue, 

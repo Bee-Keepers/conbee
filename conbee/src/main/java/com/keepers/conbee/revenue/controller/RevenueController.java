@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.keepers.conbee.member.model.dto.Member;
 import com.keepers.conbee.revenue.model.dto.Revenue;
 import com.keepers.conbee.revenue.model.service.RevenueService;
-import com.keepers.conbee.stock.model.dto.Stock;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,9 +25,18 @@ public class RevenueController {
 
 	private final RevenueService service;
 	
+	/** 매출 검색 및 조회
+	 * @param model
+	 * @param revenue
+	 * @param loginMember
+	 * @param cp
+	 * @return
+	 */
 	@GetMapping("list")
 	public String revenueSearch(Model model, Revenue revenue, @SessionAttribute("loginMember") Member loginMember,
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
+		
+		// 기본 점포 설정
 		if(revenue.getStoreNo() == -1) {
 			revenue.setStoreNo(loginMember.getStoreList().get(0).getStoreNo());
 		}
@@ -42,10 +50,18 @@ public class RevenueController {
 		return "revenue/revenue";
 	}
 	
+	/** 입출고 내역 검색 및 조회
+	 * @param model
+	 * @param revenue
+	 * @param loginMember
+	 * @param cp
+	 * @return
+	 */
 	@GetMapping("history")
 	public String historyPage(Model model, Revenue revenue, @SessionAttribute("loginMember") Member loginMember,
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		
+		// 기본 점포 설정
 		if(revenue.getStoreNo() == -1) {
 			revenue.setStoreNo(loginMember.getStoreList().get(0).getStoreNo());
 		}
@@ -59,6 +75,11 @@ public class RevenueController {
 		return "revenue/history";
 	}
 	
+	/** 입출고 내역 무한 스크롤
+	 * @param revenue
+	 * @param cp
+	 * @return
+	 */
 	@GetMapping(value = "historyListAjax", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public List<Revenue> historyListAjax(Revenue revenue, 
