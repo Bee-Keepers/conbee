@@ -111,4 +111,4 @@ conBee는 편의점 본사와 지점운영을 지원하는 통합 솔루션입�
 * [**요구사항 정의서**](https://docs.google.com/spreadsheets/d/1hohRRCWC4EnTQadmIPCw3EvsyTfoN2p_GTsh0FoiENs/edit#gid=0)
 * [**화면 구성**(Figma)](https://www.figma.com/file/SWpBQfmViq15xE256W5ts4/beeKeepers-(all)?type=design&node-id=219-8&mode=design&t=T5NrU3yY5bEGYP3s-0)
 * [**일정 관리**(Notion)](https://www.notion.so/87ffc638435c4aedba504d94af9eb2f5?v=59d56e640ca049a68b60f72bdb98ea34)
-* [**DB 설계**(ERD-Cloud)]([https://www.erdcloud.com/d/wyJKMZTYS4pkfzWi7](https://www.erdcloud.com/d/RCjzzJmbyD5M75TFW)https://www.erdcloud.com/d/RCjzzJmbyD5M75TFW)
+* [**DB 설계**(ERD-Cloud)](https://www.erdcloud.com/d/wyJKMZTYS4pkfzWi7](https://www.erdcloud.com/d/RCjzzJmbyD5M75TFW)https://www.erdcloud.com/d/RCjzzJmbyD5M75TFW)
